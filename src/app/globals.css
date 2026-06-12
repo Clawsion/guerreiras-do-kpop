@@ -306,7 +306,7 @@ html { scroll-behavior: smooth; }
   font-size: clamp(2rem, 6vw, 4.5rem);
   font-weight: 200;
   letter-spacing: -0.03em;
-  color: var(--neon-purple);
+  color: var(--t3);
   line-height: 1.2;
   transition: color 0.3s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   transform: translateX(-40px);
@@ -335,30 +335,76 @@ html { scroll-behavior: smooth; }
   justify-content: center;
   overflow: hidden;
   padding: 4rem 1.5rem;
+  opacity: 0;
+  transform: translateY(80px);
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.manifesto-section.manifesto-in {
+  opacity: 1;
+  transform: translateY(0);
 }
 .manifesto-glow {
   position: absolute;
-  inset: -20%;
-  background: radial-gradient(ellipse at 50% 50%, rgba(200,80,255,0.08) 0%, transparent 60%);
+  inset: -30%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(200,80,255,0.12) 0%, rgba(177,213,240,0.05) 25%, transparent 60%);
   pointer-events: none;
   animation: manifestoGlowPulse 8s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+  contain: layout style;
 }
 @keyframes manifestoGlowPulse {
   0% { opacity: 0.5; transform: scale(0.95); }
   100% { opacity: 1; transform: scale(1.05); }
 }
 
+/* ═══ Monitor glow — light spill from LED wall onto page ═══ */
+.monitor-glow {
+  position: absolute;
+  top: 12%;
+  bottom: 12%;
+  width: 40%;
+  pointer-events: none;
+  z-index: 1;
+  will-change: opacity;
+  contain: layout style;
+}
+.monitor-glow-left {
+  left: 0;
+  background: radial-gradient(ellipse at 100% 50%,
+    rgba(200,80,255,0.14) 0%,
+    rgba(177,213,240,0.07) 15%,
+    rgba(255,245,164,0.03) 30%,
+    transparent 50%);
+  animation: monitorGlowPulse 6s ease-in-out infinite alternate;
+}
+.monitor-glow-right {
+  right: 0;
+  background: radial-gradient(ellipse at 0% 50%,
+    rgba(200,80,255,0.14) 0%,
+    rgba(177,213,240,0.07) 15%,
+    rgba(255,245,164,0.03) 30%,
+    transparent 50%);
+  animation: monitorGlowPulse 6s ease-in-out infinite alternate-reverse;
+}
+@keyframes monitorGlowPulse {
+  0% { opacity: 0.5; transform: scaleX(0.96); }
+  100% { opacity: 1; transform: scaleX(1.04); }
+}
+
 .led-wall-frame {
   position: relative;
-  width: 100%;
-  max-width: 1200px;
-  aspect-ratio: 16 / 9;
-  border-radius: 6px;
+  width: 95%;
+  max-width: 1400px;
+  aspect-ratio: 21 / 9;
+  border-radius: 4px;
   overflow: hidden;
   box-shadow:
-    0 0 80px rgba(200,80,255,0.15),
-    0 0 160px rgba(200,80,255,0.05),
+    0 0 60px rgba(200,80,255,0.22),
+    0 0 120px rgba(200,80,255,0.1),
+    0 0 200px rgba(200,80,255,0.04),
     0 20px 60px rgba(11,8,19,0.8);
+  z-index: 2;
+  contain: strict;
 }
 .led-wall-screen {
   position: relative;
@@ -367,9 +413,10 @@ html { scroll-behavior: smooth; }
   overflow: hidden;
   background: #050208;
   border-radius: 4px;
+  contain: strict;
 }
 
-/* ═══ Tunnel layers — each cycles opacity for seamless transitions ═══ */
+/* ═══ Tunnel layers — vibrant cycling backgrounds ═══ */
 .tunnel-layer {
   position: absolute;
   inset: 0;
@@ -378,16 +425,22 @@ html { scroll-behavior: smooth; }
   opacity: 0;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  will-change: transform, opacity;
+  contain: layout style;
 }
-/* Tunnel 1: Purple ring vortex */
+
+/* Tunnel 1: Purple-Blue ring vortex */
 .tunnel-1 {
   background: repeating-conic-gradient(
     from 0deg,
-    rgba(200,80,255,0.12) 0deg,
-    rgba(11,8,19,0.95) 3deg,
-    rgba(200,80,255,0.08) 6deg
+    rgba(200,80,255,0.24) 0deg,
+    rgba(11,8,19,0.85) 2deg,
+    rgba(177,213,240,0.16) 4deg,
+    rgba(11,8,19,0.9) 6deg,
+    rgba(200,80,255,0.12) 8deg,
+    rgba(11,8,19,0.92) 10deg
   );
-  animation: tunnelSpin1 6s linear infinite, tunnelFade1 25s ease-in-out infinite;
+  animation: tunnelSpin1 5s linear infinite, tunnelFade1 24s ease-in-out infinite;
   mix-blend-mode: screen;
 }
 @keyframes tunnelSpin1 {
@@ -395,106 +448,106 @@ html { scroll-behavior: smooth; }
   to { transform: rotate(360deg) scale(1.8); }
 }
 @keyframes tunnelFade1 {
-  0%, 15% { opacity: 1; }
-  18%, 35% { opacity: 0; }
-  100% { opacity: 0; }
+  0%, 18% { opacity: 1; }
+  22%, 100% { opacity: 0; }
 }
 
-/* Tunnel 2: Blue depth rings */
+/* Tunnel 2: Multi-color depth rings */
 .tunnel-2 {
   background: repeating-radial-gradient(
     circle at 50% 50%,
-    rgba(177,213,240,0.15) 0px,
-    rgba(11,8,19,0.9) 20px,
-    rgba(138,184,216,0.1) 40px,
-    rgba(11,8,19,0.95) 60px
+    rgba(200,80,255,0.2) 0px,
+    rgba(11,8,19,0.88) 18px,
+    rgba(177,213,240,0.15) 36px,
+    rgba(11,8,19,0.92) 54px,
+    rgba(255,245,164,0.1) 72px,
+    rgba(11,8,19,0.95) 90px
   );
-  animation: tunnelPulse2 4s ease-in-out infinite, tunnelFade2 25s ease-in-out infinite;
-  animation-delay: 0s, 5s;
+  animation: tunnelPulse2 3.5s ease-in-out infinite, tunnelFade2 24s ease-in-out infinite;
+  animation-delay: 0s, 6s;
 }
 @keyframes tunnelPulse2 {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.3); }
-  100% { transform: scale(1); }
+  0% { transform: scale(0.9); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(0.9); }
 }
 @keyframes tunnelFade2 {
-  0%, 15% { opacity: 0; }
-  18%, 35% { opacity: 1; }
-  38%, 55% { opacity: 0; }
-  100% { opacity: 0; }
+  0%, 18% { opacity: 0; }
+  22%, 43% { opacity: 1; }
+  47%, 100% { opacity: 0; }
 }
 
-/* Tunnel 3: Gold energy flow */
+/* Tunnel 3: Gold-Pink energy spiral */
 .tunnel-3 {
   background: repeating-conic-gradient(
-    from 45deg,
-    rgba(255,245,164,0.1) 0deg,
-    rgba(11,8,19,0.95) 5deg,
-    rgba(224,216,128,0.08) 10deg
+    from 30deg,
+    rgba(255,245,164,0.2) 0deg,
+    rgba(11,8,19,0.88) 3deg,
+    rgba(255,45,120,0.14) 6deg,
+    rgba(11,8,19,0.92) 9deg,
+    rgba(255,245,164,0.1) 12deg,
+    rgba(11,8,19,0.9) 15deg
   );
-  animation: tunnelSpin3 8s linear infinite reverse, tunnelFade3 25s ease-in-out infinite;
-  animation-delay: 0s, 10s;
+  animation: tunnelSpin3 7s linear infinite reverse, tunnelFade3 24s ease-in-out infinite;
+  animation-delay: 0s, 12s;
   mix-blend-mode: screen;
 }
 @keyframes tunnelSpin3 {
-  from { transform: rotate(0deg) scale(2); }
-  to { transform: rotate(-360deg) scale(2); }
+  from { transform: rotate(0deg) scale(2.2); }
+  to { transform: rotate(-360deg) scale(2.2); }
 }
 @keyframes tunnelFade3 {
-  0%, 35% { opacity: 0; }
-  38%, 55% { opacity: 1; }
-  58%, 75% { opacity: 0; }
-  100% { opacity: 0; }
+  0%, 43% { opacity: 0; }
+  47%, 68% { opacity: 1; }
+  72%, 100% { opacity: 0; }
 }
 
-/* Tunnel 4: Pink neon wave */
+/* Tunnel 4: Multi-color warp speed */
 .tunnel-4 {
-  background: repeating-radial-gradient(
-    circle at 50% 50%,
-    rgba(255,45,120,0.12) 0px,
-    rgba(11,8,19,0.92) 25px,
-    rgba(255,107,160,0.08) 50px,
-    rgba(11,8,19,0.97) 75px
-  );
-  animation: tunnelPulse4 3s ease-in-out infinite, tunnelFade4 25s ease-in-out infinite;
-  animation-delay: 0s, 15s;
-  mix-blend-mode: screen;
-}
-@keyframes tunnelPulse4 {
-  0% { transform: scale(0.8); }
-  50% { transform: scale(1.5); }
-  100% { transform: scale(0.8); }
-}
-@keyframes tunnelFade4 {
-  0%, 55% { opacity: 0; }
-  58%, 75% { opacity: 1; }
-  78%, 95% { opacity: 0; }
-  100% { opacity: 0; }
-}
-
-/* Tunnel 5: Combined warp speed */
-.tunnel-5 {
   background:
     repeating-radial-gradient(
       circle at 50% 50%,
-      rgba(200,80,255,0.1) 0px,
-      transparent 15px,
-      rgba(177,213,240,0.08) 30px,
-      transparent 45px,
-      rgba(255,245,164,0.06) 60px,
-      transparent 75px
+      rgba(200,80,255,0.18) 0px,
+      transparent 12px,
+      rgba(177,213,240,0.14) 24px,
+      transparent 36px,
+      rgba(255,245,164,0.1) 48px,
+      transparent 60px,
+      rgba(255,45,120,0.08) 72px,
+      transparent 84px
     );
-  animation: tunnelWarp5 5s linear infinite, tunnelFade5 25s ease-in-out infinite;
-  animation-delay: 0s, 20s;
+  animation: tunnelWarp4 4s linear infinite, tunnelFade4 24s ease-in-out infinite;
+  animation-delay: 0s, 18s;
   mix-blend-mode: screen;
 }
-@keyframes tunnelWarp5 {
-  from { transform: scale(0.5) rotate(0deg); }
-  to { transform: scale(2.5) rotate(180deg); }
+@keyframes tunnelWarp4 {
+  from { transform: scale(0.4) rotate(0deg); }
+  to { transform: scale(2.8) rotate(180deg); }
 }
-@keyframes tunnelFade5 {
-  0%, 75% { opacity: 0; }
-  78%, 95% { opacity: 1; }
+@keyframes tunnelFade4 {
+  0%, 68% { opacity: 0; }
+  72%, 93% { opacity: 1; }
+  97%, 100% { opacity: 0; }
+}
+
+/* ═══ LED power-on flash ═══ */
+.led-power-flash {
+  position: absolute;
+  inset: 0;
+  background: rgba(200,80,255,0.6);
+  opacity: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+.manifesto-in .led-power-flash {
+  animation: ledPowerOn 1.5s ease-out forwards;
+}
+@keyframes ledPowerOn {
+  0% { opacity: 0; }
+  10% { opacity: 0.7; }
+  25% { opacity: 0; }
+  35% { opacity: 0.25; }
+  50% { opacity: 0; }
   100% { opacity: 0; }
 }
 
@@ -536,11 +589,13 @@ html { scroll-behavior: smooth; }
 }
 .led-frame-top {
   top: 0;
-  border-bottom: 1px solid rgba(200,80,255,0.1);
+  border-bottom: 1px solid rgba(200,80,255,0.15);
+  box-shadow: 0 2px 15px rgba(200,80,255,0.1);
 }
 .led-frame-bottom {
   bottom: 0;
-  border-top: 1px solid rgba(200,80,255,0.1);
+  border-top: 1px solid rgba(200,80,255,0.15);
+  box-shadow: 0 -2px 15px rgba(200,80,255,0.1);
 }
 
 /* ═══ HERO — FULL SCREEN ═══ */

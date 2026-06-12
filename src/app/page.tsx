@@ -92,6 +92,7 @@ function Marquee({ text }: { text: string }) {
 export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const { ref: manifestoRef, visible: manifestoVisible } = useReveal();
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 900);
@@ -250,20 +251,33 @@ export default function HomePage() {
       </section>
 
       {/* ═══ MANIFESTO — LED WALL TUNNEL ═══ */}
-      <section className="manifesto-section" style={{background:"var(--void)"}}>
+      <section
+        ref={manifestoRef}
+        className={`manifesto-section ${manifestoVisible ? "manifesto-in" : ""}`}
+        style={{background:"var(--void)"}}
+      >
         {/* Ambient glow behind LED wall */}
         <div className="manifesto-glow"/>
 
+        {/* Monitor glow — light spill from LED wall onto page sides */}
+        <div className="monitor-glow monitor-glow-left"/>
+        <div className="monitor-glow monitor-glow-right"/>
+
         {/* LED Wall frame */}
         <div className="led-wall-frame">
+          {/* Power-on flash effect */}
+          <div className="led-power-flash"/>
+
           {/* LED Wall screen */}
           <div className="led-wall-screen">
-            {/* Tunnel animations — cycling backgrounds */}
+            {/* Tunnel 1: Purple-Blue ring vortex */}
             <div className="tunnel-layer tunnel-1"/>
+            {/* Tunnel 2: Multi-color depth rings */}
             <div className="tunnel-layer tunnel-2"/>
+            {/* Tunnel 3: Gold-Pink energy spiral */}
             <div className="tunnel-layer tunnel-3"/>
+            {/* Tunnel 4: Multi-color warp speed */}
             <div className="tunnel-layer tunnel-4"/>
-            <div className="tunnel-layer tunnel-5"/>
 
             {/* Scanlines overlay for realism */}
             <div className="led-scanlines"/>
@@ -272,7 +286,7 @@ export default function HomePage() {
             <div className="led-pixel-grid"/>
           </div>
 
-          {/* LED frame bezel */}
+          {/* LED frame bezels */}
           <div className="led-frame-top"/>
           <div className="led-frame-bottom"/>
         </div>
