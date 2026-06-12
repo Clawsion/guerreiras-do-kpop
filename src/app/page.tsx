@@ -202,16 +202,10 @@ export default function HomePage() {
           className="hero-bg-img"
         />
 
-        {/* NEON PRESET — duotone color overlay */}
-        <div className="hero-preset"/>
-
-        {/* Depth overlay */}
+        {/* Depth overlay — fade at bottom */}
         <div className="hero-bg-overlay"/>
 
-        {/* Scanline texture */}
-        <div className="hero-scanlines"/>
-
-        {/* Vignette */}
+        {/* Vignette — darkens edges */}
         <div className="hero-vignette"/>
 
         {/* Glow orbs */}
