@@ -230,41 +230,16 @@ export default function HomePage() {
           <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
         </div>
 
-        {/* ═══ HERO CONTENT — centered typography ═══ */}
-        <div className="hero-content">
-          {/* Tag pill */}
-          <div className="hero-tag">
-            <Music2 className="w-3 h-3"/>
-            Tributo Musical Ao Vivo
-          </div>
-
-          {/* Main title */}
-          <h1 className="hero-title">
-            Guerreiras<br/>do <span className="accent">K-Pop</span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="hero-subtitle">
-            Demon Hunters ao vivo · Random Play Dance · K-Culture Zone<br className="hidden sm:block"/>
-            Cascais, 18 de Julho 2026
-          </p>
-
-          {/* Countdown */}
-          <div className="hero-countdown-wrap">
-            <div className="hero-countdown-label">Contagem Decrescente</div>
-            <Countdown/>
-          </div>
-
-          {/* CTA */}
-          <a
-            href={TL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hero-cta"
-          >
-            <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
-          </a>
-        </div>
+        {/* ═══ HERO CONTENT — CTA bottom center ═══ */}
+        <a
+          href={TL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hero-cta"
+          style={{marginBottom:"10vh"}}
+        >
+          <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
+        </a>
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
