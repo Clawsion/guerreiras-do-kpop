@@ -263,32 +263,67 @@ export default function HomePage() {
         <div className="monitor-glow monitor-glow-left"/>
         <div className="monitor-glow monitor-glow-right"/>
 
-        {/* LED Wall frame */}
-        <div className="led-wall-frame">
-          {/* Power-on flash effect */}
-          <div className="led-power-flash"/>
-
-          {/* LED Wall screen */}
-          <div className="led-wall-screen">
-            {/* Tunnel 1: Purple-Blue ring vortex */}
-            <div className="tunnel-layer tunnel-1"/>
-            {/* Tunnel 2: Multi-color depth rings */}
-            <div className="tunnel-layer tunnel-2"/>
-            {/* Tunnel 3: Gold-Pink energy spiral */}
-            <div className="tunnel-layer tunnel-3"/>
-            {/* Tunnel 4: Multi-color warp speed */}
-            <div className="tunnel-layer tunnel-4"/>
-
-            {/* Scanlines overlay for realism */}
-            <div className="led-scanlines"/>
-
-            {/* LED pixel grid overlay */}
-            <div className="led-pixel-grid"/>
+        {/* ═══ TEMPLE FRAME ═══ */}
+        <div className="temple-frame">
+          {/* Temple roof — curved multi-tier top */}
+          <div className="temple-roof">
+            <div className="temple-roof-peak"/>
+            <div className="temple-roof-tier-1"/>
+            <div className="temple-roof-tier-2"/>
+            <div className="temple-roof-cornice"/>
+            {/* Decorative end caps */}
+            <div className="temple-cap temple-cap-left"/>
+            <div className="temple-cap temple-cap-right"/>
           </div>
 
-          {/* LED frame bezels */}
-          <div className="led-frame-top"/>
-          <div className="led-frame-bottom"/>
+          {/* Temple body — pillars + LED wall */}
+          <div className="temple-body">
+            {/* Left pillar */}
+            <div className="temple-pillar temple-pillar-left">
+              <div className="pillar-base"/>
+              <div className="pillar-shaft"/>
+              <div className="pillar-capital"/>
+              <div className="pillar-ornament pillar-ornament-1"/>
+              <div className="pillar-ornament pillar-ornament-2"/>
+              <div className="pillar-ornament pillar-ornament-3"/>
+            </div>
+
+            {/* Center: LED Wall */}
+            <div className="led-wall-frame">
+              {/* Power-on flash effect */}
+              <div className="led-power-flash"/>
+
+              {/* LED Wall screen */}
+              <div className="led-wall-screen">
+                <div className="tunnel-layer tunnel-1"/>
+                <div className="tunnel-layer tunnel-2"/>
+                <div className="tunnel-layer tunnel-3"/>
+                <div className="tunnel-layer tunnel-4"/>
+                <div className="led-scanlines"/>
+                <div className="led-pixel-grid"/>
+              </div>
+
+              <div className="led-frame-top"/>
+              <div className="led-frame-bottom"/>
+            </div>
+
+            {/* Right pillar */}
+            <div className="temple-pillar temple-pillar-right">
+              <div className="pillar-base"/>
+              <div className="pillar-shaft"/>
+              <div className="pillar-capital"/>
+              <div className="pillar-ornament pillar-ornament-1"/>
+              <div className="pillar-ornament pillar-ornament-2"/>
+              <div className="pillar-ornament pillar-ornament-3"/>
+            </div>
+          </div>
+
+          {/* Temple base platform */}
+          <div className="temple-base">
+            <div className="temple-base-step temple-base-step-1"/>
+            <div className="temple-base-step temple-base-step-2"/>
+            <div className="temple-base-step temple-base-step-3"/>
+          </div>
         </div>
       </section>
 
