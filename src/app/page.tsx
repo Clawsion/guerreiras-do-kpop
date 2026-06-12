@@ -74,7 +74,7 @@ function Countdown() {
 function Marquee({ text }: { text: string }) {
   const r = Array(10).fill(text).join("  ✦  ");
   return (
-    <div className="overflow-hidden border-y py-5" style={{borderColor:"rgba(201,168,76,0.06)"}}>
+    <div className="overflow-hidden border-y py-5" style={{borderColor:"rgba(180,74,255,0.06)"}}>
       <div className="marquee-track whitespace-nowrap">
         <span className="text-xl sm:text-3xl font-extralight tracking-widest mx-4" style={{color:"var(--t3)"}}>{r}</span>
         <span className="text-xl sm:text-3xl font-extralight tracking-widest mx-4" style={{color:"var(--t3)"}}>{r}</span>
@@ -103,7 +103,6 @@ export default function HomePage() {
     return () => clearTimeout(t);
   }, []);
 
-  // Lock body scroll when menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -123,28 +122,28 @@ export default function HomePage() {
       {/* ═══ PRELOADER ═══ */}
       <div className={`fixed inset-0 z-[100] flex items-center justify-center transition-all duration-700 ${loaded?"opacity-0 pointer-events-none":"opacity-100"}`} style={{background:"var(--void)"}}>
         <div className="w-28 h-px relative overflow-hidden" style={{background:"var(--subtle)"}}>
-          <div className="absolute inset-y-0 left-0 h-full" style={{background:"var(--gold)",animation:"load 1.6s cubic-bezier(0.16,1,0.3,1) forwards"}}/>
+          <div className="absolute inset-y-0 left-0 h-full" style={{background:"var(--neon-purple)",animation:"load 1.6s cubic-bezier(0.16,1,0.3,1) forwards"}}/>
         </div>
       </div>
 
       {/* ═══ HAMBURGER NAV ═══ */}
-      <nav className={`fixed top-0 inset-x-0 z-[95] transition-all duration-500 ${scrolled?"py-4 backdrop-blur-2xl border-b":"py-6"}`} style={{background:scrolled?"rgba(4,1,10,0.88)":"transparent",borderColor:scrolled?"rgba(201,168,76,0.06)":"transparent"}}>
+      <nav className={`fixed top-0 inset-x-0 z-[95] transition-all duration-500 ${scrolled?"py-4 backdrop-blur-2xl border-b":"py-6"}`} style={{background:scrolled?"rgba(8,3,15,0.88)":"transparent",borderColor:scrolled?"rgba(180,74,255,0.06)":"transparent"}}>
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 flex items-center justify-between">
           {/* Logo */}
           <a href="#" className="flex items-center gap-3 group" onClick={()=>setMenuOpen(false)}>
-            <div className="w-9 h-9 flex items-center justify-center transition-shadow group-hover:shadow-lg" style={{background:"var(--gold)",boxShadow:"0 0 20px rgba(201,168,76,0.15)"}}>
-              <span className="text-[10px] font-black" style={{color:"var(--void)"}}>GK</span>
+            <div className="w-9 h-9 flex items-center justify-center transition-shadow group-hover:shadow-lg" style={{background:"var(--neon-purple)",boxShadow:"0 0 20px rgba(180,74,255,0.2)"}}>
+              <span className="text-[10px] font-black" style={{color:"#fff"}}>GK</span>
             </div>
             <span className="text-[12px] font-semibold tracking-[0.14em] hidden sm:block" style={{color:"var(--t2)"}}>GUERREIRAS DO K-POP</span>
           </a>
-          {/* Right side: Ticketline + Hamburger */}
+          {/* Right: Ticketline + Hamburger */}
           <div className="flex items-center gap-6">
-            <a href={TL} target="_blank" rel="noopener noreferrer" className="hidden sm:inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase font-semibold px-5 py-2.5 border transition-all duration-400" style={{borderColor:"var(--gold)",color:"var(--gold)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--gold)";(e.currentTarget as HTMLElement).style.color="var(--void)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--gold)"}}>
+            <a href={TL} target="_blank" rel="noopener noreferrer" className="hidden sm:inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase font-semibold px-5 py-2.5 border transition-all duration-400" style={{borderColor:"var(--neon-purple)",color:"var(--neon-purple)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}>
               <Ticket className="w-3.5 h-3.5"/> Ticketline
             </a>
             <button
               onClick={()=>setMenuOpen(!menuOpen)}
-              className="hamburger"
+              className={`hamburger ${menuOpen?"open":""}`}
               aria-label="Menu"
             >
               <span />
@@ -155,9 +154,9 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* ═══ FULLSCREEN MENU OVERLAY ═══ */}
+      {/* ═══ FULLSCREEN MENU OVERLAY — cascade from right ═══ */}
       <div className={`menu-overlay ${menuOpen?"open":""}`}>
-        <div className="flex flex-col gap-2 sm:gap-3 mb-16">
+        <div className="flex flex-col items-end gap-1 sm:gap-2 mb-16">
           {navLinks.map((n, i) => (
             <a
               key={n.l}
@@ -166,66 +165,70 @@ export default function HomePage() {
               className="menu-link"
               style={{ transitionDelay: menuOpen ? `${i * 80 + 100}ms` : "0ms" }}
             >
+              <span className="menu-link-text">{n.l}</span>
               <span className="link-num">0{i+1}</span>
-              {n.l}
             </a>
           ))}
         </div>
         {/* Menu CTA */}
-        <div style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(-20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
-          <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold transition-all duration-400" style={{background:"var(--gold)",color:"var(--void)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.boxShadow="0 0 40px rgba(201,168,76,0.3)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.boxShadow="none"}}>
+        <div style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
+          <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold transition-all duration-400" style={{background:"var(--neon-purple)",color:"#fff"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.boxShadow="0 0 40px rgba(180,74,255,0.4)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.boxShadow="none"}}>
             <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
           </a>
         </div>
-        {/* Menu Footer */}
+        {/* Menu Footer — social left */}
         <div className="absolute bottom-8 left-8 sm:left-12 flex gap-6" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 350}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(-20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
             <Instagram className="w-5 h-5"/>
           </a>
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
             <Facebook className="w-5 h-5"/>
           </a>
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
             <Youtube className="w-5 h-5"/>
           </a>
-          <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+          <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
             <Music2 className="w-5 h-5"/>
           </a>
         </div>
-        {/* Decorative circle in menu */}
-        <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(123,47,154,0.08)"}}/>
+        {/* Decorative */}
+        <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",left:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(180,74,255,0.06)"}}/>
       </div>
 
-      {/* ═══ HERO — POSTER CENTERED ═══ */}
+      {/* ═══ HERO — GIRLS IMAGE ═══ */}
       <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden" style={{background:"var(--void)"}}>
-        {/* Subtle background gradient */}
-        <div className="absolute inset-0" style={{background:"radial-gradient(ellipse at 50% 50%, rgba(123,47,154,0.08) 0%, transparent 60%)"}}/>
+        {/* Background subtle radial */}
+        <div className="absolute inset-0" style={{background:"radial-gradient(ellipse at 50% 40%, rgba(180,74,255,0.07) 0%, transparent 55%)"}}/>
 
-        {/* Decorative circles */}
-        <div className="hero-circle" style={{width:"600px",height:"600px",left:"50%",top:"50%",transform:"translate(-50%,-50%)",borderColor:"rgba(201,168,76,0.04)"}}/>
-        <div className="hero-circle" style={{width:"450px",height:"450px",left:"50%",top:"50%",transform:"translate(-50%,-50%)",borderColor:"rgba(74,144,226,0.05)"}}/>
+        {/* Decorative circles behind */}
+        <div className="hero-circle" style={{width:"700px",height:"700px",left:"50%",top:"50%",transform:"translate(-50%,-50%)",borderColor:"rgba(180,74,255,0.04)"}}/>
+        <div className="hero-circle" style={{width:"500px",height:"500px",left:"50%",top:"50%",transform:"translate(-50%,-50%)",borderColor:"rgba(74,144,226,0.05)"}}/>
+        <div className="hero-circle" style={{width:"300px",height:"300px",left:"50%",top:"50%",transform:"translate(-50%,-50%)",borderColor:"rgba(255,215,0,0.04)"}}/>
 
-        {/* Poster */}
-        <div className="hero-poster-frame relative z-10">
-          <div className="hero-poster-glow"/>
+        {/* Glow */}
+        <div className="hero-glow"/>
+
+        {/* Main hero image */}
+        <div className="relative z-10 px-5 w-full flex justify-center">
           <Rv>
             <img
-              src="/poster.png"
-              alt="Guerreiras do K-Pop — Cartaz Oficial"
-              className="hero-poster-img"
-              style={{
-                maxHeight: "72vh",
-                maxWidth: "85vw",
-              }}
+              src="/hero-girls.png"
+              alt="Guerreiras do K-Pop — Demon Hunters"
+              className="hero-img"
             />
           </Rv>
         </div>
 
-        {/* Small tagline below poster */}
+        {/* Small tagline below */}
         <Rv delay={200}>
-          <p className="text-[10px] tracking-[0.35em] font-medium uppercase mt-8 text-center relative z-10" style={{color:"var(--gold-dim)"}}>
-            18 Jul 2026 · Academia das Artes, Estoril
-          </p>
+          <div className="text-center relative z-10 mt-6 sm:mt-8">
+            <p className="text-[10px] tracking-[0.4em] font-medium uppercase" style={{color:"var(--purple-light)",opacity:0.6}}>
+              Tributo Musical em Tour
+            </p>
+            <p className="text-[10px] tracking-[0.3em] font-medium uppercase mt-2" style={{color:"var(--t3)"}}>
+              18 JUL 2026 · Academia das Artes, Estoril
+            </p>
+          </div>
         </Rv>
 
         {/* Scroll indicator */}
@@ -233,16 +236,16 @@ export default function HomePage() {
           <div className="scroll-line"/>
         </div>
 
-        {/* Bottom fade to next section */}
-        <div className="absolute bottom-0 inset-x-0 h-32 z-10" style={{background:"linear-gradient(to top, var(--deep), transparent)"}}/>
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 inset-x-0 h-40 z-10" style={{background:"linear-gradient(to top, var(--deep), transparent)"}}/>
       </section>
 
       {/* ═══ INFO STRIP ═══ */}
       <Rv>
-        <div className="py-4 px-5 flex flex-wrap items-center justify-center gap-6 sm:gap-14 border-b" style={{borderColor:"rgba(201,168,76,0.06)",background:"var(--surface)"}}>
+        <div className="py-4 px-5 flex flex-wrap items-center justify-center gap-6 sm:gap-14 border-b" style={{borderColor:"rgba(180,74,255,0.06)",background:"var(--surface)"}}>
           {[{i:<Clock className="w-3.5 h-3.5"/>,t:"18 JUL 2026 · 18:30H"},{i:<MapPin className="w-3.5 h-3.5"/>,t:"ACADEMIA DAS ARTES, ESTORIL"},{i:<Ticket className="w-3.5 h-3.5"/>,t:"BILHETES DESDE 25€"}].map(x=>(
             <div key={x.t} className="flex items-center gap-2">
-              <span style={{color:"var(--gold)"}}>{x.i}</span>
+              <span style={{color:"var(--neon-purple)"}}>{x.i}</span>
               <span className="text-[10px] tracking-[0.2em] font-medium" style={{color:"var(--t2)"}}>{x.t}</span>
             </div>
           ))}
@@ -259,7 +262,7 @@ export default function HomePage() {
               <Rv>
                 <p className="sec-num mb-4">01 — O Espetáculo</p>
                 <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-8" style={{color:"var(--t1)"}}>
-                  Prepare-se para<br/>se <span className="gold-shimmer">maravilhar</span>
+                  Prepare-se para<br/>se <span className="neon-shimmer">maravilhar</span>
                 </h2>
               </Rv>
               <Rv delay={120}>
@@ -282,14 +285,14 @@ export default function HomePage() {
                 </p>
               </Rv>
               <Rv delay={350}>
-                <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-3.5 text-[10px] tracking-[0.22em] uppercase font-semibold border transition-all duration-400" style={{borderColor:"var(--gold)",color:"var(--gold)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--gold)";(e.currentTarget as HTMLElement).style.color="var(--void)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--gold)"}}>
+                <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-3.5 text-[10px] tracking-[0.22em] uppercase font-semibold border transition-all duration-400" style={{borderColor:"var(--neon-purple)",color:"var(--neon-purple)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}>
                   <Ticket className="w-3.5 h-3.5"/> Reservar Lugar <ArrowUpRight className="w-3 h-3"/>
                 </a>
               </Rv>
             </div>
             <div className="lg:col-span-6 flex items-center">
               <Rv delay={200}>
-                <div className="glass-gold p-5 sm:p-7 w-full">
+                <div className="glass-neon p-5 sm:p-7 w-full">
                   <img src="/poster.png" alt="Cartaz Oficial — Guerreiras do K-Pop" className="w-full rounded-sm cin"/>
                   <p className="text-center sec-num mt-4 uppercase">Cartaz Oficial 2026</p>
                 </div>
@@ -299,7 +302,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="gold-div max-w-[1400px] mx-auto"/>
+      <div className="neon-div max-w-[1400px] mx-auto"/>
 
       {/* ═══ LINEUP ═══ */}
       <section id="lineup" className="py-24 sm:py-40 px-5 sm:px-10">
@@ -314,8 +317,8 @@ export default function HomePage() {
             {[
               {name:"HUNTRIX",sub:"Headliner — Demon Hunters",c:"var(--gold)"},
               {name:"RUMI",sub:"Vocal Principal",c:"var(--pink-kpop)"},
-              {name:"MIRAE",sub:"Dança & Rap",c:"var(--teal)"},
-              {name:"ZOE",sub:"Performance Especial",c:"var(--blue-title)"},
+              {name:"MIRAE",sub:"Dança & Rap",c:"var(--blue-accent)"},
+              {name:"ZOE",sub:"Performance Especial",c:"var(--neon-purple)"},
             ].map((a,i)=>(
               <Rv key={a.name} delay={i*100}>
                 <div className="group relative overflow-hidden cursor-pointer" style={{background:"var(--surface)"}}>
@@ -353,7 +356,7 @@ export default function HomePage() {
               </h2>
             </Rv>
             <Rv delay={200}>
-              <a href={TL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[11px] tracking-[0.15em]" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+              <a href={TL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[11px] tracking-[0.15em]" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
                 ticketline.pt <ExternalLink className="w-3 h-3"/>
               </a>
             </Rv>
@@ -361,12 +364,12 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
               {name:"GERAL",price:"25€",features:["Acesso a todos os palcos","Random Play Dance","K-Culture Zone"],c:"var(--t2)",featured:false},
-              {name:"VIP",price:"45€",features:["Tudo do Geral","Zona VIP frente ao palco","Meet & Greet inclusivo","Merch exclusivo"],c:"var(--gold)",featured:true},
-              {name:"PREMIUM",price:"75€",features:["Tudo do VIP","Backstage Experience","Jantar K-Food inclusivo","Kit Premium completo"],c:"var(--pink-kpop)",featured:false},
+              {name:"VIP",price:"45€",features:["Tudo do Geral","Zona VIP frente ao palco","Meet & Greet inclusivo","Merch exclusivo"],c:"var(--neon-purple)",featured:true},
+              {name:"PREMIUM",price:"75€",features:["Tudo do VIP","Backstage Experience","Jantar K-Food inclusivo","Kit Premium completo"],c:"var(--gold)",featured:false},
             ].map((t,i)=>(
               <Rv key={t.name} delay={i*120}>
-                <div className={`tk p-8 sm:p-10 flex flex-col h-full ${t.featured?"glass-gold":"glass"}`}>
-                  {t.featured && <span className="self-start text-[8px] tracking-[0.3em] font-bold px-2.5 py-1 mb-6 uppercase" style={{background:"var(--gold)",color:"var(--void)"}}>Popular</span>}
+                <div className={`tk p-8 sm:p-10 flex flex-col h-full ${t.featured?"glass-neon":"glass"}`}>
+                  {t.featured && <span className="self-start text-[8px] tracking-[0.3em] font-bold px-2.5 py-1 mb-6 uppercase" style={{background:"var(--neon-purple)",color:"#fff"}}>Popular</span>}
                   <h3 className="text-[10px] tracking-[0.3em] font-semibold uppercase mb-2" style={{color:t.c}}>{t.name}</h3>
                   <span className="text-5xl sm:text-6xl font-extralight tracking-[-0.03em] mb-8" style={{color:"var(--t1)"}}>{t.price}</span>
                   <ul className="space-y-3 mb-10 flex-1">
@@ -376,7 +379,7 @@ export default function HomePage() {
                       </li>
                     ))}
                   </ul>
-                  <a href={TL} target="_blank" rel="noopener noreferrer" className="block text-center py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase transition-all duration-400" style={t.featured?{background:"var(--gold)",color:"var(--void)"}:{background:"transparent",border:"1px solid rgba(201,168,76,0.15)",color:"var(--gold)"}} onMouseEnter={e=>{if(!t.featured){(e.currentTarget as HTMLElement).style.background="var(--gold)";(e.currentTarget as HTMLElement).style.color="var(--void)"}}} onMouseLeave={e=>{if(!t.featured){(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--gold)"}}}>
+                  <a href={TL} target="_blank" rel="noopener noreferrer" className="block text-center py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase transition-all duration-400" style={t.featured?{background:"var(--neon-purple)",color:"#fff"}:{background:"transparent",border:"1px solid rgba(180,74,255,0.15)",color:"var(--neon-purple)"}} onMouseEnter={e=>{if(!t.featured){(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff"}}} onMouseLeave={e=>{if(!t.featured){(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}}>
                     Comprar <ExternalLink className="w-3 h-3 inline ml-1"/>
                   </a>
                 </div>
@@ -384,7 +387,7 @@ export default function HomePage() {
             ))}
           </div>
           <Rv className="mt-10 text-center">
-            <p className="text-[13px]" style={{color:"var(--t3)"}}>Desconto de grupo: 4+ bilhetes com 10% desconto. <a href={TL} target="_blank" rel="noopener noreferrer" className="hover:underline" style={{color:"var(--gold)"}}>Saber mais</a></p>
+            <p className="text-[13px]" style={{color:"var(--t3)"}}>Desconto de grupo: 4+ bilhetes com 10% desconto. <a href={TL} target="_blank" rel="noopener noreferrer" className="hover:underline" style={{color:"var(--neon-purple)"}}>Saber mais</a></p>
           </Rv>
         </div>
       </section>
@@ -410,14 +413,14 @@ export default function HomePage() {
               <Rv delay={220}>
                 <div className="space-y-5 mb-10">
                   <div className="flex items-start gap-4">
-                    <MapPin className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--gold)"}}/>
+                    <MapPin className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
                     <div>
                       <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Morada</p>
                       <p className="text-[14px]" style={{color:"var(--t1)"}}>Av. Marginal, 2765-282 Estoril, Cascais</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
-                    <Clock className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--gold)"}}/>
+                    <Clock className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
                     <div>
                       <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Data & Hora</p>
                       <p className="text-[14px]" style={{color:"var(--t1)"}}>18 Julho 2026 — Portas às 18:30h</p>
@@ -426,7 +429,7 @@ export default function HomePage() {
                 </div>
               </Rv>
               <Rv delay={320}>
-                <a href="https://maps.google.com/?q=Academia+das+Artes+do+Estoril" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 text-[10px] tracking-[0.22em] uppercase font-semibold border transition-all duration-400" style={{borderColor:"rgba(201,168,76,0.25)",color:"var(--gold)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--gold)";(e.currentTarget as HTMLElement).style.color="var(--void)";(e.currentTarget as HTMLElement).style.borderColor="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--gold)";(e.currentTarget as HTMLElement).style.borderColor="rgba(201,168,76,0.25)"}}>
+                <a href="https://maps.google.com/?q=Academia+das+Artes+do+Estoril" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 text-[10px] tracking-[0.22em] uppercase font-semibold border transition-all duration-400" style={{borderColor:"rgba(180,74,255,0.25)",color:"var(--neon-purple)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff";(e.currentTarget as HTMLElement).style.borderColor="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)";(e.currentTarget as HTMLElement).style.borderColor="rgba(180,74,255,0.25)"}}>
                   <MapPin className="w-3.5 h-3.5"/> Google Maps <ArrowUpRight className="w-3 h-3"/>
                 </a>
               </Rv>
@@ -445,7 +448,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="gold-div max-w-[1400px] mx-auto"/>
+      <div className="neon-div max-w-[1400px] mx-auto"/>
 
       {/* ═══ FAQ ═══ */}
       <section id="faq" className="py-24 sm:py-40 px-5 sm:px-10">
@@ -482,17 +485,17 @@ export default function HomePage() {
               <div>
                 <p className="sec-num mb-3">Contacto</p>
                 <div className="space-y-3">
-                  <a href="tel:+351926828841" className="flex items-center gap-2.5 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
+                  <a href="tel:+351926828841" className="flex items-center gap-2.5 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
                     <Phone className="w-3.5 h-3.5"/> +351 926 828 841
                   </a>
-                  <a href="mailto:producao@guerreirasdokpop.pt" className="flex items-center gap-2.5 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
+                  <a href="mailto:producao@guerreirasdokpop.pt" className="flex items-center gap-2.5 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
                     <Mail className="w-3.5 h-3.5"/> producao@guerreirasdokpop.pt
                   </a>
                 </div>
               </div>
               <div>
                 <p className="sec-num mb-3">Produção</p>
-                <a href="https://jovsta.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
+                <a href="https://jovsta.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
                   JOVSTA <ArrowUpRight className="w-3 h-3"/>
                 </a>
               </div>
@@ -505,7 +508,7 @@ export default function HomePage() {
                     {i:<Youtube className="w-5 h-5"/>,l:"YouTube"},
                     {i:<Music2 className="w-5 h-5"/>,l:"TikTok"},
                   ].map(s=>(
-                    <a key={s.l} href="#" className="transition-colors duration-300" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}} aria-label={s.l}>{s.i}</a>
+                    <a key={s.l} href="#" className="transition-colors duration-300" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}} aria-label={s.l}>{s.i}</a>
                   ))}
                 </div>
               </div>
@@ -515,24 +518,24 @@ export default function HomePage() {
       </section>
 
       {/* ═══ FOOTER ═══ */}
-      <footer className="py-10 px-5 sm:px-10 mt-auto border-t" style={{background:"var(--void)",borderColor:"rgba(201,168,76,0.04)"}}>
+      <footer className="py-10 px-5 sm:px-10 mt-auto border-t" style={{background:"var(--void)",borderColor:"rgba(180,74,255,0.04)"}}>
         <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-6 h-6 flex items-center justify-center" style={{background:"var(--gold)"}}>
-              <span className="text-[8px] font-black" style={{color:"var(--void)"}}>GK</span>
+            <div className="w-6 h-6 flex items-center justify-center" style={{background:"var(--neon-purple)"}}>
+              <span className="text-[8px] font-black" style={{color:"#fff"}}>GK</span>
             </div>
             <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>&copy; 2026 Guerreiras do K-Pop</span>
           </div>
           <div className="flex items-center gap-6">
-            <a href={TL} target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--gold)"}}>Ticketline</a>
+            <a href={TL} target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--neon-purple)"}}>Ticketline</a>
             <a href="https://guerreirasdokpop.pt" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--t3)"}}>guerreirasdokpop.pt</a>
           </div>
         </div>
       </footer>
 
       {/* ═══ MOBILE STICKY CTA ═══ */}
-      <div className="fixed bottom-0 inset-x-0 z-40 sm:hidden p-3 backdrop-blur-2xl border-t" style={{background:"rgba(4,1,10,0.92)",borderColor:"rgba(201,168,76,0.08)"}}>
-        <a href={TL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase" style={{background:"var(--gold)",color:"var(--void)"}}>
+      <div className="fixed bottom-0 inset-x-0 z-40 sm:hidden p-3 backdrop-blur-2xl border-t" style={{background:"rgba(8,3,15,0.92)",borderColor:"rgba(180,74,255,0.08)"}}>
+        <a href={TL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase" style={{background:"var(--neon-purple)",color:"#fff"}}>
           <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
         </a>
       </div>
