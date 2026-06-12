@@ -1,0 +1,1131 @@
+     1→"use client";
+     2→
+     3→import { useEffect, useState, useRef, useCallback } from "react";
+     4→import { motion, useInView, AnimatePresence } from "framer-motion";
+     5→import {
+     6→  Ticket,
+     7→  MapPin,
+     8→  Clock,
+     9→  Star,
+    10→  ChevronDown,
+    11→  Menu,
+    12→  X,
+    13→  Instagram,
+    14→  Youtube,
+    15→  Music2,
+    16→  Sparkles,
+    17→  Shield,
+    18→  Flame,
+    19→  Mic2,
+    20→  Heart,
+    21→  ArrowRight,
+    22→  ExternalLink,
+    23→  Send,
+    24→  ChevronUp,
+    25→} from "lucide-react";
+    26→import {
+    27→  Accordion,
+    28→  AccordionContent,
+    29→  AccordionItem,
+    30→  AccordionTrigger,
+    31→} from "@/components/ui/accordion";
+    32→import { Button } from "@/components/ui/button";
+    33→import { Input } from "@/components/ui/input";
+    34→
+    35→/* ──────────── DATA ──────────── */
+    36→
+    37→const TICKETLINE_URL = "https://www.ticketline.pt";
+    38→const EVENT_DATE = new Date("2026-07-18T18:30:00");
+    39→
+    40→const NAV_LINKS = [
+    41→  { label: "Sobre", href: "#sobre" },
+    42→  { label: "Lineup", href: "#lineup" },
+    43→  { label: "Experiência", href: "#experiencia" },
+    44→  { label: "Bilhetes", href: "#bilhetes" },
+    45→  { label: "Local", href: "#local" },
+    46→  { label: "FAQ", href: "#faq" },
+    47→];
+    48→
+    49→const ARTISTS = [
+    50→  {
+    51→    name: "HUNTRIX",
+    52→    role: "Headliner — Demon Hunters",
+    53→    image: "/artists.png",
+    54→    gradient: "from-yellow-500/20 to-purple-500/20",
+    55→    accent: "#FFD700",
+    56→  },
+    57→  {
+    58→    name: "RUMI",
+    59→    role: "Vocal Principal",
+    60→    image: "/poster.png",
+    61→    gradient: "from-pink-500/20 to-purple-500/20",
+    62→    accent: "#FF69B4",
+    63→  },
+    64→  {
+    65→    name: "MIRAE",
+    66→    role: "Dança & Rap",
+    67→    image: "/poster.png",
+    68→    gradient: "from-cyan-500/20 to-purple-500/20",
+    69→    accent: "#20B2AA",
+    70→  },
+    71→  {
+    72→    name: "ZOE",
+    73→    role: "Performance Especial",
+    74→    image: "/poster.png",
+    75→    gradient: "from-blue-500/20 to-purple-500/20",
+    76→    accent: "#4A90E2",
+    77→  },
+    78→];
+    79→
+    80→const EXPERIENCES = [
+    81→  {
+    82→    icon: <Mic2 className="w-8 h-8" />,
+    83→    title: "Palcos K-Pop ao Vivo",
+    84→    description:
+    85→      "Performances épicas de tributo aos maiores hits do K-Pop, com coreografias incríveis e luzes neon que transformam a noite numa experiência inesquecível. Sente a energia do palco como nunca antes!",
+    86→    accent: "#FFD700",
+    87→  },
+    88→  {
+    89→    icon: <Music2 className="w-8 h-8" />,
+    90→    title: "Random Play Dance",
+    91→    description:
+    92→      "O momento mais esperado! O RPD onde todos dançam ao som dos seus bias. Quem sabe a coreografia toda? Provem-no no nosso Random Play Dance gigante com DJs exclusivos!",
+    93→    accent: "#FF69B4",
+    94→  },
+    95→  {
+    96→    icon: <Sparkles className="w-8 h-8" />,
+    97→    title: "K-Culture Zone",
+    98→    description:
+    99→      "Mercado de K-Beauty, moda coreana, snacks e merch oficial. Descobre produtos exclusivos, participa em workshops de maquilhagem K-Beauty e prova as melhores delícias coreanas!",
+   100→    accent: "#7B2F9A",
+   101→  },
+   102→  {
+   103→    icon: <Heart className="w-8 h-8" />,
+   104→    title: "Fan Meet & Greet",
+   105→    description:
+   106→      "Conhece as tuas artistas favoritas em sessões exclusivas de autógrafos e fotos. Uma oportunidade única para criar memórias que duram para sempre com as Guerreiras!",
+   107→    accent: "#20B2AA",
+   108→  },
+   109→];
+   110→
+   111→const TICKETS = [
+   112→  {
+   113→    name: "Geral",
+   114→    price: "25€",
+   115→    features: [
+   116→      "Acesso a todos os palcos",
+   117→      "Random Play Dance",
+   118→      "K-Culture Zone",
+   119→      "1 bebida de oferta",
+   120→    ],
+   121→    popular: false,
+   122→    accent: "#7B2F9A",
+   123→  },
+   124→  {
+   125→    name: "VIP",
+   126→    price: "45€",
+   127→    features: [
+   128→      "Tudo do bilhete Geral",
+   129→      "Zona VIP frente ao palco",
+   130→      "Meet & Greet inclusivo",
+   131→      "Merch exclusivo",
+   132→      "2 bebidas de oferta",
+   133→    ],
+   134→    popular: true,
+   135→    accent: "#FFD700",
+   136→  },
+   137→  {
+   138→    name: "Premium",
+   139→    price: "75€",
+   140→    features: [
+   141→      "Tudo do bilhete VIP",
+   142→      "Backstage Experience",
+   143→      "Jantar K-Food inclusivo",
+   144→      "Photocall exclusivo",
+   145→      "Kit Premium completo",
+   146→    ],
+   147→    popular: false,
+   148→    accent: "#FF69B4",
+   149→  },
+   150→];
+   151→
+   152→const FAQS = [
+   153→  {
+   154→    q: "Qual a idade mínima para entrar no festival?",
+   155→    a: "O festival é para todas as idades! Crianças até aos 5 anos não pagam entrada (desde que acompanhadas por um adulto). Menores de 12 anos devem estar sempre acompanhados por um responsável adulto. O ambiente é familiar e seguro para todos os fãs de K-Pop!",
+   156→  },
+   157→  {
+   158→    q: "Onde posso comprar bilhetes?",
+   159→    a: "Os bilhetes estão disponíveis exclusivamente na Ticketline, o nosso parceiro oficial de bilheteira. Podes comprar online em ticketline.pt ou nos pontos de venda habituais. Recomendamos a compra antecipada pois os bilhetes são limitados!",
+   160→  },
+   161→  {
+   162→    q: "Posso trazer a minha lightstick?",
+   163→    a: "Claro que sim! As lightsticks são bem-vindas e encorajadas! Quanto mais brilho, melhor a atmosfera. No entanto, não são permitidos objetos perigosos como bastões com pontas metálicas ou lasers. A segurança de todos é prioridade.",
+   164→  },
+   165→  {
+   166→    q: "Há estacionamento no local?",
+   167→    a: "Sim, existe estacionamento gratuito nas proximidades da Academia das Artes do Estoril. Também recomendamos a utilização de transportes públicos — a estação de comboios do Estoril fica a 5 minutos a pé do local. Consulta o nosso mapa na secção 'Local' para mais detalhes.",
+   168→  },
+   169→  {
+   170→    q: "O evento acontece com chuva?",
+   171→    a: "O festival tem zonas cobertas e ao ar livre. Em caso de chuva, as atuações nos palcos principais continuam pois são cobertos. Aconselhamos a trazer um impermeável leve. Em caso de condições meteorológicas extremas, o evento poderá ser adiado e os bilhetes mantêm-se válidos.",
+   172→  },
+   173→  {
+   174→    q: "Posso reembolsar o meu bilhete?",
+   175→    a: "De acordo com a legislação portuguesa, os bilhetes podem ser reembolsados até 7 dias após a compra, desde que o pedido seja feito com pelo menos 48h de antecedência ao evento. Para pedidos de reembolso, contacta a Ticketline diretamente.",
+   176→  },
+   177→];
+   178→
+   179→/* ──────────── COMPONENTS ──────────── */
+   180→
+   181→function CountdownTimer() {
+   182→  const [timeLeft, setTimeLeft] = useState({
+   183→    days: 0,
+   184→    hours: 0,
+   185→    minutes: 0,
+   186→    seconds: 0,
+   187→  });
+   188→
+   189→  useEffect(() => {
+   190→    const tick = () => {
+   191→      const now = new Date();
+   192→      const diff = EVENT_DATE.getTime() - now.getTime();
+   193→      if (diff <= 0) return;
+   194→      setTimeLeft({
+   195→        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+   196→        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+   197→        minutes: Math.floor((diff / (1000 * 60)) % 60),
+   198→        seconds: Math.floor((diff / 1000) % 60),
+   199→      });
+   200→    };
+   201→    tick();
+   202→    const interval = setInterval(tick, 1000);
+   203→    return () => clearInterval(interval);
+   204→  }, []);
+   205→
+   206→  const units = [
+   207→    { label: "Dias", value: timeLeft.days },
+   208→    { label: "Horas", value: timeLeft.hours },
+   209→    { label: "Min", value: timeLeft.minutes },
+   210→    { label: "Seg", value: timeLeft.seconds },
+   211→  ];
+   212→
+   213→  return (
+   214→    <div className="flex gap-3 sm:gap-4 justify-center">
+   215→      {units.map((u) => (
+   216→        <div key={u.label} className="flex flex-col items-center">
+   217→          <div className="glass-card rounded-xl px-3 py-2 sm:px-5 sm:py-3 min-w-[60px] sm:min-w-[80px] text-center">
+   218→            <span className="text-2xl sm:text-4xl font-bold text-yellow-400 neon-text-gold font-mono">
+   219→              {String(u.value).padStart(2, "0")}
+   220→            </span>
+   221→          </div>
+   222→          <span className="text-xs sm:text-sm text-muted-foreground mt-1.5 uppercase tracking-wider">
+   223→            {u.label}
+   224→          </span>
+   225→        </div>
+   226→      ))}
+   227→    </div>
+   228→  );
+   229→}
+   230→
+   231→function AnimatedSection({
+   232→  children,
+   233→  className = "",
+   234→  delay = 0,
+   235→}: {
+   236→  children: React.ReactNode;
+   237→  className?: string;
+   238→  delay?: number;
+   239→}) {
+   240→  const ref = useRef(null);
+   241→  const isInView = useInView(ref, { once: true, margin: "-80px" });
+   242→
+   243→  return (
+   244→    <motion.div
+   245→      ref={ref}
+   246→      initial={{ opacity: 0, y: 50 }}
+   247→      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+   248→      transition={{ duration: 0.7, delay, ease: "easeOut" }}
+   249→      className={className}
+   250→    >
+   251→      {children}
+   252→    </motion.div>
+   253→  );
+   254→}
+   255→
+   256→function SparkleEffect() {
+   257→  const sparkles = Array.from({ length: 20 }, (_, i) => ({
+   258→    id: i,
+   259→    left: `${Math.random() * 100}%`,
+   260→    top: `${Math.random() * 100}%`,
+   261→    size: Math.random() * 4 + 2,
+   262→    delay: Math.random() * 4,
+   263→    duration: Math.random() * 2 + 2,
+   264→  }));
+   265→
+   266→  return (
+   267→    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+   268→      {sparkles.map((s) => (
+   269→        <div
+   270→          key={s.id}
+   271→          className="absolute rounded-full bg-yellow-400/60"
+   272→          style={{
+   273→            left: s.left,
+   274→            top: s.top,
+   275→            width: s.size,
+   276→            height: s.size,
+   277→            animation: `sparkle ${s.duration}s ease-in-out ${s.delay}s infinite`,
+   278→          }}
+   279→        />
+   280→      ))}
+   281→    </div>
+   282→  );
+   283→}
+   284→
+   285→/* ──────────── MAIN PAGE ──────────── */
+   286→
+   287→export default function HomePage() {
+   288→  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+   289→  const [scrolled, setScrolled] = useState(false);
+   290→  const [showScrollTop, setShowScrollTop] = useState(false);
+   291→
+   292→  useEffect(() => {
+   293→    const onScroll = () => {
+   294→      setScrolled(window.scrollY > 50);
+   295→      setShowScrollTop(window.scrollY > 600);
+   296→    };
+   297→    window.addEventListener("scroll", onScroll);
+   298→    return () => window.removeEventListener("scroll", onScroll);
+   299→  }, []);
+   300→
+   301→  const scrollToTop = useCallback(() => {
+   302→    window.scrollTo({ top: 0, behavior: "smooth" });
+   303→  }, []);
+   304→
+   305→  return (
+   306→    <div className="min-h-screen flex flex-col bg-background">
+   307→      {/* ─── NAVIGATION ─── */}
+   308→      <nav
+   309→        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+   310→          scrolled
+   311→            ? "bg-background/90 backdrop-blur-xl shadow-lg shadow-purple-900/20 border-b border-purple-500/10"
+   312→            : "bg-transparent"
+   313→        }`}
+   314→      >
+   315→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   316→          <div className="flex items-center justify-between h-16 sm:h-20">
+   317→            {/* Logo */}
+   318→            <a href="#" className="flex items-center gap-2 group">
+   319→              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-yellow-400 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+   320→                <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-background" />
+   321→              </div>
+   322→              <span className="text-sm sm:text-lg font-bold gradient-text hidden sm:inline">
+   323→                GUERREIRAS DO K-POP
+   324→              </span>
+   325→              <span className="text-sm font-bold gradient-text sm:hidden">
+   326→                GDKP
+   327→              </span>
+   328→            </a>
+   329→
+   330→            {/* Desktop Nav */}
+   331→            <div className="hidden md:flex items-center gap-8">
+   332→              {NAV_LINKS.map((link) => (
+   333→                <a
+   334→                  key={link.href}
+   335→                  href={link.href}
+   336→                  className="text-sm text-muted-foreground hover:text-yellow-400 transition-colors relative group"
+   337→                >
+   338→                  {link.label}
+   339→                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all group-hover:w-full" />
+   340→                </a>
+   341→              ))}
+   342→            </div>
+   343→
+   344→            {/* CTA + Mobile Toggle */}
+   345→            <div className="flex items-center gap-3">
+   346→              <a
+   347→                href={TICKETLINE_URL}
+   348→                target="_blank"
+   349→                rel="noopener noreferrer"
+   350→                className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-background font-bold text-sm hover:from-yellow-300 hover:to-yellow-400 transition-all animate-pulse-glow"
+   351→              >
+   352→                <Ticket className="w-4 h-4" />
+   353→                Comprar Bilhete
+   354→              </a>
+   355→              <button
+   356→                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+   357→                className="md:hidden p-2 text-foreground"
+   358→                aria-label="Menu"
+   359→              >
+   360→                {mobileMenuOpen ? (
+   361→                  <X className="w-6 h-6" />
+   362→                ) : (
+   363→                  <Menu className="w-6 h-6" />
+   364→                )}
+   365→              </button>
+   366→            </div>
+   367→          </div>
+   368→        </div>
+   369→
+   370→        {/* Mobile Menu */}
+   371→        <AnimatePresence>
+   372→          {mobileMenuOpen && (
+   373→            <motion.div
+   374→              initial={{ opacity: 0, height: 0 }}
+   375→              animate={{ opacity: 1, height: "auto" }}
+   376→              exit={{ opacity: 0, height: 0 }}
+   377→              className="md:hidden bg-background/95 backdrop-blur-xl border-b border-purple-500/10"
+   378→            >
+   379→              <div className="px-4 py-4 space-y-2">
+   380→                {NAV_LINKS.map((link) => (
+   381→                  <a
+   382→                    key={link.href}
+   383→                    href={link.href}
+   384→                    onClick={() => setMobileMenuOpen(false)}
+   385→                    className="block px-4 py-3 text-muted-foreground hover:text-yellow-400 hover:bg-purple-500/10 rounded-lg transition-colors"
+   386→                  >
+   387→                    {link.label}
+   388→                  </a>
+   389→                ))}
+   390→                <a
+   391→                  href={TICKETLINE_URL}
+   392→                  target="_blank"
+   393→                  rel="noopener noreferrer"
+   394→                  className="block text-center px-4 py-3 mt-2 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-background font-bold animate-pulse-glow"
+   395→                >
+   396→                  <Ticket className="w-4 h-4 inline mr-2" />
+   397→                  Comprar Bilhete
+   398→                </a>
+   399→              </div>
+   400→            </motion.div>
+   401→          )}
+   402→        </AnimatePresence>
+   403→      </nav>
+   404→
+   405→      {/* ─── HERO SECTION ─── */}
+   406→      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+   407→        {/* Background Image */}
+   408→        <div className="absolute inset-0">
+   409→          <img
+   410→            src="/hero-bg.png"
+   411→            alt="Guerreiras do K-Pop Festival"
+   412→            className="w-full h-full object-cover"
+   413→          />
+   414→          <div className="hero-gradient absolute inset-0" />
+   415→        </div>
+   416→
+   417→        <SparkleEffect />
+   418→
+   419→        {/* Content */}
+   420→        <div className="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto pt-20">
+   421→          {/* Badge */}
+   422→          <motion.div
+   423→            initial={{ opacity: 0, y: -20 }}
+   424→            animate={{ opacity: 1, y: 0 }}
+   425→            transition={{ duration: 0.6 }}
+   426→            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-6 sm:mb-8"
+   427→          >
+   428→            <Flame className="w-4 h-4 text-yellow-400" />
+   429→            <span className="text-xs sm:text-sm font-medium text-yellow-400">
+   430→              TRIBUTO MUSICAL EM TOUR
+   431→            </span>
+   432→          </motion.div>
+   433→
+   434→          {/* Title */}
+   435→          <motion.h1
+   436→            initial={{ opacity: 0, y: 30 }}
+   437→            animate={{ opacity: 1, y: 0 }}
+   438→            transition={{ duration: 0.8, delay: 0.2 }}
+   439→            className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight leading-none mb-4 sm:mb-6"
+   440→          >
+   441→            <span className="neon-text text-blue-400">GUERREIRAS</span>
+   442→            <br />
+   443→            <span className="neon-text-gold text-yellow-400">DO K-POP</span>
+   444→          </motion.h1>
+   445→
+   446→          {/* Subtitle */}
+   447→          <motion.p
+   448→            initial={{ opacity: 0 }}
+   449→            animate={{ opacity: 1 }}
+   450→            transition={{ duration: 0.8, delay: 0.5 }}
+   451→            className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 sm:mb-10 max-w-2xl mx-auto"
+   452→          >
+   453→            Baseado na série{" "}
+   454→            <span className="text-pink-400 font-semibold">
+   455→              K-Pop Demon Hunters
+   456→            </span>{" "}
+   457→            da Netflix. Um espetáculo épico ao vivo em Cascais!
+   458→          </motion.p>
+   459→
+   460→          {/* Countdown */}
+   461→          <motion.div
+   462→            initial={{ opacity: 0, y: 20 }}
+   463→            animate={{ opacity: 1, y: 0 }}
+   464→            transition={{ duration: 0.8, delay: 0.7 }}
+   465→            className="mb-8 sm:mb-10"
+   466→          >
+   467→            <p className="text-xs sm:text-sm uppercase tracking-widest text-muted-foreground mb-3">
+   468→              Contagem Decrescente
+   469→            </p>
+   470→            <CountdownTimer />
+   471→          </motion.div>
+   472→
+   473→          {/* Event Info */}
+   474→          <motion.div
+   475→            initial={{ opacity: 0, y: 20 }}
+   476→            animate={{ opacity: 1, y: 0 }}
+   477→            transition={{ duration: 0.8, delay: 0.9 }}
+   478→            className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mb-8 sm:mb-10 text-sm sm:text-base"
+   479→          >
+   480→            <div className="flex items-center gap-2 text-muted-foreground">
+   481→              <CalendarIcon className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
+   482→              <span>18 Julho 2026</span>
+   483→            </div>
+   484→            <div className="flex items-center gap-2 text-muted-foreground">
+   485→              <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
+   486→              <span>18:30h</span>
+   487→            </div>
+   488→            <div className="flex items-center gap-2 text-muted-foreground">
+   489→              <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
+   490→              <span>Cascais, Estoril</span>
+   491→            </div>
+   492→          </motion.div>
+   493→
+   494→          {/* CTAs */}
+   495→          <motion.div
+   496→            initial={{ opacity: 0, y: 20 }}
+   497→            animate={{ opacity: 1, y: 0 }}
+   498→            transition={{ duration: 0.8, delay: 1.1 }}
+   499→            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+   500→          >
+   501→            <a
+   502→              href={TICKETLINE_URL}
+   503→              target="_blank"
+   504→              rel="noopener noreferrer"
+   505→              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-background font-bold text-lg hover:from-yellow-300 hover:to-yellow-400 transition-all animate-pulse-glow shadow-2xl"
+   506→            >
+   507→              <Ticket className="w-5 h-5" />
+   508→              Comprar Bilhete
+   509→              <ExternalLink className="w-4 h-4" />
+   510→            </a>
+   511→            <a
+   512→              href="#lineup"
+   513→              className="inline-flex items-center gap-2 px-8 py-4 rounded-full glass-card glass-card-hover text-foreground font-semibold text-lg transition-all"
+   514→            >
+   515→              Ver Lineup
+   516→              <ChevronDown className="w-5 h-5 animate-bounce" />
+   517→            </a>
+   518→          </motion.div>
+   519→        </div>
+   520→
+   521→        {/* Bottom gradient fade */}
+   522→        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+   523→      </section>
+   524→
+   525→      {/* ─── ABOUT / SOBRE ─── */}
+   526→      <section id="sobre" className="py-20 sm:py-28 relative">
+   527→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   528→          <AnimatedSection className="text-center mb-16">
+   529→            <span className="text-xs sm:text-sm uppercase tracking-widest text-yellow-400 font-medium">
+   530→              Sobre o Evento
+   531→            </span>
+   532→            <h2 className="text-3xl sm:text-5xl font-black mt-3 mb-6">
+   533→              A Caçada Começa{" "}
+   534→              <span className="gradient-text">Ao Vivo</span>
+   535→            </h2>
+   536→            <p className="text-muted-foreground text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
+   537→              As Guerreiras do K-Pop chegam a Cascais para um espetáculo épico de
+   538→              tributo musical inspirado na série{" "}
+   539→              <span className="text-pink-400 font-semibold">
+   540→                K-Pop Demon Hunters
+   541→              </span>{" "}
+   542→              da Netflix. Atuações ao vivo, coreografias incríveis, efeitos
+   543→              visuais de outro mundo e uma experiência imersiva que vai fazer-te
+   544→              sentir parte da caçada! Prepara a tua lightstick e junta-te a nós!
+   545→            </p>
+   546→          </AnimatedSection>
+   547→
+   548→          {/* Stats */}
+   549→          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+   550→            {[
+   551→              { value: "4+", label: "Artistas ao Vivo", icon: <Mic2 className="w-5 h-5" /> },
+   552→              { value: "3h", label: "Espetáculo", icon: <Clock className="w-5 h-5" /> },
+   553→              { value: "5", label: "Zonas de Experiência", icon: <Star className="w-5 h-5" /> },
+   554→              { value: "1", label: "Noite Épica", icon: <Flame className="w-5 h-5" /> },
+   555→            ].map((stat, i) => (
+   556→              <AnimatedSection key={stat.label} delay={i * 0.1}>
+   557→                <div className="glass-card glass-card-hover rounded-2xl p-6 text-center transition-all duration-300">
+   558→                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-yellow-400/10 text-yellow-400 mb-3">
+   559→                    {stat.icon}
+   560→                  </div>
+   561→                  <div className="text-3xl sm:text-4xl font-black gradient-text">
+   562→                    {stat.value}
+   563→                  </div>
+   564→                  <div className="text-sm text-muted-foreground mt-1">
+   565→                    {stat.label}
+   566→                  </div>
+   567→                </div>
+   568→              </AnimatedSection>
+   569→            ))}
+   570→          </div>
+   571→        </div>
+   572→      </section>
+   573→
+   574→      {/* ─── LINEUP ─── */}
+   575→      <section id="lineup" className="py-20 sm:py-28 section-gradient relative">
+   576→        <SparkleEffect />
+   577→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+   578→          <AnimatedSection className="text-center mb-16">
+   579→            <span className="text-xs sm:text-sm uppercase tracking-widest text-pink-400 font-medium">
+   580→              Lineup
+   581→            </span>
+   582→            <h2 className="text-3xl sm:text-5xl font-black mt-3 mb-4">
+   583→              As Nossas <span className="neon-text-pink text-pink-400">Guerreiras</span>
+   584→            </h2>
+   585→            <p className="text-muted-foreground max-w-2xl mx-auto">
+   586→              As artistas mais ferozes do universo K-Pop Demon Hunters, prontas para incendiar o palco em Cascais!
+   587→            </p>
+   588→          </AnimatedSection>
+   589→
+   590→          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+   591→            {ARTISTS.map((artist, i) => (
+   592→              <AnimatedSection key={artist.name} delay={i * 0.15}>
+   593→                <div className="group glass-card glass-card-hover rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2">
+   594→                  {/* Image */}
+   595→                  <div className="relative aspect-[3/4] overflow-hidden">
+   596→                    <img
+   597→                      src={artist.image}
+   598→                      alt={artist.name}
+   599→                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+   600→                    />
+   601→                    <div
+   602→                      className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"
+   603→                    />
+   604→                    {/* Glow border on hover */}
+   605→                    <div
+   606→                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+   607→                      style={{
+   608→                        boxShadow: `inset 0 0 30px ${artist.accent}40`,
+   609→                      }}
+   610→                    />
+   611→                  </div>
+   612→                  {/* Info */}
+   613→                  <div className="p-5">
+   614→                    <h3
+   615→                      className="text-xl font-black mb-1"
+   616→                      style={{ color: artist.accent }}
+   617→                    >
+   618→                      {artist.name}
+   619→                    </h3>
+   620→                    <p className="text-sm text-muted-foreground mb-4">
+   621→                      {artist.role}
+   622→                    </p>
+   623→                    <div className="flex gap-3">
+   624→                      <a
+   625→                        href="#"
+   626→                        className="text-muted-foreground hover:text-pink-400 transition-colors"
+   627→                        aria-label="Instagram"
+   628→                      >
+   629→                        <Instagram className="w-4 h-4" />
+   630→                      </a>
+   631→                      <a
+   632→                        href="#"
+   633→                        className="text-muted-foreground hover:text-red-400 transition-colors"
+   634→                        aria-label="YouTube"
+   635→                      >
+   636→                        <Youtube className="w-4 h-4" />
+   637→                      </a>
+   638→                      <a
+   639→                        href="#"
+   640→                        className="text-muted-foreground hover:text-blue-400 transition-colors"
+   641→                        aria-label="TikTok"
+   642→                      >
+   643→                        <Music2 className="w-4 h-4" />
+   644→                      </a>
+   645→                    </div>
+   646→                  </div>
+   647→                </div>
+   648→              </AnimatedSection>
+   649→            ))}
+   650→          </div>
+   651→
+   652→          {/* Full lineup poster */}
+   653→          <AnimatedSection className="mt-16 text-center">
+   654→            <div className="glass-card rounded-2xl p-6 sm:p-8 inline-block">
+   655→              <img
+   656→                src="/poster.png"
+   657→                alt="Cartaz Oficial - Guerreiras do K-Pop"
+   658→                className="max-h-[500px] mx-auto rounded-lg shadow-2xl shadow-purple-500/20"
+   659→              />
+   660→            </div>
+   661→          </AnimatedSection>
+   662→        </div>
+   663→      </section>
+   664→
+   665→      {/* ─── EXPERIENCE PILLARS ─── */}
+   666→      <section id="experiencia" className="py-20 sm:py-28 relative">
+   667→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   668→          <AnimatedSection className="text-center mb-16">
+   669→            <span className="text-xs sm:text-sm uppercase tracking-widest text-yellow-400 font-medium">
+   670→              Experiência
+   671→            </span>
+   672→            <h2 className="text-3xl sm:text-5xl font-black mt-3 mb-4">
+   673→              Mais Que Um <span className="gradient-text">Concerto</span>
+   674→            </h2>
+   675→            <p className="text-muted-foreground max-w-2xl mx-auto">
+   676→              Uma experiência imersiva que vai além da música. Descubre tudo o que te espera nas Guerreiras do K-Pop!
+   677→            </p>
+   678→          </AnimatedSection>
+   679→
+   680→          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+   681→            {EXPERIENCES.map((exp, i) => (
+   682→              <AnimatedSection key={exp.title} delay={i * 0.15}>
+   683→                <div className="glass-card glass-card-hover rounded-2xl p-8 transition-all duration-500 hover:-translate-y-1 group relative overflow-hidden">
+   684→                  {/* Accent glow */}
+   685→                  <div
+   686→                    className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"
+   687→                    style={{ backgroundColor: exp.accent }}
+   688→                  />
+   689→                  <div
+   690→                    className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-transform group-hover:scale-110"
+   691→                    style={{ backgroundColor: `${exp.accent}15`, color: exp.accent }}
+   692→                  >
+   693→                    {exp.icon}
+   694→                  </div>
+   695→                  <h3
+   696→                    className="text-xl sm:text-2xl font-bold mb-3"
+   697→                    style={{ color: exp.accent }}
+   698→                  >
+   699→                    {exp.title}
+   700→                  </h3>
+   701→                  <p className="text-muted-foreground leading-relaxed">
+   702→                    {exp.description}
+   703→                  </p>
+   704→                </div>
+   705→              </AnimatedSection>
+   706→            ))}
+   707→          </div>
+   708→        </div>
+   709→      </section>
+   710→
+   711→      {/* ─── TICKETS ─── */}
+   712→      <section id="bilhetes" className="py-20 sm:py-28 section-gradient relative">
+   713→        <SparkleEffect />
+   714→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+   715→          <AnimatedSection className="text-center mb-16">
+   716→            <span className="text-xs sm:text-sm uppercase tracking-widest text-yellow-400 font-medium">
+   717→              Bilhetes
+   718→            </span>
+   719→            <h2 className="text-3xl sm:text-5xl font-black mt-3 mb-4">
+   720→              Escolhe o Teu <span className="neon-text-gold text-yellow-400">Poder</span>
+   721→            </h2>
+   722→            <p className="text-muted-foreground max-w-2xl mx-auto">
+   723→              Cada bilhete dá-te acesso a uma experiência diferente. Qual é o nível de guerreira que queres ser?
+   724→            </p>
+   725→          </AnimatedSection>
+   726→
+   727→          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+   728→            {TICKETS.map((ticket, i) => (
+   729→              <AnimatedSection key={ticket.name} delay={i * 0.15}>
+   730→                <div
+   731→                  className={`relative glass-card rounded-2xl p-8 transition-all duration-500 hover:-translate-y-2 ${
+   732→                    ticket.popular
+   733→                      ? "ring-2 ring-yellow-400/50 shadow-xl shadow-yellow-400/10"
+   734→                      : ""
+   735→                  }`}
+   736→                >
+   737→                  {/* Popular badge */}
+   738→                  {ticket.popular && (
+   739→                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-background text-xs font-bold uppercase tracking-wider">
+   740→                      Mais Popular
+   741→                    </div>
+   742→                  )}
+   743→
+   744→                  <h3
+   745→                    className="text-2xl font-bold mb-2"
+   746→                    style={{ color: ticket.accent }}
+   747→                  >
+   748→                    {ticket.name}
+   749→                  </h3>
+   750→                  <div className="flex items-baseline gap-1 mb-6">
+   751→                    <span className="text-4xl sm:text-5xl font-black text-foreground">
+   752→                      {ticket.price}
+   753→                    </span>
+   754→                    <span className="text-muted-foreground text-sm">/pessoa</span>
+   755→                  </div>
+   756→
+   757→                  <ul className="space-y-3 mb-8">
+   758→                    {ticket.features.map((feature) => (
+   759→                      <li
+   760→                        key={feature}
+   761→                        className="flex items-start gap-3 text-muted-foreground text-sm"
+   762→                      >
+   763→                        <Star
+   764→                          className="w-4 h-4 mt-0.5 flex-shrink-0"
+   765→                          style={{ color: ticket.accent }}
+   766→                        />
+   767→                        {feature}
+   768→                      </li>
+   769→                    ))}
+   770→                  </ul>
+   771→
+   772→                  <a
+   773→                    href={TICKETLINE_URL}
+   774→                    target="_blank"
+   775→                    rel="noopener noreferrer"
+   776→                    className={`block text-center py-3.5 rounded-full font-bold text-sm transition-all ${
+   777→                      ticket.popular
+   778→                        ? "bg-gradient-to-r from-yellow-400 to-yellow-500 text-background hover:from-yellow-300 hover:to-yellow-400 animate-pulse-glow"
+   779→                        : "border-2 hover:bg-white/5"
+   780→                    }`}
+   781→                    style={
+   782→                      !ticket.popular
+   783→                        ? { borderColor: `${ticket.accent}60`, color: ticket.accent }
+   784→                        : {}
+   785→                    }
+   786→                  >
+   787→                    <Ticket className="w-4 h-4 inline mr-2" />
+   788→                    Comprar na Ticketline
+   789→                    <ExternalLink className="w-3 h-3 inline ml-1" />
+   790→                  </a>
+   791→                </div>
+   792→              </AnimatedSection>
+   793→            ))}
+   794→          </div>
+   795→
+   796→          {/* Group discount callout */}
+   797→          <AnimatedSection className="mt-10 text-center">
+   798→            <div className="glass-card rounded-2xl p-6 inline-flex items-center gap-4">
+   799→              <div className="w-12 h-12 rounded-full bg-pink-400/10 flex items-center justify-center">
+   800→                <Heart className="w-5 h-5 text-pink-400" />
+   801→              </div>
+   802→              <div className="text-left">
+   803→                <p className="font-bold text-foreground">Desconto de Grupo!</p>
+   804→                <p className="text-sm text-muted-foreground">
+   805→                  Compra 4 bilhetes e recebe 10% de desconto. Contacta-nos para saber mais.
+   806→                </p>
+   807→              </div>
+   808→            </div>
+   809→          </AnimatedSection>
+   810→        </div>
+   811→      </section>
+   812→
+   813→      {/* ─── VENUE ─── */}
+   814→      <section id="local" className="py-20 sm:py-28 relative">
+   815→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   816→          <AnimatedSection className="text-center mb-16">
+   817→            <span className="text-xs sm:text-sm uppercase tracking-widest text-yellow-400 font-medium">
+   818→              Local
+   819→            </span>
+   820→            <h2 className="text-3xl sm:text-5xl font-black mt-3 mb-4">
+   821→              Onde a <span className="gradient-text">Magia</span> Acontece
+   822→            </h2>
+   823→          </AnimatedSection>
+   824→
+   825→          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+   826→            {/* Map / Image */}
+   827→            <AnimatedSection>
+   828→              <div className="glass-card rounded-2xl overflow-hidden">
+   829→                <div className="relative">
+   830→                  <img
+   831→                    src="/venue-bg.png"
+   832→                    alt="Academia das Artes do Estoril"
+   833→                    className="w-full h-64 sm:h-80 object-cover"
+   834→                  />
+   835→                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+   836→                </div>
+   837→              </div>
+   838→            </AnimatedSection>
+   839→
+   840→            {/* Info */}
+   841→            <AnimatedSection delay={0.2}>
+   842→              <div className="space-y-6">
+   843→                <div>
+   844→                  <h3 className="text-2xl sm:text-3xl font-bold text-yellow-400 mb-2">
+   845→                    Academia das Artes do Estoril
+   846→                  </h3>
+   847→                  <p className="text-muted-foreground leading-relaxed">
+   848→                    Um espaço icónico na costa de Cascais, onde a arte e a cultura se encontram.
+   849→                    A localização perfeita para receber as Guerreiras do K-Pop, com uma vista
+   850→                    deslumbrante sobre o Atlântico e infraestruturas de primeiro nível.
+   851→                  </p>
+   852→                </div>
+   853→
+   854→                <div className="space-y-4">
+   855→                  <div className="flex items-start gap-4">
+   856→                    <div className="w-10 h-10 rounded-xl bg-yellow-400/10 flex items-center justify-center flex-shrink-0">
+   857→                      <MapPin className="w-5 h-5 text-yellow-400" />
+   858→                    </div>
+   859→                    <div>
+   860→                      <p className="font-semibold text-foreground">Morada</p>
+   861→                      <p className="text-sm text-muted-foreground">
+   862→                        Av. Marginal, 2765-282 Estoril, Cascais
+   863→                      </p>
+   864→                    </div>
+   865→                  </div>
+   866→                  <div className="flex items-start gap-4">
+   867→                    <div className="w-10 h-10 rounded-xl bg-yellow-400/10 flex items-center justify-center flex-shrink-0">
+   868→                      <Clock className="w-5 h-5 text-yellow-400" />
+   869→                    </div>
+   870→                    <div>
+   871→                      <p className="font-semibold text-foreground">Horário</p>
+   872→                      <p className="text-sm text-muted-foreground">
+   873→                        18 de Julho 2026 — Portas às 18:30h
+   874→                      </p>
+   875→                    </div>
+   876→                  </div>
+   877→                  <div className="flex items-start gap-4">
+   878→                    <div className="w-10 h-10 rounded-xl bg-yellow-400/10 flex items-center justify-center flex-shrink-0">
+   879→                      <Shield className="w-5 h-5 text-yellow-400" />
+   880→                    </div>
+   881→                    <div>
+   882→                      <p className="font-semibold text-foreground">Acessibilidade</p>
+   883→                      <p className="text-sm text-muted-foreground">
+   884→                        Estação de comboios do Estoril a 5 min a pé. Estacionamento gratuito nas proximidades.
+   885→                      </p>
+   886→                    </div>
+   887→                  </div>
+   888→                </div>
+   889→
+   890→                <a
+   891→                  href="https://maps.google.com/?q=Academia+das+Artes+do+Estoril"
+   892→                  target="_blank"
+   893→                  rel="noopener noreferrer"
+   894→                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass-card glass-card-hover text-yellow-400 font-semibold text-sm transition-all"
+   895→                >
+   896→                  <MapPin className="w-4 h-4" />
+   897→                  Ver no Google Maps
+   898→                  <ExternalLink className="w-3 h-3" />
+   899→                </a>
+   900→              </div>
+   901→            </AnimatedSection>
+   902→          </div>
+   903→        </div>
+   904→      </section>
+   905→
+   906→      {/* ─── FAQ ─── */}
+   907→      <section id="faq" className="py-20 sm:py-28 section-gradient relative">
+   908→        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+   909→          <AnimatedSection className="text-center mb-16">
+   910→            <span className="text-xs sm:text-sm uppercase tracking-widest text-yellow-400 font-medium">
+   911→              FAQ
+   912→            </span>
+   913→            <h2 className="text-3xl sm:text-5xl font-black mt-3 mb-4">
+   914→              Perguntas <span className="gradient-text">Frequentes</span>
+   915→            </h2>
+   916→          </AnimatedSection>
+   917→
+   918→          <AnimatedSection>
+   919→            <Accordion type="single" collapsible className="space-y-3">
+   920→              {FAQS.map((faq, i) => (
+   921→                <AccordionItem
+   922→                  key={i}
+   923→                  value={`faq-${i}`}
+   924→                  className="glass-card rounded-xl px-6 border-0 overflow-hidden"
+   925→                >
+   926→                  <AccordionTrigger className="text-left text-sm sm:text-base font-semibold hover:text-yellow-400 transition-colors py-5">
+   927→                    {faq.q}
+   928→                  </AccordionTrigger>
+   929→                  <AccordionContent className="text-muted-foreground text-sm leading-relaxed pb-5">
+   930→                    {faq.a}
+   931→                  </AccordionContent>
+   932→                </AccordionItem>
+   933→              ))}
+   934→            </Accordion>
+   935→          </AnimatedSection>
+   936→        </div>
+   937→      </section>
+   938→
+   939→      {/* ─── NEWSLETTER + SOCIAL ─── */}
+   940→      <section className="py-20 sm:py-28 relative">
+   941→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   942→          <div className="glass-card rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden">
+   943→            {/* Background glow */}
+   944→            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+   945→            <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-yellow-400/5 rounded-full blur-3xl" />
+   946→
+   947→            <div className="relative z-10">
+   948→              <AnimatedSection>
+   949→                <Sparkles className="w-10 h-10 text-yellow-400 mx-auto mb-4" />
+   950→                <h2 className="text-3xl sm:text-4xl font-black mb-3">
+   951→                  Fica Ligad<span className="text-yellow-400">o</span>!
+   952→                </h2>
+   953→                <p className="text-muted-foreground max-w-lg mx-auto mb-8">
+   954→                  Subscreve a nossa newsletter e recebe em primeira mão novidades sobre lineup,
+   955→                  bilhetes e surpresas exclusivas. Não percas nada!
+   956→                </p>
+   957→
+   958→                {/* Email form */}
+   959→                <form
+   960→                  onSubmit={(e) => e.preventDefault()}
+   961→                  className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-10"
+   962→                >
+   963→                  <Input
+   964→                    type="email"
+   965→                    placeholder="O teu email..."
+   966→                    className="bg-white/5 border-purple-500/30 focus:border-yellow-400 focus:ring-yellow-400/20 placeholder:text-muted-foreground/50"
+   967→                  />
+   968→                  <Button
+   969→                    type="submit"
+   970→                    className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-background font-bold hover:from-yellow-300 hover:to-yellow-400 px-6"
+   971→                  >
+   972→                    <Send className="w-4 h-4 mr-2" />
+   973→                    Subscrever
+   974→                  </Button>
+   975→                </form>
+   976→
+   977→                {/* Social Links */}
+   978→                <div className="flex items-center justify-center gap-4">
+   979→                  {[
+   980→                    { icon: <Instagram className="w-5 h-5" />, href: "#", label: "Instagram" },
+   981→                    { icon: <Youtube className="w-5 h-5" />, href: "#", label: "YouTube" },
+   982→                    { icon: <Music2 className="w-5 h-5" />, href: "#", label: "TikTok" },
+   983→                  ].map((social) => (
+   984→                    <a
+   985→                      key={social.label}
+   986→                      href={social.href}
+   987→                      className="w-12 h-12 rounded-full glass-card glass-card-hover flex items-center justify-center text-muted-foreground hover:text-yellow-400 transition-all"
+   988→                      aria-label={social.label}
+   989→                    >
+   990→                      {social.icon}
+   991→                    </a>
+   992→                  ))}
+   993→                </div>
+   994→              </AnimatedSection>
+   995→            </div>
+   996→          </div>
+   997→        </div>
+   998→      </section>
+   999→
+  1000→      {/* ─── FOOTER ─── */}
+  1001→      <footer className="py-12 border-t border-purple-500/10 mt-auto">
+  1002→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  1003→          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+  1004→            {/* Brand */}
+  1005→            <div>
+  1006→              <div className="flex items-center gap-2 mb-4">
+  1007→                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-pink-500 flex items-center justify-center">
+  1008→                  <Shield className="w-4 h-4 text-background" />
+  1009→                </div>
+  1010→                <span className="font-bold gradient-text">
+  1011→                  GUERREIRAS DO K-POP
+  1012→                </span>
+  1013→              </div>
+  1014→              <p className="text-sm text-muted-foreground leading-relaxed">
+  1015→                Tributo musical oficial em tour. Inspirado na série K-Pop Demon
+  1016→                Hunters da Netflix. Um evento para todos os fãs!
+  1017→              </p>
+  1018→            </div>
+  1019→
+  1020→            {/* Quick Links */}
+  1021→            <div>
+  1022→              <h4 className="font-bold text-foreground mb-4">Links Rápidos</h4>
+  1023→              <div className="space-y-2">
+  1024→                {NAV_LINKS.map((link) => (
+  1025→                  <a
+  1026→                    key={link.href}
+  1027→                    href={link.href}
+  1028→                    className="block text-sm text-muted-foreground hover:text-yellow-400 transition-colors"
+  1029→                  >
+  1030→                    {link.label}
+  1031→                  </a>
+  1032→                ))}
+  1033→              </div>
+  1034→            </div>
+  1035→
+  1036→            {/* Ticket + Legal */}
+  1037→            <div>
+  1038→              <h4 className="font-bold text-foreground mb-4">Bilhetes</h4>
+  1039→              <a
+  1040→                href={TICKETLINE_URL}
+  1041→                target="_blank"
+  1042→                rel="noopener noreferrer"
+  1043→                className="inline-flex items-center gap-2 text-sm text-yellow-400 hover:text-yellow-300 transition-colors mb-4"
+  1044→              >
+  1045→                <Ticket className="w-4 h-4" />
+  1046→                Comprar na Ticketline
+  1047→                <ExternalLink className="w-3 h-3" />
+  1048→              </a>
+  1049→              <div className="space-y-2 text-sm text-muted-foreground">
+  1050→                <p>Termos e Condições</p>
+  1051→                <p>Política de Privacidade</p>
+  1052→                <p>Acessibilidade</p>
+  1053→              </div>
+  1054→            </div>
+  1055→          </div>
+  1056→
+  1057→          <div className="border-t border-purple-500/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+  1058→            <p className="text-xs text-muted-foreground">
+  1059→              &copy; 2026 Guerreiras do K-Pop. Todos os direitos reservados.
+  1060→            </p>
+  1061→            <p className="text-xs text-muted-foreground">
+  1062→              Bilheteira oficial:{" "}
+  1063→              <a
+  1064→                href={TICKETLINE_URL}
+  1065→                target="_blank"
+  1066→                rel="noopener noreferrer"
+  1067→                className="text-yellow-400 hover:underline"
+  1068→              >
+  1069→                Ticketline
+  1070→              </a>
+  1071→            </p>
+  1072→          </div>
+  1073→        </div>
+  1074→      </footer>
+  1075→
+  1076→      {/* ─── STICKY MOBILE CTA ─── */}
+  1077→      <div className="fixed bottom-0 left-0 right-0 z-40 sm:hidden p-3 bg-background/90 backdrop-blur-xl border-t border-purple-500/10">
+  1078→        <a
+  1079→          href={TICKETLINE_URL}
+  1080→          target="_blank"
+  1081→          rel="noopener noreferrer"
+  1082→          className="flex items-center justify-center gap-2 w-full py-3.5 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-background font-bold text-sm animate-pulse-glow"
+  1083→        >
+  1084→          <Ticket className="w-4 h-4" />
+  1085→          Comprar Bilhete na Ticketline
+  1086→          <ExternalLink className="w-3 h-3" />
+  1087→        </a>
+  1088→      </div>
+  1089→
+  1090→      {/* ─── SCROLL TO TOP ─── */}
+  1091→      <AnimatePresence>
+  1092→        {showScrollTop && (
+  1093→          <motion.button
+  1094→            initial={{ opacity: 0, scale: 0.8 }}
+  1095→            animate={{ opacity: 1, scale: 1 }}
+  1096→            exit={{ opacity: 0, scale: 0.8 }}
+  1097→            onClick={scrollToTop}
+  1098→            className="fixed bottom-20 sm:bottom-8 right-4 sm:right-8 z-40 w-12 h-12 rounded-full glass-card flex items-center justify-center text-yellow-400 hover:bg-yellow-400/10 transition-all"
+  1099→            aria-label="Voltar ao topo"
+  1100→          >
+  1101→            <ChevronUp className="w-5 h-5" />
+  1102→          </motion.button>
+  1103→        )}
+  1104→      </AnimatePresence>
+  1105→    </div>
+  1106→  );
+  1107→}
+  1108→
+  1109→/* ─── Calendar Icon (inline to avoid import issues) ─── */
+  1110→function CalendarIcon(props: React.SVGProps<SVGSVGElement>) {
+  1111→  return (
+  1112→    <svg
+  1113→      xmlns="http://www.w3.org/2000/svg"
+  1114→      width="24"
+  1115→      height="24"
+  1116→      viewBox="0 0 24 24"
+  1117→      fill="none"
+  1118→      stroke="currentColor"
+  1119→      strokeWidth="2"
+  1120→      strokeLinecap="round"
+  1121→      strokeLinejoin="round"
+  1122→      {...props}
+  1123→    >
+  1124→      <path d="M8 2v4" />
+  1125→      <path d="M16 2v4" />
+  1126→      <rect width="18" height="18" x="3" y="4" rx="2" />
+  1127→      <path d="M3 10h18" />
+  1128→    </svg>
+  1129→  );
+  1130→}
+  1131→
