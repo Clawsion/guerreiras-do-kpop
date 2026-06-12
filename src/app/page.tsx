@@ -130,6 +130,9 @@ export default function HomePage() {
           className="hero-bg-img"
         />
 
+        {/* Grid texture overlay */}
+        <div className="hero-grid"/>
+
         {/* Depth overlay — fade at bottom */}
         <div className="hero-bg-overlay"/>
 
@@ -137,8 +140,36 @@ export default function HomePage() {
         <div className="hero-vignette"/>
 
         {/* Glow orbs */}
-        <div className="hero-glow-orb" style={{width:"40vw",height:"40vw",left:"25%",top:"30%",background:"rgba(200,80,255,0.15)"}}/>
-        <div className="hero-glow-orb" style={{width:"30vw",height:"30vw",right:"15%",top:"50%",background:"rgba(74,144,226,0.1)",animationDelay:"3s"}}/>
+        <div className="hero-glow-orb" style={{width:"40vw",height:"40vw",left:"25%",top:"30%",background:"rgba(200,80,255,0.12)"}}/>
+        <div className="hero-glow-orb" style={{width:"25vw",height:"25vw",right:"10%",top:"55%",background:"rgba(74,144,226,0.08)",animationDelay:"3s"}}/>
+        <div className="hero-glow-orb" style={{width:"20vw",height:"20vw",left:"5%",bottom:"20%",background:"rgba(255,45,120,0.06)",animationDelay:"6s"}}/>
+
+        {/* Floating particles */}
+        <div className="hero-particles">
+          {[12,38,65,82,5,55,28,72,45,90,18,60,35,78,8,50,68,22].map((left, i) => (
+            <div
+              key={i}
+              className="hero-particle"
+              style={{
+                left: `${left}%`,
+                bottom: `${-5 - (i * 3) % 10}%`,
+                animationDuration: `${8 + (i * 7) % 12}s`,
+                animationDelay: `${(i * 4) % 10}s`,
+                width: `${1 + (i % 3)}px`,
+                height: `${1 + (i % 3)}px`,
+                background: i % 3 === 0 ? "rgba(200,80,255,0.5)" : i % 3 === 1 ? "rgba(74,144,226,0.4)" : "rgba(255,215,0,0.3)",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Side decorative lines */}
+        <div className="hero-side-line hidden sm:block" style={{left:"5%",top:"15%",height:"30%"}}/>
+        <div className="hero-side-line hidden sm:block" style={{right:"5%",top:"25%",height:"25%"}}/>
+
+        {/* Corner tags */}
+        <div className="hero-corner-tag hidden sm:block" style={{left:"5%",bottom:"8%"}}>CASCAIS 2026</div>
+        <div className="hero-corner-tag hidden sm:block" style={{right:"5%",bottom:"8%"}}>18 JUL · 18:30H</div>
 
         {/* ═══ HAMBURGER NAV — pinned at top of hero ═══ */}
         <nav className="absolute top-0 inset-x-0 z-[95] py-6" style={{background:"transparent"}}>
@@ -199,15 +230,41 @@ export default function HomePage() {
           <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
         </div>
 
-        {/* Ticketline CTA — bottom center, hero star */}
-        <a
-          href={TL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hero-cta"
-        >
-          <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
-        </a>
+        {/* ═══ HERO CONTENT — centered typography ═══ */}
+        <div className="hero-content">
+          {/* Tag pill */}
+          <div className="hero-tag">
+            <Music2 className="w-3 h-3"/>
+            Tributo Musical Ao Vivo
+          </div>
+
+          {/* Main title */}
+          <h1 className="hero-title">
+            Guerreiras<br/>do <span className="accent">K-Pop</span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="hero-subtitle">
+            Demon Hunters ao vivo · Random Play Dance · K-Culture Zone<br className="hidden sm:block"/>
+            Cascais, 18 de Julho 2026
+          </p>
+
+          {/* Countdown */}
+          <div className="hero-countdown-wrap">
+            <div className="hero-countdown-label">Contagem Decrescente</div>
+            <Countdown/>
+          </div>
+
+          {/* CTA */}
+          <a
+            href={TL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hero-cta"
+          >
+            <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
+          </a>
+        </div>
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
