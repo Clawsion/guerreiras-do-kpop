@@ -74,7 +74,7 @@ function Countdown() {
 function Marquee({ text }: { text: string }) {
   const r = Array(10).fill(text).join("  ✦  ");
   return (
-    <div className="overflow-hidden border-y py-5" style={{borderColor:"rgba(180,74,255,0.06)"}}>
+    <div className="overflow-hidden border-y py-5" style={{borderColor:"rgba(200,80,255,0.08)"}}>
       <div className="marquee-track whitespace-nowrap">
         <span className="text-xl sm:text-3xl font-extralight tracking-widest mx-4" style={{color:"var(--t3)"}}>{r}</span>
         <span className="text-xl sm:text-3xl font-extralight tracking-widest mx-4" style={{color:"var(--t3)"}}>{r}</span>
@@ -126,21 +126,11 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ═══ HAMBURGER NAV ═══ */}
-      <nav className={`fixed top-0 inset-x-0 z-[95] transition-all duration-500 ${scrolled?"py-4 backdrop-blur-2xl border-b":"py-6"}`} style={{background:scrolled?"rgba(8,3,15,0.88)":"transparent",borderColor:scrolled?"rgba(180,74,255,0.06)":"transparent"}}>
+      {/* ═══ HAMBURGER NAV — hamburger LEFT ═══ */}
+      <nav className={`fixed top-0 inset-x-0 z-[95] transition-all duration-500 ${scrolled?"py-4 backdrop-blur-2xl border-b":"py-6"}`} style={{background:scrolled?"rgba(26,10,46,0.88)":"transparent",borderColor:scrolled?"rgba(200,80,255,0.08)":"transparent"}}>
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 flex items-center justify-between">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group" onClick={()=>setMenuOpen(false)}>
-            <div className="w-9 h-9 flex items-center justify-center transition-shadow group-hover:shadow-lg" style={{background:"var(--neon-purple)",boxShadow:"0 0 20px rgba(180,74,255,0.2)"}}>
-              <span className="text-[10px] font-black" style={{color:"#fff"}}>GK</span>
-            </div>
-            <span className="text-[12px] font-semibold tracking-[0.14em] hidden sm:block" style={{color:"var(--t2)"}}>GUERREIRAS DO K-POP</span>
-          </a>
-          {/* Right: Ticketline + Hamburger */}
-          <div className="flex items-center gap-6">
-            <a href={TL} target="_blank" rel="noopener noreferrer" className="hidden sm:inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase font-semibold px-5 py-2.5 border transition-all duration-400" style={{borderColor:"var(--neon-purple)",color:"var(--neon-purple)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}>
-              <Ticket className="w-3.5 h-3.5"/> Ticketline
-            </a>
+          {/* LEFT: Hamburger + Logo */}
+          <div className="flex items-center gap-5">
             <button
               onClick={()=>setMenuOpen(!menuOpen)}
               className={`hamburger ${menuOpen?"open":""}`}
@@ -150,13 +140,25 @@ export default function HomePage() {
               <span />
               <span />
             </button>
+            <a href="#" className="flex items-center gap-3 group" onClick={()=>setMenuOpen(false)}>
+              <div className="w-9 h-9 flex items-center justify-center transition-shadow group-hover:shadow-lg" style={{background:"var(--neon-purple)",boxShadow:"0 0 20px rgba(200,80,255,0.25)"}}>
+                <span className="text-[10px] font-black" style={{color:"#fff"}}>GK</span>
+              </div>
+              <span className="text-[12px] font-semibold tracking-[0.14em] hidden sm:block" style={{color:"var(--t2)"}}>GUERREIRAS DO K-POP</span>
+            </a>
+          </div>
+          {/* RIGHT: Ticketline */}
+          <div className="flex items-center gap-4">
+            <a href={TL} target="_blank" rel="noopener noreferrer" className="hidden sm:inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase font-semibold px-5 py-2.5 border transition-all duration-400" style={{borderColor:"var(--neon-purple)",color:"var(--neon-purple)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}>
+              <Ticket className="w-3.5 h-3.5"/> Ticketline
+            </a>
           </div>
         </div>
       </nav>
 
-      {/* ═══ FULLSCREEN MENU OVERLAY — cascade from right ═══ */}
+      {/* ═══ FULLSCREEN MENU OVERLAY — cascade from LEFT ═══ */}
       <div className={`menu-overlay ${menuOpen?"open":""}`}>
-        <div className="flex flex-col items-end gap-1 sm:gap-2 mb-16">
+        <div className="flex flex-col items-start gap-1 sm:gap-2 mb-16">
           {navLinks.map((n, i) => (
             <a
               key={n.l}
@@ -171,13 +173,13 @@ export default function HomePage() {
           ))}
         </div>
         {/* Menu CTA */}
-        <div style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
-          <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold transition-all duration-400" style={{background:"var(--neon-purple)",color:"#fff"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.boxShadow="0 0 40px rgba(180,74,255,0.4)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.boxShadow="none"}}>
+        <div style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(-40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
+          <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold transition-all duration-400" style={{background:"var(--neon-purple)",color:"#fff"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.boxShadow="0 0 40px rgba(200,80,255,0.4)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.boxShadow="none"}}>
             <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
           </a>
         </div>
-        {/* Menu Footer — social left */}
-        <div className="absolute bottom-8 left-8 sm:left-12 flex gap-6" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 350}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(-20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
+        {/* Menu Footer — social bottom right */}
+        <div className="absolute bottom-8 right-8 sm:right-12 flex gap-6" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 350}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
             <Instagram className="w-5 h-5"/>
           </a>
@@ -191,58 +193,55 @@ export default function HomePage() {
             <Music2 className="w-5 h-5"/>
           </a>
         </div>
-        {/* Decorative */}
-        <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",left:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(180,74,255,0.06)"}}/>
+        {/* Decorative circle */}
+        <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
       </div>
 
-      {/* ═══ HERO — GIRLS IMAGE ═══ */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden" style={{background:"var(--void)"}}>
-        {/* Background subtle radial */}
-        <div className="absolute inset-0" style={{background:"radial-gradient(ellipse at 50% 40%, rgba(180,74,255,0.07) 0%, transparent 55%)"}}/>
+      {/* ═══ HERO — FULL SCREEN ═══ */}
+      <section className="hero-section" style={{background:"var(--void)"}}>
+        {/* Background image — full bleed */}
+        <img
+          src="/hero-girls.png"
+          alt=""
+          className="hero-bg-img"
+        />
 
-        {/* Decorative circles behind */}
-        <div className="hero-circle" style={{width:"700px",height:"700px",left:"50%",top:"50%",transform:"translate(-50%,-50%)",borderColor:"rgba(180,74,255,0.04)"}}/>
-        <div className="hero-circle" style={{width:"500px",height:"500px",left:"50%",top:"50%",transform:"translate(-50%,-50%)",borderColor:"rgba(74,144,226,0.05)"}}/>
-        <div className="hero-circle" style={{width:"300px",height:"300px",left:"50%",top:"50%",transform:"translate(-50%,-50%)",borderColor:"rgba(255,215,0,0.04)"}}/>
+        {/* Overlay gradient */}
+        <div className="hero-bg-overlay"/>
 
-        {/* Glow */}
-        <div className="hero-glow"/>
+        {/* Glow orbs */}
+        <div className="hero-glow-orb" style={{width:"40vw",height:"40vw",left:"25%",top:"30%",background:"rgba(200,80,255,0.12)"}}/>
+        <div className="hero-glow-orb" style={{width:"30vw",height:"30vw",right:"15%",top:"50%",background:"rgba(74,144,226,0.08)",animationDelay:"3s"}}/>
 
-        {/* Main hero image */}
-        <div className="relative z-10 px-5 w-full flex justify-center">
+        {/* Content */}
+        <div className="hero-content">
           <Rv>
-            <img
-              src="/hero-girls.png"
-              alt="Guerreiras do K-Pop — Demon Hunters"
-              className="hero-img"
-            />
-          </Rv>
-        </div>
-
-        {/* Small tagline below */}
-        <Rv delay={200}>
-          <div className="text-center relative z-10 mt-6 sm:mt-8">
-            <p className="text-[10px] tracking-[0.4em] font-medium uppercase" style={{color:"var(--purple-light)",opacity:0.6}}>
+            <p className="text-[10px] tracking-[0.4em] font-medium uppercase mb-4" style={{color:"var(--purple-light)"}}>
               Tributo Musical em Tour
             </p>
-            <p className="text-[10px] tracking-[0.3em] font-medium uppercase mt-2" style={{color:"var(--t3)"}}>
+          </Rv>
+          <Rv delay={150}>
+            <h1 className="leading-[0.85] tracking-[-0.04em] mb-4">
+              <span className="block text-[clamp(2.5rem,9vw,8rem)] font-extralight" style={{color:"#fff",textShadow:"0 0 80px rgba(200,80,255,0.2)"}}>GUERREIRAS</span>
+              <span className="block text-[clamp(2.5rem,9vw,8rem)] font-extralight neon-shimmer">DO K-POP</span>
+            </h1>
+          </Rv>
+          <Rv delay={300}>
+            <p className="text-[10px] tracking-[0.3em] font-medium uppercase" style={{color:"var(--t3)"}}>
               18 JUL 2026 · Academia das Artes, Estoril
             </p>
-          </div>
-        </Rv>
+          </Rv>
+        </div>
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
           <div className="scroll-line"/>
         </div>
-
-        {/* Bottom fade */}
-        <div className="absolute bottom-0 inset-x-0 h-40 z-10" style={{background:"linear-gradient(to top, var(--deep), transparent)"}}/>
       </section>
 
       {/* ═══ INFO STRIP ═══ */}
       <Rv>
-        <div className="py-4 px-5 flex flex-wrap items-center justify-center gap-6 sm:gap-14 border-b" style={{borderColor:"rgba(180,74,255,0.06)",background:"var(--surface)"}}>
+        <div className="py-4 px-5 flex flex-wrap items-center justify-center gap-6 sm:gap-14 border-b" style={{borderColor:"rgba(200,80,255,0.08)",background:"var(--surface)"}}>
           {[{i:<Clock className="w-3.5 h-3.5"/>,t:"18 JUL 2026 · 18:30H"},{i:<MapPin className="w-3.5 h-3.5"/>,t:"ACADEMIA DAS ARTES, ESTORIL"},{i:<Ticket className="w-3.5 h-3.5"/>,t:"BILHETES DESDE 25€"}].map(x=>(
             <div key={x.t} className="flex items-center gap-2">
               <span style={{color:"var(--neon-purple)"}}>{x.i}</span>
@@ -323,9 +322,9 @@ export default function HomePage() {
               <Rv key={a.name} delay={i*100}>
                 <div className="group relative overflow-hidden cursor-pointer" style={{background:"var(--surface)"}}>
                   <div className="aspect-[3/4] overflow-hidden">
-                    <img src="/poster.png" alt={a.name} className="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105" style={{filter:"grayscale(75%) brightness(0.45)"}}
-                      onMouseEnter={e=>{(e.target as HTMLImageElement).style.filter="grayscale(0%) brightness(0.7)"}} 
-                      onMouseLeave={e=>{(e.target as HTMLImageElement).style.filter="grayscale(75%) brightness(0.45)"}}/>
+                    <img src="/poster.png" alt={a.name} className="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105" style={{filter:"grayscale(75%) brightness(0.5)"}}
+                      onMouseEnter={e=>{(e.target as HTMLImageElement).style.filter="grayscale(0%) brightness(0.8)"}} 
+                      onMouseLeave={e=>{(e.target as HTMLImageElement).style.filter="grayscale(75%) brightness(0.5)"}}/>
                   </div>
                   <div className="absolute inset-x-0 bottom-0 pt-20 pb-5 px-5" style={{background:"linear-gradient(to top, var(--void) 5%, transparent 100%)"}}>
                     <p className="text-[8px] tracking-[0.3em] font-semibold mb-1 uppercase" style={{color:a.c}}>{a.sub}</p>
@@ -379,7 +378,7 @@ export default function HomePage() {
                       </li>
                     ))}
                   </ul>
-                  <a href={TL} target="_blank" rel="noopener noreferrer" className="block text-center py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase transition-all duration-400" style={t.featured?{background:"var(--neon-purple)",color:"#fff"}:{background:"transparent",border:"1px solid rgba(180,74,255,0.15)",color:"var(--neon-purple)"}} onMouseEnter={e=>{if(!t.featured){(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff"}}} onMouseLeave={e=>{if(!t.featured){(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}}>
+                  <a href={TL} target="_blank" rel="noopener noreferrer" className="block text-center py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase transition-all duration-400" style={t.featured?{background:"var(--neon-purple)",color:"#fff"}:{background:"transparent",border:"1px solid rgba(200,80,255,0.15)",color:"var(--neon-purple)"}} onMouseEnter={e=>{if(!t.featured){(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff"}}} onMouseLeave={e=>{if(!t.featured){(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}}>
                     Comprar <ExternalLink className="w-3 h-3 inline ml-1"/>
                   </a>
                 </div>
@@ -429,7 +428,7 @@ export default function HomePage() {
                 </div>
               </Rv>
               <Rv delay={320}>
-                <a href="https://maps.google.com/?q=Academia+das+Artes+do+Estoril" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 text-[10px] tracking-[0.22em] uppercase font-semibold border transition-all duration-400" style={{borderColor:"rgba(180,74,255,0.25)",color:"var(--neon-purple)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff";(e.currentTarget as HTMLElement).style.borderColor="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)";(e.currentTarget as HTMLElement).style.borderColor="rgba(180,74,255,0.25)"}}>
+                <a href="https://maps.google.com/?q=Academia+das+Artes+do+Estoril" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 text-[10px] tracking-[0.22em] uppercase font-semibold border transition-all duration-400" style={{borderColor:"rgba(200,80,255,0.25)",color:"var(--neon-purple)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff";(e.currentTarget as HTMLElement).style.borderColor="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)";(e.currentTarget as HTMLElement).style.borderColor="rgba(200,80,255,0.25)"}}>
                   <MapPin className="w-3.5 h-3.5"/> Google Maps <ArrowUpRight className="w-3 h-3"/>
                 </a>
               </Rv>
@@ -518,7 +517,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══ FOOTER ═══ */}
-      <footer className="py-10 px-5 sm:px-10 mt-auto border-t" style={{background:"var(--void)",borderColor:"rgba(180,74,255,0.04)"}}>
+      <footer className="py-10 px-5 sm:px-10 mt-auto border-t" style={{background:"var(--void)",borderColor:"rgba(200,80,255,0.04)"}}>
         <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-6 h-6 flex items-center justify-center" style={{background:"var(--neon-purple)"}}>
@@ -534,7 +533,7 @@ export default function HomePage() {
       </footer>
 
       {/* ═══ MOBILE STICKY CTA ═══ */}
-      <div className="fixed bottom-0 inset-x-0 z-40 sm:hidden p-3 backdrop-blur-2xl border-t" style={{background:"rgba(8,3,15,0.92)",borderColor:"rgba(180,74,255,0.08)"}}>
+      <div className="fixed bottom-0 inset-x-0 z-40 sm:hidden p-3 backdrop-blur-2xl border-t" style={{background:"rgba(26,10,46,0.92)",borderColor:"rgba(200,80,255,0.08)"}}>
         <a href={TL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase" style={{background:"var(--neon-purple)",color:"#fff"}}>
           <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
         </a>
