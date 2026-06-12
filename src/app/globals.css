@@ -301,6 +301,9 @@ html { scroll-behavior: smooth; }
   opacity: 1;
 }
 .menu-overlay .menu-link:hover {
+  color: var(--blue-accent);
+}
+.menu-overlay .menu-link:hover .link-num {
   color: var(--gold);
 }
 .menu-overlay .menu-link .link-num {
