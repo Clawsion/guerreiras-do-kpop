@@ -147,12 +147,8 @@ export default function HomePage() {
               <span className="text-[12px] font-semibold tracking-[0.14em] hidden sm:block" style={{color:"var(--t2)"}}>GUERREIRAS DO K-POP</span>
             </a>
           </div>
-          {/* RIGHT: Ticketline */}
-          <div className="flex items-center gap-4">
-            <a href={TL} target="_blank" rel="noopener noreferrer" className="hidden sm:inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase font-semibold px-5 py-2.5 border transition-all duration-400" style={{borderColor:"var(--neon-purple)",color:"var(--neon-purple)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}>
-              <Ticket className="w-3.5 h-3.5"/> Ticketline
-            </a>
-          </div>
+          {/* RIGHT: empty space to balance */}
+          <div className="w-9"/>
         </div>
       </nav>
 
@@ -197,7 +193,7 @@ export default function HomePage() {
         <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
       </div>
 
-      {/* ═══ HERO — FULL SCREEN ═══ */}
+      {/* ═══ HERO — FULL SCREEN + NEON PRESET ═══ */}
       <section className="hero-section" style={{background:"var(--void)"}}>
         {/* Background image — full bleed */}
         <img
@@ -206,32 +202,31 @@ export default function HomePage() {
           className="hero-bg-img"
         />
 
-        {/* Overlay gradient */}
+        {/* NEON PRESET — duotone color overlay */}
+        <div className="hero-preset"/>
+
+        {/* Depth overlay */}
         <div className="hero-bg-overlay"/>
 
-        {/* Glow orbs */}
-        <div className="hero-glow-orb" style={{width:"40vw",height:"40vw",left:"25%",top:"30%",background:"rgba(200,80,255,0.12)"}}/>
-        <div className="hero-glow-orb" style={{width:"30vw",height:"30vw",right:"15%",top:"50%",background:"rgba(74,144,226,0.08)",animationDelay:"3s"}}/>
+        {/* Scanline texture */}
+        <div className="hero-scanlines"/>
 
-        {/* Content */}
-        <div className="hero-content">
-          <Rv>
-            <p className="text-[10px] tracking-[0.4em] font-medium uppercase mb-4" style={{color:"var(--purple-light)"}}>
-              Tributo Musical em Tour
-            </p>
-          </Rv>
-          <Rv delay={150}>
-            <h1 className="leading-[0.85] tracking-[-0.04em] mb-4">
-              <span className="block text-[clamp(2.5rem,9vw,8rem)] font-extralight" style={{color:"#fff",textShadow:"0 0 80px rgba(200,80,255,0.2)"}}>GUERREIRAS</span>
-              <span className="block text-[clamp(2.5rem,9vw,8rem)] font-extralight neon-shimmer">DO K-POP</span>
-            </h1>
-          </Rv>
-          <Rv delay={300}>
-            <p className="text-[10px] tracking-[0.3em] font-medium uppercase" style={{color:"var(--t3)"}}>
-              18 JUL 2026 · Academia das Artes, Estoril
-            </p>
-          </Rv>
-        </div>
+        {/* Vignette */}
+        <div className="hero-vignette"/>
+
+        {/* Glow orbs */}
+        <div className="hero-glow-orb" style={{width:"40vw",height:"40vw",left:"25%",top:"30%",background:"rgba(200,80,255,0.15)"}}/>
+        <div className="hero-glow-orb" style={{width:"30vw",height:"30vw",right:"15%",top:"50%",background:"rgba(74,144,226,0.1)",animationDelay:"3s"}}/>
+
+        {/* Ticketline CTA — bottom center, hero star */}
+        <a
+          href={TL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hero-cta"
+        >
+          <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
+        </a>
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
