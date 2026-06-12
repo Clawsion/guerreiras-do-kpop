@@ -240,6 +240,10 @@ html { scroll-behavior: smooth; }
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hamburger:hover {
+  transform: scale(1.15);
 }
 .hamburger span {
   display: block;
@@ -249,9 +253,15 @@ html { scroll-behavior: smooth; }
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   transform-origin: center;
 }
+.hamburger:hover span:nth-child(1) {
+  transform: translateY(2px);
+}
+.hamburger:hover span:nth-child(3) {
+  transform: translateY(-2px);
+}
 .hamburger.open span:nth-child(1) {
   transform: translateY(9.25px) rotate(45deg);
-  background: var(--blue-accent);
+  background: #ffffff;
 }
 .hamburger.open span:nth-child(2) {
   opacity: 0;
@@ -259,7 +269,13 @@ html { scroll-behavior: smooth; }
 }
 .hamburger.open span:nth-child(3) {
   transform: translateY(-9.25px) rotate(-45deg);
-  background: var(--blue-accent);
+  background: #ffffff;
+}
+.hamburger.open:hover span:nth-child(1) {
+  transform: translateY(9.25px) rotate(45deg) scale(1.1);
+}
+.hamburger.open:hover span:nth-child(3) {
+  transform: translateY(-9.25px) rotate(-45deg) scale(1.1);
 }
 
 /* ═══ FULLSCREEN MENU OVERLAY — cascade from LEFT ═══ */
