@@ -126,8 +126,8 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ═══ HAMBURGER NAV — hamburger LEFT ═══ */}
-      <nav className={`fixed top-0 inset-x-0 z-[95] transition-all duration-500 ${scrolled?"py-4 backdrop-blur-2xl border-b":"py-6"}`} style={{background:scrolled?"rgba(26,10,46,0.88)":"transparent",borderColor:scrolled?"rgba(200,80,255,0.08)":"transparent"}}>
+      {/* ═══ HAMBURGER NAV — only visible at top ═══ */}
+      <nav className={`fixed top-0 inset-x-0 z-[95] transition-all duration-500 ${scrolled?"opacity-0 pointer-events-none -translate-y-full":"opacity-100 py-6"}`}>
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 flex items-center justify-between">
           {/* LEFT: Hamburger only */}
           <button
