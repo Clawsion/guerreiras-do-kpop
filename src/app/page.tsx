@@ -45,6 +45,7 @@ function Rv({ children, delay = 0, className = "" }: { children: React.ReactNode
 
 function Countdown() {
   const [t, setT] = useState({ d: 0, h: 0, m: 0, s: 0 });
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
     const tick = () => {
       const diff = EVENT.getTime() - Date.now();
@@ -52,6 +53,7 @@ function Countdown() {
       setT({ d: Math.floor(diff/864e5), h: Math.floor((diff/36e5)%24), m: Math.floor((diff/6e4)%60), s: Math.floor((diff/1e3)%60) });
     };
     tick();
+    setMounted(true);
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
@@ -59,8 +61,8 @@ function Countdown() {
     <div className="flex gap-5 sm:gap-8 justify-center">
       {[{v:t.d,l:"Dias"},{v:t.h,l:"Horas"},{v:t.m,l:"Min"},{v:t.s,l:"Seg"}].map(u=>(
         <div key={u.l} className="flex flex-col items-center">
-          <span className="text-3xl sm:text-5xl font-extralight tabular-nums tracking-tight" style={{color:"var(--t1)"}}>
-            {String(u.v).padStart(2,"0")}
+          <span className="text-3xl sm:text-5xl font-extralight tabular-nums tracking-tight" style={{color:"var(--t1)"}} suppressHydrationWarning>
+            {mounted ? String(u.v).padStart(2,"0") : "\u2013\u2013"}
           </span>
           <span className="sec-num mt-1.5">{u.l}</span>
         </div>
