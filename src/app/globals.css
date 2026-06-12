@@ -59,16 +59,16 @@
   --purple-mid: #9333EA;
   --purple-light: #DA98FF;
 
-  /* ═══ BLUE — accent from logo ═══ */
-  --blue-accent: #4A90E2;
-  --blue-light: #6BA8F0;
-  --blue-dim: #2E5FA0;
+  /* ═══ BLUE — soft accent from logo (blue + white) ═══ */
+  --blue-accent: #B1D5F0;
+  --blue-light: #C5E2F8;
+  --blue-dim: #8AB8D8;
 
-  /* ═══ GOLD — keep yellow ═══ */
-  --gold: #FFD700;
-  --gold-light: #FFE44D;
-  --gold-dim: #B8A000;
-  --gold-glow: #FFEC80;
+  /* ═══ GOLD — soft yellow from circle (yellow + white) ═══ */
+  --gold: #FFF5A4;
+  --gold-light: #FFFAC8;
+  --gold-dim: #E0D880;
+  --gold-glow: #FFFACC;
 
   /* ═══ PINK — from poster ═══ */
   --pink-kpop: #FF2D78;
@@ -307,7 +307,7 @@ html { scroll-behavior: smooth; }
   font-size: 10px;
   letter-spacing: 0.25em;
   font-family: var(--font-geist-mono);
-  color: var(--blue-dim);
+  color: var(--gold-dim);
   font-weight: 400;
   margin-top: 2px;
 }
