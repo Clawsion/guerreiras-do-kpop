@@ -126,8 +126,8 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ═══ HAMBURGER NAV — only visible at top ═══ */}
-      <nav className={`fixed top-0 inset-x-0 z-[95] transition-all duration-500 ${scrolled?"opacity-0 pointer-events-none -translate-y-full":"opacity-100 py-6"}`}>
+      {/* ═══ HAMBURGER NAV — fixed, transparent on hero, glass on scroll ═══ */}
+      <nav className={`fixed top-0 inset-x-0 z-[95] transition-all duration-500 ${scrolled?"py-4 backdrop-blur-2xl border-b":"py-6"}`} style={{background:scrolled?"rgba(26,10,46,0.92)":"transparent",borderColor:scrolled?"rgba(200,80,255,0.08)":"transparent"}}>
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 flex items-center justify-between">
           {/* LEFT: Hamburger only */}
           <button
@@ -185,7 +185,7 @@ export default function HomePage() {
         <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
       </div>
 
-      {/* ═══ HERO — FULL SCREEN + NEON PRESET ═══ */}
+      {/* ═══ HERO — FULL SCREEN ═══ */}
       <section className="hero-section" style={{background:"var(--void)"}}>
         {/* Background image — full bleed */}
         <img
@@ -514,7 +514,7 @@ export default function HomePage() {
       </footer>
 
       {/* ═══ MOBILE STICKY CTA ═══ */}
-      <div className="fixed bottom-0 inset-x-0 z-40 sm:hidden p-3 backdrop-blur-2xl border-t" style={{background:"rgba(26,10,46,0.92)",borderColor:"rgba(200,80,255,0.08)"}}>
+      <div className={`fixed bottom-0 inset-x-0 z-40 sm:hidden p-3 backdrop-blur-2xl border-t transition-opacity duration-300 ${scrolled?"":"opacity-0 pointer-events-none"}`} style={{background:"rgba(26,10,46,0.92)",borderColor:"rgba(200,80,255,0.08)"}}>
         <a href={TL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase" style={{background:"var(--neon-purple)",color:"#fff"}}>
           <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
         </a>
