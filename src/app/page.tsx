@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import {
-  Ticket, MapPin, Clock, Menu, X, Instagram, Youtube, Music2,
+  Ticket, MapPin, Clock, Instagram, Youtube, Music2,
   ExternalLink, Send, ChevronRight, ArrowUpRight, Phone, Mail, Facebook,
 } from "lucide-react";
 import {
@@ -103,6 +103,20 @@ export default function HomePage() {
     return () => clearTimeout(t);
   }, []);
 
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
+  const navLinks = [
+    { l: "Espetáculo", h: "#espetaculo" },
+    { l: "Lineup", h: "#lineup" },
+    { l: "Bilhetes", h: "#bilhetes" },
+    { l: "Local", h: "#local" },
+    { l: "FAQ", h: "#faq" },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col" style={{background:"var(--deep)"}}>
 
@@ -113,77 +127,114 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ═══ NAV ═══ */}
-      <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled?"py-3 backdrop-blur-2xl border-b":"py-5"}`} style={{background:scrolled?"rgba(4,1,10,0.88)":"transparent",borderColor:scrolled?"rgba(201,168,76,0.06)":"transparent"}}>
+      {/* ═══ HAMBURGER NAV ═══ */}
+      <nav className={`fixed top-0 inset-x-0 z-[95] transition-all duration-500 ${scrolled?"py-4 backdrop-blur-2xl border-b":"py-6"}`} style={{background:scrolled?"rgba(4,1,10,0.88)":"transparent",borderColor:scrolled?"rgba(201,168,76,0.06)":"transparent"}}>
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-3 group">
+          {/* Logo */}
+          <a href="#" className="flex items-center gap-3 group" onClick={()=>setMenuOpen(false)}>
             <div className="w-9 h-9 flex items-center justify-center transition-shadow group-hover:shadow-lg" style={{background:"var(--gold)",boxShadow:"0 0 20px rgba(201,168,76,0.15)"}}>
               <span className="text-[10px] font-black" style={{color:"var(--void)"}}>GK</span>
             </div>
             <span className="text-[12px] font-semibold tracking-[0.14em] hidden sm:block" style={{color:"var(--t2)"}}>GUERREIRAS DO K-POP</span>
           </a>
-          <div className="hidden md:flex items-center gap-8">
-            {[{l:"Espetáculo",h:"#espetaculo"},{l:"Lineup",h:"#lineup"},{l:"Bilhetes",h:"#bilhetes"},{l:"Local",h:"#local"},{l:"FAQ",h:"#faq"}].map(n=>(
-              <a key={n.l} href={n.h} className="text-[11px] tracking-[0.22em] uppercase transition-colors duration-300" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.target as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.target as HTMLElement).style.color="var(--t3)"}}>{n.l}</a>
-            ))}
-          </div>
-          <div className="flex items-center gap-4">
+          {/* Right side: Ticketline + Hamburger */}
+          <div className="flex items-center gap-6">
             <a href={TL} target="_blank" rel="noopener noreferrer" className="hidden sm:inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase font-semibold px-5 py-2.5 border transition-all duration-400" style={{borderColor:"var(--gold)",color:"var(--gold)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--gold)";(e.currentTarget as HTMLElement).style.color="var(--void)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--gold)"}}>
               <Ticket className="w-3.5 h-3.5"/> Ticketline
             </a>
-            <button onClick={()=>setMenuOpen(!menuOpen)} className="md:hidden" style={{color:"var(--t1)"}} aria-label="Menu">
-              {menuOpen?<X className="w-5 h-5"/>:<Menu className="w-5 h-5"/>}
+            <button
+              onClick={()=>setMenuOpen(!menuOpen)}
+              className="hamburger"
+              aria-label="Menu"
+            >
+              <span />
+              <span />
+              <span />
             </button>
           </div>
         </div>
-        {menuOpen && (
-          <div className="md:hidden px-5 py-5 space-y-1 border-t" style={{background:"var(--void)",borderColor:"rgba(201,168,76,0.06)"}}>
-            {[{l:"Espetáculo",h:"#espetaculo"},{l:"Lineup",h:"#lineup"},{l:"Bilhetes",h:"#bilhetes"},{l:"Local",h:"#local"},{l:"FAQ",h:"#faq"}].map(n=>(
-              <a key={n.l} href={n.h} onClick={()=>setMenuOpen(false)} className="block px-4 py-3 text-sm transition-colors" style={{color:"var(--t2)"}}>{n.l}</a>
-            ))}
-            <a href={TL} target="_blank" rel="noopener noreferrer" className="block text-center border px-4 py-3 mt-3 text-sm font-semibold" style={{borderColor:"var(--gold)",color:"var(--gold)"}}>Comprar Bilhetes</a>
-          </div>
-        )}
       </nav>
 
-      {/* ═══ HERO ═══ */}
-      <section className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img src="/poster.png" alt="" className="w-full h-full object-cover object-top cin" style={{filter:"brightness(0.35) contrast(1.15) saturate(0.65)"}}/>
-          <div className="hero-vignette absolute inset-0"/>
+      {/* ═══ FULLSCREEN MENU OVERLAY ═══ */}
+      <div className={`menu-overlay ${menuOpen?"open":""}`}>
+        <div className="flex flex-col gap-2 sm:gap-3 mb-16">
+          {navLinks.map((n, i) => (
+            <a
+              key={n.l}
+              href={n.h}
+              onClick={()=>setMenuOpen(false)}
+              className="menu-link"
+              style={{ transitionDelay: menuOpen ? `${i * 80 + 100}ms` : "0ms" }}
+            >
+              <span className="link-num">0{i+1}</span>
+              {n.l}
+            </a>
+          ))}
         </div>
-        <div className="relative z-10 text-center px-5 max-w-5xl mx-auto">
+        {/* Menu CTA */}
+        <div style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(-20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
+          <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold transition-all duration-400" style={{background:"var(--gold)",color:"var(--void)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.boxShadow="0 0 40px rgba(201,168,76,0.3)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.boxShadow="none"}}>
+            <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
+          </a>
+        </div>
+        {/* Menu Footer */}
+        <div className="absolute bottom-8 left-8 sm:left-12 flex gap-6" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 350}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(-20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+            <Instagram className="w-5 h-5"/>
+          </a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+            <Facebook className="w-5 h-5"/>
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+            <Youtube className="w-5 h-5"/>
+          </a>
+          <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+            <Music2 className="w-5 h-5"/>
+          </a>
+        </div>
+        {/* Decorative circle in menu */}
+        <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(123,47,154,0.08)"}}/>
+      </div>
+
+      {/* ═══ HERO — POSTER CENTERED ═══ */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden" style={{background:"var(--void)"}}>
+        {/* Subtle background gradient */}
+        <div className="absolute inset-0" style={{background:"radial-gradient(ellipse at 50% 50%, rgba(123,47,154,0.08) 0%, transparent 60%)"}}/>
+
+        {/* Decorative circles */}
+        <div className="hero-circle" style={{width:"600px",height:"600px",left:"50%",top:"50%",transform:"translate(-50%,-50%)",borderColor:"rgba(201,168,76,0.04)"}}/>
+        <div className="hero-circle" style={{width:"450px",height:"450px",left:"50%",top:"50%",transform:"translate(-50%,-50%)",borderColor:"rgba(74,144,226,0.05)"}}/>
+
+        {/* Poster */}
+        <div className="hero-poster-frame relative z-10">
+          <div className="hero-poster-glow"/>
           <Rv>
-            <p className="text-[10px] tracking-[0.35em] font-medium uppercase mb-8" style={{color:"var(--gold)"}}>
-              Tributo Musical em Tour — Cascais 2026
-            </p>
-          </Rv>
-          <Rv delay={120}>
-            <h1 className="leading-[0.85] tracking-[-0.05em] mb-3">
-              <span className="block text-[clamp(3rem,12vw,10rem)] font-extralight" style={{color:"var(--blue-title)",textShadow:"0 0 60px rgba(74,144,226,0.15)"}}>GUERREIRAS</span>
-              <span className="block text-[clamp(3rem,12vw,10rem)] font-extralight gold-shimmer">DO K-POP</span>
-            </h1>
-          </Rv>
-          <Rv delay={250}>
-            <p className="text-[15px] sm:text-lg font-light leading-relaxed max-w-lg mx-auto mb-10" style={{color:"var(--t2)"}}>
-              Um concerto de tributo musical inspirado em <span style={{color:"var(--pink-kpop)"}} className="font-medium">K-Pop Demon Hunters</span> da Netflix.
-            </p>
-          </Rv>
-          <Rv delay={380}>
-            <div className="mb-10"><Countdown/></div>
-          </Rv>
-          <Rv delay={480}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold transition-all duration-400" style={{background:"var(--gold)",color:"var(--void)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.boxShadow="0 0 40px rgba(201,168,76,0.3)";(e.currentTarget as HTMLElement).style.background="var(--gold-light)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.boxShadow="none";(e.currentTarget as HTMLElement).style.background="var(--gold)"}}>
-                <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
-              </a>
-              <a href="#espetaculo" className="inline-flex items-center gap-2 px-8 py-4 text-[11px] tracking-[0.2em] uppercase font-medium border transition-all duration-300" style={{borderColor:"rgba(201,168,76,0.2)",color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.borderColor="var(--gold)";(e.currentTarget as HTMLElement).style.color="var(--gold)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.borderColor="rgba(201,168,76,0.2)";(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
-                Descobrir Mais <ChevronRight className="w-3.5 h-3.5"/>
-              </a>
-            </div>
+            <img
+              src="/poster.png"
+              alt="Guerreiras do K-Pop — Cartaz Oficial"
+              className="hero-poster-img"
+              style={{
+                maxHeight: "72vh",
+                maxWidth: "85vw",
+              }}
+            />
           </Rv>
         </div>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2"><div className="scroll-line"/></div>
+
+        {/* Small tagline below poster */}
+        <Rv delay={200}>
+          <p className="text-[10px] tracking-[0.35em] font-medium uppercase mt-8 text-center relative z-10" style={{color:"var(--gold-dim)"}}>
+            18 Jul 2026 · Academia das Artes, Estoril
+          </p>
+        </Rv>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+          <div className="scroll-line"/>
+        </div>
+
+        {/* Bottom fade to next section */}
+        <div className="absolute bottom-0 inset-x-0 h-32 z-10" style={{background:"linear-gradient(to top, var(--deep), transparent)"}}/>
       </section>
 
       {/* ═══ INFO STRIP ═══ */}
@@ -204,7 +255,6 @@ export default function HomePage() {
       <section id="espetaculo" className="py-24 sm:py-40 px-5 sm:px-10">
         <div className="max-w-[1400px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
-            {/* Left — Text */}
             <div className="lg:col-span-6">
               <Rv>
                 <p className="sec-num mb-4">01 — O Espetáculo</p>
@@ -237,7 +287,6 @@ export default function HomePage() {
                 </a>
               </Rv>
             </div>
-            {/* Right — Poster */}
             <div className="lg:col-span-6 flex items-center">
               <Rv delay={200}>
                 <div className="glass-gold p-5 sm:p-7 w-full">
