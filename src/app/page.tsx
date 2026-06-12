@@ -129,24 +129,16 @@ export default function HomePage() {
       {/* ═══ HAMBURGER NAV — hamburger LEFT ═══ */}
       <nav className={`fixed top-0 inset-x-0 z-[95] transition-all duration-500 ${scrolled?"py-4 backdrop-blur-2xl border-b":"py-6"}`} style={{background:scrolled?"rgba(26,10,46,0.88)":"transparent",borderColor:scrolled?"rgba(200,80,255,0.08)":"transparent"}}>
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 flex items-center justify-between">
-          {/* LEFT: Hamburger + Logo */}
-          <div className="flex items-center gap-5">
-            <button
-              onClick={()=>setMenuOpen(!menuOpen)}
-              className={`hamburger ${menuOpen?"open":""}`}
-              aria-label="Menu"
-            >
-              <span />
-              <span />
-              <span />
-            </button>
-            <a href="#" className="flex items-center gap-3 group" onClick={()=>setMenuOpen(false)}>
-              <div className="w-9 h-9 flex items-center justify-center transition-shadow group-hover:shadow-lg" style={{background:"var(--neon-purple)",boxShadow:"0 0 20px rgba(200,80,255,0.25)"}}>
-                <span className="text-[10px] font-black" style={{color:"#fff"}}>GK</span>
-              </div>
-              <span className="text-[12px] font-semibold tracking-[0.14em] hidden sm:block" style={{color:"var(--t2)"}}>GUERREIRAS DO K-POP</span>
-            </a>
-          </div>
+          {/* LEFT: Hamburger only */}
+          <button
+            onClick={()=>setMenuOpen(!menuOpen)}
+            className={`hamburger ${menuOpen?"open":""}`}
+            aria-label="Menu"
+          >
+            <span />
+            <span />
+            <span />
+          </button>
           {/* RIGHT: empty space to balance */}
           <div className="w-9"/>
         </div>

@@ -251,7 +251,7 @@ html { scroll-behavior: smooth; }
 }
 .hamburger.open span:nth-child(1) {
   transform: translateY(9.25px) rotate(45deg);
-  background: var(--neon-purple);
+  background: var(--blue-accent);
 }
 .hamburger.open span:nth-child(2) {
   opacity: 0;
@@ -259,7 +259,7 @@ html { scroll-behavior: smooth; }
 }
 .hamburger.open span:nth-child(3) {
   transform: translateY(-9.25px) rotate(-45deg);
-  background: var(--neon-purple);
+  background: var(--blue-accent);
 }
 
 /* ═══ FULLSCREEN MENU OVERLAY — cascade from LEFT ═══ */
@@ -288,7 +288,7 @@ html { scroll-behavior: smooth; }
   font-size: clamp(2rem, 6vw, 4.5rem);
   font-weight: 200;
   letter-spacing: -0.03em;
-  color: var(--t3);
+  color: var(--blue-accent);
   line-height: 1.2;
   transition: color 0.3s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   transform: translateX(-40px);
@@ -305,7 +305,7 @@ html { scroll-behavior: smooth; }
   font-size: 10px;
   letter-spacing: 0.25em;
   font-family: var(--font-geist-mono);
-  color: var(--purple-mid);
+  color: var(--blue-dim);
   font-weight: 400;
   margin-top: 2px;
 }
