@@ -146,18 +146,18 @@ export default function HomePage() {
 
         {/* Floating particles */}
         <div className="hero-particles">
-          {[12,38,65,82,5,55,28,72,45,90,18,60,35,78,8,50,68,22].map((left, i) => (
+          {[12,45,72,28,60,85,38,55].map((left, i) => (
             <div
               key={i}
               className="hero-particle"
               style={{
                 left: `${left}%`,
                 bottom: `${-5 - (i * 3) % 10}%`,
-                animationDuration: `${8 + (i * 7) % 12}s`,
-                animationDelay: `${(i * 4) % 10}s`,
+                animationDuration: `${10 + (i * 5) % 10}s`,
+                animationDelay: `${(i * 3) % 8}s`,
                 width: `${1 + (i % 3)}px`,
                 height: `${1 + (i % 3)}px`,
-                background: i % 3 === 0 ? "rgba(200,80,255,0.5)" : i % 3 === 1 ? "rgba(74,144,226,0.4)" : "rgba(255,215,0,0.3)",
+                background: i % 3 === 0 ? "rgba(200,80,255,0.5)" : i % 3 === 1 ? "rgba(177,213,240,0.4)" : "rgba(255,245,164,0.3)",
               }}
             />
           ))}
@@ -249,19 +249,34 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ INFO STRIP ═══ */}
-      <Rv>
-        <div className="py-4 px-5 flex flex-wrap items-center justify-center gap-6 sm:gap-14 border-b" style={{borderColor:"rgba(200,80,255,0.08)",background:"var(--surface)"}}>
-          {[{i:<Clock className="w-3.5 h-3.5"/>,t:"18 JUL 2026 · 18:30H"},{i:<MapPin className="w-3.5 h-3.5"/>,t:"ACADEMIA DAS ARTES, ESTORIL"},{i:<Ticket className="w-3.5 h-3.5"/>,t:"BILHETES DESDE 25€"}].map(x=>(
-            <div key={x.t} className="flex items-center gap-2">
-              <span style={{color:"var(--neon-purple)"}}>{x.i}</span>
-              <span className="text-[10px] tracking-[0.2em] font-medium" style={{color:"var(--t2)"}}>{x.t}</span>
-            </div>
-          ))}
-        </div>
-      </Rv>
+      {/* ═══ MANIFESTO — LED WALL TUNNEL ═══ */}
+      <section className="manifesto-section" style={{background:"var(--void)"}}>
+        {/* Ambient glow behind LED wall */}
+        <div className="manifesto-glow"/>
 
-      <Marquee text="GUERREIRAS DO K-POP · DEMON HUNTERS · TRIBUTO AO VIVO · CASCAIS 2026"/>
+        {/* LED Wall frame */}
+        <div className="led-wall-frame">
+          {/* LED Wall screen */}
+          <div className="led-wall-screen">
+            {/* Tunnel animations — cycling backgrounds */}
+            <div className="tunnel-layer tunnel-1"/>
+            <div className="tunnel-layer tunnel-2"/>
+            <div className="tunnel-layer tunnel-3"/>
+            <div className="tunnel-layer tunnel-4"/>
+            <div className="tunnel-layer tunnel-5"/>
+
+            {/* Scanlines overlay for realism */}
+            <div className="led-scanlines"/>
+
+            {/* LED pixel grid overlay */}
+            <div className="led-pixel-grid"/>
+          </div>
+
+          {/* LED frame bezel */}
+          <div className="led-frame-top"/>
+          <div className="led-frame-bottom"/>
+        </div>
+      </section>
 
       {/* ═══ ESPETÁCULO ═══ */}
       <section id="espetaculo" className="py-24 sm:py-40 px-5 sm:px-10">

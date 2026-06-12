@@ -325,6 +325,224 @@ html { scroll-behavior: smooth; }
   margin-top: 2px;
 }
 
+/* ═══ MANIFESTO — LED WALL TUNNEL ═══ */
+.manifesto-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 4rem 1.5rem;
+}
+.manifesto-glow {
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(200,80,255,0.08) 0%, transparent 60%);
+  pointer-events: none;
+  animation: manifestoGlowPulse 8s ease-in-out infinite alternate;
+}
+@keyframes manifestoGlowPulse {
+  0% { opacity: 0.5; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1.05); }
+}
+
+.led-wall-frame {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow:
+    0 0 80px rgba(200,80,255,0.15),
+    0 0 160px rgba(200,80,255,0.05),
+    0 20px 60px rgba(11,8,19,0.8);
+}
+.led-wall-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #050208;
+  border-radius: 4px;
+}
+
+/* ═══ Tunnel layers — each cycles opacity for seamless transitions ═══ */
+.tunnel-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+/* Tunnel 1: Purple ring vortex */
+.tunnel-1 {
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(200,80,255,0.12) 0deg,
+    rgba(11,8,19,0.95) 3deg,
+    rgba(200,80,255,0.08) 6deg
+  );
+  animation: tunnelSpin1 6s linear infinite, tunnelFade1 25s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+@keyframes tunnelSpin1 {
+  from { transform: rotate(0deg) scale(1.8); }
+  to { transform: rotate(360deg) scale(1.8); }
+}
+@keyframes tunnelFade1 {
+  0%, 15% { opacity: 1; }
+  18%, 35% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* Tunnel 2: Blue depth rings */
+.tunnel-2 {
+  background: repeating-radial-gradient(
+    circle at 50% 50%,
+    rgba(177,213,240,0.15) 0px,
+    rgba(11,8,19,0.9) 20px,
+    rgba(138,184,216,0.1) 40px,
+    rgba(11,8,19,0.95) 60px
+  );
+  animation: tunnelPulse2 4s ease-in-out infinite, tunnelFade2 25s ease-in-out infinite;
+  animation-delay: 0s, 5s;
+}
+@keyframes tunnelPulse2 {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+@keyframes tunnelFade2 {
+  0%, 15% { opacity: 0; }
+  18%, 35% { opacity: 1; }
+  38%, 55% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* Tunnel 3: Gold energy flow */
+.tunnel-3 {
+  background: repeating-conic-gradient(
+    from 45deg,
+    rgba(255,245,164,0.1) 0deg,
+    rgba(11,8,19,0.95) 5deg,
+    rgba(224,216,128,0.08) 10deg
+  );
+  animation: tunnelSpin3 8s linear infinite reverse, tunnelFade3 25s ease-in-out infinite;
+  animation-delay: 0s, 10s;
+  mix-blend-mode: screen;
+}
+@keyframes tunnelSpin3 {
+  from { transform: rotate(0deg) scale(2); }
+  to { transform: rotate(-360deg) scale(2); }
+}
+@keyframes tunnelFade3 {
+  0%, 35% { opacity: 0; }
+  38%, 55% { opacity: 1; }
+  58%, 75% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* Tunnel 4: Pink neon wave */
+.tunnel-4 {
+  background: repeating-radial-gradient(
+    circle at 50% 50%,
+    rgba(255,45,120,0.12) 0px,
+    rgba(11,8,19,0.92) 25px,
+    rgba(255,107,160,0.08) 50px,
+    rgba(11,8,19,0.97) 75px
+  );
+  animation: tunnelPulse4 3s ease-in-out infinite, tunnelFade4 25s ease-in-out infinite;
+  animation-delay: 0s, 15s;
+  mix-blend-mode: screen;
+}
+@keyframes tunnelPulse4 {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.5); }
+  100% { transform: scale(0.8); }
+}
+@keyframes tunnelFade4 {
+  0%, 55% { opacity: 0; }
+  58%, 75% { opacity: 1; }
+  78%, 95% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* Tunnel 5: Combined warp speed */
+.tunnel-5 {
+  background:
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      rgba(200,80,255,0.1) 0px,
+      transparent 15px,
+      rgba(177,213,240,0.08) 30px,
+      transparent 45px,
+      rgba(255,245,164,0.06) 60px,
+      transparent 75px
+    );
+  animation: tunnelWarp5 5s linear infinite, tunnelFade5 25s ease-in-out infinite;
+  animation-delay: 0s, 20s;
+  mix-blend-mode: screen;
+}
+@keyframes tunnelWarp5 {
+  from { transform: scale(0.5) rotate(0deg); }
+  to { transform: scale(2.5) rotate(180deg); }
+}
+@keyframes tunnelFade5 {
+  0%, 75% { opacity: 0; }
+  78%, 95% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ═══ Scanlines — realistic CRT/LED effect ═══ */
+.led-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(11,8,19,0.15) 2px,
+    rgba(11,8,19,0.15) 4px
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ═══ LED pixel grid ═══ */
+.led-pixel-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(11,8,19,0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11,8,19,0.2) 1px, transparent 1px);
+  background-size: 6px 6px;
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* ═══ LED frame bezels ═══ */
+.led-frame-top, .led-frame-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(90deg, #0a0515, #1a0e2e, #0a0515);
+  z-index: 7;
+}
+.led-frame-top {
+  top: 0;
+  border-bottom: 1px solid rgba(200,80,255,0.1);
+}
+.led-frame-bottom {
+  bottom: 0;
+  border-top: 1px solid rgba(200,80,255,0.1);
+}
+
 /* ═══ HERO — FULL SCREEN ═══ */
 .hero-section {
   position: relative;
@@ -335,6 +553,7 @@ html { scroll-behavior: smooth; }
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  contain: layout style;
 }
 
 .hero-bg-img {
@@ -503,8 +722,10 @@ html { scroll-behavior: smooth; }
 .hero-glow-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(100px);
+  filter: blur(80px);
   pointer-events: none;
+  will-change: transform, opacity;
+  contain: layout style;
   animation: orbFloat 10s ease-in-out infinite alternate;
 }
 @keyframes orbFloat {
