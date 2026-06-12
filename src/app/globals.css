@@ -325,6 +325,28 @@ html { scroll-behavior: smooth; }
   margin-top: 2px;
 }
 
+
+/* ═══ Dynamic LED ambient — color synced with canvas ═══ */
+.led-ambient-sync {
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 2s;
+  background: radial-gradient(ellipse at 50% 50%,
+    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.1) 0%,
+    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.03) 30%,
+    transparent 60%);
+}
+.manifesto-in .led-ambient-sync {
+  opacity: 1;
+  animation: ledAmbientPulse 6s ease-in-out infinite alternate;
+}
+@keyframes ledAmbientPulse {
+  0% { opacity: 0.5; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1.05); }
+}
 /* ═══ MANIFESTO — LED WALL TUNNEL ═══ */
 .manifesto-section {
   position: relative;
@@ -525,33 +547,20 @@ html { scroll-behavior: smooth; }
   border-radius: 2px;
   contain: strict;
 }
-/* Tunnels are hidden until power-on */
-.tunnel-layer {
+
+/* ═══ LED Canvas — real-time neon tunnel animation ═══ */
+.led-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0;
-  animation: none;
-  will-change: transform, opacity;
-  contain: layout style;
+  display: block;
 }
+
+/* Tunnels are hidden until power-on */
+
 /* When manifesto is in view, tunnels start their animations with delay for suspense */
-.manifesto-in .tunnel-1 {
-  animation: tunnelSpin1 5s linear infinite, tunnelFade1 24s ease-in-out infinite;
-}
-.manifesto-in .tunnel-2 {
-  animation: tunnelPulse2 3.5s ease-in-out infinite, tunnelFade2 24s ease-in-out infinite;
-  animation-delay: 0s, 6s;
-}
-.manifesto-in .tunnel-3 {
-  animation: tunnelSpin3 7s linear infinite reverse, tunnelFade3 24s ease-in-out infinite;
-  animation-delay: 0s, 12s;
-}
-.manifesto-in .tunnel-4 {
-  animation: tunnelWarp4 4s linear infinite, tunnelFade4 24s ease-in-out infinite;
-  animation-delay: 0s, 18s;
-}
+
 
 /* LED power flash — enhanced with suspense timing */
 .led-power-flash {
@@ -609,23 +618,49 @@ html { scroll-behavior: smooth; }
 .monitor-glow-left {
   left: 0;
   background: radial-gradient(ellipse at 100% 50%,
-    rgba(200,80,255,0.14) 0%,
-    rgba(177,213,240,0.07) 15%,
-    rgba(255,245,164,0.03) 30%,
-    transparent 50%);
+    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.2) 0%,
+    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.08) 12%,
+    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.03) 25%,
+    transparent 45%);
+  transition: background 0.2s;
 }
 .monitor-glow-right {
   right: 0;
   background: radial-gradient(ellipse at 0% 50%,
-    rgba(200,80,255,0.14) 0%,
-    rgba(177,213,240,0.07) 15%,
-    rgba(255,245,164,0.03) 30%,
-    transparent 50%);
+    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.2) 0%,
+    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.08) 12%,
+    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.03) 25%,
+    transparent 45%);
+  transition: background 0.2s;
 }
 @keyframes monitorGlowPulse {
   0% { opacity: 0.5; transform: scaleX(0.96); }
   100% { opacity: 1; transform: scaleX(1.04); }
 }
+/* ═══ Synchronized LED color reflection on temple ═══ */
+.manifesto-in .pillar-shaft {
+  box-shadow: inset 0 0 25px rgba(11,8,19,0.5),
+    inset 2px 0 8px rgba(255,245,164,0.05),
+    inset -2px 0 8px rgba(255,245,164,0.05),
+    0 0 20px rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.1);
+  transition: box-shadow 0.3s;
+}
+.manifesto-in .temple-base-step {
+  box-shadow: 0 4px 12px rgba(11,8,19,0.6),
+    0 -3px 18px rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.06);
+  transition: box-shadow 0.3s;
+}
+.manifesto-in .temple-roof-cornice {
+  box-shadow: 0 6px 20px rgba(11,8,19,0.8),
+    inset 0 1px 0 rgba(255,245,164,0.08),
+    0 10px 30px rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.08);
+  transition: box-shadow 0.3s;
+}
+.manifesto-in .temple-base {
+  box-shadow: 0 8px 25px rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.1),
+    0 20px 50px rgba(11,8,19,0.8);
+}
+
 
 /* temple-frame styles defined above with power-on animation */
 
@@ -836,102 +871,6 @@ html { scroll-behavior: smooth; }
   contain: strict;
 }
 
-
-/* ═══ Tunnel backgrounds (animations triggered by .manifesto-in) ═══ */
-
-/* Tunnel 1: Purple-Blue ring vortex */
-.tunnel-1 {
-  background: repeating-conic-gradient(
-    from 0deg,
-    rgba(200,80,255,0.24) 0deg,
-    rgba(11,8,19,0.85) 2deg,
-    rgba(177,213,240,0.16) 4deg,
-    rgba(11,8,19,0.9) 6deg,
-    rgba(200,80,255,0.12) 8deg,
-    rgba(11,8,19,0.92) 10deg
-  );
-  mix-blend-mode: screen;
-}
-@keyframes tunnelSpin1 {
-  from { transform: rotate(0deg) scale(1.8); }
-  to { transform: rotate(360deg) scale(1.8); }
-}
-@keyframes tunnelFade1 {
-  0%, 18% { opacity: 1; }
-  22%, 100% { opacity: 0; }
-}
-
-/* Tunnel 2: Multi-color depth rings */
-.tunnel-2 {
-  background: repeating-radial-gradient(
-    circle at 50% 50%,
-    rgba(200,80,255,0.2) 0px,
-    rgba(11,8,19,0.88) 18px,
-    rgba(177,213,240,0.15) 36px,
-    rgba(11,8,19,0.92) 54px,
-    rgba(255,245,164,0.1) 72px,
-    rgba(11,8,19,0.95) 90px
-  );
-}
-@keyframes tunnelPulse2 {
-  0% { transform: scale(0.9); }
-  50% { transform: scale(1.4); }
-  100% { transform: scale(0.9); }
-}
-@keyframes tunnelFade2 {
-  0%, 18% { opacity: 0; }
-  22%, 43% { opacity: 1; }
-  47%, 100% { opacity: 0; }
-}
-
-/* Tunnel 3: Gold-Pink energy spiral */
-.tunnel-3 {
-  background: repeating-conic-gradient(
-    from 30deg,
-    rgba(255,245,164,0.2) 0deg,
-    rgba(11,8,19,0.88) 3deg,
-    rgba(255,45,120,0.14) 6deg,
-    rgba(11,8,19,0.92) 9deg,
-    rgba(255,245,164,0.1) 12deg,
-    rgba(11,8,19,0.9) 15deg
-  );
-  mix-blend-mode: screen;
-}
-@keyframes tunnelSpin3 {
-  from { transform: rotate(0deg) scale(2.2); }
-  to { transform: rotate(-360deg) scale(2.2); }
-}
-@keyframes tunnelFade3 {
-  0%, 43% { opacity: 0; }
-  47%, 68% { opacity: 1; }
-  72%, 100% { opacity: 0; }
-}
-
-/* Tunnel 4: Multi-color warp speed */
-.tunnel-4 {
-  background:
-    repeating-radial-gradient(
-      circle at 50% 50%,
-      rgba(200,80,255,0.18) 0px,
-      transparent 12px,
-      rgba(177,213,240,0.14) 24px,
-      transparent 36px,
-      rgba(255,245,164,0.1) 48px,
-      transparent 60px,
-      rgba(255,45,120,0.08) 72px,
-      transparent 84px
-    );
-  mix-blend-mode: screen;
-}
-@keyframes tunnelWarp4 {
-  from { transform: scale(0.4) rotate(0deg); }
-  to { transform: scale(2.8) rotate(180deg); }
-}
-@keyframes tunnelFade4 {
-  0%, 68% { opacity: 0; }
-  72%, 93% { opacity: 1; }
-  97%, 100% { opacity: 0; }
-}
 
 /* LED power-on flash now in suspense section above */
 

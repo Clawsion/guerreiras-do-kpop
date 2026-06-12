@@ -85,6 +85,196 @@ function Marquee({ text }: { text: string }) {
   );
 }
 
+/* ═══ LED WALL CANVAS — neon tunnel animation with sync reflections ═══ */
+
+function LedWallCanvas({ active }: { active: boolean }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rafRef = useRef(0);
+  const startedRef = useRef(false);
+  const timeRef = useRef(0);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const activeRef = useRef(false);
+
+  useEffect(() => {
+    activeRef.current = active;
+    if (active && !startedRef.current) {
+      const t = setTimeout(() => { startedRef.current = true; }, 1800);
+      return () => clearTimeout(t);
+    }
+  }, [active]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    sectionRef.current = canvas.closest(".manifesto-section") as HTMLElement;
+
+    const palettes = [
+      ["#C850FF","#FF2D78","#818CF8","#B1D5F0","#A855F7"],
+      ["#8B5CF6","#6366F1","#FF6BA0","#C850FF","#FFF5A4"],
+      ["#FF2D78","#F472B6","#C850FF","#6366F1","#B1D5F0"],
+      ["#6366F1","#818CF8","#B1D5F0","#C850FF","#FF2D78"],
+      ["#A855F7","#FFF5A4","#FF2D78","#8B5CF6","#6366F1"],
+    ];
+
+    const h2r = (h: string) => ({
+      r: parseInt(h.slice(1,3),16), g: parseInt(h.slice(3,5),16), b: parseInt(h.slice(5,7),16)
+    });
+    const mix = (a: number, b: number, t: number) => a + (b - a) * t;
+    const colAt = (t: number, off: number) => {
+      const pi = Math.floor(t * 0.04) % palettes.length;
+      const ni = (pi + 1) % palettes.length;
+      const ci = Math.floor(t * 0.12 + off) % 5;
+      const a = h2r(palettes[pi][ci]), b = h2r(palettes[ni][ci]);
+      const bt = (t * 0.04) % 1;
+      return { r: Math.round(mix(a.r,b.r,bt)), g: Math.round(mix(a.g,b.g,bt)), b: Math.round(mix(a.b,b.b,bt)) };
+    };
+
+    let lastSync = 0;
+
+    function resize() {
+      const r = canvas!.getBoundingClientRect();
+      canvas!.width = Math.floor(r.width);
+      canvas!.height = Math.floor(r.height);
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    function draw() {
+      const w = canvas!.width, h = canvas!.height;
+      const cx = w / 2, cy = h / 2;
+      const maxR = Math.sqrt(cx*cx + cy*cy);
+
+      if (!startedRef.current) {
+        ctx!.fillStyle = "#050208";
+        ctx!.fillRect(0,0,w,h);
+        if (activeRef.current && Math.random() < 0.03) {
+          ctx!.fillStyle = `rgba(200,80,255,${0.04 + Math.random()*0.1})`;
+          ctx!.fillRect(0,0,w,h);
+        }
+        rafRef.current = requestAnimationFrame(draw);
+        return;
+      }
+
+      const t = timeRef.current;
+      ctx!.fillStyle = "#050208";
+      ctx!.fillRect(0,0,w,h);
+
+      /* ── Primary tunnel: rings expanding outward ── */
+      const rings = 35, speed = t * 100, sp = maxR / rings;
+      for (let i = 0; i < rings; i++) {
+        const r = i * sp + (speed % sp);
+        if (r > maxR || r < 3) continue;
+        const p = r / maxR, a = 1 - p;
+        if (a < 0.01) continue;
+        const c = colAt(t, i * 0.6);
+
+        /* glow */
+        ctx!.beginPath(); ctx!.arc(cx,cy,r,0,Math.PI*2);
+        ctx!.strokeStyle = `rgba(${c.r},${c.g},${c.b},${a*0.16})`;
+        ctx!.lineWidth = 14 + a*20; ctx!.stroke();
+
+        /* ring */
+        ctx!.beginPath(); ctx!.arc(cx,cy,r,0,Math.PI*2);
+        ctx!.strokeStyle = `rgba(${c.r},${c.g},${c.b},${a*0.78})`;
+        ctx!.lineWidth = 1.5 + a*3.5; ctx!.stroke();
+      }
+
+      /* ── Secondary tunnel: rings contracting inward ── */
+      const rings2 = 18, speed2 = t * 60;
+      for (let i = 0; i < rings2; i++) {
+        const baseR = maxR - i * (maxR / rings2) - (speed2 % (maxR / rings2));
+        if (baseR < 3 || baseR > maxR) continue;
+        const p = baseR / maxR, a = (1 - p) * 0.35;
+        if (a < 0.01) continue;
+        const c = colAt(t + 5, i * 0.8 + 2);
+
+        ctx!.beginPath(); ctx!.arc(cx,cy,baseR,0,Math.PI*2);
+        ctx!.strokeStyle = `rgba(${c.r},${c.g},${c.b},${a*0.5})`;
+        ctx!.lineWidth = 1 + a*3; ctx!.stroke();
+      }
+
+      /* ── Rotating neon beams ── */
+      const beams = 6;
+      for (let i = 0; i < beams; i++) {
+        const ang = (i / beams) * Math.PI * 2 + t * 0.22;
+        const c = colAt(t, i * 1.3);
+        const oR = maxR * 0.75;
+        const grad = ctx!.createLinearGradient(
+          cx + Math.cos(ang)*15, cy + Math.sin(ang)*15,
+          cx + Math.cos(ang)*oR, cy + Math.sin(ang)*oR
+        );
+        grad.addColorStop(0, `rgba(${c.r},${c.g},${c.b},0.28)`);
+        grad.addColorStop(0.35, `rgba(${c.r},${c.g},${c.b},0.05)`);
+        grad.addColorStop(1, `rgba(${c.r},${c.g},${c.b},0)`);
+
+        ctx!.beginPath();
+        ctx!.moveTo(cx+Math.cos(ang-0.025)*15, cy+Math.sin(ang-0.025)*15);
+        ctx!.lineTo(cx+Math.cos(ang-0.06)*oR, cy+Math.sin(ang-0.06)*oR);
+        ctx!.lineTo(cx+Math.cos(ang+0.06)*oR, cy+Math.sin(ang+0.06)*oR);
+        ctx!.lineTo(cx+Math.cos(ang+0.025)*15, cy+Math.sin(ang+0.025)*15);
+        ctx!.closePath();
+        ctx!.fillStyle = grad; ctx!.fill();
+      }
+
+      /* ── Horizontal sweep line ── */
+      const sweepY = ((t * 40) % (h + 60)) - 30;
+      const dc = colAt(t, 0);
+      const sweepGrad = ctx!.createLinearGradient(0, sweepY - 25, 0, sweepY + 25);
+      sweepGrad.addColorStop(0, `rgba(${dc.r},${dc.g},${dc.b},0)`);
+      sweepGrad.addColorStop(0.5, `rgba(${dc.r},${dc.g},${dc.b},0.08)`);
+      sweepGrad.addColorStop(1, `rgba(${dc.r},${dc.g},${dc.b},0)`);
+      ctx!.fillStyle = sweepGrad;
+      ctx!.fillRect(0, sweepY - 25, w, 50);
+
+      /* ── Center bloom ── */
+      const cg = ctx!.createRadialGradient(cx,cy,0,cx,cy,maxR*0.28);
+      cg.addColorStop(0, `rgba(${dc.r},${dc.g},${dc.b},0.14)`);
+      cg.addColorStop(0.5, `rgba(${dc.r},${dc.g},${dc.b},0.03)`);
+      cg.addColorStop(1, "transparent");
+      ctx!.fillStyle = cg; ctx!.fillRect(0,0,w,h);
+
+      /* ── Pulse flash ── */
+      const pt = t % 6;
+      if (pt < 0.25) {
+        const pa = Math.sin(pt/0.25*Math.PI)*0.12;
+        ctx!.fillStyle = `rgba(${dc.r},${dc.g},${dc.b},${pa})`;
+        ctx!.fillRect(0,0,w,h);
+      }
+
+      /* ── Second offset pulse ── */
+      const pt2 = (t+3) % 6;
+      if (pt2 < 0.18) {
+        const c2 = colAt(t+3, 2);
+        const pa2 = Math.sin(pt2/0.18*Math.PI)*0.08;
+        ctx!.fillStyle = `rgba(${c2.r},${c2.g},${c2.b},${pa2})`;
+        ctx!.fillRect(0,0,w,h);
+      }
+
+      /* ── Sync reflection color ── */
+      if (t - lastSync > 0.13) {
+        lastSync = t;
+        const el = sectionRef.current;
+        if (el) {
+          el.style.setProperty("--led-r", `${dc.r}`);
+          el.style.setProperty("--led-g", `${dc.g}`);
+          el.style.setProperty("--led-b", `${dc.b}`);
+        }
+      }
+
+      timeRef.current += 0.016;
+      rafRef.current = requestAnimationFrame(draw);
+    }
+
+    rafRef.current = requestAnimationFrame(draw);
+    return () => { cancelAnimationFrame(rafRef.current); window.removeEventListener("resize", resize); };
+  }, []);
+
+  return <canvas ref={canvasRef} className="led-canvas"/>;
+}
+
 /* ════════════════════════════════════════ */
 /* ═══ MAIN PAGE ══════════════════════════ */
 /* ════════════════════════════════════════ */
@@ -259,6 +449,9 @@ export default function HomePage() {
         {/* Ambient glow behind LED wall */}
         <div className="manifesto-glow"/>
 
+        {/* Dynamic LED ambient — synced with canvas color */}
+        <div className="led-ambient-sync"/>
+
         {/* Monitor glow — light spill from LED wall onto page sides */}
         <div className="monitor-glow monitor-glow-left"/>
         <div className="monitor-glow monitor-glow-right"/>
@@ -295,10 +488,7 @@ export default function HomePage() {
 
               {/* LED Wall screen */}
               <div className="led-wall-screen">
-                <div className="tunnel-layer tunnel-1"/>
-                <div className="tunnel-layer tunnel-2"/>
-                <div className="tunnel-layer tunnel-3"/>
-                <div className="tunnel-layer tunnel-4"/>
+                <LedWallCanvas active={manifestoVisible}/>
                 <div className="led-scanlines"/>
                 <div className="led-pixel-grid"/>
               </div>
