@@ -1,0 +1,785 @@
+     1→"use client";
+     2→
+     3→import { useEffect, useState, useRef } from "react";
+     4→import {
+     5→  Ticket, MapPin, Clock, Instagram, Youtube, Music2,
+     6→  ExternalLink, Send, ChevronRight, ArrowUpRight, Phone, Mail, Facebook,
+     7→} from "lucide-react";
+     8→import {
+     9→  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
+    10→} from "@/components/ui/accordion";
+    11→import { Input } from "@/components/ui/input";
+    12→
+    13→/* ════════════════════════════════════════ */
+    14→/* ═══ DATA ══════════════════════════════ */
+    15→/* ════════════════════════════════════════ */
+    16→
+    17→const TL = "https://www.ticketline.pt";
+    18→const EVENT = new Date("2026-07-18T18:30:00");
+    19→
+    20→/* ═══ HOOKS ═══ */
+    21→
+    22→function useReveal() {
+    23→  const ref = useRef<HTMLDivElement>(null);
+    24→  const [v, setV] = useState(false);
+    25→  useEffect(() => {
+    26→    const el = ref.current;
+    27→    if (!el) return;
+    28→    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setV(true); o.unobserve(el); } }, { threshold: 0.12 });
+    29→    o.observe(el);
+    30→    return () => o.disconnect();
+    31→  }, []);
+    32→  return { ref, visible: v };
+    33→}
+    34→
+    35→function Rv({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+    36→  const { ref, visible } = useReveal();
+    37→  return (
+    38→    <div ref={ref} className={`rv ${visible ? "in" : ""} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+    39→      {children}
+    40→    </div>
+    41→  );
+    42→}
+    43→
+    44→/* ═══ COUNTDOWN ═══ */
+    45→
+    46→function Countdown() {
+    47→  const [t, setT] = useState({ d: 0, h: 0, m: 0, s: 0 });
+    48→  const [mounted, setMounted] = useState(false);
+    49→  useEffect(() => {
+    50→    const tick = () => {
+    51→      const diff = EVENT.getTime() - Date.now();
+    52→      if (diff <= 0) return;
+    53→      setT({ d: Math.floor(diff/864e5), h: Math.floor((diff/36e5)%24), m: Math.floor((diff/6e4)%60), s: Math.floor((diff/1e3)%60) });
+    54→    };
+    55→    tick();
+    56→    setMounted(true);
+    57→    const id = setInterval(tick, 1000);
+    58→    return () => clearInterval(id);
+    59→  }, []);
+    60→  return (
+    61→    <div className="flex gap-5 sm:gap-8 justify-center">
+    62→      {[{v:t.d,l:"Dias"},{v:t.h,l:"Horas"},{v:t.m,l:"Min"},{v:t.s,l:"Seg"}].map(u=>(
+    63→        <div key={u.l} className="flex flex-col items-center">
+    64→          <span className="text-3xl sm:text-5xl font-extralight tabular-nums tracking-tight" style={{color:"var(--t1)"}} suppressHydrationWarning>
+    65→            {mounted ? String(u.v).padStart(2,"0") : "\u2013\u2013"}
+    66→          </span>
+    67→          <span className="sec-num mt-1.5">{u.l}</span>
+    68→        </div>
+    69→      ))}
+    70→    </div>
+    71→  );
+    72→}
+    73→
+    74→/* ═══ MARQUEE ═══ */
+    75→
+    76→function Marquee({ text }: { text: string }) {
+    77→  const r = Array(10).fill(text).join("  ✦  ");
+    78→  return (
+    79→    <div className="overflow-hidden border-y py-5" style={{borderColor:"rgba(200,80,255,0.08)"}}>
+    80→      <div className="marquee-track whitespace-nowrap">
+    81→        <span className="text-xl sm:text-3xl font-extralight tracking-widest mx-4" style={{color:"var(--t3)"}}>{r}</span>
+    82→        <span className="text-xl sm:text-3xl font-extralight tracking-widest mx-4" style={{color:"var(--t3)"}}>{r}</span>
+    83→      </div>
+    84→    </div>
+    85→  );
+    86→}
+    87→
+    88→/* ═══ LED WALL VIDEO — real stock video with crossfade + sync reflections ═══ */
+    89→
+    90→const LED_VIDEOS = [
+    91→  "/videos/led-v1-tunnel.mp4",
+    92→  "/videos/led-v2-burst.mp4",
+    93→  "/videos/led-v3-lightshow.mp4",
+    94→  "/videos/led-v4-abstract.mp4",
+    95→];
+    96→const CLIP_DURATION = 12; // seconds per clip before crossfade
+    97→
+    98→/* Dominant color per video for fallback glow sync */
+    99→const LED_COLORS: Array<[number, number, number]> = [
+   100→  [200, 80, 255],   // tunnel — purple
+   101→  [255, 45, 120],   // burst — pink
+   102→  [129, 140, 248],  // lightshow — indigo-blue
+   103→  [168, 85, 247],   // abstract — violet
+   104→];
+   105→
+   106→function LedWallVideo({ active }: { active: boolean }) {
+   107→  const vidA = useRef<HTMLVideoElement>(null);
+   108→  const vidB = useRef<HTMLVideoElement>(null);
+   109→  const sampleCanvas = useRef<HTMLCanvasElement>(null);
+   110→  const sectionRef = useRef<HTMLElement | null>(null);
+   111→  const startedRef = useRef(false);
+   112→  const idxRef = useRef(0);
+   113→  const phaseRef = useRef<"A" | "B">("A");
+   114→  const rafRef = useRef(0);
+   115→  const activeRef = useRef(false);
+   116→  const lastSyncRef = useRef(0);
+   117→  const [on, setOn] = useState(false);
+   118→
+   119→  /* Start video after power-on delay */
+   120→  useEffect(() => {
+   121→    activeRef.current = active;
+   122→    if (active && !startedRef.current) {
+   123→      const t = setTimeout(() => {
+   124→        startedRef.current = true;
+   125→        setOn(true);
+   126→        const v = vidA.current;
+   127→        if (v) {
+   128→          v.src = LED_VIDEOS[0];
+   129→          v.play().catch(() => {});
+   130→        }
+   131→      }, 1800);
+   132→      return () => clearTimeout(t);
+   133→    }
+   134→  }, [active]);
+   135→
+   136→  /* Color sampler — reads dominant color from video and syncs glow */
+   137→  useEffect(() => {
+   138→    const canvas = sampleCanvas.current;
+   139→    if (!canvas) return;
+   140→    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+   141→    if (!ctx) return;
+   142→
+   143→    sectionRef.current = canvas.closest(".manifesto-section") as HTMLElement;
+   144→
+   145→    function sample() {
+   146→      if (!startedRef.current || !activeRef.current) {
+   147→        rafRef.current = requestAnimationFrame(sample);
+   148→        return;
+   149→      }
+   150→
+   151→      const now = performance.now() / 1000;
+   152→      const vid = phaseRef.current === "A" ? vidA.current : vidB.current;
+   153→
+   154→      let synced = false;
+   155→      if (vid && vid.readyState >= 2) {
+   156→        try {
+   157→          canvas.width = 40;
+   158→          canvas.height = 22;
+   159→          ctx!.drawImage(vid, 0, 0, 40, 22);
+   160→          const data = ctx!.getImageData(10, 5, 20, 12).data;
+   161→          let r = 0, g = 0, b = 0, n = 0;
+   162→          for (let i = 0; i < data.length; i += 4) {
+   163→            if (data[i] + data[i+1] + data[i+2] > 40) {
+   164→              r += data[i]; g += data[i+1]; b += data[i+2]; n++;
+   165→            }
+   166→          }
+   167→          if (n > 0) {
+   168→            r = Math.round(r / n); g = Math.round(g / n); b = Math.round(b / n);
+   169→            const el = sectionRef.current;
+   170→            if (el && now - lastSyncRef.current > 0.15) {
+   171→              lastSyncRef.current = now;
+   172→              el.style.setProperty("--led-r", `${r}`);
+   173→              el.style.setProperty("--led-g", `${g}`);
+   174→              el.style.setProperty("--led-b", `${b}`);
+   175→            }
+   176→            synced = true;
+   177→          }
+   178→        } catch { /* tainted canvas fallback below */ }
+   179→      }
+   180→
+   181→      /* Fallback: use pre-set dominant color for current clip */
+   182→      if (!synced && now - lastSyncRef.current > 0.3) {
+   183→        lastSyncRef.current = now;
+   184→        const [r, g, b] = LED_COLORS[idxRef.current % LED_COLORS.length];
+   185→        const el = sectionRef.current;
+   186→        if (el) {
+   187→          el.style.setProperty("--led-r", `${r}`);
+   188→          el.style.setProperty("--led-g", `${g}`);
+   189→          el.style.setProperty("--led-b", `${b}`);
+   190→        }
+   191→      }
+   192→
+   193→      rafRef.current = requestAnimationFrame(sample);
+   194→    }
+   195→
+   196→    rafRef.current = requestAnimationFrame(sample);
+   197→    return () => cancelAnimationFrame(rafRef.current);
+   198→  }, []);
+   199→
+   200→  /* Crossfade timer — switches clips on schedule */
+   201→  useEffect(() => {
+   202→    if (!active) return;
+   203→    const interval = setInterval(() => {
+   204→      if (!startedRef.current) return;
+   205→
+   206→      const nextIdx = (idxRef.current + 1) % LED_VIDEOS.length;
+   207→      idxRef.current = nextIdx;
+   208→      const nextSrc = LED_VIDEOS[nextIdx];
+   209→
+   210→      if (phaseRef.current === "A") {
+   211→        const vb = vidB.current;
+   212→        if (vb) { vb.src = nextSrc; vb.play().catch(() => {}); }
+   213→        if (vidA.current) vidA.current.style.opacity = "0";
+   214→        if (vb) vb.style.opacity = "1";
+   215→        phaseRef.current = "B";
+   216→      } else {
+   217→        const va = vidA.current;
+   218→        if (va) { va.src = nextSrc; va.play().catch(() => {}); }
+   219→        if (vidB.current) vidB.current.style.opacity = "0";
+   220→        if (va) va.style.opacity = "1";
+   221→        phaseRef.current = "A";
+   222→      }
+   223→    }, CLIP_DURATION * 1000);
+   224→
+   225→    return () => clearInterval(interval);
+   226→  }, [active]);
+   227→
+   228→  return (
+   229→    <div className="led-video-container">
+   230→      <video
+   231→        ref={vidA}
+   232→        className="led-video-layer"
+   233→        muted
+   234→        loop
+   235→        playsInline
+   236→        preload="auto"
+   237→        crossOrigin="anonymous"
+   238→        style={{ opacity: on ? 1 : 0 }}
+   239→      />
+   240→      <video
+   241→        ref={vidB}
+   242→        className="led-video-layer"
+   243→        muted
+   244→        loop
+   245→        playsInline
+   246→        preload="auto"
+   247→        crossOrigin="anonymous"
+   248→        style={{ opacity: 0 }}
+   249→      />
+   250→      <canvas ref={sampleCanvas} style={{ display: "none" }} />
+   251→    </div>
+   252→  );
+   253→}
+   254→
+   255→/* ════════════════════════════════════════ */
+   256→/* ═══ MAIN PAGE ══════════════════════════ */
+   257→/* ════════════════════════════════════════ */
+   258→
+   259→export default function HomePage() {
+   260→  const [menuOpen, setMenuOpen] = useState(false);
+   261→  const [loaded, setLoaded] = useState(false);
+   262→  const { ref: manifestoRef, visible: manifestoVisible } = useReveal();
+   263→
+   264→  useEffect(() => {
+   265→    const t = setTimeout(() => setLoaded(true), 900);
+   266→    return () => clearTimeout(t);
+   267→  }, []);
+   268→
+   269→  useEffect(() => {
+   270→    document.body.style.overflow = menuOpen ? "hidden" : "";
+   271→    return () => { document.body.style.overflow = ""; };
+   272→  }, [menuOpen]);
+   273→
+   274→  const navLinks = [
+   275→    { l: "Espetáculo", h: "#espetaculo" },
+   276→    { l: "Lineup", h: "#lineup" },
+   277→    { l: "Bilhetes", h: "#bilhetes" },
+   278→    { l: "Local", h: "#local" },
+   279→    { l: "FAQ", h: "#faq" },
+   280→  ];
+   281→
+   282→  return (
+   283→    <div className="min-h-screen flex flex-col" style={{background:"var(--deep)"}}>
+   284→
+   285→      {/* ═══ PRELOADER ═══ */}
+   286→      <div className={`fixed inset-0 z-[100] flex items-center justify-center transition-all duration-700 ${loaded?"opacity-0 pointer-events-none":"opacity-100"}`} style={{background:"var(--void)"}}>
+   287→        <div className="w-28 h-px relative overflow-hidden" style={{background:"var(--subtle)"}}>
+   288→          <div className="absolute inset-y-0 left-0 h-full" style={{background:"var(--neon-purple)",animation:"load 1.6s cubic-bezier(0.16,1,0.3,1) forwards"}}/>
+   289→        </div>
+   290→      </div>
+   291→
+   292→      {/* ═══ HERO — FULL SCREEN ═══ */}
+   293→      <section className="hero-section" style={{background:"var(--void)"}}>
+   294→        {/* Background image — full bleed */}
+   295→        <img
+   296→          src="/hero-girls.png"
+   297→          alt=""
+   298→          className="hero-bg-img"
+   299→        />
+   300→
+   301→        {/* Grid texture overlay */}
+   302→        <div className="hero-grid"/>
+   303→
+   304→        {/* Depth overlay — fade at bottom */}
+   305→        <div className="hero-bg-overlay"/>
+   306→
+   307→        {/* Vignette — darkens edges */}
+   308→        <div className="hero-vignette"/>
+   309→
+   310→        {/* Glow orbs */}
+   311→        <div className="hero-glow-orb" style={{width:"40vw",height:"40vw",left:"25%",top:"30%",background:"rgba(200,80,255,0.12)"}}/>
+   312→        <div className="hero-glow-orb" style={{width:"25vw",height:"25vw",right:"10%",top:"55%",background:"rgba(74,144,226,0.08)",animationDelay:"3s"}}/>
+   313→        <div className="hero-glow-orb" style={{width:"20vw",height:"20vw",left:"5%",bottom:"20%",background:"rgba(255,45,120,0.06)",animationDelay:"6s"}}/>
+   314→
+   315→        {/* Floating particles */}
+   316→        <div className="hero-particles">
+   317→          {[12,45,72,28,60,85,38,55].map((left, i) => (
+   318→            <div
+   319→              key={i}
+   320→              className="hero-particle"
+   321→              style={{
+   322→                left: `${left}%`,
+   323→                bottom: `${-5 - (i * 3) % 10}%`,
+   324→                animationDuration: `${10 + (i * 5) % 10}s`,
+   325→                animationDelay: `${(i * 3) % 8}s`,
+   326→                width: `${1 + (i % 3)}px`,
+   327→                height: `${1 + (i % 3)}px`,
+   328→                background: i % 3 === 0 ? "rgba(200,80,255,0.5)" : i % 3 === 1 ? "rgba(177,213,240,0.4)" : "rgba(255,245,164,0.3)",
+   329→              }}
+   330→            />
+   331→          ))}
+   332→        </div>
+   333→
+   334→        {/* Side decorative lines */}
+   335→        <div className="hero-side-line hidden sm:block" style={{left:"5%",top:"15%",height:"30%"}}/>
+   336→        <div className="hero-side-line hidden sm:block" style={{right:"5%",top:"25%",height:"25%"}}/>
+   337→
+   338→        {/* Corner tags */}
+   339→        <div className="hero-corner-tag hidden sm:block" style={{left:"5%",bottom:"8%"}}>CASCAIS 2026</div>
+   340→        <div className="hero-corner-tag hidden sm:block" style={{right:"5%",bottom:"8%"}}>18 JUL · 18:30H</div>
+   341→
+   342→        {/* ═══ HAMBURGER NAV — pinned at top of hero ═══ */}
+   343→        <nav className="absolute top-0 inset-x-0 z-[95] py-6" style={{background:"transparent"}}>
+   344→          <div className="max-w-[1400px] mx-auto px-5 sm:px-10 flex items-center justify-between">
+   345→            {/* LEFT: Hamburger only */}
+   346→            <button
+   347→              onClick={()=>setMenuOpen(!menuOpen)}
+   348→              className={`hamburger ${menuOpen?"open":""}`}
+   349→              aria-label="Menu"
+   350→            >
+   351→              <span />
+   352→              <span />
+   353→              <span />
+   354→            </button>
+   355→            {/* RIGHT: empty space to balance */}
+   356→            <div className="w-9"/>
+   357→          </div>
+   358→        </nav>
+   359→
+   360→        {/* ═══ FULLSCREEN MENU OVERLAY — cascade from LEFT ═══ */}
+   361→        <div className={`menu-overlay ${menuOpen?"open":""}`}>
+   362→          <div className="flex flex-col items-start gap-1 sm:gap-2 mb-16">
+   363→            {navLinks.map((n, i) => (
+   364→              <a
+   365→                key={n.l}
+   366→                href={n.h}
+   367→                onClick={()=>setMenuOpen(false)}
+   368→                className="menu-link"
+   369→                style={{ transitionDelay: menuOpen ? `${i * 80 + 100}ms` : "0ms", color:"var(--t3)" }}
+   370→                onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}
+   371→                onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}
+   372→              >
+   373→                <span className="menu-link-text">{n.l}</span>
+   374→                <span className="link-num">0{i+1}</span>
+   375→              </a>
+   376→            ))}
+   377→          </div>
+   378→          {/* Menu CTA */}
+   379→          <div style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(-40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
+   380→            <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold transition-all duration-400" style={{background:"var(--neon-purple)",color:"#fff"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.boxShadow="0 0 40px rgba(200,80,255,0.4)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.boxShadow="none"}}>
+   381→              <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
+   382→            </a>
+   383→          </div>
+   384→          {/* Menu Footer — social bottom right */}
+   385→          <div className="absolute bottom-8 right-8 sm:right-12 flex gap-7" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 350}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
+   386→            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+   387→              <Instagram className="w-7 h-7"/>
+   388→            </a>
+   389→            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+   390→              <Facebook className="w-7 h-7"/>
+   391→            </a>
+   392→            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+   393→              <Youtube className="w-7 h-7"/>
+   394→            </a>
+   395→            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+   396→              <Music2 className="w-7 h-7"/>
+   397→            </a>
+   398→          </div>
+   399→          {/* Decorative circle */}
+   400→          <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
+   401→        </div>
+   402→
+   403→        {/* ═══ HERO CONTENT — CTA bottom center ═══ */}
+   404→        <a
+   405→          href={TL}
+   406→          target="_blank"
+   407→          rel="noopener noreferrer"
+   408→          className="hero-cta"
+   409→          style={{marginBottom:"10vh"}}
+   410→        >
+   411→          <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
+   412→        </a>
+   413→
+   414→        {/* Scroll indicator */}
+   415→        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+   416→          <div className="scroll-line"/>
+   417→        </div>
+   418→      </section>
+   419→
+   420→      {/* ═══ MANIFESTO — LED WALL TUNNEL ═══ */}
+   421→      <section
+   422→        ref={manifestoRef}
+   423→        className={`manifesto-section ${manifestoVisible ? "manifesto-in" : ""}`}
+   424→        style={{background:"var(--void)"}}
+   425→      >
+   426→        {/* Ambient glow behind LED wall */}
+   427→        <div className="manifesto-glow"/>
+   428→
+   429→        {/* Dynamic LED ambient — synced with canvas color */}
+   430→        <div className="led-ambient-sync"/>
+   431→
+   432→        {/* Monitor glow — light spill from LED wall onto page sides */}
+   433→        <div className="monitor-glow monitor-glow-left"/>
+   434→        <div className="monitor-glow monitor-glow-right"/>
+   435→
+   436→        {/* ═══ TEMPLE FRAME ═══ */}
+   437→        <div className="temple-frame">
+   438→          {/* Temple roof — curved multi-tier top */}
+   439→          <div className="temple-roof">
+   440→            <div className="temple-roof-peak"/>
+   441→            <div className="temple-roof-tier-1"/>
+   442→            <div className="temple-roof-tier-2"/>
+   443→            <div className="temple-roof-cornice"/>
+   444→            {/* Decorative end caps */}
+   445→            <div className="temple-cap temple-cap-left"/>
+   446→            <div className="temple-cap temple-cap-right"/>
+   447→          </div>
+   448→
+   449→          {/* Temple body — pillars + LED wall */}
+   450→          <div className="temple-body">
+   451→            {/* Left pillar */}
+   452→            <div className="temple-pillar temple-pillar-left">
+   453→              <div className="pillar-base"/>
+   454→              <div className="pillar-shaft"/>
+   455→              <div className="pillar-capital"/>
+   456→              <div className="pillar-ornament pillar-ornament-1"/>
+   457→              <div className="pillar-ornament pillar-ornament-2"/>
+   458→              <div className="pillar-ornament pillar-ornament-3"/>
+   459→            </div>
+   460→
+   461→            {/* Center: LED Wall */}
+   462→            <div className="led-wall-frame">
+   463→              {/* Power-on flash effect */}
+   464→              <div className="led-power-flash"/>
+   465→
+   466→              {/* LED Wall screen */}
+   467→              <div className="led-wall-screen">
+   468→                <LedWallVideo active={manifestoVisible}/>
+   469→                <div className="led-scanlines"/>
+   470→                <div className="led-pixel-grid"/>
+   471→              </div>
+   472→
+   473→              <div className="led-frame-top"/>
+   474→              <div className="led-frame-bottom"/>
+   475→            </div>
+   476→
+   477→            {/* Right pillar */}
+   478→            <div className="temple-pillar temple-pillar-right">
+   479→              <div className="pillar-base"/>
+   480→              <div className="pillar-shaft"/>
+   481→              <div className="pillar-capital"/>
+   482→              <div className="pillar-ornament pillar-ornament-1"/>
+   483→              <div className="pillar-ornament pillar-ornament-2"/>
+   484→              <div className="pillar-ornament pillar-ornament-3"/>
+   485→            </div>
+   486→          </div>
+   487→
+   488→          {/* Temple base platform */}
+   489→          <div className="temple-base">
+   490→            <div className="temple-base-step temple-base-step-1"/>
+   491→            <div className="temple-base-step temple-base-step-2"/>
+   492→            <div className="temple-base-step temple-base-step-3"/>
+   493→          </div>
+   494→        </div>
+   495→      </section>
+   496→
+   497→      {/* ═══ ESPETÁCULO ═══ */}
+   498→      <section id="espetaculo" className="py-24 sm:py-40 px-5 sm:px-10">
+   499→        <div className="max-w-[1400px] mx-auto">
+   500→          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+   501→            <div className="lg:col-span-6">
+   502→              <Rv>
+   503→                <p className="sec-num mb-4">01 — O Espetáculo</p>
+   504→                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-8" style={{color:"var(--t1)"}}>
+   505→                  Prepare-se para<br/>se <span className="neon-shimmer">maravilhar</span>
+   506→                </h2>
+   507→              </Rv>
+   508→              <Rv delay={120}>
+   509→                <p className="text-[15px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
+   510→                  As Guerreiras do K-POP é um espetáculo de tributo musical que celebra a energia,
+   511→                  a estética e a cultura do K-POP, inspirado na série <span style={{color:"var(--pink-kpop)"}}>K-Pop Demon Hunters</span> da Netflix.
+   512→                </p>
+   513→              </Rv>
+   514→              <Rv delay={200}>
+   515→                <p className="text-[15px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
+   516→                  Com cenografia de luxo, performers de elite e uma fusão electrificante de música e dança,
+   517→                  este concerto leva o público numa viagem imersiva pelo universo K-POP — com coreografias
+   518→                  icónicas, luzes deslumbrantes e a energia contagiante dos maiores hits.
+   519→                </p>
+   520→              </Rv>
+   521→              <Rv delay={280}>
+   522→                <p className="text-[15px] leading-[1.8] mb-8" style={{color:"var(--t2)"}}>
+   523→                  Um espetáculo de variedades que transcende o concerto tradicional — onde o palco se transforma
+   524→                  num mundo mágico e cada momento se torna uma memória inesquecível.
+   525→                </p>
+   526→              </Rv>
+   527→              <Rv delay={350}>
+   528→                <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-3.5 text-[10px] tracking-[0.22em] uppercase font-semibold border transition-all duration-400" style={{borderColor:"var(--neon-purple)",color:"var(--neon-purple)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}>
+   529→                  <Ticket className="w-3.5 h-3.5"/> Reservar Lugar <ArrowUpRight className="w-3 h-3"/>
+   530→                </a>
+   531→              </Rv>
+   532→            </div>
+   533→            <div className="lg:col-span-6 flex items-center">
+   534→              <Rv delay={200}>
+   535→                <div className="glass-neon p-5 sm:p-7 w-full">
+   536→                  <img src="/poster.png" alt="Cartaz Oficial — Guerreiras do K-Pop" className="w-full rounded-sm cin"/>
+   537→                  <p className="text-center sec-num mt-4 uppercase">Cartaz Oficial 2026</p>
+   538→                </div>
+   539→              </Rv>
+   540→            </div>
+   541→          </div>
+   542→        </div>
+   543→      </section>
+   544→
+   545→      <div className="neon-div max-w-[1400px] mx-auto"/>
+   546→
+   547→      {/* ═══ LINEUP ═══ */}
+   548→      <section id="lineup" className="py-24 sm:py-40 px-5 sm:px-10">
+   549→        <div className="max-w-[1400px] mx-auto">
+   550→          <Rv>
+   551→            <p className="sec-num mb-4">02 — Lineup</p>
+   552→            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-16" style={{color:"var(--t1)"}}>
+   553→              As Nossas Guerreiras
+   554→            </h2>
+   555→          </Rv>
+   556→          <div className="grid grid-cols-2 lg:grid-cols-4 gap-[2px]">
+   557→            {[
+   558→              {name:"HUNTRIX",sub:"Headliner — Demon Hunters",c:"var(--gold)"},
+   559→              {name:"RUMI",sub:"Vocal Principal",c:"var(--pink-kpop)"},
+   560→              {name:"MIRAE",sub:"Dança & Rap",c:"var(--blue-accent)"},
+   561→              {name:"ZOE",sub:"Performance Especial",c:"var(--neon-purple)"},
+   562→            ].map((a,i)=>(
+   563→              <Rv key={a.name} delay={i*100}>
+   564→                <div className="group relative overflow-hidden cursor-pointer" style={{background:"var(--surface)"}}>
+   565→                  <div className="aspect-[3/4] overflow-hidden">
+   566→                    <img src="/poster.png" alt={a.name} className="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105" style={{filter:"grayscale(75%) brightness(0.5)"}}
+   567→                      onMouseEnter={e=>{(e.target as HTMLImageElement).style.filter="grayscale(0%) brightness(0.8)"}} 
+   568→                      onMouseLeave={e=>{(e.target as HTMLImageElement).style.filter="grayscale(75%) brightness(0.5)"}}/>
+   569→                  </div>
+   570→                  <div className="absolute inset-x-0 bottom-0 pt-20 pb-5 px-5" style={{background:"linear-gradient(to top, var(--void) 5%, transparent 100%)"}}>
+   571→                    <p className="text-[8px] tracking-[0.3em] font-semibold mb-1 uppercase" style={{color:a.c}}>{a.sub}</p>
+   572→                    <h3 className="text-lg sm:text-xl font-light tracking-[-0.01em] transition-colors duration-300" style={{color:"var(--t1)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color=a.c}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t1)"}}>{a.name}</h3>
+   573→                    <div className="flex gap-3 mt-2">
+   574→                      <Instagram className="w-3 h-3 transition-colors cursor-pointer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as SVGElement).style.color="var(--pink-kpop)"}} onMouseLeave={e=>{(e.currentTarget as SVGElement).style.color="var(--t3)"}}/>
+   575→                      <Youtube className="w-3 h-3 transition-colors cursor-pointer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as SVGElement).style.color="#ff0000"}} onMouseLeave={e=>{(e.currentTarget as SVGElement).style.color="var(--t3)"}}/>
+   576→                      <Music2 className="w-3 h-3 transition-colors cursor-pointer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as SVGElement).style.color="#00F2EA"}} onMouseLeave={e=>{(e.currentTarget as SVGElement).style.color="var(--t3)"}}/>
+   577→                    </div>
+   578→                  </div>
+   579→                </div>
+   580→              </Rv>
+   581→            ))}
+   582→          </div>
+   583→        </div>
+   584→      </section>
+   585→
+   586→      <Marquee text="HUNTRIX · RUMI · MIRAE · ZOE · DEMON HUNTERS · K-POP TRIBUTE"/>
+   587→
+   588→      {/* ═══ BILHETES ═══ */}
+   589→      <section id="bilhetes" className="py-24 sm:py-40 px-5 sm:px-10" style={{background:"var(--surface)"}}>
+   590→        <div className="max-w-[1400px] mx-auto">
+   591→          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-16 gap-6">
+   592→            <Rv>
+   593→              <p className="sec-num mb-4">03 — Bilhetes</p>
+   594→              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em]" style={{color:"var(--t1)"}}>
+   595→                Escolhe o Teu Lugar
+   596→              </h2>
+   597→            </Rv>
+   598→            <Rv delay={200}>
+   599→              <a href={TL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[11px] tracking-[0.15em]" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+   600→                ticketline.pt <ExternalLink className="w-3 h-3"/>
+   601→              </a>
+   602→            </Rv>
+   603→          </div>
+   604→          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+   605→            {[
+   606→              {name:"GERAL",price:"25€",features:["Acesso a todos os palcos","Random Play Dance","K-Culture Zone"],c:"var(--t2)",featured:false},
+   607→              {name:"VIP",price:"45€",features:["Tudo do Geral","Zona VIP frente ao palco","Meet & Greet inclusivo","Merch exclusivo"],c:"var(--neon-purple)",featured:true},
+   608→              {name:"PREMIUM",price:"75€",features:["Tudo do VIP","Backstage Experience","Jantar K-Food inclusivo","Kit Premium completo"],c:"var(--gold)",featured:false},
+   609→            ].map((t,i)=>(
+   610→              <Rv key={t.name} delay={i*120}>
+   611→                <div className={`tk p-8 sm:p-10 flex flex-col h-full ${t.featured?"glass-neon":"glass"}`}>
+   612→                  {t.featured && <span className="self-start text-[8px] tracking-[0.3em] font-bold px-2.5 py-1 mb-6 uppercase" style={{background:"var(--neon-purple)",color:"#fff"}}>Popular</span>}
+   613→                  <h3 className="text-[10px] tracking-[0.3em] font-semibold uppercase mb-2" style={{color:t.c}}>{t.name}</h3>
+   614→                  <span className="text-5xl sm:text-6xl font-extralight tracking-[-0.03em] mb-8" style={{color:"var(--t1)"}}>{t.price}</span>
+   615→                  <ul className="space-y-3 mb-10 flex-1">
+   616→                    {t.features.map(f=>(
+   617→                      <li key={f} className="flex items-start gap-3 text-[14px]" style={{color:"var(--t2)"}}>
+   618→                        <span className="mt-2 w-1 h-1 rounded-full flex-shrink-0" style={{background:t.c}}/>{f}
+   619→                      </li>
+   620→                    ))}
+   621→                  </ul>
+   622→                  <a href={TL} target="_blank" rel="noopener noreferrer" className="block text-center py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase transition-all duration-400" style={t.featured?{background:"var(--neon-purple)",color:"#fff"}:{background:"transparent",border:"1px solid rgba(200,80,255,0.15)",color:"var(--neon-purple)"}} onMouseEnter={e=>{if(!t.featured){(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff"}}} onMouseLeave={e=>{if(!t.featured){(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}}>
+   623→                    Comprar <ExternalLink className="w-3 h-3 inline ml-1"/>
+   624→                  </a>
+   625→                </div>
+   626→              </Rv>
+   627→            ))}
+   628→          </div>
+   629→          <Rv className="mt-10 text-center">
+   630→            <p className="text-[13px]" style={{color:"var(--t3)"}}>Desconto de grupo: 4+ bilhetes com 10% desconto. <a href={TL} target="_blank" rel="noopener noreferrer" className="hover:underline" style={{color:"var(--neon-purple)"}}>Saber mais</a></p>
+   631→          </Rv>
+   632→        </div>
+   633→      </section>
+   634→
+   635→      {/* ═══ LOCAL ═══ */}
+   636→      <section id="local" className="py-24 sm:py-40 px-5 sm:px-10">
+   637→        <div className="max-w-[1400px] mx-auto">
+   638→          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+   639→            <div className="lg:col-span-7">
+   640→              <Rv>
+   641→                <p className="sec-num mb-4">04 — Local</p>
+   642→                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-8" style={{color:"var(--t1)"}}>
+   643→                  Academia das Artes<br/>do Estoril
+   644→                </h2>
+   645→              </Rv>
+   646→              <Rv delay={120}>
+   647→                <p className="text-[15px] leading-[1.8] mb-8 max-w-lg" style={{color:"var(--t2)"}}>
+   648→                  Um espaço icónico na costa de Cascais, onde a arte e a cultura se encontram.
+   649→                  A localização perfeita para receber as Guerreiras do K-Pop, com vista sobre
+   650→                  o Atlântico e infraestruturas de primeiro nível.
+   651→                </p>
+   652→              </Rv>
+   653→              <Rv delay={220}>
+   654→                <div className="space-y-5 mb-10">
+   655→                  <div className="flex items-start gap-4">
+   656→                    <MapPin className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
+   657→                    <div>
+   658→                      <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Morada</p>
+   659→                      <p className="text-[14px]" style={{color:"var(--t1)"}}>Av. Marginal, 2765-282 Estoril, Cascais</p>
+   660→                    </div>
+   661→                  </div>
+   662→                  <div className="flex items-start gap-4">
+   663→                    <Clock className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
+   664→                    <div>
+   665→                      <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Data & Hora</p>
+   666→                      <p className="text-[14px]" style={{color:"var(--t1)"}}>18 Julho 2026 — Portas às 18:30h</p>
+   667→                    </div>
+   668→                  </div>
+   669→                </div>
+   670→              </Rv>
+   671→              <Rv delay={320}>
+   672→                <a href="https://maps.google.com/?q=Academia+das+Artes+do+Estoril" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 text-[10px] tracking-[0.22em] uppercase font-semibold border transition-all duration-400" style={{borderColor:"rgba(200,80,255,0.25)",color:"var(--neon-purple)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff";(e.currentTarget as HTMLElement).style.borderColor="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)";(e.currentTarget as HTMLElement).style.borderColor="rgba(200,80,255,0.25)"}}>
+   673→                  <MapPin className="w-3.5 h-3.5"/> Google Maps <ArrowUpRight className="w-3 h-3"/>
+   674→                </a>
+   675→              </Rv>
+   676→            </div>
+   677→            <div className="lg:col-span-5">
+   678→              <Rv delay={200}>
+   679→                <div className="overflow-hidden" style={{borderRadius:"2px"}}>
+   680→                  <img src="/venue-bg.png" alt="Academia das Artes do Estoril" className="w-full h-64 sm:h-80 object-cover cin"/>
+   681→                </div>
+   682→                <p className="text-[12px] leading-relaxed mt-4" style={{color:"var(--t3)"}}>
+   683→                  Estação de comboios do Estoril a 5 min a pé. Estacionamento gratuito nas proximidades. Acessível para mobilidade reduzida.
+   684→                </p>
+   685→              </Rv>
+   686→            </div>
+   687→          </div>
+   688→        </div>
+   689→      </section>
+   690→
+   691→      <div className="neon-div max-w-[1400px] mx-auto"/>
+   692→
+   693→      {/* ═══ FAQ ═══ */}
+   694→      <section id="faq" className="py-24 sm:py-40 px-5 sm:px-10">
+   695→        <div className="max-w-3xl mx-auto">
+   696→          <Rv>
+   697→            <p className="sec-num mb-4">05 — FAQ</p>
+   698→            <h2 className="text-3xl sm:text-5xl font-extralight tracking-[-0.03em] mb-14" style={{color:"var(--t1)"}}>Perguntas Frequentes</h2>
+   699→          </Rv>
+   700→          <Rv delay={100}>
+   701→            <Accordion type="single" collapsible className="space-y-[2px]">
+   702→              {[
+   703→                {q:"Qual a idade mínima para entrar no festival?",a:"O festival é para todas as idades! Crianças até aos 5 anos não pagam entrada (desde que acompanhadas por um adulto). Menores de 12 anos devem estar sempre acompanhados por um responsável adulto. O ambiente é familiar e seguro."},
+   704→                {q:"Onde posso comprar bilhetes?",a:"Os bilhetes estão disponíveis exclusivamente na Ticketline, o nosso parceiro oficial. Podes comprar online em ticketline.pt ou nos pontos de venda habituais."},
+   705→                {q:"Posso trazer a minha lightstick?",a:"Claro que sim! As lightsticks são bem-vindas e encorajadas. Não são permitidos objetos perigosos como bastões com pontas metálicas ou lasers."},
+   706→                {q:"Há estacionamento no local?",a:"Sim, existe estacionamento gratuito nas proximidades da Academia das Artes do Estoril. A estação de comboios fica a 5 minutos a pé."},
+   707→                {q:"O evento acontece com chuva?",a:"Os palcos principais são cobertos. Aconselhamos impermeável leve. Em condições extremas, o evento poderá ser adiado e os bilhetes mantêm-se válidos."},
+   708→                {q:"Posso reembolsar o meu bilhete?",a:"Bilhetes reembolsáveis até 7 dias após compra, com 48h de antecedência. Contacta a Ticketline diretamente."},
+   709→              ].map((f,i)=>(
+   710→                <AccordionItem key={i} value={`f-${i}`} style={{background:"var(--surface)",border:"none",borderRadius:0}}>
+   711→                  <AccordionTrigger className="text-left text-[14px] font-normal px-6 py-5 hover:no-underline transition-colors" style={{color:"var(--t1)"}}>{f.q}</AccordionTrigger>
+   712→                  <AccordionContent className="px-6 pb-5 text-[14px] leading-relaxed" style={{color:"var(--t2)"}}>{f.a}</AccordionContent>
+   713→                </AccordionItem>
+   714→              ))}
+   715→            </Accordion>
+   716→          </Rv>
+   717→        </div>
+   718→      </section>
+   719→
+   720→      {/* ═══ CONTACT ═══ */}
+   721→      <section className="py-20 sm:py-28 px-5 sm:px-10" style={{background:"var(--surface)"}}>
+   722→        <div className="max-w-[1400px] mx-auto">
+   723→          <Rv>
+   724→            <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
+   725→              <div>
+   726→                <p className="sec-num mb-3">Contacto</p>
+   727→                <div className="space-y-3">
+   728→                  <a href="tel:+351926828841" className="flex items-center gap-2.5 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
+   729→                    <Phone className="w-3.5 h-3.5"/> +351 926 828 841
+   730→                  </a>
+   731→                  <a href="mailto:producao@guerreirasdokpop.pt" className="flex items-center gap-2.5 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
+   732→                    <Mail className="w-3.5 h-3.5"/> producao@guerreirasdokpop.pt
+   733→                  </a>
+   734→                </div>
+   735→              </div>
+   736→              <div>
+   737→                <p className="sec-num mb-3">Produção</p>
+   738→                <a href="https://jovsta.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
+   739→                  JOVSTA <ArrowUpRight className="w-3 h-3"/>
+   740→                </a>
+   741→              </div>
+   742→              <div>
+   743→                <p className="sec-num mb-3">Redes Sociais</p>
+   744→                <div className="flex gap-4">
+   745→                  {[
+   746→                    {i:<Instagram className="w-5 h-5"/>,l:"Instagram"},
+   747→                    {i:<Facebook className="w-5 h-5"/>,l:"Facebook"},
+   748→                    {i:<Youtube className="w-5 h-5"/>,l:"YouTube"},
+   749→                    {i:<Music2 className="w-5 h-5"/>,l:"TikTok"},
+   750→                  ].map(s=>(
+   751→                    <a key={s.l} href="#" className="transition-colors duration-300" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}} aria-label={s.l}>{s.i}</a>
+   752→                  ))}
+   753→                </div>
+   754→              </div>
+   755→            </div>
+   756→          </Rv>
+   757→        </div>
+   758→      </section>
+   759→
+   760→      {/* ═══ FOOTER ═══ */}
+   761→      <footer className="py-10 px-5 sm:px-10 mt-auto border-t" style={{background:"var(--void)",borderColor:"rgba(200,80,255,0.04)"}}>
+   762→        <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+   763→          <div className="flex items-center gap-3">
+   764→            <div className="w-6 h-6 flex items-center justify-center" style={{background:"var(--neon-purple)"}}>
+   765→              <span className="text-[8px] font-black" style={{color:"#fff"}}>GK</span>
+   766→            </div>
+   767→            <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>&copy; 2026 Guerreiras do K-Pop</span>
+   768→          </div>
+   769→          <div className="flex items-center gap-6">
+   770→            <a href={TL} target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--neon-purple)"}}>Ticketline</a>
+   771→            <a href="https://guerreirasdokpop.pt" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--t3)"}}>guerreirasdokpop.pt</a>
+   772→          </div>
+   773→        </div>
+   774→      </footer>
+   775→
+   776→      {/* ═══ MOBILE STICKY CTA ═══ */}
+   777→      <div className={`fixed bottom-0 inset-x-0 z-40 sm:hidden p-3 backdrop-blur-2xl border-t transition-opacity duration-300 ${loaded?"":"opacity-0 pointer-events-none"}`} style={{background:"rgba(11,8,19,0.92)",borderColor:"rgba(200,80,255,0.08)"}}>
+   778→        <a href={TL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase" style={{background:"var(--neon-purple)",color:"#fff"}}>
+   779→          <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
+   780→        </a>
+   781→      </div>
+   782→    </div>
+   783→  );
+   784→}
+   785→

@@ -548,7 +548,7 @@ html { scroll-behavior: smooth; }
   contain: strict;
 }
 
-/* ═══ LED Video Container — two overlapping video layers for crossfade ═══ */
+/* ═══ LED Video Container — single looping tunnel ═══ */
 .led-video-container {
   position: absolute;
   inset: 0;
@@ -562,7 +562,10 @@ html { scroll-behavior: smooth; }
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: opacity 2s ease-in-out;
+  transition: opacity 1.5s ease-out;
+  /* Brightness & vibrancy boost for LED wall punch */
+  filter: brightness(1.25) saturate(1.2) contrast(1.08);
+  image-rendering: auto;
 }
 
 /* LED power flash — enhanced with suspense timing */
@@ -621,19 +624,19 @@ html { scroll-behavior: smooth; }
 .monitor-glow-left {
   left: 0;
   background: radial-gradient(ellipse at 100% 50%,
-    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.2) 0%,
-    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.08) 12%,
-    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.03) 25%,
-    transparent 45%);
+    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.3) 0%,
+    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.12) 12%,
+    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.04) 25%,
+    transparent 50%);
   transition: background 0.2s;
 }
 .monitor-glow-right {
   right: 0;
   background: radial-gradient(ellipse at 0% 50%,
-    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.2) 0%,
-    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.08) 12%,
-    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.03) 25%,
-    transparent 45%);
+    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.3) 0%,
+    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.12) 12%,
+    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.04) 25%,
+    transparent 50%);
   transition: background 0.2s;
 }
 @keyframes monitorGlowPulse {
@@ -868,8 +871,9 @@ html { scroll-behavior: smooth; }
   border-radius: 2px;
   overflow: hidden;
   box-shadow:
-    0 0 40px rgba(200,80,255,0.2),
-    0 0 80px rgba(200,80,255,0.08),
+    0 0 50px rgba(200,80,255,0.35),
+    0 0 100px rgba(200,80,255,0.15),
+    0 0 160px rgba(129,140,248,0.08),
     0 10px 40px rgba(11,8,19,0.8);
   contain: strict;
 }
@@ -877,34 +881,34 @@ html { scroll-behavior: smooth; }
 
 /* LED power-on flash now in suspense section above */
 
-/* ═══ Scanlines — realistic CRT/LED effect ═══ */
+/* ═══ Scanlines — subtle CRT/LED effect (lighter for more brightness) ═══ */
 .led-scanlines {
   position: absolute;
   inset: 0;
   background: repeating-linear-gradient(
     to bottom,
     transparent 0px,
-    transparent 2px,
-    rgba(11,8,19,0.15) 2px,
-    rgba(11,8,19,0.15) 4px
+    transparent 3px,
+    rgba(11,8,19,0.08) 3px,
+    rgba(11,8,19,0.08) 4px
   );
   pointer-events: none;
   z-index: 5;
 }
 
-/* ═══ LED pixel grid ═══ */
+/* ═══ LED pixel grid (lighter for more brightness) ═══ */
 .led-pixel-grid {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(11,8,19,0.2) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(11,8,19,0.2) 1px, transparent 1px);
+    linear-gradient(rgba(11,8,19,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11,8,19,0.1) 1px, transparent 1px);
   background-size: 6px 6px;
   pointer-events: none;
   z-index: 6;
 }
 
-/* ═══ LED frame bezels ═══ */
+/* ═══ LED frame bezels — enhanced glow ═══ */
 .led-frame-top, .led-frame-bottom {
   position: absolute;
   left: 0;
@@ -915,13 +919,13 @@ html { scroll-behavior: smooth; }
 }
 .led-frame-top {
   top: 0;
-  border-bottom: 1px solid rgba(200,80,255,0.15);
-  box-shadow: 0 2px 15px rgba(200,80,255,0.1);
+  border-bottom: 1px solid rgba(200,80,255,0.2);
+  box-shadow: 0 2px 20px rgba(200,80,255,0.15), 0 0 40px rgba(200,80,255,0.05);
 }
 .led-frame-bottom {
   bottom: 0;
-  border-top: 1px solid rgba(200,80,255,0.15);
-  box-shadow: 0 -2px 15px rgba(200,80,255,0.1);
+  border-top: 1px solid rgba(200,80,255,0.2);
+  box-shadow: 0 -2px 20px rgba(200,80,255,0.15), 0 0 40px rgba(200,80,255,0.05);
 }
 
 /* ═══ HERO — FULL SCREEN ═══ */

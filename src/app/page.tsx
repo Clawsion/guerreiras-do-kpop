@@ -85,32 +85,27 @@ function Marquee({ text }: { text: string }) {
   );
 }
 
-/* ═══ LED WALL VIDEO — real stock video with crossfade + sync reflections ═══ */
+/* ═══ LED WALL VIDEO — single looping tunnel with color-sync reflections ═══ */
 
-const LED_VIDEOS = [
-  "/videos/led-v1-tunnel.mp4",
-  "/videos/led-v2-burst.mp4",
-  "/videos/led-v3-lightshow.mp4",
-  "/videos/led-v4-abstract.mp4",
-];
-const CLIP_DURATION = 12; // seconds per clip before crossfade
+const LED_TUNNEL_SRC = "/videos/led-tunnel.mp4";
 
-/* Dominant color per video for fallback glow sync */
-const LED_COLORS: Array<[number, number, number]> = [
-  [200, 80, 255],   // tunnel — purple
-  [255, 45, 120],   // burst — pink
-  [129, 140, 248],  // lightshow — indigo-blue
-  [168, 85, 247],   // abstract — violet
+/* Color cycle for fallback glow sync (purple → violet → blue) */
+const TUNNEL_COLORS: Array<[number, number, number]> = [
+  [170, 40, 255],   // deep purple
+  [195, 55, 235],   // violet
+  [245, 70, 210],   // neon purple
+  [165, 120, 248],  // blue-violet
+  [80, 160, 230],   // electric blue
+  [75, 195, 210],   // light blue
+  [165, 120, 248],  // blue-violet
+  [245, 70, 210],   // neon purple
 ];
 
 function LedWallVideo({ active }: { active: boolean }) {
-  const vidA = useRef<HTMLVideoElement>(null);
-  const vidB = useRef<HTMLVideoElement>(null);
+  const vidRef = useRef<HTMLVideoElement>(null);
   const sampleCanvas = useRef<HTMLCanvasElement>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
   const startedRef = useRef(false);
-  const idxRef = useRef(0);
-  const phaseRef = useRef<"A" | "B">("A");
   const rafRef = useRef(0);
   const activeRef = useRef(false);
   const lastSyncRef = useRef(0);
@@ -123,9 +118,8 @@ function LedWallVideo({ active }: { active: boolean }) {
       const t = setTimeout(() => {
         startedRef.current = true;
         setOn(true);
-        const v = vidA.current;
+        const v = vidRef.current;
         if (v) {
-          v.src = LED_VIDEOS[0];
           v.play().catch(() => {});
         }
       }, 1800);
@@ -149,7 +143,7 @@ function LedWallVideo({ active }: { active: boolean }) {
       }
 
       const now = performance.now() / 1000;
-      const vid = phaseRef.current === "A" ? vidA.current : vidB.current;
+      const vid = vidRef.current;
 
       let synced = false;
       if (vid && vid.readyState >= 2) {
@@ -178,10 +172,11 @@ function LedWallVideo({ active }: { active: boolean }) {
         } catch { /* tainted canvas fallback below */ }
       }
 
-      /* Fallback: use pre-set dominant color for current clip */
+      /* Fallback: cycle through tunnel color palette */
       if (!synced && now - lastSyncRef.current > 0.3) {
         lastSyncRef.current = now;
-        const [r, g, b] = LED_COLORS[idxRef.current % LED_COLORS.length];
+        const idx = Math.floor(now / 3) % TUNNEL_COLORS.length;
+        const [r, g, b] = TUNNEL_COLORS[idx];
         const el = sectionRef.current;
         if (el) {
           el.style.setProperty("--led-r", `${r}`);
@@ -197,55 +192,17 @@ function LedWallVideo({ active }: { active: boolean }) {
     return () => cancelAnimationFrame(rafRef.current);
   }, []);
 
-  /* Crossfade timer — switches clips on schedule */
-  useEffect(() => {
-    if (!active) return;
-    const interval = setInterval(() => {
-      if (!startedRef.current) return;
-
-      const nextIdx = (idxRef.current + 1) % LED_VIDEOS.length;
-      idxRef.current = nextIdx;
-      const nextSrc = LED_VIDEOS[nextIdx];
-
-      if (phaseRef.current === "A") {
-        const vb = vidB.current;
-        if (vb) { vb.src = nextSrc; vb.play().catch(() => {}); }
-        if (vidA.current) vidA.current.style.opacity = "0";
-        if (vb) vb.style.opacity = "1";
-        phaseRef.current = "B";
-      } else {
-        const va = vidA.current;
-        if (va) { va.src = nextSrc; va.play().catch(() => {}); }
-        if (vidB.current) vidB.current.style.opacity = "0";
-        if (va) va.style.opacity = "1";
-        phaseRef.current = "A";
-      }
-    }, CLIP_DURATION * 1000);
-
-    return () => clearInterval(interval);
-  }, [active]);
-
   return (
     <div className="led-video-container">
       <video
-        ref={vidA}
+        ref={vidRef}
         className="led-video-layer"
+        src={LED_TUNNEL_SRC}
         muted
         loop
         playsInline
         preload="auto"
-        crossOrigin="anonymous"
         style={{ opacity: on ? 1 : 0 }}
-      />
-      <video
-        ref={vidB}
-        className="led-video-layer"
-        muted
-        loop
-        playsInline
-        preload="auto"
-        crossOrigin="anonymous"
-        style={{ opacity: 0 }}
       />
       <canvas ref={sampleCanvas} style={{ display: "none" }} />
     </div>
