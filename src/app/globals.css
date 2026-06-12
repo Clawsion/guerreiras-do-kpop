@@ -47,11 +47,11 @@
   --radius: 0px;
 
   /* ═══ NEON PURPLE BG — light like neon light ═══ */
-  --void: #1a0a2e;
-  --deep: #221040;
-  --surface: #2c1550;
-  --elevated: #3a1e66;
-  --subtle: #4d2a80;
+  --void: #0B0813;
+  --deep: #100B1A;
+  --surface: #1C1240;
+  --elevated: #2A1A5A;
+  --subtle: #3D2878;
 
   /* ═══ NEON PURPLE — main color, bright neon ═══ */
   --neon-purple: #C850FF;
@@ -203,19 +203,19 @@ html { scroll-behavior: smooth; }
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255,215,0,0.15);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.02);
+  box-shadow: 0 8px 40px rgba(11,8,19,0.3), inset 0 1px 0 rgba(255,255,255,0.02);
 }
 .glass-neon {
   background: rgba(200,80,255,0.05);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(200,80,255,0.15);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.02);
+  box-shadow: 0 8px 40px rgba(11,8,19,0.3), inset 0 1px 0 rgba(255,255,255,0.02);
 }
 
 /* ═══ TICKET CARD ═══ */
 .tk { transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease; }
-.tk:hover { transform:translateY(-6px); box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 50px rgba(200,80,255,0.08); }
+.tk:hover { transform:translateY(-6px); box-shadow: 0 24px 60px rgba(11,8,19,0.5), 0 0 50px rgba(200,80,255,0.08); }
 
 /* ═══ PRELOADER ═══ */
 @keyframes load {
@@ -267,7 +267,7 @@ html { scroll-behavior: smooth; }
   position: fixed;
   inset: 0;
   z-index: 90;
-  background: rgba(13, 6, 22, 0.75);
+  background: rgba(11, 8, 19, 0.75);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   display: flex;
@@ -339,7 +339,7 @@ html { scroll-behavior: smooth; }
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(26,10,46,0.05) 0%, rgba(26,10,46,0.0) 30%, rgba(26,10,46,0.7) 85%, rgba(26,10,46,0.95) 100%);
+    linear-gradient(180deg, rgba(11,8,19,0.05) 0%, rgba(11,8,19,0.0) 30%, rgba(11,8,19,0.7) 85%, rgba(11,8,19,0.95) 100%);
   pointer-events: none;
 }
 
@@ -347,7 +347,7 @@ html { scroll-behavior: smooth; }
 .hero-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 45%, transparent 50%, rgba(26,10,46,0.5) 100%);
+  background: radial-gradient(ellipse at 50% 45%, transparent 50%, rgba(11,8,19,0.5) 100%);
   pointer-events: none;
 }
 
