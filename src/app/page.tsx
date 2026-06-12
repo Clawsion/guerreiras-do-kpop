@@ -198,9 +198,9 @@ export default function HomePage() {
                 href={n.h}
                 onClick={()=>setMenuOpen(false)}
                 className="menu-link"
-                style={{ transitionDelay: menuOpen ? `${i * 80 + 100}ms` : "0ms", color:"var(--neon-purple)" }}
-                onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--gold)"}}
-                onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}
+                style={{ transitionDelay: menuOpen ? `${i * 80 + 100}ms` : "0ms", color:"var(--t3)" }}
+                onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}
+                onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}
               >
                 <span className="menu-link-text">{n.l}</span>
                 <span className="link-num">0{i+1}</span>
