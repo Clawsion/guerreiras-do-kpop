@@ -267,7 +267,9 @@ html { scroll-behavior: smooth; }
   position: fixed;
   inset: 0;
   z-index: 90;
-  background: var(--void);
+  background: rgba(13, 6, 22, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   display: flex;
   flex-direction: column;
   justify-content: center;
