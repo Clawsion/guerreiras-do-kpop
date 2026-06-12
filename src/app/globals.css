@@ -334,13 +334,12 @@ html { scroll-behavior: smooth; }
   height: 100%;
   object-fit: cover;
   object-position: center 20%;
-  transform: scale(1.08);
-  animation: heroZoom 20s ease-out forwards;
+  animation: heroZoom 25s ease-in-out infinite alternate;
   will-change: transform;
 }
 @keyframes heroZoom {
-  0% { transform: scale(1.12); }
-  100% { transform: scale(1.0); }
+  0% { transform: scale(1.0); }
+  100% { transform: scale(1.1); }
 }
 
 /* ═══ Grid overlay — subtle depth texture ═══ */
