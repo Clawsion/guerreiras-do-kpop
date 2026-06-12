@@ -548,19 +548,22 @@ html { scroll-behavior: smooth; }
   contain: strict;
 }
 
-/* ═══ LED Canvas — real-time neon tunnel animation ═══ */
-.led-canvas {
+/* ═══ LED Video Container — two overlapping video layers for crossfade ═══ */
+.led-video-container {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  display: block;
 }
-
-/* Tunnels are hidden until power-on */
-
-/* When manifesto is in view, tunnels start their animations with delay for suspense */
-
+.led-video-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: opacity 2s ease-in-out;
+}
 
 /* LED power flash — enhanced with suspense timing */
 .led-power-flash {

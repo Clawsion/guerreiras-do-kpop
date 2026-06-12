@@ -85,194 +85,171 @@ function Marquee({ text }: { text: string }) {
   );
 }
 
-/* ═══ LED WALL CANVAS — neon tunnel animation with sync reflections ═══ */
+/* ═══ LED WALL VIDEO — real stock video with crossfade + sync reflections ═══ */
 
-function LedWallCanvas({ active }: { active: boolean }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rafRef = useRef(0);
-  const startedRef = useRef(false);
-  const timeRef = useRef(0);
+const LED_VIDEOS = [
+  "/videos/led-v1-tunnel.mp4",
+  "/videos/led-v2-burst.mp4",
+  "/videos/led-v3-lightshow.mp4",
+  "/videos/led-v4-abstract.mp4",
+];
+const CLIP_DURATION = 12; // seconds per clip before crossfade
+
+/* Dominant color per video for fallback glow sync */
+const LED_COLORS: Array<[number, number, number]> = [
+  [200, 80, 255],   // tunnel — purple
+  [255, 45, 120],   // burst — pink
+  [129, 140, 248],  // lightshow — indigo-blue
+  [168, 85, 247],   // abstract — violet
+];
+
+function LedWallVideo({ active }: { active: boolean }) {
+  const vidA = useRef<HTMLVideoElement>(null);
+  const vidB = useRef<HTMLVideoElement>(null);
+  const sampleCanvas = useRef<HTMLCanvasElement>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
+  const startedRef = useRef(false);
+  const idxRef = useRef(0);
+  const phaseRef = useRef<"A" | "B">("A");
+  const rafRef = useRef(0);
   const activeRef = useRef(false);
+  const lastSyncRef = useRef(0);
+  const [on, setOn] = useState(false);
 
+  /* Start video after power-on delay */
   useEffect(() => {
     activeRef.current = active;
     if (active && !startedRef.current) {
-      const t = setTimeout(() => { startedRef.current = true; }, 1800);
+      const t = setTimeout(() => {
+        startedRef.current = true;
+        setOn(true);
+        const v = vidA.current;
+        if (v) {
+          v.src = LED_VIDEOS[0];
+          v.play().catch(() => {});
+        }
+      }, 1800);
       return () => clearTimeout(t);
     }
   }, [active]);
 
+  /* Color sampler — reads dominant color from video and syncs glow */
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = sampleCanvas.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
 
     sectionRef.current = canvas.closest(".manifesto-section") as HTMLElement;
 
-    const palettes = [
-      ["#C850FF","#FF2D78","#818CF8","#B1D5F0","#A855F7"],
-      ["#8B5CF6","#6366F1","#FF6BA0","#C850FF","#FFF5A4"],
-      ["#FF2D78","#F472B6","#C850FF","#6366F1","#B1D5F0"],
-      ["#6366F1","#818CF8","#B1D5F0","#C850FF","#FF2D78"],
-      ["#A855F7","#FFF5A4","#FF2D78","#8B5CF6","#6366F1"],
-    ];
-
-    const h2r = (h: string) => ({
-      r: parseInt(h.slice(1,3),16), g: parseInt(h.slice(3,5),16), b: parseInt(h.slice(5,7),16)
-    });
-    const mix = (a: number, b: number, t: number) => a + (b - a) * t;
-    const colAt = (t: number, off: number) => {
-      const pi = Math.floor(t * 0.04) % palettes.length;
-      const ni = (pi + 1) % palettes.length;
-      const ci = Math.floor(t * 0.12 + off) % 5;
-      const a = h2r(palettes[pi][ci]), b = h2r(palettes[ni][ci]);
-      const bt = (t * 0.04) % 1;
-      return { r: Math.round(mix(a.r,b.r,bt)), g: Math.round(mix(a.g,b.g,bt)), b: Math.round(mix(a.b,b.b,bt)) };
-    };
-
-    let lastSync = 0;
-
-    function resize() {
-      const r = canvas!.getBoundingClientRect();
-      canvas!.width = Math.floor(r.width);
-      canvas!.height = Math.floor(r.height);
-    }
-    resize();
-    window.addEventListener("resize", resize);
-
-    function draw() {
-      const w = canvas!.width, h = canvas!.height;
-      const cx = w / 2, cy = h / 2;
-      const maxR = Math.sqrt(cx*cx + cy*cy);
-
-      if (!startedRef.current) {
-        ctx!.fillStyle = "#050208";
-        ctx!.fillRect(0,0,w,h);
-        if (activeRef.current && Math.random() < 0.03) {
-          ctx!.fillStyle = `rgba(200,80,255,${0.04 + Math.random()*0.1})`;
-          ctx!.fillRect(0,0,w,h);
-        }
-        rafRef.current = requestAnimationFrame(draw);
+    function sample() {
+      if (!startedRef.current || !activeRef.current) {
+        rafRef.current = requestAnimationFrame(sample);
         return;
       }
 
-      const t = timeRef.current;
-      ctx!.fillStyle = "#050208";
-      ctx!.fillRect(0,0,w,h);
+      const now = performance.now() / 1000;
+      const vid = phaseRef.current === "A" ? vidA.current : vidB.current;
 
-      /* ── Primary tunnel: rings expanding outward ── */
-      const rings = 35, speed = t * 100, sp = maxR / rings;
-      for (let i = 0; i < rings; i++) {
-        const r = i * sp + (speed % sp);
-        if (r > maxR || r < 3) continue;
-        const p = r / maxR, a = 1 - p;
-        if (a < 0.01) continue;
-        const c = colAt(t, i * 0.6);
-
-        /* glow */
-        ctx!.beginPath(); ctx!.arc(cx,cy,r,0,Math.PI*2);
-        ctx!.strokeStyle = `rgba(${c.r},${c.g},${c.b},${a*0.16})`;
-        ctx!.lineWidth = 14 + a*20; ctx!.stroke();
-
-        /* ring */
-        ctx!.beginPath(); ctx!.arc(cx,cy,r,0,Math.PI*2);
-        ctx!.strokeStyle = `rgba(${c.r},${c.g},${c.b},${a*0.78})`;
-        ctx!.lineWidth = 1.5 + a*3.5; ctx!.stroke();
+      let synced = false;
+      if (vid && vid.readyState >= 2) {
+        try {
+          canvas.width = 40;
+          canvas.height = 22;
+          ctx!.drawImage(vid, 0, 0, 40, 22);
+          const data = ctx!.getImageData(10, 5, 20, 12).data;
+          let r = 0, g = 0, b = 0, n = 0;
+          for (let i = 0; i < data.length; i += 4) {
+            if (data[i] + data[i+1] + data[i+2] > 40) {
+              r += data[i]; g += data[i+1]; b += data[i+2]; n++;
+            }
+          }
+          if (n > 0) {
+            r = Math.round(r / n); g = Math.round(g / n); b = Math.round(b / n);
+            const el = sectionRef.current;
+            if (el && now - lastSyncRef.current > 0.15) {
+              lastSyncRef.current = now;
+              el.style.setProperty("--led-r", `${r}`);
+              el.style.setProperty("--led-g", `${g}`);
+              el.style.setProperty("--led-b", `${b}`);
+            }
+            synced = true;
+          }
+        } catch { /* tainted canvas fallback below */ }
       }
 
-      /* ── Secondary tunnel: rings contracting inward ── */
-      const rings2 = 18, speed2 = t * 60;
-      for (let i = 0; i < rings2; i++) {
-        const baseR = maxR - i * (maxR / rings2) - (speed2 % (maxR / rings2));
-        if (baseR < 3 || baseR > maxR) continue;
-        const p = baseR / maxR, a = (1 - p) * 0.35;
-        if (a < 0.01) continue;
-        const c = colAt(t + 5, i * 0.8 + 2);
-
-        ctx!.beginPath(); ctx!.arc(cx,cy,baseR,0,Math.PI*2);
-        ctx!.strokeStyle = `rgba(${c.r},${c.g},${c.b},${a*0.5})`;
-        ctx!.lineWidth = 1 + a*3; ctx!.stroke();
-      }
-
-      /* ── Rotating neon beams ── */
-      const beams = 6;
-      for (let i = 0; i < beams; i++) {
-        const ang = (i / beams) * Math.PI * 2 + t * 0.22;
-        const c = colAt(t, i * 1.3);
-        const oR = maxR * 0.75;
-        const grad = ctx!.createLinearGradient(
-          cx + Math.cos(ang)*15, cy + Math.sin(ang)*15,
-          cx + Math.cos(ang)*oR, cy + Math.sin(ang)*oR
-        );
-        grad.addColorStop(0, `rgba(${c.r},${c.g},${c.b},0.28)`);
-        grad.addColorStop(0.35, `rgba(${c.r},${c.g},${c.b},0.05)`);
-        grad.addColorStop(1, `rgba(${c.r},${c.g},${c.b},0)`);
-
-        ctx!.beginPath();
-        ctx!.moveTo(cx+Math.cos(ang-0.025)*15, cy+Math.sin(ang-0.025)*15);
-        ctx!.lineTo(cx+Math.cos(ang-0.06)*oR, cy+Math.sin(ang-0.06)*oR);
-        ctx!.lineTo(cx+Math.cos(ang+0.06)*oR, cy+Math.sin(ang+0.06)*oR);
-        ctx!.lineTo(cx+Math.cos(ang+0.025)*15, cy+Math.sin(ang+0.025)*15);
-        ctx!.closePath();
-        ctx!.fillStyle = grad; ctx!.fill();
-      }
-
-      /* ── Horizontal sweep line ── */
-      const sweepY = ((t * 40) % (h + 60)) - 30;
-      const dc = colAt(t, 0);
-      const sweepGrad = ctx!.createLinearGradient(0, sweepY - 25, 0, sweepY + 25);
-      sweepGrad.addColorStop(0, `rgba(${dc.r},${dc.g},${dc.b},0)`);
-      sweepGrad.addColorStop(0.5, `rgba(${dc.r},${dc.g},${dc.b},0.08)`);
-      sweepGrad.addColorStop(1, `rgba(${dc.r},${dc.g},${dc.b},0)`);
-      ctx!.fillStyle = sweepGrad;
-      ctx!.fillRect(0, sweepY - 25, w, 50);
-
-      /* ── Center bloom ── */
-      const cg = ctx!.createRadialGradient(cx,cy,0,cx,cy,maxR*0.28);
-      cg.addColorStop(0, `rgba(${dc.r},${dc.g},${dc.b},0.14)`);
-      cg.addColorStop(0.5, `rgba(${dc.r},${dc.g},${dc.b},0.03)`);
-      cg.addColorStop(1, "transparent");
-      ctx!.fillStyle = cg; ctx!.fillRect(0,0,w,h);
-
-      /* ── Pulse flash ── */
-      const pt = t % 6;
-      if (pt < 0.25) {
-        const pa = Math.sin(pt/0.25*Math.PI)*0.12;
-        ctx!.fillStyle = `rgba(${dc.r},${dc.g},${dc.b},${pa})`;
-        ctx!.fillRect(0,0,w,h);
-      }
-
-      /* ── Second offset pulse ── */
-      const pt2 = (t+3) % 6;
-      if (pt2 < 0.18) {
-        const c2 = colAt(t+3, 2);
-        const pa2 = Math.sin(pt2/0.18*Math.PI)*0.08;
-        ctx!.fillStyle = `rgba(${c2.r},${c2.g},${c2.b},${pa2})`;
-        ctx!.fillRect(0,0,w,h);
-      }
-
-      /* ── Sync reflection color ── */
-      if (t - lastSync > 0.13) {
-        lastSync = t;
+      /* Fallback: use pre-set dominant color for current clip */
+      if (!synced && now - lastSyncRef.current > 0.3) {
+        lastSyncRef.current = now;
+        const [r, g, b] = LED_COLORS[idxRef.current % LED_COLORS.length];
         const el = sectionRef.current;
         if (el) {
-          el.style.setProperty("--led-r", `${dc.r}`);
-          el.style.setProperty("--led-g", `${dc.g}`);
-          el.style.setProperty("--led-b", `${dc.b}`);
+          el.style.setProperty("--led-r", `${r}`);
+          el.style.setProperty("--led-g", `${g}`);
+          el.style.setProperty("--led-b", `${b}`);
         }
       }
 
-      timeRef.current += 0.016;
-      rafRef.current = requestAnimationFrame(draw);
+      rafRef.current = requestAnimationFrame(sample);
     }
 
-    rafRef.current = requestAnimationFrame(draw);
-    return () => { cancelAnimationFrame(rafRef.current); window.removeEventListener("resize", resize); };
+    rafRef.current = requestAnimationFrame(sample);
+    return () => cancelAnimationFrame(rafRef.current);
   }, []);
 
-  return <canvas ref={canvasRef} className="led-canvas"/>;
+  /* Crossfade timer — switches clips on schedule */
+  useEffect(() => {
+    if (!active) return;
+    const interval = setInterval(() => {
+      if (!startedRef.current) return;
+
+      const nextIdx = (idxRef.current + 1) % LED_VIDEOS.length;
+      idxRef.current = nextIdx;
+      const nextSrc = LED_VIDEOS[nextIdx];
+
+      if (phaseRef.current === "A") {
+        const vb = vidB.current;
+        if (vb) { vb.src = nextSrc; vb.play().catch(() => {}); }
+        if (vidA.current) vidA.current.style.opacity = "0";
+        if (vb) vb.style.opacity = "1";
+        phaseRef.current = "B";
+      } else {
+        const va = vidA.current;
+        if (va) { va.src = nextSrc; va.play().catch(() => {}); }
+        if (vidB.current) vidB.current.style.opacity = "0";
+        if (va) va.style.opacity = "1";
+        phaseRef.current = "A";
+      }
+    }, CLIP_DURATION * 1000);
+
+    return () => clearInterval(interval);
+  }, [active]);
+
+  return (
+    <div className="led-video-container">
+      <video
+        ref={vidA}
+        className="led-video-layer"
+        muted
+        loop
+        playsInline
+        preload="auto"
+        crossOrigin="anonymous"
+        style={{ opacity: on ? 1 : 0 }}
+      />
+      <video
+        ref={vidB}
+        className="led-video-layer"
+        muted
+        loop
+        playsInline
+        preload="auto"
+        crossOrigin="anonymous"
+        style={{ opacity: 0 }}
+      />
+      <canvas ref={sampleCanvas} style={{ display: "none" }} />
+    </div>
+  );
 }
 
 /* ════════════════════════════════════════ */
@@ -488,7 +465,7 @@ export default function HomePage() {
 
               {/* LED Wall screen */}
               <div className="led-wall-screen">
-                <LedWallCanvas active={manifestoVisible}/>
+                <LedWallVideo active={manifestoVisible}/>
                 <div className="led-scanlines"/>
                 <div className="led-pixel-grid"/>
               </div>
