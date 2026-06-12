@@ -43,39 +43,73 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* ═══ AWWWARDS-LEVEL COLOR SYSTEM ═══ */
 :root {
-  --radius: 0.5rem;
-  --background: #1A0A2E;
-  --foreground: #F0ECF4;
-  --card: #241240;
-  --card-foreground: #F0ECF4;
-  --popover: #1A0A2E;
-  --popover-foreground: #F0ECF4;
-  --primary: #FFD700;
-  --primary-foreground: #1A0A2E;
-  --secondary: #3D1764;
-  --secondary-foreground: #F0ECF4;
-  --muted: #2E1050;
-  --muted-foreground: #9B8AAD;
-  --accent: #FF2D78;
-  --accent-foreground: #FFFFFF;
+  --radius: 0.375rem;
+
+  /* Dark layers — warm purple undertone, NEVER pure black */
+  --bg-void: #050208;
+  --bg-deep: #0a0612;
+  --bg-surface: #120e1f;
+  --bg-elevated: #1a1430;
+  --bg-subtle: #221a3d;
+
+  /* Gold system — warm molten, NOT flat yellow */
+  --gold: #c9a84c;
+  --gold-light: #e8d48b;
+  --gold-dim: #8b7233;
+  --gold-glow: #d4af37;
+
+  /* Purple accents from poster */
+  --purple-vivid: #7B2F9A;
+  --purple-mid: #5b21b6;
+  --purple-deep: #3b0764;
+
+  /* Blue from poster title */
+  --blue-title: #4A90E2;
+  --blue-light: #6BAAF5;
+
+  /* Pink from poster */
+  --pink-kpop: #FF2D78;
+  --pink-soft: #FF69B4;
+
+  /* Text — warm, never pure white */
+  --text-primary: #f5f0e8;
+  --text-secondary: #a89fb5;
+  --text-dim: #6b5f7a;
+
+  /* System vars */
+  --background: var(--bg-deep);
+  --foreground: var(--text-primary);
+  --card: var(--bg-surface);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-elevated);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--gold);
+  --primary-foreground: var(--bg-void);
+  --secondary: var(--bg-subtle);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--bg-subtle);
+  --muted-foreground: var(--text-secondary);
+  --accent: var(--pink-kpop);
+  --accent-foreground: #fff;
   --destructive: #E63946;
-  --border: #3D1764;
-  --input: #3D1764;
-  --ring: #FFD700;
-  --chart-1: #FFD700;
+  --border: rgba(123, 47, 154, 0.2);
+  --input: var(--bg-subtle);
+  --ring: var(--gold);
+  --chart-1: var(--gold);
   --chart-2: #7B2F9A;
   --chart-3: #4A90E2;
   --chart-4: #FF2D78;
   --chart-5: #20B2AA;
-  --sidebar: #1A0A2E;
-  --sidebar-foreground: #F0ECF4;
-  --sidebar-primary: #FFD700;
-  --sidebar-primary-foreground: #1A0A2E;
-  --sidebar-accent: #3D1764;
-  --sidebar-accent-foreground: #F0ECF4;
-  --sidebar-border: #3D1764;
-  --sidebar-ring: #FFD700;
+  --sidebar: var(--bg-deep);
+  --sidebar-foreground: var(--text-primary);
+  --sidebar-primary: var(--gold);
+  --sidebar-primary-foreground: var(--bg-void);
+  --sidebar-accent: var(--bg-subtle);
+  --sidebar-accent-foreground: var(--text-primary);
+  --sidebar-border: rgba(123, 47, 154, 0.2);
+  --sidebar-ring: var(--gold);
 }
 
 @layer base {
@@ -87,57 +121,168 @@
   }
 }
 
-/* Smooth scroll */
+/* ═══ SMOOTH SCROLL ═══ */
 html {
   scroll-behavior: smooth;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #1A0A2E; }
-::-webkit-scrollbar-thumb { background: #3D1764; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #5A2D87; }
+/* ═══ SCROLLBAR ═══ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-void); }
+::-webkit-scrollbar-thumb { background: var(--bg-subtle); border-radius: 2px; }
 
-/* Poster-style hero */
-.hero-overlay {
-  background: linear-gradient(180deg,
-    rgba(26, 10, 46, 0) 0%,
-    rgba(26, 10, 46, 0.4) 40%,
-    rgba(26, 10, 46, 0.95) 80%,
-    rgba(26, 10, 46, 1) 100%
+/* ═══ HERO ═══ */
+.hero-vignette {
+  background:
+    radial-gradient(ellipse at 50% 40%, transparent 0%, var(--bg-deep) 70%),
+    linear-gradient(to bottom, rgba(10, 6, 18, 0.2) 0%, rgba(10, 6, 18, 0.6) 50%, var(--bg-deep) 100%);
+}
+
+/* ═══ GOLD SHIMMER TEXT ═══ */
+.gold-shimmer {
+  background: linear-gradient(
+    135deg,
+    var(--gold-dim) 0%,
+    var(--gold) 30%,
+    var(--gold-light) 50%,
+    var(--gold) 70%,
+    var(--gold-dim) 100%
   );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 6s ease-in-out infinite;
 }
 
-/* Gold underline accent */
-.gold-line {
-  position: relative;
-  display: inline-block;
-}
-.gold-line::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: #FFD700;
-  border-radius: 2px;
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
-/* Section divider */
-.section-dark { background: #140822; }
-.section-base { background: #1A0A2E; }
+/* ═══ BLUE TITLE TEXT (poster exact) ═══ */
+.blue-title {
+  color: var(--blue-title);
+  text-shadow: 0 0 40px rgba(74, 144, 226, 0.2);
+}
 
-/* Ticket card hover */
+/* ═══ SECTION DIVIDER ═══ */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold-dim) 30%, var(--gold) 50%, var(--gold-dim) 70%, transparent 100%);
+  opacity: 0.3;
+}
+
+/* ═══ MARQUEE ═══ */
+.marquee-track {
+  display: inline-flex;
+  animation: marquee 40s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ═══ SCROLL INDICATOR ═══ */
+@keyframes scrollPulse {
+  0%, 100% { opacity: 1; transform: scaleY(1); }
+  50% { opacity: 0.3; transform: scaleY(0.5); }
+}
+
+.scroll-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* ═══ REVEAL ANIMATIONS ═══ */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(60px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══ CINEMATIC IMAGE ═══ */
+.cinematic-img {
+  filter: brightness(0.75) contrast(1.1) saturate(0.85);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cinematic-img:hover {
+  filter: brightness(0.9) contrast(1.05) saturate(1);
+  transform: scale(1.03);
+}
+
+/* ═══ GLASS CARD ═══ */
+.glass {
+  background: rgba(18, 14, 31, 0.6);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid rgba(201, 168, 76, 0.1);
+}
+
+.glass-gold {
+  background: rgba(201, 168, 76, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* ═══ TICKET CARD HOVER ═══ */
 .ticket-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
 }
 .ticket-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(201, 168, 76, 0.06);
 }
 
-/* FAQ trigger */
+/* ═══ GOLD BUTTON ═══ */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2.5rem;
+  background: var(--bg-surface);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 0;
+}
+
+.btn-gold:hover {
+  background: var(--gold);
+  color: var(--bg-void);
+  box-shadow: 0 0 30px rgba(201, 168, 76, 0.25), 0 0 60px rgba(201, 168, 76, 0.08);
+}
+
+/* ═══ FAQ ═══ */
+.faq-trigger {
+  transition: background 0.3s ease;
+}
 .faq-trigger:hover {
-  background: #2E1050;
+  background: var(--bg-subtle);
 }
