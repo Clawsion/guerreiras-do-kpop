@@ -91,14 +91,7 @@ function Marquee({ text }: { text: string }) {
 
 export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 80);
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 900);
@@ -128,65 +121,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ═══ HAMBURGER NAV — fixed, transparent on hero, glass on scroll ═══ */}
-      <nav className={`fixed top-0 inset-x-0 z-[95] transition-all duration-500 ${scrolled?"py-4 backdrop-blur-2xl border-b":"py-6"}`} style={{background:scrolled?"rgba(26,10,46,0.92)":"transparent",borderColor:scrolled?"rgba(200,80,255,0.08)":"transparent"}}>
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 flex items-center justify-between">
-          {/* LEFT: Hamburger only */}
-          <button
-            onClick={()=>setMenuOpen(!menuOpen)}
-            className={`hamburger ${menuOpen?"open":""}`}
-            aria-label="Menu"
-          >
-            <span />
-            <span />
-            <span />
-          </button>
-          {/* RIGHT: empty space to balance */}
-          <div className="w-9"/>
-        </div>
-      </nav>
-
-      {/* ═══ FULLSCREEN MENU OVERLAY — cascade from LEFT ═══ */}
-      <div className={`menu-overlay ${menuOpen?"open":""}`}>
-        <div className="flex flex-col items-start gap-1 sm:gap-2 mb-16">
-          {navLinks.map((n, i) => (
-            <a
-              key={n.l}
-              href={n.h}
-              onClick={()=>setMenuOpen(false)}
-              className="menu-link"
-              style={{ transitionDelay: menuOpen ? `${i * 80 + 100}ms` : "0ms" }}
-            >
-              <span className="menu-link-text">{n.l}</span>
-              <span className="link-num">0{i+1}</span>
-            </a>
-          ))}
-        </div>
-        {/* Menu CTA */}
-        <div style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(-40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
-          <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold transition-all duration-400" style={{background:"var(--neon-purple)",color:"#fff"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.boxShadow="0 0 40px rgba(200,80,255,0.4)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.boxShadow="none"}}>
-            <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
-          </a>
-        </div>
-        {/* Menu Footer — social bottom right */}
-        <div className="absolute bottom-8 right-8 sm:right-12 flex gap-6" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 350}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
-            <Instagram className="w-5 h-5"/>
-          </a>
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
-            <Facebook className="w-5 h-5"/>
-          </a>
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
-            <Youtube className="w-5 h-5"/>
-          </a>
-          <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
-            <Music2 className="w-5 h-5"/>
-          </a>
-        </div>
-        {/* Decorative circle */}
-        <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
-      </div>
-
       {/* ═══ HERO — FULL SCREEN ═══ */}
       <section className="hero-section" style={{background:"var(--void)"}}>
         {/* Background image — full bleed */}
@@ -205,6 +139,65 @@ export default function HomePage() {
         {/* Glow orbs */}
         <div className="hero-glow-orb" style={{width:"40vw",height:"40vw",left:"25%",top:"30%",background:"rgba(200,80,255,0.15)"}}/>
         <div className="hero-glow-orb" style={{width:"30vw",height:"30vw",right:"15%",top:"50%",background:"rgba(74,144,226,0.1)",animationDelay:"3s"}}/>
+
+        {/* ═══ HAMBURGER NAV — pinned at top of hero ═══ */}
+        <nav className="absolute top-0 inset-x-0 z-[95] py-6" style={{background:"transparent"}}>
+          <div className="max-w-[1400px] mx-auto px-5 sm:px-10 flex items-center justify-between">
+            {/* LEFT: Hamburger only */}
+            <button
+              onClick={()=>setMenuOpen(!menuOpen)}
+              className={`hamburger ${menuOpen?"open":""}`}
+              aria-label="Menu"
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+            {/* RIGHT: empty space to balance */}
+            <div className="w-9"/>
+          </div>
+        </nav>
+
+        {/* ═══ FULLSCREEN MENU OVERLAY — cascade from LEFT ═══ */}
+        <div className={`menu-overlay ${menuOpen?"open":""}`}>
+          <div className="flex flex-col items-start gap-1 sm:gap-2 mb-16">
+            {navLinks.map((n, i) => (
+              <a
+                key={n.l}
+                href={n.h}
+                onClick={()=>setMenuOpen(false)}
+                className="menu-link"
+                style={{ transitionDelay: menuOpen ? `${i * 80 + 100}ms` : "0ms" }}
+              >
+                <span className="menu-link-text">{n.l}</span>
+                <span className="link-num">0{i+1}</span>
+              </a>
+            ))}
+          </div>
+          {/* Menu CTA */}
+          <div style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(-40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
+            <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold transition-all duration-400" style={{background:"var(--neon-purple)",color:"#fff"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.boxShadow="0 0 40px rgba(200,80,255,0.4)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.boxShadow="none"}}>
+              <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
+            </a>
+          </div>
+          {/* Menu Footer — social bottom right */}
+          <div className="absolute bottom-8 right-8 sm:right-12 flex gap-6" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 350}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+              <Instagram className="w-5 h-5"/>
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+              <Facebook className="w-5 h-5"/>
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+              <Youtube className="w-5 h-5"/>
+            </a>
+            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+              <Music2 className="w-5 h-5"/>
+            </a>
+          </div>
+          {/* Decorative circle */}
+          <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
+        </div>
 
         {/* Ticketline CTA — bottom center, hero star */}
         <a
@@ -516,7 +509,7 @@ export default function HomePage() {
       </footer>
 
       {/* ═══ MOBILE STICKY CTA ═══ */}
-      <div className={`fixed bottom-0 inset-x-0 z-40 sm:hidden p-3 backdrop-blur-2xl border-t transition-opacity duration-300 ${scrolled?"":"opacity-0 pointer-events-none"}`} style={{background:"rgba(26,10,46,0.92)",borderColor:"rgba(200,80,255,0.08)"}}>
+      <div className={`fixed bottom-0 inset-x-0 z-40 sm:hidden p-3 backdrop-blur-2xl border-t transition-opacity duration-300 ${loaded?"":"opacity-0 pointer-events-none"}`} style={{background:"rgba(26,10,46,0.92)",borderColor:"rgba(200,80,255,0.08)"}}>
         <a href={TL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase" style={{background:"var(--neon-purple)",color:"#fff"}}>
           <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
         </a>
