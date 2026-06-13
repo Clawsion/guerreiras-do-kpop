@@ -390,6 +390,55 @@ export default function HomePage() {
         <div className="monitor-glow monitor-glow-left"/>
         <div className="monitor-glow monitor-glow-right"/>
 
+        {/* ═══ HONMOON SHIELD — iridescent soul barrier ═══ */}
+        <div className="honmoon-shield">
+          <div className="honmoon-arc honmoon-arc-top"/>
+          <div className="honmoon-arc honmoon-arc-bottom"/>
+          <div className="honmoon-strand honmoon-strand-left"/>
+          <div className="honmoon-strand honmoon-strand-right"/>
+          <div className="honmoon-node honmoon-node-1"/>
+          <div className="honmoon-node honmoon-node-2"/>
+          <div className="honmoon-node honmoon-node-3"/>
+          <div className="honmoon-node honmoon-node-4"/>
+          <div className="honmoon-node honmoon-node-5"/>
+          <div className="honmoon-node honmoon-node-6"/>
+        </div>
+
+        {/* ═══ DEMON MARKINGS — Gwi-Ma vines on pillars ═══ */}
+        <div className="demon-markings demon-markings-left">
+          <svg viewBox="0 0 60 400" className="demon-vine-svg" preserveAspectRatio="none">
+            <path className="demon-vine demon-vine-1" d="M30,0 C10,50 50,80 20,140 C-5,190 55,220 25,280 C5,330 40,360 30,400" fill="none"/>
+            <path className="demon-vine demon-vine-2" d="M15,0 C45,60 5,100 35,160 C55,210 10,250 30,300 C45,340 20,370 15,400" fill="none"/>
+            <path className="demon-vine-eye demon-vine-eye-1" d="M18,120 C22,110 32,110 32,120 C32,130 22,130 18,120Z" fill="none"/>
+            <path className="demon-vine-eye demon-vine-eye-2" d="M28,260 C32,250 42,250 42,260 C42,270 32,270 28,260Z" fill="none"/>
+          </svg>
+        </div>
+        <div className="demon-markings demon-markings-right">
+          <svg viewBox="0 0 60 400" className="demon-vine-svg" preserveAspectRatio="none">
+            <path className="demon-vine demon-vine-1" d="M30,0 C50,50 10,80 40,140 C65,190 5,220 35,280 C55,330 20,360 30,400" fill="none"/>
+            <path className="demon-vine demon-vine-2" d="M45,0 C15,60 55,100 25,160 C5,210 50,250 30,300 C15,340 40,370 45,400" fill="none"/>
+            <path className="demon-vine-eye demon-vine-eye-1" d="M28,120 C32,110 42,110 42,120 C42,130 32,130 28,120Z" fill="none"/>
+            <path className="demon-vine-eye demon-vine-eye-2" d="M18,260 C22,250 32,250 32,260 C32,270 22,270 18,260Z" fill="none"/>
+          </svg>
+        </div>
+
+        {/* ═══ SOUL PARTICLES — floating souls rising ═══ */}
+        <div className="soul-particles">
+          {Array.from({length: 24}, (_, i) => (
+            <div
+              key={i}
+              className="soul-particle"
+              style={{
+                left: `${5 + (i * 3.8) % 90}%`,
+                animationDelay: `${(i * 0.7) % 8}s`,
+                animationDuration: `${6 + (i % 5) * 1.5}s`,
+                width: `${3 + (i % 4) * 2}px`,
+                height: `${3 + (i % 4) * 2}px`,
+              }}
+            />
+          ))}
+        </div>
+
         {/* ═══ TEMPLE FRAME ═══ */}
         <div className="temple-frame">
           {/* Temple roof — curved multi-tier top */}

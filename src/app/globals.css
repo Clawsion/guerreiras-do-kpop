@@ -921,6 +921,275 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 -2px 20px rgba(200,80,255,0.15), 0 0 40px rgba(200,80,255,0.05);
 }
 
+/* ═══ HONMOON SHIELD — iridescent soul barrier around temple ═══ */
+.honmoon-shield {
+  position: absolute;
+  inset: -30px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 2s;
+}
+.manifesto-in .honmoon-shield {
+  animation: honmoonFadeIn 3s 2s ease-out forwards;
+}
+@keyframes honmoonFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.honmoon-arc {
+  position: absolute;
+  left: -5%;
+  right: -5%;
+  height: 80px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  opacity: 0.7;
+}
+.honmoon-arc-top {
+  top: -10px;
+  border-image: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200,80,255,0.4) 15%,
+    rgba(255,100,200,0.6) 30%,
+    rgba(100,200,255,0.5) 50%,
+    rgba(255,150,220,0.6) 70%,
+    rgba(200,80,255,0.4) 85%,
+    transparent 100%
+  ) 1;
+  animation: honmoonArcPulse 4s ease-in-out infinite alternate;
+  box-shadow:
+    0 0 20px rgba(200,80,255,0.2),
+    0 0 40px rgba(255,100,200,0.1),
+    inset 0 0 15px rgba(100,200,255,0.1);
+}
+.honmoon-arc-bottom {
+  bottom: -10px;
+  border-image: linear-gradient(90deg,
+    transparent 0%,
+    rgba(100,200,255,0.4) 15%,
+    rgba(200,80,255,0.5) 35%,
+    rgba(255,150,220,0.6) 50%,
+    rgba(200,80,255,0.5) 65%,
+    rgba(100,200,255,0.4) 85%,
+    transparent 100%
+  ) 1;
+  animation: honmoonArcPulse 4s 2s ease-in-out infinite alternate;
+  box-shadow:
+    0 0 20px rgba(100,200,255,0.2),
+    0 0 40px rgba(200,80,255,0.1),
+    inset 0 0 15px rgba(255,100,200,0.1);
+}
+@keyframes honmoonArcPulse {
+  0% { opacity: 0.4; filter: hue-rotate(0deg); }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.6; filter: hue-rotate(30deg); }
+}
+.honmoon-strand {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  opacity: 0.5;
+}
+.honmoon-strand-left {
+  left: -8px;
+  background: linear-gradient(180deg,
+    rgba(255,100,200,0.6) 0%,
+    rgba(200,80,255,0.3) 25%,
+    rgba(100,200,255,0.5) 50%,
+    rgba(200,80,255,0.3) 75%,
+    rgba(255,150,220,0.6) 100%
+  );
+  animation: honmoonStrandPulse 5s ease-in-out infinite alternate;
+  box-shadow: 0 0 12px rgba(200,80,255,0.3), 0 0 25px rgba(255,100,200,0.15);
+}
+.honmoon-strand-right {
+  right: -8px;
+  background: linear-gradient(180deg,
+    rgba(100,200,255,0.6) 0%,
+    rgba(200,80,255,0.3) 25%,
+    rgba(255,150,220,0.5) 50%,
+    rgba(200,80,255,0.3) 75%,
+    rgba(100,200,255,0.6) 100%
+  );
+  animation: honmoonStrandPulse 5s 2.5s ease-in-out infinite alternate;
+  box-shadow: 0 0 12px rgba(100,200,255,0.3), 0 0 25px rgba(200,80,255,0.15);
+}
+@keyframes honmoonStrandPulse {
+  0% { opacity: 0.3; filter: hue-rotate(0deg) brightness(0.8); }
+  100% { opacity: 0.7; filter: hue-rotate(20deg) brightness(1.2); }
+}
+/* Honmoon nodes — glowing connection points like souls */
+.honmoon-node {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  opacity: 0;
+  animation: honmoonNodePulse 3s ease-in-out infinite;
+}
+.manifesto-in .honmoon-node {
+  animation: honmoonNodeFadeIn 3s 2.5s ease-out forwards, honmoonNodePulse 3s 4s ease-in-out infinite;
+}
+.honmoon-node-1 { top: -5px; left: 20%; background: rgba(255,100,200,0.9); box-shadow: 0 0 10px rgba(255,100,200,0.6); animation-delay: 0s; }
+.honmoon-node-2 { top: -5px; left: 50%; background: rgba(100,200,255,0.9); box-shadow: 0 0 10px rgba(100,200,255,0.6); animation-delay: 0.5s; }
+.honmoon-node-3 { top: -5px; left: 80%; background: rgba(200,80,255,0.9); box-shadow: 0 0 10px rgba(200,80,255,0.6); animation-delay: 1s; }
+.honmoon-node-4 { bottom: -5px; left: 15%; background: rgba(100,200,255,0.9); box-shadow: 0 0 10px rgba(100,200,255,0.6); animation-delay: 1.5s; }
+.honmoon-node-5 { bottom: -5px; left: 55%; background: rgba(255,150,220,0.9); box-shadow: 0 0 10px rgba(255,150,220,0.6); animation-delay: 2s; }
+.honmoon-node-6 { bottom: -5px; left: 85%; background: rgba(200,80,255,0.9); box-shadow: 0 0 10px rgba(200,80,255,0.6); animation-delay: 2.5s; }
+@keyframes honmoonNodeFadeIn {
+  0% { opacity: 0; transform: scale(0); }
+  100% { opacity: 0.8; transform: scale(1); }
+}
+@keyframes honmoonNodePulse {
+  0%, 100% { opacity: 0.5; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* ═══ DEMON MARKINGS — Gwi-Ma vine patterns on pillars ═══ */
+.demon-markings {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0;
+  transition: opacity 2s;
+}
+.manifesto-in .demon-markings {
+  animation: demonMarkingsReveal 4s 2s ease-out forwards;
+}
+@keyframes demonMarkingsReveal {
+  0% { opacity: 0; }
+  30% { opacity: 0.3; }
+  50% { opacity: 0.1; }
+  70% { opacity: 0.5; }
+  90% { opacity: 0.3; }
+  100% { opacity: 0.6; }
+}
+.demon-markings-left {
+  left: -10px;
+}
+.demon-markings-right {
+  right: -10px;
+}
+.demon-vine-svg {
+  width: 100%;
+  height: 100%;
+}
+.demon-vine {
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  fill: none;
+}
+.demon-vine-1 {
+  stroke: rgba(200,50,120,0.7);
+  filter: drop-shadow(0 0 4px rgba(200,50,120,0.5));
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+}
+.manifesto-in .demon-vine-1 {
+  animation: vineGrow 4s 2.5s ease-out forwards, vinePulse 6s 6s ease-in-out infinite alternate;
+}
+.demon-vine-2 {
+  stroke: rgba(160,40,200,0.5);
+  filter: drop-shadow(0 0 3px rgba(160,40,200,0.4));
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+}
+.manifesto-in .demon-vine-2 {
+  animation: vineGrow 4s 3.5s ease-out forwards, vinePulse 6s 7s ease-in-out infinite alternate;
+}
+.demon-vine-eye {
+  stroke: rgba(255,50,150,0.8);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 6px rgba(255,50,150,0.6));
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+}
+.manifesto-in .demon-vine-eye {
+  animation: vineEyeOpen 2s 5s ease-out forwards, vineEyeBlink 8s 7s ease-in-out infinite;
+}
+@keyframes vineGrow {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes vinePulse {
+  0% { stroke-opacity: 0.6; filter: drop-shadow(0 0 3px rgba(200,50,120,0.3)) brightness(0.9); }
+  100% { stroke-opacity: 1; filter: drop-shadow(0 0 8px rgba(200,50,120,0.6)) brightness(1.2); }
+}
+@keyframes vineEyeOpen {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes vineEyeBlink {
+  0%, 42%, 46%, 100% { opacity: 1; }
+  44% { opacity: 0.1; }
+}
+
+/* ═══ SOUL PARTICLES — floating souls rising around temple ═══ */
+.soul-particles {
+  position: absolute;
+  inset: -40px -60px;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.soul-particle {
+  position: absolute;
+  bottom: -10px;
+  border-radius: 50%;
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: soulRise 8s ease-in infinite;
+}
+.manifesto-in .soul-particle {
+  animation: soulRise 8s ease-in infinite;
+}
+@keyframes soulRise {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.3);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+    transform: translateY(-10vh) translateX(5px) scale(0.6);
+  }
+  30% {
+    opacity: 0.9;
+    transform: translateY(-30vh) translateX(-8px) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(-50vh) translateX(12px) scale(0.8);
+  }
+  70% {
+    opacity: 0.3;
+    transform: translateY(-70vh) translateX(-5px) scale(0.5);
+  }
+  90% {
+    opacity: 0.1;
+    transform: translateY(-90vh) translateX(8px) scale(0.3);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100vh) translateX(0) scale(0.1);
+  }
+}
+/* Color variety for soul particles — cycling through Honmoon iridescence */
+.soul-particle:nth-child(3n) {
+  background: radial-gradient(circle, rgba(255,100,200,0.9) 0%, rgba(255,100,200,0.3) 50%, transparent 100%);
+  box-shadow: 0 0 6px rgba(255,100,200,0.5), 0 0 12px rgba(255,100,200,0.2);
+}
+.soul-particle:nth-child(3n+1) {
+  background: radial-gradient(circle, rgba(100,200,255,0.9) 0%, rgba(100,200,255,0.3) 50%, transparent 100%);
+  box-shadow: 0 0 6px rgba(100,200,255,0.5), 0 0 12px rgba(100,200,255,0.2);
+}
+.soul-particle:nth-child(3n+2) {
+  background: radial-gradient(circle, rgba(200,80,255,0.9) 0%, rgba(200,80,255,0.3) 50%, transparent 100%);
+  box-shadow: 0 0 6px rgba(200,80,255,0.5), 0 0 12px rgba(200,80,255,0.2);
+}
+
 /* ═══ HERO — FULL SCREEN ═══ */
 .hero-section {
   position: relative;
