@@ -1,0 +1,1405 @@
+     1→@import "tailwindcss";
+     2→@import "tw-animate-css";
+     3→
+     4→@custom-variant dark (&:is(.dark *));
+     5→
+     6→@theme inline {
+     7→  --color-background: var(--background);
+     8→  --color-foreground: var(--foreground);
+     9→  --font-sans: var(--font-geist-sans);
+    10→  --font-mono: var(--font-geist-mono);
+    11→  --color-sidebar-ring: var(--sidebar-ring);
+    12→  --color-sidebar-border: var(--sidebar-border);
+    13→  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    14→  --color-sidebar-accent: var(--sidebar-accent);
+    15→  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    16→  --color-sidebar-primary: var(--sidebar-primary);
+    17→  --color-sidebar-foreground: var(--sidebar-foreground);
+    18→  --color-sidebar: var(--sidebar);
+    19→  --color-chart-5: var(--chart-5);
+    20→  --color-chart-4: var(--chart-4);
+    21→  --color-chart-3: var(--chart-3);
+    22→  --color-chart-2: var(--chart-2);
+    23→  --color-chart-1: var(--chart-1);
+    24→  --color-ring: var(--ring);
+    25→  --color-input: var(--input);
+    26→  --color-border: var(--border);
+    27→  --color-destructive: var(--destructive);
+    28→  --color-accent-foreground: var(--accent-foreground);
+    29→  --color-accent: var(--accent);
+    30→  --color-muted-foreground: var(--muted-foreground);
+    31→  --color-muted: var(--muted);
+    32→  --color-secondary-foreground: var(--secondary-foreground);
+    33→  --color-secondary: var(--secondary);
+    34→  --color-primary-foreground: var(--primary-foreground);
+    35→  --color-primary: var(--primary);
+    36→  --color-popover-foreground: var(--popover-foreground);
+    37→  --color-popover: var(--popover);
+    38→  --color-card-foreground: var(--card-foreground);
+    39→  --color-card: var(--card);
+    40→  --radius-sm: calc(var(--radius) - 4px);
+    41→  --radius-md: calc(var(--radius) - 2px);
+    42→  --radius-lg: var(--radius);
+    43→  --radius-xl: calc(var(--radius) + 4px);
+    44→}
+    45→
+    46→:root {
+    47→  --radius: 0px;
+    48→
+    49→  /* ═══ NEON PURPLE BG — light like neon light ═══ */
+    50→  --void: #0B0813;
+    51→  --deep: #100B1A;
+    52→  --surface: #1C1240;
+    53→  --elevated: #2A1A5A;
+    54→  --subtle: #3D2878;
+    55→
+    56→  /* ═══ NEON PURPLE — main color, bright neon ═══ */
+    57→  --neon-purple: #C850FF;
+    58→  --purple-vivid: #B44AFF;
+    59→  --purple-mid: #9333EA;
+    60→  --purple-light: #DA98FF;
+    61→
+    62→  /* ═══ BLUE — soft accent from logo (blue + white) ═══ */
+    63→  --blue-accent: #B1D5F0;
+    64→  --blue-light: #C5E2F8;
+    65→  --blue-dim: #8AB8D8;
+    66→
+    67→  /* ═══ GOLD — soft yellow from circle (yellow + white) ═══ */
+    68→  --gold: #FFF5A4;
+    69→  --gold-light: #FFFAC8;
+    70→  --gold-dim: #E0D880;
+    71→  --gold-glow: #FFFACC;
+    72→
+    73→  /* ═══ PINK — from poster ═══ */
+    74→  --pink-kpop: #FF2D78;
+    75→  --pink-light: #FF6BA0;
+    76→
+    77→  /* ═══ TEXT — white ═══ */
+    78→  --t1: #ffffff;
+    79→  --t2: #d4c4f0;
+    80→  --t3: #8a6fb5;
+    81→
+    82→  /* System */
+    83→  --background: var(--deep);
+    84→  --foreground: var(--t1);
+    85→  --card: var(--surface);
+    86→  --card-foreground: var(--t1);
+    87→  --popover: var(--elevated);
+    88→  --popover-foreground: var(--t1);
+    89→  --primary: var(--neon-purple);
+    90→  --primary-foreground: #fff;
+    91→  --secondary: var(--subtle);
+    92→  --secondary-foreground: var(--t1);
+    93→  --muted: var(--subtle);
+    94→  --muted-foreground: var(--t2);
+    95→  --accent: var(--blue-accent);
+    96→  --accent-foreground: #fff;
+    97→  --destructive: #E63946;
+    98→  --border: rgba(200,80,255,0.15);
+    99→  --input: var(--subtle);
+   100→  --ring: var(--neon-purple);
+   101→  --chart-1: var(--neon-purple);
+   102→  --chart-2: var(--blue-accent);
+   103→  --chart-3: var(--gold);
+   104→  --chart-4: var(--pink-kpop);
+   105→  --chart-5: #20B2AA;
+   106→  --sidebar: var(--deep);
+   107→  --sidebar-foreground: var(--t1);
+   108→  --sidebar-primary: var(--neon-purple);
+   109→  --sidebar-primary-foreground: #fff;
+   110→  --sidebar-accent: var(--subtle);
+   111→  --sidebar-accent-foreground: var(--t1);
+   112→  --sidebar-border: rgba(200,80,255,0.15);
+   113→  --sidebar-ring: var(--neon-purple);
+   114→}
+   115→
+   116→@layer base {
+   117→  * { @apply border-border outline-ring/50; }
+   118→  body { @apply bg-background text-foreground; }
+   119→}
+   120→
+   121→html { scroll-behavior: smooth; }
+   122→
+   123→::-webkit-scrollbar { width: 3px; }
+   124→::-webkit-scrollbar-track { background: var(--void); }
+   125→::-webkit-scrollbar-thumb { background: var(--purple-mid); }
+   126→
+   127→/* ═══ NEON PURPLE SHIMMER ═══ */
+   128→.neon-shimmer {
+   129→  background: linear-gradient(135deg, var(--purple-mid) 0%, var(--neon-purple) 30%, var(--purple-light) 50%, var(--neon-purple) 70%, var(--purple-mid) 100%);
+   130→  background-size: 200% 200%;
+   131→  -webkit-background-clip: text;
+   132→  -webkit-text-fill-color: transparent;
+   133→  background-clip: text;
+   134→  animation: shimmer 6s ease-in-out infinite;
+   135→}
+   136→.gold-shimmer {
+   137→  background: linear-gradient(135deg, var(--gold-dim) 0%, var(--gold) 30%, var(--gold-light) 50%, var(--gold) 70%, var(--gold-dim) 100%);
+   138→  background-size: 200% 200%;
+   139→  -webkit-background-clip: text;
+   140→  -webkit-text-fill-color: transparent;
+   141→  background-clip: text;
+   142→  animation: shimmer 6s ease-in-out infinite;
+   143→}
+   144→@keyframes shimmer {
+   145→  0%,100% { background-position: 0% 50%; }
+   146→  50% { background-position: 100% 50%; }
+   147→}
+   148→
+   149→/* ═══ MARQUEE ═══ */
+   150→.marquee-track {
+   151→  display: inline-flex;
+   152→  animation: marquee 45s linear infinite;
+   153→}
+   154→@keyframes marquee {
+   155→  from { transform: translateX(0); }
+   156→  to { transform: translateX(-50%); }
+   157→}
+   158→
+   159→/* ═══ SCROLL INDICATOR ═══ */
+   160→@keyframes scrollPulse {
+   161→  0%,100% { opacity:1; transform:scaleY(1); }
+   162→  50% { opacity:0.2; transform:scaleY(0.4); }
+   163→}
+   164→.scroll-line {
+   165→  width:1px; height:50px;
+   166→  background: linear-gradient(to bottom, var(--neon-purple), transparent);
+   167→  animation: scrollPulse 2.5s ease-in-out infinite;
+   168→}
+   169→
+   170→/* ═══ REVEAL ═══ */
+   171→.rv {
+   172→  opacity:0; transform:translateY(50px);
+   173→  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+   174→}
+   175→.rv.in { opacity:1; transform:translateY(0); }
+   176→
+   177→/* ═══ GOLD DIVIDER ═══ */
+   178→.gold-div {
+   179→  height:1px;
+   180→  background: linear-gradient(90deg, transparent, var(--gold-dim) 30%, var(--gold) 50%, var(--gold-dim) 70%, transparent);
+   181→  opacity:0.2;
+   182→}
+   183→
+   184→/* ═══ NEON DIVIDER ═══ */
+   185→.neon-div {
+   186→  height:1px;
+   187→  background: linear-gradient(90deg, transparent, var(--purple-mid) 30%, var(--neon-purple) 50%, var(--purple-mid) 70%, transparent);
+   188→  opacity:0.15;
+   189→}
+   190→
+   191→/* ═══ CINEMATIC IMAGE ═══ */
+   192→.cin { filter: brightness(0.85) contrast(1.05) saturate(0.9); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+   193→
+   194→/* ═══ GLASS ═══ */
+   195→.glass {
+   196→  background: rgba(44,21,80,0.7);
+   197→  backdrop-filter: blur(24px) saturate(1.3);
+   198→  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+   199→  border: 1px solid rgba(200,80,255,0.1);
+   200→}
+   201→.glass-gold {
+   202→  background: rgba(255,215,0,0.04);
+   203→  backdrop-filter: blur(24px);
+   204→  -webkit-backdrop-filter: blur(24px);
+   205→  border: 1px solid rgba(255,215,0,0.15);
+   206→  box-shadow: 0 8px 40px rgba(11,8,19,0.3), inset 0 1px 0 rgba(255,255,255,0.02);
+   207→}
+   208→.glass-neon {
+   209→  background: rgba(200,80,255,0.05);
+   210→  backdrop-filter: blur(24px);
+   211→  -webkit-backdrop-filter: blur(24px);
+   212→  border: 1px solid rgba(200,80,255,0.15);
+   213→  box-shadow: 0 8px 40px rgba(11,8,19,0.3), inset 0 1px 0 rgba(255,255,255,0.02);
+   214→}
+   215→
+   216→/* ═══ TICKET CARD ═══ */
+   217→.tk { transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease; }
+   218→.tk:hover { transform:translateY(-6px); box-shadow: 0 24px 60px rgba(11,8,19,0.5), 0 0 50px rgba(200,80,255,0.08); }
+   219→
+   220→/* ═══ PRELOADER ═══ */
+   221→@keyframes load {
+   222→  from { width:0%; }
+   223→  to { width:100%; }
+   224→}
+   225→
+   226→/* ═══ NUMBERED SECTION ACCENT ═══ */
+   227→.sec-num {
+   228→  font-family: var(--font-geist-mono);
+   229→  font-size: 10px;
+   230→  letter-spacing: 0.25em;
+   231→  color: var(--t3);
+   232→}
+   233→
+   234→/* ═══ HAMBURGER BUTTON ═══ */
+   235→.hamburger {
+   236→  width: 28px;
+   237→  height: 20px;
+   238→  position: relative;
+   239→  cursor: pointer;
+   240→  display: flex;
+   241→  flex-direction: column;
+   242→  justify-content: space-between;
+   243→  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+   244→}
+   245→.hamburger:hover {
+   246→  transform: scale(1.15);
+   247→}
+   248→.hamburger span {
+   249→  display: block;
+   250→  height: 1.5px;
+   251→  width: 100%;
+   252→  background: var(--t1);
+   253→  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+   254→  transform-origin: center;
+   255→}
+   256→.hamburger:hover span:nth-child(1) {
+   257→  transform: translateY(2px);
+   258→}
+   259→.hamburger:hover span:nth-child(3) {
+   260→  transform: translateY(-2px);
+   261→}
+   262→.hamburger.open span:nth-child(1) {
+   263→  transform: translateY(9.25px) rotate(45deg);
+   264→  background: #ffffff;
+   265→}
+   266→.hamburger.open span:nth-child(2) {
+   267→  opacity: 0;
+   268→  transform: scaleX(0);
+   269→}
+   270→.hamburger.open span:nth-child(3) {
+   271→  transform: translateY(-9.25px) rotate(-45deg);
+   272→  background: #ffffff;
+   273→}
+   274→.hamburger.open:hover span:nth-child(1) {
+   275→  transform: translateY(9.25px) rotate(45deg) scale(1.1);
+   276→}
+   277→.hamburger.open:hover span:nth-child(3) {
+   278→  transform: translateY(-9.25px) rotate(-45deg) scale(1.1);
+   279→}
+   280→
+   281→/* ═══ FULLSCREEN MENU OVERLAY — cascade from LEFT ═══ */
+   282→.menu-overlay {
+   283→  position: fixed;
+   284→  inset: 0;
+   285→  z-index: 90;
+   286→  background: rgba(11, 8, 19, 0.75);
+   287→  backdrop-filter: blur(24px);
+   288→  -webkit-backdrop-filter: blur(24px);
+   289→  display: flex;
+   290→  flex-direction: column;
+   291→  justify-content: center;
+   292→  align-items: flex-start;
+   293→  padding: 6rem 3rem 3rem;
+   294→  opacity: 0;
+   295→  pointer-events: none;
+   296→  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+   297→}
+   298→.menu-overlay.open {
+   299→  opacity: 1;
+   300→  pointer-events: auto;
+   301→}
+   302→.menu-overlay .menu-link {
+   303→  display: flex;
+   304→  flex-direction: column;
+   305→  align-items: flex-start;
+   306→  font-size: clamp(2rem, 6vw, 4.5rem);
+   307→  font-weight: 200;
+   308→  letter-spacing: -0.03em;
+   309→  color: var(--t3);
+   310→  line-height: 1.2;
+   311→  transition: color 0.3s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+   312→  transform: translateX(-40px);
+   313→  opacity: 0;
+   314→}
+   315→.menu-overlay.open .menu-link {
+   316→  transform: translateX(0);
+   317→  opacity: 1;
+   318→}
+   319→.menu-overlay .menu-link .link-num {
+   320→  font-size: 10px;
+   321→  letter-spacing: 0.25em;
+   322→  font-family: var(--font-geist-mono);
+   323→  color: #ffffff;
+   324→  font-weight: 400;
+   325→  margin-top: 2px;
+   326→}
+   327→
+   328→
+   329→/* ═══ Dynamic LED ambient — color synced with canvas ═══ */
+   330→.led-ambient-sync {
+   331→  position: absolute;
+   332→  inset: -20%;
+   333→  pointer-events: none;
+   334→  z-index: 0;
+   335→  opacity: 0;
+   336→  transition: opacity 2s;
+   337→  background: radial-gradient(ellipse at 50% 50%,
+   338→    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.1) 0%,
+   339→    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.03) 30%,
+   340→    transparent 60%);
+   341→}
+   342→.manifesto-in .led-ambient-sync {
+   343→  opacity: 1;
+   344→  animation: ledAmbientPulse 6s ease-in-out infinite alternate;
+   345→}
+   346→@keyframes ledAmbientPulse {
+   347→  0% { opacity: 0.5; transform: scale(0.95); }
+   348→  100% { opacity: 1; transform: scale(1.05); }
+   349→}
+   350→/* ═══ MANIFESTO — LED WALL TUNNEL ═══ */
+   351→.manifesto-section {
+   352→  position: relative;
+   353→  width: 100%;
+   354→  min-height: 100vh;
+   355→  display: flex;
+   356→  align-items: center;
+   357→  justify-content: center;
+   358→  overflow: hidden;
+   359→  padding: 4rem 1.5rem;
+   360→  opacity: 1;
+   361→  transform: translateY(0);
+   362→}
+   363→
+   364→/* ═══ Temple is in total darkness until scroll reveals it ═══ */
+   365→.temple-frame {
+   366→  position: relative;
+   367→  display: flex;
+   368→  flex-direction: column;
+   369→  align-items: center;
+   370→  width: 98%;
+   371→  max-width: 1600px;
+   372→  z-index: 2;
+   373→  /* START DARK — no glow, no light */
+   374→  filter: brightness(0) drop-shadow(0 0 0px transparent);
+   375→  transition: filter 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+   376→}
+   377→
+   378→/* ═══ POWER-ON SEQUENCE when manifesto enters viewport ═══ */
+   379→.manifesto-in .temple-frame {
+   380→  animation: templePowerOn 3s ease-out forwards;
+   381→}
+   382→
+   383→/* Step 1: darkness → faint outline (0-0.5s)
+   384→   Step 2: lights flicker aggressively (0.5-2s)
+   385→   Step 3: bright flash then settle (2-3s) */
+   386→@keyframes templePowerOn {
+   387→  0%   { filter: brightness(0) drop-shadow(0 0 0px transparent); }
+   388→  8%   { filter: brightness(0.15) drop-shadow(0 0 2px rgba(200,80,255,0.05)); }
+   389→  12%  { filter: brightness(0) drop-shadow(0 0 0px transparent); }
+   390→  18%  { filter: brightness(0.3) drop-shadow(0 0 8px rgba(200,80,255,0.1)); }
+   391→  22%  { filter: brightness(0.05) drop-shadow(0 0 0px transparent); }
+   392→  28%  { filter: brightness(0.5) drop-shadow(0 0 15px rgba(200,80,255,0.15)); }
+   393→  31%  { filter: brightness(0.1) drop-shadow(0 0 2px rgba(200,80,255,0.03)); }
+   394→  36%  { filter: brightness(0.7) drop-shadow(0 0 25px rgba(200,80,255,0.2)); }
+   395→  40%  { filter: brightness(0.2) drop-shadow(0 0 5px rgba(200,80,255,0.05)); }
+   396→  48%  { filter: brightness(0.9) drop-shadow(0 0 35px rgba(200,80,255,0.25)); }
+   397→  52%  { filter: brightness(0.4) drop-shadow(0 0 10px rgba(200,80,255,0.08)); }
+   398→  58%  { filter: brightness(1.1) drop-shadow(0 0 45px rgba(200,80,255,0.3)); }
+   399→  62%  { filter: brightness(0.6) drop-shadow(0 0 15px rgba(200,80,255,0.12)); }
+   400→  70%  { filter: brightness(1.3) drop-shadow(0 0 55px rgba(200,80,255,0.35)); }
+   401→  78%  { filter: brightness(0.95) drop-shadow(0 0 40px rgba(200,80,255,0.2)); }
+   402→  85%  { filter: brightness(1.05) drop-shadow(0 0 50px rgba(200,80,255,0.22)); }
+   403→  100% { filter: brightness(1) drop-shadow(0 0 50px rgba(200,80,255,0.2)) drop-shadow(0 0 100px rgba(200,80,255,0.06)); }
+   404→}
+   405→
+   406→/* ═══ Roof top flickering lights — "about to blow" effect ═══ */
+   407→.manifesto-in .temple-roof-peak {
+   408→  animation: lightFlickerPeak 3s ease-out forwards, lightBuzz 8s 3s ease-in-out infinite;
+   409→}
+   410→.manifesto-in .temple-roof-tier-1 {
+   411→  animation: lightFlickerTier1 3s ease-out forwards, templeGlowBuzz 8s 3s ease-in-out infinite;
+   412→}
+   413→.manifesto-in .temple-cap {
+   414→  animation: lightFlickerCaps 3s ease-out forwards, lightBuzzCap 8s 3s ease-in-out infinite;
+   415→}
+   416→.manifesto-in .pillar-ornament {
+   417→  animation: ornamentPowerOn 3s ease-out forwards, ornamentPulse 3s 3s ease-in-out infinite alternate;
+   418→}
+   419→
+   420→/* Power-on sequence for roof peak */
+   421→@keyframes lightFlickerPeak {
+   422→  0%   { opacity: 0; box-shadow: none; }
+   423→  8%   { opacity: 0.3; box-shadow: 0 -2px 5px rgba(255,245,164,0.2); }
+   424→  12%  { opacity: 0; box-shadow: none; }
+   425→  20%  { opacity: 0.5; box-shadow: 0 -3px 10px rgba(255,245,164,0.3); }
+   426→  24%  { opacity: 0.1; box-shadow: 0 0 2px rgba(255,245,164,0.1); }
+   427→  32%  { opacity: 0.8; box-shadow: 0 -5px 18px rgba(255,245,164,0.4); }
+   428→  36%  { opacity: 0.3; box-shadow: 0 -1px 5px rgba(255,245,164,0.15); }
+   429→  45%  { opacity: 1; box-shadow: 0 -5px 22px rgba(255,245,164,0.45); }
+   430→  50%  { opacity: 0.6; box-shadow: 0 -3px 12px rgba(255,245,164,0.3); }
+   431→  58%  { opacity: 1; box-shadow: 0 -8px 30px rgba(255,245,164,0.5), 0 0 15px rgba(200,80,255,0.3); }
+   432→  65%  { opacity: 0.85; box-shadow: 0 -5px 20px rgba(255,245,164,0.4); }
+   433→  75%  { opacity: 1; box-shadow: 0 -5px 25px rgba(255,245,164,0.4), 0 0 15px rgba(200,80,255,0.3); }
+   434→  100% { opacity: 1; box-shadow: 0 -5px 25px rgba(255,245,164,0.4), 0 0 15px rgba(200,80,255,0.3); }
+   435→}
+   436→
+   437→/* Power-on for tier 1 */
+   438→@keyframes lightFlickerTier1 {
+   439→  0%   { opacity: 0; box-shadow: none; border-color: transparent; }
+   440→  10%  { opacity: 0.3; box-shadow: 0 -1px 5px rgba(255,245,164,0.1); border-color: rgba(255,245,164,0.1); }
+   441→  15%  { opacity: 0; box-shadow: none; }
+   442→  25%  { opacity: 0.6; box-shadow: 0 -2px 10px rgba(255,245,164,0.2); border-color: rgba(255,245,164,0.2); }
+   443→  30%  { opacity: 0.15; }
+   444→  40%  { opacity: 0.8; box-shadow: 0 -3px 14px rgba(255,245,164,0.25); }
+   445→  45%  { opacity: 0.4; }
+   446→  55%  { opacity: 1; box-shadow: 0 -3px 15px rgba(255,245,164,0.25), 0 0 20px rgba(200,80,255,0.08); border-color: var(--gold); }
+   447→  62%  { opacity: 0.7; }
+   448→  72%  { opacity: 1; }
+   449→  100% { opacity: 1; box-shadow: 0 -3px 15px rgba(255,245,164,0.25), 0 0 20px rgba(200,80,255,0.08); }
+   450→}
+   451→
+   452→/* Power-on for end caps */
+   453→@keyframes lightFlickerCaps {
+   454→  0%   { opacity: 0; box-shadow: none; }
+   455→  15%  { opacity: 0.2; box-shadow: 0 0 3px rgba(255,245,164,0.1); }
+   456→  20%  { opacity: 0; }
+   457→  30%  { opacity: 0.5; box-shadow: 0 -2px 8px rgba(255,245,164,0.15); }
+   458→  35%  { opacity: 0.1; }
+   459→  45%  { opacity: 0.8; box-shadow: 0 -2px 12px rgba(255,245,164,0.2); }
+   460→  50%  { opacity: 0.4; }
+   461→  60%  { opacity: 1; box-shadow: 0 -3px 15px rgba(255,245,164,0.25), 0 0 10px rgba(200,80,255,0.1); }
+   462→  68%  { opacity: 0.8; }
+   463→  78%  { opacity: 1; }
+   464→  100% { opacity: 1; box-shadow: 0 -3px 15px rgba(255,245,164,0.25), 0 0 10px rgba(200,80,255,0.1); }
+   465→}
+   466→
+   467→/* Ornament power-on */
+   468→@keyframes ornamentPowerOn {
+   469→  0%   { opacity: 0; box-shadow: none; }
+   470→  20%  { opacity: 0.3; box-shadow: 0 0 3px rgba(255,245,164,0.2); }
+   471→  25%  { opacity: 0; }
+   472→  35%  { opacity: 0.6; box-shadow: 0 0 6px rgba(255,245,164,0.3); }
+   473→  40%  { opacity: 0.2; }
+   474→  50%  { opacity: 0.8; box-shadow: 0 0 8px rgba(255,245,164,0.4); }
+   475→  55%  { opacity: 0.5; }
+   476→  65%  { opacity: 1; box-shadow: 0 0 10px rgba(255,245,164,0.5), 0 0 20px rgba(200,80,255,0.15); }
+   477→  100% { opacity: 1; }
+   478→}
+   479→
+   480→/* ═══ Continuous "about to blow" flicker after power-on ═══ */
+   481→/* Roof peak buzzes occasionally */
+   482→@keyframes lightBuzz {
+   483→  0%, 88%, 90%, 92%, 94%, 100% { opacity: 1; }
+   484→  89% { opacity: 0.6; }
+   485→  91% { opacity: 0.8; }
+   486→  93% { opacity: 0.5; }
+   487→}
+   488→
+   489→/* Tier 1 glow buzz */
+   490→@keyframes templeGlowBuzz {
+   491→  0%, 85%, 87%, 89%, 91%, 100% { box-shadow: 0 -3px 15px rgba(255,245,164,0.25), 0 0 20px rgba(200,80,255,0.08); }
+   492→  86% { box-shadow: 0 -1px 5px rgba(255,245,164,0.1), 0 0 5px rgba(200,80,255,0.03); }
+   493→  88% { box-shadow: 0 -3px 12px rgba(255,245,164,0.2), 0 0 15px rgba(200,80,255,0.06); }
+   494→  90% { box-shadow: 0 -1px 3px rgba(255,245,164,0.08), 0 0 3px rgba(200,80,255,0.02); }
+   495→}
+   496→
+   497→/* Cap buzz */
+   498→@keyframes lightBuzzCap {
+   499→  0%, 82%, 84%, 86%, 100% { opacity: 1; }
+   500→  83% { opacity: 0.55; }
+   501→  85% { opacity: 0.75; }
+   502→}
+   503→
+   504→/* ═══ Monitor glow starts dark, lights up with sequence ═══ */
+   505→.manifesto-in .monitor-glow-left {
+   506→  animation: monitorGlowPowerOn 3s ease-out forwards, monitorGlowPulse 6s 3s ease-in-out infinite alternate;
+   507→}
+   508→.manifesto-in .monitor-glow-right {
+   509→  animation: monitorGlowPowerOn 3s ease-out forwards, monitorGlowPulse 6s 3s ease-in-out infinite alternate-reverse;
+   510→}
+   511→@keyframes monitorGlowPowerOn {
+   512→  0%, 40% { opacity: 0; }
+   513→  60% { opacity: 0.3; }
+   514→  70% { opacity: 0.1; }
+   515→  85% { opacity: 0.5; }
+   516→  100% { opacity: 0.5; }
+   517→}
+   518→
+   519→/* ═══ Manifesto glow starts dark ═══ */
+   520→.manifesto-glow {
+   521→  position: absolute;
+   522→  inset: -30%;
+   523→  background: radial-gradient(ellipse at 50% 50%, rgba(200,80,255,0.12) 0%, rgba(177,213,240,0.05) 25%, transparent 60%);
+   524→  pointer-events: none;
+   525→  opacity: 0;
+   526→  will-change: transform, opacity;
+   527→  contain: layout style;
+   528→}
+   529→.manifesto-in .manifesto-glow {
+   530→  animation: manifestoGlowPowerOn 3s ease-out forwards, manifestoGlowPulse 8s 3s ease-in-out infinite alternate;
+   531→}
+   532→@keyframes manifestoGlowPowerOn {
+   533→  0%, 50% { opacity: 0; transform: scale(0.95); }
+   534→  70% { opacity: 0.5; transform: scale(1); }
+   535→  80% { opacity: 0.3; }
+   536→  100% { opacity: 0.5; transform: scale(1); }
+   537→}
+   538→/* manifestoGlowPulse moved to power-on section */
+   539→
+   540→/* ═══ LED Wall starts OFF (black screen) then powers on ═══ */
+   541→.led-wall-screen {
+   542→  position: relative;
+   543→  width: 100%;
+   544→  height: 100%;
+   545→  overflow: hidden;
+   546→  background: #050208;
+   547→  border-radius: 2px;
+   548→  contain: strict;
+   549→}
+   550→
+   551→/* ═══ LED Video Container — single looping tunnel ═══ */
+   552→.led-video-container {
+   553→  position: absolute;
+   554→  inset: 0;
+   555→  width: 100%;
+   556→  height: 100%;
+   557→}
+   558→.led-video-layer {
+   559→  position: absolute;
+   560→  inset: 0;
+   561→  width: 100%;
+   562→  height: 100%;
+   563→  object-fit: cover;
+   564→  object-position: center;
+   565→  transition: opacity 1.5s ease-out;
+   566→  /* Brightness & vibrancy boost for LED wall punch */
+   567→  filter: brightness(1.3) saturate(1.25) contrast(1.1);
+   568→  image-rendering: auto;
+   569→}
+   570→
+   571→/* LED power flash — enhanced with suspense timing */
+   572→.led-power-flash {
+   573→  position: absolute;
+   574→  inset: 0;
+   575→  background: rgba(200,80,255,0.6);
+   576→  opacity: 0;
+   577→  z-index: 10;
+   578→  pointer-events: none;
+   579→}
+   580→.manifesto-in .led-power-flash {
+   581→  animation: ledPowerOnSuspense 3s ease-out forwards;
+   582→}
+   583→@keyframes ledPowerOnSuspense {
+   584→  0%   { opacity: 0; }
+   585→  5%   { opacity: 0; }
+   586→  8%   { opacity: 0.15; }
+   587→  12%  { opacity: 0; }
+   588→  20%  { opacity: 0.3; }
+   589→  24%  { opacity: 0; }
+   590→  35%  { opacity: 0.5; }
+   591→  40%  { opacity: 0.1; }
+   592→  50%  { opacity: 0.8; }
+   593→  55%  { opacity: 0.2; }
+   594→  65%  { opacity: 1; }
+   595→  70%  { opacity: 0.4; }
+   596→  78%  { opacity: 0.9; }
+   597→  82%  { opacity: 0.6; }
+   598→  90%  { opacity: 0.85; }
+   599→  100% { opacity: 0; }
+   600→}
+   601→.manifesto-glow {
+   602→  position: absolute;
+   603→  inset: -30%;
+   604→  background: radial-gradient(ellipse at 50% 50%, rgba(200,80,255,0.12) 0%, rgba(177,213,240,0.05) 25%, transparent 60%);
+   605→  pointer-events: none;
+   606→  animation: manifestoGlowPulse 8s ease-in-out infinite alternate;
+   607→  will-change: transform, opacity;
+   608→  contain: layout style;
+   609→}
+   610→/* manifestoGlowPulse moved to power-on section */
+   611→
+   612→/* ═══ Monitor glow — light spill from LED wall onto page ═══ */
+   613→.monitor-glow {
+   614→  position: absolute;
+   615→  top: 12%;
+   616→  bottom: 12%;
+   617→  width: 40%;
+   618→  pointer-events: none;
+   619→  z-index: 1;
+   620→  will-change: opacity;
+   621→  contain: layout style;
+   622→  opacity: 0; /* starts dark */
+   623→}
+   624→.monitor-glow-left {
+   625→  left: 0;
+   626→  background: radial-gradient(ellipse at 100% 50%,
+   627→    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.3) 0%,
+   628→    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.12) 12%,
+   629→    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.04) 25%,
+   630→    transparent 50%);
+   631→  transition: background 0.2s;
+   632→}
+   633→.monitor-glow-right {
+   634→  right: 0;
+   635→  background: radial-gradient(ellipse at 0% 50%,
+   636→    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.3) 0%,
+   637→    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.12) 12%,
+   638→    rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.04) 25%,
+   639→    transparent 50%);
+   640→  transition: background 0.2s;
+   641→}
+   642→@keyframes monitorGlowPulse {
+   643→  0% { opacity: 0.5; transform: scaleX(0.96); }
+   644→  100% { opacity: 1; transform: scaleX(1.04); }
+   645→}
+   646→/* ═══ Synchronized LED color reflection on temple ═══ */
+   647→.manifesto-in .pillar-shaft {
+   648→  box-shadow: inset 0 0 25px rgba(11,8,19,0.5),
+   649→    inset 2px 0 8px rgba(255,245,164,0.05),
+   650→    inset -2px 0 8px rgba(255,245,164,0.05),
+   651→    0 0 20px rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.1);
+   652→  transition: box-shadow 0.3s;
+   653→}
+   654→.manifesto-in .temple-base-step {
+   655→  box-shadow: 0 4px 12px rgba(11,8,19,0.6),
+   656→    0 -3px 18px rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.06);
+   657→  transition: box-shadow 0.3s;
+   658→}
+   659→.manifesto-in .temple-roof-cornice {
+   660→  box-shadow: 0 6px 20px rgba(11,8,19,0.8),
+   661→    inset 0 1px 0 rgba(255,245,164,0.08),
+   662→    0 10px 30px rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.08);
+   663→  transition: box-shadow 0.3s;
+   664→}
+   665→.manifesto-in .temple-base {
+   666→  box-shadow: 0 8px 25px rgba(var(--led-r,200),var(--led-g,80),var(--led-b,255),0.1),
+   667→    0 20px 50px rgba(11,8,19,0.8);
+   668→}
+   669→
+   670→
+   671→/* temple-frame styles defined above with power-on animation */
+   672→
+   673→/* ═══ Temple Roof — curved multi-tier top ═══ */
+   674→.temple-roof {
+   675→  position: relative;
+   676→  width: 115%;
+   677→  height: 100px;
+   678→  display: flex;
+   679→  flex-direction: column;
+   680→  align-items: center;
+   681→  z-index: 3;
+   682→}
+   683→.temple-roof-peak {
+   684→  position: absolute;
+   685→  top: -8px;
+   686→  left: 50%;
+   687→  transform: translateX(-50%);
+   688→  width: 36px;
+   689→  height: 36px;
+   690→  background: radial-gradient(ellipse at 50% 70%, var(--gold) 0%, var(--gold-dim) 40%, var(--neon-purple) 80%, var(--surface) 100%);
+   691→  border-radius: 50% 50% 8% 8%;
+   692→  box-shadow: 0 -5px 25px rgba(255,245,164,0.4), 0 0 15px rgba(200,80,255,0.3);
+   693→  opacity: 0;
+   694→  animation: none;
+   695→}
+   696→.temple-roof-tier-1 {
+   697→  position: absolute;
+   698→  top: 20px;
+   699→  left: 4%;
+   700→  right: 4%;
+   701→  height: 26px;
+   702→  background: linear-gradient(180deg, var(--gold) 0%, var(--gold-dim) 20%, var(--subtle) 50%, var(--elevated) 100%);
+   703→  border-radius: 55% 55% 0 0 / 100% 100% 0 0;
+   704→  border-top: 2px solid var(--gold);
+   705→  border-left: 1px solid rgba(255,245,164,0.3);
+   706→  border-right: 1px solid rgba(255,245,164,0.3);
+   707→  box-shadow: 0 -3px 15px rgba(255,245,164,0.25), 0 0 20px rgba(200,80,255,0.08);
+   708→  opacity: 0;
+   709→  animation: none;
+   710→}
+   711→.temple-roof-tier-2 {
+   712→  position: absolute;
+   713→  top: 40px;
+   714→  left: 1%;
+   715→  right: 1%;
+   716→  height: 24px;
+   717→  background: linear-gradient(180deg, var(--gold-dim) 0%, var(--subtle) 30%, var(--elevated) 60%, var(--surface) 100%);
+   718→  border-radius: 45% 45% 0 0 / 100% 100% 0 0;
+   719→  border-top: 1.5px solid rgba(255,245,164,0.5);
+   720→  border-bottom: 1px solid rgba(200,80,255,0.25);
+   721→  box-shadow: 0 2px 10px rgba(11,8,19,0.6), inset 0 1px 0 rgba(255,245,164,0.1);
+   722→}
+   723→.temple-roof-cornice {
+   724→  position: absolute;
+   725→  top: 58px;
+   726→  left: 0;
+   727→  right: 0;
+   728→  height: 38px;
+   729→  background: linear-gradient(180deg, var(--elevated) 0%, var(--surface) 40%, var(--deep) 100%);
+   730→  border-top: 2px solid rgba(255,245,164,0.35);
+   731→  border-bottom: 2px solid rgba(200,80,255,0.2);
+   732→  box-shadow: 0 6px 20px rgba(11,8,19,0.8), inset 0 1px 0 rgba(255,245,164,0.08);
+   733→}
+   734→/* Decorative end caps on roof eaves */
+   735→.temple-cap {
+   736→  position: absolute;
+   737→  top: 16px;
+   738→  width: 32px;
+   739→  height: 55px;
+   740→  background: linear-gradient(180deg, var(--gold) 0%, var(--gold-dim) 30%, var(--subtle) 70%, var(--elevated) 100%);
+   741→  border-radius: 6px 6px 2px 2px;
+   742→  border-top: 2px solid var(--gold);
+   743→  border-left: 1px solid rgba(255,245,164,0.3);
+   744→  border-right: 1px solid rgba(255,245,164,0.3);
+   745→  box-shadow: 0 -3px 15px rgba(255,245,164,0.25), 0 0 10px rgba(200,80,255,0.1);
+   746→  opacity: 0;
+   747→  animation: none;
+   748→}
+   749→.temple-cap-left { left: -4px; transform: rotate(-8deg); }
+   750→.temple-cap-right { right: -4px; transform: rotate(8deg); }
+   751→
+   752→/* ═══ Temple Body — pillars + LED wall ═══ */
+   753→.temple-body {
+   754→  display: flex;
+   755→  width: 100%;
+   756→  position: relative;
+   757→  z-index: 2;
+   758→}
+   759→
+   760→/* ═══ Temple Pillars ═══ */
+   761→.temple-pillar {
+   762→  position: relative;
+   763→  width: 60px;
+   764→  flex-shrink: 0;
+   765→  display: flex;
+   766→  flex-direction: column;
+   767→  align-items: center;
+   768→}
+   769→@media (min-width: 640px) {
+   770→  .temple-pillar { width: 80px; }
+   771→}
+   772→@media (min-width: 1024px) {
+   773→  .temple-pillar { width: 100px; }
+   774→}
+   775→
+   776→.pillar-base {
+   777→  width: 100%;
+   778→  height: 28px;
+   779→  background: linear-gradient(180deg, var(--surface) 0%, var(--elevated) 30%, var(--subtle) 60%, var(--surface) 100%);
+   780→  border-top: 1.5px solid rgba(255,245,164,0.3);
+   781→  border-bottom: 2px solid rgba(200,80,255,0.2);
+   782→  border-radius: 3px;
+   783→  box-shadow: 0 5px 15px rgba(11,8,19,0.7), inset 0 1px 0 rgba(255,245,164,0.1);
+   784→}
+   785→.pillar-shaft {
+   786→  flex: 1;
+   787→  width: 75%;
+   788→  background: linear-gradient(90deg,
+   789→    var(--subtle) 0%,
+   790→    var(--elevated) 15%,
+   791→    rgba(200,160,80,0.25) 30%,
+   792→    var(--elevated) 45%,
+   793→    rgba(172,112,47,0.2) 55%,
+   794→    var(--elevated) 70%,
+   795→    rgba(200,160,80,0.18) 85%,
+   796→    var(--subtle) 100%
+   797→  );
+   798→  border-left: 1.5px solid rgba(255,245,164,0.2);
+   799→  border-right: 1.5px solid rgba(255,245,164,0.2);
+   800→  box-shadow: inset 0 0 25px rgba(11,8,19,0.5), inset 2px 0 8px rgba(255,245,164,0.05), inset -2px 0 8px rgba(255,245,164,0.05);
+   801→  animation: pillarShimmer 6s ease-in-out infinite alternate;
+   802→}
+   803→.pillar-capital {
+   804→  width: 100%;
+   805→  height: 22px;
+   806→  background: linear-gradient(180deg, var(--gold-dim) 0%, var(--surface) 30%, var(--elevated) 70%, var(--subtle) 100%);
+   807→  border-top: 2px solid rgba(255,245,164,0.4);
+   808→  border-bottom: 1.5px solid rgba(200,80,255,0.2);
+   809→  border-radius: 3px 3px 0 0;
+   810→  box-shadow: 0 -3px 12px rgba(255,245,164,0.12), inset 0 1px 0 rgba(255,245,164,0.15);
+   811→}
+   812→
+   813→/* Ornamental dots on pillars */
+   814→.pillar-ornament {
+   815→  position: absolute;
+   816→  left: 50%;
+   817→  transform: translateX(-50%);
+   818→  width: 14px;
+   819→  height: 14px;
+   820→  border-radius: 50%;
+   821→  background: radial-gradient(circle, var(--gold-light) 20%, var(--gold) 40%, var(--gold-dim) 70%, transparent 100%);
+   822→  box-shadow: 0 0 10px rgba(255,245,164,0.5), 0 0 20px rgba(200,80,255,0.15);
+   823→  opacity: 0;
+   824→  animation: none;
+   825→}
+   826→.pillar-ornament-1 { top: 22%; animation-delay: 0s; }
+   827→.pillar-ornament-2 { top: 50%; animation-delay: 1s; }
+   828→.pillar-ornament-3 { top: 78%; animation-delay: 2s; }
+   829→
+   830→/* ═══ Temple Base Platform ═══ */
+   831→.temple-base {
+   832→  width: 115%;
+   833→  display: flex;
+   834→  flex-direction: column;
+   835→  align-items: center;
+   836→  z-index: 3;
+   837→}
+   838→.temple-base-step {
+   839→  background: linear-gradient(180deg, var(--surface) 0%, var(--elevated) 40%, var(--subtle) 100%);
+   840→  border-top: 1px solid rgba(255,245,164,0.2);
+   841→  border-bottom: 1px solid rgba(200,80,255,0.1);
+   842→  box-shadow: 0 4px 12px rgba(11,8,19,0.6);
+   843→}
+   844→.temple-base-step-1 { width: 100%; height: 14px; border-radius: 0 0 2px 2px; }
+   845→.temple-base-step-2 { width: 105%; height: 10px; margin-top: 1px; }
+   846→.temple-base-step-3 { width: 110%; height: 10px; margin-top: 1px; border-radius: 0 0 4px 4px; }
+   847→
+   848→/* ═══ Temple Animations ═══ */
+   849→@keyframes templeShimmer {
+   850→  0% { filter: brightness(1); }
+   851→  100% { filter: brightness(1.3); }
+   852→}
+   853→@keyframes templeGlow {
+   854→  0% { box-shadow: 0 -2px 10px rgba(255,245,164,0.15); }
+   855→  100% { box-shadow: 0 -2px 20px rgba(255,245,164,0.3), 0 0 30px rgba(200,80,255,0.1); }
+   856→}
+   857→@keyframes pillarShimmer {
+   858→  0% { filter: brightness(1); }
+   859→  50% { filter: brightness(1.15); }
+   860→  100% { filter: brightness(0.95); }
+   861→}
+   862→@keyframes ornamentPulse {
+   863→  0% { opacity: 0.6; transform: translateX(-50%) scale(0.9); box-shadow: 0 0 6px rgba(255,245,164,0.3); }
+   864→  100% { opacity: 1; transform: translateX(-50%) scale(1.1); box-shadow: 0 0 14px rgba(255,245,164,0.6), 0 0 25px rgba(200,80,255,0.2); }
+   865→}
+   866→
+   867→.led-wall-frame {
+   868→  position: relative;
+   869→  flex: 1;
+   870→  aspect-ratio: 21 / 9;
+   871→  border-radius: 2px;
+   872→  overflow: hidden;
+   873→  box-shadow:
+   874→    0 0 50px rgba(200,80,255,0.35),
+   875→    0 0 100px rgba(200,80,255,0.15),
+   876→    0 0 160px rgba(129,140,248,0.08),
+   877→    0 10px 40px rgba(11,8,19,0.8);
+   878→  contain: strict;
+   879→}
+   880→
+   881→
+   882→/* LED power-on flash now in suspense section above */
+   883→
+   884→/* ═══ Scanlines — very subtle, barely visible ═══ */
+   885→.led-scanlines {
+   886→  position: absolute;
+   887→  inset: 0;
+   888→  background: repeating-linear-gradient(
+   889→    to bottom,
+   890→    transparent 0px,
+   891→    transparent 5px,
+   892→    rgba(11,8,19,0.04) 5px,
+   893→    rgba(11,8,19,0.04) 6px
+   894→  );
+   895→  pointer-events: none;
+   896→  z-index: 5;
+   897→}
+   898→
+   899→/* ═══ LED pixel grid — REMOVED (was creating clock-grid effect) ═══ */
+   900→.led-pixel-grid {
+   901→  display: none;
+   902→}
+   903→
+   904→/* ═══ LED frame bezels — enhanced glow ═══ */
+   905→.led-frame-top, .led-frame-bottom {
+   906→  position: absolute;
+   907→  left: 0;
+   908→  right: 0;
+   909→  height: 8px;
+   910→  background: linear-gradient(90deg, #0a0515, #1a0e2e, #0a0515);
+   911→  z-index: 7;
+   912→}
+   913→.led-frame-top {
+   914→  top: 0;
+   915→  border-bottom: 1px solid rgba(200,80,255,0.2);
+   916→  box-shadow: 0 2px 20px rgba(200,80,255,0.15), 0 0 40px rgba(200,80,255,0.05);
+   917→}
+   918→.led-frame-bottom {
+   919→  bottom: 0;
+   920→  border-top: 1px solid rgba(200,80,255,0.2);
+   921→  box-shadow: 0 -2px 20px rgba(200,80,255,0.15), 0 0 40px rgba(200,80,255,0.05);
+   922→}
+   923→
+   924→/* ═══ HONMOON SHIELD — iridescent soul barrier around temple ═══ */
+   925→.honmoon-shield {
+   926→  position: absolute;
+   927→  inset: -40px -50px;
+   928→  pointer-events: none;
+   929→  z-index: 6;
+   930→  opacity: 0;
+   931→  transition: opacity 2s;
+   932→}
+   933→.manifesto-in .honmoon-shield {
+   934→  animation: honmoonFadeIn 3s 2s ease-out forwards;
+   935→}
+   936→@keyframes honmoonFadeIn {
+   937→  0% { opacity: 0; }
+   938→  100% { opacity: 1; }
+   939→}
+   940→/* Top arc — uses border + glow */
+   941→.honmoon-arc-top {
+   942→  position: absolute;
+   943→  top: -20px;
+   944→  left: 2%;
+   945→  right: 2%;
+   946→  height: 60px;
+   947→  border: 3px solid rgba(200,80,255,0.6);
+   948→  border-bottom: none;
+   949→  border-radius: 50% 50% 0 0;
+   950→  box-shadow:
+   951→    0 0 25px rgba(200,80,255,0.4),
+   952→    0 0 50px rgba(255,100,200,0.2),
+   953→    0 0 80px rgba(100,200,255,0.1),
+   954→    inset 0 0 20px rgba(100,200,255,0.2);
+   955→  animation: honmoonTopPulse 4s ease-in-out infinite alternate;
+   956→}
+   957→@keyframes honmoonTopPulse {
+   958→  0% { border-color: rgba(200,80,255,0.5); box-shadow: 0 0 20px rgba(200,80,255,0.3), 0 0 40px rgba(255,100,200,0.15), 0 0 60px rgba(100,200,255,0.08); }
+   959→  33% { border-color: rgba(255,100,200,0.8); box-shadow: 0 0 30px rgba(255,100,200,0.4), 0 0 60px rgba(200,80,255,0.2), 0 0 90px rgba(255,100,200,0.1); }
+   960→  66% { border-color: rgba(100,200,255,0.7); box-shadow: 0 0 25px rgba(100,200,255,0.35), 0 0 50px rgba(200,80,255,0.15), 0 0 75px rgba(100,200,255,0.08); }
+   961→  100% { border-color: rgba(200,80,255,0.6); box-shadow: 0 0 25px rgba(200,80,255,0.4), 0 0 50px rgba(255,100,200,0.2), 0 0 80px rgba(100,200,255,0.1); }
+   962→}
+   963→/* Bottom arc */
+   964→.honmoon-arc-bottom {
+   965→  position: absolute;
+   966→  bottom: -20px;
+   967→  left: 2%;
+   968→  right: 2%;
+   969→  height: 60px;
+   970→  border: 3px solid rgba(100,200,255,0.6);
+   971→  border-top: none;
+   972→  border-radius: 0 0 50% 50%;
+   973→  box-shadow:
+   974→    0 0 25px rgba(100,200,255,0.4),
+   975→    0 0 50px rgba(200,80,255,0.2),
+   976→    0 0 80px rgba(255,100,200,0.1),
+   977→    inset 0 0 20px rgba(255,100,200,0.2);
+   978→  animation: honmoonBottomPulse 4s 2s ease-in-out infinite alternate;
+   979→}
+   980→@keyframes honmoonBottomPulse {
+   981→  0% { border-color: rgba(100,200,255,0.5); box-shadow: 0 0 20px rgba(100,200,255,0.3), 0 0 40px rgba(200,80,255,0.15), 0 0 60px rgba(255,100,200,0.08); }
+   982→  33% { border-color: rgba(200,80,255,0.8); box-shadow: 0 0 30px rgba(200,80,255,0.4), 0 0 60px rgba(100,200,255,0.2), 0 0 90px rgba(200,80,255,0.1); }
+   983→  66% { border-color: rgba(255,150,220,0.7); box-shadow: 0 0 25px rgba(255,150,220,0.35), 0 0 50px rgba(200,80,255,0.15), 0 0 75px rgba(100,200,255,0.08); }
+   984→  100% { border-color: rgba(100,200,255,0.6); box-shadow: 0 0 25px rgba(100,200,255,0.4), 0 0 50px rgba(200,80,255,0.2), 0 0 80px rgba(255,100,200,0.1); }
+   985→}
+   986→/* Side strands — glowing vertical lines */
+   987→.honmoon-strand {
+   988→  position: absolute;
+   989→  top: 3%;
+   990→  bottom: 3%;
+   991→  width: 3px;
+   992→  opacity: 0.7;
+   993→}
+   994→.honmoon-strand-left {
+   995→  left: -5px;
+   996→  background: linear-gradient(180deg,
+   997→    transparent 0%,
+   998→    rgba(255,100,200,0.7) 15%,
+   999→    rgba(200,80,255,0.5) 35%,
+  1000→    rgba(100,200,255,0.7) 50%,
+  1001→    rgba(200,80,255,0.5) 65%,
+  1002→    rgba(255,150,220,0.7) 85%,
+  1003→    transparent 100%
+  1004→  );
+  1005→  box-shadow: 0 0 12px rgba(200,80,255,0.5), 0 0 25px rgba(255,100,200,0.25), 0 0 40px rgba(200,80,255,0.1);
+  1006→  animation: strandPulseLeft 5s ease-in-out infinite alternate;
+  1007→}
+  1008→.honmoon-strand-right {
+  1009→  right: -5px;
+  1010→  background: linear-gradient(180deg,
+  1011→    transparent 0%,
+  1012→    rgba(100,200,255,0.7) 15%,
+  1013→    rgba(200,80,255,0.5) 35%,
+  1014→    rgba(255,150,220,0.7) 50%,
+  1015→    rgba(200,80,255,0.5) 65%,
+  1016→    rgba(100,200,255,0.7) 85%,
+  1017→    transparent 100%
+  1018→  );
+  1019→  box-shadow: 0 0 12px rgba(100,200,255,0.5), 0 0 25px rgba(200,80,255,0.25), 0 0 40px rgba(100,200,255,0.1);
+  1020→  animation: strandPulseRight 5s 2.5s ease-in-out infinite alternate;
+  1021→}
+  1022→@keyframes strandPulseLeft {
+  1023→  0% { opacity: 0.3; filter: brightness(0.8); }
+  1024→  100% { opacity: 0.7; filter: brightness(1.3); }
+  1025→}
+  1026→@keyframes strandPulseRight {
+  1027→  0% { opacity: 0.3; filter: brightness(0.8); }
+  1028→  100% { opacity: 0.7; filter: brightness(1.3); }
+  1029→}
+  1030→/* Honmoon nodes — glowing soul connection points */
+  1031→.honmoon-node {
+  1032→  position: absolute;
+  1033→  width: 12px;
+  1034→  height: 12px;
+  1035→  border-radius: 50%;
+  1036→  opacity: 0;
+  1037→}
+  1038→.manifesto-in .honmoon-node {
+  1039→  animation: honmoonNodeFadeIn 2s 2.5s ease-out forwards, honmoonNodePulse 3s 4.5s ease-in-out infinite;
+  1040→}
+  1041→.honmoon-node-1 { top: 1%; left: 18%; background: rgba(255,100,200,1); box-shadow: 0 0 12px rgba(255,100,200,0.8), 0 0 30px rgba(255,100,200,0.4), 0 0 50px rgba(255,100,200,0.15); animation-delay: 0s, 0s; }
+  1042→.honmoon-node-2 { top: 1%; left: 50%; background: rgba(100,200,255,1); box-shadow: 0 0 12px rgba(100,200,255,0.8), 0 0 30px rgba(100,200,255,0.4), 0 0 50px rgba(100,200,255,0.15); animation-delay: 0.3s, 0.5s; }
+  1043→.honmoon-node-3 { top: 1%; left: 82%; background: rgba(200,80,255,1); box-shadow: 0 0 12px rgba(200,80,255,0.8), 0 0 30px rgba(200,80,255,0.4), 0 0 50px rgba(200,80,255,0.15); animation-delay: 0.6s, 1s; }
+  1044→.honmoon-node-4 { bottom: 1%; left: 12%; background: rgba(100,200,255,1); box-shadow: 0 0 12px rgba(100,200,255,0.8), 0 0 30px rgba(100,200,255,0.4), 0 0 50px rgba(100,200,255,0.15); animation-delay: 0.9s, 1.5s; }
+  1045→.honmoon-node-5 { bottom: 1%; left: 55%; background: rgba(255,150,220,1); box-shadow: 0 0 12px rgba(255,150,220,0.8), 0 0 30px rgba(255,150,220,0.4), 0 0 50px rgba(255,150,220,0.15); animation-delay: 1.2s, 2s; }
+  1046→.honmoon-node-6 { bottom: 1%; left: 88%; background: rgba(200,80,255,1); box-shadow: 0 0 12px rgba(200,80,255,0.8), 0 0 30px rgba(200,80,255,0.4), 0 0 50px rgba(200,80,255,0.15); animation-delay: 1.5s, 2.5s; }
+  1047→@keyframes honmoonNodeFadeIn {
+  1048→  0% { opacity: 0; transform: scale(0); }
+  1049→  100% { opacity: 0.9; transform: scale(1); }
+  1050→}
+  1051→@keyframes honmoonNodePulse {
+  1052→  0%, 100% { opacity: 0.5; transform: scale(0.8); }
+  1053→  50% { opacity: 1; transform: scale(1.4); }
+  1054→}
+  1055→
+  1056→/* ═══ DEMON MARKINGS — Gwi-Ma vine patterns on pillars ═══ */
+  1057→.demon-markings {
+  1058→  position: absolute;
+  1059→  top: 0;
+  1060→  bottom: 0;
+  1061→  width: 60px;
+  1062→  pointer-events: none;
+  1063→  z-index: 5;
+  1064→  opacity: 0;
+  1065→}
+  1066→.manifesto-in .demon-markings {
+  1067→  animation: demonMarkingsReveal 4s 2s ease-out forwards;
+  1068→}
+  1069→@keyframes demonMarkingsReveal {
+  1070→  0% { opacity: 0; }
+  1071→  30% { opacity: 0.4; }
+  1072→  50% { opacity: 0.15; }
+  1073→  70% { opacity: 0.6; }
+  1074→  90% { opacity: 0.4; }
+  1075→  100% { opacity: 0.8; }
+  1076→}
+  1077→.demon-markings-left {
+  1078→  left: -15px;
+  1079→}
+  1080→.demon-markings-right {
+  1081→  right: -15px;
+  1082→}
+  1083→.demon-vine-svg {
+  1084→  width: 100%;
+  1085→  height: 100%;
+  1086→}
+  1087→.demon-vine {
+  1088→  stroke-width: 1.5;
+  1089→  stroke-linecap: round;
+  1090→  fill: none;
+  1091→}
+  1092→.demon-vine-1 {
+  1093→  stroke: rgba(200,50,120,0.9);
+  1094→  filter: drop-shadow(0 0 6px rgba(200,50,120,0.7));
+  1095→  stroke-dasharray: 500;
+  1096→  stroke-dashoffset: 500;
+  1097→}
+  1098→.manifesto-in .demon-vine-1 {
+  1099→  animation: vineGrow 4s 2.5s ease-out forwards, vinePulse 6s 6s ease-in-out infinite alternate;
+  1100→}
+  1101→.demon-vine-2 {
+  1102→  stroke: rgba(160,40,200,0.7);
+  1103→  filter: drop-shadow(0 0 5px rgba(160,40,200,0.6));
+  1104→  stroke-dasharray: 500;
+  1105→  stroke-dashoffset: 500;
+  1106→}
+  1107→.manifesto-in .demon-vine-2 {
+  1108→  animation: vineGrow 4s 3.5s ease-out forwards, vinePulse 6s 7s ease-in-out infinite alternate;
+  1109→}
+  1110→.demon-vine-eye {
+  1111→  stroke: rgba(255,50,150,0.8);
+  1112→  stroke-width: 1.2;
+  1113→  filter: drop-shadow(0 0 6px rgba(255,50,150,0.6));
+  1114→  stroke-dasharray: 50;
+  1115→  stroke-dashoffset: 50;
+  1116→}
+  1117→.manifesto-in .demon-vine-eye {
+  1118→  animation: vineEyeOpen 2s 5s ease-out forwards, vineEyeBlink 8s 7s ease-in-out infinite;
+  1119→}
+  1120→@keyframes vineGrow {
+  1121→  to { stroke-dashoffset: 0; }
+  1122→}
+  1123→@keyframes vinePulse {
+  1124→  0% { stroke-opacity: 0.7; filter: drop-shadow(0 0 5px rgba(200,50,120,0.4)) brightness(0.9); }
+  1125→  100% { stroke-opacity: 1; filter: drop-shadow(0 0 12px rgba(200,50,120,0.8)) brightness(1.3); }
+  1126→}
+  1127→@keyframes vineEyeOpen {
+  1128→  to { stroke-dashoffset: 0; }
+  1129→}
+  1130→@keyframes vineEyeBlink {
+  1131→  0%, 42%, 46%, 100% { opacity: 1; }
+  1132→  44% { opacity: 0.1; }
+  1133→}
+  1134→
+  1135→/* ═══ SOUL PARTICLES — fixed overlay, always visible, rises with vh ═══ */
+  1136→.soul-particles-layer {
+  1137→  position: fixed;
+  1138→  inset: 0;
+  1139→  pointer-events: none;
+  1140→  z-index: 15;
+  1141→  overflow: hidden;
+  1142→}
+  1143→.soul-particles-active {
+  1144→  opacity: 1;
+  1145→}
+  1146→.soul-particle {
+  1147→  position: absolute;
+  1148→  bottom: -20px;
+  1149→  border-radius: 50%;
+  1150→  opacity: 0;
+  1151→  will-change: transform, opacity;
+  1152→}
+  1153→.soul-particles-active .soul-particle {
+  1154→  animation: soulRise 12s linear infinite;
+  1155→}
+  1156→@keyframes soulRise {
+  1157→  0% {
+  1158→    transform: translateY(0) translateX(0) scale(0.4);
+  1159→    opacity: 0;
+  1160→  }
+  1161→  4% {
+  1162→    opacity: 0.85;
+  1163→    transform: translateY(-8vh) translateX(3px) scale(0.8);
+  1164→  }
+  1165→  20% {
+  1166→    opacity: 0.95;
+  1167→    transform: translateY(-25vh) translateX(-7px) scale(1);
+  1168→  }
+  1169→  40% {
+  1170→    opacity: 0.6;
+  1171→    transform: translateY(-45vh) translateX(9px) scale(0.8);
+  1172→  }
+  1173→  60% {
+  1174→    opacity: 0.3;
+  1175→    transform: translateY(-65vh) translateX(-5px) scale(0.55);
+  1176→  }
+  1177→  80% {
+  1178→    opacity: 0.1;
+  1179→    transform: translateY(-85vh) translateX(6px) scale(0.3);
+  1180→  }
+  1181→  100% {
+  1182→    opacity: 0;
+  1183→    transform: translateY(-110vh) translateX(0) scale(0.1);
+  1184→  }
+  1185→}
+  1186→/* Color variety — Honmoon iridescence */
+  1187→.soul-particle:nth-child(3n) {
+  1188→  background: radial-gradient(circle, rgba(255,100,200,1) 0%, rgba(255,100,200,0.5) 40%, transparent 100%);
+  1189→  box-shadow: 0 0 8px rgba(255,100,200,0.7), 0 0 18px rgba(255,100,200,0.3), 0 0 30px rgba(255,100,200,0.1);
+  1190→}
+  1191→.soul-particle:nth-child(3n+1) {
+  1192→  background: radial-gradient(circle, rgba(100,200,255,1) 0%, rgba(100,200,255,0.5) 40%, transparent 100%);
+  1193→  box-shadow: 0 0 8px rgba(100,200,255,0.7), 0 0 18px rgba(100,200,255,0.3), 0 0 30px rgba(100,200,255,0.1);
+  1194→}
+  1195→.soul-particle:nth-child(3n+2) {
+  1196→  background: radial-gradient(circle, rgba(200,80,255,1) 0%, rgba(200,80,255,0.5) 40%, transparent 100%);
+  1197→  box-shadow: 0 0 8px rgba(200,80,255,0.7), 0 0 18px rgba(200,80,255,0.3), 0 0 30px rgba(200,80,255,0.1);
+  1198→}
+  1199→
+  1200→/* ═══ HERO — FULL SCREEN ═══ */
+  1201→.hero-section {
+  1202→  position: relative;
+  1203→  width: 100%;
+  1204→  height: 100vh;
+  1205→  min-height: 700px;
+  1206→  overflow: hidden;
+  1207→  display: flex;
+  1208→  align-items: flex-end;
+  1209→  justify-content: center;
+  1210→  contain: layout style;
+  1211→}
+  1212→
+  1213→.hero-bg-img {
+  1214→  position: absolute;
+  1215→  inset: 0;
+  1216→  width: 100%;
+  1217→  height: 100%;
+  1218→  object-fit: cover;
+  1219→  object-position: center 20%;
+  1220→  animation: heroZoom 25s ease-in-out infinite alternate;
+  1221→  will-change: transform;
+  1222→}
+  1223→@keyframes heroZoom {
+  1224→  0% { transform: scale(1.0); }
+  1225→  100% { transform: scale(1.1); }
+  1226→}
+  1227→
+  1228→/* ═══ Grid overlay — subtle depth texture ═══ */
+  1229→.hero-grid {
+  1230→  position: absolute;
+  1231→  inset: 0;
+  1232→  background-image:
+  1233→    linear-gradient(rgba(200,80,255,0.03) 1px, transparent 1px),
+  1234→    linear-gradient(90deg, rgba(200,80,255,0.03) 1px, transparent 1px);
+  1235→  background-size: 80px 80px;
+  1236→  pointer-events: none;
+  1237→  mask-image: radial-gradient(ellipse at 50% 60%, black 20%, transparent 70%);
+  1238→  -webkit-mask-image: radial-gradient(ellipse at 50% 60%, black 20%, transparent 70%);
+  1239→}
+  1240→
+  1241→/* ═══ subtle depth + fade overlay ═══ */
+  1242→.hero-bg-overlay {
+  1243→  position: absolute;
+  1244→  inset: 0;
+  1245→  background:
+  1246→    linear-gradient(180deg, rgba(11,8,19,0.3) 0%, rgba(11,8,19,0.0) 25%, rgba(11,8,19,0.0) 40%, rgba(11,8,19,0.6) 75%, rgba(11,8,19,0.98) 100%);
+  1247→  pointer-events: none;
+  1248→}
+  1249→
+  1250→/* ═══ vignette — darkens edges ═══ */
+  1251→.hero-vignette {
+  1252→  position: absolute;
+  1253→  inset: 0;
+  1254→  background: radial-gradient(ellipse at 50% 40%, transparent 40%, rgba(11,8,19,0.6) 100%);
+  1255→  pointer-events: none;
+  1256→}
+  1257→
+  1258→/* ═══ Hero content area ═══ */
+  1259→.hero-content {
+  1260→  position: relative;
+  1261→  z-index: 10;
+  1262→  text-align: center;
+  1263→  padding: 0 1.5rem;
+  1264→  max-width: 900px;
+  1265→}
+  1266→.hero-tag {
+  1267→  display: inline-flex;
+  1268→  align-items: center;
+  1269→  gap: 0.5rem;
+  1270→  padding: 0.4rem 1.2rem;
+  1271→  border: 1px solid rgba(200,80,255,0.2);
+  1272→  border-radius: 999px;
+  1273→  font-size: 10px;
+  1274→  letter-spacing: 0.28em;
+  1275→  text-transform: uppercase;
+  1276→  font-weight: 500;
+  1277→  color: var(--purple-light);
+  1278→  background: rgba(200,80,255,0.06);
+  1279→  backdrop-filter: blur(12px);
+  1280→  -webkit-backdrop-filter: blur(12px);
+  1281→  margin-bottom: 2rem;
+  1282→}
+  1283→.hero-title {
+  1284→  font-size: clamp(2.4rem, 7vw, 5.5rem);
+  1285→  font-weight: 100;
+  1286→  letter-spacing: -0.04em;
+  1287→  line-height: 1.0;
+  1288→  color: #fff;
+  1289→  margin-bottom: 1.5rem;
+  1290→}
+  1291→.hero-title .accent {
+  1292→  font-weight: 300;
+  1293→  background: linear-gradient(135deg, var(--neon-purple), var(--gold), var(--pink-kpop));
+  1294→  background-size: 200% 200%;
+  1295→  -webkit-background-clip: text;
+  1296→  -webkit-text-fill-color: transparent;
+  1297→  background-clip: text;
+  1298→  animation: shimmer 4s ease-in-out infinite;
+  1299→}
+  1300→.hero-subtitle {
+  1301→  font-size: clamp(0.85rem, 2vw, 1.1rem);
+  1302→  font-weight: 300;
+  1303→  letter-spacing: 0.04em;
+  1304→  color: var(--t2);
+  1305→  margin-bottom: 2.5rem;
+  1306→  line-height: 1.6;
+  1307→}
+  1308→.hero-countdown-wrap {
+  1309→  margin-bottom: 2.5rem;
+  1310→}
+  1311→.hero-countdown-label {
+  1312→  font-size: 9px;
+  1313→  letter-spacing: 0.3em;
+  1314→  text-transform: uppercase;
+  1315→  color: var(--t3);
+  1316→  margin-bottom: 1rem;
+  1317→}
+  1318→
+  1319→/* ═══ Floating particles ═══ */
+  1320→.hero-particles {
+  1321→  position: absolute;
+  1322→  inset: 0;
+  1323→  pointer-events: none;
+  1324→  overflow: hidden;
+  1325→}
+  1326→.hero-particle {
+  1327→  position: absolute;
+  1328→  width: 2px;
+  1329→  height: 2px;
+  1330→  border-radius: 50%;
+  1331→  background: rgba(200,80,255,0.4);
+  1332→  animation: particleFloat linear infinite;
+  1333→}
+  1334→@keyframes particleFloat {
+  1335→  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  1336→  10% { opacity: 1; }
+  1337→  90% { opacity: 1; }
+  1338→  100% { transform: translateY(-100vh) translateX(30px); opacity: 0; }
+  1339→}
+  1340→
+  1341→/* ═══ hero CTA button ═══ */
+  1342→.hero-cta {
+  1343→  position: relative;
+  1344→  z-index: 10;
+  1345→  display: inline-flex;
+  1346→  align-items: center;
+  1347→  gap: 0.75rem;
+  1348→  padding: 1.1rem 3rem;
+  1349→  font-size: 11px;
+  1350→  letter-spacing: 0.22em;
+  1351→  text-transform: uppercase;
+  1352→  font-weight: 600;
+  1353→  background: var(--neon-purple);
+  1354→  color: #fff;
+  1355→  border: 1px solid rgba(255,255,255,0.1);
+  1356→  border-radius: 2px;
+  1357→  cursor: pointer;
+  1358→  text-decoration: none;
+  1359→  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  1360→  box-shadow: 0 0 30px rgba(200,80,255,0.3), 0 8px 32px rgba(11,8,19,0.4);
+  1361→}
+  1362→.hero-cta:hover {
+  1363→  background: var(--purple-light);
+  1364→  box-shadow: 0 0 60px rgba(200,80,255,0.5), 0 0 120px rgba(200,80,255,0.15), 0 12px 40px rgba(11,8,19,0.5);
+  1365→  transform: translateY(-3px);
+  1366→  border-color: rgba(255,255,255,0.2);
+  1367→}
+  1368→
+  1369→.hero-circle {
+  1370→  position: absolute;
+  1371→  border-radius: 50%;
+  1372→  border: 1px solid rgba(200,80,255,0.08);
+  1373→  pointer-events: none;
+  1374→}
+  1375→
+  1376→.hero-glow-orb {
+  1377→  position: absolute;
+  1378→  border-radius: 50%;
+  1379→  filter: blur(80px);
+  1380→  pointer-events: none;
+  1381→  will-change: transform, opacity;
+  1382→  contain: layout style;
+  1383→  animation: orbFloat 10s ease-in-out infinite alternate;
+  1384→}
+  1385→@keyframes orbFloat {
+  1386→  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.4; }
+  1387→  100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.7; }
+  1388→}
+  1389→
+  1390→/* ═══ Hero side decorations ═══ */
+  1391→.hero-side-line {
+  1392→  position: absolute;
+  1393→  width: 1px;
+  1394→  background: linear-gradient(to bottom, transparent, rgba(200,80,255,0.15), transparent);
+  1395→  pointer-events: none;
+  1396→}
+  1397→.hero-corner-tag {
+  1398→  position: absolute;
+  1399→  font-size: 9px;
+  1400→  letter-spacing: 0.2em;
+  1401→  color: rgba(200,80,255,0.2);
+  1402→  font-family: var(--font-geist-mono);
+  1403→  pointer-events: none;
+  1404→}
+  1405→
