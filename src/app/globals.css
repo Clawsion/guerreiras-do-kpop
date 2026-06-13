@@ -1141,7 +1141,7 @@ html { scroll-behavior: smooth; }
   border-radius: 50%;
   opacity: 0;
   will-change: transform, opacity;
-  animation: soulRiseSite 8s ease-in infinite;
+  animation: soulRiseSite 8s linear infinite;
 }
 @keyframes soulRiseSite {
   0% {
