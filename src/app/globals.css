@@ -1127,24 +1127,21 @@ html { scroll-behavior: smooth; }
   44% { opacity: 0.1; }
 }
 
-/* ═══ SOUL PARTICLES — floating souls rising around temple ═══ */
-.soul-particles {
-  position: absolute;
-  inset: -40px -60px;
+/* ═══ SOUL PARTICLES — fixed overlay, rises across entire site ═══ */
+.soul-particles-layer {
+  position: fixed;
+  inset: 0;
   pointer-events: none;
-  z-index: 1;
+  z-index: 15;
   overflow: hidden;
 }
 .soul-particle {
   position: absolute;
-  bottom: -10px;
+  bottom: -20px;
   border-radius: 50%;
   opacity: 0;
   will-change: transform, opacity;
-  animation: soulRise 8s ease-in infinite;
-}
-.manifesto-in .soul-particle {
-  animation: soulRise 8s ease-in infinite;
+  animation: soulRise 12s linear infinite;
 }
 @keyframes soulRise {
   0% {
@@ -1178,16 +1175,16 @@ html { scroll-behavior: smooth; }
 }
 /* Color variety for soul particles — cycling through Honmoon iridescence */
 .soul-particle:nth-child(3n) {
-  background: radial-gradient(circle, rgba(255,100,200,0.9) 0%, rgba(255,100,200,0.3) 50%, transparent 100%);
-  box-shadow: 0 0 6px rgba(255,100,200,0.5), 0 0 12px rgba(255,100,200,0.2);
+  background: radial-gradient(circle, rgba(255,100,200,1) 0%, rgba(255,100,200,0.5) 40%, transparent 100%);
+  box-shadow: 0 0 8px rgba(255,100,200,0.7), 0 0 18px rgba(255,100,200,0.3), 0 0 30px rgba(255,100,200,0.1);
 }
 .soul-particle:nth-child(3n+1) {
-  background: radial-gradient(circle, rgba(100,200,255,0.9) 0%, rgba(100,200,255,0.3) 50%, transparent 100%);
-  box-shadow: 0 0 6px rgba(100,200,255,0.5), 0 0 12px rgba(100,200,255,0.2);
+  background: radial-gradient(circle, rgba(100,200,255,1) 0%, rgba(100,200,255,0.5) 40%, transparent 100%);
+  box-shadow: 0 0 8px rgba(100,200,255,0.7), 0 0 18px rgba(100,200,255,0.3), 0 0 30px rgba(100,200,255,0.1);
 }
 .soul-particle:nth-child(3n+2) {
-  background: radial-gradient(circle, rgba(200,80,255,0.9) 0%, rgba(200,80,255,0.3) 50%, transparent 100%);
-  box-shadow: 0 0 6px rgba(200,80,255,0.5), 0 0 12px rgba(200,80,255,0.2);
+  background: radial-gradient(circle, rgba(200,80,255,1) 0%, rgba(200,80,255,0.5) 40%, transparent 100%);
+  box-shadow: 0 0 8px rgba(200,80,255,0.7), 0 0 18px rgba(200,80,255,0.3), 0 0 30px rgba(200,80,255,0.1);
 }
 
 /* ═══ HERO — FULL SCREEN ═══ */
@@ -1309,27 +1306,7 @@ html { scroll-behavior: smooth; }
   margin-bottom: 1rem;
 }
 
-/* ═══ Floating particles ═══ */
-.hero-particles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-.hero-particle {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  background: rgba(200,80,255,0.4);
-  animation: particleFloat linear infinite;
-}
-@keyframes particleFloat {
-  0% { transform: translateY(0) translateX(0); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateY(-100vh) translateX(30px); opacity: 0; }
-}
+/* hero-particles removed — soul particles now cover entire site */
 
 /* ═══ hero CTA button ═══ */
 .hero-cta {

@@ -246,6 +246,23 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* ═══ SOUL PARTICLES — fixed overlay, rises across entire site ═══ */}
+      <div className="soul-particles-layer">
+        {Array.from({length: 40}, (_, i) => (
+          <div
+            key={i}
+            className="soul-particle"
+            style={{
+              left: `${2 + (i * 2.4) % 96}%`,
+              animationDelay: `${(i * 0.6) % 12}s`,
+              animationDuration: `${10 + (i % 7) * 2}s`,
+              width: `${4 + (i % 5) * 2}px`,
+              height: `${4 + (i % 5) * 2}px`,
+            }}
+          />
+        ))}
+      </div>
+
       {/* ═══ HERO — FULL SCREEN ═══ */}
       <section className="hero-section" style={{background:"var(--void)"}}>
         {/* Background image — full bleed */}
@@ -268,25 +285,6 @@ export default function HomePage() {
         <div className="hero-glow-orb" style={{width:"40vw",height:"40vw",left:"25%",top:"30%",background:"rgba(200,80,255,0.12)"}}/>
         <div className="hero-glow-orb" style={{width:"25vw",height:"25vw",right:"10%",top:"55%",background:"rgba(74,144,226,0.08)",animationDelay:"3s"}}/>
         <div className="hero-glow-orb" style={{width:"20vw",height:"20vw",left:"5%",bottom:"20%",background:"rgba(255,45,120,0.06)",animationDelay:"6s"}}/>
-
-        {/* Floating particles */}
-        <div className="hero-particles">
-          {[12,45,72,28,60,85,38,55].map((left, i) => (
-            <div
-              key={i}
-              className="hero-particle"
-              style={{
-                left: `${left}%`,
-                bottom: `${-5 - (i * 3) % 10}%`,
-                animationDuration: `${10 + (i * 5) % 10}s`,
-                animationDelay: `${(i * 3) % 8}s`,
-                width: `${1 + (i % 3)}px`,
-                height: `${1 + (i % 3)}px`,
-                background: i % 3 === 0 ? "rgba(200,80,255,0.5)" : i % 3 === 1 ? "rgba(177,213,240,0.4)" : "rgba(255,245,164,0.3)",
-              }}
-            />
-          ))}
-        </div>
 
         {/* Side decorative lines */}
         <div className="hero-side-line hidden sm:block" style={{left:"5%",top:"15%",height:"30%"}}/>
@@ -420,23 +418,6 @@ export default function HomePage() {
             <path className="demon-vine-eye demon-vine-eye-1" d="M28,120 C32,110 42,110 42,120 C42,130 32,130 28,120Z" fill="none"/>
             <path className="demon-vine-eye demon-vine-eye-2" d="M18,260 C22,250 32,250 32,260 C32,270 22,270 18,260Z" fill="none"/>
           </svg>
-        </div>
-
-        {/* ═══ SOUL PARTICLES — floating souls rising ═══ */}
-        <div className="soul-particles">
-          {Array.from({length: 24}, (_, i) => (
-            <div
-              key={i}
-              className="soul-particle"
-              style={{
-                left: `${5 + (i * 3.8) % 90}%`,
-                animationDelay: `${(i * 0.7) % 8}s`,
-                animationDuration: `${6 + (i % 5) * 1.5}s`,
-                width: `${3 + (i % 4) * 2}px`,
-                height: `${3 + (i % 4) * 2}px`,
-              }}
-            />
-          ))}
         </div>
 
         {/* ═══ TEMPLE FRAME ═══ */}
