@@ -1129,10 +1129,10 @@ html { scroll-behavior: smooth; }
 
 /* ═══ SOUL PARTICLES — floating souls rising around temple (original) ═══ */
 .soul-particles {
-  position: absolute;
-  inset: -40px -60px;
+  position: fixed;
+  inset: 0;
   pointer-events: none;
-  z-index: 1;
+  z-index: 15;
   overflow: hidden;
 }
 .soul-particle {
