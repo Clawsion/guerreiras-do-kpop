@@ -423,7 +423,6 @@ export default function HomePage() {
               {/* LED Wall screen */}
               <div className="led-wall-screen">
                 <LedWallVideo active={manifestoVisible}/>
-                <div className="led-scanlines"/>
               </div>
 
               <div className="led-frame-top"/>
