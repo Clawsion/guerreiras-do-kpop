@@ -447,15 +447,7 @@ export default function HomePage() {
             <div className="temple-base-step temple-base-step-3"/>
           </div>
 
-          {/* Mascot walking below LED wall */}
-          <div className="mascot-container">
-            <img
-              src="/mascot.png"
-              alt="Mascot"
-              className="mascot-walk"
-              draggable={false}
-            />
-          </div>
+
         </div>
       </section>
 

@@ -921,31 +921,6 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 -2px 20px rgba(200,80,255,0.15), 0 0 40px rgba(200,80,255,0.05);
 }
 
-/* ═══ Mascot — walking animation below LED wall ═══ */
-.mascot-container {
-  position: relative;
-  width: 100%;
-  height: 120px;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 2;
-}
-.mascot-walk {
-  position: absolute;
-  bottom: 0;
-  height: 110px;
-  width: auto;
-  filter: brightness(1.1) drop-shadow(0 0 15px rgba(200,80,255,0.4));
-  animation: mascotWalk 12s linear infinite;
-}
-@keyframes mascotWalk {
-  0%   { left: -15%; transform: scaleX(1); }
-  49%  { left: 105%; transform: scaleX(1); }
-  50%  { left: 105%; transform: scaleX(-1); }
-  99%  { left: -15%; transform: scaleX(-1); }
-  100% { left: -15%; transform: scaleX(1); }
-}
-
 /* ═══ HERO — FULL SCREEN ═══ */
 .hero-section {
   position: relative;
