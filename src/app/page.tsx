@@ -260,7 +260,7 @@ function DualRevealCard({ name, color, delay, animImg, realImg, animPos }: {
 
       {/* Animated character layer (on top, clips away on hover) */}
       <div className="dc-layer dc-anim">
-        <img src={animImg} alt={`${name} animated`} className="dc-img" style={animPos ? { objectPosition: animPos } : undefined}/>
+        <img src={animImg} alt={`${name} animated`} className="dc-img" style={animPos ? { transform: animPos } : undefined}/>
       </div>
 
       {/* Real performer layer (underneath, revealed on hover) */}
@@ -737,7 +737,7 @@ export default function HomePage() {
           </Rv>
           <div className="dual-grid">
             {[
-              { name: "ZOE", color: "var(--blue-accent)", animImg: "/real-zoe.png", realImg: "/char-zoe.png", animPos: "30% 0%" },
+              { name: "ZOE", color: "var(--blue-accent)", animImg: "/real-zoe.png", realImg: "/char-zoe.png", animPos: "translate(-8%, -4%)" },
               { name: "RUMI", color: "var(--neon-purple)", animImg: "/real-rumi.png", realImg: "/char-rumi.png" },
               { name: "MIRAE", color: "var(--pink-kpop)", animImg: "/real-mirae.png", realImg: "/char-mirae.png" },
             ].map((c, i) => (
