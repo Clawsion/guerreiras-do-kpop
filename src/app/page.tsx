@@ -292,21 +292,21 @@ function DualRevealCard({ name, charName, role, color, delay, animImg, realImg, 
         '--glitch': glitchIntensity,
       } as React.CSSProperties}
     >
-      {/* Animated neon SVG border traces — 3:5 portrait rectangle */}
-      <svg className="neon-border-svg" viewBox="0 0 300 500" preserveAspectRatio="none">
-        <rect className="nb-rect" x="2" y="2" width="296" height="496" rx="2" ry="2"/>
-        <path className="nb-vine nb-vine-l" d="M4,60 C12,80 4,120 10,160 C4,200 12,240 6,280 C4,310 10,340 6,370 C4,400 10,430 6,460"/>
-        <path className="nb-vine nb-vine-r" d="M296,50 C288,70 296,110 290,150 C296,190 288,230 294,270 C296,300 290,330 296,360 C294,390 296,420 294,450"/>
+      {/* Animated neon SVG border traces — 9:16 portrait rectangle */}
+      <svg className="neon-border-svg" viewBox="0 0 300 533" preserveAspectRatio="none">
+        <rect className="nb-rect" x="2" y="2" width="296" height="529" rx="2" ry="2"/>
+        <path className="nb-vine nb-vine-l" d="M4,60 C12,80 4,120 10,160 C4,200 12,240 6,280 C4,320 10,360 6,400 C4,440 10,470 6,500"/>
+        <path className="nb-vine nb-vine-r" d="M296,50 C288,70 296,110 290,150 C296,190 288,230 294,270 C296,310 290,350 296,390 C294,430 296,470 294,510"/>
         <path className="nb-arc nb-arc-top" d="M60,4 C120,20 180,20 240,4"/>
-        <path className="nb-arc nb-arc-bot" d="M60,496 C120,480 180,480 240,496"/>
-        <circle className="nb-eye" cx="6" cy="130" r="2.5"/>
-        <circle className="nb-eye" cx="6" cy="142" r="2.5"/>
-        <circle className="nb-eye" cx="294" cy="130" r="2.5"/>
-        <circle className="nb-eye" cx="294" cy="142" r="2.5"/>
+        <path className="nb-arc nb-arc-bot" d="M60,529 C120,513 180,513 240,529"/>
+        <circle className="nb-eye" cx="6" cy="150" r="2.5"/>
+        <circle className="nb-eye" cx="6" cy="162" r="2.5"/>
+        <circle className="nb-eye" cx="294" cy="150" r="2.5"/>
+        <circle className="nb-eye" cx="294" cy="162" r="2.5"/>
         <circle className="nb-dot" cx="4" cy="4" r="3"/>
         <circle className="nb-dot" cx="296" cy="4" r="3"/>
-        <circle className="nb-dot" cx="296" cy="496" r="3"/>
-        <circle className="nb-dot" cx="4" cy="496" r="3"/>
+        <circle className="nb-dot" cx="296" cy="529" r="3"/>
+        <circle className="nb-dot" cx="4" cy="529" r="3"/>
       </svg>
 
       {/* Glitch scanlines overlay */}

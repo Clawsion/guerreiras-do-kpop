@@ -1688,21 +1688,21 @@ html { scroll-behavior: smooth; }
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
-  max-width: 900px;
+  max-width: 720px;
   margin: 0 auto;
 }
 
 @media (min-width: 768px) {
   .dual-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 }
 
 @media (min-width: 1024px) {
   .dual-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    gap: 1.5rem;
   }
 }
 
@@ -1711,7 +1711,7 @@ html { scroll-behavior: smooth; }
 
 .dual-card {
   position: relative;
-  aspect-ratio: 9 / 20;
+  aspect-ratio: 9 / 16;
   overflow: hidden;
   cursor: default;
   background: var(--surface);
@@ -1868,16 +1868,16 @@ html { scroll-behavior: smooth; }
   fill: none;
   stroke: var(--pink-kpop);
   stroke-width: 0.7;
-  stroke-dasharray: 500;
-  stroke-dashoffset: 500;
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
   opacity: 0;
-  animation: nbVineGrow 2.5s ease-out forwards, nbVinePulse 5s 3.5s ease-in-out infinite;
+  animation: nbVineGrow 3s ease-out forwards, nbVinePulse 5s 4s ease-in-out infinite;
 }
 .nb-vine-r {
   animation-delay: 0.2s, 3.5s;
 }
 @keyframes nbVineGrow {
-  0%   { stroke-dashoffset: 500; opacity: 0; }
+  0%   { stroke-dashoffset: 600; opacity: 0; }
   15%  { opacity: 0.5; }
   100% { stroke-dashoffset: 0; opacity: 0.4; }
 }
