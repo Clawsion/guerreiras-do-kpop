@@ -1414,11 +1414,29 @@ html { scroll-behavior: smooth; }
   opacity: 0;
 }
 .dual-card.revealed .dual-flash {
-  animation: dualFlash 0.8s ease-out forwards;
+  animation: dualFlash 1s ease-out forwards;
 }
 @keyframes dualFlash {
-  0% { opacity: 0.7; }
+  0% { opacity: 0.8; }
+  20% { opacity: 0.3; }
+  40% { opacity: 0.6; }
   100% { opacity: 0; }
+}
+
+/* Particle explosion on reveal */
+.dual-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  z-index: 7;
+  pointer-events: none;
+  box-shadow: 0 0 6px currentColor;
+  animation: dualParticle 1s ease-out forwards;
+}
+@keyframes dualParticle {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--px, 0), var(--py, 0)) scale(0); opacity: 0; }
 }
 
 /* Silhouette layer */
@@ -1461,6 +1479,100 @@ html { scroll-behavior: smooth; }
 }
 .dual-card.revealed .silhouette-figure {
   opacity: 0;
+}
+
+/* SVG character silhouette */
+.char-silhouette-svg {
+  width: 70%;
+  max-height: 65%;
+  position: relative;
+  z-index: 1;
+}
+.char-outline {
+  stroke: var(--char-color, var(--neon-purple));
+  stroke-width: 1.2;
+  fill: none;
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  filter: drop-shadow(0 0 8px var(--char-color, var(--neon-purple)));
+  animation: charDraw 3s ease-out forwards;
+}
+@keyframes charDraw {
+  0% { stroke-dashoffset: 800; }
+  60% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 0; opacity: 0.7; }
+}
+.dual-card.revealed .char-outline {
+  animation: charShatter 0.8s ease-out forwards;
+}
+@keyframes charShatter {
+  0% { stroke-dashoffset: 0; opacity: 0.7; stroke-width: 1.2; }
+  30% { opacity: 0.9; stroke-width: 2; filter: drop-shadow(0 0 20px var(--char-color, var(--pink-kpop))); }
+  100% { stroke-dashoffset: 800; opacity: 0; stroke-width: 0; }
+}
+
+/* Demon marking vines on silhouette */
+.char-demon-vine {
+  stroke: var(--pink-kpop);
+  stroke-width: 0.8;
+  fill: none;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: vineGrow 4s 1s ease-out forwards;
+  opacity: 0.4;
+}
+@keyframes vineGrow {
+  to { stroke-dashoffset: 0; }
+}
+.dual-card.revealed .char-demon-vine {
+  animation: vineFade 0.6s ease-out forwards;
+}
+@keyframes vineFade {
+  to { opacity: 0; stroke-dashoffset: 200; }
+}
+
+/* Demon eyes on silhouette */
+.char-demon-eye {
+  fill: var(--pink-kpop);
+  opacity: 0;
+  animation: demonBlink 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px var(--pink-kpop));
+}
+@keyframes demonBlink {
+  0%, 45%, 55%, 100% { opacity: 0.6; r: 3; }
+  48% { opacity: 0; r: 1; }
+  52% { opacity: 0; r: 1; }
+}
+.dual-card.revealed .char-demon-eye {
+  animation: eyeClose 0.4s ease-out forwards;
+}
+@keyframes eyeClose {
+  to { opacity: 0; r: 0; }
+}
+
+/* Honmoon energy arcs around character */
+.char-honmoon-arc {
+  stroke: var(--gold);
+  stroke-width: 0.6;
+  fill: none;
+  stroke-dasharray: 150;
+  stroke-dashoffset: 150;
+  opacity: 0;
+  animation: arcGlow 5s 2s ease-in-out infinite;
+}
+@keyframes arcGlow {
+  0% { stroke-dashoffset: 150; opacity: 0; }
+  30% { stroke-dashoffset: 0; opacity: 0.5; }
+  70% { stroke-dashoffset: 0; opacity: 0.3; }
+  100% { stroke-dashoffset: -150; opacity: 0; }
+}
+.dual-card.revealed .char-honmoon-arc {
+  animation: arcExplode 0.6s ease-out forwards;
+}
+@keyframes arcExplode {
+  0% { stroke-dashoffset: 0; opacity: 0.5; stroke-width: 0.6; }
+  40% { opacity: 1; stroke-width: 2; filter: drop-shadow(0 0 15px var(--gold)); }
+  100% { stroke-dashoffset: -300; opacity: 0; stroke-width: 0; }
 }
 
 .silhouette-name {

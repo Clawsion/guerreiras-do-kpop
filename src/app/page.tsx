@@ -222,21 +222,76 @@ function LedWallVideo({ active }: { active: boolean }) {
 
 /* ═══ IDENTIDADE DUAL — Character → Performer Card ═══ */
 
+/* SVG character silhouettes — demon hunter poses with weapons */
+const CHAR_SILHOUETTES: Record<string, string> = {
+  RUMI: "M80,15 C85,10 95,10 100,15 C105,10 115,10 120,15 C125,8 130,5 128,0 C135,8 140,20 135,30 C130,25 120,28 115,35 C112,40 115,50 110,55 C105,50 100,45 95,48 C88,52 85,60 82,68 C78,78 75,90 72,100 C68,115 65,130 62,145 C58,160 55,175 52,190 L55,195 C58,192 62,188 65,185 L68,195 C70,192 73,188 76,185 L78,195 L82,185 C85,175 88,165 90,155 C92,145 95,135 98,125 C100,115 105,105 110,100 L120,108 C125,112 130,120 135,130 C140,140 138,155 135,165 L132,175 L136,170 L134,182 L138,178 C135,188 130,195 125,200 C120,195 115,185 112,175 C108,165 105,155 102,145 C98,140 92,138 88,140 C85,145 82,155 80,165 C78,175 75,188 72,200 L75,205 L78,198 L80,205 L84,198 C87,185 90,170 92,155 C94,140 90,130 85,125 C80,120 75,118 72,120 C70,125 68,135 65,145 C62,160 58,178 55,195 L52,200 L56,193 L54,203 L60,195",
+  MIRAE: "M90,12 C95,8 105,8 110,12 C115,5 120,2 118,0 C125,5 128,15 125,25 C120,20 115,22 110,28 C105,35 108,45 102,52 C98,48 92,42 88,45 C82,50 78,60 75,70 C72,82 70,95 68,108 C65,122 62,138 60,152 L62,158 L66,148 L68,158 L72,148 L74,158 C76,148 78,138 80,128 C82,118 85,108 88,100 C92,92 98,88 105,85 L112,92 C118,100 120,112 118,125 C116,138 112,150 108,162 L106,172 L110,165 L108,175 L112,170 C110,180 105,190 100,198 C95,190 90,180 88,170 C85,158 82,145 80,132 C78,125 74,122 70,125 C66,130 62,140 60,152 C58,162 55,175 52,190 L54,196 L58,188 L56,198 L62,190 C64,178 68,165 72,150 C75,138 72,128 68,122 C64,118 60,120 58,128 C55,138 52,155 48,172 L46,180 L50,174 L48,185 L54,178",
+  ZOE: "M85,15 C90,10 100,10 105,15 C110,8 115,3 112,0 C120,5 125,18 120,28 C115,22 108,25 105,32 C100,40 105,50 98,58 C92,52 85,45 82,48 C76,55 72,65 70,78 C68,90 66,105 64,118 C62,132 58,148 55,162 L58,168 L62,158 L64,168 L68,158 L70,168 C72,155 75,142 78,130 C82,118 86,108 92,100 C98,95 105,92 112,95 C118,100 122,110 120,122 C118,135 114,148 110,160 L108,170 L112,162 L110,172 L114,168 C112,178 108,188 102,198 C96,190 92,180 88,168 C84,155 82,142 80,128 C78,120 74,118 70,122 C66,128 62,140 60,155 C58,168 55,182 52,195 L54,200 L58,192 L56,202 L62,195 C65,180 68,165 72,148 C75,132 72,120 66,118 C60,118 56,125 55,140 C54,155 50,172 46,188 L44,195 L48,188 L46,198 L52,192",
+};
+
 function DualRevealCard({ name, charName, role, color, delay, img }: {
   name: string; charName: string; role: string; color: string; delay: number; img: string;
 }) {
   const { ref, visible } = useReveal();
+  const [particles, setParticles] = useState<Array<{id: number; x: number; y: number; color: string}>>([]);
+  const [hasRevealed, setHasRevealed] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (visible && !hasRevealed) {
+      setHasRevealed(true);
+      /* Spawn particles on reveal */
+      const newParticles = Array.from({length: 12}, (_, i) => ({
+        id: Date.now() + i,
+        x: 30 + Math.random() * 40,
+        y: 20 + Math.random() * 60,
+        color: i % 3 === 0 ? 'var(--pink-kpop)' : i % 3 === 1 ? color : 'var(--gold)',
+      }));
+      setParticles(newParticles);
+      const t = setTimeout(() => setParticles([]), 1200);
+      return () => clearTimeout(t);
+    }
+  }, [visible, hasRevealed, color]);
+
+  const silhouettePath = CHAR_SILHOUETTES[charName] || CHAR_SILHOUETTES.RUMI;
+
   return (
-    <div ref={ref} className={`dual-card ${visible ? "revealed" : ""}`} style={{ transitionDelay: `${delay}ms` }}>
+    <div ref={cardRef} className={`dual-card ${visible ? "revealed" : ""}`} style={{ transitionDelay: `${delay}ms`, '--char-color': color } as React.CSSProperties}>
       {/* Flash effect */}
-      <div className="dual-flash" style={{ background: color }}/>
+      <div className="dual-flash" style={{ background: `radial-gradient(circle, ${color}, transparent 70%)` }}/>
+
+      {/* Particle explosion on reveal */}
+      {particles.map(p => (
+        <div key={p.id} className="dual-particle" style={{
+          left: `${p.x}%`,
+          top: `${p.y}%`,
+          '--px': `${(Math.random() - 0.5) * 200}px`,
+          '--py': `${(Math.random() - 0.5) * 200}px`,
+          background: p.color,
+        } as React.CSSProperties}/>
+      ))}
+
       {/* Silhouette layer */}
       <div className="dual-silhouette">
-        <div className="silhouette-glow" style={{ background: `radial-gradient(circle, ${color}20, transparent 70%)` }}/>
-        <div className="silhouette-figure" style={{ borderColor: color, boxShadow: `0 0 40px ${color}30, inset 0 0 20px ${color}10` }}/>
-        <span className="silhouette-name" style={{ color, textShadow: `0 0 20px ${color}60` }}>{charName}</span>
+        <div className="silhouette-glow" style={{ background: `radial-gradient(circle, ${color}25, transparent 70%)` }}/>
+        {/* SVG animated character outline */}
+        <svg className="char-silhouette-svg" viewBox="0 0 180 210" preserveAspectRatio="xMidYMid meet">
+          {/* Demon marking vines */}
+          <path className="char-demon-vine" d="M40,50 C30,70 50,90 35,110 C20,130 40,150 30,170" fill="none"/>
+          <path className="char-demon-vine" d="M140,50 C150,70 130,90 145,110 C160,130 140,150 150,170" fill="none"/>
+          {/* Demon eyes */}
+          <circle className="char-demon-eye char-demon-eye-l" cx="45" cy="80" r="3"/>
+          <circle className="char-demon-eye char-demon-eye-r" cx="135" cy="80" r="3"/>
+          {/* Character silhouette */}
+          <path className="char-outline" d={silhouettePath} fill="none"/>
+          {/* Honmoon energy arcs around character */}
+          <path className="char-honmoon-arc" d="M30,40 C20,80 20,130 30,170" fill="none"/>
+          <path className="char-honmoon-arc" d="M150,40 C160,80 160,130 150,170" fill="none"/>
+        </svg>
+        <span className="silhouette-name" style={{ color, textShadow: `0 0 30px ${color}80` }}>{charName}</span>
         <span className="silhouette-tag">Demon Hunter</span>
       </div>
+
       {/* Performer layer */}
       <div className="dual-performer">
         <img src={img} alt={name} className="performer-img"/>
@@ -358,7 +413,6 @@ export default function HomePage() {
   }, [menuOpen]);
 
   const navLinks = [
-    { l: "Espetáculo", h: "#espetaculo" },
     { l: "Identidade", h: "#identidade" },
     { l: "Lineup", h: "#lineup" },
     { l: "Concertos", h: "#concertos" },
@@ -634,56 +688,6 @@ export default function HomePage() {
             ].map((c, i) => (
               <DualRevealCard key={c.name} name={c.name} charName={c.charName} role={c.role} color={c.color} delay={i * 150} img={c.img}/>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="neon-div max-w-[1400px] mx-auto"/>
-
-      {/* ═══ ESPETÁCULO ═══ */}
-      <section id="espetaculo" className="py-24 sm:py-40 px-5 sm:px-10">
-        <div className="max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
-            <div className="lg:col-span-6">
-              <Rv>
-                <p className="sec-num mb-4">01 — O Espetáculo</p>
-                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-8" style={{color:"var(--t1)"}}>
-                  Prepare-se para<br/>se <span className="neon-shimmer">maravilhar</span>
-                </h2>
-              </Rv>
-              <Rv delay={120}>
-                <p className="text-[15px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
-                  As Guerreiras do K-POP é um espetáculo de tributo musical que celebra a energia,
-                  a estética e a cultura do K-POP, inspirado na série <span style={{color:"var(--pink-kpop)"}}>K-Pop Demon Hunters</span> da Netflix.
-                </p>
-              </Rv>
-              <Rv delay={200}>
-                <p className="text-[15px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
-                  Com cenografia de luxo, performers de elite e uma fusão electrificante de música e dança,
-                  este concerto leva o público numa viagem imersiva pelo universo K-POP — com coreografias
-                  icónicas, luzes deslumbrantes e a energia contagiante dos maiores hits.
-                </p>
-              </Rv>
-              <Rv delay={280}>
-                <p className="text-[15px] leading-[1.8] mb-8" style={{color:"var(--t2)"}}>
-                  Um espetáculo de variedades que transcende o concerto tradicional — onde o palco se transforma
-                  num mundo mágico e cada momento se torna uma memória inesquecível.
-                </p>
-              </Rv>
-              <Rv delay={350}>
-                <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-3.5 text-[10px] tracking-[0.22em] uppercase font-semibold border transition-all duration-400" style={{borderColor:"var(--neon-purple)",color:"var(--neon-purple)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}>
-                  <Ticket className="w-3.5 h-3.5"/> Reservar Lugar <ArrowUpRight className="w-3 h-3"/>
-                </a>
-              </Rv>
-            </div>
-            <div className="lg:col-span-6 flex items-center">
-              <Rv delay={200}>
-                <div className="glass-neon p-5 sm:p-7 w-full">
-                  <img src="/poster.png" alt="Cartaz Oficial — Guerreiras do K-Pop" className="w-full rounded-sm cin"/>
-                  <p className="text-center sec-num mt-4 uppercase">Cartaz Oficial 2026</p>
-                </div>
-              </Rv>
-            </div>
           </div>
         </div>
       </section>
