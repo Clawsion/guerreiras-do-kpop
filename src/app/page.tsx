@@ -649,26 +649,20 @@ export default function HomePage() {
             {/* LEFT — Description */}
             <div className="esp-left">
               <Rv>
-                <p className="sec-num mb-4" style={{color:"var(--pink-light)"}}>O Espet&aacute;culo</p>
+                <p className="sec-num mb-4" style={{color:"var(--pink-light)"}}>Tributo Ao Vivo</p>
                 <h2 className="esp-title">
-                  Tributo Musical<br/>ao <span className="esp-title-accent">K-Pop Demon Hunters</span>
+                  Um concerto-homenagem que traz o universo<br/><span className="esp-title-accent">K-Pop das Hunters</span> para o palco real
                 </h2>
-              </Rv>
-              <Rv delay={120}>
-                <p className="text-[15px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
-                  As <strong style={{color:"var(--t1)"}}>Guerreiras do K-Pop</strong> &eacute; um espet&aacute;culo de tributo musical que celebra a energia,
-                  a est&eacute;tica e a cultura do K-POP, inspirado na s&eacute;rie de anima&ccedil;&atilde;o
-                  <span style={{color:"var(--pink-kpop)"}}> K-Pop Demon Hunters</span> da Netflix.
-                </p>
               </Rv>
               <Rv delay={200}>
                 <p className="text-[15px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
                   No universo da s&eacute;rie, tr&ecirc;s idolas de K-Pop vivem uma dupla identidade: de dia s&atilde;o estrelas
                   brilhantes do palco, de noite transformam-se em ca&ccedil;adoras de dem&oacute;nios que protegem o mundo
-                  atrav&eacute;s do poder do Honmoon. O nosso espet&aacute;culo traz essa magia para o palco ao vivo.
+                  atrav&eacute;s do poder do Honmoon. O nosso tributo traz essa magia para o palco ao vivo &mdash; onde a fic&ccedil;&atilde;o
+                  se torna realidade e cada nota musical carrega o poder de um universo inteiro.
                 </p>
               </Rv>
-              <Rv delay={280}>
+              <Rv delay={350}>
                 <p className="text-[15px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
                   Com cenografia de luxo, performers de elite e uma fus&atilde;o electrizante de m&uacute;sica e dan&ccedil;a,
                   este concerto leva o p&uacute;blico numa viagem imersiva pelo universo K-POP &mdash; com <span style={{color:"var(--neon-purple)"}}>coreografias</span>
@@ -676,13 +670,13 @@ export default function HomePage() {
                   e a energia contagiante dos maiores hits.
                 </p>
               </Rv>
-              <Rv delay={350}>
+              <Rv delay={420}>
                 <p className="text-[15px] leading-[1.8] mb-10" style={{color:"var(--t2)"}}>
                   Um espet&aacute;culo de variedades que transcende o concerto tradicional &mdash; onde o palco se transforma
                   num mundo m&aacute;gico e cada momento se torna uma mem&oacute;ria inesquec&iacute;vel.
                 </p>
               </Rv>
-              <Rv delay={420}>
+              <Rv delay={500}>
                 <a href={TL} target="_blank" rel="noopener noreferrer" className="esp-cta">
                   <Ticket className="w-3.5 h-3.5"/> Reservar Lugar <ArrowUpRight className="w-3 h-3"/>
                 </a>
