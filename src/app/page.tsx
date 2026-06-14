@@ -234,71 +234,23 @@ function DualRevealCard({ name, charName, role, color, delay, img }: {
   name: string; charName: string; role: string; color: string; delay: number; img: string;
 }) {
   const { ref, visible } = useReveal();
-  const [particles, setParticles] = useState<Array<{id: number; x: number; y: number; color: string}>>([]);
-  const [hasRevealed, setHasRevealed] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (visible && !hasRevealed) {
-      setHasRevealed(true);
-      /* Spawn particles on reveal */
-      const newParticles = Array.from({length: 12}, (_, i) => ({
-        id: Date.now() + i,
-        x: 30 + Math.random() * 40,
-        y: 20 + Math.random() * 60,
-        color: i % 3 === 0 ? 'var(--pink-kpop)' : i % 3 === 1 ? color : 'var(--gold)',
-      }));
-      setParticles(newParticles);
-      const t = setTimeout(() => setParticles([]), 1200);
-      return () => clearTimeout(t);
-    }
-  }, [visible, hasRevealed, color]);
-
-  const silhouettePath = CHAR_SILHOUETTES[charName] || CHAR_SILHOUETTES.RUMI;
 
   return (
     <div ref={cardRef} className={`dual-card ${visible ? "revealed" : ""}`} style={{ transitionDelay: `${delay}ms`, '--char-color': color } as React.CSSProperties}>
-      {/* Animated neon corner frame */}
-      <div className="neon-corner neon-corner-tl" style={{top:0,left:0,width:'35%',height:'1.5px'}}/>
-      <div className="neon-corner neon-corner-tl" style={{top:0,left:0,width:'1.5px',height:'25%'}}/>
-      <div className="neon-corner neon-corner-tr" style={{top:0,right:0,width:'35%',height:'1.5px'}}/>
-      <div className="neon-corner neon-corner-tr" style={{top:0,right:0,width:'1.5px',height:'25%'}}/>
-      <div className="neon-corner neon-corner-br" style={{bottom:0,right:0,width:'35%',height:'1.5px'}}/>
-      <div className="neon-corner neon-corner-br" style={{bottom:0,right:0,width:'1.5px',height:'25%'}}/>
-      <div className="neon-corner neon-corner-bl" style={{bottom:0,left:0,width:'35%',height:'1.5px'}}/>
-      <div className="neon-corner neon-corner-bl" style={{bottom:0,left:0,width:'1.5px',height:'25%'}}/>
+      {/* Animated neon corner frame — 8 lines = 4 L-corners */}
+      <span className="nc nc-tl nc-h"/>
+      <span className="nc nc-tl nc-v"/>
+      <span className="nc nc-tr nc-h"/>
+      <span className="nc nc-tr nc-v"/>
+      <span className="nc nc-br nc-h"/>
+      <span className="nc nc-br nc-v"/>
+      <span className="nc nc-bl nc-h"/>
+      <span className="nc nc-bl nc-v"/>
 
-      {/* Flash effect */}
-      <div className="dual-flash" style={{ background: `radial-gradient(circle, ${color}, transparent 70%)` }}/>
-
-      {/* Particle explosion on reveal */}
-      {particles.map(p => (
-        <div key={p.id} className="dual-particle" style={{
-          left: `${p.x}%`,
-          top: `${p.y}%`,
-          '--px': `${(Math.random() - 0.5) * 200}px`,
-          '--py': `${(Math.random() - 0.5) * 200}px`,
-          background: p.color,
-        } as React.CSSProperties}/>
-      ))}
-
-      {/* Silhouette layer */}
+      {/* Silhouette layer — clean, no inner animations */}
       <div className="dual-silhouette">
         <div className="silhouette-glow" style={{ background: `radial-gradient(circle, ${color}25, transparent 70%)` }}/>
-        {/* SVG animated character outline */}
-        <svg className="char-silhouette-svg" viewBox="0 0 180 210" preserveAspectRatio="xMidYMid meet">
-          {/* Demon marking vines */}
-          <path className="char-demon-vine" d="M40,50 C30,70 50,90 35,110 C20,130 40,150 30,170" fill="none"/>
-          <path className="char-demon-vine" d="M140,50 C150,70 130,90 145,110 C160,130 140,150 150,170" fill="none"/>
-          {/* Demon eyes */}
-          <circle className="char-demon-eye char-demon-eye-l" cx="45" cy="80" r="3"/>
-          <circle className="char-demon-eye char-demon-eye-r" cx="135" cy="80" r="3"/>
-          {/* Character silhouette */}
-          <path className="char-outline" d={silhouettePath} fill="none"/>
-          {/* Honmoon energy arcs around character */}
-          <path className="char-honmoon-arc" d="M30,40 C20,80 20,130 30,170" fill="none"/>
-          <path className="char-honmoon-arc" d="M150,40 C160,80 160,130 150,170" fill="none"/>
-        </svg>
         <span className="silhouette-name" style={{ color, textShadow: `0 0 30px ${color}80` }}>{charName}</span>
         <span className="silhouette-tag">Demon Hunter</span>
       </div>
