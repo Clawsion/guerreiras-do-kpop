@@ -238,15 +238,30 @@ function DualRevealCard({ name, charName, role, color, delay, img }: {
 
   return (
     <div ref={cardRef} className={`dual-card ${visible ? "revealed" : ""}`} style={{ transitionDelay: `${delay}ms`, '--char-color': color } as React.CSSProperties}>
-      {/* Animated neon corner frame — 8 lines = 4 L-corners */}
-      <span className="nc nc-tl nc-h"/>
-      <span className="nc nc-tl nc-v"/>
-      <span className="nc nc-tr nc-h"/>
-      <span className="nc nc-tr nc-v"/>
-      <span className="nc nc-br nc-h"/>
-      <span className="nc nc-br nc-v"/>
-      <span className="nc nc-bl nc-h"/>
-      <span className="nc nc-bl nc-v"/>
+      {/* Animated neon SVG border traces */}
+      <svg className="neon-border-svg" viewBox="0 0 300 400" preserveAspectRatio="none">
+        {/* Main border rectangle — draws itself on reveal */}
+        <rect className="nb-rect" x="2" y="2" width="296" height="396" rx="2" ry="2"/>
+        {/* Demon vine traces along left edge */}
+        <path className="nb-vine nb-vine-l" d="M4,60 C12,80 4,120 10,160 C4,200 12,240 6,280 C4,310 10,340 4,370"/>
+        {/* Demon vine traces along right edge */}
+        <path className="nb-vine nb-vine-r" d="M296,50 C288,70 296,110 290,150 C296,190 288,230 294,270 C296,300 290,330 296,360"/>
+        {/* Honmoon energy arc — top */}
+        <path className="nb-arc nb-arc-top" d="M60,4 C120,20 180,20 240,4"/>
+        {/* Honmoon energy arc — bottom */}
+        <path className="nb-arc nb-arc-bot" d="M60,396 C120,380 180,380 240,396"/>
+        {/* Demon eyes — left pair */}
+        <circle className="nb-eye" cx="6" cy="100" r="2.5"/>
+        <circle className="nb-eye" cx="6" cy="112" r="2.5"/>
+        {/* Demon eyes — right pair */}
+        <circle className="nb-eye" cx="294" cy="100" r="2.5"/>
+        <circle className="nb-eye" cx="294" cy="112" r="2.5"/>
+        {/* Corner glow dots */}
+        <circle className="nb-dot" cx="4" cy="4" r="3"/>
+        <circle className="nb-dot" cx="296" cy="4" r="3"/>
+        <circle className="nb-dot" cx="296" cy="396" r="3"/>
+        <circle className="nb-dot" cx="4" cy="396" r="3"/>
+      </svg>
 
       {/* Silhouette layer — clean, no inner animations */}
       <div className="dual-silhouette">
@@ -729,9 +744,9 @@ export default function HomePage() {
           </Rv>
           <div className="dual-grid">
             {[
-              { name: "ZOE", charName: "ZOE", role: "Performance Especial", color: "var(--pink-kpop)", img: "/poster.png" },
+              { name: "ZOE", charName: "ZOE", role: "Performance Especial", color: "var(--blue-accent)", img: "/poster.png" },
               { name: "RUMI", charName: "RUMI", role: "Vocal Principal &amp; L\u00edder", color: "var(--neon-purple)", img: "/poster.png" },
-              { name: "MIRAE", charName: "MIRAE", role: "Dan\u00e7a &amp; Rap", color: "var(--blue-accent)", img: "/poster.png" },
+              { name: "MIRAE", charName: "MIRAE", role: "Dan\u00e7a &amp; Rap", color: "var(--pink-kpop)", img: "/poster.png" },
             ].map((c, i) => (
               <DualRevealCard key={c.name} name={c.name} charName={c.charName} role={c.role} color={c.color} delay={i * 150} img={c.img}/>
             ))}

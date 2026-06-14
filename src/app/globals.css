@@ -1841,84 +1841,130 @@ html { scroll-behavior: smooth; }
   margin-top: 0.25rem;
 }
 
-/* ═══ Animated Neon Frame around DualReveal cards ═══ */
-/* 8 thin lines = 4 L-shaped corners that draw in on reveal, then pulse */
+/* ═══ Animated Neon SVG Border around DualReveal cards ═══ */
+/* SVG overlay with animated thin strokes tracing the card border */
 
-/* Base card needs --char-color and --neon-w */
 .dual-card {
-  --neon-w: 1.5px;
+  --neon-w: 1.2px;
 }
 
-/* ── Neon corner lines (nc) ── */
-.nc {
-  position: absolute;
-  z-index: 6;
-  pointer-events: none;
-  background: var(--char-color, var(--pink-kpop));
-  box-shadow: 0 0 6px var(--char-color, var(--pink-kpop)),
-              0 0 16px rgba(255,45,120,0.12);
-  opacity: 0;
-  transform: scale(0);
-}
-
-/* Horizontal lines: thin & wide */
-.nc-h {
-  height: var(--neon-w);
-  width: 35%;
-}
-/* Vertical lines: thin & tall */
-.nc-v {
-  width: var(--neon-w);
-  height: 28%;
-}
-
-/* ── Corner positioning ── */
-.nc-tl.nc-h { top: 0; left: 0; transform-origin: left center; }
-.nc-tl.nc-v { top: 0; left: 0; transform-origin: top center; }
-
-.nc-tr.nc-h { top: 0; right: 0; transform-origin: right center; }
-.nc-tr.nc-v { top: 0; right: 0; transform-origin: top center; }
-
-.nc-br.nc-h { bottom: 0; right: 0; transform-origin: right center; }
-.nc-br.nc-v { bottom: 0; right: 0; transform-origin: bottom center; }
-
-.nc-bl.nc-h { bottom: 0; left: 0; transform-origin: left center; }
-.nc-bl.nc-v { bottom: 0; left: 0; transform-origin: bottom center; }
-
-/* ── On reveal: draw corners in with stagger ── */
-.dual-card.revealed .nc-tl { animation: ncDraw 0.5s 0.4s cubic-bezier(0.16,1,0.3,1) forwards, ncPulse 3s 1.2s ease-in-out infinite; }
-.dual-card.revealed .nc-tr { animation: ncDraw 0.5s 0.55s cubic-bezier(0.16,1,0.3,1) forwards, ncPulse 3s 1.4s ease-in-out infinite; }
-.dual-card.revealed .nc-br { animation: ncDraw 0.5s 0.7s cubic-bezier(0.16,1,0.3,1) forwards, ncPulse 3s 1.6s ease-in-out infinite; }
-.dual-card.revealed .nc-bl { animation: ncDraw 0.5s 0.85s cubic-bezier(0.16,1,0.3,1) forwards, ncPulse 3s 1.8s ease-in-out infinite; }
-
-@keyframes ncDraw {
-  0%   { transform: scale(0); opacity: 0; }
-  25%  { opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes ncPulse {
-  0%, 100% { opacity: 1; filter: brightness(1); }
-  50%      { opacity: 0.5; filter: brightness(1.8); }
-}
-
-/* ── Subtle ambient border glow after corners draw ── */
-.dual-card::after {
-  content: '';
+/* ── SVG overlay covers entire card ── */
+.neon-border-svg {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 6;
   pointer-events: none;
-  border: var(--neon-w) solid transparent;
+  overflow: visible;
 }
-.dual-card.revealed::after {
-  border-color: var(--char-color, var(--pink-kpop));
+
+/* ── Main border rect — draws itself clockwise on reveal ── */
+.nb-rect {
+  fill: none;
+  stroke: var(--char-color, var(--pink-kpop));
+  stroke-width: 1.2;
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  filter: drop-shadow(0 0 4px var(--char-color, var(--pink-kpop)));
   opacity: 0;
-  animation: ncBorderBreath 4s 1.5s ease-in-out infinite;
 }
-@keyframes ncBorderBreath {
-  0%, 100% { opacity: 0.1; box-shadow: inset 0 0 20px rgba(255,45,120,0.02); }
-  50%      { opacity: 0.28; box-shadow: inset 0 0 40px rgba(255,45,120,0.05); }
+.dual-card.revealed .nb-rect {
+  animation: nbRectDraw 1.5s 0.3s cubic-bezier(0.16,1,0.3,1) forwards, nbPulse 4s 2s ease-in-out infinite;
+}
+@keyframes nbRectDraw {
+  0%   { stroke-dashoffset: 1400; opacity: 0; }
+  10%  { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+@keyframes nbPulse {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 4px var(--char-color, var(--pink-kpop))); }
+  50%      { opacity: 0.5; filter: drop-shadow(0 0 12px var(--char-color, var(--pink-kpop))) brightness(1.8); }
+}
+
+/* ── Demon vine traces — grow along edges ── */
+.nb-vine {
+  fill: none;
+  stroke: var(--pink-kpop);
+  stroke-width: 0.7;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  opacity: 0;
+}
+.dual-card.revealed .nb-vine-l {
+  animation: nbVineGrow 2s 1s ease-out forwards, nbVinePulse 5s 3s ease-in-out infinite;
+}
+.dual-card.revealed .nb-vine-r {
+  animation: nbVineGrow 2s 1.2s ease-out forwards, nbVinePulse 5s 3.5s ease-in-out infinite;
+}
+@keyframes nbVineGrow {
+  0%   { stroke-dashoffset: 400; opacity: 0; }
+  15%  { opacity: 0.5; }
+  100% { stroke-dashoffset: 0; opacity: 0.4; }
+}
+@keyframes nbVinePulse {
+  0%, 100% { opacity: 0.4; filter: brightness(1); }
+  50%      { opacity: 0.2; filter: brightness(2); }
+}
+
+/* ── Honmoon energy arcs — curve along top/bottom edges ── */
+.nb-arc {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 0.5;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  opacity: 0;
+}
+.dual-card.revealed .nb-arc-top {
+  animation: nbArcGlow 4s 1.5s ease-in-out infinite;
+}
+.dual-card.revealed .nb-arc-bot {
+  animation: nbArcGlow 4s 2.5s ease-in-out infinite;
+}
+@keyframes nbArcGlow {
+  0%   { stroke-dashoffset: 200; opacity: 0; }
+  30%  { stroke-dashoffset: 0; opacity: 0.6; }
+  70%  { stroke-dashoffset: 0; opacity: 0.3; }
+  100% { stroke-dashoffset: -200; opacity: 0; }
+}
+
+/* ── Demon eyes — blink along edges ── */
+.nb-eye {
+  fill: var(--pink-kpop);
+  opacity: 0;
+  filter: drop-shadow(0 0 3px var(--pink-kpop));
+}
+.dual-card.revealed .nb-eye {
+  animation: nbEyeBlink 4s 2s ease-in-out infinite;
+}
+@keyframes nbEyeBlink {
+  0%, 42%, 58%, 100% { opacity: 0.6; r: 2.5; }
+  46%  { opacity: 0; r: 0.5; }
+  54%  { opacity: 0; r: 0.5; }
+}
+
+/* ── Corner glow dots ── */
+.nb-dot {
+  fill: var(--char-color, var(--pink-kpop));
+  opacity: 0;
+  filter: drop-shadow(0 0 6px var(--char-color, var(--pink-kpop)));
+}
+.dual-card.revealed .nb-dot {
+  animation: nbDotIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards, nbDotPulse 3s 1s ease-in-out infinite;
+}
+.dual-card.revealed .nb-dot:nth-child(9)  { animation-delay: 0.3s, 1.2s; }
+.dual-card.revealed .nb-dot:nth-child(10) { animation-delay: 0.45s, 1.4s; }
+.dual-card.revealed .nb-dot:nth-child(11) { animation-delay: 0.6s, 1.6s; }
+.dual-card.revealed .nb-dot:nth-child(12) { animation-delay: 0.75s, 1.8s; }
+@keyframes nbDotIn {
+  0%   { opacity: 0; r: 0; }
+  60%  { opacity: 1; r: 4; }
+  100% { opacity: 1; r: 3; }
+}
+@keyframes nbDotPulse {
+  0%, 100% { opacity: 0.8; r: 3; }
+  50%      { opacity: 0.3; r: 2; filter: drop-shadow(0 0 12px var(--char-color, var(--pink-kpop))) brightness(2); }
 }
 
 /* ── Traveling light along the border ── */
@@ -1943,8 +1989,8 @@ html { scroll-behavior: smooth; }
 }
 @keyframes ncTravel {
   0%   { background-position: -30% 0; opacity: 0; }
-  5%   { opacity: 0.65; }
-  95%  { opacity: 0.65; }
+  5%   { opacity: 0.5; }
+  95%  { opacity: 0.5; }
   100% { background-position: 130% 0; opacity: 0; }
 }
 
