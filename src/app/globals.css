@@ -2568,15 +2568,15 @@ html { scroll-behavior: smooth; }
 }
 .hm-bg-glow.light {
   background: radial-gradient(circle,
-    rgba(245, 158, 11, 0.12) 0%,
-    rgba(236, 72, 153, 0.06) 30%,
-    rgba(147, 51, 234, 0.03) 50%,
+    rgba(245, 158, 11, 0.07) 0%,
+    rgba(236, 72, 153, 0.03) 30%,
+    rgba(147, 51, 234, 0.015) 50%,
     transparent 70%);
   animation: hmBgPulse 4s ease-in-out infinite alternate;
 }
 @keyframes hmBgPulse {
-  0% { opacity: 0.7; transform: translate(-50%, -50%) scale(0.95); }
-  100% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+  0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.95); }
+  100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.08); }
 }
 
 /* ═══ Outer energy rings ═══ */
@@ -2599,8 +2599,8 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 0 8px rgba(200, 80, 255, 0.03);
 }
 .hm-ring-1.light {
-  border-color: rgba(245, 158, 11, 0.25);
-  box-shadow: 0 0 15px rgba(245, 158, 11, 0.1), 0 0 30px rgba(236, 72, 153, 0.05);
+  border-color: rgba(245, 158, 11, 0.15);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.06), 0 0 20px rgba(236, 72, 153, 0.03);
   animation: hmRingPulse1 5s ease-in-out infinite alternate;
 }
 
@@ -2612,8 +2612,8 @@ html { scroll-behavior: smooth; }
   border-color: rgba(200, 80, 255, 0.03);
 }
 .hm-ring-2.light {
-  border-color: rgba(147, 51, 234, 0.15);
-  box-shadow: 0 0 12px rgba(147, 51, 234, 0.06);
+  border-color: rgba(147, 51, 234, 0.08);
+  box-shadow: 0 0 8px rgba(147, 51, 234, 0.03);
   animation: hmRingPulse2 7s ease-in-out infinite alternate-reverse;
 }
 
@@ -2625,8 +2625,8 @@ html { scroll-behavior: smooth; }
   border-color: rgba(200, 80, 255, 0.015);
 }
 .hm-ring-3.light {
-  border-color: rgba(236, 72, 153, 0.08);
-  box-shadow: 0 0 10px rgba(236, 72, 153, 0.03);
+  border-color: rgba(236, 72, 153, 0.05);
+  box-shadow: 0 0 6px rgba(236, 72, 153, 0.02);
   animation: hmRingPulse3 9s ease-in-out infinite alternate;
 }
 
@@ -2660,16 +2660,16 @@ html { scroll-behavior: smooth; }
   opacity: 0.3;
 }
 .hm-node.light {
-  opacity: 1;
+  opacity: 0.7;
   animation: hmNodeOrbit 8s linear infinite;
 }
 
-.hm-node-a.light { background: rgba(255, 100, 200, 0.9); box-shadow: 0 0 8px rgba(255, 100, 200, 0.6), 0 0 20px rgba(255, 100, 200, 0.3); animation-delay: 0s; }
-.hm-node-b.light { background: rgba(100, 200, 255, 0.9); box-shadow: 0 0 8px rgba(100, 200, 255, 0.6), 0 0 20px rgba(100, 200, 255, 0.3); animation-delay: -1.33s; }
-.hm-node-c.light { background: rgba(245, 158, 11, 0.9); box-shadow: 0 0 8px rgba(245, 158, 11, 0.6), 0 0 20px rgba(245, 158, 11, 0.3); animation-delay: -2.66s; }
-.hm-node-d.light { background: rgba(200, 80, 255, 0.9); box-shadow: 0 0 8px rgba(200, 80, 255, 0.6), 0 0 20px rgba(200, 80, 255, 0.3); animation-delay: -4s; }
-.hm-node-e.light { background: rgba(255, 150, 220, 0.9); box-shadow: 0 0 8px rgba(255, 150, 220, 0.6), 0 0 20px rgba(255, 150, 220, 0.3); animation-delay: -5.33s; }
-.hm-node-f.light { background: rgba(96, 165, 250, 0.9); box-shadow: 0 0 8px rgba(96, 165, 250, 0.6), 0 0 20px rgba(96, 165, 250, 0.3); animation-delay: -6.66s; }
+.hm-node-a.light { background: rgba(255, 100, 200, 0.7); box-shadow: 0 0 5px rgba(255, 100, 200, 0.35), 0 0 12px rgba(255, 100, 200, 0.15); animation-delay: 0s; }
+.hm-node-b.light { background: rgba(100, 200, 255, 0.7); box-shadow: 0 0 5px rgba(100, 200, 255, 0.35), 0 0 12px rgba(100, 200, 255, 0.15); animation-delay: -1.33s; }
+.hm-node-c.light { background: rgba(245, 158, 11, 0.7); box-shadow: 0 0 5px rgba(245, 158, 11, 0.35), 0 0 12px rgba(245, 158, 11, 0.15); animation-delay: -2.66s; }
+.hm-node-d.light { background: rgba(200, 80, 255, 0.7); box-shadow: 0 0 5px rgba(200, 80, 255, 0.35), 0 0 12px rgba(200, 80, 255, 0.15); animation-delay: -4s; }
+.hm-node-e.light { background: rgba(255, 150, 220, 0.7); box-shadow: 0 0 5px rgba(255, 150, 220, 0.35), 0 0 12px rgba(255, 150, 220, 0.15); animation-delay: -5.33s; }
+.hm-node-f.light { background: rgba(96, 165, 250, 0.7); box-shadow: 0 0 5px rgba(96, 165, 250, 0.35), 0 0 12px rgba(96, 165, 250, 0.15); animation-delay: -6.66s; }
 
 @keyframes hmNodeOrbit {
   0%   { transform: translate(-50%, -50%) rotate(0deg) translateX(130px) rotate(0deg) scale(1); }
@@ -2708,23 +2708,23 @@ html { scroll-behavior: smooth; }
   animation: hmOrbDormant 4s ease-in-out infinite;
 }
 
-/* Light — ATIVO, blazing with Honmoon energy */
+/* Light — ATIVO, softer glow for daytime */
 .hm-orb.light {
   background: radial-gradient(circle at 40% 40%,
-    rgba(255, 245, 164, 0.95) 0%,
-    rgba(255, 220, 100, 0.7) 15%,
-    rgba(245, 158, 11, 0.5) 30%,
-    rgba(236, 72, 153, 0.3) 55%,
-    rgba(147, 51, 234, 0.15) 80%,
-    rgba(11, 8, 19, 0.2) 100%);
-  border: 1.5px solid rgba(245, 158, 11, 0.5);
+    rgba(255, 245, 164, 0.7) 0%,
+    rgba(255, 220, 100, 0.45) 15%,
+    rgba(245, 158, 11, 0.3) 30%,
+    rgba(236, 72, 153, 0.18) 55%,
+    rgba(147, 51, 234, 0.08) 80%,
+    rgba(11, 8, 19, 0.1) 100%);
+  border: 1.5px solid rgba(245, 158, 11, 0.3);
   box-shadow:
-    0 0 20px rgba(255, 245, 164, 0.5),
-    0 0 40px rgba(245, 158, 11, 0.3),
-    0 0 80px rgba(236, 72, 153, 0.15),
-    0 0 120px rgba(147, 51, 234, 0.08),
-    inset 0 0 30px rgba(255, 245, 164, 0.3),
-    inset 0 0 60px rgba(245, 158, 11, 0.1);
+    0 0 12px rgba(255, 245, 164, 0.3),
+    0 0 25px rgba(245, 158, 11, 0.18),
+    0 0 50px rgba(236, 72, 153, 0.08),
+    0 0 80px rgba(147, 51, 234, 0.04),
+    inset 0 0 20px rgba(255, 245, 164, 0.2),
+    inset 0 0 40px rgba(245, 158, 11, 0.06);
   animation: hmOrbActive 3s ease-in-out infinite;
 }
 
@@ -2736,22 +2736,22 @@ html { scroll-behavior: smooth; }
 @keyframes hmOrbActive {
   0%, 100% {
     box-shadow:
-      0 0 20px rgba(255, 245, 164, 0.5),
-      0 0 40px rgba(245, 158, 11, 0.3),
-      0 0 80px rgba(236, 72, 153, 0.15),
-      0 0 120px rgba(147, 51, 234, 0.08),
-      inset 0 0 30px rgba(255, 245, 164, 0.3),
-      inset 0 0 60px rgba(245, 158, 11, 0.1);
+      0 0 12px rgba(255, 245, 164, 0.3),
+      0 0 25px rgba(245, 158, 11, 0.18),
+      0 0 50px rgba(236, 72, 153, 0.08),
+      0 0 80px rgba(147, 51, 234, 0.04),
+      inset 0 0 20px rgba(255, 245, 164, 0.2),
+      inset 0 0 40px rgba(245, 158, 11, 0.06);
     transform: scale(1);
   }
   50% {
     box-shadow:
-      0 0 30px rgba(255, 245, 164, 0.6),
-      0 0 60px rgba(245, 158, 11, 0.4),
-      0 0 100px rgba(236, 72, 153, 0.2),
-      0 0 160px rgba(147, 51, 234, 0.1),
-      inset 0 0 40px rgba(255, 245, 164, 0.4),
-      inset 0 0 80px rgba(245, 158, 11, 0.15);
+      0 0 18px rgba(255, 245, 164, 0.4),
+      0 0 35px rgba(245, 158, 11, 0.25),
+      0 0 65px rgba(236, 72, 153, 0.12),
+      0 0 100px rgba(147, 51, 234, 0.06),
+      inset 0 0 25px rgba(255, 245, 164, 0.28),
+      inset 0 0 50px rgba(245, 158, 11, 0.1);
     transform: scale(1.04);
   }
 }
@@ -2776,24 +2776,24 @@ html { scroll-behavior: smooth; }
   opacity: 0;
 }
 .hm-strand.light {
-  opacity: 1;
+  opacity: 0.6;
 }
 .hm-strand-1.light {
-  border-top-color: rgba(255, 100, 200, 0.7);
-  border-right-color: rgba(255, 100, 200, 0.2);
-  filter: drop-shadow(0 0 4px rgba(255, 100, 200, 0.5));
+  border-top-color: rgba(255, 100, 200, 0.5);
+  border-right-color: rgba(255, 100, 200, 0.12);
+  filter: drop-shadow(0 0 3px rgba(255, 100, 200, 0.3));
   animation: hmStrandSpin1 4s linear infinite;
 }
 .hm-strand-2.light {
-  border-bottom-color: rgba(100, 200, 255, 0.7);
-  border-left-color: rgba(100, 200, 255, 0.2);
-  filter: drop-shadow(0 0 4px rgba(100, 200, 255, 0.5));
+  border-bottom-color: rgba(100, 200, 255, 0.5);
+  border-left-color: rgba(100, 200, 255, 0.12);
+  filter: drop-shadow(0 0 3px rgba(100, 200, 255, 0.3));
   animation: hmStrandSpin2 5s linear infinite;
 }
 .hm-strand-3.light {
-  border-top-color: rgba(245, 158, 11, 0.5);
-  border-bottom-color: rgba(245, 158, 11, 0.15);
-  filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.3));
+  border-top-color: rgba(245, 158, 11, 0.35);
+  border-bottom-color: rgba(245, 158, 11, 0.1);
+  filter: drop-shadow(0 0 3px rgba(245, 158, 11, 0.2));
   animation: hmStrandSpin3 7s linear infinite;
   inset: 18px;
 }
@@ -2829,15 +2829,15 @@ html { scroll-behavior: smooth; }
 .hm-label.light {
   color: #fff;
   text-shadow:
-    0 0 10px rgba(255, 245, 164, 0.8),
-    0 0 20px rgba(245, 158, 11, 0.5),
-    0 0 40px rgba(236, 72, 153, 0.3);
+    0 0 6px rgba(255, 245, 164, 0.5),
+    0 0 12px rgba(245, 158, 11, 0.3),
+    0 0 24px rgba(236, 72, 153, 0.15);
   opacity: 1;
   animation: hmLabelPulse 3s ease-in-out infinite;
 }
 @keyframes hmLabelPulse {
-  0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(255,245,164,0.8), 0 0 20px rgba(245,158,11,0.5), 0 0 40px rgba(236,72,153,0.3); }
-  50% { opacity: 0.85; text-shadow: 0 0 15px rgba(255,245,164,1), 0 0 30px rgba(245,158,11,0.6), 0 0 50px rgba(236,72,153,0.4); }
+  0%, 100% { opacity: 1; text-shadow: 0 0 6px rgba(255,245,164,0.5), 0 0 12px rgba(245,158,11,0.3), 0 0 24px rgba(236,72,153,0.15); }
+  50% { opacity: 0.85; text-shadow: 0 0 10px rgba(255,245,164,0.65), 0 0 20px rgba(245,158,11,0.4), 0 0 35px rgba(236,72,153,0.2); }
 }
 
 /* Flash effect on toggle */
@@ -2876,6 +2876,6 @@ html { scroll-behavior: smooth; }
 }
 
 .light-mode .mini-honmoon-toggle {
-  border-color: rgba(245, 158, 11, 0.3);
-  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.2);
+  background: rgba(245, 158, 11, 0.06);
 }

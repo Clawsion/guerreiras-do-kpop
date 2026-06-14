@@ -418,7 +418,7 @@ export default function HomePage() {
         <div className="honmoon-flash" style={{
           background: themeMode === 'dark'
             ? 'rgba(255, 245, 164, 0.6)'
-            : 'rgba(147, 51, 234, 0.6)'
+            : 'rgba(147, 51, 234, 0.35)'
         }}/>
       )}
 
