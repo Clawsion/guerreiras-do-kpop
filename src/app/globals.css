@@ -2474,14 +2474,51 @@ html { scroll-behavior: smooth; }
   color: rgba(147, 51, 234, 0.25);
 }
 
-/* ═══ Dual cards in light mode — purple gradient bg like the anime ═══ */
+/* ═══ Dual cards in light mode — purple gradient bg INSIDE the cards like the anime ═══ */
 .light-mode .identidade-section {
   background: linear-gradient(180deg, #F0E4FF 0%, #E8D5F8 30%, #DCC2F0 60%, #F5E6FF 100%);
 }
 .light-mode .dual-card {
-  background: #FFFFFF;
-  box-shadow: 0 4px 20px rgba(147, 51, 234, 0.1);
+  background: linear-gradient(180deg, #EAD5F8 0%, #DCC2F0 35%, #D4B0EC 65%, #E8D0F5 100%);
+  box-shadow: 0 4px 20px rgba(147, 51, 234, 0.12), 0 0 40px rgba(200, 80, 255, 0.06);
   border-radius: 8px;
+}
+.light-mode .dual-card:hover {
+  box-shadow: 0 0 50px rgba(147, 51, 234, 0.2), 0 0 30px color-mix(in srgb, var(--char-color) 30%, transparent);
+}
+/* Neon sweep — same vivid glow in light mode */
+.light-mode .dc-neon-sweep {
+  background: var(--char-color);
+  box-shadow:
+    0 0 6px var(--char-color),
+    0 0 16px var(--char-color),
+    0 0 35px color-mix(in srgb, var(--char-color) 60%, white),
+    0 -6px 20px color-mix(in srgb, var(--char-color) 35%, transparent),
+    0 6px 20px color-mix(in srgb, var(--char-color) 35%, transparent);
+}
+/* Neon border SVG — vivid in light mode */
+.light-mode .nb-rect {
+  opacity: 0.6;
+  filter: drop-shadow(0 0 6px var(--char-color, var(--pink-kpop)));
+}
+.light-mode .dual-card:hover .nb-rect {
+  opacity: 1;
+  filter: drop-shadow(0 0 12px var(--char-color, var(--pink-kpop))) brightness(1.5);
+}
+/* Traveling light — visible in light mode */
+.light-mode .dual-card::before {
+  opacity: 0;
+  background: linear-gradient(90deg, transparent 0%, var(--char-color, var(--pink-kpop)) 50%, transparent 100%);
+  background-size: 30% 100%;
+}
+@keyframes ncTravelLight {
+  0%   { background-position: -30% 0; opacity: 0; }
+  5%   { opacity: 0.5; }
+  95%  { opacity: 0.5; }
+  100% { background-position: 130% 0; opacity: 0; }
+}
+.light-mode .dual-card::before {
+  animation: ncTravelLight 5s linear infinite;
 }
 
 /* Name label gradient lighter */
