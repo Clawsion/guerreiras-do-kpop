@@ -1760,9 +1760,8 @@ html { scroll-behavior: smooth; }
   height: 3px;
   z-index: 12;
   pointer-events: none;
-  /* Default: line sits at the bottom, invisible */
-  bottom: 0;
-  top: auto;
+  /* Default: line sits at the bottom edge, invisible */
+  top: calc(100% - 3px);
   opacity: 0;
   background: var(--char-color);
   box-shadow:
@@ -1772,18 +1771,15 @@ html { scroll-behavior: smooth; }
     0 -6px 20px color-mix(in srgb, var(--char-color) 35%, transparent),
     0 6px 20px color-mix(in srgb, var(--char-color) 35%, transparent);
   transition: top 0.8s cubic-bezier(0.33, 0, 0.2, 1),
-              bottom 0.8s cubic-bezier(0.33, 0, 0.2, 1),
-              opacity 0.15s ease;
+              opacity 0.12s ease;
 }
 
-/* Hover: sweep line moves to top */
+/* Hover: sweep line moves UP from bottom to top */
 .dual-card:hover .dc-neon-sweep {
   top: 0;
-  bottom: auto;
   opacity: 1;
   transition: top 0.8s cubic-bezier(0.33, 0, 0.2, 1),
-              bottom 0.01s linear 0.8s,
-              opacity 0.1s ease;
+              opacity 0.08s ease;
 }
 
 /* ═══ IMAGE LAYERS ═══ */
