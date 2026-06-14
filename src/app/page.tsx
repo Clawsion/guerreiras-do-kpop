@@ -366,6 +366,8 @@ function HonmoonCharger() {
 export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [themeMode, setThemeMode] = useState<'dark' | 'light'>('dark');
+  const [honmoonFlash, setHonmoonFlash] = useState(false);
   const { ref: manifestoRef, visible: manifestoVisible } = useReveal();
 
   useEffect(() => {
@@ -378,6 +380,27 @@ export default function HomePage() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
+  // localStorage persistence for theme — read on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('honmoon-theme');
+    if (saved === 'light') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setThemeMode('light');
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('honmoon-theme', themeMode);
+  }, [themeMode]);
+
+  const toggleTheme = () => {
+    setHonmoonFlash(true);
+    setTimeout(() => {
+      setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
+      setHonmoonFlash(false);
+    }, 200);
+  };
+
   const navLinks = [
     { l: "Espetáculo", h: "#espetaculo" },
     { l: "Identidade", h: "#identidade" },
@@ -388,7 +411,16 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col" style={{background:"var(--deep)"}}>
+    <div className={`min-h-screen flex flex-col ${themeMode === 'light' ? 'light-mode' : ''}`} style={{background:"var(--deep)"}}>
+
+      {/* ═══ HONMOON FLASH OVERLAY ═══ */}
+      {honmoonFlash && (
+        <div className="honmoon-flash" style={{
+          background: themeMode === 'dark'
+            ? 'rgba(255, 245, 164, 0.6)'
+            : 'rgba(147, 51, 234, 0.6)'
+        }}/>
+      )}
 
       {/* ═══ PRELOADER ═══ */}
       <div className={`fixed inset-0 z-[100] flex items-center justify-center transition-all duration-700 ${loaded?"opacity-0 pointer-events-none":"opacity-100"}`} style={{background:"var(--void)"}}>
@@ -458,8 +490,14 @@ export default function HomePage() {
               <span />
               <span />
             </button>
-            {/* RIGHT: empty space to balance */}
-            <div className="w-9"/>
+            {/* RIGHT: Mini Honmoon Toggle */}
+            <button
+              className="mini-honmoon-toggle"
+              onClick={toggleTheme}
+              aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
+            >
+              {themeMode === 'dark' ? '🌙' : '☀️'}
+            </button>
           </div>
         </nav>
 
@@ -521,6 +559,28 @@ export default function HomePage() {
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
           <div className="scroll-line"/>
         </div>
+      </section>
+
+      {/* ═══ HONMOON AWAKEN — Theme Toggle ═══ */}
+      <section className="honmoon-awaken-section" style={{background: "var(--deep)"}}>
+        <div
+          className={`honmoon-awaken-orb ${themeMode}`}
+          onClick={toggleTheme}
+          role="button"
+          aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
+        >
+          <span className="honmoon-awaken-icon">
+            {themeMode === 'dark' ? '🌙' : '☀️'}
+          </span>
+        </div>
+        <p className="honmoon-awaken-text" style={{color: "var(--t2)"}}>
+          {themeMode === 'dark'
+            ? 'O Honmoon adormeceu... Toca para trazer a luz'
+            : 'O Honmoon está ativo! Toca para voltar à escuridão'}
+        </p>
+        <p className="honmoon-awaken-hint" style={{color: "var(--t3)"}}>
+          {themeMode === 'dark' ? '✦ TOCA PARA DESPERTAR ✦' : '✦ TOCA PARA DORMIR ✦'}
+        </p>
       </section>
 
       {/* ═══ MANIFESTO — LED WALL TUNNEL ═══ */}

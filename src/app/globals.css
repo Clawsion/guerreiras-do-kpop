@@ -2312,3 +2312,366 @@ html { scroll-behavior: smooth; }
   50% { transform: translateY(-35px) translateX(-5px); opacity: 0.5; }
   75% { transform: translateY(-15px) translateX(15px); opacity: 0.6; }
 }
+
+/* ═══════════════════════════════════════════════════════ */
+/* ═══ LIGHT MODE — HONMOON AWAKENED ═══════════════════ */
+/* ═══════════════════════════════════════════════════════ */
+
+.light-mode {
+  /* ═══ LIGHT BG — bright like daytime in the animation ═══ */
+  --void: #F8F0FF;
+  --deep: #FFF5F8;
+  --surface: #FFFFFF;
+  --elevated: #F0E8FF;
+  --subtle: #E0D0F5;
+
+  /* ═══ COLORS — more vivid on light background ═══ */
+  --neon-purple: #9333EA;
+  --purple-vivid: #8B2FC9;
+  --purple-mid: #7C3AED;
+  --purple-light: #C084FC;
+
+  --blue-accent: #60A5FA;
+  --blue-light: #93C5FD;
+  --blue-dim: #3B82F6;
+
+  --gold: #F59E0B;
+  --gold-light: #FBBF24;
+  --gold-dim: #D97706;
+  --gold-glow: #FCD34D;
+
+  --pink-kpop: #EC4899;
+  --pink-light: #F472B6;
+
+  /* ═══ TEXT — dark on light ═══ */
+  --t1: #1E1040;
+  --t2: #5B3E8A;
+  --t3: #9470C4;
+
+  /* System */
+  --background: var(--deep);
+  --foreground: var(--t1);
+  --card: #FFFFFF;
+  --card-foreground: var(--t1);
+  --popover: var(--elevated);
+  --popover-foreground: var(--t1);
+  --primary: var(--pink-kpop);
+  --primary-foreground: #fff;
+  --secondary: var(--subtle);
+  --secondary-foreground: var(--t1);
+  --muted: #EDE5F7;
+  --muted-foreground: var(--t2);
+  --accent: var(--pink-kpop);
+  --accent-foreground: #fff;
+  --destructive: #DC2626;
+  --border: rgba(147, 51, 234, 0.12);
+  --input: var(--subtle);
+  --ring: var(--pink-kpop);
+  --chart-1: var(--pink-kpop);
+  --chart-2: var(--blue-accent);
+  --chart-3: var(--gold);
+  --chart-4: var(--neon-purple);
+  --chart-5: #10B981;
+  --sidebar: var(--deep);
+  --sidebar-foreground: var(--t1);
+  --sidebar-primary: var(--pink-kpop);
+  --sidebar-primary-foreground: #fff;
+  --sidebar-accent: var(--subtle);
+  --sidebar-accent-foreground: var(--t1);
+  --sidebar-border: rgba(147, 51, 234, 0.12);
+  --sidebar-ring: var(--pink-kpop);
+}
+
+/* ═══ LIGHT MODE OVERRIDES ═══ */
+
+/* Smooth transition on all themed elements */
+.light-mode,
+.light-mode * {
+  transition: background-color 0.8s cubic-bezier(0.16,1,0.3,1),
+              color 0.8s cubic-bezier(0.16,1,0.3,1),
+              border-color 0.8s cubic-bezier(0.16,1,0.3,1),
+              box-shadow 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+
+/* Glass becomes white translucent in light mode */
+.light-mode .glass {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(147, 51, 234, 0.1);
+}
+.light-mode .glass-neon {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(236, 72, 153, 0.2);
+  box-shadow: 0 8px 40px rgba(147, 51, 234, 0.08), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+/* Hamburger lines dark in light mode */
+.light-mode .hamburger span {
+  background: var(--t1);
+}
+.light-mode .hamburger.open span {
+  background: var(--t1);
+}
+
+/* Menu overlay lighter */
+.light-mode .menu-overlay {
+  background: rgba(255, 245, 248, 0.85);
+}
+.light-mode .menu-overlay .menu-link .link-num {
+  color: var(--t3);
+}
+
+/* Scrollbar */
+.light-mode ::-webkit-scrollbar-track {
+  background: var(--deep);
+}
+.light-mode ::-webkit-scrollbar-thumb {
+  background: var(--purple-mid);
+}
+
+/* Hero overlay lighter in light mode */
+.light-mode .hero-bg-overlay {
+  background: linear-gradient(180deg, rgba(248,240,255,0.3) 0%, rgba(248,240,255,0.0) 25%, rgba(248,240,255,0.0) 40%, rgba(248,240,255,0.6) 75%, rgba(248,240,255,0.98) 100%);
+}
+.light-mode .hero-vignette {
+  background: radial-gradient(ellipse at 50% 40%, transparent 40%, rgba(248,240,255,0.5) 100%);
+}
+
+/* Dual cards get lighter bg in light mode */
+.light-mode .dual-card {
+  background: #FFFFFF;
+  box-shadow: 0 4px 20px rgba(147, 51, 234, 0.1);
+}
+
+/* Name label gradient lighter */
+.light-mode .dc-name-label {
+  background: linear-gradient(to top, rgba(255,255,255,0.95) 5%, rgba(255,255,255,0.8) 45%, transparent 100%);
+}
+
+/* Photo placeholders lighter */
+.light-mode .esp-photo-placeholder {
+  background: linear-gradient(135deg, rgba(240,232,255,0.8) 0%, rgba(255,245,248,0.9) 100%);
+}
+.light-mode .esp-photo-grid {
+  background: var(--deep);
+}
+
+/* Concert cards */
+.light-mode .concert-card {
+  background: #FFFFFF;
+  border-color: rgba(147, 51, 234, 0.08);
+}
+.light-mode .concert-card:hover {
+  box-shadow: 0 16px 48px rgba(147, 51, 234, 0.08), 0 0 30px rgba(236, 72, 153, 0.06);
+}
+
+/* Lineup cards */
+.light-mode .esp-photo-slot {
+  background: linear-gradient(135deg, rgba(240,232,255,0.9) 0%, rgba(255,245,248,0.95) 100%);
+  border-color: rgba(147, 51, 234, 0.08);
+}
+
+/* Ticket cards */
+.light-mode .tk:hover {
+  box-shadow: 0 24px 60px rgba(147, 51, 234, 0.08), 0 0 50px rgba(236, 72, 153, 0.06);
+}
+
+/* CTA buttons keep their colors but adjust shadows */
+.light-mode .hero-cta {
+  box-shadow: 0 0 25px rgba(236, 72, 153, 0.25), 0 8px 32px rgba(147, 51, 234, 0.1);
+}
+.light-mode .esp-cta {
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.2), 0 0 50px rgba(236, 72, 153, 0.08), 0 8px 32px rgba(147, 51, 234, 0.1);
+}
+
+/* Neon dividers subtler in light */
+.light-mode .neon-div {
+  opacity: 0.2;
+}
+
+/* Soul particles more visible in light */
+.light-mode .soul-particle-site:nth-child(3n) {
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.6) 0%, rgba(236, 72, 153, 0.2) 50%, transparent 100%);
+  box-shadow: 0 0 6px rgba(236, 72, 153, 0.3), 0 0 12px rgba(236, 72, 153, 0.1);
+}
+.light-mode .soul-particle-site:nth-child(3n+1) {
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.6) 0%, rgba(96, 165, 250, 0.2) 50%, transparent 100%);
+  box-shadow: 0 0 6px rgba(96, 165, 250, 0.3), 0 0 12px rgba(96, 165, 250, 0.1);
+}
+.light-mode .soul-particle-site:nth-child(3n+2) {
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.6) 0%, rgba(147, 51, 234, 0.2) 50%, transparent 100%);
+  box-shadow: 0 0 6px rgba(147, 51, 234, 0.3), 0 0 12px rgba(147, 51, 234, 0.1);
+}
+
+/* Honmoon charger section */
+.light-mode .honmoon-center {
+  border-color: rgba(147, 51, 234, 0.15);
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.05) 0%, transparent 70%);
+}
+
+/* LED wall area — keep it mostly dark since it's a video screen */
+.light-mode .led-wall-screen {
+  background: #050208;
+}
+.light-mode .led-frame-top,
+.light-mode .led-frame-bottom {
+  background: linear-gradient(90deg, #1a0e2e, #2a1a4e, #1a0e2e);
+}
+
+/* Manifesto section stays darker in light mode (it's a dark temple) */
+.light-mode .manifesto-section {
+  background: var(--surface);
+}
+
+/* Mobile sticky CTA */
+.light-mode .fixed.bottom-0 {
+  background: rgba(255, 245, 248, 0.92) !important;
+  border-color: rgba(147, 51, 234, 0.08) !important;
+}
+
+/* Footer */
+.light-mode footer {
+  background: var(--void) !important;
+  border-color: rgba(147, 51, 234, 0.06) !important;
+}
+
+/* ═══ HONMOON AWAKEN — Theme Toggle Section ═══ */
+.honmoon-awaken-section {
+  position: relative;
+  padding: 4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 45vh;
+}
+
+.honmoon-awaken-orb {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Dark mode orb — dim sleeping moon */
+.honmoon-awaken-orb.dark {
+  background: radial-gradient(circle at 40% 40%,
+    rgba(200, 80, 255, 0.15) 0%,
+    rgba(44, 21, 80, 0.4) 40%,
+    rgba(11, 8, 19, 0.6) 100%);
+  border: 1.5px solid rgba(200, 80, 255, 0.2);
+  box-shadow: 0 0 20px rgba(200, 80, 255, 0.1),
+              0 0 40px rgba(200, 80, 255, 0.05),
+              inset 0 0 20px rgba(200, 80, 255, 0.05);
+  animation: honmoonSleepPulse 4s ease-in-out infinite;
+}
+
+/* Light mode orb — golden sun */
+.honmoon-awaken-orb.light {
+  background: radial-gradient(circle at 40% 40%,
+    rgba(255, 245, 164, 0.8) 0%,
+    rgba(245, 158, 11, 0.5) 40%,
+    rgba(236, 72, 153, 0.3) 100%);
+  border: 1.5px solid rgba(245, 158, 11, 0.4);
+  box-shadow: 0 0 30px rgba(245, 158, 11, 0.3),
+              0 0 60px rgba(236, 72, 153, 0.15),
+              0 0 100px rgba(245, 158, 11, 0.1),
+              inset 0 0 25px rgba(255, 245, 164, 0.3);
+  animation: honmoonActivePulse 3s ease-in-out infinite;
+}
+
+@keyframes honmoonSleepPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(200, 80, 255, 0.1), 0 0 40px rgba(200, 80, 255, 0.05); }
+  50% { box-shadow: 0 0 30px rgba(200, 80, 255, 0.2), 0 0 60px rgba(200, 80, 255, 0.08); }
+}
+
+@keyframes honmoonActivePulse {
+  0%, 100% { box-shadow: 0 0 30px rgba(245, 158, 11, 0.3), 0 0 60px rgba(236, 72, 153, 0.15); transform: scale(1); }
+  50% { box-shadow: 0 0 50px rgba(245, 158, 11, 0.4), 0 0 90px rgba(236, 72, 153, 0.2); transform: scale(1.04); }
+}
+
+.honmoon-awaken-orb:hover {
+  transform: scale(1.08);
+}
+
+.honmoon-awaken-orb:active {
+  transform: scale(0.96);
+}
+
+.honmoon-awaken-icon {
+  font-size: 2.5rem;
+  transition: all 0.5s ease;
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.honmoon-awaken-text {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  transition: color 0.8s ease;
+  max-width: 320px;
+}
+
+.honmoon-awaken-hint {
+  margin-top: 1rem;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  font-family: var(--font-geist-mono);
+  animation: honmoonHintPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes honmoonHintPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+/* Flash effect on toggle */
+.honmoon-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  animation: honmoonFlash 1s ease-out forwards;
+}
+
+@keyframes honmoonFlash {
+  0% { opacity: 0; }
+  15% { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+
+/* Mini Honmoon in nav */
+.mini-honmoon-toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+  border: 1px solid rgba(200, 80, 255, 0.15);
+  background: rgba(200, 80, 255, 0.05);
+  font-size: 14px;
+}
+
+.mini-honmoon-toggle:hover {
+  border-color: rgba(200, 80, 255, 0.4);
+  transform: scale(1.1);
+}
+
+.light-mode .mini-honmoon-toggle {
+  border-color: rgba(245, 158, 11, 0.3);
+  background: rgba(245, 158, 11, 0.1);
+}
