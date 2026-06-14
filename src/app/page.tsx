@@ -230,8 +230,8 @@ const CHAR_SILHOUETTES: Record<string, string> = {
   ZOE: "M85,15 C90,10 100,10 105,15 C110,8 115,3 112,0 C120,5 125,18 120,28 C115,22 108,25 105,32 C100,40 105,50 98,58 C92,52 85,45 82,48 C76,55 72,65 70,78 C68,90 66,105 64,118 C62,132 58,148 55,162 L58,168 L62,158 L64,168 L68,158 L70,168 C72,155 75,142 78,130 C82,118 86,108 92,100 C98,95 105,92 112,95 C118,100 122,110 120,122 C118,135 114,148 110,160 L108,170 L112,162 L110,172 L114,168 C112,178 108,188 102,198 C96,190 92,180 88,168 C84,155 82,142 80,128 C78,120 74,118 70,122 C66,128 62,140 60,155 C58,168 55,182 52,195 L54,200 L58,192 L56,202 L62,195 C65,180 68,165 72,148 C75,132 72,120 66,118 C60,118 56,125 55,140 C54,155 50,172 46,188 L44,195 L48,188 L46,198 L52,192",
 };
 
-function DualRevealCard({ name, charName, role, color, delay, animImg, realImg }: {
-  name: string; charName: string; role: string; color: string; delay: number; animImg: string; realImg: string;
+function DualRevealCard({ name, charName, role, color, delay, animImg, realImg, animPos, realPos }: {
+  name: string; charName: string; role: string; color: string; delay: number; animImg: string; realImg: string; animPos: string; realPos: string;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0); // 0 = fully animated, 1 = fully real
@@ -292,21 +292,21 @@ function DualRevealCard({ name, charName, role, color, delay, animImg, realImg }
         '--glitch': glitchIntensity,
       } as React.CSSProperties}
     >
-      {/* Animated neon SVG border traces */}
-      <svg className="neon-border-svg" viewBox="0 0 300 400" preserveAspectRatio="none">
-        <rect className="nb-rect" x="2" y="2" width="296" height="396" rx="2" ry="2"/>
-        <path className="nb-vine nb-vine-l" d="M4,60 C12,80 4,120 10,160 C4,200 12,240 6,280 C4,310 10,340 4,370"/>
-        <path className="nb-vine nb-vine-r" d="M296,50 C288,70 296,110 290,150 C296,190 288,230 294,270 C296,300 290,330 296,360"/>
+      {/* Animated neon SVG border traces — 3:5 portrait rectangle */}
+      <svg className="neon-border-svg" viewBox="0 0 300 500" preserveAspectRatio="none">
+        <rect className="nb-rect" x="2" y="2" width="296" height="496" rx="2" ry="2"/>
+        <path className="nb-vine nb-vine-l" d="M4,60 C12,80 4,120 10,160 C4,200 12,240 6,280 C4,310 10,340 6,370 C4,400 10,430 6,460"/>
+        <path className="nb-vine nb-vine-r" d="M296,50 C288,70 296,110 290,150 C296,190 288,230 294,270 C296,300 290,330 296,360 C294,390 296,420 294,450"/>
         <path className="nb-arc nb-arc-top" d="M60,4 C120,20 180,20 240,4"/>
-        <path className="nb-arc nb-arc-bot" d="M60,396 C120,380 180,380 240,396"/>
-        <circle className="nb-eye" cx="6" cy="100" r="2.5"/>
-        <circle className="nb-eye" cx="6" cy="112" r="2.5"/>
-        <circle className="nb-eye" cx="294" cy="100" r="2.5"/>
-        <circle className="nb-eye" cx="294" cy="112" r="2.5"/>
+        <path className="nb-arc nb-arc-bot" d="M60,496 C120,480 180,480 240,496"/>
+        <circle className="nb-eye" cx="6" cy="130" r="2.5"/>
+        <circle className="nb-eye" cx="6" cy="142" r="2.5"/>
+        <circle className="nb-eye" cx="294" cy="130" r="2.5"/>
+        <circle className="nb-eye" cx="294" cy="142" r="2.5"/>
         <circle className="nb-dot" cx="4" cy="4" r="3"/>
         <circle className="nb-dot" cx="296" cy="4" r="3"/>
-        <circle className="nb-dot" cx="296" cy="396" r="3"/>
-        <circle className="nb-dot" cx="4" cy="396" r="3"/>
+        <circle className="nb-dot" cx="296" cy="496" r="3"/>
+        <circle className="nb-dot" cx="4" cy="496" r="3"/>
       </svg>
 
       {/* Glitch scanlines overlay */}
@@ -324,7 +324,7 @@ function DualRevealCard({ name, charName, role, color, delay, animImg, realImg }
 
       {/* Layer 1 — Animated character (fades out) */}
       <div className="dc-layer dc-anim" style={{ opacity: 1 - progress }}>
-        <img src={animImg} alt={`${charName} animated`} className="dc-img"/>
+        <img src={animImg} alt={`${charName} animated`} className="dc-img" style={{ objectPosition: animPos }}/>
         <div className="dc-label">
           <span className="dc-tag" style={{ color }}>Demon Hunter</span>
           <span className="dc-name" style={{ color }}>{charName}</span>
@@ -333,7 +333,7 @@ function DualRevealCard({ name, charName, role, color, delay, animImg, realImg }
 
       {/* Layer 2 — Real performer (fades in) */}
       <div className="dc-layer dc-real" style={{ opacity: progress }}>
-        <img src={realImg} alt={name} className="dc-img"/>
+        <img src={realImg} alt={name} className="dc-img" style={{ objectPosition: realPos }}/>
         <div className="dc-label">
           <span className="dc-tag" style={{ color }}>A Performer</span>
           <span className="dc-name" style={{ color }}>{name}</span>
@@ -805,11 +805,11 @@ export default function HomePage() {
           </Rv>
           <div className="dual-grid">
             {[
-              { name: "ZOE", charName: "ZOE", role: "Performance Especial", color: "var(--blue-accent)", animImg: "/chars-animated.png", realImg: "/chars-real.png" },
-              { name: "RUMI", charName: "RUMI", role: "Vocal Principal &amp; L\u00edder", color: "var(--neon-purple)", animImg: "/chars-animated.png", realImg: "/chars-real.png" },
-              { name: "MIRAE", charName: "MIRAE", role: "Dan\u00e7a &amp; Rap", color: "var(--pink-kpop)", animImg: "/chars-animated.png", realImg: "/chars-real.png" },
+              { name: "ZOE", charName: "ZOE", role: "Performance Especial", color: "var(--blue-accent)", animImg: "/chars-animated.png", realImg: "/chars-real.png", animPos: "17% top", realPos: "17% top" },
+              { name: "RUMI", charName: "RUMI", role: "Vocal Principal &amp; L\u00edder", color: "var(--neon-purple)", animImg: "/chars-animated.png", realImg: "/chars-real.png", animPos: "50% top", realPos: "50% top" },
+              { name: "MIRAE", charName: "MIRAE", role: "Dan\u00e7a &amp; Rap", color: "var(--pink-kpop)", animImg: "/chars-animated.png", realImg: "/chars-real.png", animPos: "83% top", realPos: "83% top" },
             ].map((c, i) => (
-              <DualRevealCard key={c.name} name={c.name} charName={c.charName} role={c.role} color={c.color} delay={i * 150} animImg={c.animImg} realImg={c.realImg}/>
+              <DualRevealCard key={c.name} name={c.name} charName={c.charName} role={c.role} color={c.color} delay={i * 150} animImg={c.animImg} realImg={c.realImg} animPos={c.animPos} realPos={c.realPos}/>
             ))}
           </div>
         </div>
