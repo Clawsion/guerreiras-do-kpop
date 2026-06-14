@@ -233,111 +233,60 @@ const CHAR_SILHOUETTES: Record<string, string> = {
 function DualRevealCard({ name, charName, role, color, delay, animImg, realImg, animPos, realPos }: {
   name: string; charName: string; role: string; color: string; delay: number; animImg: string; realImg: string; animPos: string; realPos: string;
 }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0); // 0 = fully animated, 1 = fully real
-
-  useEffect(() => {
-    const el = cardRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Use intersectionRatio as progress (0 = not visible, 1 = fully visible)
-        // But we want scroll-driven, so we track how far past the card we've scrolled
-        const updateProgress = () => {
-          const rect = el.getBoundingClientRect();
-          const windowH = window.innerHeight;
-          // Card starts transitioning when its top reaches 60% of viewport
-          // and completes when its top reaches 20% of viewport
-          const start = windowH * 0.7;
-          const end = windowH * 0.15;
-          const raw = (start - rect.top) / (start - end);
-          const p = Math.min(1, Math.max(0, raw));
-          setProgress(p);
-        };
-
-        if (entry.isIntersecting) {
-          updateProgress();
-          window.addEventListener('scroll', updateProgress, { passive: true });
-          window.addEventListener('resize', updateProgress, { passive: true });
-        } else {
-          window.removeEventListener('scroll', updateProgress);
-          window.removeEventListener('resize', updateProgress);
-        }
-
-        return () => {
-          window.removeEventListener('scroll', updateProgress);
-          window.removeEventListener('resize', updateProgress);
-        };
-      },
-      { threshold: Array.from({ length: 20 }, (_, i) => i / 20) }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  // Glitch intensity increases at the midpoint of transition
-  const glitchIntensity = progress > 0.2 && progress < 0.8
-    ? Math.sin(((progress - 0.2) / 0.6) * Math.PI) * 1.5
-    : 0;
-
   return (
-    <div
-      ref={cardRef}
-      className="dual-card"
-      style={{
-        '--char-color': color,
-        '--progress': progress,
-        '--glitch': glitchIntensity,
-      } as React.CSSProperties}
-    >
-      {/* Animated neon SVG border traces — 1:2.97 portrait rectangle */}
-      <svg className="neon-border-svg" viewBox="0 0 300 891" preserveAspectRatio="none">
-        <rect className="nb-rect" x="2" y="2" width="296" height="887" rx="2" ry="2"/>
-        <path className="nb-vine nb-vine-l" d="M4,60 C12,80 4,120 10,160 C4,200 12,240 6,280 C4,320 10,360 6,400 C4,440 10,470 6,500 C4,530 10,560 6,590 C4,620 10,650 6,680 C4,710 10,740 6,770 C4,800 10,830 6,860"/>
-        <path className="nb-vine nb-vine-r" d="M296,50 C288,70 296,110 290,150 C296,190 288,230 294,270 C296,310 290,350 296,390 C294,430 296,470 294,510 C296,540 290,570 296,600 C294,630 296,660 294,690 C296,720 290,750 296,780 C294,810 296,840 294,870"/>
-        <path className="nb-arc nb-arc-top" d="M60,4 C120,20 180,20 240,4"/>
-        <path className="nb-arc nb-arc-bot" d="M60,887 C120,871 180,871 240,887"/>
-        <circle className="nb-eye" cx="6" cy="250" r="2.5"/>
-        <circle className="nb-eye" cx="6" cy="262" r="2.5"/>
-        <circle className="nb-eye" cx="294" cy="250" r="2.5"/>
-        <circle className="nb-eye" cx="294" cy="262" r="2.5"/>
-        <circle className="nb-dot" cx="4" cy="4" r="3"/>
-        <circle className="nb-dot" cx="296" cy="4" r="3"/>
-        <circle className="nb-dot" cx="296" cy="887" r="3"/>
-        <circle className="nb-dot" cx="4" cy="887" r="3"/>
-      </svg>
-
-      {/* Glitch scanlines overlay */}
-      <div className="dc-glitch" style={{ opacity: glitchIntensity > 0.1 ? glitchIntensity * 0.4 : 0 }}>
-        <div className="dc-scanline dc-scan1"/>
-        <div className="dc-scanline dc-scan2"/>
-        <div className="dc-scanline dc-scan3"/>
+    <div className="dual-card-wrap">
+      {/* Stage spotlight beam from above */}
+      <div className="dc-spotlight" style={{ '--spot-color': color } as React.CSSProperties}>
+        <div className="dc-beam"/>
+        <div className="dc-beam-glow"/>
       </div>
+      <div
+        className="dual-card"
+        style={{
+          '--char-color': color,
+          '--card-delay': `${delay}ms`,
+        } as React.CSSProperties}
+      >
+        {/* Neon SVG border traces */}
+        <svg className="neon-border-svg" viewBox="0 0 300 891" preserveAspectRatio="none">
+          <rect className="nb-rect" x="2" y="2" width="296" height="887" rx="2" ry="2"/>
+          <path className="nb-vine nb-vine-l" d="M4,60 C12,80 4,120 10,160 C4,200 12,240 6,280 C4,320 10,360 6,400 C4,440 10,470 6,500 C4,530 10,560 6,590 C4,620 10,650 6,680 C4,710 10,740 6,770 C4,800 10,830 6,860"/>
+          <path className="nb-vine nb-vine-r" d="M296,50 C288,70 296,110 290,150 C296,190 288,230 294,270 C296,310 290,350 296,390 C294,430 296,470 294,510 C296,540 290,570 296,600 C294,630 296,660 294,690 C296,720 290,750 296,780 C294,810 296,840 294,870"/>
+          <path className="nb-arc nb-arc-top" d="M60,4 C120,20 180,20 240,4"/>
+          <path className="nb-arc nb-arc-bot" d="M60,887 C120,871 180,871 240,887"/>
+          <circle className="nb-eye" cx="6" cy="250" r="2.5"/>
+          <circle className="nb-eye" cx="6" cy="262" r="2.5"/>
+          <circle className="nb-eye" cx="294" cy="250" r="2.5"/>
+          <circle className="nb-eye" cx="294" cy="262" r="2.5"/>
+          <circle className="nb-dot" cx="4" cy="4" r="3"/>
+          <circle className="nb-dot" cx="296" cy="4" r="3"/>
+          <circle className="nb-dot" cx="296" cy="887" r="3"/>
+          <circle className="nb-dot" cx="4" cy="887" r="3"/>
+        </svg>
 
-      {/* Flash at midpoint */}
-      <div className="dc-flash" style={{
-        opacity: progress > 0.4 && progress < 0.6 ? Math.sin(((progress - 0.4) / 0.2) * Math.PI) * 0.6 : 0,
-        background: `radial-gradient(circle, ${color}, transparent 70%)`,
-      }}/>
+        {/* Stage flash overlay — triggers the reveal */}
+        <div className="dc-stage-flash"/>
 
-      {/* Layer 1 — Animated character (fades out) */}
-      <div className="dc-layer dc-anim" style={{ opacity: 1 - progress }}>
-        <img src={animImg} alt={`${charName} animated`} className="dc-img" style={{ objectPosition: animPos }}/>
-        <div className="dc-label">
-          <span className="dc-tag" style={{ color }}>Demon Hunter</span>
-          <span className="dc-name" style={{ color }}>{charName}</span>
+        {/* Subtle ambient glow on card surface */}
+        <div className="dc-ambient-glow"/>
+
+        {/* Layer 1 — Animated character (default, visible) */}
+        <div className="dc-layer dc-anim">
+          <img src={animImg} alt={`${charName} animated`} className="dc-img" style={{ objectPosition: animPos }}/>
+          <div className="dc-label">
+            <span className="dc-tag" style={{ color }}>Demon Hunter</span>
+            <span className="dc-name" style={{ color }}>{charName}</span>
+          </div>
         </div>
-      </div>
 
-      {/* Layer 2 — Real performer (fades in) */}
-      <div className="dc-layer dc-real" style={{ opacity: progress }}>
-        <img src={realImg} alt={name} className="dc-img" style={{ objectPosition: realPos }}/>
-        <div className="dc-label">
-          <span className="dc-tag" style={{ color }}>A Performer</span>
-          <span className="dc-name" style={{ color }}>{name}</span>
-          <span className="dc-role">{role}</span>
+        {/* Layer 2 — Real performer (revealed during flash) */}
+        <div className="dc-layer dc-real">
+          <img src={realImg} alt={name} className="dc-img" style={{ objectPosition: realPos }}/>
+          <div className="dc-label">
+            <span className="dc-tag" style={{ color }}>A Performer</span>
+            <span className="dc-name" style={{ color }}>{name}</span>
+            <span className="dc-role">{role}</span>
+          </div>
         </div>
       </div>
     </div>

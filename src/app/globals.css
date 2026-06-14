@@ -1677,9 +1677,12 @@ html { scroll-behavior: smooth; }
 /* ═══ IDENTIDADE DUAL — Character → Performer Scroll Reveal ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
 
+/* ═══ IDENTIDADE DUAL — Stage Spotlight Flash Reveal ═══ */
+/* ═══════════════════════════════════════════════════════ */
+
 .identidade-section {
   position: relative;
-  padding: 6rem 0;
+  padding: 6rem 0 4rem;
   background: var(--void);
   overflow: hidden;
 }
@@ -1688,29 +1691,98 @@ html { scroll-behavior: smooth; }
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
-  max-width: 440px;
+  max-width: 360px;
   margin: 0 auto;
+  padding-top: 3rem;
 }
 
 @media (min-width: 768px) {
   .dual-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    max-width: 900px;
+    gap: 1.25rem;
+    max-width: 840px;
   }
 }
 
 @media (min-width: 1024px) {
   .dual-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-    max-width: 1100px;
+    gap: 1.5rem;
+    max-width: 960px;
   }
 }
 
-/* ═══ IDENTIDADE DUAL — Scroll-Driven Cross-Fade with Glitch ═══ */
-/* ═══════════════════════════════════════════════════════════════ */
+/* ── Card wrapper (holds spotlight + card) ── */
+.dual-card-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
+/* ── Stage spotlight beam ── */
+.dc-spotlight {
+  position: relative;
+  width: 60%;
+  height: 80px;
+  --spot-color: var(--pink-kpop);
+  z-index: 2;
+  pointer-events: none;
+  margin-bottom: -10px;
+}
+
+.dc-beam {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    var(--spot-color) 0%,
+    color-mix(in srgb, var(--spot-color) 60%, transparent) 30%,
+    color-mix(in srgb, var(--spot-color) 15%, transparent) 70%,
+    transparent 100%
+  );
+  clip-path: polygon(35% 0%, 65% 0%, 100% 100%, 0% 100%);
+  filter: blur(4px);
+  opacity: 0.5;
+  animation: spotBreath 4s ease-in-out infinite, spotFlash 8s ease-in-out infinite;
+}
+
+.dc-beam-glow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--spot-color);
+  filter: blur(8px);
+  opacity: 0.8;
+  animation: spotBreath 4s ease-in-out infinite, spotGlow 8s ease-in-out infinite;
+}
+
+@keyframes spotBreath {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 0.7; }
+}
+
+@keyframes spotGlow {
+  0%, 30%, 70%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+  45%                { opacity: 1; transform: translateX(-50%) scale(1.8); }
+}
+
+@keyframes spotFlash {
+  0%, 30%, 70%, 100% { opacity: 0.4; filter: blur(4px) brightness(1); }
+  42%                { opacity: 1; filter: blur(2px) brightness(3); }
+  48%                { opacity: 1; filter: blur(4px) brightness(5); }
+  55%                { opacity: 0.7; filter: blur(4px) brightness(2); }
+}
+
+/* ── Card ── */
 .dual-card {
   position: relative;
   aspect-ratio: 1 / 2.97;
@@ -1719,36 +1791,137 @@ html { scroll-behavior: smooth; }
   background: var(--surface);
   border-radius: 6px;
   --neon-w: 1.2px;
-  --progress: 0;
-  --glitch: 0;
   --char-color: var(--pink-kpop);
+  --card-delay: 0ms;
   box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  animation: cardRevealLoop 8s ease-in-out infinite;
+  animation-delay: var(--card-delay);
 }
 
-/* ── Image layers (animated + real) ── */
+/* ── Stage flash overlay — the key reveal mechanic ── */
+.dc-stage-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 20%,
+    var(--char-color, var(--pink-kpop)),
+    color-mix(in srgb, var(--char-color, var(--pink-kpop)) 40%, white) 30%,
+    transparent 70%
+  );
+  mix-blend-mode: screen;
+  animation: stageFlash 8s ease-in-out infinite;
+  animation-delay: var(--card-delay);
+}
+
+@keyframes stageFlash {
+  0%   { opacity: 0; }
+  38%  { opacity: 0; }
+  40%  { opacity: 0.15; }
+  42%  { opacity: 0.9; }
+  44%  { opacity: 1; }
+  46%  { opacity: 0.8; }
+  50%  { opacity: 0.3; }
+  55%  { opacity: 0.05; }
+  58%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ── Ambient glow on card surface from spotlight ── */
+.dc-ambient-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse 80% 40% at 50% 15%,
+    color-mix(in srgb, var(--char-color, var(--pink-kpop)) 20%, transparent),
+    transparent 60%
+  );
+  animation: ambientPulse 8s ease-in-out infinite;
+  animation-delay: var(--card-delay);
+}
+
+@keyframes ambientPulse {
+  0%, 30%   { opacity: 0; }
+  38%       { opacity: 0.3; }
+  44%       { opacity: 0.8; }
+  50%       { opacity: 0.5; }
+  60%       { opacity: 0.15; }
+  70%, 100% { opacity: 0; }
+}
+
+/* ── Main reveal loop ── */
+/* Timeline: 0-38% = animated visible, 38-58% = flash + real, 58-100% = back to animated */
+@keyframes cardRevealLoop {
+  0%, 36% {
+    /* Animated visible */
+  }
+  38% {
+    /* Flash starts — animated still visible but glow builds */
+  }
+  42% {
+    /* Peak flash — real performer revealed */
+  }
+  48% {
+    /* Flash fading — still showing real */
+  }
+  55% {
+    /* Flash gone — animated returns */
+  }
+  58%, 100% {
+    /* Back to animated */
+  }
+}
+
+/* ── Image layers ── */
 .dc-layer {
   position: absolute;
   inset: 0;
   z-index: 1;
-  transition: opacity 0.05s linear;
 }
-.dc-anim { z-index: 3; }
-.dc-real { z-index: 2; }
+.dc-anim {
+  z-index: 3;
+  animation: animLayer 8s ease-in-out infinite;
+  animation-delay: var(--card-delay);
+}
+.dc-real {
+  z-index: 2;
+  opacity: 0;
+  animation: realLayer 8s ease-in-out infinite;
+  animation-delay: var(--card-delay);
+}
+
+@keyframes animLayer {
+  0%, 38%  { opacity: 1; }
+  42%      { opacity: 0; }
+  55%      { opacity: 0; }
+  58%      { opacity: 1; }
+  100%     { opacity: 1; }
+}
+
+@keyframes realLayer {
+  0%, 38%  { opacity: 0; }
+  42%      { opacity: 1; }
+  55%      { opacity: 1; }
+  58%      { opacity: 0; }
+  100%     { opacity: 0; }
+}
 
 .dc-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* object-position set inline per character */
 }
 
-/* Animated layer: desaturate + darken as it fades */
 .dc-anim .dc-img {
-  filter: saturate(1) brightness(0.9);
+  filter: saturate(1) brightness(0.95);
 }
-/* Real layer: start grayscale, become vivid as it appears */
 .dc-real .dc-img {
-  filter: grayscale(50%) brightness(0.7);
+  filter: saturate(1.1) brightness(1.05);
 }
 
 /* ── Labels ── */
@@ -1784,63 +1957,8 @@ html { scroll-behavior: smooth; }
   display: block;
 }
 
-/* ── Glitch scanlines overlay ── */
-.dc-glitch {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-.dc-scanline {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--char-color);
-  opacity: 0.6;
-  box-shadow: 0 0 8px var(--char-color);
-}
-.dc-scan1 {
-  top: 30%;
-  animation: dcScan1 0.3s linear infinite;
-}
-.dc-scan2 {
-  top: 55%;
-  animation: dcScan2 0.25s linear infinite;
-}
-.dc-scan3 {
-  top: 75%;
-  animation: dcScan3 0.35s linear infinite;
-}
-@keyframes dcScan1 {
-  0%   { transform: translateY(0); height: 2px; }
-  50%  { transform: translateY(8px); height: 4px; }
-  100% { transform: translateY(0); height: 2px; }
-}
-@keyframes dcScan2 {
-  0%   { transform: translateY(0); height: 3px; }
-  50%  { transform: translateY(-6px); height: 1px; }
-  100% { transform: translateY(0); height: 3px; }
-}
-@keyframes dcScan3 {
-  0%   { transform: translateY(0); height: 1px; }
-  50%  { transform: translateY(10px); height: 5px; }
-  100% { transform: translateY(0); height: 1px; }
-}
-
-/* ── Flash at transition midpoint ── */
-.dc-flash {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-  transition: opacity 0.1s ease;
-}
-
 /* ═══ Animated Neon SVG Border ═══ */
 
-/* ── SVG overlay covers entire card ── */
 .neon-border-svg {
   position: absolute;
   inset: 0;
@@ -1851,7 +1969,6 @@ html { scroll-behavior: smooth; }
   overflow: visible;
 }
 
-/* ── Main border rect — always visible, pulses ── */
 .nb-rect {
   fill: none;
   stroke: var(--char-color, var(--pink-kpop));
@@ -1865,7 +1982,6 @@ html { scroll-behavior: smooth; }
   50%      { opacity: 1; filter: drop-shadow(0 0 12px var(--char-color, var(--pink-kpop))) brightness(1.5); }
 }
 
-/* ── Demon vine traces — grow along edges ── */
 .nb-vine {
   fill: none;
   stroke: var(--pink-kpop);
@@ -1888,7 +2004,6 @@ html { scroll-behavior: smooth; }
   50%      { opacity: 0.2; filter: brightness(2); }
 }
 
-/* ── Honmoon energy arcs ── */
 .nb-arc {
   fill: none;
   stroke: var(--gold);
@@ -1910,7 +2025,6 @@ html { scroll-behavior: smooth; }
   100% { stroke-dashoffset: -200; opacity: 0; }
 }
 
-/* ── Demon eyes — blink along edges ── */
 .nb-eye {
   fill: var(--pink-kpop);
   opacity: 0;
@@ -1923,7 +2037,6 @@ html { scroll-behavior: smooth; }
   54%  { opacity: 0; r: 0.5; }
 }
 
-/* ── Corner glow dots ── */
 .nb-dot {
   fill: var(--char-color, var(--pink-kpop));
   opacity: 0.6;
