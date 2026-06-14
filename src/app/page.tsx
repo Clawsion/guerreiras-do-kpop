@@ -233,44 +233,10 @@ const CHAR_SILHOUETTES: Record<string, string> = {
 function DualRevealCard({ name, color, delay, animImg, realImg, animPos, realPos }: {
   name: string; color: string; delay: number; animImg: string; realImg: string; animPos: string; realPos: string;
 }) {
-  const [showReal, setShowReal] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  // Auto-loop: toggle every 6s (only when not hovering)
-  useEffect(() => {
-    if (hovering) return;
-    timerRef.current = setInterval(() => {
-      setShowReal(prev => !prev);
-    }, 6000);
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [hovering]);
-
-  // Scroll reveal: briefly show real when card enters viewport
-  useEffect(() => {
-    const el = cardRef.current;
-    if (!el) return;
-    let revealed = false;
-    const o = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !revealed) {
-        revealed = true;
-        setShowReal(true);
-        setTimeout(() => setShowReal(false), 1200);
-        setTimeout(() => { revealed = false; }, 8000);
-      }
-    }, { threshold: 0.3 });
-    o.observe(el);
-    return () => o.disconnect();
-  }, []);
-
   return (
     <div
-      className={`dual-card ${showReal ? 'showing-real' : ''}`}
+      className="dual-card"
       style={{ '--char-color': color, '--card-delay': `${delay}ms` } as React.CSSProperties}
-      onMouseEnter={() => { setHovering(true); setShowReal(true); }}
-      onMouseLeave={() => { setHovering(false); setShowReal(false); }}
-      ref={cardRef}
     >
       {/* Neon SVG border traces */}
       <svg className="neon-border-svg" viewBox="0 0 300 891" preserveAspectRatio="none">
@@ -289,20 +255,20 @@ function DualRevealCard({ name, color, delay, animImg, realImg, animPos, realPos
         <circle className="nb-dot" cx="4" cy="887" r="3"/>
       </svg>
 
-      {/* Neon sweep line — the transition effect */}
+      {/* Neon sweep line — sweeps up on hover, down on leave */}
       <div className="dc-neon-sweep"/>
 
-      {/* Animated character layer (on top, gets clipped during transition) */}
+      {/* Animated character layer (on top, clips away on hover) */}
       <div className="dc-layer dc-anim">
         <img src={animImg} alt={`${name} animated`} className="dc-img" style={{ objectPosition: animPos }}/>
       </div>
 
-      {/* Real performer layer (underneath, revealed during transition) */}
+      {/* Real performer layer (underneath, revealed on hover) */}
       <div className="dc-layer dc-real">
         <img src={realImg} alt={name} className="dc-img" style={{ objectPosition: realPos }}/>
       </div>
 
-      {/* Name label — just the name, nothing else */}
+      {/* Name */}
       <div className="dc-name-label">
         <span style={{ color }}>{name}</span>
       </div>
