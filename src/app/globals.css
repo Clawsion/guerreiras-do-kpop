@@ -226,8 +226,9 @@ html { scroll-behavior: smooth; }
 /* ═══ NUMBERED SECTION ACCENT ═══ */
 .sec-num {
   font-family: var(--font-geist-mono);
-  font-size: 10px;
-  letter-spacing: 0.25em;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
   color: var(--t3);
 }
 
@@ -1535,11 +1536,12 @@ html { scroll-behavior: smooth; }
 /* ═══ Title — cinematic like hero ═══ */
 .esp-title {
   font-size: clamp(2rem, 5vw, 3.75rem);
-  font-weight: 200;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
   color: var(--t1);
   margin-bottom: 2rem;
+  text-transform: uppercase;
 }
 @media (min-width: 1024px) {
   .esp-title {
@@ -1553,7 +1555,8 @@ html { scroll-behavior: smooth; }
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: espTitleShimmer 6s ease-in-out infinite;
-  font-weight: 300;
+  font-weight: 500;
+  letter-spacing: 0.04em;
 }
 @keyframes espTitleShimmer {
   0%, 100% { background-position: 0% 50%; }
@@ -1566,8 +1569,8 @@ html { scroll-behavior: smooth; }
   align-items: center;
   gap: 0.5rem;
   padding: 1rem 2.5rem;
-  font-size: 10px;
-  letter-spacing: 0.22em;
+  font-size: 12px;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
   font-weight: 600;
   color: #fff;

@@ -655,7 +655,7 @@ export default function HomePage() {
                 </h2>
               </Rv>
               <Rv delay={200}>
-                <p className="text-[15px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
+                <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
                   No universo da s&eacute;rie, tr&ecirc;s idolas de K-Pop vivem uma dupla identidade: de dia s&atilde;o estrelas
                   brilhantes do palco, de noite transformam-se em ca&ccedil;adoras de dem&oacute;nios que protegem o mundo
                   atrav&eacute;s do poder do Honmoon. O nosso tributo traz essa magia para o palco ao vivo &mdash; onde a fic&ccedil;&atilde;o
@@ -663,7 +663,7 @@ export default function HomePage() {
                 </p>
               </Rv>
               <Rv delay={350}>
-                <p className="text-[15px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
+                <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
                   Com cenografia de luxo, performers de elite e uma fus&atilde;o electrizante de m&uacute;sica e dan&ccedil;a,
                   este concerto leva o p&uacute;blico numa viagem imersiva pelo universo K-POP &mdash; com <span style={{color:"var(--neon-purple)"}}>coreografias</span>
                   ic&oacute;nicas de BLACKPINK, BTS e aespa, luzes deslumbrantes, <span style={{color:"var(--pink-kpop)"}}>efeitos pirot&eacute;cnicos</span>
@@ -671,7 +671,7 @@ export default function HomePage() {
                 </p>
               </Rv>
               <Rv delay={420}>
-                <p className="text-[15px] leading-[1.8] mb-10" style={{color:"var(--t2)"}}>
+                <p className="text-[16px] leading-[1.8] mb-10" style={{color:"var(--t2)"}}>
                   Um espet&aacute;culo de variedades que transcende o concerto tradicional &mdash; onde o palco se transforma
                   num mundo m&aacute;gico e cada momento se torna uma mem&oacute;ria inesquec&iacute;vel.
                 </p>
@@ -719,7 +719,7 @@ export default function HomePage() {
             </h2>
           </Rv>
           <Rv delay={120}>
-            <p className="text-[15px] leading-[1.8] mb-12 max-w-lg" style={{color:"var(--t2)"}}>
+            <p className="text-[16px] leading-[1.8] mb-12 max-w-lg" style={{color:"var(--t2)"}}>
               Cada guerreira esconde uma identidade secreta. Passa com o rato por cima para descobrir
               quem se esconde por tr&aacute;s de cada Demon Hunter.
             </p>
@@ -881,7 +881,7 @@ export default function HomePage() {
                 </h2>
               </Rv>
               <Rv delay={120}>
-                <p className="text-[15px] leading-[1.8] mb-8 max-w-lg" style={{color:"var(--t2)"}}>
+                <p className="text-[16px] leading-[1.8] mb-8 max-w-lg" style={{color:"var(--t2)"}}>
                   Um espaço icónico na costa de Cascais, onde a arte e a cultura se encontram.
                   A localização perfeita para receber as Guerreiras do K-Pop, com vista sobre
                   o Atlântico e infraestruturas de primeiro nível.
@@ -964,7 +964,7 @@ export default function HomePage() {
             </h2>
           </Rv>
           <Rv delay={120}>
-            <p className="text-[15px] leading-[1.8] mb-12 max-w-md mx-auto" style={{color:"var(--t2)"}}>
+            <p className="text-[16px] leading-[1.8] mb-12 max-w-md mx-auto" style={{color:"var(--t2)"}}>
               O escudo Honmoon protege o mundo dos dem&oacute;nios.
               Clica para carregar a energia e ativar a prote&ccedil;&atilde;o!
             </p>
