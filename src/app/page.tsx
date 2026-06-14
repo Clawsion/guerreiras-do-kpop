@@ -230,75 +230,81 @@ const CHAR_SILHOUETTES: Record<string, string> = {
   ZOE: "M85,15 C90,10 100,10 105,15 C110,8 115,3 112,0 C120,5 125,18 120,28 C115,22 108,25 105,32 C100,40 105,50 98,58 C92,52 85,45 82,48 C76,55 72,65 70,78 C68,90 66,105 64,118 C62,132 58,148 55,162 L58,168 L62,158 L64,168 L68,158 L70,168 C72,155 75,142 78,130 C82,118 86,108 92,100 C98,95 105,92 112,95 C118,100 122,110 120,122 C118,135 114,148 110,160 L108,170 L112,162 L110,172 L114,168 C112,178 108,188 102,198 C96,190 92,180 88,168 C84,155 82,142 80,128 C78,120 74,118 70,122 C66,128 62,140 60,155 C58,168 55,182 52,195 L54,200 L58,192 L56,202 L62,195 C65,180 68,165 72,148 C75,132 72,120 66,118 C60,118 56,125 55,140 C54,155 50,172 46,188 L44,195 L48,188 L46,198 L52,192",
 };
 
-function DualRevealCard({ name, charName, role, color, delay, animImg, realImg, animPos, realPos }: {
-  name: string; charName: string; role: string; color: string; delay: number; animImg: string; realImg: string; animPos: string; realPos: string;
+function DualRevealCard({ name, color, delay, animImg, realImg, animPos, realPos }: {
+  name: string; color: string; delay: number; animImg: string; realImg: string; animPos: string; realPos: string;
 }) {
+  const [showReal, setShowReal] = useState(false);
+  const [hovering, setHovering] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // Auto-loop: toggle every 6s (only when not hovering)
+  useEffect(() => {
+    if (hovering) return;
+    timerRef.current = setInterval(() => {
+      setShowReal(prev => !prev);
+    }, 6000);
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [hovering]);
+
+  // Scroll reveal: briefly show real when card enters viewport
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    let revealed = false;
+    const o = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !revealed) {
+        revealed = true;
+        setShowReal(true);
+        setTimeout(() => setShowReal(false), 1200);
+        setTimeout(() => { revealed = false; }, 8000);
+      }
+    }, { threshold: 0.3 });
+    o.observe(el);
+    return () => o.disconnect();
+  }, []);
+
   return (
-    <div className="dual-card-wrap">
-      {/* ── Stage Holofote fixture ── */}
-      <div className="dc-holofote" style={{ '--spot-color': color } as React.CSSProperties}>
-        {/* Fixture housing (the physical light unit) */}
-        <div className="dc-fixture">
-          <div className="dc-fixture-body"/>
-          <div className="dc-fixture-lens"/>
-        </div>
-        {/* Light cone beam pointing down */}
-        <div className="dc-cone"/>
-        {/* Colored reflection on card surface */}
-        <div className="dc-surface-reflect"/>
+    <div
+      className={`dual-card ${showReal ? 'showing-real' : ''}`}
+      style={{ '--char-color': color, '--card-delay': `${delay}ms` } as React.CSSProperties}
+      onMouseEnter={() => { setHovering(true); setShowReal(true); }}
+      onMouseLeave={() => { setHovering(false); setShowReal(false); }}
+      ref={cardRef}
+    >
+      {/* Neon SVG border traces */}
+      <svg className="neon-border-svg" viewBox="0 0 300 891" preserveAspectRatio="none">
+        <rect className="nb-rect" x="2" y="2" width="296" height="887" rx="2" ry="2"/>
+        <path className="nb-vine nb-vine-l" d="M4,60 C12,80 4,120 10,160 C4,200 12,240 6,280 C4,320 10,360 6,400 C4,440 10,470 6,500 C4,530 10,560 6,590 C4,620 10,650 6,680 C4,710 10,740 6,770 C4,800 10,830 6,860"/>
+        <path className="nb-vine nb-vine-r" d="M296,50 C288,70 296,110 290,150 C296,190 288,230 294,270 C296,310 290,350 296,390 C294,430 296,470 294,510 C296,540 290,570 296,600 C294,630 296,660 294,690 C296,720 290,750 296,780 C294,810 296,840 294,870"/>
+        <path className="nb-arc nb-arc-top" d="M60,4 C120,20 180,20 240,4"/>
+        <path className="nb-arc nb-arc-bot" d="M60,887 C120,871 180,871 240,887"/>
+        <circle className="nb-eye" cx="6" cy="250" r="2.5"/>
+        <circle className="nb-eye" cx="6" cy="262" r="2.5"/>
+        <circle className="nb-eye" cx="294" cy="250" r="2.5"/>
+        <circle className="nb-eye" cx="294" cy="262" r="2.5"/>
+        <circle className="nb-dot" cx="4" cy="4" r="3"/>
+        <circle className="nb-dot" cx="296" cy="4" r="3"/>
+        <circle className="nb-dot" cx="296" cy="887" r="3"/>
+        <circle className="nb-dot" cx="4" cy="887" r="3"/>
+      </svg>
+
+      {/* Neon sweep line — the transition effect */}
+      <div className="dc-neon-sweep"/>
+
+      {/* Animated character layer (on top, gets clipped during transition) */}
+      <div className="dc-layer dc-anim">
+        <img src={animImg} alt={`${name} animated`} className="dc-img" style={{ objectPosition: animPos }}/>
       </div>
 
-      <div
-        className="dual-card"
-        style={{
-          '--char-color': color,
-          '--card-delay': `${delay}ms`,
-        } as React.CSSProperties}
-      >
-        {/* Neon SVG border traces */}
-        <svg className="neon-border-svg" viewBox="0 0 300 891" preserveAspectRatio="none">
-          <rect className="nb-rect" x="2" y="2" width="296" height="887" rx="2" ry="2"/>
-          <path className="nb-vine nb-vine-l" d="M4,60 C12,80 4,120 10,160 C4,200 12,240 6,280 C4,320 10,360 6,400 C4,440 10,470 6,500 C4,530 10,560 6,590 C4,620 10,650 6,680 C4,710 10,740 6,770 C4,800 10,830 6,860"/>
-          <path className="nb-vine nb-vine-r" d="M296,50 C288,70 296,110 290,150 C296,190 288,230 294,270 C296,310 290,350 296,390 C294,430 296,470 294,510 C296,540 290,570 296,600 C294,630 296,660 294,690 C296,720 290,750 296,780 C294,810 296,840 294,870"/>
-          <path className="nb-arc nb-arc-top" d="M60,4 C120,20 180,20 240,4"/>
-          <path className="nb-arc nb-arc-bot" d="M60,887 C120,871 180,871 240,887"/>
-          <circle className="nb-eye" cx="6" cy="250" r="2.5"/>
-          <circle className="nb-eye" cx="6" cy="262" r="2.5"/>
-          <circle className="nb-eye" cx="294" cy="250" r="2.5"/>
-          <circle className="nb-eye" cx="294" cy="262" r="2.5"/>
-          <circle className="nb-dot" cx="4" cy="4" r="3"/>
-          <circle className="nb-dot" cx="296" cy="4" r="3"/>
-          <circle className="nb-dot" cx="296" cy="887" r="3"/>
-          <circle className="nb-dot" cx="4" cy="887" r="3"/>
-        </svg>
+      {/* Real performer layer (underneath, revealed during transition) */}
+      <div className="dc-layer dc-real">
+        <img src={realImg} alt={name} className="dc-img" style={{ objectPosition: realPos }}/>
+      </div>
 
-        {/* Spotlight illumination overlay — follows the holofote state */}
-        <div className="dc-spot-light"/>
-
-        {/* Light flicker glitch overlay */}
-        <div className="dc-flicker-overlay"/>
-
-        {/* Dark overlay when light is off */}
-        <div className="dc-darkness"/>
-
-        {/* Layer 1 — Animated character (visible when light ON) */}
-        <div className="dc-layer dc-anim">
-          <img src={animImg} alt={`${charName} animated`} className="dc-img" style={{ objectPosition: animPos }}/>
-          <div className="dc-label">
-            <span className="dc-tag" style={{ color }}>Demon Hunter</span>
-            <span className="dc-name" style={{ color }}>{charName}</span>
-          </div>
-        </div>
-
-        {/* Layer 2 — Real performer (visible when light OFF) */}
-        <div className="dc-layer dc-real">
-          <img src={realImg} alt={name} className="dc-img" style={{ objectPosition: realPos }}/>
-          <div className="dc-label">
-            <span className="dc-tag" style={{ color }}>A Performer</span>
-            <span className="dc-name" style={{ color }}>{name}</span>
-            <span className="dc-role">{role}</span>
-          </div>
-        </div>
+      {/* Name label — just the name, nothing else */}
+      <div className="dc-name-label">
+        <span style={{ color }}>{name}</span>
       </div>
     </div>
   );
@@ -759,17 +765,17 @@ export default function HomePage() {
           </Rv>
           <Rv delay={120}>
             <p className="text-[15px] leading-[1.8] mb-12 max-w-lg" style={{color:"var(--t2)"}}>
-              Cada guerreira esconde uma identidade secreta. Faz scroll e descobre quem se esconde
-              por tr&aacute;s de cada Demon Hunter — a performer real que d&aacute; vida &agrave; personagem no palco.
+              Cada guerreira esconde uma identidade secreta. Passa com o rato por cima para descobrir
+              quem se esconde por tr&aacute;s de cada Demon Hunter.
             </p>
           </Rv>
           <div className="dual-grid">
             {[
-              { name: "ZOE", charName: "ZOE", role: "Performance Especial", color: "var(--blue-accent)", animImg: "/char-zoe.png", realImg: "/real-zoe.png", animPos: "center top", realPos: "center top" },
-              { name: "RUMI", charName: "RUMI", role: "Vocal Principal &amp; L\u00edder", color: "var(--neon-purple)", animImg: "/char-rumi.png", realImg: "/real-rumi.png", animPos: "center top", realPos: "center top" },
-              { name: "MIRAE", charName: "MIRAE", role: "Dan\u00e7a &amp; Rap", color: "var(--pink-kpop)", animImg: "/char-mirae.png", realImg: "/real-mirae.png", animPos: "center top", realPos: "center top" },
+              { name: "ZOE", color: "var(--blue-accent)", animImg: "/char-zoe.png", realImg: "/real-zoe.png", animPos: "center top", realPos: "center top" },
+              { name: "RUMI", color: "var(--neon-purple)", animImg: "/char-rumi.png", realImg: "/real-rumi.png", animPos: "center top", realPos: "center top" },
+              { name: "MIRAE", color: "var(--pink-kpop)", animImg: "/char-mirae.png", realImg: "/real-mirae.png", animPos: "center top", realPos: "center top" },
             ].map((c, i) => (
-              <DualRevealCard key={c.name} name={c.name} charName={c.charName} role={c.role} color={c.color} delay={i * 150} animImg={c.animImg} realImg={c.realImg} animPos={c.animPos} realPos={c.realPos}/>
+              <DualRevealCard key={c.name} name={c.name} color={c.color} delay={i * 200} animImg={c.animImg} realImg={c.realImg} animPos={c.animPos} realPos={c.realPos}/>
             ))}
           </div>
         </div>
