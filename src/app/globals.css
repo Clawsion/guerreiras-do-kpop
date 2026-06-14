@@ -1969,19 +1969,126 @@ html { scroll-behavior: smooth; }
   margin-top: 0.25rem;
 }
 
-/* Neon border on reveal */
+/* ═══ Animated Neon Frame around cards ═══ */
+/* Each card gets 8 thin lines forming 4 L-shaped corners that draw in on reveal */
+.dual-card {
+  --neon-w: 1.5px;  /* line thickness */
+}
+
+/* Remove old static ::after — replaced by animated frame */
 .dual-card::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 6;
-  border: 1.5px solid transparent;
   pointer-events: none;
-  transition: border-color 0.6s ease 0.4s, box-shadow 0.6s ease 0.4s;
+  border: var(--neon-w) solid transparent;
+  transition: none;
 }
+
+/* Neon corner lines — positioned absolutely, each is a thin rectangle */
+.neon-corner {
+  position: absolute;
+  z-index: 6;
+  pointer-events: none;
+  background: var(--char-color, var(--pink-kpop));
+  box-shadow: 0 0 6px var(--char-color, var(--pink-kpop)),
+              0 0 14px rgba(255,45,120,0.1);
+  transform-origin: 0 0;
+  transform: scaleX(0) scaleY(0);
+  opacity: 0;
+}
+
+/* Top-left horizontal: grows from left */
+.neon-corner-tl[style*="height:1.5px"] { transform-origin: left center; }
+/* Top-left vertical: grows from top */
+.neon-corner-tl[style*="width:1.5px"]  { transform-origin: top center; }
+/* Top-right horizontal: grows from right */
+.neon-corner-tr[style*="height:1.5px"] { transform-origin: right center; }
+/* Top-right vertical: grows from top */
+.neon-corner-tr[style*="width:1.5px"]  { transform-origin: top center; }
+/* Bottom-right horizontal: grows from right */
+.neon-corner-br[style*="height:1.5px"] { transform-origin: right center; }
+/* Bottom-right vertical: grows from bottom */
+.neon-corner-br[style*="width:1.5px"]  { transform-origin: bottom center; }
+/* Bottom-left horizontal: grows from left */
+.neon-corner-bl[style*="height:1.5px"] { transform-origin: left center; }
+/* Bottom-left vertical: grows from bottom */
+.neon-corner-bl[style*="width:1.5px"]  { transform-origin: bottom center; }
+
+/* On reveal: corners draw in with staggered delays */
+.dual-card.revealed .neon-corner-tl {
+  animation: neonLineDrawH 0.5s 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.dual-card.revealed .neon-corner-tr {
+  animation: neonLineDrawH 0.5s 0.55s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.dual-card.revealed .neon-corner-br {
+  animation: neonLineDrawH 0.5s 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.dual-card.revealed .neon-corner-bl {
+  animation: neonLineDrawH 0.5s 0.85s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+@keyframes neonLineDrawH {
+  0%   { transform: scaleX(0) scaleY(0); opacity: 0; }
+  20%  { opacity: 1; }
+  100% { transform: scaleX(1) scaleY(1); opacity: 1; }
+}
+
+/* After drawing: continuous subtle pulse on all corners */
+.dual-card.revealed .neon-corner-tl {
+  animation: neonLineDrawH 0.5s 0.4s cubic-bezier(0.16,1,0.3,1) forwards, neonPulse 3s 1.2s ease-in-out infinite;
+}
+.dual-card.revealed .neon-corner-tr {
+  animation: neonLineDrawH 0.5s 0.55s cubic-bezier(0.16,1,0.3,1) forwards, neonPulse 3s 1.4s ease-in-out infinite;
+}
+.dual-card.revealed .neon-corner-br {
+  animation: neonLineDrawH 0.5s 0.7s cubic-bezier(0.16,1,0.3,1) forwards, neonPulse 3s 1.6s ease-in-out infinite;
+}
+.dual-card.revealed .neon-corner-bl {
+  animation: neonLineDrawH 0.5s 0.85s cubic-bezier(0.16,1,0.3,1) forwards, neonPulse 3s 1.8s ease-in-out infinite;
+}
+
+@keyframes neonPulse {
+  0%, 100% { opacity: 1; filter: brightness(1); }
+  50%      { opacity: 0.55; filter: brightness(1.6); }
+}
+
+/* Full neon border glow (subtle ambient after corners draw) */
 .dual-card.revealed::after {
-  border-color: var(--pink-kpop);
-  box-shadow: inset 0 0 30px rgba(255,45,120,0.08);
+  border-color: var(--char-color, var(--pink-kpop));
+  opacity: 0.12;
+  animation: neonBorderBreath 4s 1.5s ease-in-out infinite;
+}
+@keyframes neonBorderBreath {
+  0%, 100% { opacity: 0.12; box-shadow: inset 0 0 20px rgba(255,45,120,0.02); }
+  50%      { opacity: 0.3; box-shadow: inset 0 0 35px rgba(255,45,120,0.05); }
+}
+
+/* Traveling light that runs along the border continuously */
+.dual-card.revealed::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 0%, var(--char-color, var(--pink-kpop)) 50%, transparent 100%);
+  background-size: 30% 100%;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: var(--neon-w);
+  opacity: 0;
+  animation: neonTravel 5s 1.5s linear infinite;
+}
+@keyframes neonTravel {
+  0%   { background-position: -30% 0; opacity: 0; }
+  5%   { opacity: 0.7; }
+  95%  { opacity: 0.7; }
+  100% { background-position: 130% 0; opacity: 0; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */

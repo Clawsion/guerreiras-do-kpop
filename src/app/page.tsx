@@ -258,6 +258,16 @@ function DualRevealCard({ name, charName, role, color, delay, img }: {
 
   return (
     <div ref={cardRef} className={`dual-card ${visible ? "revealed" : ""}`} style={{ transitionDelay: `${delay}ms`, '--char-color': color } as React.CSSProperties}>
+      {/* Animated neon corner frame */}
+      <div className="neon-corner neon-corner-tl" style={{top:0,left:0,width:'35%',height:'1.5px'}}/>
+      <div className="neon-corner neon-corner-tl" style={{top:0,left:0,width:'1.5px',height:'25%'}}/>
+      <div className="neon-corner neon-corner-tr" style={{top:0,right:0,width:'35%',height:'1.5px'}}/>
+      <div className="neon-corner neon-corner-tr" style={{top:0,right:0,width:'1.5px',height:'25%'}}/>
+      <div className="neon-corner neon-corner-br" style={{bottom:0,right:0,width:'35%',height:'1.5px'}}/>
+      <div className="neon-corner neon-corner-br" style={{bottom:0,right:0,width:'1.5px',height:'25%'}}/>
+      <div className="neon-corner neon-corner-bl" style={{bottom:0,left:0,width:'35%',height:'1.5px'}}/>
+      <div className="neon-corner neon-corner-bl" style={{bottom:0,left:0,width:'1.5px',height:'25%'}}/>
+
       {/* Flash effect */}
       <div className="dual-flash" style={{ background: `radial-gradient(circle, ${color}, transparent 70%)` }}/>
 
