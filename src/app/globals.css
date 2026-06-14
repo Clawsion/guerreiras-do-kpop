@@ -2500,34 +2500,6 @@ html { scroll-behavior: smooth; }
 .light-mode .dc-img {
   transition: filter 0.5s ease !important;
 }
-/* ═══ Lighten images in light mode — brighten dark AI art for daytime ═══ */
-.light-mode .dc-anim .dc-img {
-  filter: saturate(1.05) brightness(1.3) contrast(0.95) !important;
-}
-.light-mode .dc-real .dc-img {
-  filter: saturate(0.95) brightness(1.2) contrast(0.9) !important;
-}
-.light-mode .dual-card:hover .dc-real .dc-img {
-  filter: saturate(1) brightness(1.25) contrast(0.92) !important;
-}
-/* Light overlay on top of images to wash out dark backgrounds */
-.light-mode .dc-layer::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg,
-    rgba(232, 213, 248, 0.15) 0%,
-    rgba(232, 213, 248, 0.05) 30%,
-    rgba(232, 213, 248, 0.0) 50%,
-    rgba(232, 213, 248, 0.05) 70%,
-    rgba(232, 213, 248, 0.2) 100%);
-  pointer-events: none;
-  z-index: 1;
-  transition: opacity 0.5s ease;
-}
-.light-mode .dual-card:hover .dc-anim::after {
-  opacity: 0;
-}
 /* Neon sweep — same vivid glow in light mode */
 .light-mode .dc-neon-sweep {
   background: var(--char-color);
