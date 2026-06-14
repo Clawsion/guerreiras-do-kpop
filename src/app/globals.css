@@ -1760,8 +1760,8 @@ html { scroll-behavior: smooth; }
   height: 3px;
   z-index: 12;
   pointer-events: none;
-  /* Default: line sits at the bottom edge, invisible */
-  top: calc(100% - 3px);
+  /* Default: line sits at the top edge, invisible */
+  top: 0;
   opacity: 0;
   background: var(--char-color);
   box-shadow:
@@ -1774,9 +1774,9 @@ html { scroll-behavior: smooth; }
               opacity 0.12s ease;
 }
 
-/* Hover: sweep line moves UP from bottom to top */
+/* Hover: sweep line moves DOWN from top to bottom */
 .dual-card:hover .dc-neon-sweep {
-  top: 0;
+  top: calc(100% - 3px);
   opacity: 1;
   transition: top 0.8s cubic-bezier(0.33, 0, 0.2, 1),
               opacity 0.08s ease;
@@ -1789,15 +1789,15 @@ html { scroll-behavior: smooth; }
   inset: 0;
 }
 
-/* Animated layer on top — clips away on hover from bottom to top */
+/* Animated layer on top — clips away on hover from top to bottom */
 .dc-anim {
   z-index: 3;
-  clip-path: inset(0 0 0% 0);
+  clip-path: inset(0% 0 0 0);
   transition: clip-path 0.8s cubic-bezier(0.33, 0, 0.2, 1);
 }
 
 .dual-card:hover .dc-anim {
-  clip-path: inset(0 0 100% 0);
+  clip-path: inset(100% 0 0 0);
 }
 
 /* Real layer underneath — always present, revealed when anim clips away */
