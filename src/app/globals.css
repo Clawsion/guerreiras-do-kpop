@@ -1374,6 +1374,143 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
+/* ═══ ESPETÁCULO — O Que Vais Viver ═══ */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.espetaculo-section {
+  position: relative;
+  padding: 6rem 0;
+  background: var(--void);
+  overflow: hidden;
+}
+
+.xp-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+}
+
+@media (min-width: 640px) {
+  .xp-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .xp-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+  }
+}
+
+.xp-card {
+  position: relative;
+  padding: 2rem 1.75rem;
+  background: var(--deep);
+  border: 1px solid rgba(200,80,255,0.05);
+  overflow: hidden;
+  transition: border-color 0.5s ease, background 0.5s ease;
+  cursor: default;
+}
+
+.xp-card:hover {
+  border-color: rgba(200,80,255,0.12);
+  background: rgba(28,18,64,0.8);
+}
+
+.xp-icon-wrap {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+.xp-card:hover .xp-icon-wrap {
+  transform: scale(1.15);
+}
+
+.xp-icon-glow {
+  position: absolute;
+  inset: -40%;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.xp-card:hover .xp-icon-glow {
+  opacity: 1;
+}
+
+/* Neon pulse on icon */
+.xp-icon-wrap svg {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 0 6px currentColor);
+  transition: filter 0.4s ease;
+}
+
+.xp-card:hover .xp-icon-wrap svg {
+  filter: drop-shadow(0 0 12px currentColor) drop-shadow(0 0 24px currentColor);
+  animation: xpPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes xpPulse {
+  0%, 100% { filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor); }
+  50% { filter: drop-shadow(0 0 16px currentColor) drop-shadow(0 0 32px currentColor); }
+}
+
+.xp-title {
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.xp-card:hover .xp-title {
+  color: var(--t1) !important;
+}
+
+.xp-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--t2);
+  margin-bottom: 1.25rem;
+}
+
+.xp-line {
+  height: 1px;
+  width: 0;
+  opacity: 0.3;
+  transition: width 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+
+.xp-card:hover .xp-line {
+  width: 60%;
+}
+
+/* Background shimmer on hover */
+.xp-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(200,80,255,0.03) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.xp-card:hover::before {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
 /* ═══ IDENTIDADE DUAL — Character → Performer Scroll Reveal ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
 
