@@ -1697,156 +1697,135 @@ html { scroll-behavior: smooth; }
   }
 }
 
+/* ═══ IDENTIDADE DUAL — Scroll-Driven Cross-Fade with Glitch ═══ */
+/* ═══════════════════════════════════════════════════════════════ */
+
 .dual-card {
   position: relative;
   aspect-ratio: 3 / 4;
   overflow: hidden;
-  cursor: pointer;
+  cursor: default;
   background: var(--surface);
+  --neon-w: 1.2px;
+  --progress: 0;
+  --glitch: 0;
+  --char-color: var(--pink-kpop);
 }
 
-/* Silhouette layer */
-.dual-silhouette {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(180deg, var(--surface) 0%, var(--void) 100%);
-  transition: opacity 1.2s cubic-bezier(0.16,1,0.3,1),
-              transform 1.2s cubic-bezier(0.16,1,0.3,1);
-}
-.dual-card.revealed .dual-silhouette {
-  opacity: 0;
-  transform: scale(1.08);
-}
-
-.silhouette-figure {
-  width: 50%;
-  aspect-ratio: 2 / 3;
-  position: relative;
-  border-radius: 50% 50% 5% 5%;
-  border: 1.5px solid;
-  opacity: 0.5;
-  transition: opacity 0.8s ease;
-}
-.silhouette-figure::after {
-  content: '';
-  position: absolute;
-  top: -25%;
-  left: 30%;
-  width: 40%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 1.5px solid;
-  opacity: 0.5;
-}
-.dual-card.revealed .silhouette-figure {
-  opacity: 0;
-}
-
-.silhouette-name {
-  font-size: clamp(1.2rem, 3vw, 1.8rem);
-  font-weight: 200;
-  letter-spacing: 0.15em;
-  margin-top: 1.5rem;
-  transition: opacity 0.8s ease;
-}
-.dual-card.revealed .silhouette-name {
-  opacity: 0;
-}
-
-.silhouette-tag {
-  font-size: 8px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--t3);
-  margin-top: 0.5rem;
-  transition: opacity 0.8s ease;
-}
-.dual-card.revealed .silhouette-tag {
-  opacity: 0;
-}
-
-/* Pulsing glow behind silhouette */
-.silhouette-glow {
-  position: absolute;
-  width: 60%;
-  height: 60%;
-  border-radius: 50%;
-  z-index: -1;
-  animation: silGlow 3s ease-in-out infinite alternate;
-  contain: strict;
-}
-@keyframes silGlow {
-  0% { opacity: 0.3; transform: scale(0.9); }
-  100% { opacity: 0.7; transform: scale(1.1); }
-}
-
-/* Performer layer */
-.dual-performer {
+/* ── Image layers (animated + real) ── */
+.dc-layer {
   position: absolute;
   inset: 0;
   z-index: 1;
+  transition: opacity 0.05s linear;
 }
+.dc-anim { z-index: 3; }
+.dc-real { z-index: 2; }
 
-.performer-img {
+.dc-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: top;
-  filter: grayscale(75%) brightness(0.5);
-  transition: filter 1s cubic-bezier(0.16,1,0.3,1);
-}
-.dual-card.revealed .performer-img {
-  filter: grayscale(0%) brightness(0.85);
 }
 
-.performer-info {
+/* Animated layer: desaturate + darken as it fades */
+.dc-anim .dc-img {
+  filter: saturate(1) brightness(0.9);
+}
+/* Real layer: start grayscale, become vivid as it appears */
+.dc-real .dc-img {
+  filter: grayscale(50%) brightness(0.7);
+}
+
+/* ── Labels ── */
+.dc-label {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 2rem 1.5rem 1.5rem;
-  background: linear-gradient(to top, var(--void) 5%, transparent 100%);
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s;
+  padding: 2.5rem 1.5rem 1.5rem;
+  background: linear-gradient(to top, var(--void) 10%, rgba(11,8,19,0.7) 50%, transparent 100%);
+  z-index: 4;
 }
-.dual-card.revealed .performer-info {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.performer-tag {
+.dc-tag {
   font-size: 8px;
   letter-spacing: 0.3em;
-  font-weight: 600;
   text-transform: uppercase;
+  font-weight: 600;
   display: block;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
+  opacity: 0.7;
 }
-.performer-name {
-  font-size: clamp(1rem, 2.5vw, 1.4rem);
-  font-weight: 300;
-  color: var(--t1);
-  letter-spacing: -0.01em;
+.dc-name {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 200;
+  letter-spacing: 0.12em;
+  display: block;
+  text-shadow: 0 0 20px currentColor;
 }
-.performer-role {
-  font-size: 12px;
+.dc-role {
+  font-size: 11px;
   color: var(--t2);
-  margin-top: 0.25rem;
+  margin-top: 0.35rem;
+  display: block;
 }
 
-/* ═══ Animated Neon SVG Border around DualReveal cards ═══ */
-/* SVG overlay with animated thin strokes tracing the card border */
-
-.dual-card {
-  --neon-w: 1.2px;
+/* ── Glitch scanlines overlay ── */
+.dc-glitch {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  mix-blend-mode: screen;
 }
+.dc-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--char-color);
+  opacity: 0.6;
+  box-shadow: 0 0 8px var(--char-color);
+}
+.dc-scan1 {
+  top: 30%;
+  animation: dcScan1 0.3s linear infinite;
+}
+.dc-scan2 {
+  top: 55%;
+  animation: dcScan2 0.25s linear infinite;
+}
+.dc-scan3 {
+  top: 75%;
+  animation: dcScan3 0.35s linear infinite;
+}
+@keyframes dcScan1 {
+  0%   { transform: translateY(0); height: 2px; }
+  50%  { transform: translateY(8px); height: 4px; }
+  100% { transform: translateY(0); height: 2px; }
+}
+@keyframes dcScan2 {
+  0%   { transform: translateY(0); height: 3px; }
+  50%  { transform: translateY(-6px); height: 1px; }
+  100% { transform: translateY(0); height: 3px; }
+}
+@keyframes dcScan3 {
+  0%   { transform: translateY(0); height: 1px; }
+  50%  { transform: translateY(10px); height: 5px; }
+  100% { transform: translateY(0); height: 1px; }
+}
+
+/* ── Flash at transition midpoint ── */
+.dc-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  transition: opacity 0.1s ease;
+}
+
+/* ═══ Animated Neon SVG Border ═══ */
 
 /* ── SVG overlay covers entire card ── */
 .neon-border-svg {
@@ -1859,27 +1838,18 @@ html { scroll-behavior: smooth; }
   overflow: visible;
 }
 
-/* ── Main border rect — draws itself clockwise on reveal ── */
+/* ── Main border rect — always visible, pulses ── */
 .nb-rect {
   fill: none;
   stroke: var(--char-color, var(--pink-kpop));
   stroke-width: 1.2;
-  stroke-dasharray: 1400;
-  stroke-dashoffset: 1400;
   filter: drop-shadow(0 0 4px var(--char-color, var(--pink-kpop)));
-  opacity: 0;
-}
-.dual-card.revealed .nb-rect {
-  animation: nbRectDraw 1.5s 0.3s cubic-bezier(0.16,1,0.3,1) forwards, nbPulse 4s 2s ease-in-out infinite;
-}
-@keyframes nbRectDraw {
-  0%   { stroke-dashoffset: 1400; opacity: 0; }
-  10%  { opacity: 1; }
-  100% { stroke-dashoffset: 0; opacity: 1; }
+  opacity: 0.5;
+  animation: nbPulse 4s ease-in-out infinite;
 }
 @keyframes nbPulse {
-  0%, 100% { opacity: 1; filter: drop-shadow(0 0 4px var(--char-color, var(--pink-kpop))); }
-  50%      { opacity: 0.5; filter: drop-shadow(0 0 12px var(--char-color, var(--pink-kpop))) brightness(1.8); }
+  0%, 100% { opacity: 0.5; filter: drop-shadow(0 0 4px var(--char-color, var(--pink-kpop))); }
+  50%      { opacity: 1; filter: drop-shadow(0 0 12px var(--char-color, var(--pink-kpop))) brightness(1.5); }
 }
 
 /* ── Demon vine traces — grow along edges ── */
@@ -1890,12 +1860,10 @@ html { scroll-behavior: smooth; }
   stroke-dasharray: 400;
   stroke-dashoffset: 400;
   opacity: 0;
+  animation: nbVineGrow 2s ease-out forwards, nbVinePulse 5s 3s ease-in-out infinite;
 }
-.dual-card.revealed .nb-vine-l {
-  animation: nbVineGrow 2s 1s ease-out forwards, nbVinePulse 5s 3s ease-in-out infinite;
-}
-.dual-card.revealed .nb-vine-r {
-  animation: nbVineGrow 2s 1.2s ease-out forwards, nbVinePulse 5s 3.5s ease-in-out infinite;
+.nb-vine-r {
+  animation-delay: 0.2s, 3.5s;
 }
 @keyframes nbVineGrow {
   0%   { stroke-dashoffset: 400; opacity: 0; }
@@ -1907,7 +1875,7 @@ html { scroll-behavior: smooth; }
   50%      { opacity: 0.2; filter: brightness(2); }
 }
 
-/* ── Honmoon energy arcs — curve along top/bottom edges ── */
+/* ── Honmoon energy arcs ── */
 .nb-arc {
   fill: none;
   stroke: var(--gold);
@@ -1916,10 +1884,10 @@ html { scroll-behavior: smooth; }
   stroke-dashoffset: 200;
   opacity: 0;
 }
-.dual-card.revealed .nb-arc-top {
-  animation: nbArcGlow 4s 1.5s ease-in-out infinite;
+.nb-arc-top {
+  animation: nbArcGlow 4s ease-in-out infinite;
 }
-.dual-card.revealed .nb-arc-bot {
+.nb-arc-bot {
   animation: nbArcGlow 4s 2.5s ease-in-out infinite;
 }
 @keyframes nbArcGlow {
@@ -1934,9 +1902,7 @@ html { scroll-behavior: smooth; }
   fill: var(--pink-kpop);
   opacity: 0;
   filter: drop-shadow(0 0 3px var(--pink-kpop));
-}
-.dual-card.revealed .nb-eye {
-  animation: nbEyeBlink 4s 2s ease-in-out infinite;
+  animation: nbEyeBlink 4s ease-in-out infinite;
 }
 @keyframes nbEyeBlink {
   0%, 42%, 58%, 100% { opacity: 0.6; r: 2.5; }
@@ -1947,21 +1913,13 @@ html { scroll-behavior: smooth; }
 /* ── Corner glow dots ── */
 .nb-dot {
   fill: var(--char-color, var(--pink-kpop));
-  opacity: 0;
+  opacity: 0.6;
   filter: drop-shadow(0 0 6px var(--char-color, var(--pink-kpop)));
+  animation: nbDotPulse 3s ease-in-out infinite;
 }
-.dual-card.revealed .nb-dot {
-  animation: nbDotIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards, nbDotPulse 3s 1s ease-in-out infinite;
-}
-.dual-card.revealed .nb-dot:nth-child(9)  { animation-delay: 0.3s, 1.2s; }
-.dual-card.revealed .nb-dot:nth-child(10) { animation-delay: 0.45s, 1.4s; }
-.dual-card.revealed .nb-dot:nth-child(11) { animation-delay: 0.6s, 1.6s; }
-.dual-card.revealed .nb-dot:nth-child(12) { animation-delay: 0.75s, 1.8s; }
-@keyframes nbDotIn {
-  0%   { opacity: 0; r: 0; }
-  60%  { opacity: 1; r: 4; }
-  100% { opacity: 1; r: 3; }
-}
+.nb-dot:nth-child(10) { animation-delay: 0.2s; }
+.nb-dot:nth-child(11) { animation-delay: 0.4s; }
+.nb-dot:nth-child(12) { animation-delay: 0.6s; }
 @keyframes nbDotPulse {
   0%, 100% { opacity: 0.8; r: 3; }
   50%      { opacity: 0.3; r: 2; filter: drop-shadow(0 0 12px var(--char-color, var(--pink-kpop))) brightness(2); }
@@ -1975,8 +1933,6 @@ html { scroll-behavior: smooth; }
   z-index: 7;
   pointer-events: none;
   opacity: 0;
-}
-.dual-card.revealed::before {
   background: linear-gradient(90deg, transparent 0%, var(--char-color, var(--pink-kpop)) 50%, transparent 100%);
   background-size: 30% 100%;
   -webkit-mask:
@@ -1985,12 +1941,12 @@ html { scroll-behavior: smooth; }
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   padding: var(--neon-w);
-  animation: ncTravel 5s 1.5s linear infinite;
+  animation: ncTravel 5s linear infinite;
 }
 @keyframes ncTravel {
   0%   { background-position: -30% 0; opacity: 0; }
-  5%   { opacity: 0.5; }
-  95%  { opacity: 0.5; }
+  5%   { opacity: 0.4; }
+  95%  { opacity: 0.4; }
   100% { background-position: 130% 0; opacity: 0; }
 }
 
