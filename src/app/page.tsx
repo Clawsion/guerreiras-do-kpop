@@ -235,11 +235,19 @@ function DualRevealCard({ name, charName, role, color, delay, animImg, realImg, 
 }) {
   return (
     <div className="dual-card-wrap">
-      {/* Stage spotlight beam from above */}
-      <div className="dc-spotlight" style={{ '--spot-color': color } as React.CSSProperties}>
-        <div className="dc-beam"/>
-        <div className="dc-beam-glow"/>
+      {/* ── Stage Holofote fixture ── */}
+      <div className="dc-holofote" style={{ '--spot-color': color } as React.CSSProperties}>
+        {/* Fixture housing (the physical light unit) */}
+        <div className="dc-fixture">
+          <div className="dc-fixture-body"/>
+          <div className="dc-fixture-lens"/>
+        </div>
+        {/* Light cone beam pointing down */}
+        <div className="dc-cone"/>
+        {/* Colored reflection on card surface */}
+        <div className="dc-surface-reflect"/>
       </div>
+
       <div
         className="dual-card"
         style={{
@@ -264,13 +272,16 @@ function DualRevealCard({ name, charName, role, color, delay, animImg, realImg, 
           <circle className="nb-dot" cx="4" cy="887" r="3"/>
         </svg>
 
-        {/* Stage flash overlay — triggers the reveal */}
-        <div className="dc-stage-flash"/>
+        {/* Spotlight illumination overlay — follows the holofote state */}
+        <div className="dc-spot-light"/>
 
-        {/* Subtle ambient glow on card surface */}
-        <div className="dc-ambient-glow"/>
+        {/* Light flicker glitch overlay */}
+        <div className="dc-flicker-overlay"/>
 
-        {/* Layer 1 — Animated character (default, visible) */}
+        {/* Dark overlay when light is off */}
+        <div className="dc-darkness"/>
+
+        {/* Layer 1 — Animated character (visible when light ON) */}
         <div className="dc-layer dc-anim">
           <img src={animImg} alt={`${charName} animated`} className="dc-img" style={{ objectPosition: animPos }}/>
           <div className="dc-label">
@@ -279,7 +290,7 @@ function DualRevealCard({ name, charName, role, color, delay, animImg, realImg, 
           </div>
         </div>
 
-        {/* Layer 2 — Real performer (revealed during flash) */}
+        {/* Layer 2 — Real performer (visible when light OFF) */}
         <div className="dc-layer dc-real">
           <img src={realImg} alt={name} className="dc-img" style={{ objectPosition: realPos }}/>
           <div className="dc-label">

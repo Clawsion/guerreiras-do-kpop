@@ -1712,7 +1712,21 @@ html { scroll-behavior: smooth; }
   }
 }
 
-/* ── Card wrapper (holds spotlight + card) ── */
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ DUAL REVEAL CARDS — Holofote Spotlight System ═════════ */
+/* ═══════════════════════════════════════════════════════════════ */
+
+/*
+  ANIMATION CYCLE (12s loop):
+  ─────────────────────────────
+  0-35%  : LIGHT ON  → Animated character lit by holofote
+  35-42% : FLICKER   → Light glitches, real person flashes through
+  42-68% : LIGHT OFF → Real performer visible in dim/ambient
+  68-75% : FLICKER   → Light stutters back on, animated flashes
+  75-100%: LIGHT ON  → Animated character lit again
+*/
+
+/* ── Card wrapper ── */
 .dual-card-wrap {
   position: relative;
   display: flex;
@@ -1720,162 +1734,329 @@ html { scroll-behavior: smooth; }
   align-items: center;
 }
 
-/* ── Stage spotlight beam ── */
-.dc-spotlight {
-  position: relative;
-  width: 60%;
-  height: 80px;
+/* ══════════════════════════════════════ */
+/* ═══ STAGE HOLOFOTE (spotlight fixture) ═══ */
+/* ══════════════════════════════════════ */
+
+.dc-holofote {
   --spot-color: var(--pink-kpop);
+  position: relative;
+  width: 70%;
+  height: 90px;
   z-index: 2;
   pointer-events: none;
-  margin-bottom: -10px;
+  margin-bottom: -12px;
 }
 
-.dc-beam {
+/* Physical light fixture body — the "box" mounted above */
+.dc-fixture {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 3;
+}
+
+.dc-fixture-body {
+  width: 36px;
+  height: 18px;
+  background: linear-gradient(180deg, #3a3a4a 0%, #1a1a2e 60%, #0d0d18 100%);
+  border-radius: 4px 4px 2px 2px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  animation: fixtureGlow 12s ease-in-out infinite;
+  animation-delay: var(--card-delay);
+}
+
+.dc-fixture-body::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 4px;
+  border-radius: 2px;
+  background: #2a2a3a;
+}
+
+/* The lens — glows when light is on */
+.dc-fixture-lens {
   width: 30px;
-  height: 100%;
+  height: 10px;
+  margin: -2px auto 0;
+  border-radius: 0 0 6px 6px;
+  background: var(--spot-color);
+  opacity: 0.3;
+  filter: blur(2px);
+  animation: lensGlow 12s ease-in-out infinite;
+  animation-delay: var(--card-delay);
+}
+
+/* Light cone beam — realistic trapezoid pointing down */
+.dc-cone {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 80px;
+  clip-path: polygon(38% 0%, 62% 0%, 100% 100%, 0% 100%);
   background: linear-gradient(
     180deg,
-    var(--spot-color) 0%,
-    color-mix(in srgb, var(--spot-color) 60%, transparent) 30%,
-    color-mix(in srgb, var(--spot-color) 15%, transparent) 70%,
+    color-mix(in srgb, var(--spot-color) 80%, white) 0%,
+    color-mix(in srgb, var(--spot-color) 50%, transparent) 15%,
+    color-mix(in srgb, var(--spot-color) 20%, transparent) 40%,
+    color-mix(in srgb, var(--spot-color) 5%, transparent) 70%,
     transparent 100%
   );
-  clip-path: polygon(35% 0%, 65% 0%, 100% 100%, 0% 100%);
-  filter: blur(4px);
-  opacity: 0.5;
-  animation: spotBreath 4s ease-in-out infinite, spotFlash 8s ease-in-out infinite;
+  opacity: 0.6;
+  filter: blur(3px);
+  animation: coneLight 12s ease-in-out infinite;
+  animation-delay: var(--card-delay);
 }
 
-.dc-beam-glow {
+/* Colored reflection on card top surface */
+.dc-surface-reflect {
   position: absolute;
-  top: 0;
+  bottom: -8px;
   left: 50%;
   transform: translateX(-50%);
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--spot-color);
-  filter: blur(8px);
-  opacity: 0.8;
-  animation: spotBreath 4s ease-in-out infinite, spotGlow 8s ease-in-out infinite;
+  width: 80%;
+  height: 30px;
+  background: radial-gradient(
+    ellipse 50% 100% at 50% 0%,
+    color-mix(in srgb, var(--spot-color) 30%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  filter: blur(4px);
+  animation: surfaceReflect 12s ease-in-out infinite;
+  animation-delay: var(--card-delay);
 }
 
-@keyframes spotBreath {
-  0%, 100% { opacity: 0.4; }
-  50%      { opacity: 0.7; }
+/* ── Holofote animation keyframes ── */
+
+@keyframes fixtureGlow {
+  /* Light ON phase */
+  0%, 34%   { box-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 6px 20px color-mix(in srgb, var(--spot-color) 40%, transparent); }
+  /* Flicker off */
+  36%       { box-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+  37%       { box-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 6px 15px color-mix(in srgb, var(--spot-color) 30%, transparent); }
+  38%       { box-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+  39%       { box-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 6px 20px color-mix(in srgb, var(--spot-color) 50%, transparent); }
+  40%       { box-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+  41%       { box-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 4px 10px color-mix(in srgb, var(--spot-color) 20%, transparent); }
+  /* Light OFF phase */
+  42%, 67%  { box-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+  /* Flicker back on */
+  69%       { box-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 6px 15px color-mix(in srgb, var(--spot-color) 30%, transparent); }
+  70%       { box-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+  71%       { box-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 6px 20px color-mix(in srgb, var(--spot-color) 50%, transparent); }
+  72%       { box-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+  73%       { box-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 6px 10px color-mix(in srgb, var(--spot-color) 15%, transparent); }
+  74%       { box-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+  /* Light ON again */
+  75%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.6), 0 6px 20px color-mix(in srgb, var(--spot-color) 40%, transparent); }
 }
 
-@keyframes spotGlow {
-  0%, 30%, 70%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
-  45%                { opacity: 1; transform: translateX(-50%) scale(1.8); }
+@keyframes lensGlow {
+  /* Light ON */
+  0%, 34%   { opacity: 0.7; filter: blur(2px) brightness(1.5); }
+  /* Flicker */
+  36%       { opacity: 0.1; }
+  37%       { opacity: 0.5; }
+  38%       { opacity: 0.05; }
+  39%       { opacity: 0.6; }
+  40%       { opacity: 0; }
+  41%       { opacity: 0.3; }
+  /* Light OFF */
+  42%, 67%  { opacity: 0.05; filter: blur(2px) brightness(0.5); }
+  /* Flicker back */
+  69%       { opacity: 0.4; }
+  70%       { opacity: 0.05; }
+  71%       { opacity: 0.6; }
+  72%       { opacity: 0; }
+  73%       { opacity: 0.3; }
+  74%       { opacity: 0.05; }
+  /* Light ON */
+  75%, 100% { opacity: 0.7; filter: blur(2px) brightness(1.5); }
 }
 
-@keyframes spotFlash {
-  0%, 30%, 70%, 100% { opacity: 0.4; filter: blur(4px) brightness(1); }
-  42%                { opacity: 1; filter: blur(2px) brightness(3); }
-  48%                { opacity: 1; filter: blur(4px) brightness(5); }
-  55%                { opacity: 0.7; filter: blur(4px) brightness(2); }
+@keyframes coneLight {
+  /* Light ON — beam visible */
+  0%, 34%   { opacity: 0.55; filter: blur(3px); }
+  /* Flicker off */
+  36%       { opacity: 0.05; }
+  37%       { opacity: 0.35; }
+  38%       { opacity: 0; }
+  39%       { opacity: 0.45; }
+  40%       { opacity: 0; }
+  41%       { opacity: 0.2; }
+  /* Light OFF — beam gone */
+  42%, 67%  { opacity: 0; filter: blur(3px); }
+  /* Flicker back on */
+  69%       { opacity: 0.3; }
+  70%       { opacity: 0; }
+  71%       { opacity: 0.5; }
+  72%       { opacity: 0; }
+  73%       { opacity: 0.15; }
+  74%       { opacity: 0; }
+  /* Light ON */
+  75%, 100% { opacity: 0.55; filter: blur(3px); }
 }
 
-/* ── Card ── */
+@keyframes surfaceReflect {
+  /* Light ON — reflection visible */
+  0%, 34%   { opacity: 0.6; }
+  /* Flicker */
+  36%       { opacity: 0.05; }
+  37%       { opacity: 0.3; }
+  38%       { opacity: 0; }
+  39%       { opacity: 0.4; }
+  40%       { opacity: 0; }
+  41%       { opacity: 0.15; }
+  /* Light OFF */
+  42%, 67%  { opacity: 0; }
+  /* Flicker back */
+  69%       { opacity: 0.2; }
+  70%       { opacity: 0; }
+  71%       { opacity: 0.35; }
+  72%       { opacity: 0; }
+  73%       { opacity: 0.1; }
+  74%       { opacity: 0; }
+  /* Light ON */
+  75%, 100% { opacity: 0.6; }
+}
+
+/* ══════════════════════════════════════ */
+/* ═══ THE CARD ═══════════════════════ */
+/* ══════════════════════════════════════ */
+
 .dual-card {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 2.97;
   overflow: hidden;
   cursor: default;
-  background: var(--surface);
+  background: var(--void);
   border-radius: 6px;
   --neon-w: 1.2px;
   --char-color: var(--pink-kpop);
   --card-delay: 0ms;
   box-shadow: 0 0 30px rgba(0,0,0,0.5);
-  animation: cardRevealLoop 8s ease-in-out infinite;
-  animation-delay: var(--card-delay);
 }
 
-/* ── Stage flash overlay — the key reveal mechanic ── */
-.dc-stage-flash {
+/* ── Spotlight illumination on card (warm cone of light from above) ── */
+.dc-spot-light {
   position: absolute;
   inset: 0;
-  z-index: 10;
+  z-index: 8;
   pointer-events: none;
-  opacity: 0;
   background: radial-gradient(
-    ellipse 60% 50% at 50% 20%,
-    var(--char-color, var(--pink-kpop)),
-    color-mix(in srgb, var(--char-color, var(--pink-kpop)) 40%, white) 30%,
+    ellipse 55% 45% at 50% 15%,
+    color-mix(in srgb, var(--char-color) 25%, rgba(255,255,255,0.15)),
+    color-mix(in srgb, var(--char-color) 8%, transparent) 50%,
     transparent 70%
   );
+  opacity: 1;
   mix-blend-mode: screen;
-  animation: stageFlash 8s ease-in-out infinite;
+  animation: spotLightState 12s ease-in-out infinite;
   animation-delay: var(--card-delay);
 }
 
-@keyframes stageFlash {
-  0%   { opacity: 0; }
-  38%  { opacity: 0; }
-  40%  { opacity: 0.15; }
-  42%  { opacity: 0.9; }
-  44%  { opacity: 1; }
-  46%  { opacity: 0.8; }
-  50%  { opacity: 0.3; }
-  55%  { opacity: 0.05; }
-  58%  { opacity: 0; }
-  100% { opacity: 0; }
-}
-
-/* ── Ambient glow on card surface from spotlight ── */
-.dc-ambient-glow {
+/* ── Flicker glitch overlay (brief white flash during transitions) ── */
+.dc-flicker-overlay {
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: 9;
   pointer-events: none;
+  background: white;
   opacity: 0;
-  background: radial-gradient(
-    ellipse 80% 40% at 50% 15%,
-    color-mix(in srgb, var(--char-color, var(--pink-kpop)) 20%, transparent),
-    transparent 60%
-  );
-  animation: ambientPulse 8s ease-in-out infinite;
+  mix-blend-mode: overlay;
+  animation: flickerGlitch 12s step-end infinite;
   animation-delay: var(--card-delay);
 }
 
-@keyframes ambientPulse {
-  0%, 30%   { opacity: 0; }
-  38%       { opacity: 0.3; }
-  44%       { opacity: 0.8; }
-  50%       { opacity: 0.5; }
-  60%       { opacity: 0.15; }
-  70%, 100% { opacity: 0; }
+/* ── Darkness overlay when light is off ── */
+.dc-darkness {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,0.85) 0%,
+    rgba(0,0,0,0.7) 30%,
+    rgba(0,0,0,0.5) 60%,
+    rgba(0,0,0,0.3) 100%
+  );
+  opacity: 0;
+  animation: darknessState 12s ease-in-out infinite;
+  animation-delay: var(--card-delay);
 }
 
-/* ── Main reveal loop ── */
-/* Timeline: 0-38% = animated visible, 38-58% = flash + real, 58-100% = back to animated */
-@keyframes cardRevealLoop {
-  0%, 36% {
-    /* Animated visible */
-  }
-  38% {
-    /* Flash starts — animated still visible but glow builds */
-  }
-  42% {
-    /* Peak flash — real performer revealed */
-  }
-  48% {
-    /* Flash fading — still showing real */
-  }
-  55% {
-    /* Flash gone — animated returns */
-  }
-  58%, 100% {
-    /* Back to animated */
-  }
+/* ── Card illumination keyframes ── */
+
+@keyframes spotLightState {
+  /* Light ON */
+  0%, 34%   { opacity: 1; }
+  /* Flicker — light dies */
+  36%       { opacity: 0.1; }
+  37%       { opacity: 0.6; }
+  38%       { opacity: 0; }
+  39%       { opacity: 0.5; }
+  40%       { opacity: 0; }
+  41%       { opacity: 0.15; }
+  /* Light OFF */
+  42%, 67%  { opacity: 0; }
+  /* Flicker — light returns */
+  69%       { opacity: 0.3; }
+  70%       { opacity: 0; }
+  71%       { opacity: 0.6; }
+  72%       { opacity: 0; }
+  73%       { opacity: 0.1; }
+  74%       { opacity: 0; }
+  /* Light ON */
+  75%, 100% { opacity: 1; }
+}
+
+@keyframes flickerGlitch {
+  /* Brief white flash during flicker off */
+  36%       { opacity: 0.15; }
+  36.5%     { opacity: 0; }
+  38%       { opacity: 0.2; }
+  38.5%     { opacity: 0; }
+  40%       { opacity: 0.1; }
+  40.5%     { opacity: 0; }
+  /* Brief flash during flicker on */
+  70%       { opacity: 0.1; }
+  70.5%     { opacity: 0; }
+  72%       { opacity: 0.12; }
+  72.5%     { opacity: 0; }
+}
+
+@keyframes darknessState {
+  /* Light ON — no darkness */
+  0%, 35%   { opacity: 0; }
+  /* Transition — darkness fading in during flicker */
+  36%       { opacity: 0.3; }
+  37%       { opacity: 0; }
+  38%       { opacity: 0.5; }
+  39%       { opacity: 0.1; }
+  40%       { opacity: 0.6; }
+  41%       { opacity: 0.4; }
+  /* Light OFF — full darkness */
+  42%, 67%  { opacity: 0.7; }
+  /* Transition — darkness fading out */
+  69%       { opacity: 0.4; }
+  70%       { opacity: 0.7; }
+  71%       { opacity: 0.2; }
+  72%       { opacity: 0.6; }
+  73%       { opacity: 0.5; }
+  74%       { opacity: 0.3; }
+  /* Light ON — no darkness */
+  75%, 100% { opacity: 0; }
 }
 
 /* ── Image layers ── */
@@ -1884,32 +2065,71 @@ html { scroll-behavior: smooth; }
   inset: 0;
   z-index: 1;
 }
+
 .dc-anim {
   z-index: 3;
-  animation: animLayer 8s ease-in-out infinite;
+  animation: animLayerState 12s ease-in-out infinite;
   animation-delay: var(--card-delay);
 }
+
 .dc-real {
   z-index: 2;
   opacity: 0;
-  animation: realLayer 8s ease-in-out infinite;
+  animation: realLayerState 12s ease-in-out infinite;
   animation-delay: var(--card-delay);
 }
 
-@keyframes animLayer {
-  0%, 38%  { opacity: 1; }
-  42%      { opacity: 0; }
-  55%      { opacity: 0; }
-  58%      { opacity: 1; }
-  100%     { opacity: 1; }
+/*
+  Image swap logic:
+  - Light ON = animated visible, real hidden
+  - During flicker = rapid swap (real briefly appears through the glitch)
+  - Light OFF = real visible (in darkness), animated hidden
+*/
+
+@keyframes animLayerState {
+  /* Light ON — animated visible */
+  0%, 35%   { opacity: 1; }
+  /* Flicker — animated glitches out */
+  36%       { opacity: 0.3; }
+  37%       { opacity: 0.8; }
+  38%       { opacity: 0; }
+  39%       { opacity: 0.6; }
+  40%       { opacity: 0; }
+  41%       { opacity: 0.4; }
+  /* Light OFF — animated hidden */
+  42%, 67%  { opacity: 0; }
+  /* Flicker back — animated glitches in */
+  69%       { opacity: 0.3; }
+  70%       { opacity: 0; }
+  71%       { opacity: 0.7; }
+  72%       { opacity: 0; }
+  73%       { opacity: 0.2; }
+  74%       { opacity: 0; }
+  /* Light ON — animated visible */
+  75%, 100% { opacity: 1; }
 }
 
-@keyframes realLayer {
-  0%, 38%  { opacity: 0; }
-  42%      { opacity: 1; }
-  55%      { opacity: 1; }
-  58%      { opacity: 0; }
-  100%     { opacity: 0; }
+@keyframes realLayerState {
+  /* Light ON — real hidden */
+  0%, 35%   { opacity: 0; }
+  /* Flicker — real briefly flashes through */
+  36%       { opacity: 0.5; }
+  37%       { opacity: 0; }
+  38%       { opacity: 0.8; }
+  39%       { opacity: 0; }
+  40%       { opacity: 0.6; }
+  41%       { opacity: 0; }
+  /* Light OFF — real visible (dim) */
+  42%, 67%  { opacity: 1; }
+  /* Flicker back — real briefly flashes */
+  69%       { opacity: 0.5; }
+  70%       { opacity: 1; }
+  71%       { opacity: 0; }
+  72%       { opacity: 0.7; }
+  73%       { opacity: 0; }
+  74%       { opacity: 0.3; }
+  /* Light ON — real hidden */
+  75%, 100% { opacity: 0; }
 }
 
 .dc-img {
@@ -1918,11 +2138,14 @@ html { scroll-behavior: smooth; }
   object-fit: cover;
 }
 
+/* When light is ON, animated image is bright and vivid */
 .dc-anim .dc-img {
-  filter: saturate(1) brightness(0.95);
+  filter: saturate(1.1) brightness(1);
 }
+
+/* Real performer — slightly desaturated, darker when in the "off" state */
 .dc-real .dc-img {
-  filter: saturate(1.1) brightness(1.05);
+  filter: saturate(0.85) brightness(0.7);
 }
 
 /* ── Labels ── */
