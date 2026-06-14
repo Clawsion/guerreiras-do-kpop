@@ -230,8 +230,8 @@ const CHAR_SILHOUETTES: Record<string, string> = {
   ZOE: "M85,15 C90,10 100,10 105,15 C110,8 115,3 112,0 C120,5 125,18 120,28 C115,22 108,25 105,32 C100,40 105,50 98,58 C92,52 85,45 82,48 C76,55 72,65 70,78 C68,90 66,105 64,118 C62,132 58,148 55,162 L58,168 L62,158 L64,168 L68,158 L70,168 C72,155 75,142 78,130 C82,118 86,108 92,100 C98,95 105,92 112,95 C118,100 122,110 120,122 C118,135 114,148 110,160 L108,170 L112,162 L110,172 L114,168 C112,178 108,188 102,198 C96,190 92,180 88,168 C84,155 82,142 80,128 C78,120 74,118 70,122 C66,128 62,140 60,155 C58,168 55,182 52,195 L54,200 L58,192 L56,202 L62,195 C65,180 68,165 72,148 C75,132 72,120 66,118 C60,118 56,125 55,140 C54,155 50,172 46,188 L44,195 L48,188 L46,198 L52,192",
 };
 
-function DualRevealCard({ name, color, delay, animImg, realImg }: {
-  name: string; color: string; delay: number; animImg: string; realImg: string;
+function DualRevealCard({ name, color, delay, animImg, realImg, animPos }: {
+  name: string; color: string; delay: number; animImg: string; realImg: string; animPos?: string;
 }) {
   return (
     <div
@@ -260,7 +260,7 @@ function DualRevealCard({ name, color, delay, animImg, realImg }: {
 
       {/* Animated character layer (on top, clips away on hover) */}
       <div className="dc-layer dc-anim">
-        <img src={animImg} alt={`${name} animated`} className="dc-img"/>
+        <img src={animImg} alt={`${name} animated`} className="dc-img" style={animPos ? { objectPosition: animPos } : undefined}/>
       </div>
 
       {/* Real performer layer (underneath, revealed on hover) */}
@@ -737,11 +737,11 @@ export default function HomePage() {
           </Rv>
           <div className="dual-grid">
             {[
-              { name: "ZOE", color: "var(--blue-accent)", animImg: "/real-zoe.png", realImg: "/char-zoe.png" },
+              { name: "ZOE", color: "var(--blue-accent)", animImg: "/real-zoe.png", realImg: "/char-zoe.png", animPos: "38% 5%" },
               { name: "RUMI", color: "var(--neon-purple)", animImg: "/real-rumi.png", realImg: "/char-rumi.png" },
               { name: "MIRAE", color: "var(--pink-kpop)", animImg: "/real-mirae.png", realImg: "/char-mirae.png" },
             ].map((c, i) => (
-              <DualRevealCard key={c.name} name={c.name} color={c.color} delay={i * 200} animImg={c.animImg} realImg={c.realImg}/>
+              <DualRevealCard key={c.name} name={c.name} color={c.color} delay={i * 200} animImg={c.animImg} realImg={c.realImg} animPos={c.animPos}/>
             ))}
           </div>
         </div>
