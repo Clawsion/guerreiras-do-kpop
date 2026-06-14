@@ -561,26 +561,41 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ HONMOON AWAKEN — Theme Toggle ═══ */}
-      <section className="honmoon-awaken-section" style={{background: "var(--deep)"}}>
+      {/* ═══ HONMOON SHIELD — Theme Toggle (like the anime) ═══ */}
+      <section className="honmoon-shield-section" style={{background: "var(--deep)"}}>
+        {/* Background glow */}
+        <div className={`hm-bg-glow ${themeMode}`}/>
+
+        {/* Outer energy rings */}
+        <div className={`hm-ring hm-ring-1 ${themeMode}`}/>
+        <div className={`hm-ring hm-ring-2 ${themeMode}`}/>
+        <div className={`hm-ring hm-ring-3 ${themeMode}`}/>
+
+        {/* Orbiting energy nodes */}
+        <div className={`hm-node hm-node-a ${themeMode}`}/>
+        <div className={`hm-node hm-node-b ${themeMode}`}/>
+        <div className={`hm-node hm-node-c ${themeMode}`}/>
+        <div className={`hm-node hm-node-d ${themeMode}`}/>
+        <div className={`hm-node hm-node-e ${themeMode}`}/>
+        <div className={`hm-node hm-node-f ${themeMode}`}/>
+
+        {/* Central shield orb — clickable */}
         <div
-          className={`honmoon-awaken-orb ${themeMode}`}
+          className={`hm-orb ${themeMode}`}
           onClick={toggleTheme}
           role="button"
           aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
         >
-          <span className="honmoon-awaken-icon">
-            {themeMode === 'dark' ? '🌙' : '☀️'}
+          {/* Inner energy strands */}
+          <div className={`hm-strand hm-strand-1 ${themeMode}`}/>
+          <div className={`hm-strand hm-strand-2 ${themeMode}`}/>
+          <div className={`hm-strand hm-strand-3 ${themeMode}`}/>
+
+          {/* Center text */}
+          <span className={`hm-label ${themeMode}`}>
+            {themeMode === 'light' ? 'ATIVO' : ''}
           </span>
         </div>
-        <p className="honmoon-awaken-text" style={{color: "var(--t2)"}}>
-          {themeMode === 'dark'
-            ? 'O Honmoon adormeceu... Toca para trazer a luz'
-            : 'O Honmoon está ativo! Toca para voltar à escuridão'}
-        </p>
-        <p className="honmoon-awaken-hint" style={{color: "var(--t3)"}}>
-          {themeMode === 'dark' ? '✦ TOCA PARA DESPERTAR ✦' : '✦ TOCA PARA DORMIR ✦'}
-        </p>
       </section>
 
       {/* ═══ MANIFESTO — LED WALL TUNNEL ═══ */}

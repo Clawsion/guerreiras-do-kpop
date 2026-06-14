@@ -2534,106 +2534,310 @@ html { scroll-behavior: smooth; }
   border-color: rgba(147, 51, 234, 0.06) !important;
 }
 
-/* ═══ HONMOON AWAKEN — Theme Toggle Section ═══ */
-.honmoon-awaken-section {
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ HONMOON SHIELD — Anime-style energy barrier toggle ═══ */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.honmoon-shield-section {
   position: relative;
-  padding: 4rem 1.5rem;
+  padding: 3rem 1.5rem;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  min-height: 45vh;
+  min-height: 40vh;
 }
 
-.honmoon-awaken-orb {
+/* ═══ Background glow ═══ */
+.hm-bg-glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hm-bg-glow.dark {
+  background: radial-gradient(circle,
+    rgba(200, 80, 255, 0.04) 0%,
+    rgba(147, 51, 234, 0.02) 40%,
+    transparent 70%);
+}
+.hm-bg-glow.light {
+  background: radial-gradient(circle,
+    rgba(245, 158, 11, 0.12) 0%,
+    rgba(236, 72, 153, 0.06) 30%,
+    rgba(147, 51, 234, 0.03) 50%,
+    transparent 70%);
+  animation: hmBgPulse 4s ease-in-out infinite alternate;
+}
+@keyframes hmBgPulse {
+  0% { opacity: 0.7; transform: translate(-50%, -50%) scale(0.95); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+}
+
+/* ═══ Outer energy rings ═══ */
+.hm-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  pointer-events: none;
+  top: 50%;
+  left: 50%;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hm-ring-1 {
+  width: 220px; height: 220px;
+  transform: translate(-50%, -50%);
+}
+.hm-ring-1.dark {
+  border-color: rgba(200, 80, 255, 0.06);
+  box-shadow: 0 0 8px rgba(200, 80, 255, 0.03);
+}
+.hm-ring-1.light {
+  border-color: rgba(245, 158, 11, 0.25);
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.1), 0 0 30px rgba(236, 72, 153, 0.05);
+  animation: hmRingPulse1 5s ease-in-out infinite alternate;
+}
+
+.hm-ring-2 {
+  width: 280px; height: 280px;
+  transform: translate(-50%, -50%);
+}
+.hm-ring-2.dark {
+  border-color: rgba(200, 80, 255, 0.03);
+}
+.hm-ring-2.light {
+  border-color: rgba(147, 51, 234, 0.15);
+  box-shadow: 0 0 12px rgba(147, 51, 234, 0.06);
+  animation: hmRingPulse2 7s ease-in-out infinite alternate-reverse;
+}
+
+.hm-ring-3 {
+  width: 340px; height: 340px;
+  transform: translate(-50%, -50%);
+}
+.hm-ring-3.dark {
+  border-color: rgba(200, 80, 255, 0.015);
+}
+.hm-ring-3.light {
+  border-color: rgba(236, 72, 153, 0.08);
+  box-shadow: 0 0 10px rgba(236, 72, 153, 0.03);
+  animation: hmRingPulse3 9s ease-in-out infinite alternate;
+}
+
+@keyframes hmRingPulse1 {
+  0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.98) rotate(0deg); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1.02) rotate(3deg); }
+}
+@keyframes hmRingPulse2 {
+  0% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.01) rotate(0deg); }
+  100% { opacity: 0.9; transform: translate(-50%, -50%) scale(0.97) rotate(-2deg); }
+}
+@keyframes hmRingPulse3 {
+  0% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.99); }
+  100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.03); }
+}
+
+/* ═══ Orbiting energy nodes (like souls around the Honmoon) ═══ */
+.hm-node {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: all 0.8s ease;
+  top: 50%;
+  left: 50%;
+}
+.hm-node.dark {
+  background: rgba(200, 80, 255, 0.15);
+  box-shadow: 0 0 4px rgba(200, 80, 255, 0.1);
+  opacity: 0.3;
+}
+.hm-node.light {
+  opacity: 1;
+  animation: hmNodeOrbit 8s linear infinite;
+}
+
+.hm-node-a.light { background: rgba(255, 100, 200, 0.9); box-shadow: 0 0 8px rgba(255, 100, 200, 0.6), 0 0 20px rgba(255, 100, 200, 0.3); animation-delay: 0s; }
+.hm-node-b.light { background: rgba(100, 200, 255, 0.9); box-shadow: 0 0 8px rgba(100, 200, 255, 0.6), 0 0 20px rgba(100, 200, 255, 0.3); animation-delay: -1.33s; }
+.hm-node-c.light { background: rgba(245, 158, 11, 0.9); box-shadow: 0 0 8px rgba(245, 158, 11, 0.6), 0 0 20px rgba(245, 158, 11, 0.3); animation-delay: -2.66s; }
+.hm-node-d.light { background: rgba(200, 80, 255, 0.9); box-shadow: 0 0 8px rgba(200, 80, 255, 0.6), 0 0 20px rgba(200, 80, 255, 0.3); animation-delay: -4s; }
+.hm-node-e.light { background: rgba(255, 150, 220, 0.9); box-shadow: 0 0 8px rgba(255, 150, 220, 0.6), 0 0 20px rgba(255, 150, 220, 0.3); animation-delay: -5.33s; }
+.hm-node-f.light { background: rgba(96, 165, 250, 0.9); box-shadow: 0 0 8px rgba(96, 165, 250, 0.6), 0 0 20px rgba(96, 165, 250, 0.3); animation-delay: -6.66s; }
+
+@keyframes hmNodeOrbit {
+  0%   { transform: translate(-50%, -50%) rotate(0deg) translateX(130px) rotate(0deg) scale(1); }
+  25%  { transform: translate(-50%, -50%) rotate(90deg) translateX(130px) rotate(-90deg) scale(1.3); }
+  50%  { transform: translate(-50%, -50%) rotate(180deg) translateX(130px) rotate(-180deg) scale(0.9); }
+  75%  { transform: translate(-50%, -50%) rotate(270deg) translateX(130px) rotate(-270deg) scale(1.2); }
+  100% { transform: translate(-50%, -50%) rotate(360deg) translateX(130px) rotate(-360deg) scale(1); }
+}
+
+/* ═══ Central shield orb ═══ */
+.hm-orb {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   cursor: pointer;
-  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
   -webkit-user-select: none;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 5;
+  overflow: hidden;
 }
 
-/* Dark mode orb — dim sleeping moon */
-.honmoon-awaken-orb.dark {
+/* Dark — dormant, barely visible */
+.hm-orb.dark {
+  background: radial-gradient(circle at 45% 45%,
+    rgba(200, 80, 255, 0.08) 0%,
+    rgba(44, 21, 80, 0.3) 40%,
+    rgba(11, 8, 19, 0.5) 100%);
+  border: 1px solid rgba(200, 80, 255, 0.1);
+  box-shadow: 0 0 15px rgba(200, 80, 255, 0.05),
+              inset 0 0 15px rgba(200, 80, 255, 0.03);
+  animation: hmOrbDormant 4s ease-in-out infinite;
+}
+
+/* Light — ATIVO, blazing with Honmoon energy */
+.hm-orb.light {
   background: radial-gradient(circle at 40% 40%,
-    rgba(200, 80, 255, 0.15) 0%,
-    rgba(44, 21, 80, 0.4) 40%,
-    rgba(11, 8, 19, 0.6) 100%);
-  border: 1.5px solid rgba(200, 80, 255, 0.2);
-  box-shadow: 0 0 20px rgba(200, 80, 255, 0.1),
-              0 0 40px rgba(200, 80, 255, 0.05),
-              inset 0 0 20px rgba(200, 80, 255, 0.05);
-  animation: honmoonSleepPulse 4s ease-in-out infinite;
+    rgba(255, 245, 164, 0.95) 0%,
+    rgba(255, 220, 100, 0.7) 15%,
+    rgba(245, 158, 11, 0.5) 30%,
+    rgba(236, 72, 153, 0.3) 55%,
+    rgba(147, 51, 234, 0.15) 80%,
+    rgba(11, 8, 19, 0.2) 100%);
+  border: 1.5px solid rgba(245, 158, 11, 0.5);
+  box-shadow:
+    0 0 20px rgba(255, 245, 164, 0.5),
+    0 0 40px rgba(245, 158, 11, 0.3),
+    0 0 80px rgba(236, 72, 153, 0.15),
+    0 0 120px rgba(147, 51, 234, 0.08),
+    inset 0 0 30px rgba(255, 245, 164, 0.3),
+    inset 0 0 60px rgba(245, 158, 11, 0.1);
+  animation: hmOrbActive 3s ease-in-out infinite;
 }
 
-/* Light mode orb — golden sun */
-.honmoon-awaken-orb.light {
-  background: radial-gradient(circle at 40% 40%,
-    rgba(255, 245, 164, 0.8) 0%,
-    rgba(245, 158, 11, 0.5) 40%,
-    rgba(236, 72, 153, 0.3) 100%);
-  border: 1.5px solid rgba(245, 158, 11, 0.4);
-  box-shadow: 0 0 30px rgba(245, 158, 11, 0.3),
-              0 0 60px rgba(236, 72, 153, 0.15),
-              0 0 100px rgba(245, 158, 11, 0.1),
-              inset 0 0 25px rgba(255, 245, 164, 0.3);
-  animation: honmoonActivePulse 3s ease-in-out infinite;
+@keyframes hmOrbDormant {
+  0%, 100% { box-shadow: 0 0 15px rgba(200, 80, 255, 0.05), inset 0 0 15px rgba(200, 80, 255, 0.03); }
+  50% { box-shadow: 0 0 25px rgba(200, 80, 255, 0.1), inset 0 0 20px rgba(200, 80, 255, 0.05); }
 }
 
-@keyframes honmoonSleepPulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(200, 80, 255, 0.1), 0 0 40px rgba(200, 80, 255, 0.05); }
-  50% { box-shadow: 0 0 30px rgba(200, 80, 255, 0.2), 0 0 60px rgba(200, 80, 255, 0.08); }
+@keyframes hmOrbActive {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(255, 245, 164, 0.5),
+      0 0 40px rgba(245, 158, 11, 0.3),
+      0 0 80px rgba(236, 72, 153, 0.15),
+      0 0 120px rgba(147, 51, 234, 0.08),
+      inset 0 0 30px rgba(255, 245, 164, 0.3),
+      inset 0 0 60px rgba(245, 158, 11, 0.1);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(255, 245, 164, 0.6),
+      0 0 60px rgba(245, 158, 11, 0.4),
+      0 0 100px rgba(236, 72, 153, 0.2),
+      0 0 160px rgba(147, 51, 234, 0.1),
+      inset 0 0 40px rgba(255, 245, 164, 0.4),
+      inset 0 0 80px rgba(245, 158, 11, 0.15);
+    transform: scale(1.04);
+  }
 }
 
-@keyframes honmoonActivePulse {
-  0%, 100% { box-shadow: 0 0 30px rgba(245, 158, 11, 0.3), 0 0 60px rgba(236, 72, 153, 0.15); transform: scale(1); }
-  50% { box-shadow: 0 0 50px rgba(245, 158, 11, 0.4), 0 0 90px rgba(236, 72, 153, 0.2); transform: scale(1.04); }
+.hm-orb:hover {
+  transform: scale(1.06);
+}
+.hm-orb:active {
+  transform: scale(0.95);
 }
 
-.honmoon-awaken-orb:hover {
-  transform: scale(1.08);
+/* ═══ Inner energy strands (rotating arcs inside the orb) ═══ */
+.hm-strand {
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  pointer-events: none;
+  transition: all 0.8s ease;
+}
+.hm-strand.dark {
+  opacity: 0;
+}
+.hm-strand.light {
+  opacity: 1;
+}
+.hm-strand-1.light {
+  border-top-color: rgba(255, 100, 200, 0.7);
+  border-right-color: rgba(255, 100, 200, 0.2);
+  filter: drop-shadow(0 0 4px rgba(255, 100, 200, 0.5));
+  animation: hmStrandSpin1 4s linear infinite;
+}
+.hm-strand-2.light {
+  border-bottom-color: rgba(100, 200, 255, 0.7);
+  border-left-color: rgba(100, 200, 255, 0.2);
+  filter: drop-shadow(0 0 4px rgba(100, 200, 255, 0.5));
+  animation: hmStrandSpin2 5s linear infinite;
+}
+.hm-strand-3.light {
+  border-top-color: rgba(245, 158, 11, 0.5);
+  border-bottom-color: rgba(245, 158, 11, 0.15);
+  filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.3));
+  animation: hmStrandSpin3 7s linear infinite;
+  inset: 18px;
 }
 
-.honmoon-awaken-orb:active {
-  transform: scale(0.96);
+@keyframes hmStrandSpin1 {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes hmStrandSpin2 {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+@keyframes hmStrandSpin3 {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-.honmoon-awaken-icon {
-  font-size: 2.5rem;
-  transition: all 0.5s ease;
-  filter: drop-shadow(0 0 8px currentColor);
-}
-
-.honmoon-awaken-text {
-  margin-top: 2rem;
-  text-align: center;
-  font-size: clamp(0.9rem, 2vw, 1.1rem);
-  font-weight: 300;
-  letter-spacing: 0.04em;
-  line-height: 1.6;
-  transition: color 0.8s ease;
-  max-width: 320px;
-}
-
-.honmoon-awaken-hint {
-  margin-top: 1rem;
-  font-size: 10px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
+/* ═══ ATIVO label ═══ */
+.hm-label {
+  position: relative;
+  z-index: 6;
   font-family: var(--font-geist-mono);
-  animation: honmoonHintPulse 2.5s ease-in-out infinite;
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: all 0.5s ease;
 }
-
-@keyframes honmoonHintPulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
+.hm-label.dark {
+  color: rgba(200, 80, 255, 0.2);
+  opacity: 0;
+}
+.hm-label.light {
+  color: #fff;
+  text-shadow:
+    0 0 10px rgba(255, 245, 164, 0.8),
+    0 0 20px rgba(245, 158, 11, 0.5),
+    0 0 40px rgba(236, 72, 153, 0.3);
+  opacity: 1;
+  animation: hmLabelPulse 3s ease-in-out infinite;
+}
+@keyframes hmLabelPulse {
+  0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(255,245,164,0.8), 0 0 20px rgba(245,158,11,0.5), 0 0 40px rgba(236,72,153,0.3); }
+  50% { opacity: 0.85; text-shadow: 0 0 15px rgba(255,245,164,1), 0 0 30px rgba(245,158,11,0.6), 0 0 50px rgba(236,72,153,0.4); }
 }
 
 /* Flash effect on toggle */
