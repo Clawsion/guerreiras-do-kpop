@@ -17,6 +17,13 @@ import { Input } from "@/components/ui/input";
 const TL = "https://www.ticketline.pt";
 const EVENT = new Date("2026-07-18T18:30:00");
 
+const CONCERTS = [
+  { day: "18", month: "JUL 2026", venue: "Academia das Artes do Estoril", city: "Cascais", time: "Portas 18:30h", url: TL, next: true },
+  { day: "25", month: "JUL 2026", venue: "Coliseu dos Recreios", city: "Lisboa", time: "Portas 20:00h", url: TL, next: false },
+  { day: "02", month: "AGO 2026", venue: "Theatro Circo", city: "Braga", time: "Portas 19:00h", url: TL, next: false },
+  { day: "09", month: "AGO 2026", venue: "Centro de Artes e Espetáculos", city: "Porto", time: "Portas 20:00h", url: TL, next: false },
+];
+
 /* ═══ HOOKS ═══ */
 
 function useReveal() {
@@ -213,6 +220,124 @@ function LedWallVideo({ active }: { active: boolean }) {
   );
 }
 
+/* ═══ IDENTIDADE DUAL — Character → Performer Card ═══ */
+
+function DualRevealCard({ name, charName, role, color, delay, img }: {
+  name: string; charName: string; role: string; color: string; delay: number; img: string;
+}) {
+  const { ref, visible } = useReveal();
+  return (
+    <div ref={ref} className={`dual-card ${visible ? "revealed" : ""}`} style={{ transitionDelay: `${delay}ms` }}>
+      {/* Flash effect */}
+      <div className="dual-flash" style={{ background: color }}/>
+      {/* Silhouette layer */}
+      <div className="dual-silhouette">
+        <div className="silhouette-glow" style={{ background: `radial-gradient(circle, ${color}20, transparent 70%)` }}/>
+        <div className="silhouette-figure" style={{ borderColor: color, boxShadow: `0 0 40px ${color}30, inset 0 0 20px ${color}10` }}/>
+        <span className="silhouette-name" style={{ color, textShadow: `0 0 20px ${color}60` }}>{charName}</span>
+        <span className="silhouette-tag">Demon Hunter</span>
+      </div>
+      {/* Performer layer */}
+      <div className="dual-performer">
+        <img src={img} alt={name} className="performer-img"/>
+        <div className="performer-info">
+          <span className="performer-tag" style={{ color }}>A Performer</span>
+          <h3 className="performer-name">{name}</h3>
+          <p className="performer-role">{role}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══ CARREGA O HONMOON — Interactive Charging ═══ */
+
+function HonmoonCharger() {
+  const [energy, setEnergy] = useState(0);
+  const [charged, setCharged] = useState(false);
+  const [pulses, setPulses] = useState<Array<{id: number; x: number; y: number}>>([]);
+  const chargerRef = useRef<HTMLDivElement>(null);
+
+  const charge = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (charged) return;
+    const newEnergy = Math.min(energy + 8, 100);
+    setEnergy(newEnergy);
+    const rect = e.currentTarget.getBoundingClientRect();
+    setPulses(prev => [...prev.slice(-6), { id: Date.now(), x: e.clientX - rect.left, y: e.clientY - rect.top }]);
+    if (newEnergy >= 100) setCharged(true);
+  };
+
+  useEffect(() => {
+    if (charged) {
+      const t = setTimeout(() => { setCharged(false); setEnergy(0); }, 6000);
+      return () => clearTimeout(t);
+    }
+  }, [charged]);
+
+  const ringLen = 565; // 2 * PI * 90
+  const strokeColor = charged ? "var(--gold)" : energy > 50 ? "var(--pink-kpop)" : "var(--neon-purple)";
+  const btnBg = charged ? "var(--gold)" : energy > 50 ? "var(--pink-kpop)" : "var(--neon-purple)";
+
+  return (
+    <div className="relative flex flex-col items-center justify-center">
+      {/* Background glow */}
+      <div className="honmoon-bg-glow" style={{
+        opacity: 0.3 + energy * 0.007,
+        background: `radial-gradient(circle, ${charged ? 'rgba(255,245,164,0.12)' : 'rgba(200,80,255,0.08)'} 0%, transparent 70%)`,
+        width: `${300 + energy * 1.5}px`,
+        height: `${300 + energy * 1.5}px`,
+      }}/>
+
+      {/* Floating particles */}
+      {Array.from({length: 8}, (_, i) => (
+        <div key={i} className="honmoon-particle" style={{
+          left: `${20 + (i * 10) % 60}%`,
+          top: `${15 + (i * 13) % 70}%`,
+          animationDelay: `${i * 0.5}s`,
+          background: charged ? 'var(--gold)' : 'var(--neon-purple)',
+          opacity: charged ? 0.6 : 0.3 + energy * 0.005,
+        }}/>
+      ))}
+
+      {/* Charger circle */}
+      <div ref={chargerRef} className="honmoon-charger" onClick={charge}>
+        <svg className="honmoon-ring-svg" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(200,80,255,0.08)" strokeWidth="1.5"/>
+          <circle cx="100" cy="100" r="90" fill="none" stroke={strokeColor} strokeWidth="1.5"
+            strokeDasharray={`${energy / 100 * ringLen} ${ringLen}`} strokeLinecap="round"
+            transform="rotate(-90 100 100)" style={{ transition: 'stroke-dasharray 0.3s ease, stroke 0.5s ease' }}/>
+        </svg>
+        <div className={`honmoon-center ${charged ? "honmoon-active" : ""}`}>
+          <span className="honmoon-pct" style={{ color: charged ? 'var(--gold)' : strokeColor }}>
+            {charged ? '\u2726' : `${energy}%`}
+          </span>
+          <span className="honmoon-pct-label">{charged ? 'ATIVO' : 'ENERGIA'}</span>
+        </div>
+        {pulses.map(p => (
+          <div key={p.id} className="honmoon-pulse" style={{ left: p.x, top: p.y }}/>
+        ))}
+      </div>
+
+      {/* Charge button */}
+      <button className="honmoon-btn" style={{
+        background: btnBg,
+        boxShadow: `0 0 ${20 + energy * 0.4}px ${charged ? 'rgba(255,245,164,0.3)' : energy > 50 ? 'rgba(255,45,120,0.3)' : 'rgba(200,80,255,0.3)'}`,
+        display: charged ? 'none' : 'inline-flex',
+      }}>
+        CARREGA O HONMOON
+      </button>
+
+      {/* Success message */}
+      {charged && (
+        <div className="honmoon-message">
+          <span style={{ color: 'var(--gold)' }}>HONMOON ATIVO!</span>
+          <p>O escudo est\u00e1 protegido. Est\u00e1s pronto para o concerto!</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ════════════════════════════════════════ */
 /* ═══ MAIN PAGE ══════════════════════════ */
 /* ════════════════════════════════════════ */
@@ -234,10 +359,11 @@ export default function HomePage() {
 
   const navLinks = [
     { l: "Espetáculo", h: "#espetaculo" },
+    { l: "Identidade", h: "#identidade" },
     { l: "Lineup", h: "#lineup" },
+    { l: "Concertos", h: "#concertos" },
     { l: "Bilhetes", h: "#bilhetes" },
-    { l: "Local", h: "#local" },
-    { l: "FAQ", h: "#faq" },
+    { l: "Honmoon", h: "#honmoon" },
   ];
 
   return (
@@ -485,6 +611,35 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ═══ IDENTIDADE DUAL — Character → Performer Scroll Reveal ═══ */}
+      <section id="identidade" className="identidade-section px-5 sm:px-10">
+        <div className="max-w-[1400px] mx-auto">
+          <Rv>
+            <p className="sec-num mb-4">Identidade Dual</p>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
+              De Demon Hunter<br/>a <span className="neon-shimmer">Estrela K-Pop</span>
+            </h2>
+          </Rv>
+          <Rv delay={120}>
+            <p className="text-[15px] leading-[1.8] mb-12 max-w-lg" style={{color:"var(--t2)"}}>
+              Cada guerreira esconde uma identidade secreta. Faz scroll e descobre quem se esconde
+              por tr&aacute;s de cada Demon Hunter — a performer real que d&aacute; vida &agrave; personagem no palco.
+            </p>
+          </Rv>
+          <div className="dual-grid">
+            {[
+              { name: "RUMI", charName: "RUMI", role: "Vocal Principal &amp; L\u00edder", color: "var(--pink-kpop)", img: "/poster.png" },
+              { name: "MIRAE", charName: "MIRAE", role: "Dan\u00e7a &amp; Rap", color: "var(--blue-accent)", img: "/poster.png" },
+              { name: "ZOE", charName: "ZOE", role: "Performance Especial", color: "var(--neon-purple)", img: "/poster.png" },
+            ].map((c, i) => (
+              <DualRevealCard key={c.name} name={c.name} charName={c.charName} role={c.role} color={c.color} delay={i * 150} img={c.img}/>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="neon-div max-w-[1400px] mx-auto"/>
+
       {/* ═══ ESPETÁCULO ═══ */}
       <section id="espetaculo" className="py-24 sm:py-40 px-5 sm:px-10">
         <div className="max-w-[1400px] mx-auto">
@@ -575,6 +730,49 @@ export default function HomePage() {
       </section>
 
       <Marquee text="HUNTRIX · RUMI · MIRAE · ZOE · DEMON HUNTERS · K-POP TRIBUTE"/>
+
+      {/* ═══ PRÓXIMOS CONCERTOS ═══ */}
+      <section id="concertos" className="concerts-section px-5 sm:px-10">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-6">
+            <Rv>
+              <p className="sec-num mb-4">Pr&oacute;ximos Concertos</p>
+              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05]" style={{color:"var(--t1)"}}>
+                Em <span style={{color:"var(--pink-kpop)"}}>Tour</span>
+              </h2>
+            </Rv>
+            <Rv delay={150}>
+              <p className="text-[13px] max-w-xs" style={{color:"var(--t3)"}}>
+                N&atilde;o percas a oportunidade de ver as Guerreiras ao vivo.
+                Cada concerto &eacute; uma experi&ecirc;ncia &uacute;nica.
+              </p>
+            </Rv>
+          </div>
+          <div className="concerts-grid">
+            {CONCERTS.map((c, i) => (
+              <Rv key={c.city} delay={i * 100}>
+                <div className={`concert-card ${c.next ? "next" : ""}`}>
+                  {c.next && <div className="concert-badge">PR&Oacute;XIMO</div>}
+                  <div className="concert-date-strip">
+                    <div className="concert-day">{c.day}</div>
+                    <div className="concert-month">{c.month}</div>
+                  </div>
+                  <div className="concert-details">
+                    <div>
+                      <p className="concert-venue">{c.venue}</p>
+                      <p className="concert-city">{c.city}</p>
+                      <p className="concert-time">{c.time}</p>
+                    </div>
+                    <a href={c.url} target="_blank" rel="noopener noreferrer" className="concert-buy-btn">
+                      <Ticket className="w-3.5 h-3.5"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
+                    </a>
+                  </div>
+                </div>
+              </Rv>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ═══ BILHETES ═══ */}
       <section id="bilhetes" className="py-24 sm:py-40 px-5 sm:px-10" style={{background:"var(--surface)"}}>
@@ -707,6 +905,29 @@ export default function HomePage() {
           </Rv>
         </div>
       </section>
+
+      {/* ═══ CARREGA O HONMOON — Interactive ═══ */}
+      <section id="honmoon" className="honmoon-section px-5 sm:px-10">
+        <div className="max-w-[1400px] mx-auto text-center">
+          <Rv>
+            <p className="sec-num mb-4">Carrega o Honmoon</p>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
+              Protege o <span className="gold-shimmer">Honmoon</span>
+            </h2>
+          </Rv>
+          <Rv delay={120}>
+            <p className="text-[15px] leading-[1.8] mb-12 max-w-md mx-auto" style={{color:"var(--t2)"}}>
+              O escudo Honmoon protege o mundo dos dem&oacute;nios.
+              Clica para carregar a energia e ativar a prote&ccedil;&atilde;o!
+            </p>
+          </Rv>
+          <Rv delay={200}>
+            <HonmoonCharger/>
+          </Rv>
+        </div>
+      </section>
+
+      <div className="neon-div max-w-[1400px] mx-auto"/>
 
       {/* ═══ CONTACT ═══ */}
       <section className="py-20 sm:py-28 px-5 sm:px-10" style={{background:"var(--surface)"}}>
