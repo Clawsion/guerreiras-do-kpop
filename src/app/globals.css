@@ -1711,7 +1711,7 @@ html { scroll-behavior: smooth; }
 
 .dual-card {
   position: relative;
-  aspect-ratio: 3 / 5;
+  aspect-ratio: 9 / 20;
   overflow: hidden;
   cursor: default;
   background: var(--surface);
