@@ -2696,7 +2696,7 @@ html { scroll-behavior: smooth; }
   overflow: hidden;
 }
 
-/* Dark — dormant, barely visible */
+/* Dark — dormant, barely visible but with hint pulse to show it's interactive */
 .hm-orb.dark {
   background: radial-gradient(circle at 45% 45%,
     rgba(200, 80, 255, 0.08) 0%,
@@ -2705,7 +2705,13 @@ html { scroll-behavior: smooth; }
   border: 1px solid rgba(200, 80, 255, 0.1);
   box-shadow: 0 0 15px rgba(200, 80, 255, 0.05),
               inset 0 0 15px rgba(200, 80, 255, 0.03);
-  animation: hmOrbDormant 4s ease-in-out infinite;
+  animation: hmOrbDormant 4s ease-in-out infinite, hmOrbHint 5s 2s ease-in-out infinite;
+}
+/* Hint ripple — subtle pulse every 5s to hint it's clickable */
+@keyframes hmOrbHint {
+  0%, 85%, 100% { box-shadow: 0 0 15px rgba(200, 80, 255, 0.05), inset 0 0 15px rgba(200, 80, 255, 0.03); }
+  90% { box-shadow: 0 0 25px rgba(200, 80, 255, 0.2), 0 0 50px rgba(200, 80, 255, 0.08), inset 0 0 20px rgba(200, 80, 255, 0.1); }
+  95% { box-shadow: 0 0 30px rgba(200, 80, 255, 0.15), 0 0 60px rgba(200, 80, 255, 0.06), inset 0 0 20px rgba(200, 80, 255, 0.08); }
 }
 
 /* Light — ATIVO, softer glow for daytime */
@@ -2757,7 +2763,22 @@ html { scroll-behavior: smooth; }
 }
 
 .hm-orb:hover {
-  transform: scale(1.06);
+  transform: scale(1.08);
+  cursor: pointer;
+}
+.hm-orb.dark:hover {
+  box-shadow: 0 0 30px rgba(200, 80, 255, 0.15), 0 0 60px rgba(200, 80, 255, 0.08), inset 0 0 20px rgba(200, 80, 255, 0.08);
+  border-color: rgba(200, 80, 255, 0.25);
+}
+.hm-orb.light:hover {
+  box-shadow:
+    0 0 20px rgba(255, 245, 164, 0.5),
+    0 0 40px rgba(245, 158, 11, 0.35),
+    0 0 70px rgba(236, 72, 153, 0.15),
+    0 0 100px rgba(147, 51, 234, 0.08),
+    inset 0 0 30px rgba(255, 245, 164, 0.35),
+    inset 0 0 50px rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.5);
 }
 .hm-orb:active {
   transform: scale(0.95);
@@ -2809,6 +2830,32 @@ html { scroll-behavior: smooth; }
 @keyframes hmStrandSpin3 {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+/* ═══ Hover hint — DESPERTAR / ADORMECER ═══ */
+.hm-hover-hint {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-geist-mono);
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  z-index: 6;
+  color: var(--t3);
+}
+.hm-orb:hover .hm-hover-hint {
+  opacity: 0.7;
+  transform: translateX(-50%) translateY(-2px);
+}
+.hm-orb.light .hm-hover-hint {
+  color: var(--gold);
 }
 
 /* ═══ ATIVO label ═══ */
@@ -2873,9 +2920,15 @@ html { scroll-behavior: smooth; }
 .mini-honmoon-toggle:hover {
   border-color: rgba(200, 80, 255, 0.4);
   transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(200, 80, 255, 0.2);
 }
 
 .light-mode .mini-honmoon-toggle {
   border-color: rgba(245, 158, 11, 0.2);
   background: rgba(245, 158, 11, 0.06);
+  color: var(--gold);
+}
+.light-mode .mini-honmoon-toggle:hover {
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
 }

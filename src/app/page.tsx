@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import {
   Ticket, MapPin, Clock, Instagram, Youtube, Music2,
   ExternalLink, Send, ChevronRight, ArrowUpRight, Phone, Mail, Facebook,
-  Flame, Sparkles, Mic2, MonitorPlay, PartyPopper, Cherry,
+  Flame, Sparkles, Mic2, MonitorPlay, PartyPopper, Cherry, Moon, Sun,
 } from "lucide-react";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
@@ -496,7 +496,7 @@ export default function HomePage() {
               onClick={toggleTheme}
               aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
             >
-              {themeMode === 'dark' ? '🌙' : '☀️'}
+              {themeMode === 'dark' ? <Moon className="w-3.5 h-3.5"/> : <Sun className="w-3.5 h-3.5"/>}
             </button>
           </div>
         </nav>
@@ -584,6 +584,7 @@ export default function HomePage() {
           className={`hm-orb ${themeMode}`}
           onClick={toggleTheme}
           role="button"
+          title={themeMode === 'dark' ? 'Toca para despertar o Honmoon' : 'Toca para adormecer o Honmoon'}
           aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
         >
           {/* Inner energy strands */}
@@ -594,6 +595,11 @@ export default function HomePage() {
           {/* Center text */}
           <span className={`hm-label ${themeMode}`}>
             {themeMode === 'light' ? 'ATIVO' : ''}
+          </span>
+
+          {/* Hover hint — appears on hover to show it's interactive */}
+          <span className="hm-hover-hint">
+            {themeMode === 'dark' ? 'DESPERTAR' : 'ADORMECER'}
           </span>
         </div>
       </section>
