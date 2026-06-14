@@ -737,7 +737,7 @@ export default function HomePage() {
           </Rv>
           <div className="dual-grid">
             {[
-              { name: "ZOE", color: "var(--blue-accent)", animImg: "/real-zoe.png", realImg: "/char-zoe.png", animPos: "center top", realPos: "center top" },
+              { name: "ZOE", color: "var(--blue-accent)", animImg: "/real-zoe.png", realImg: "/char-zoe.png", animPos: "35% top", realPos: "center top" },
               { name: "RUMI", color: "var(--neon-purple)", animImg: "/real-rumi.png", realImg: "/char-rumi.png", animPos: "center top", realPos: "center top" },
               { name: "MIRAE", color: "var(--pink-kpop)", animImg: "/real-mirae.png", realImg: "/char-mirae.png", animPos: "center top", realPos: "center top" },
             ].map((c, i) => (
