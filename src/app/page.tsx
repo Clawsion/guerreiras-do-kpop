@@ -729,9 +729,9 @@ export default function HomePage() {
           </Rv>
           <div className="dual-grid">
             {[
-              { name: "RUMI", charName: "RUMI", role: "Vocal Principal &amp; L\u00edder", color: "var(--pink-kpop)", img: "/poster.png" },
+              { name: "ZOE", charName: "ZOE", role: "Performance Especial", color: "var(--pink-kpop)", img: "/poster.png" },
+              { name: "RUMI", charName: "RUMI", role: "Vocal Principal &amp; L\u00edder", color: "var(--neon-purple)", img: "/poster.png" },
               { name: "MIRAE", charName: "MIRAE", role: "Dan\u00e7a &amp; Rap", color: "var(--blue-accent)", img: "/poster.png" },
-              { name: "ZOE", charName: "ZOE", role: "Performance Especial", color: "var(--neon-purple)", img: "/poster.png" },
             ].map((c, i) => (
               <DualRevealCard key={c.name} name={c.name} charName={c.charName} role={c.role} color={c.color} delay={i * 150} img={c.img}/>
             ))}
