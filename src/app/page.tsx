@@ -137,9 +137,9 @@ function LedWallVideo({ active }: { active: boolean }) {
     sectionRef.current = canvas.closest(".manifesto-section") as HTMLElement;
 
     function sample() {
+      /* Stop loop entirely when not active — saves CPU/GPU when offscreen */
       if (!startedRef.current || !activeRef.current) {
-        rafRef.current = requestAnimationFrame(sample);
-        return;
+        return; // no more rAF — loop pauses
       }
 
       const now = performance.now() / 1000;
@@ -188,9 +188,13 @@ function LedWallVideo({ active }: { active: boolean }) {
       rafRef.current = requestAnimationFrame(sample);
     }
 
-    rafRef.current = requestAnimationFrame(sample);
+    /* Only start loop when active, restart when re-activated */
+    if (startedRef.current && activeRef.current) {
+      rafRef.current = requestAnimationFrame(sample);
+    }
+
     return () => cancelAnimationFrame(rafRef.current);
-  }, []);
+  }, [active]);
 
   return (
     <div className="led-video-container">
@@ -282,9 +286,9 @@ export default function HomePage() {
         <div className="hero-vignette"/>
 
         {/* Glow orbs */}
-        <div className="hero-glow-orb" style={{width:"40vw",height:"40vw",left:"25%",top:"30%",background:"rgba(200,80,255,0.12)"}}/>
-        <div className="hero-glow-orb" style={{width:"25vw",height:"25vw",right:"10%",top:"55%",background:"rgba(74,144,226,0.08)",animationDelay:"3s"}}/>
-        <div className="hero-glow-orb" style={{width:"20vw",height:"20vw",left:"5%",bottom:"20%",background:"rgba(255,45,120,0.06)",animationDelay:"6s"}}/>
+        <div className="hero-glow-orb" style={{width:"40vw",height:"40vw",left:"25%",top:"30%",color:"rgba(200,80,255,0.15)"}}/>
+        <div className="hero-glow-orb" style={{width:"25vw",height:"25vw",right:"10%",top:"55%",color:"rgba(74,144,226,0.10)",animationDelay:"3s"}}/>
+        <div className="hero-glow-orb" style={{width:"20vw",height:"20vw",left:"5%",bottom:"20%",color:"rgba(255,45,120,0.08)",animationDelay:"6s"}}/>
 
         {/* Side decorative lines */}
         <div className="hero-side-line hidden sm:block" style={{left:"5%",top:"15%",height:"30%"}}/>

@@ -1134,6 +1134,7 @@ html { scroll-behavior: smooth; }
   pointer-events: none;
   z-index: 15;
   overflow: hidden;
+  contain: strict;
 }
 .soul-particle-site {
   position: absolute;
@@ -1346,10 +1347,9 @@ html { scroll-behavior: smooth; }
 .hero-glow-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
+  background: radial-gradient(circle, currentColor 0%, transparent 70%);
   pointer-events: none;
-  will-change: transform, opacity;
-  contain: layout style;
+  contain: strict;
   animation: orbFloat 10s ease-in-out infinite alternate;
 }
 @keyframes orbFloat {
