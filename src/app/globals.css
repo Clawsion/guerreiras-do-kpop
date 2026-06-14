@@ -2404,9 +2404,9 @@ html { scroll-behavior: smooth; }
 
 /* ═══ LIGHT MODE OVERRIDES ═══ */
 
-/* Smooth transition on all themed elements */
+/* Smooth transition on themed elements — exclude animation-critical elements */
 .light-mode,
-.light-mode * {
+.light-mode *:not(.dc-anim):not(.dc-neon-sweep):not(.dc-img):not(.dc-layer) {
   transition: background-color 0.8s cubic-bezier(0.16,1,0.3,1),
               color 0.8s cubic-bezier(0.16,1,0.3,1),
               border-color 0.8s cubic-bezier(0.16,1,0.3,1),
@@ -2484,7 +2484,21 @@ html { scroll-behavior: smooth; }
   border-radius: 8px;
 }
 .light-mode .dual-card:hover {
-  box-shadow: 0 0 50px rgba(147, 51, 234, 0.2), 0 0 30px color-mix(in srgb, var(--char-color) 30%, transparent);
+  box-shadow: 0 0 50px rgba(0,0,0,0.3), 0 0 30px color-mix(in srgb, var(--char-color) 30%, transparent);
+}
+/* CRITICAL: Ensure clip-path and neon sweep transitions are IDENTICAL to dark mode */
+/* The .light-mode * catch-all transition overrides these, so we must re-declare them */
+.light-mode .dc-anim {
+  transition: clip-path 0.8s cubic-bezier(0.33, 0, 0.2, 1) !important;
+}
+.light-mode .dc-neon-sweep {
+  transition: top 0.8s cubic-bezier(0.33, 0, 0.2, 1), opacity 0.12s ease !important;
+}
+.light-mode .dual-card:hover .dc-neon-sweep {
+  transition: top 0.8s cubic-bezier(0.33, 0, 0.2, 1), opacity 0.08s ease !important;
+}
+.light-mode .dc-img {
+  transition: filter 0.5s ease !important;
 }
 /* Neon sweep — same vivid glow in light mode */
 .light-mode .dc-neon-sweep {
@@ -2510,15 +2524,13 @@ html { scroll-behavior: smooth; }
   opacity: 0;
   background: linear-gradient(90deg, transparent 0%, var(--char-color, var(--pink-kpop)) 50%, transparent 100%);
   background-size: 30% 100%;
+  animation: ncTravelLight 5s linear infinite;
 }
 @keyframes ncTravelLight {
   0%   { background-position: -30% 0; opacity: 0; }
   5%   { opacity: 0.5; }
   95%  { opacity: 0.5; }
   100% { background-position: 130% 0; opacity: 0; }
-}
-.light-mode .dual-card::before {
-  animation: ncTravelLight 5s linear infinite;
 }
 
 /* Name label gradient lighter */
