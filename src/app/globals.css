@@ -1374,50 +1374,230 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ ESPETÁCULO — Descrição + Galeria de Fotos ═══ */
+/* ═══ ESPETÁCULO — Stage Spotlight Atmosphere ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
 
 .espetaculo-section {
   position: relative;
-  padding: 6rem 0;
+  padding: 7rem 0 8rem;
   background: var(--void);
   overflow: hidden;
 }
 
-/* Two-column layout */
+/* ═══ Stage Spotlights — 3 cones of pink/magenta light from above ═══ */
+.esp-spotlight {
+  position: absolute;
+  top: -20%;
+  width: 45%;
+  height: 120%;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+.esp-spotlight-left {
+  left: -5%;
+  background: conic-gradient(
+    from 170deg at 50% 0%,
+    transparent 0deg,
+    rgba(255,45,120,0.08) 15deg,
+    rgba(255,45,120,0.15) 30deg,
+    rgba(200,80,255,0.08) 45deg,
+    transparent 60deg
+  );
+  animation: espSpotlightSway1 12s ease-in-out infinite alternate;
+}
+.esp-spotlight-center {
+  left: 28%;
+  background: conic-gradient(
+    from 175deg at 50% 0%,
+    transparent 0deg,
+    rgba(255,45,120,0.12) 12deg,
+    rgba(255,107,160,0.18) 25deg,
+    rgba(255,45,120,0.1) 40deg,
+    transparent 55deg
+  );
+  animation: espSpotlightSway2 15s ease-in-out infinite alternate;
+}
+.esp-spotlight-right {
+  right: -5%;
+  background: conic-gradient(
+    from 190deg at 50% 0%,
+    transparent 0deg,
+    rgba(200,80,255,0.08) 15deg,
+    rgba(200,80,255,0.14) 30deg,
+    rgba(255,45,120,0.06) 45deg,
+    transparent 60deg
+  );
+  animation: espSpotlightSway3 13s ease-in-out infinite alternate;
+}
+
+@keyframes espSpotlightSway1 {
+  0%   { transform: rotate(-3deg) scaleX(0.9); opacity: 0.7; }
+  50%  { transform: rotate(2deg) scaleX(1.1); opacity: 1; }
+  100% { transform: rotate(-1deg) scaleX(1); opacity: 0.85; }
+}
+@keyframes espSpotlightSway2 {
+  0%   { transform: rotate(1deg) scaleX(1); opacity: 0.85; }
+  50%  { transform: rotate(-2deg) scaleX(1.15); opacity: 1; }
+  100% { transform: rotate(3deg) scaleX(0.95); opacity: 0.75; }
+}
+@keyframes espSpotlightSway3 {
+  0%   { transform: rotate(3deg) scaleX(1.1); opacity: 0.8; }
+  50%  { transform: rotate(-1deg) scaleX(0.9); opacity: 1; }
+  100% { transform: rotate(2deg) scaleX(1.05); opacity: 0.9; }
+}
+
+/* ═══ Floating Glow Orbs ═══ */
+.esp-glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  contain: strict;
+}
+.esp-glow-pink {
+  width: 500px;
+  height: 500px;
+  top: 10%;
+  right: -10%;
+  background: radial-gradient(circle, rgba(255,45,120,0.12) 0%, rgba(255,45,120,0.04) 40%, transparent 70%);
+  animation: espOrbFloat1 14s ease-in-out infinite alternate;
+}
+.esp-glow-purple {
+  width: 400px;
+  height: 400px;
+  bottom: 5%;
+  left: -5%;
+  background: radial-gradient(circle, rgba(200,80,255,0.1) 0%, rgba(200,80,255,0.03) 40%, transparent 70%);
+  animation: espOrbFloat2 18s ease-in-out infinite alternate;
+}
+.esp-glow-blue {
+  width: 300px;
+  height: 300px;
+  top: 40%;
+  left: 30%;
+  background: radial-gradient(circle, rgba(177,213,240,0.06) 0%, transparent 60%);
+  animation: espOrbFloat3 16s ease-in-out infinite alternate;
+}
+
+@keyframes espOrbFloat1 {
+  0%   { transform: translate(0, 0) scale(0.9); opacity: 0.6; }
+  100% { transform: translate(-40px, 30px) scale(1.15); opacity: 1; }
+}
+@keyframes espOrbFloat2 {
+  0%   { transform: translate(0, 0) scale(1.1); opacity: 0.8; }
+  100% { transform: translate(30px, -40px) scale(0.85); opacity: 0.5; }
+}
+@keyframes espOrbFloat3 {
+  0%   { transform: translate(0, 0) scale(0.95); opacity: 0.4; }
+  100% { transform: translate(-20px, 20px) scale(1.1); opacity: 0.7; }
+}
+
+/* ═══ Grid Texture — same as hero but with pink tint ═══ */
+.esp-grid-texture {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,45,120,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,45,120,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 2;
+  mask-image: radial-gradient(ellipse at 50% 50%, black 15%, transparent 65%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 15%, transparent 65%);
+}
+
+/* ═══ Vignette — darkens edges for depth ═══ */
+.esp-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 45%, transparent 30%, rgba(11,8,19,0.7) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ═══ Two-column layout ═══ */
 .esp-layout {
   display: grid;
   grid-template-columns: 1fr;
   gap: 3rem;
+  position: relative;
+  z-index: 5;
 }
 
 @media (min-width: 1024px) {
   .esp-layout {
     grid-template-columns: 7fr 5fr;
-    gap: 4rem;
+    gap: 5rem;
   }
 }
 
-/* Tags */
-.esp-tag {
+/* ═══ Title — cinematic like hero ═══ */
+.esp-title {
+  font-size: clamp(2rem, 5vw, 3.75rem);
+  font-weight: 200;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--t1);
+  margin-bottom: 2rem;
+}
+@media (min-width: 1024px) {
+  .esp-title {
+    font-size: clamp(2.5rem, 4.5vw, 4rem);
+  }
+}
+.esp-title-accent {
+  background: linear-gradient(135deg, var(--pink-kpop) 0%, var(--neon-purple) 50%, var(--pink-light) 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: espTitleShimmer 6s ease-in-out infinite;
+  font-weight: 300;
+}
+@keyframes espTitleShimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+/* ═══ CTA Button — neon pink with glow, matching hero energy ═══ */
+.esp-cta {
   display: inline-flex;
   align-items: center;
-  padding: 0.35rem 0.9rem;
-  font-size: 9px;
-  letter-spacing: 0.2em;
+  gap: 0.5rem;
+  padding: 1rem 2.5rem;
+  font-size: 10px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  font-weight: 500;
-  border: 1px solid;
-  border-radius: 1px;
-  transition: background 0.3s ease;
-  cursor: default;
+  font-weight: 600;
+  color: #fff;
+  background: var(--pink-kpop);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 2px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: 0 0 25px rgba(255,45,120,0.3), 0 0 60px rgba(255,45,120,0.1), 0 8px 32px rgba(11,8,19,0.4);
 }
-.esp-tag:hover {
-  background: currentColor;
+.esp-cta:hover {
+  background: var(--pink-light);
+  box-shadow: 0 0 50px rgba(255,45,120,0.5), 0 0 100px rgba(255,45,120,0.15), 0 12px 40px rgba(11,8,19,0.5);
+  transform: translateY(-3px);
+  border-color: rgba(255,255,255,0.2);
 }
-.esp-tag:hover span,
-.esp-tag:hover {
-  color: var(--void) !important;
+
+/* ═══ Photo Frame — neon-bordered container with ambient glow ═══ */
+.esp-photo-frame {
+  position: relative;
+  padding: 3px;
+  background: linear-gradient(135deg, rgba(255,45,120,0.2), rgba(200,80,255,0.15), rgba(255,45,120,0.2));
+  border-radius: 2px;
+  box-shadow: 0 0 40px rgba(255,45,120,0.08), 0 0 80px rgba(200,80,255,0.04);
+  animation: espFramePulse 6s ease-in-out infinite alternate;
+}
+@keyframes espFramePulse {
+  0%   { box-shadow: 0 0 40px rgba(255,45,120,0.08), 0 0 80px rgba(200,80,255,0.04); }
+  100% { box-shadow: 0 0 60px rgba(255,45,120,0.14), 0 0 100px rgba(200,80,255,0.06); }
 }
 
 /* Photo grid — 2 columns x 3 rows */
@@ -1425,21 +1605,24 @@ html { scroll-behavior: smooth; }
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 3px;
+  background: var(--void);
+  border-radius: 1px;
+  overflow: hidden;
 }
 
 .esp-photo-slot {
   position: relative;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  background: var(--surface);
-  border: 1px solid rgba(200,80,255,0.06);
+  background: linear-gradient(135deg, rgba(28,18,64,0.9) 0%, rgba(16,11,26,0.95) 100%);
+  border: 1px solid rgba(255,45,120,0.05);
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
   cursor: pointer;
 }
 
 .esp-photo-slot:hover {
-  border-color: rgba(200,80,255,0.15);
-  box-shadow: 0 0 20px rgba(200,80,255,0.06);
+  border-color: rgba(255,45,120,0.2);
+  box-shadow: 0 0 25px rgba(255,45,120,0.1);
 }
 
 /* Placeholder when no image */
@@ -1451,14 +1634,14 @@ html { scroll-behavior: smooth; }
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, var(--surface) 0%, var(--deep) 100%);
+  background: linear-gradient(135deg, rgba(28,18,64,0.8) 0%, rgba(16,11,26,0.9) 100%);
 }
 
 .esp-photo-label {
   font-size: 8px;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--t3);
+  color: rgba(255,45,120,0.25);
   font-family: var(--font-geist-mono);
 }
 
@@ -1485,7 +1668,7 @@ html { scroll-behavior: smooth; }
   font-size: 8px;
   letter-spacing: 0.15em;
   font-family: var(--font-geist-mono);
-  color: rgba(200,80,255,0.2);
+  color: rgba(255,45,120,0.15);
   pointer-events: none;
   z-index: 2;
 }

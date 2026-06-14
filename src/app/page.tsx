@@ -669,14 +669,24 @@ export default function HomePage() {
 
       {/* ═══ ESPETÁCULO — Descrição + Galeria ═══ */}
       <section id="espetaculo" className="espetaculo-section px-5 sm:px-10">
-        <div className="max-w-[1400px] mx-auto">
+        {/* ═══ Atmospheric layers ═══ */}
+        <div className="esp-spotlight esp-spotlight-left"/>
+        <div className="esp-spotlight esp-spotlight-center"/>
+        <div className="esp-spotlight esp-spotlight-right"/>
+        <div className="esp-glow-orb esp-glow-pink"/>
+        <div className="esp-glow-orb esp-glow-purple"/>
+        <div className="esp-glow-orb esp-glow-blue"/>
+        <div className="esp-grid-texture"/>
+        <div className="esp-vignette"/>
+
+        <div className="max-w-[1400px] mx-auto relative z-10">
           <div className="esp-layout">
             {/* LEFT — Description */}
             <div className="esp-left">
               <Rv>
-                <p className="sec-num mb-4">O Espet&aacute;culo</p>
-                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-8" style={{color:"var(--t1)"}}>
-                  Tributo Musical<br/>ao <span style={{color:"var(--pink-kpop)"}}>K-Pop Demon Hunters</span>
+                <p className="sec-num mb-4" style={{color:"var(--pink-light)"}}>O Espet&aacute;culo</p>
+                <h2 className="esp-title">
+                  Tributo Musical<br/>ao <span className="esp-title-accent">K-Pop Demon Hunters</span>
                 </h2>
               </Rv>
               <Rv delay={120}>
@@ -696,34 +706,19 @@ export default function HomePage() {
               <Rv delay={280}>
                 <p className="text-[15px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
                   Com cenografia de luxo, performers de elite e uma fus&atilde;o electrizante de m&uacute;sica e dan&ccedil;a,
-                  este concerto leva o p&uacute;blico numa viagem imersiva pelo universo K-POP &mdash; com coreografias
-                  ic&oacute;nicas de BLACKPINK, BTS e aespa, luzes deslumbrantes, efeitos pirot&eacute;cnicos
+                  este concerto leva o p&uacute;blico numa viagem imersiva pelo universo K-POP &mdash; com <span style={{color:"var(--neon-purple)"}}>coreografias</span>
+                  ic&oacute;nicas de BLACKPINK, BTS e aespa, luzes deslumbrantes, <span style={{color:"var(--pink-kpop)"}}>efeitos pirot&eacute;cnicos</span>
                   e a energia contagiante dos maiores hits.
                 </p>
               </Rv>
               <Rv delay={350}>
-                <p className="text-[15px] leading-[1.8] mb-8" style={{color:"var(--t2)"}}>
+                <p className="text-[15px] leading-[1.8] mb-10" style={{color:"var(--t2)"}}>
                   Um espet&aacute;culo de variedades que transcende o concerto tradicional &mdash; onde o palco se transforma
                   num mundo m&aacute;gico e cada momento se torna uma mem&oacute;ria inesquec&iacute;vel.
                 </p>
               </Rv>
               <Rv delay={420}>
-                <div className="flex flex-wrap gap-3 mb-8">
-                  {[
-                    { label: "Coreografias", c: "var(--neon-purple)" },
-                    { label: "Pyro", c: "var(--pink-kpop)" },
-                    { label: "LED Wall", c: "var(--gold)" },
-                    { label: "Random Play", c: "var(--blue-accent)" },
-                    { label: "K-Culture", c: "var(--neon-purple)" },
-                  ].map(tag => (
-                    <span key={tag.label} className="esp-tag" style={{ color: tag.c, borderColor: tag.c }}>
-                      {tag.label}
-                    </span>
-                  ))}
-                </div>
-              </Rv>
-              <Rv delay={500}>
-                <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-3.5 text-[10px] tracking-[0.22em] uppercase font-semibold border transition-all duration-400" style={{borderColor:"var(--pink-kpop)",color:"var(--pink-kpop)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--pink-kpop)";(e.currentTarget as HTMLElement).style.color="#fff"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--pink-kpop)"}}>
+                <a href={TL} target="_blank" rel="noopener noreferrer" className="esp-cta">
                   <Ticket className="w-3.5 h-3.5"/> Reservar Lugar <ArrowUpRight className="w-3 h-3"/>
                 </a>
               </Rv>
@@ -732,19 +727,21 @@ export default function HomePage() {
             {/* RIGHT — Photo Grid */}
             <div className="esp-right">
               <Rv delay={150}>
-                <p className="sec-num mb-4">Eventos Anteriores</p>
+                <p className="sec-num mb-4" style={{color:"var(--pink-light)"}}>Eventos Anteriores</p>
               </Rv>
-              <div className="esp-photo-grid">
-                {Array.from({length: 6}, (_, i) => (
-                  <Rv key={i} delay={200 + i * 80}>
-                    <div className="esp-photo-slot" data-num={`0${i + 1}`}>
-                      <div className="esp-photo-placeholder">
-                        <Music2 className="w-5 h-5" style={{color:"var(--t3)"}}/>
-                        <span className="esp-photo-label">Foto {i + 1}</span>
+              <div className="esp-photo-frame">
+                <div className="esp-photo-grid">
+                  {Array.from({length: 6}, (_, i) => (
+                    <Rv key={i} delay={200 + i * 80}>
+                      <div className="esp-photo-slot" data-num={`0${i + 1}`}>
+                        <div className="esp-photo-placeholder">
+                          <Music2 className="w-5 h-5" style={{color:"rgba(255,45,120,0.4)"}}/>
+                          <span className="esp-photo-label">Foto {i + 1}</span>
+                        </div>
                       </div>
-                    </div>
-                  </Rv>
-                ))}
+                    </Rv>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
