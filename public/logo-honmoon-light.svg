@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" fill="none">
+  <defs>
+    <style>
+      .logo-text { font-family: 'Inter', 'Helvetica Neue', sans-serif; font-weight: 200; letter-spacing: 0.18em; }
+      .logo-sub { font-family: 'Inter', 'Helvetica Neue', sans-serif; font-weight: 600; letter-spacing: 0.35em; font-size: 7px; }
+      /* Light mode colors — golden Honmoon energy */
+      .honmoon-orb { fill: rgba(245,158,11,0.1); stroke: rgba(245,158,11,0.3); stroke-width: 1; }
+      .honmoon-inner { fill: rgba(245,158,11,0.5); }
+      .honmoon-ring { stroke: rgba(245,158,11,0.2); stroke-width: 0.5; fill: none; }
+      .logo-text { fill: rgba(30,16,64,0.85); }
+      .logo-sub { fill: rgba(147,51,234,0.5); }
+      /* Animation */
+      .honmoon-pulse { animation: logoPulse 4s ease-in-out infinite; transform-origin: 30px 40px; }
+      .honmoon-ring-anim { animation: logoRingSpin 12s linear infinite; transform-origin: 30px 40px; }
+      @keyframes logoPulse {
+        0%, 100% { opacity: 0.7; }
+        50% { opacity: 1; }
+      }
+      @keyframes logoRingSpin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+    </style>
+  </defs>
+
+  <!-- Honmoon orb icon -->
+  <g class="honmoon-pulse">
+    <!-- Outer ring -->
+    <circle class="honmoon-ring honmoon-ring-anim" cx="30" cy="40" r="22"/>
+    <!-- Main orb -->
+    <circle class="honmoon-orb" cx="30" cy="40" r="16"/>
+    <!-- Inner glow -->
+    <circle class="honmoon-inner" cx="28" cy="37" r="6"/>
+    <!-- Tiny sparkle -->
+    <circle cx="38" cy="32" r="1.2" fill="rgba(255,245,164,0.8)"/>
+  </g>
+
+  <!-- Text -->
+  <text class="logo-text" x="62" y="38" font-size="18">GUERREIRAS</text>
+  <text class="logo-sub" x="62" y="52">K-POP DEMON HUNTERS</text>
+</svg>

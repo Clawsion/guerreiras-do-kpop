@@ -464,6 +464,15 @@ export default function HomePage() {
         {/* Vignette — darkens edges */}
         <div className="hero-vignette"/>
 
+        {/* ═══ LOGO — minimalist Honmoon logo, top center ═══ */}
+        <div className="hero-logo">
+          <img
+            src={themeMode === 'dark' ? '/logo-honmoon.svg' : '/logo-honmoon-light.svg'}
+            alt="Guerreiras K-Pop Demon Hunters"
+            className="hero-logo-img"
+          />
+        </div>
+
         {/* Glow orbs */}
         <div className="hero-glow-orb" style={{width:"40vw",height:"40vw",left:"25%",top:"30%",color:"rgba(200,80,255,0.15)"}}/>
         <div className="hero-glow-orb" style={{width:"25vw",height:"25vw",right:"10%",top:"55%",color:"rgba(74,144,226,0.10)",animationDelay:"3s"}}/>

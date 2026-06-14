@@ -1247,6 +1247,26 @@ html { scroll-behavior: smooth; }
   pointer-events: none;
 }
 
+/* ═══ Hero logo — minimalist Honmoon ═══ */
+.hero-logo {
+  position: absolute;
+  top: 5.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  pointer-events: none;
+}
+.hero-logo-img {
+  width: clamp(200px, 35vw, 320px);
+  height: auto;
+  opacity: 0.85;
+  transition: opacity 0.8s ease, filter 0.8s ease;
+  filter: drop-shadow(0 0 15px rgba(200, 80, 255, 0.15));
+}
+.light-mode .hero-logo-img {
+  filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.12));
+}
+
 /* ═══ Hero content area ═══ */
 .hero-content {
   position: relative;
@@ -2428,12 +2448,30 @@ html { scroll-behavior: smooth; }
   background: var(--purple-mid);
 }
 
-/* Hero overlay lighter in light mode */
+/* Hero overlay — softer in light mode, not harsh white */
 .light-mode .hero-bg-overlay {
-  background: linear-gradient(180deg, rgba(248,240,255,0.3) 0%, rgba(248,240,255,0.0) 25%, rgba(248,240,255,0.0) 40%, rgba(248,240,255,0.6) 75%, rgba(248,240,255,0.98) 100%);
+  background: linear-gradient(180deg, rgba(232,220,248,0.2) 0%, rgba(232,220,248,0.0) 25%, rgba(232,220,248,0.0) 40%, rgba(232,220,248,0.4) 75%, rgba(232,220,248,0.85) 100%);
 }
 .light-mode .hero-vignette {
-  background: radial-gradient(ellipse at 50% 40%, transparent 40%, rgba(248,240,255,0.5) 100%);
+  background: radial-gradient(ellipse at 50% 40%, transparent 40%, rgba(232,220,248,0.25) 100%);
+}
+/* Hero grid — subtle purple in light mode */
+.light-mode .hero-grid {
+  background-image:
+    linear-gradient(rgba(147, 51, 234, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(147, 51, 234, 0.04) 1px, transparent 1px);
+}
+/* Hero glow orbs — softer in light mode */
+.light-mode .hero-glow-orb {
+  opacity: 0.5;
+}
+/* Hero side lines — match light theme */
+.light-mode .hero-side-line {
+  background: linear-gradient(to bottom, transparent, rgba(147, 51, 234, 0.1), transparent);
+}
+/* Hero corner tags — visible in light mode */
+.light-mode .hero-corner-tag {
+  color: rgba(147, 51, 234, 0.25);
 }
 
 /* Dual cards get lighter bg in light mode */
