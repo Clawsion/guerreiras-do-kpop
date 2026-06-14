@@ -267,11 +267,6 @@ function DualRevealCard({ name, color, delay, animImg, realImg }: {
       <div className="dc-layer dc-real">
         <img src={realImg} alt={name} className="dc-img"/>
       </div>
-
-      {/* Name */}
-      <div className="dc-name-label">
-        <span style={{ color }}>{name}</span>
-      </div>
     </div>
   );
 }
