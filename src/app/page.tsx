@@ -664,10 +664,10 @@ export default function HomePage() {
               </Rv>
               <Rv delay={350}>
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
-                  Com cenografia de luxo, performers de elite e uma fus&atilde;o electrizante de m&uacute;sica e dan&ccedil;a,
-                  este concerto leva o p&uacute;blico numa viagem imersiva pelo universo K-POP &mdash; com <span style={{color:"var(--neon-purple)"}}>coreografias</span>
-                  ic&oacute;nicas de BLACKPINK, BTS e aespa, luzes deslumbrantes, <span style={{color:"var(--pink-kpop)"}}>efeitos pirot&eacute;cnicos</span>
-                  e a energia contagiante dos maiores hits.
+                  Essa mesma energia atravessa o ecr&atilde; e ganha forma ao vivo &mdash; com <span style={{color:"var(--neon-purple)"}}>coreografias</span>
+                  de BLACKPINK, BTS e aespa executadas por performers de elite, luzes deslumbrantes e <span style={{color:"var(--pink-kpop)"}}>efeitos pirot&eacute;cnicos</span>.
+                  Os maiores hits K-Pop ressoam num palco que se transforma em campo de batalha, e cada momento
+                  &eacute; uma fatia do universo das Hunters servida ao vivo.
                 </p>
               </Rv>
               <Rv delay={420}>
