@@ -650,7 +650,7 @@ export default function HomePage() {
             <div className="esp-left">
               <Rv>
                 <p className="sec-num mb-4" style={{color:"var(--pink-light)"}}>Tributo Ao Vivo</p>
-                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-8" style={{color:"var(--t1)", textTransform:"uppercase"}}>
+                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-8" style={{color:"var(--t1)"}}>
                   Um concerto-homenagem que traz o universo<br/><span className="esp-title-accent">K-Pop das Hunters</span> para o palco real
                 </h2>
               </Rv>
