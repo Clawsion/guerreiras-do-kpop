@@ -667,51 +667,87 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ ESPETÁCULO — O Que Vais Viver ═══ */}
+      {/* ═══ ESPETÁCULO — Descrição + Galeria ═══ */}
       <section id="espetaculo" className="espetaculo-section px-5 sm:px-10">
         <div className="max-w-[1400px] mx-auto">
-          <Rv>
-            <p className="sec-num mb-4">O Espet&aacute;culo</p>
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
-              O Que Vais <span className="neon-shimmer">Viver</span>
-            </h2>
-          </Rv>
-          <Rv delay={120}>
-            <p className="text-[15px] leading-[1.8] mb-14 max-w-lg" style={{color:"var(--t2)"}}>
-              Um espetáculo de tributo musical que celebra a energia, a est&eacute;tica e a cultura do K-POP,
-              inspirado na s&eacute;rie <span style={{color:"var(--pink-kpop)"}}>K-Pop Demon Hunters</span> da Netflix.
-              Cada momento &eacute; uma experi&ecirc;ncia &uacute;nica.
-            </p>
-          </Rv>
-          <div className="xp-grid">
-            {[
-              { icon: <Flame className="w-6 h-6"/>, title: "Pyro & Fogos", desc: "Efeitos pirot\u00e9cnicos ao vivo que iluminam o palco com explos\u00f5es de cor e energia a cada drop.", c: "var(--pink-kpop)" },
-              { icon: <Sparkles className="w-6 h-6"/>, title: "Coreografias K-Pop", desc: "Recria\u00e7\u00f5es exatas das melhores choreografias de BLACKPINK, BTS, aespa e muito mais.", c: "var(--neon-purple)" },
-              { icon: <Mic2 className="w-6 h-6"/>, title: "Hits ao Vivo", desc: "Os maiores temas K-Pop interpretados ao vivo com vozes poderosas e harmonias impec\u00e1veis.", c: "var(--blue-accent)" },
-              { icon: <MonitorPlay className="w-6 h-6"/>, title: "LED Wall & Hologramas", desc: "Cenografia de n\u00edvel mundial com ecr\u00e3s LED gigantes e proje\u00e7\u00f5es hologr\u00e1ficas imersivas.", c: "var(--gold)" },
-              { icon: <PartyPopper className="w-6 h-6"/>, title: "Random Play Dance", desc: "O momento mais divertido — o p\u00fablico dan\u00e7a ao som de hits aleat\u00f3rios. Vais conseguir parar?", c: "var(--pink-kpop)" },
-              { icon: <Cherry className="w-6 h-6"/>, title: "K-Culture Zone", desc: "Merch exclusivo, comida coreana, foto com as performers e muito mais na zona de cultura K.", c: "var(--neon-purple)" },
-            ].map((xp, i) => (
-              <Rv key={xp.title} delay={i * 80}>
-                <div className="xp-card group">
-                  <div className="xp-icon-wrap" style={{ color: xp.c }}>
-                    <div className="xp-icon-glow" style={{ background: `radial-gradient(circle, ${xp.c}15, transparent 70%)` }}/>
-                    {xp.icon}
-                  </div>
-                  <h3 className="xp-title" style={{ color: "var(--t1)" }}>{xp.title}</h3>
-                  <p className="xp-desc">{xp.desc}</p>
-                  <div className="xp-line" style={{ background: `linear-gradient(90deg, ${xp.c}, transparent)` }}/>
+          <div className="esp-layout">
+            {/* LEFT — Description */}
+            <div className="esp-left">
+              <Rv>
+                <p className="sec-num mb-4">O Espet&aacute;culo</p>
+                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-8" style={{color:"var(--t1)"}}>
+                  Tributo Musical<br/>ao <span style={{color:"var(--pink-kpop)"}}>K-Pop Demon Hunters</span>
+                </h2>
+              </Rv>
+              <Rv delay={120}>
+                <p className="text-[15px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
+                  As <strong style={{color:"var(--t1)"}}>Guerreiras do K-Pop</strong> &eacute; um espet&aacute;culo de tributo musical que celebra a energia,
+                  a est&eacute;tica e a cultura do K-POP, inspirado na s&eacute;rie de anima&ccedil;&atilde;o
+                  <span style={{color:"var(--pink-kpop)"}}> K-Pop Demon Hunters</span> da Netflix.
+                </p>
+              </Rv>
+              <Rv delay={200}>
+                <p className="text-[15px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
+                  No universo da s&eacute;rie, tr&ecirc;s idolas de K-Pop vivem uma dupla identidade: de dia s&atilde;o estrelas
+                  brilhantes do palco, de noite transformam-se em ca&ccedil;adoras de dem&oacute;nios que protegem o mundo
+                  atrav&eacute;s do poder do Honmoon. O nosso espet&aacute;culo traz essa magia para o palco ao vivo.
+                </p>
+              </Rv>
+              <Rv delay={280}>
+                <p className="text-[15px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
+                  Com cenografia de luxo, performers de elite e uma fus&atilde;o electrizante de m&uacute;sica e dan&ccedil;a,
+                  este concerto leva o p&uacute;blico numa viagem imersiva pelo universo K-POP &mdash; com coreografias
+                  ic&oacute;nicas de BLACKPINK, BTS e aespa, luzes deslumbrantes, efeitos pirot&eacute;cnicos
+                  e a energia contagiante dos maiores hits.
+                </p>
+              </Rv>
+              <Rv delay={350}>
+                <p className="text-[15px] leading-[1.8] mb-8" style={{color:"var(--t2)"}}>
+                  Um espet&aacute;culo de variedades que transcende o concerto tradicional &mdash; onde o palco se transforma
+                  num mundo m&aacute;gico e cada momento se torna uma mem&oacute;ria inesquec&iacute;vel.
+                </p>
+              </Rv>
+              <Rv delay={420}>
+                <div className="flex flex-wrap gap-3 mb-8">
+                  {[
+                    { label: "Coreografias", c: "var(--neon-purple)" },
+                    { label: "Pyro", c: "var(--pink-kpop)" },
+                    { label: "LED Wall", c: "var(--gold)" },
+                    { label: "Random Play", c: "var(--blue-accent)" },
+                    { label: "K-Culture", c: "var(--neon-purple)" },
+                  ].map(tag => (
+                    <span key={tag.label} className="esp-tag" style={{ color: tag.c, borderColor: tag.c }}>
+                      {tag.label}
+                    </span>
+                  ))}
                 </div>
               </Rv>
-            ))}
-          </div>
-          <Rv delay={500}>
-            <div className="flex justify-center mt-14">
-              <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-3.5 text-[10px] tracking-[0.22em] uppercase font-semibold border transition-all duration-400" style={{borderColor:"var(--pink-kpop)",color:"var(--pink-kpop)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--pink-kpop)";(e.currentTarget as HTMLElement).style.color="#fff"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--pink-kpop)"}}>
-                <Ticket className="w-3.5 h-3.5"/> Reservar Lugar <ArrowUpRight className="w-3 h-3"/>
-              </a>
+              <Rv delay={500}>
+                <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-3.5 text-[10px] tracking-[0.22em] uppercase font-semibold border transition-all duration-400" style={{borderColor:"var(--pink-kpop)",color:"var(--pink-kpop)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--pink-kpop)";(e.currentTarget as HTMLElement).style.color="#fff"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--pink-kpop)"}}>
+                  <Ticket className="w-3.5 h-3.5"/> Reservar Lugar <ArrowUpRight className="w-3 h-3"/>
+                </a>
+              </Rv>
             </div>
-          </Rv>
+
+            {/* RIGHT — Photo Grid */}
+            <div className="esp-right">
+              <Rv delay={150}>
+                <p className="sec-num mb-4">Eventos Anteriores</p>
+              </Rv>
+              <div className="esp-photo-grid">
+                {Array.from({length: 6}, (_, i) => (
+                  <Rv key={i} delay={200 + i * 80}>
+                    <div className="esp-photo-slot" data-num={`0${i + 1}`}>
+                      <div className="esp-photo-placeholder">
+                        <Music2 className="w-5 h-5" style={{color:"var(--t3)"}}/>
+                        <span className="esp-photo-label">Foto {i + 1}</span>
+                      </div>
+                    </div>
+                  </Rv>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
