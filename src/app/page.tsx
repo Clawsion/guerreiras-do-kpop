@@ -805,9 +805,9 @@ export default function HomePage() {
           </Rv>
           <div className="dual-grid">
             {[
-              { name: "ZOE", charName: "ZOE", role: "Performance Especial", color: "var(--blue-accent)", animImg: "/chars-animated.png", realImg: "/chars-real.png", animPos: "17% top", realPos: "17% top" },
-              { name: "RUMI", charName: "RUMI", role: "Vocal Principal &amp; L\u00edder", color: "var(--neon-purple)", animImg: "/chars-animated.png", realImg: "/chars-real.png", animPos: "50% top", realPos: "50% top" },
-              { name: "MIRAE", charName: "MIRAE", role: "Dan\u00e7a &amp; Rap", color: "var(--pink-kpop)", animImg: "/chars-animated.png", realImg: "/chars-real.png", animPos: "83% top", realPos: "83% top" },
+              { name: "ZOE", charName: "ZOE", role: "Performance Especial", color: "var(--blue-accent)", animImg: "/char-zoe.png", realImg: "/chars-real.png", animPos: "center top", realPos: "17% top" },
+              { name: "RUMI", charName: "RUMI", role: "Vocal Principal &amp; L\u00edder", color: "var(--neon-purple)", animImg: "/char-rumi.png", realImg: "/chars-real.png", animPos: "center top", realPos: "50% top" },
+              { name: "MIRAE", charName: "MIRAE", role: "Dan\u00e7a &amp; Rap", color: "var(--pink-kpop)", animImg: "/char-mirae.png", realImg: "/chars-real.png", animPos: "center top", realPos: "83% top" },
             ].map((c, i) => (
               <DualRevealCard key={c.name} name={c.name} charName={c.charName} role={c.role} color={c.color} delay={i * 150} animImg={c.animImg} realImg={c.realImg} animPos={c.animPos} realPos={c.realPos}/>
             ))}
