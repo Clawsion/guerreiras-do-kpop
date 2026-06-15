@@ -40,39 +40,37 @@ vec3 hsv2rgb(vec3 c) {
 }
 
 void main() {
-  vec2 uv = (gl_FragCoord.xy * 2.0 - u_resolution) / min(u_resolution.x, u_resolution.y);
+  /* ═══ UV — cover the ENTIRE rectangle like object-fit: cover ═══
+     This ensures the animation fills the whole LED wall,
+     edge to edge, just like the 24MB video did. */
+  vec2 uv = (gl_FragCoord.xy * 2.0 - u_resolution) / u_resolution;
+  // uv.x goes -1 to 1 (wide), uv.y goes -1 to 1 (tall)
   
-  float dist  = length(uv);
-  float angle = atan(uv.y, uv.x);
   float t = u_time;
   
+  // Elliptical distance — stretches tunnel to fill rectangle
+  float aspect = u_resolution.x / u_resolution.y;
+  vec2 uvCircle = uv * vec2(1.0 / aspect, 1.0);
+  float dist  = length(uvCircle);
+  float angle = atan(uvCircle.y, uvCircle.x);
+
   /* ═══════════════════════════════════════════
      TUNNEL WARP — the core depth illusion
-     Like looking into an infinite tunnel
      ═══════════════════════════════════════════ */
   
-  // Tunnel coordinates — polar to tunnel space
-  float tunnelZ = 1.0 / max(dist, 0.01);  // depth = 1/distance
-  float tunnelAngle = angle / TAU;          // wrap angle to 0-1
-  
-  // Scroll through the tunnel over time
+  float tunnelZ = 1.0 / max(dist, 0.01);
   float zScroll = t * 1.2;
   float zPos = tunnelZ + zScroll;
   
   /* ═══════════════════════════════════════════
-     TUNNEL RING PATTERN — expanding rings
+     TUNNEL RING PATTERN — expanding rings fill edges
      ═══════════════════════════════════════════ */
   
-  // Primary rings — the main expanding tunnel rings
   float ring1 = sin(zPos * 6.0) * 0.5 + 0.5;
-  // Secondary rings — finer detail
   float ring2 = sin(zPos * 12.0 + 0.5) * 0.5 + 0.5;
-  // Tertiary — very fine texture
   float ring3 = sin(zPos * 24.0 + 1.0) * 0.5 + 0.5;
-  // Slow pulse — breathing
   float pulse = sin(t * 0.8) * 0.15 + 0.85;
   
-  // Combine rings with decreasing weight
   float ringPattern = ring1 * 0.50 + ring2 * 0.30 + ring3 * 0.20;
   ringPattern *= pulse;
   
@@ -80,7 +78,6 @@ void main() {
      SPIRAL ARMS — rotational depth lines
      ═══════════════════════════════════════════ */
   
-  // Multiple spiral arms that rotate
   float spiral1 = pow(abs(sin(angle * 3.0 + zPos * 2.0 - t * 1.5)), 12.0);
   float spiral2 = pow(abs(sin(angle * 5.0 - zPos * 1.5 + t * 2.0)), 16.0);
   float spiral3 = pow(abs(sin(angle * 2.0 + zPos * 3.0 - t * 0.7)), 8.0);
@@ -99,14 +96,10 @@ void main() {
      DARK MODE COLORS — Neon Purple / Pink / Blue cycling
      ═══════════════════════════════════════════ */
   
-  // Neon Purple: #AA28FF → rgb(170,40,255)
   vec3 purple = vec3(0.667, 0.157, 1.0);
-  // Neon Pink: #FF2D78 → rgb(255,45,120)
   vec3 pink   = vec3(1.0, 0.176, 0.471);
-  // Electric Blue: #4F8CFF → rgb(79,140,255)
   vec3 blue   = vec3(0.31, 0.55, 1.0);
   
-  // 3-way neon color cycle
   float darkPhase = fract(t * 0.08);
   vec3 darkCol;
   if (darkPhase < 0.333) {
@@ -116,27 +109,21 @@ void main() {
   } else {
     darkCol = mix(blue, purple, smoothstep(0.667, 1.0, darkPhase));
   }
-  
-  // Distance-based variation: center brighter, edges shift
   darkCol = mix(darkCol, purple * 0.8, dist * 0.25);
   
   /* ═══════════════════════════════════════════
      LIGHT MODE COLORS — Golden / Iridescent / Rainbow
      ═══════════════════════════════════════════ */
   
-  // Golden Light: #F59E0B → rgb(245,158,11)
   vec3 gold  = vec3(0.96, 0.62, 0.04);
   vec3 cream = vec3(0.996, 0.953, 0.78);
   
-  // Iridescent rainbow cycling
   float hue = fract(t * 0.06 + dist * 0.35);
   vec3 rainbow = hsv2rgb(vec3(hue, 0.45, 1.0));
   
-  // Center golden → iridescent outward
   vec3 lightCol = mix(gold, rainbow, smoothstep(0.0, 0.45, dist));
   lightCol = mix(cream, lightCol, smoothstep(0.03, 0.2, dist));
   
-  // Pastel highlights
   vec3 pastelPink  = vec3(0.976, 0.659, 0.831);
   vec3 pastelBlue  = vec3(0.576, 0.773, 0.992);
   vec3 pastelMint  = vec3(0.431, 0.906, 0.718);
@@ -153,7 +140,6 @@ void main() {
   
   vec3 color = mix(lightCol, darkCol, u_darkMode);
   
-  // Boost saturation for dark mode — make neons POP
   float lum = dot(color, vec3(0.299, 0.587, 0.114));
   color = mix(vec3(lum), color, mix(1.0, 1.6, u_darkMode));
   
@@ -167,21 +153,20 @@ void main() {
      CENTER GLOW — bright core at tunnel end
      ═══════════════════════════════════════════ */
   
-  // White-purple in dark, white-gold in light
   vec3 centerDark  = vec3(0.95, 0.85, 1.0);
   vec3 centerLight = vec3(1.0, 0.97, 0.85);
   vec3 centerColor = mix(centerLight, centerDark, u_darkMode);
   
-  // Multi-layer glow
   float glow1 = exp(-dist * 3.5);
   float glow2 = exp(-dist * 10.0) * 0.6;
   float centerTotal = glow1 + glow2;
   
   /* ═══════════════════════════════════════════
-     VIGNETTE — fade edges to darkness
+     VIGNETTE — fade edges, elliptical to match rectangle
      ═══════════════════════════════════════════ */
   
-  float vignette = smoothstep(1.5, 0.1, dist);
+  // Elliptical vignette — matches the LED wall shape
+  float vignette = 1.0 - smoothstep(0.3, 1.4, length(uv * 0.7));
   
   /* ═══════════════════════════════════════════
      FINAL COMPOSITE
@@ -195,10 +180,10 @@ void main() {
   // Center glow
   finalColor += centerColor * centerTotal * vignette * 1.4;
   
-  // Spiral arms add their own colored glow
+  // Spiral arms
   finalColor += color * spiralPattern * vignette * 0.5;
   
-  // Depth shimmer — subtle angular variation
+  // Depth shimmer
   float depthShimmer = sin(angle * 6.0 + t * 0.5 + dist * 4.0) * 0.05 + 1.0;
   finalColor *= depthShimmer;
   
