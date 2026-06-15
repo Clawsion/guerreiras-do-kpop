@@ -116,7 +116,7 @@ export default function FontTop10() {
             <div style={{ padding: "36px 40px", border: "1px solid rgba(200,80,255,0.12)", borderRadius: 8, background: "rgba(28,18,64,0.25)", marginBottom: 8 }}>
               <div style={{ fontSize: 8, letterSpacing: "0.4em", textTransform: "uppercase", color: "#8a6fb5", marginBottom: 20 }}>🌑 Escuro</div>
 
-              <div style={{ fontFamily: pack.bodyFont, fontSize: 9, letterSpacing: "0.35em", textTransform: "uppercase", color: "#C850FF", marginBottom: 8, fontWeight: 600 }}>Tributo Musical</div>
+              <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 9, letterSpacing: "0.35em", textTransform: "uppercase", color: "#C850FF", marginBottom: 8, fontWeight: 600 }}>Tributo Musical</div>
               <div style={{ fontFamily: pack.titleFont, fontSize: 40, fontWeight: 200, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 6 }}>O Honmoon Ganha Vida</div>
               <div style={{ fontFamily: pack.titleFont, fontSize: 17, fontWeight: 300, letterSpacing: "0.04em", marginBottom: 20, color: "#d4c4f0" }}>As Guerreiras Demon Hunters chegam a Portugal</div>
               <div style={{ fontFamily: pack.bodyFont, fontSize: 15, lineHeight: 1.8, marginBottom: 12, color: "#d4c4f0" }}>Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa.</div>
@@ -140,11 +140,11 @@ export default function FontTop10() {
 
               <div style={{ height: 1, background: "rgba(200,80,255,0.1)", margin: "20px 0" }} />
 
-              <div style={{ fontFamily: pack.bodyFont, fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "#C850FF", marginBottom: 6, fontWeight: 600 }}>Bilhetes</div>
+              <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "#C850FF", marginBottom: 6, fontWeight: 600 }}>Bilhetes</div>
               <div style={{ fontFamily: pack.titleFont, fontSize: 40, fontWeight: 200, letterSpacing: "-0.03em", marginBottom: 6 }}>€25</div>
               <div style={{ fontFamily: pack.bodyFont, fontSize: 14, lineHeight: 1.7, color: "#d4c4f0", marginBottom: 16 }}>Bilhete geral com acesso a todas as zonas do evento.</div>
 
-              <div style={{ fontFamily: pack.bodyFont, fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "#C850FF", marginBottom: 8, fontWeight: 600 }}>FAQ</div>
+              <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "#C850FF", marginBottom: 8, fontWeight: 600 }}>FAQ</div>
               <div style={{ fontFamily: pack.titleFont, fontSize: 13, marginBottom: 3 }}>O evento é adequado para menores?</div>
               <div style={{ fontFamily: pack.bodyFont, fontSize: 13, lineHeight: 1.7, color: "#d4c4f0" }}>Sim! O espetáculo é recomendado para todas as idades. Menores de 12 anos devem ser acompanhados por um adulto.</div>
             </div>
@@ -153,7 +153,7 @@ export default function FontTop10() {
             <div style={{ padding: "36px 40px", borderRadius: 8, background: "#F8F2FC" }}>
               <div style={{ fontSize: 8, letterSpacing: "0.4em", textTransform: "uppercase", color: "#9470C4", marginBottom: 20 }}>☀️ Claro</div>
 
-              <div style={{ fontFamily: pack.bodyFont, fontSize: 9, letterSpacing: "0.35em", textTransform: "uppercase", color: "#9333EA", marginBottom: 8, fontWeight: 600 }}>Tributo Musical</div>
+              <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 9, letterSpacing: "0.35em", textTransform: "uppercase", color: "#9333EA", marginBottom: 8, fontWeight: 600 }}>Tributo Musical</div>
               <div style={{ fontFamily: pack.titleFont, fontSize: 40, fontWeight: 200, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 6, color: "#1E1040" }}>O Honmoon Ganha Vida</div>
               <div style={{ fontFamily: pack.titleFont, fontSize: 17, fontWeight: 300, letterSpacing: "0.04em", marginBottom: 20, color: "#5B3E8A" }}>As Guerreiras Demon Hunters chegam a Portugal</div>
               <div style={{ fontFamily: pack.bodyFont, fontSize: 15, lineHeight: 1.8, marginBottom: 12, color: "#5B3E8A" }}>Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa.</div>
@@ -176,11 +176,11 @@ export default function FontTop10() {
 
               <div style={{ height: 1, background: "rgba(147,51,234,0.1)", margin: "20px 0" }} />
 
-              <div style={{ fontFamily: pack.bodyFont, fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "#9333EA", marginBottom: 6, fontWeight: 600 }}>Bilhetes</div>
+              <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "#9333EA", marginBottom: 6, fontWeight: 600 }}>Bilhetes</div>
               <div style={{ fontFamily: pack.titleFont, fontSize: 40, fontWeight: 200, letterSpacing: "-0.03em", marginBottom: 6, color: "#1E1040" }}>€25</div>
               <div style={{ fontFamily: pack.bodyFont, fontSize: 14, lineHeight: 1.7, color: "#5B3E8A", marginBottom: 16 }}>Bilhete geral com acesso a todas as zonas do evento.</div>
 
-              <div style={{ fontFamily: pack.bodyFont, fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "#9333EA", marginBottom: 8, fontWeight: 600 }}>FAQ</div>
+              <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "#9333EA", marginBottom: 8, fontWeight: 600 }}>FAQ</div>
               <div style={{ fontFamily: pack.titleFont, fontSize: 13, marginBottom: 3, color: "#1E1040" }}>O evento é adequado para menores?</div>
               <div style={{ fontFamily: pack.bodyFont, fontSize: 13, lineHeight: 1.7, color: "#5B3E8A" }}>Sim! O espetáculo é recomendado para todas as idades. Menores de 12 anos devem ser acompanhados por um adulto.</div>
             </div>
