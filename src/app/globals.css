@@ -2525,8 +2525,38 @@ html { scroll-behavior: smooth; }
   --t3: #8B6CB0;
   background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
 }
-/* Spotlights subtler on light bg */
-.light-mode .esp-spotlight { opacity: 0.4; }
+/* Spotlights — soft lavender curtains in light mode */
+.light-mode .esp-spotlight { opacity: 0.5; mix-blend-mode: normal; }
+.light-mode .esp-spotlight-left {
+  background: conic-gradient(
+    from 170deg at 50% 0%,
+    transparent 0deg,
+    rgba(180,160,220,0.08) 15deg,
+    rgba(180,160,220,0.14) 30deg,
+    rgba(160,140,200,0.08) 45deg,
+    transparent 60deg
+  );
+}
+.light-mode .esp-spotlight-center {
+  background: conic-gradient(
+    from 175deg at 50% 0%,
+    transparent 0deg,
+    rgba(180,160,220,0.10) 12deg,
+    rgba(190,170,230,0.16) 25deg,
+    rgba(180,160,220,0.08) 40deg,
+    transparent 55deg
+  );
+}
+.light-mode .esp-spotlight-right {
+  background: conic-gradient(
+    from 190deg at 50% 0%,
+    transparent 0deg,
+    rgba(160,140,200,0.08) 15deg,
+    rgba(160,140,200,0.12) 30deg,
+    rgba(180,160,220,0.06) 45deg,
+    transparent 60deg
+  );
+}
 /* Glow orbs softer */
 .light-mode .esp-glow-orb { opacity: 0.3; }
 /* Grid texture subtle */
