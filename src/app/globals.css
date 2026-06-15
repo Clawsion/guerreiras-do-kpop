@@ -2396,12 +2396,14 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 8px 40px rgba(147, 51, 234, 0.08), inset 0 1px 0 rgba(255,255,255,0.5);
 }
 
-/* Hamburger lines dark in light mode */
+/* Hamburger lines white in light mode for visibility */
 .light-mode .hamburger span {
-  background: var(--t1);
+  background: #fff;
+  box-shadow: 0 0 6px rgba(255,255,255,0.4);
 }
 .light-mode .hamburger.open span {
   background: var(--t1);
+  box-shadow: none;
 }
 
 /* Menu overlay — softer purple tint */
@@ -2832,8 +2834,12 @@ html { scroll-behavior: smooth; }
   cursor: pointer;
 }
 .hm-orb.dark:hover {
-  box-shadow: 0 0 40px rgba(200, 80, 255, 0.25), 0 0 80px rgba(200, 80, 255, 0.12), inset 0 0 25px rgba(200, 80, 255, 0.12);
-  border-color: rgba(200, 80, 255, 0.35);
+  box-shadow: 0 0 50px rgba(200, 80, 255, 0.35), 0 0 100px rgba(200, 80, 255, 0.15), inset 0 0 30px rgba(200, 80, 255, 0.15);
+  border-color: rgba(200, 80, 255, 0.5);
+  background: radial-gradient(circle at 45% 45%,
+    rgba(200, 80, 255, 0.15) 0%,
+    rgba(44, 21, 80, 0.35) 40%,
+    rgba(11, 8, 19, 0.5) 100%);
 }
 .hm-orb.light:hover {
   box-shadow:
@@ -2900,27 +2906,32 @@ html { scroll-behavior: smooth; }
 /* ═══ Hover hint — DESPERTAR / ADORMECER ═══ */
 .hm-hover-hint {
   position: absolute;
-  bottom: -28px;
+  bottom: -32px;
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--font-geist-mono);
-  font-size: 8px;
-  letter-spacing: 0.25em;
+  font-size: 9px;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
   opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.35s ease, transform 0.35s ease;
   pointer-events: none;
   z-index: 6;
   color: var(--t3);
 }
+.hm-orb.dark .hm-hover-hint {
+  color: var(--neon-purple);
+  text-shadow: 0 0 8px rgba(200,80,255,0.4), 0 0 16px rgba(200,80,255,0.15);
+}
 .hm-orb:hover .hm-hover-hint {
-  opacity: 0.9;
-  transform: translateX(-50%) translateY(-4px);
+  opacity: 1;
+  transform: translateX(-50%) translateY(-6px);
 }
 .hm-orb.light .hm-hover-hint {
-  color: var(--gold);
+  color: var(--gold-dim);
+  text-shadow: 0 0 8px rgba(245,158,11,0.35), 0 0 16px rgba(245,158,11,0.12);
 }
 
 /* ═══ ATIVO label ═══ */
