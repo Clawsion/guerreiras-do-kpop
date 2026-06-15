@@ -93,11 +93,11 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
   );
 });
 
-/* ═══ LED WALL VIDEO — single looping tunnel with color-sync reflections ═══ */
+/* ═══ LED WALL VIDEO — lightweight video + CSS color sync (no canvas readback) ═══ */
 
 const LED_TUNNEL_SRC = "/api/led-video";
 
-/* Color cycle for fallback glow sync (purple → violet → blue) */
+/* Color palette for glow sync — matches the tunnel's purple/blue/cyan cycle */
 const TUNNEL_COLORS: Array<[number, number, number]> = [
   [170, 40, 255],   // deep purple
   [195, 55, 235],   // violet
@@ -111,23 +111,22 @@ const TUNNEL_COLORS: Array<[number, number, number]> = [
 
 function LedWallVideo({ active }: { active: boolean }) {
   const vidRef = useRef<HTMLVideoElement>(null);
-  const sampleCanvas = useRef<HTMLCanvasElement>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
   const startedRef = useRef(false);
-  const rafRef = useRef(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const activeRef = useRef(false);
-  const lastSyncRef = useRef(0);
-  const tabHiddenRef = useRef(false);
   const [on, setOn] = useState(false);
 
-  /* Pause video & sampling when tab is hidden — huge CPU/GPU savings */
+  /* Pause video when tab is hidden — saves CPU/GPU */
   useEffect(() => {
     const onVis = () => {
-      tabHiddenRef.current = document.hidden;
       const v = vidRef.current;
       if (!v) return;
-      if (document.hidden) { v.pause(); }
-      else if (startedRef.current && activeRef.current) { v.play().catch(() => {}); }
+      if (document.hidden) {
+        v.pause();
+      } else if (startedRef.current && activeRef.current) {
+        v.play().catch(() => {});
+      }
     };
     document.addEventListener("visibilitychange", onVis);
     return () => document.removeEventListener("visibilitychange", onVis);
@@ -149,83 +148,31 @@ function LedWallVideo({ active }: { active: boolean }) {
     }
   }, [active]);
 
-  /* Color sampler — reads dominant color from video and syncs glow */
+  /* Color sync via setInterval (300ms) — NO canvas, NO rAF, NO GPU readback */
   useEffect(() => {
-    const canvas = sampleCanvas.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d", { willReadFrequently: true });
-    if (!ctx) return;
+    if (!active) return;
 
-    sectionRef.current = canvas.closest(".manifesto-section") as HTMLElement;
-
-    let lastSampleTime = 0;
-    function sample() {
-      /* Stop loop entirely when not active or tab hidden — saves CPU/GPU */
-      if (!startedRef.current || !activeRef.current || tabHiddenRef.current) {
-        rafRef.current = requestAnimationFrame(sample);
-        return;
-      }
-
-      /* Throttle to ~15fps (66ms between samples) instead of 60fps */
-      const nowMs = performance.now();
-      if (nowMs - lastSampleTime < 66) {
-        rafRef.current = requestAnimationFrame(sample);
-        return;
-      }
-      lastSampleTime = nowMs;
-
-      const now = nowMs / 1000;
-      const vid = vidRef.current;
-
-      let synced = false;
-      if (vid && vid.readyState >= 2) {
-        try {
-          canvas.width = 40;
-          canvas.height = 22;
-          ctx!.drawImage(vid, 0, 0, 40, 22);
-          const data = ctx!.getImageData(10, 5, 20, 12).data;
-          let r = 0, g = 0, b = 0, n = 0;
-          for (let i = 0; i < data.length; i += 4) {
-            if (data[i] + data[i+1] + data[i+2] > 40) {
-              r += data[i]; g += data[i+1]; b += data[i+2]; n++;
-            }
-          }
-          if (n > 0) {
-            r = Math.round(r / n); g = Math.round(g / n); b = Math.round(b / n);
-            const el = sectionRef.current;
-            if (el && now - lastSyncRef.current > 0.15) {
-              lastSyncRef.current = now;
-              el.style.setProperty("--led-r", `${r}`);
-              el.style.setProperty("--led-g", `${g}`);
-              el.style.setProperty("--led-b", `${b}`);
-            }
-            synced = true;
-          }
-        } catch { /* tainted canvas fallback below */ }
-      }
-
-      /* Fallback: cycle through tunnel color palette */
-      if (!synced && now - lastSyncRef.current > 0.3) {
-        lastSyncRef.current = now;
-        const idx = Math.floor(now / 3) % TUNNEL_COLORS.length;
-        const [r, g, b] = TUNNEL_COLORS[idx];
-        const el = sectionRef.current;
-        if (el) {
-          el.style.setProperty("--led-r", `${r}`);
-          el.style.setProperty("--led-g", `${g}`);
-          el.style.setProperty("--led-b", `${b}`);
-        }
-      }
-
-      rafRef.current = requestAnimationFrame(sample);
+    /* Find the section element once */
+    const vid = vidRef.current;
+    if (vid && !sectionRef.current) {
+      sectionRef.current = vid.closest(".manifesto-section") as HTMLElement;
     }
 
-    /* Only start loop when active, restart when re-activated */
-    if (startedRef.current && activeRef.current) {
-      rafRef.current = requestAnimationFrame(sample);
-    }
+    /* Cycle through the color palette every 300ms — zero GPU work */
+    intervalRef.current = setInterval(() => {
+      if (document.hidden) return; // skip when tab hidden
+      const el = sectionRef.current;
+      if (!el) return;
+      const idx = Math.floor(Date.now() / 3000) % TUNNEL_COLORS.length;
+      const [r, g, b] = TUNNEL_COLORS[idx];
+      el.style.setProperty("--led-r", `${r}`);
+      el.style.setProperty("--led-g", `${g}`);
+      el.style.setProperty("--led-b", `${b}`);
+    }, 300);
 
-    return () => cancelAnimationFrame(rafRef.current);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, [active]);
 
   return (
@@ -240,7 +187,6 @@ function LedWallVideo({ active }: { active: boolean }) {
         preload={active ? "auto" : "none"}
         style={{ opacity: on ? 1 : 0 }}
       />
-      <canvas ref={sampleCanvas} style={{ display: "none" }} />
     </div>
   );
 }
