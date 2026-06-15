@@ -369,6 +369,7 @@ export default function HomePage() {
   const [themeMode, setThemeMode] = useState<'dark' | 'light'>('dark');
   const [burstKey, setBurstKey] = useState(0);
   const [ripple, setRipple] = useState<{active:boolean; x:number; y:number; toMode:'dark'|'light'}|null>(null);
+  const [waveActive, setWaveActive] = useState(false);
   const orbRef = useRef<HTMLDivElement>(null);
   const { ref: manifestoRef, visible: manifestoVisible } = useReveal();
 
@@ -422,7 +423,7 @@ export default function HomePage() {
 
       {/* ═══ MAIN CONTENT — always visible, transparent bg during transition ═══ */}
       <div
-        className={`min-h-screen flex flex-col relative z-10 ${themeMode === 'light' ? 'light-mode' : ''}`}
+        className={`min-h-screen flex flex-col relative z-10 ${themeMode === 'light' ? 'light-mode' : ''} ${waveActive ? 'wave-transition' : ''}`}
         style={{background: ripple?.active ? 'transparent' : 'var(--deep)'}}
       >
 
@@ -611,14 +612,39 @@ export default function HomePage() {
             const orb = orbRef.current;
             if (!orb) return;
             const rect = orb.getBoundingClientRect();
-            const x = ((rect.left + rect.width / 2) / window.innerWidth) * 100;
-            const y = ((rect.top + rect.height / 2) / window.innerHeight) * 100;
+            const orbCX = rect.left + rect.width / 2;
+            const orbCY = rect.top + rect.height / 2;
+            const x = (orbCX / window.innerWidth) * 100;
+            const y = (orbCY / window.innerHeight) * 100;
             const toMode = themeMode === 'dark' ? 'light' as const : 'dark' as const;
             setRipple({ active: true, x, y, toMode });
             setBurstKey(k => k + 1);
-            // Both directions expand — switch theme when fill covers the screen (~55% of 1.5s)
-            setTimeout(() => { toggleTheme(); }, 750);
-            setTimeout(() => { setRipple(null); }, 1600);
+            setWaveActive(true);
+
+            // ─── Wave delay: sections closer to orb change first ───
+            const maxDist = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);
+            const allSections = document.querySelectorAll('section, header, footer, nav, .fixed.bottom-0');
+            allSections.forEach(el => {
+              const r = el.getBoundingClientRect();
+              const cx = r.left + r.width / 2;
+              const cy = r.top + r.height / 2;
+              const dist = Math.sqrt((orbCX - cx) ** 2 + (orbCY - cy) ** 2);
+              const normalized = dist / maxDist;
+              // 0ms near orb → 700ms far from orb
+              const delay = Math.round(normalized * 700);
+              (el as HTMLElement).style.setProperty('--wave-delay', `${delay}ms`);
+            });
+
+            // Switch theme when clip-path covers viewport (~50% of 1.5s)
+            setTimeout(() => { toggleTheme(); }, 650);
+            // Clean up wave delays + remove ripple
+            setTimeout(() => {
+              setRipple(null);
+              setWaveActive(false);
+              allSections.forEach(el => {
+                (el as HTMLElement).style.removeProperty('--wave-delay');
+              });
+            }, 2200);
           }}
           role="button"
           title={themeMode === 'dark' ? 'Toca para despertar o Honmoon' : 'Toca para adormecer o Honmoon'}

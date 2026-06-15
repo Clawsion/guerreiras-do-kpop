@@ -2376,13 +2376,16 @@ html { scroll-behavior: smooth; }
 
 /* ═══ LIGHT MODE OVERRIDES ═══ */
 
-/* Smooth transition on themed elements — exclude animation-critical elements */
+/* Smooth transition on themed elements — wave-delay creates ripple effect */
+/* Applied to BOTH directions so wave-delay works dark→light AND light→dark */
 .light-mode,
-.light-mode *:not(.dc-anim):not(.dc-neon-sweep):not(.dc-img):not(.dc-layer) {
-  transition: background-color 0.8s cubic-bezier(0.16,1,0.3,1),
-              color 0.8s cubic-bezier(0.16,1,0.3,1),
-              border-color 0.8s cubic-bezier(0.16,1,0.3,1),
-              box-shadow 0.8s cubic-bezier(0.16,1,0.3,1);
+.light-mode *:not(.dc-anim):not(.dc-neon-sweep):not(.dc-img):not(.dc-layer):not(.hm-shimmer-ring):not(.hm-ripple-bg),
+:not(.light-mode).wave-transition,
+:not(.light-mode).wave-transition *:not(.dc-anim):not(.dc-neon-sweep):not(.dc-img):not(.dc-layer):not(.hm-shimmer-ring):not(.hm-ripple-bg) {
+  transition: background-color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
+              color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
+              border-color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
+              box-shadow 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms);
 }
 
 /* Glass becomes white translucent in light mode */
@@ -3186,7 +3189,7 @@ html { scroll-behavior: smooth; }
   100% { clip-path: circle(150% at var(--rx, 50%) var(--ry, 50%)); }
 }
 
-/* ═══ SHIMMER RINGS — subtle glow wave that passes over content ═══ */
+/* ═══ SHIMMER RINGS — prominent wave like a splash in water ═══ */
 .hm-ripple-shimmer-layer {
   position: fixed;
   inset: 0;
@@ -3204,50 +3207,50 @@ html { scroll-behavior: smooth; }
   pointer-events: none;
 }
 
-/* Awaken shimmer — warm golden light */
+/* Awaken shimmer — warm golden sunbeams */
 .hm-shimmer-ring-1.awaken {
-  border: 2px solid rgba(255, 240, 170, 0.3);
-  box-shadow: 0 0 40px rgba(255, 240, 170, 0.12);
+  border: 3px solid rgba(255, 240, 170, 0.55);
+  box-shadow: 0 0 60px rgba(255, 240, 170, 0.25), 0 0 120px rgba(255, 240, 170, 0.1), inset 0 0 40px rgba(255, 240, 170, 0.08);
   transform: translate(-50%, -50%) scale(0);
-  animation: shimmerExpand 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s forwards;
+  animation: shimmerExpand 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s forwards;
 }
 .hm-shimmer-ring-2.awaken {
-  border: 1.5px solid rgba(245, 200, 100, 0.2);
-  box-shadow: 0 0 25px rgba(245, 200, 100, 0.08);
+  border: 2.5px solid rgba(255, 220, 120, 0.4);
+  box-shadow: 0 0 45px rgba(255, 220, 120, 0.18), 0 0 90px rgba(255, 220, 120, 0.06), inset 0 0 30px rgba(255, 220, 120, 0.05);
   transform: translate(-50%, -50%) scale(0);
-  animation: shimmerExpand 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.12s forwards;
+  animation: shimmerExpand 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.12s forwards;
 }
 .hm-shimmer-ring-3.awaken {
-  border: 1px solid rgba(236, 180, 220, 0.15);
-  box-shadow: 0 0 18px rgba(236, 180, 220, 0.06);
+  border: 2px solid rgba(245, 200, 100, 0.3);
+  box-shadow: 0 0 35px rgba(245, 200, 100, 0.12), 0 0 70px rgba(245, 200, 100, 0.04), inset 0 0 20px rgba(245, 200, 100, 0.03);
   transform: translate(-50%, -50%) scale(0);
-  animation: shimmerExpand 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.24s forwards;
+  animation: shimmerExpand 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.24s forwards;
 }
 
-/* Dormant shimmer — deep purple shadow */
+/* Dormant shimmer — deep purple shadow wave */
 .hm-shimmer-ring-1.dormant {
-  border: 2px solid rgba(140, 60, 220, 0.25);
-  box-shadow: 0 0 35px rgba(140, 60, 220, 0.1);
+  border: 3px solid rgba(160, 80, 240, 0.5);
+  box-shadow: 0 0 55px rgba(160, 80, 240, 0.2), 0 0 110px rgba(120, 50, 200, 0.08), inset 0 0 35px rgba(140, 60, 220, 0.06);
   transform: translate(-50%, -50%) scale(0);
-  animation: shimmerExpand 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s forwards;
+  animation: shimmerExpand 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s forwards;
 }
 .hm-shimmer-ring-2.dormant {
-  border: 1.5px solid rgba(100, 40, 180, 0.18);
-  box-shadow: 0 0 22px rgba(100, 40, 180, 0.07);
+  border: 2.5px solid rgba(120, 50, 200, 0.35);
+  box-shadow: 0 0 40px rgba(120, 50, 200, 0.15), 0 0 80px rgba(100, 40, 180, 0.05), inset 0 0 25px rgba(110, 45, 190, 0.04);
   transform: translate(-50%, -50%) scale(0);
-  animation: shimmerExpand 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.12s forwards;
+  animation: shimmerExpand 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.12s forwards;
 }
 .hm-shimmer-ring-3.dormant {
-  border: 1px solid rgba(60, 30, 120, 0.12);
-  box-shadow: 0 0 14px rgba(60, 30, 120, 0.04);
+  border: 2px solid rgba(80, 40, 160, 0.25);
+  box-shadow: 0 0 30px rgba(80, 40, 160, 0.1), 0 0 60px rgba(60, 30, 130, 0.03), inset 0 0 18px rgba(70, 35, 140, 0.03);
   transform: translate(-50%, -50%) scale(0);
-  animation: shimmerExpand 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.24s forwards;
+  animation: shimmerExpand 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.24s forwards;
 }
 
 @keyframes shimmerExpand {
-  0%   { transform: translate(-50%, -50%) scale(0); opacity: 0.7; }
-  50%  { opacity: 0.4; }
-  100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0; }
+  0%   { transform: translate(-50%, -50%) scale(0); opacity: 0.9; }
+  30%  { opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0; }
 }
 
 /* Mini Honmoon in nav */
