@@ -409,27 +409,36 @@ export default function HomePage() {
   ];
 
   return (
-    <div className={`min-h-screen flex flex-col ${themeMode === 'light' ? 'light-mode' : ''}`} style={{background:"var(--deep)"}}>
-
-      {/* ═══ RIPPLE TRANSITION — expanding circle from Honmoon ═══ */}
+    <>
+      {/* ═══ RIPPLE BG LAYER — new theme background spreads from orb via clip-path ═══ */}
       {ripple?.active && (
-        <div className="hm-ripple-container">
-          {/* Wave rings — travel ahead of the fill like water ripples */}
+        <div className="hm-ripple-bg-layer">
           <div
-            className={`hm-ripple-ring hm-ripple-ring-1 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
+            className={`hm-ripple-bg ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
+            style={{'--rx': `${ripple.x}%`, '--ry': `${ripple.y}%`} as React.CSSProperties}
+          />
+        </div>
+      )}
+
+      {/* ═══ MAIN CONTENT — always visible, transparent bg during transition ═══ */}
+      <div
+        className={`min-h-screen flex flex-col relative z-10 ${themeMode === 'light' ? 'light-mode' : ''}`}
+        style={{background: ripple?.active ? 'transparent' : 'var(--deep)'}}
+      >
+
+      {/* ═══ RIPPLE SHIMMER — subtle wave glow that passes over content ═══ */}
+      {ripple?.active && (
+        <div className="hm-ripple-shimmer-layer">
+          <div
+            className={`hm-shimmer-ring hm-shimmer-ring-1 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
             style={{left:`${ripple.x}%`, top:`${ripple.y}%`}}
           />
           <div
-            className={`hm-ripple-ring hm-ripple-ring-2 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
+            className={`hm-shimmer-ring hm-shimmer-ring-2 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
             style={{left:`${ripple.x}%`, top:`${ripple.y}%`}}
           />
           <div
-            className={`hm-ripple-ring hm-ripple-ring-3 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
-            style={{left:`${ripple.x}%`, top:`${ripple.y}%`}}
-          />
-          {/* Main fill — light expanding or shrinking */}
-          <div
-            className={`hm-ripple-fill ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
+            className={`hm-shimmer-ring hm-shimmer-ring-3 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
             style={{left:`${ripple.x}%`, top:`${ripple.y}%`}}
           />
         </div>
@@ -1157,5 +1166,6 @@ export default function HomePage() {
         </a>
       </div>
     </div>
+    </>
   );
 }
