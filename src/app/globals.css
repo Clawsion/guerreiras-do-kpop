@@ -566,7 +566,11 @@ html { scroll-behavior: smooth; }
   transition: opacity 1.5s ease-out;
   /* Brightness & vibrancy boost for LED wall punch */
   filter: brightness(1.3) saturate(1.25) contrast(1.1);
+  /* Smooth upscaling — bilinear interpolation hides pixel boundaries */
   image-rendering: auto;
+  /* GPU compositing for smooth video decode */
+  will-change: opacity;
+  contain: layout style;
 }
 
 /* LED power flash — enhanced with suspense timing */
@@ -876,11 +880,8 @@ html { scroll-behavior: smooth; }
     0 0 100px rgba(200,80,255,0.15),
     0 0 160px rgba(129,140,248,0.08),
     0 10px 40px rgba(11,8,19,0.8);
-  contain: strict;
+  contain: layout style;
 }
-
-
-/* LED power-on flash now in suspense section above */
 
 /* ═══ Scanlines — very subtle, barely visible ═══ */
 .led-scanlines {
