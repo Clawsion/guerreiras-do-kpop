@@ -403,9 +403,7 @@ export default function HomePage() {
         <div className="hero-glow-orb" style={{width:"25vw",height:"25vw",right:"10%",top:"55%",color:"rgba(74,144,226,0.10)",animationDelay:"3s"}}/>
         <div className="hero-glow-orb" style={{width:"20vw",height:"20vw",left:"5%",bottom:"20%",color:"rgba(255,45,120,0.08)",animationDelay:"6s"}}/>
 
-        {/* Side decorative lines */}
-        <div className="hero-side-line hidden sm:block" style={{left:"5%",top:"15%",height:"30%"}}/>
-        <div className="hero-side-line hidden sm:block" style={{right:"5%",top:"25%",height:"25%"}}/>
+
 
         {/* ═══ HAMBURGER NAV — pinned at top of hero ═══ */}
         <nav className="absolute top-0 inset-x-0 z-[95] py-6" style={{background:"transparent"}}>
@@ -420,14 +418,26 @@ export default function HomePage() {
               <span />
               <span />
             </button>
-            {/* RIGHT: Mini Honmoon Toggle */}
-            <button
-              className="mini-honmoon-toggle"
-              onClick={toggleTheme}
-              aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
-            >
-              <span className={`mini-honmoon-orb ${themeMode}`}/>
-            </button>
+            {/* RIGHT: Ticket + Theme Toggle */}
+            <div className="flex items-center gap-5">
+              <a
+                href={TL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-ticket-nav group relative"
+                title="Compra na Ticketline"
+              >
+                <Ticket className="w-[18px] h-[18px] transition-all duration-300" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as SVGElement).style.color="var(--neon-purple)";(e.currentTarget as SVGElement).style.filter="drop-shadow(0 0 8px rgba(200,80,255,0.5))"}} onMouseLeave={e=>{(e.currentTarget as SVGElement).style.color="var(--t3)";(e.currentTarget as SVGElement).style.filter="none"}}/>
+                <span className="hero-ticket-tooltip">Compra na Ticketline</span>
+              </a>
+              <button
+                className="mini-honmoon-toggle"
+                onClick={toggleTheme}
+                aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
+              >
+                <span className={`mini-honmoon-orb ${themeMode}`}/>
+              </button>
+            </div>
           </div>
         </nav>
 
@@ -474,20 +484,21 @@ export default function HomePage() {
           <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
         </div>
 
-        {/* ═══ HERO CTA — temporarily hidden, re-enable when ready ═══ */}
-        {/* <a
-          href={TL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hero-cta"
-          style={{marginBottom:"10vh"}}
-        >
-          <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
-        </a> */}
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-          <div className="scroll-line"/>
+        {/* ═══ HERO BOTTOM — Countdown + CTA ═══ */}
+        <div className="absolute bottom-0 inset-x-0 z-10 flex flex-col items-center pb-10 sm:pb-14">
+          <div className="hero-countdown-wrap">
+            <Countdown />
+          </div>
+          <a
+            href="#concertos"
+            className="hero-cta"
+            onClick={e => { e.preventDefault(); document.getElementById('concertos')?.scrollIntoView({ behavior: 'smooth' }); }}
+          >
+            Garante o Teu Lugar <ChevronRight className="w-3.5 h-3.5"/>
+          </a>
+          <p className="text-[11px] tracking-[0.2em] mt-4 uppercase" style={{color:"var(--t3)"}}>
+            Pr&oacute;ximo: 18 JUL &middot; Estoril &middot; 18:30h
+          </p>
         </div>
       </section>
 
