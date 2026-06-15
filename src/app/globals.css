@@ -8,6 +8,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-body: var(--font-plus-jakarta);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -115,8 +116,17 @@
 
 @layer base {
   * { @apply border-border outline-ring/50; }
-  body { @apply bg-background text-foreground; }
+  body { @apply bg-background text-foreground; font-family: var(--font-body), 'Plus Jakarta Sans', sans-serif; }
 }
+
+/* ═══ FONT HIERARCHY — Pack 1: Honmoon Blade ═══ */
+/* Titles:    Geist Sans (via --font-geist-sans / font-sans)   */
+/* Body:      Plus Jakarta Sans (via --font-body)               */
+/* Labels:    Geist Mono (via --font-geist-mono / font-mono)    */
+/* Numbers:   Geist Mono                                        */
+.font-title   { font-family: var(--font-geist-sans), sans-serif; }
+.font-body    { font-family: var(--font-body), 'Plus Jakarta Sans', sans-serif; }
+.font-label   { font-family: var(--font-geist-mono), monospace; }
 
 html { scroll-behavior: smooth; }
 
@@ -1326,6 +1336,7 @@ html { scroll-behavior: smooth; }
   padding: 0.4rem 1.2rem;
   border: 1px solid rgba(200,80,255,0.2);
   border-radius: 999px;
+  font-family: var(--font-geist-mono);
   font-size: 10px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -1420,15 +1431,16 @@ html { scroll-behavior: smooth; }
   font-family: var(--font-geist-mono);
   font-size: 34px;
   font-weight: 200;
-  color: #fff;
+  color: var(--neon-purple);
   letter-spacing: -0.03em;
   line-height: 1;
-  text-shadow: 0 0 24px rgba(200,80,255,0.4), 0 0 60px rgba(200,80,255,0.1);
+  text-shadow: 0 0 24px rgba(200,80,255,0.6), 0 0 60px rgba(200,80,255,0.2);
   margin-top: 22px;
   position: relative;
   z-index: 2;
 }
 .hero-seal-label {
+  font-family: var(--font-geist-mono);
   font-size: 8px;
   letter-spacing: 0.35em;
   text-transform: uppercase;
@@ -1454,6 +1466,7 @@ html { scroll-behavior: smooth; }
 
 /* Date line below CTA */
 .hero-date-line {
+  font-family: var(--font-geist-mono);
   font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
