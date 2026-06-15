@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
+import LedWallShader from "@/components/LedWallShader";
 import {
   Ticket, MapPin, Clock, Instagram, Youtube, Music2,
   ExternalLink, Send, ChevronRight, ArrowUpRight, Phone, Mail, Facebook,
@@ -93,103 +94,8 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
   );
 });
 
-/* ═══ LED WALL VIDEO — lightweight video + CSS color sync (no canvas readback) ═══ */
-
-/* Build: 2026-06-16-v9 */ const LED_TUNNEL_SRC = "/videos/led-tunnel.mp4";
-
-/* Color palette for glow sync — matches the tunnel's purple/blue/cyan cycle */
-const TUNNEL_COLORS: Array<[number, number, number]> = [
-  [170, 40, 255],   // deep purple
-  [195, 55, 235],   // violet
-  [245, 70, 210],   // neon purple
-  [165, 120, 248],  // blue-violet
-  [80, 160, 230],   // electric blue
-  [75, 195, 210],   // light blue
-  [165, 120, 248],  // blue-violet
-  [245, 70, 210],   // neon purple
-];
-
-function LedWallVideo({ active }: { active: boolean }) {
-  const vidRef = useRef<HTMLVideoElement>(null);
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const startedRef = useRef(false);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const activeRef = useRef(false);
-  const [on, setOn] = useState(false);
-
-  /* Pause video when tab is hidden — saves CPU/GPU */
-  useEffect(() => {
-    const onVis = () => {
-      const v = vidRef.current;
-      if (!v) return;
-      if (document.hidden) {
-        v.pause();
-      } else if (startedRef.current && activeRef.current) {
-        v.play().catch(() => {});
-      }
-    };
-    document.addEventListener("visibilitychange", onVis);
-    return () => document.removeEventListener("visibilitychange", onVis);
-  }, []);
-
-  /* Start video after power-on delay */
-  useEffect(() => {
-    activeRef.current = active;
-    if (active && !startedRef.current) {
-      const t = setTimeout(() => {
-        startedRef.current = true;
-        setOn(true);
-        const v = vidRef.current;
-        if (v && !document.hidden) {
-          v.play().catch(() => {});
-        }
-      }, 1800);
-      return () => clearTimeout(t);
-    }
-  }, [active]);
-
-  /* Color sync via setInterval (300ms) — NO canvas, NO rAF, NO GPU readback */
-  useEffect(() => {
-    if (!active) return;
-
-    /* Find the section element once */
-    const vid = vidRef.current;
-    if (vid && !sectionRef.current) {
-      sectionRef.current = vid.closest(".manifesto-section") as HTMLElement;
-    }
-
-    /* Cycle through the color palette every 300ms — zero GPU work */
-    intervalRef.current = setInterval(() => {
-      if (document.hidden) return; // skip when tab hidden
-      const el = sectionRef.current;
-      if (!el) return;
-      const idx = Math.floor(Date.now() / 3000) % TUNNEL_COLORS.length;
-      const [r, g, b] = TUNNEL_COLORS[idx];
-      el.style.setProperty("--led-r", `${r}`);
-      el.style.setProperty("--led-g", `${g}`);
-      el.style.setProperty("--led-b", `${b}`);
-    }, 300);
-
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [active]);
-
-  return (
-    <div className="led-video-container">
-      <video
-        ref={vidRef}
-        className="led-video-layer"
-        src={LED_TUNNEL_SRC}
-        muted
-        loop
-        playsInline
-        preload={active ? "auto" : "none"}
-        style={{ opacity: on ? 1 : 0 }}
-      />
-    </div>
-  );
-}
+/* ═══ LED WALL — WebGL Shader (zero compression, max quality, infinite loop) ═══ */
+/* Build: 2026-06-16-v10 */
 
 /* ═══ IDENTIDADE DUAL — Character → Performer Card ═══ */
 
@@ -757,7 +663,7 @@ export default function HomePage() {
 
               {/* LED Wall screen */}
               <div className="led-wall-screen">
-                <LedWallVideo active={manifestoVisible}/>
+                <LedWallShader active={manifestoVisible}/>
               </div>
 
               <div className="led-frame-top"/>
