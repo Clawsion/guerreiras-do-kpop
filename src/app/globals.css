@@ -218,6 +218,11 @@ html { scroll-behavior: smooth; }
 .tk:hover { transform:translateY(-6px); box-shadow: 0 24px 60px rgba(11,8,19,0.5), 0 0 50px rgba(200,80,255,0.08); }
 
 /* ═══ PRELOADER — Honmoon Awakening ═══ */
+@property --preloader-pct {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
 .preloader-honmoon {
   position: fixed;
   inset: 0;
@@ -261,6 +266,11 @@ html { scroll-behavior: smooth; }
   justify-content: center;
   padding-top: 38px;
   gap: 1px;
+  animation: preloader-count 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  counter-reset: pct var(--preloader-pct);
+}
+.preloader-pct::after {
+  content: counter(pct);
 }
 .preloader-pct {
   font-family: var(--font-geist-mono);
@@ -295,6 +305,10 @@ html { scroll-behavior: smooth; }
 @keyframes preloader-ring-fill {
   from { stroke-dashoffset: 326.73; }
   to { stroke-dashoffset: 0; }
+}
+@keyframes preloader-count {
+  from { --preloader-pct: 0; }
+  to { --preloader-pct: 100; }
 }
 @keyframes preloader-pulse-glow {
   0%, 100% { filter: brightness(1); }

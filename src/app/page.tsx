@@ -365,7 +365,7 @@ export default function HomePage() {
             <circle className="preloader-ring-fill" cx="60" cy="60" r="52" fill="none" stroke="var(--neon-purple)" strokeWidth="1.5" strokeLinecap="round"/>
           </svg>
           <div className="preloader-center">
-            <span className="preloader-pct">100</span>
+            <span className="preloader-pct"></span>
             <span className="preloader-pct-label">%</span>
           </div>
         </div>
