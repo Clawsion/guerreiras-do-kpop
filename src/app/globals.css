@@ -2511,12 +2511,31 @@ html { scroll-behavior: smooth; }
   background: linear-gradient(to top, rgba(20,12,40,0.95) 5%, rgba(30,18,55,0.8) 45%, transparent 100%);
 }
 
-/* Photo placeholders — dark to match the portal aesthetic */
+/* ═══ Tributo Ao Vivo — lavender daylight, clean and elegant ═══ */
+.light-mode .espetaculo-section {
+  --t1: #1E1040;
+  --t2: #5B3E8A;
+  --t3: #8B6CB0;
+  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
+}
+/* Spotlights subtler on light bg */
+.light-mode .esp-spotlight { opacity: 0.4; }
+/* Glow orbs softer */
+.light-mode .esp-glow-orb { opacity: 0.3; }
+/* Grid texture subtle */
+.light-mode .esp-grid-texture { opacity: 0.3; }
+/* Vignette softer */
+.light-mode .esp-vignette {
+  background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(210,190,235,0.2) 100%);
+}
+/* Photo grid — white/cream */
 .light-mode .esp-photo-placeholder {
-  background: linear-gradient(135deg, rgba(45,27,105,0.8) 0%, rgba(26,14,46,0.9) 100%);
+  background: linear-gradient(135deg, rgba(240,232,255,0.8) 0%, rgba(255,245,248,0.9) 100%);
 }
 .light-mode .esp-photo-grid {
-  background: #1a0e2e;
+  background: rgba(255,255,255,0.6);
+  border-color: rgba(147, 51, 234, 0.1);
+  box-shadow: 0 8px 40px rgba(147, 51, 234, 0.08);
 }
 
 /* Concert cards */
@@ -2528,10 +2547,10 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 16px 48px rgba(147, 51, 234, 0.08), 0 0 30px rgba(236, 72, 153, 0.06);
 }
 
-/* Lineup cards — dark to match portal */
+/* Lineup cards — soft lavender to match */
 .light-mode .esp-photo-slot {
-  background: linear-gradient(135deg, rgba(45,27,105,0.9) 0%, rgba(26,14,46,0.95) 100%);
-  border-color: rgba(147, 51, 234, 0.15);
+  background: linear-gradient(135deg, rgba(240,232,255,0.9) 0%, rgba(255,245,248,0.95) 100%);
+  border-color: rgba(147, 51, 234, 0.12);
 }
 
 /* Ticket cards */
