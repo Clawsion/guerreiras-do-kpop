@@ -19,39 +19,42 @@ type Tier = "high" | "mid" | "low";
 
 function detectTier(): Tier {
   if (typeof window === "undefined") return "mid";
-  const ua = navigator.userAgent;
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
-  const isOldMobile = /Android [4-7]|iPhone OS [8-12]|iPad.*CPU OS [8-12]/i.test(ua);
-  if (isOldMobile) return "low";
-
-  // Check GPU via WebGL debug info
   try {
+    const ua = navigator.userAgent || "";
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
+    // Old mobile OS — use non-character-class patterns to avoid regex range errors
+    const isOldMobile = /Android [4-7]/i.test(ua) || /iPhone OS [89]|iPhone OS 1[0-2]/i.test(ua) || /iPad.*CPU OS [89]|iPad.*CPU OS 1[0-2]/i.test(ua);
+    if (isOldMobile) return "low";
+
+    // Check GPU via WebGL debug info
     const c = document.createElement("canvas");
     const gl = c.getContext("webgl");
     if (!gl) return "low";
     const ext = gl.getExtension("WEBGL_debug_renderer_info");
     if (ext) {
-      const renderer = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL).toLowerCase();
+      const renderer = String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)).toLowerCase();
       // Known weak GPUs
-      if (/mali-[gt4]|adreno [3-5][0-9]{2}|powervr sgx|intel.*hd graphics [2-4]\d{3}|apple gpu/i.test(renderer)) {
+      if (/mali-[gt4]/i.test(renderer) || /adreno [3-5]\d\d/i.test(renderer) || /powervr sgx/i.test(renderer) || /hd graphics [2-4]\d\d\d/i.test(renderer)) {
         return isMobile ? "low" : "mid";
       }
     }
     // Max texture size as rough proxy for GPU capability
     const maxTex = gl.getParameter(gl.MAX_TEXTURE_SIZE);
     if (maxTex < 4096) return "low";
-  } catch { /* ignore */ }
 
-  // Memory heuristic
-  const nav = navigator as any;
-  if (nav.deviceMemory && nav.deviceMemory <= 2) return "low";
-  if (nav.deviceMemory && nav.deviceMemory <= 4 && isMobile) return "mid";
+    // Memory heuristic
+    const nav = navigator as any;
+    if (nav.deviceMemory && nav.deviceMemory <= 2) return "low";
+    if (nav.deviceMemory && nav.deviceMemory <= 4 && isMobile) return "mid";
 
-  // Hardware concurrency
-  if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) return "low";
-  if (isMobile) return "mid";
+    // Hardware concurrency
+    if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) return "low";
+    if (isMobile) return "mid";
 
-  return "high";
+    return "high";
+  } catch {
+    return "mid";
+  }
 }
 
 /* ── Tier Configuration ── */
