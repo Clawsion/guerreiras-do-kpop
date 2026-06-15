@@ -4648,3 +4648,47 @@ section#concertos {
     right: 4px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ PERFORMANCE — prefers-reduced-motion ═════════════════════ */
+/* ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .marquee-track { animation: none !important; }
+  .led-video-layer { display: none !important; }
+  .hm-particle, .honmoon-particle { display: none !important; }
+  .hm-ring, .hm-neon-circle, .hm-neon-arc { display: none !important; }
+  .honmoon-shield { display: none !important; }
+  .demon-markings { display: none !important; }
+  .soul-particle-site { display: none !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ PERFORMANCE — Mobile GPU savings ═════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+  /* Hide expensive decorative elements on mobile */
+  .hm-ring-3 { display: none; }
+  .hm-neon-circle-3, .hm-neon-circle-4 { display: none; }
+  .hm-neon-arc-2, .hm-neon-arc-3 { display: none; }
+  .demon-markings { display: none; }
+
+  /* Reduce paint on temple ornaments */
+  .pillar-ornament { opacity: 0.5; }
+
+  /* Simpler shadows on mobile */
+  .concert-card { box-shadow: none !important; }
+  .glass { backdrop-filter: none; }
+  .glass-neon { backdrop-filter: none; }
+}
+
+/* ═══ Animation state — paused when tab hidden ═══ */
+:root {
+  --anim-state: running;
+}

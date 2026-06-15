@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Guerreiras do K-Pop" }],
   icons: {
-    icon: "/poster.png",
+    icon: "/poster.webp",
   },
   openGraph: {
     title: "Guerreiras do K-Pop | Tributo Musical em Tour",

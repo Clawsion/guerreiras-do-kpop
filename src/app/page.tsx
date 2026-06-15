@@ -20,6 +20,11 @@ import { Input } from "@/components/ui/input";
 const TL = "https://www.ticketline.pt";
 const EVENT = new Date("2026-07-18T18:30:00");
 
+/* ── Device detection for adaptive performance ── */
+const IS_MOBILE = typeof window !== "undefined" && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+const SHIELD_PARTICLES = IS_MOBILE ? 6 : 12;
+const CHARGER_PARTICLES = IS_MOBILE ? 4 : 8;
+
 const CONCERTS = [
   { day: "18", month: "JUL 2026", venue: "Academia das Artes do Estoril", city: "Cascais", time: "Portas 18:30h", url: TL, next: true },
   { day: "25", month: "JUL 2026", venue: "Coliseu dos Recreios", city: "Lisboa", time: "Portas 20:00h", url: TL, next: false },
@@ -238,7 +243,7 @@ const HonmoonCharger = React.memo(function HonmoonCharger() {
       }}/>
 
       {/* Floating particles */}
-      {Array.from({length: 8}, (_, i) => (
+      {Array.from({length: CHARGER_PARTICLES}, (_, i) => (
         <div key={i} className="honmoon-particle" style={{
           left: `${20 + (i * 10) % 60}%`,
           top: `${15 + (i * 13) % 70}%`,
@@ -419,7 +424,7 @@ export default function HomePage() {
       <section className="hero-section" style={{background:"var(--void)"}}>
         {/* Background image — full bleed */}
         <img
-          src="/hero-girls.png"
+          src="/hero-girls.webp"
           alt=""
           className="hero-bg-img"
           fetchPriority="high"
@@ -547,7 +552,7 @@ export default function HomePage() {
         <div className={`hm-bg-glow ${themeMode}`}/>
 
         {/* Floating ambient particles */}
-        {[...Array(12)].map((_, i) => (
+        {[...Array(SHIELD_PARTICLES)].map((_, i) => (
           <div key={i} className={`hm-particle hm-particle-${i} ${themeMode}`}/>
         ))}
 
@@ -867,9 +872,9 @@ export default function HomePage() {
           </Rv>
           <div className="dual-grid">
             {[
-              { name: "ZOE", color: "var(--blue-accent)", animImg: "/real-zoe.png", realImg: "/char-zoe.png" },
-              { name: "RUMI", color: "var(--neon-purple)", animImg: "/real-rumi.png", realImg: "/char-rumi.png" },
-              { name: "MIRAE", color: "var(--pink-kpop)", animImg: "/real-mirae.png", realImg: "/char-mirae.png" },
+              { name: "ZOE", color: "var(--blue-accent)", animImg: "/real-zoe.webp", realImg: "/char-zoe.webp" },
+              { name: "RUMI", color: "var(--neon-purple)", animImg: "/real-rumi.webp", realImg: "/char-rumi.webp" },
+              { name: "MIRAE", color: "var(--pink-kpop)", animImg: "/real-mirae.webp", realImg: "/char-mirae.webp" },
             ].map((c, i) => (
               <DualRevealCard key={c.name} name={c.name} color={c.color} delay={i * 200} animImg={c.animImg} realImg={c.realImg}/>
             ))}
@@ -898,7 +903,7 @@ export default function HomePage() {
               <Rv key={a.name} delay={i*100}>
                 <div className="group relative overflow-hidden cursor-pointer" style={{background:"var(--surface)"}}>
                   <div className="aspect-[3/4] overflow-hidden">
-                    <img src="/poster.png" alt={a.name} className="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105" style={{filter:"grayscale(75%) brightness(0.5)"}} loading="lazy" decoding="async"
+                    <img src="/poster.webp" alt={a.name} className="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105" style={{filter:"grayscale(75%) brightness(0.5)"}} loading="lazy" decoding="async"
                       onMouseEnter={e=>{(e.target as HTMLImageElement).style.filter="grayscale(0%) brightness(0.8)"}} 
                       onMouseLeave={e=>{(e.target as HTMLImageElement).style.filter="grayscale(75%) brightness(0.5)"}}/>
                   </div>
@@ -1055,7 +1060,7 @@ export default function HomePage() {
             <div className="lg:col-span-5">
               <Rv delay={200}>
                 <div className="overflow-hidden" style={{borderRadius:"2px"}}>
-                  <img src="/venue-bg.png" alt="Academia das Artes do Estoril" className="w-full h-64 sm:h-80 object-cover cin" loading="lazy" decoding="async"/>
+                  <img src="/venue-bg.webp" alt="Academia das Artes do Estoril" className="w-full h-64 sm:h-80 object-cover cin" loading="lazy" decoding="async"/>
                 </div>
                 <p className="text-[12px] leading-relaxed mt-4" style={{color:"var(--t3)"}}>
                   Estação de comboios do Estoril a 5 min a pé. Estacionamento gratuito nas proximidades. Acessível para mobilidade reduzida.
