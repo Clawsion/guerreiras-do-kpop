@@ -145,16 +145,16 @@ void main() {
     + spiralPattern * 0.10
     + spiralPattern * 0.05;
 
-  /* Center glow */
-  vec3 centerColor = mix(vec3(1.0, 0.97, 0.85), vec3(0.95, 0.85, 1.0), u_darkMode);
-  float centerTotal = exp(-dist * 3.0) + exp(-dist * 8.0) * 0.5;
+  /* Center glow — toned down so contours/patterns are visible */
+  vec3 centerColor = mix(vec3(0.85, 0.8, 0.65), vec3(0.7, 0.6, 0.85), u_darkMode);
+  float centerTotal = exp(-dist * 5.5) + exp(-dist * 14.0) * 0.3;
 
   /* Vignette — elliptical for LED wall widescreen */
   float vignette = 1.0 - smoothstep(0.3, 1.6, length(uv * 0.65));
 
   vec3 finalColor = vec3(0.0);
   finalColor += color * brightness * vignette;
-  finalColor += centerColor * centerTotal * vignette * 1.4;
+  finalColor += centerColor * centerTotal * vignette * 0.6;
   finalColor += color * spiralPattern * vignette * 0.5;
   finalColor += color * petalPattern * vignette * 0.3;
 
