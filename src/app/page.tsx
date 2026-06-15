@@ -95,7 +95,7 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
 
 /* ═══ LED WALL VIDEO — lightweight video + CSS color sync (no canvas readback) ═══ */
 
-/* Build: 2026-06-15-v6 */ const LED_TUNNEL_SRC = "https://github.com/Clawsion/guerreiras-do-kpop/releases/download/v3.0-led-seamless/led-tunnel-seamless.mp4";
+/* Build: 2026-06-15-v7 */ const LED_TUNNEL_SRC = "https://github.com/Clawsion/guerreiras-do-kpop/releases/download/v4.0-led-hq/led-tunnel-hq.mp4";
 
 /* Color palette for glow sync — matches the tunnel's purple/blue/cyan cycle */
 const TUNNEL_COLORS: Array<[number, number, number]> = [
@@ -116,6 +116,21 @@ function LedWallVideo({ active }: { active: boolean }) {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const activeRef = useRef(false);
   const [on, setOn] = useState(false);
+
+  /* Seamless infinite loop — restart 2 frames early so the visual never jumps.
+     The V3 tunnel has a slight diff at the exact last→first frame boundary.
+     By seeking back ~80ms before the end, the transition is invisible. */
+  useEffect(() => {
+    const v = vidRef.current;
+    if (!v) return;
+    const onTime = () => {
+      if (v.currentTime >= v.duration - 0.08) {
+        v.currentTime = 0;
+      }
+    };
+    v.addEventListener("timeupdate", onTime);
+    return () => v.removeEventListener("timeupdate", onTime);
+  }, []);
 
   /* Pause video when tab is hidden — saves CPU/GPU */
   useEffect(() => {
@@ -182,7 +197,6 @@ function LedWallVideo({ active }: { active: boolean }) {
         className="led-video-layer"
         src={LED_TUNNEL_SRC}
         muted
-        loop
         playsInline
         preload={active ? "auto" : "none"}
         style={{ opacity: on ? 1 : 0 }}
