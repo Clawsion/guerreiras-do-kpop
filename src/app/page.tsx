@@ -581,7 +581,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══ HONMOON SHIELD — Theme Toggle (like the anime) ═══ */}
-      <section className="honmoon-shield-section" style={{background: "var(--deep)"}}>
+      <section className="honmoon-shield-section">
         {/* Background glow */}
         <div className={`hm-bg-glow ${themeMode}`}/>
 

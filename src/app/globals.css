@@ -2642,10 +2642,11 @@ html { scroll-behavior: smooth; }
   justify-content: center;
   overflow: hidden;
   min-height: 40vh;
+  background: var(--deep);
 }
-/* Honmoon shield section — ghost white like the anime daytime */
+/* Honmoon shield section — soft lavender like the anime daytime */
 .light-mode .honmoon-shield-section {
-  background: #F8F8FF;
+  background: #f5f0ff;
   --t1: #1E1040;
   --t2: #5B3E8A;
   --t3: #8B6CB0;
