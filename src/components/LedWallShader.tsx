@@ -39,15 +39,15 @@ vec3 hsv2rgb(vec3 c) {
   return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
 
-/* ── Hash-based value noise for gaseous effect ── */
+/* ── Noise for gaseous/nebula/aurora effect in the depth ── */
 float hash(vec2 p) {
   return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
 }
 
-float noise(vec2 p) {
+float vnoise(vec2 p) {
   vec2 i = floor(p);
   vec2 f = fract(p);
-  f = f * f * (3.0 - 2.0 * f); // smoothstep
+  f = f * f * (3.0 - 2.0 * f);
   float a = hash(i);
   float b = hash(i + vec2(1.0, 0.0));
   float c = hash(i + vec2(0.0, 1.0));
@@ -55,14 +55,13 @@ float noise(vec2 p) {
   return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
 }
 
-/* Fractal Brownian Motion — layered noise for clouds/gas */
 float fbm(vec2 p) {
   float val = 0.0;
   float amp = 0.5;
   for (int i = 0; i < 5; i++) {
-    val += amp * noise(p);
-    p *= 2.1;
-    amp *= 0.5;
+    val += amp * vnoise(p);
+    p *= 2.07;
+    amp *= 0.52;
   }
   return val;
 }
@@ -81,12 +80,14 @@ void main() {
   float zScroll = t * 1.2;
   float zPos = tunnelZ + zScroll;
 
-  /* Main rings */
+  /* Fade rings in the center so gas takes over instead of sharp rings */
+  float centerFade = smoothstep(0.0, 0.45, dist);
+
   float ring1 = sin(zPos * 6.0) * 0.5 + 0.5;
   float ring2 = sin(zPos * 12.0 + 0.5) * 0.5 + 0.5;
   float ring3 = sin(zPos * 24.0 + 1.0) * 0.5 + 0.5;
   float pulse = sin(t * 0.8) * 0.15 + 0.85;
-  float ringPattern = (ring1 * 0.50 + ring2 * 0.30 + ring3 * 0.20) * pulse;
+  float ringPattern = (ring1 * 0.50 + ring2 * 0.30 + ring3 * 0.20) * pulse * centerFade;
 
   /* Wider mandala rings — fill the whole LED wall */
   float mRing1 = sin(dist * 12.0 - t * 2.5) * 0.5 + 0.5;
@@ -126,34 +127,33 @@ void main() {
   float p12 = petal12 * smoothstep(0.15, 0.55, dist) * (1.0 - smoothstep(0.7, 1.1, dist));
   float petalPattern = (p6 * 0.45 + p8 * 0.35 + p12 * 0.20) * (sin(t * 0.6) * 0.1 + 0.9);
 
-  /* ═══ GASEOUS NEBULA — organic clouds in the deep regions ═══ */
-  /* Noise coordinates warped by angle and time for flowing gas */
-  vec2 gasUV = vec2(angle * 2.0 / TAU + t * 0.05, dist * 3.0 - t * 0.3);
-  
-  /* Domain warping — noise of noise = organic fluid look */
-  vec2 warp = vec2(
-    fbm(gasUV + vec2(1.7, 9.2) + t * 0.08),
-    fbm(gasUV + vec2(8.3, 2.8) + t * 0.06)
+  /* ═══ GASEOUS NEBULA / AURORA — in the deep center ═══ */
+  /* Strongest at center (depth), fades outward where patterns take over */
+  float nebulaMask = 1.0 - smoothstep(0.0, 0.55, dist);
+
+  /* Domain-warped noise = organic fluid/aurora look */
+  vec2 nebUV = vec2(angle * 1.5 / TAU + t * 0.04, tunnelZ * 0.15 - t * 0.25);
+  vec2 warpA = vec2(
+    fbm(nebUV * 1.2 + vec2(1.7, 9.2) + t * 0.06),
+    fbm(nebUV * 1.2 + vec2(8.3, 2.8) + t * 0.05)
   );
-  float gas1 = fbm(gasUV + warp * 1.5);
-  
-  /* Second layer — different speed/offset for depth */
-  vec2 gasUV2 = vec2(angle * 3.0 / TAU - t * 0.03, dist * 4.0 - t * 0.5 + 5.0);
-  vec2 warp2 = vec2(
-    fbm(gasUV2 + vec2(3.1, 7.4) + t * 0.05),
-    fbm(gasUV2 + vec2(6.2, 1.3) + t * 0.07)
+  float neb1 = fbm(nebUV + warpA * 1.8);
+
+  /* Second cloud layer — different flow, more depth */
+  vec2 nebUV2 = vec2(angle * 2.5 / TAU - t * 0.03, tunnelZ * 0.2 - t * 0.35 + 5.0);
+  vec2 warpB = vec2(
+    fbm(nebUV2 * 1.4 + vec2(3.1, 7.4) + t * 0.04),
+    fbm(nebUV2 * 1.4 + vec2(6.2, 1.3) + t * 0.06)
   );
-  float gas2 = fbm(gasUV2 + warp2 * 1.2);
-  
-  /* Third layer — fine detail wisps */
-  vec2 gasUV3 = vec2(angle * 5.0 / TAU + t * 0.07, dist * 6.0 - t * 0.7 + 10.0);
-  float gas3 = fbm(gasUV3 + vec2(fbm(gasUV3 * 1.5 + t * 0.04), 0.0));
-  
-  /* Combine gas layers — stronger at edges (deep regions) */
-  float deepMask = smoothstep(0.25, 0.9, dist);
-  float gasPattern = (gas1 * 0.45 + gas2 * 0.35 + gas3 * 0.20) * deepMask;
-  /* Soften the gas — no hard edges */
-  gasPattern = smoothstep(0.15, 0.75, gasPattern);
+  float neb2 = fbm(nebUV2 + warpB * 1.5);
+
+  /* Third layer — fine aurora wisps */
+  vec2 nebUV3 = vec2(angle * 4.0 / TAU + t * 0.055, tunnelZ * 0.25 - t * 0.45 + 10.0);
+  float neb3 = fbm(nebUV3 + vec2(fbm(nebUV3 * 1.6 + t * 0.03), 0.0));
+
+  /* Combine and soften — no hard edges */
+  float nebula = (neb1 * 0.45 + neb2 * 0.35 + neb3 * 0.20) * nebulaMask;
+  nebula = smoothstep(0.1, 0.7, nebula);
 
   /* ═══ DARK MODE COLORS — Neon Purple / Pink / Blue ═══ */
   vec3 purple = vec3(0.667, 0.157, 1.0);
@@ -193,14 +193,23 @@ void main() {
   float lum = dot(color, vec3(0.299, 0.587, 0.114));
   color = mix(vec3(lum), color, mix(1.0, 1.6, u_darkMode));
 
+  /* ═══ NEBULA COLOR — same neon palette, gaseous tint ═══ */
+  /* Dark: purple/pink/blue cycling gas; Light: golden/rainbow mist */
+  vec3 nebDark = mix(purple * 0.55, pink * 0.45, sin(angle + t * 0.2) * 0.5 + 0.5);
+  nebDark = mix(nebDark, blue * 0.5, sin(dist * 3.0 - t * 0.5) * 0.5 + 0.5);
+  nebDark = mix(nebDark, purple * 0.7, sin(t * 0.15 + angle * 2.0) * 0.5 + 0.5);
+  vec3 nebLight = mix(gold * 0.45, rainbow * 0.4, smoothstep(0.0, 0.5, dist));
+  nebLight = mix(nebLight, cream * 0.6, 1.0 - nebulaMask);
+  vec3 nebColor = mix(nebLight, nebDark, u_darkMode);
+
   /* ═══ COMPOSITE ═══ */
-  float brightness = ringPattern * 0.20
-    + mandalaRings * 0.15
-    + contourLines * 0.12
-    + neonPattern * 0.12
-    + petalPattern * 0.08
-    + spiralPattern * 0.08
-    + gasPattern * 0.25;
+  float brightness = ringPattern * 0.25
+    + mandalaRings * 0.20
+    + contourLines * 0.15
+    + neonPattern * 0.15
+    + petalPattern * 0.10
+    + spiralPattern * 0.10
+    + spiralPattern * 0.05;
 
   /* Center glow — toned down so contours/patterns are visible */
   vec3 centerColor = mix(vec3(0.85, 0.8, 0.65), vec3(0.7, 0.6, 0.85), u_darkMode);
@@ -215,12 +224,13 @@ void main() {
   finalColor += color * spiralPattern * vignette * 0.5;
   finalColor += color * petalPattern * vignette * 0.3;
 
-  /* ═══ Gaseous nebula color overlay — colored gas in deep regions ═══ */
-  vec3 gasDarkCol = mix(purple * 0.6, pink * 0.5, sin(angle + t * 0.2) * 0.5 + 0.5);
-  gasDarkCol = mix(gasDarkCol, blue * 0.5, sin(dist * 3.0 - t * 0.5) * 0.5 + 0.5);
-  vec3 gasLightCol = mix(gold * 0.5, rainbow * 0.4, smoothstep(0.2, 0.7, dist));
-  vec3 gasColor = mix(gasLightCol, gasDarkCol, u_darkMode);
-  finalColor += gasColor * gasPattern * vignette * 0.8;
+  /* ═══ Nebula gas overlay — replaces sharp rings in the depth ═══ */
+  finalColor += nebColor * nebula * vignette * 1.2;
+
+  /* Subtle depth glow inside the nebula — prevents total darkness */
+  float depthGlow = exp(-dist * 3.0) * 0.15;
+  vec3 depthGlowCol = mix(vec3(0.7, 0.6, 0.4), vec3(0.5, 0.4, 0.7), u_darkMode);
+  finalColor += depthGlowCol * depthGlow * vignette;
 
   /* Depth shimmer */
   finalColor *= sin(angle * 6.0 + t * 0.5 + dist * 4.0) * 0.05 + 1.0;
