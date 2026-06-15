@@ -546,7 +546,7 @@ html { scroll-behavior: smooth; }
   overflow: hidden;
   background: #050208;
   border-radius: 2px;
-  contain: strict;
+  contain: layout style;
 }
 
 /* ═══ LED Video Container — single looping tunnel ═══ */

@@ -95,7 +95,7 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
 
 /* ═══ LED WALL VIDEO — single looping tunnel with color-sync reflections ═══ */
 
-const LED_TUNNEL_SRC = "https://github.com/Clawsion/guerreiras-do-kpop/releases/download/v1.0-video/led-tunnel.mp4";
+const LED_TUNNEL_SRC = "/videos/led-tunnel.mp4";
 
 /* Color cycle for fallback glow sync (purple → violet → blue) */
 const TUNNEL_COLORS: Array<[number, number, number]> = [
@@ -224,7 +224,6 @@ function LedWallVideo({ active }: { active: boolean }) {
         playsInline
         preload={active ? "auto" : "none"}
         style={{ opacity: on ? 1 : 0 }}
-        crossOrigin="anonymous"
       />
       <canvas ref={sampleCanvas} style={{ display: "none" }} />
     </div>
