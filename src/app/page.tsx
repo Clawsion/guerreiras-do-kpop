@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import LedWallShader from "@/components/LedWallShader";
-import HonmoonShieldShader from "@/components/HonmoonShieldShader";
 import {
   Ticket, MapPin, Clock, Instagram, Youtube, Music2,
   ExternalLink, Send, ChevronRight, ArrowUpRight, Phone, Mail, Facebook,
@@ -482,9 +481,6 @@ export default function HomePage() {
 
       {/* ═══ HONMOON SHIELD — Theme Toggle (like the anime) ═══ */}
       <section className="honmoon-shield-section">
-        {/* Animated Honmoon shader background */}
-        <HonmoonShieldShader/>
-
         {/* Background glow */}
         <div className={`hm-bg-glow ${themeMode}`}/>
 
