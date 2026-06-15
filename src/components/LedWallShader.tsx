@@ -358,7 +358,7 @@ export default function LedWallShader({ active }: { active: boolean }) {
     rafRef.current = requestAnimationFrame(render);
   }, [resize]);
 
-  /* ── Start after power-on delay ── */
+  /* ── Start with portal emerge ── */
   useEffect(() => {
     activeRef.current = active;
     if (active && !startedRef.current) {
@@ -370,7 +370,7 @@ export default function LedWallShader({ active }: { active: boolean }) {
           startTimeRef.current = performance.now();
           rafRef.current = requestAnimationFrame(render);
         }
-      }, 1800);
+      }, 800); // portal emerges faster than old TV power-on
       return () => clearTimeout(t);
     }
   }, [active, initGL, render]);
