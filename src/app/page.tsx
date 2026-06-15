@@ -440,7 +440,7 @@ export default function HomePage() {
 
         {/* ═══ HAMBURGER NAV — pinned at top of hero ═══ */}
         <nav className="absolute top-0 inset-x-0 z-[95] py-6" style={{background:"transparent"}}>
-          <div className="max-w-[1400px] mx-auto px-5 sm:px-10 flex items-center justify-between">
+          <div className="hero-nav-panel max-w-[1400px] mx-auto px-5 sm:px-10 flex items-center justify-between">
             {/* LEFT: Hamburger only */}
             <button
               onClick={()=>setMenuOpen(!menuOpen)}
@@ -520,7 +520,7 @@ export default function HomePage() {
         </div>
 
         {/* ═══ HERO BOTTOM — Countdown + CTA ═══ */}
-        <div className="absolute bottom-0 inset-x-0 z-10 flex flex-col items-center pb-10 sm:pb-14">
+        <div className="hero-bottom-panel absolute bottom-0 inset-x-0 z-10 flex flex-col items-center pb-10 sm:pb-14">
           <div className="hero-countdown-wrap">
             <HeroCountdown />
           </div>
