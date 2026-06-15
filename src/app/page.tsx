@@ -459,8 +459,8 @@ export default function HomePage() {
                 rel="noopener noreferrer"
                 className="hero-nav-ticket group"
               >
-                <Ticket className="w-5 h-5 sm:w-[22px] sm:h-[22px] transition-all duration-300" style={{color:"var(--neon-purple)"}}/>
-                <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"var(--neon-purple)"}}>Ticketline</span>
+                <Ticket className="w-5 h-5 sm:w-[22px] sm:h-[22px] transition-all duration-300" style={{color:"#fff"}}/>
+                <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"#fff"}}>Ticketline</span>
               </a>
               <button
                 className="hero-nav-theme"
@@ -468,7 +468,7 @@ export default function HomePage() {
                 aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
               >
                 <span className={`hero-nav-orb ${themeMode}`}/>
-                <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"var(--t3)"}}>
+                <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"rgba(255,255,255,0.85)"}}>
                   {themeMode === 'dark' ? 'Noite' : 'Dia'}
                 </span>
               </button>
@@ -531,7 +531,7 @@ export default function HomePage() {
           >
             Garante o Teu Lugar <ChevronRight className="w-3.5 h-3.5"/>
           </a>
-          <p className="text-[11px] tracking-[0.2em] mt-4 uppercase" style={{color:"var(--t3)"}}>
+          <p className="text-[11px] tracking-[0.2em] mt-4 uppercase" style={{color:"rgba(255,255,255,0.7)"}}>
             Pr&oacute;ximo: 18 JUL &middot; Estoril &middot; 18:30h
           </p>
         </div>
