@@ -2525,15 +2525,15 @@ html { scroll-behavior: smooth; }
   --t3: #8B6CB0;
   background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
 }
-/* Spotlights — soft lavender curtains in light mode */
-.light-mode .esp-spotlight { opacity: 0.5; mix-blend-mode: normal; }
+/* Spotlights — purple curtains swaying in light mode */
+.light-mode .esp-spotlight { opacity: 1; mix-blend-mode: normal; }
 .light-mode .esp-spotlight-left {
   background: conic-gradient(
     from 170deg at 50% 0%,
     transparent 0deg,
-    rgba(180,160,220,0.08) 15deg,
-    rgba(180,160,220,0.14) 30deg,
-    rgba(160,140,200,0.08) 45deg,
+    rgba(200,80,255,0.10) 15deg,
+    rgba(200,80,255,0.22) 30deg,
+    rgba(180,60,240,0.10) 45deg,
     transparent 60deg
   );
 }
@@ -2541,9 +2541,9 @@ html { scroll-behavior: smooth; }
   background: conic-gradient(
     from 175deg at 50% 0%,
     transparent 0deg,
-    rgba(180,160,220,0.10) 12deg,
-    rgba(190,170,230,0.16) 25deg,
-    rgba(180,160,220,0.08) 40deg,
+    rgba(200,80,255,0.14) 12deg,
+    rgba(210,100,255,0.25) 25deg,
+    rgba(200,80,255,0.12) 40deg,
     transparent 55deg
   );
 }
@@ -2551,9 +2551,9 @@ html { scroll-behavior: smooth; }
   background: conic-gradient(
     from 190deg at 50% 0%,
     transparent 0deg,
-    rgba(160,140,200,0.08) 15deg,
-    rgba(160,140,200,0.12) 30deg,
-    rgba(180,160,220,0.06) 45deg,
+    rgba(180,60,240,0.10) 15deg,
+    rgba(180,60,240,0.18) 30deg,
+    rgba(200,80,255,0.08) 45deg,
     transparent 60deg
   );
 }
