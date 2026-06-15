@@ -566,7 +566,7 @@ html { scroll-behavior: smooth; }
   transition: opacity 1.5s ease-out;
   /* Brightness & vibrancy boost for LED wall punch */
   filter: brightness(1.3) saturate(1.25) contrast(1.1);
-  /* Smooth upscaling — bilinear interpolation hides pixel boundaries */
+  /* GPU-accelerated scaling — native 1280x548 video scaled by browser, zero quality loss */
   image-rendering: auto;
   /* GPU compositing for smooth video decode */
   will-change: opacity;

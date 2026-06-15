@@ -95,7 +95,7 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
 
 /* ═══ LED WALL VIDEO — lightweight video + CSS color sync (no canvas readback) ═══ */
 
-/* Build: 2026-06-15-v8 */ const LED_TUNNEL_SRC = "/videos/led-tunnel.mp4";
+/* Build: 2026-06-16-v9 */ const LED_TUNNEL_SRC = "/videos/led-tunnel.mp4";
 
 /* Color palette for glow sync — matches the tunnel's purple/blue/cyan cycle */
 const TUNNEL_COLORS: Array<[number, number, number]> = [
