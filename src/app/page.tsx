@@ -456,7 +456,7 @@ export default function HomePage() {
               <span />
             </button>
             {/* RIGHT: Ticketline + Theme Toggle */}
-            <div className="flex items-center gap-4 sm:gap-6">
+            <div className="flex items-center gap-6 sm:gap-10">
               <a
                 href={TL}
                 target="_blank"
@@ -472,7 +472,7 @@ export default function HomePage() {
                 aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
               >
                 <span className={`hero-nav-orb ${themeMode}`}/>
-                <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"var(--neon-purple)"}}>
+                <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"var(--neon-purple)", minWidth:"38px", textAlign:"center"}}>
                   {themeMode === 'dark' ? 'Noite' : 'Dia'}
                 </span>
               </button>
