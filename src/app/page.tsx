@@ -117,7 +117,21 @@ function LedWallVideo({ active }: { active: boolean }) {
   const rafRef = useRef(0);
   const activeRef = useRef(false);
   const lastSyncRef = useRef(0);
+  const tabHiddenRef = useRef(false);
   const [on, setOn] = useState(false);
+
+  /* Pause video & sampling when tab is hidden — huge CPU/GPU savings */
+  useEffect(() => {
+    const onVis = () => {
+      tabHiddenRef.current = document.hidden;
+      const v = vidRef.current;
+      if (!v) return;
+      if (document.hidden) { v.pause(); }
+      else if (startedRef.current && activeRef.current) { v.play().catch(() => {}); }
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
 
   /* Start video after power-on delay */
   useEffect(() => {
@@ -127,7 +141,7 @@ function LedWallVideo({ active }: { active: boolean }) {
         startedRef.current = true;
         setOn(true);
         const v = vidRef.current;
-        if (v) {
+        if (v && !document.hidden) {
           v.play().catch(() => {});
         }
       }, 1800);
@@ -146,9 +160,10 @@ function LedWallVideo({ active }: { active: boolean }) {
 
     let lastSampleTime = 0;
     function sample() {
-      /* Stop loop entirely when not active — saves CPU/GPU when offscreen */
-      if (!startedRef.current || !activeRef.current) {
-        return; // no more rAF — loop pauses
+      /* Stop loop entirely when not active or tab hidden — saves CPU/GPU */
+      if (!startedRef.current || !activeRef.current || tabHiddenRef.current) {
+        rafRef.current = requestAnimationFrame(sample);
+        return;
       }
 
       /* Throttle to ~15fps (66ms between samples) instead of 60fps */
@@ -396,6 +411,16 @@ export default function HomePage() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
+  /* Pause ALL CSS animations when tab is hidden — massive CPU/GPU savings */
+  useEffect(() => {
+    const onVis = () => {
+      document.body.style.setProperty("--anim-state", document.hidden ? "paused" : "running");
+    };
+    document.addEventListener("visibilitychange", onVis);
+    onVis();
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
+
   // localStorage persistence for theme — read on mount
   useEffect(() => {
     const saved = localStorage.getItem('honmoon-theme');
@@ -467,14 +492,14 @@ export default function HomePage() {
 
       {/* ═══ SOUL PARTICLES — fixed overlay across entire site ═══ */}
       <div className="soul-particles-site">
-        {Array.from({length: 16}, (_, i) => (
+        {Array.from({length: 12}, (_, i) => (
           <div
             key={i}
             className="soul-particle-site"
             style={{
-              left: `${5 + (i * 5.8) % 90}%`,
-              animationDelay: `${(i * 0.9) % 8}s`,
-              animationDuration: `${7 + (i % 4) * 1.5}s`,
+              left: `${5 + (i * 7.5) % 90}%`,
+              animationDelay: `${(i * 1.1) % 8}s`,
+              animationDuration: `${8 + (i % 4) * 2}s`,
               width: `${3 + (i % 4) * 2}px`,
               height: `${3 + (i % 4) * 2}px`,
             }}

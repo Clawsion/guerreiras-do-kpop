@@ -1144,7 +1144,19 @@ html { scroll-behavior: smooth; }
   border-radius: 50%;
   opacity: 0;
   will-change: transform, opacity;
-  animation: soulRiseSite 8s ease-in-out infinite;
+  animation: soulRiseSite 10s ease-in-out infinite;
+}
+/* ═══ CRITICAL PERF: Pause ALL animations when tab hidden — saves massive CPU/GPU ═══ */
+*, *::before, *::after {
+  animation-play-state: var(--anim-state, running);
+}
+/* Accessibility: disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 @keyframes soulRiseSite {
   0% {
