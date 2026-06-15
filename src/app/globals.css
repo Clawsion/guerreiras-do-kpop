@@ -2685,12 +2685,29 @@ html { scroll-behavior: smooth; }
   min-height: 40vh;
   background: var(--deep);
 }
+
+/* ═══ Honmoon Shield Shader Canvas — animated background behind all elements ═══ */
+.honmoon-shield-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.7;
+  mix-blend-mode: screen;
+}
+
 /* Honmoon shield section — soft lavender like the anime daytime */
 .light-mode .honmoon-shield-section {
   background: #EDE0F5;
   --t1: #1E1040;
   --t2: #5B3E8A;
   --t3: #8B6CB0;
+}
+.light-mode .honmoon-shield-canvas {
+  mix-blend-mode: multiply;
+  opacity: 0.45;
 }
 
 /* ═══ Floating ambient particles ═══ */
