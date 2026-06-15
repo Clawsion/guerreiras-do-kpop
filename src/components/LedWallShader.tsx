@@ -39,6 +39,34 @@ vec3 hsv2rgb(vec3 c) {
   return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
 
+/* ── Hash-based value noise for gaseous effect ── */
+float hash(vec2 p) {
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+}
+
+float noise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  f = f * f * (3.0 - 2.0 * f); // smoothstep
+  float a = hash(i);
+  float b = hash(i + vec2(1.0, 0.0));
+  float c = hash(i + vec2(0.0, 1.0));
+  float d = hash(i + vec2(1.0, 1.0));
+  return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+
+/* Fractal Brownian Motion — layered noise for clouds/gas */
+float fbm(vec2 p) {
+  float val = 0.0;
+  float amp = 0.5;
+  for (int i = 0; i < 5; i++) {
+    val += amp * noise(p);
+    p *= 2.1;
+    amp *= 0.5;
+  }
+  return val;
+}
+
 void main() {
   vec2 uv = (gl_FragCoord.xy * 2.0 - u_resolution) / u_resolution;
   float t = u_time;
@@ -98,6 +126,35 @@ void main() {
   float p12 = petal12 * smoothstep(0.15, 0.55, dist) * (1.0 - smoothstep(0.7, 1.1, dist));
   float petalPattern = (p6 * 0.45 + p8 * 0.35 + p12 * 0.20) * (sin(t * 0.6) * 0.1 + 0.9);
 
+  /* ═══ GASEOUS NEBULA — organic clouds in the deep regions ═══ */
+  /* Noise coordinates warped by angle and time for flowing gas */
+  vec2 gasUV = vec2(angle * 2.0 / TAU + t * 0.05, dist * 3.0 - t * 0.3);
+  
+  /* Domain warping — noise of noise = organic fluid look */
+  vec2 warp = vec2(
+    fbm(gasUV + vec2(1.7, 9.2) + t * 0.08),
+    fbm(gasUV + vec2(8.3, 2.8) + t * 0.06)
+  );
+  float gas1 = fbm(gasUV + warp * 1.5);
+  
+  /* Second layer — different speed/offset for depth */
+  vec2 gasUV2 = vec2(angle * 3.0 / TAU - t * 0.03, dist * 4.0 - t * 0.5 + 5.0);
+  vec2 warp2 = vec2(
+    fbm(gasUV2 + vec2(3.1, 7.4) + t * 0.05),
+    fbm(gasUV2 + vec2(6.2, 1.3) + t * 0.07)
+  );
+  float gas2 = fbm(gasUV2 + warp2 * 1.2);
+  
+  /* Third layer — fine detail wisps */
+  vec2 gasUV3 = vec2(angle * 5.0 / TAU + t * 0.07, dist * 6.0 - t * 0.7 + 10.0);
+  float gas3 = fbm(gasUV3 + vec2(fbm(gasUV3 * 1.5 + t * 0.04), 0.0));
+  
+  /* Combine gas layers — stronger at edges (deep regions) */
+  float deepMask = smoothstep(0.25, 0.9, dist);
+  float gasPattern = (gas1 * 0.45 + gas2 * 0.35 + gas3 * 0.20) * deepMask;
+  /* Soften the gas — no hard edges */
+  gasPattern = smoothstep(0.15, 0.75, gasPattern);
+
   /* ═══ DARK MODE COLORS — Neon Purple / Pink / Blue ═══ */
   vec3 purple = vec3(0.667, 0.157, 1.0);
   vec3 pink   = vec3(1.0, 0.176, 0.471);
@@ -137,13 +194,13 @@ void main() {
   color = mix(vec3(lum), color, mix(1.0, 1.6, u_darkMode));
 
   /* ═══ COMPOSITE ═══ */
-  float brightness = ringPattern * 0.25
-    + mandalaRings * 0.20
-    + contourLines * 0.15
-    + neonPattern * 0.15
-    + petalPattern * 0.10
-    + spiralPattern * 0.10
-    + spiralPattern * 0.05;
+  float brightness = ringPattern * 0.20
+    + mandalaRings * 0.15
+    + contourLines * 0.12
+    + neonPattern * 0.12
+    + petalPattern * 0.08
+    + spiralPattern * 0.08
+    + gasPattern * 0.25;
 
   /* Center glow — toned down so contours/patterns are visible */
   vec3 centerColor = mix(vec3(0.85, 0.8, 0.65), vec3(0.7, 0.6, 0.85), u_darkMode);
@@ -157,6 +214,13 @@ void main() {
   finalColor += centerColor * centerTotal * vignette * 0.6;
   finalColor += color * spiralPattern * vignette * 0.5;
   finalColor += color * petalPattern * vignette * 0.3;
+
+  /* ═══ Gaseous nebula color overlay — colored gas in deep regions ═══ */
+  vec3 gasDarkCol = mix(purple * 0.6, pink * 0.5, sin(angle + t * 0.2) * 0.5 + 0.5);
+  gasDarkCol = mix(gasDarkCol, blue * 0.5, sin(dist * 3.0 - t * 0.5) * 0.5 + 0.5);
+  vec3 gasLightCol = mix(gold * 0.5, rainbow * 0.4, smoothstep(0.2, 0.7, dist));
+  vec3 gasColor = mix(gasLightCol, gasDarkCol, u_darkMode);
+  finalColor += gasColor * gasPattern * vignette * 0.8;
 
   /* Depth shimmer */
   finalColor *= sin(angle * 6.0 + t * 0.5 + dist * 4.0) * 0.05 + 1.0;
