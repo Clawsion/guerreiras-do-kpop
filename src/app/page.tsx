@@ -727,29 +727,38 @@ export default function HomePage() {
             <div className="esp-left">
               <Rv>
                 <p className="sec-num mb-4" style={{color:"var(--pink-light)"}}>Tributo Ao Vivo</p>
-                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-8" style={{color:"var(--t1)"}}>
-                  O grande fen&oacute;meno em palco: O Universo <span className="esp-title-accent">K-Pop das Hunters</span> ao Vivo
+                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-3" style={{color:"var(--t1)"}}>
+                  O Honmoon <span className="esp-title-accent">Ganha Vida</span>
                 </h2>
+                <p className="text-lg sm:text-xl font-light tracking-wide mb-8" style={{color:"var(--t2)"}}>
+                  O universo K-Pop das Hunters sai do ecr&atilde; e invade o palco
+                </p>
               </Rv>
               <Rv delay={200}>
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
-                  No universo da s&eacute;rie, tr&ecirc;s idolas de K-Pop vivem uma dupla identidade: de dia s&atilde;o estrelas
-                  brilhantes do palco, de noite transformam-se em ca&ccedil;adoras de dem&oacute;nios que protegem o mundo
-                  atrav&eacute;s do poder do Honmoon. O nosso tributo traz essa magia para o palco ao vivo &mdash; onde a fic&ccedil;&atilde;o
-                  se torna realidade e cada nota musical carrega o poder de um universo inteiro.
+                  De dia, estrelas brilhantes do palco. De noite, ca&ccedil;adoras de dem&oacute;nios que protegem o mundo
+                  atrav&eacute;s do poder do Honmoon. Tr&ecirc;s idolas. Duas identidades. Um universo que milh&otilde;es levam
+                  no cora&ccedil;&atilde;o &mdash; e que agora, finalmente, podes viver ao vivo.
                 </p>
               </Rv>
               <Rv delay={350}>
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
-                  Essa mesma energia atravessa o ecr&atilde; e ganha forma ao vivo - com <span style={{color:"var(--neon-purple)"}}>coreografias de</span> BLACKPINK, BTS e aespa executadas por performers de elite, luzes deslumbrantes e <span style={{color:"var(--pink-kpop)"}}>efeitos pirot&eacute;cnicos</span>.
-                  Os maiores hits K-Pop ressoam num palco que se transforma em campo de batalha, e cada momento
-                  &eacute; uma fatia do universo das Hunters servida ao vivo.
+                  Este n&atilde;o &eacute; um concerto. &Eacute; um tributo que traz a magia do filme de anima&ccedil;&atilde;o para o palco &mdash; onde a fic&ccedil;&atilde;o
+                  se torna realidade e cada nota carrega o poder de um universo inteiro. <span style={{color:"var(--neon-purple)"}}>Coreografias de</span> BLACKPINK, BTS e aespa
+                  executadas por performers de elite que encarnam o esp&iacute;rito das Hunters com precis&atilde;o e intensidade.
+                  N&uacute;meros de dan&ccedil;a, interl&uacute;dios teatrais e momentos visuais que recriam as cenas mais ic&oacute;nicas.
+                  Luzes que cortam o escuro como l&acirc;minas de energia. <span style={{color:"var(--pink-kpop)"}}>Efeitos pirot&eacute;cnicos</span> que transformam o palco
+                  num campo de batalha &mdash; exatamente como no filme. Os maiores hits K-Pop ressoam num espet&aacute;culo
+                  que se sente, n&atilde;o se v&ecirc; apenas.
                 </p>
               </Rv>
               <Rv delay={420}>
-                <p className="text-[16px] leading-[1.8] mb-10" style={{color:"var(--t2)"}}>
-                  Um espet&aacute;culo de variedades que transcende o concerto tradicional &mdash; onde o palco se transforma
-                  num mundo m&aacute;gico e cada momento se torna uma mem&oacute;ria inesquec&iacute;vel.
+                <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
+                  Um espet&aacute;culo de variedades que transcende o concerto tradicional &mdash; onde cada momento &eacute; uma fatia
+                  do universo das Hunters ao vivo, e cada cena se torna uma mem&oacute;ria que n&atilde;o vais querer deixar ir.
+                </p>
+                <p className="text-[16px] leading-[1.8] mb-10 font-medium" style={{color:"var(--t1)"}}>
+                  Se aquele filme te marcou, esta noite foi feita para ti. Vem sentir o Honmoon.
                 </p>
               </Rv>
               <Rv delay={500}>
