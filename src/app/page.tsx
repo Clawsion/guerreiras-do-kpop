@@ -27,14 +27,14 @@ const CONCERTS = [
   { day: "09", month: "AGO 2026", venue: "Centro de Artes e Espetáculos", city: "Porto", time: "Portas 20:00h", url: TL, next: false },
 ];
 
-/* K-Pop gallery photos — ordered: epic → atmospheric → intimate */
+/* K-Pop gallery photos — hosted externally on PostImg */
 const GALLERY_PHOTOS = [
-  { src: "/kpop2.png", caption: "Elenco Completo · Posição Sincronizada" },
-  { src: "/kpop1.png", caption: "Coreografia ao Vivo · Pirotecnia" },
-  { src: "/kpop6.png", caption: "Cenário Cyberpunk · Visão Cinematográfica" },
-  { src: "/kpop3.png", caption: "Atmosfera Vermelha · Lightsticks" },
-  { src: "/kpop4.png", caption: "Interação com o Público" },
-  { src: "/kpop5.png", caption: "Personagem Surpresa no Palco" },
+  { src: "https://i.postimg.cc/x8S0prmN/kpop2.png", caption: "Elenco Completo · Posição Sincronizada" },
+  { src: "https://i.postimg.cc/PxDXMfCP/kpop1.png", caption: "Coreografia ao Vivo · Pirotecnia" },
+  { src: "https://i.postimg.cc/KvfZfH8S/kpop6.png", caption: "Cenário Cyberpunk · Visão Cinematográfica" },
+  { src: "https://i.postimg.cc/2yFCPHd2/kpop3.png", caption: "Atmosfera Vermelha · Lightsticks" },
+  { src: "https://i.postimg.cc/mZQZzDxY/kpop4.png", caption: "Interação com o Público" },
+  { src: "https://i.postimg.cc/Qxh8p3sq/kpop5.png", caption: "Personagem Surpresa no Palco" },
 ];
 
 /* ═══ HOOKS ═══ */
