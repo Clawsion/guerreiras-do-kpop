@@ -1431,7 +1431,7 @@ html { scroll-behavior: smooth; }
   font-family: var(--font-geist-mono);
   font-size: 34px;
   font-weight: 200;
-  color: var(--neon-purple);
+  color: #ffffff;
   letter-spacing: -0.03em;
   line-height: 1;
   text-shadow: 0 0 24px rgba(200,80,255,0.6), 0 0 60px rgba(200,80,255,0.2);
@@ -1444,7 +1444,7 @@ html { scroll-behavior: smooth; }
   font-size: 8px;
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: var(--neon-purple);
+  color: #DA98FF;
   margin-top: 6px;
   font-weight: 600;
   text-shadow: 0 0 12px rgba(200,80,255,0.3);
@@ -2803,6 +2803,36 @@ html { scroll-behavior: smooth; }
 .light-mode .esp-photo-slot:hover {
   border-color: rgba(245,158,11,0.4);
   box-shadow: 0 0 30px rgba(245,158,11,0.15), 0 0 60px rgba(236,72,153,0.08);
+}
+
+/* ═══ Hero Countdown — Light mode ═══ */
+.light-mode .hero-seal-num {
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.25), 0 0 20px rgba(147,51,234,0.3);
+  font-weight: 300;
+}
+.light-mode .hero-seal-label {
+  color: #7C3AED;
+  text-shadow: none;
+  font-weight: 700;
+  font-size: 9px;
+}
+.light-mode .hero-seal-sep {
+  color: #9333EA;
+  text-shadow: none;
+}
+.light-mode .hero-seal-arc-1 {
+  border-top-color: #9333EA;
+  border-right-color: rgba(147,51,234,0.25);
+  filter: drop-shadow(0 0 4px rgba(147,51,234,0.4));
+}
+.light-mode .hero-seal-arc-2 {
+  border-bottom-color: #C026D3;
+  border-left-color: rgba(192,38,211,0.15);
+  filter: drop-shadow(0 0 3px rgba(192,38,211,0.3));
+}
+.light-mode .hero-countdown-label {
+  color: #7C3AED;
 }
 
 /* Concert cards */
