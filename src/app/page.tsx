@@ -354,11 +354,24 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* ═══ PRELOADER ═══ */}
-      <div className={`fixed inset-0 z-[100] flex items-center justify-center transition-all duration-700 ${loaded?"opacity-0 pointer-events-none":"opacity-100"}`} style={{background:"var(--void)"}}>
-        <div className="w-28 h-px relative overflow-hidden" style={{background:"var(--subtle)"}}>
-          <div className="absolute inset-y-0 left-0 h-full" style={{background:"var(--neon-purple)",animation:"load 1.6s cubic-bezier(0.16,1,0.3,1) forwards"}}/>
+      {/* ═══ PRELOADER — Honmoon Awakening ═══ */}
+      <div className={`preloader-honmoon ${loaded?"preloader-done":""}`}>
+        {/* Background */}
+        <div className="preloader-bg"/>
+        {/* Honmoon circle */}
+        <div className="preloader-circle-wrap">
+          <svg className="preloader-ring-svg" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(200,80,255,0.08)" strokeWidth="1"/>
+            <circle className="preloader-ring-fill" cx="60" cy="60" r="52" fill="none" stroke="var(--neon-purple)" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          <div className="preloader-center">
+            <span className="preloader-pct">100</span>
+            <span className="preloader-pct-label">%</span>
+          </div>
         </div>
+        <span className="preloader-label">Honmoon</span>
+        {/* Golden flash on complete */}
+        <div className="preloader-flash"/>
       </div>
 
       {/* ═══ SOUL PARTICLES — fixed overlay across entire site ═══ */}
