@@ -217,10 +217,93 @@ html { scroll-behavior: smooth; }
 .tk { transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease; }
 .tk:hover { transform:translateY(-6px); box-shadow: 0 24px 60px rgba(11,8,19,0.5), 0 0 50px rgba(200,80,255,0.08); }
 
-/* ═══ PRELOADER ═══ */
-@keyframes load {
-  from { width:0%; }
-  to { width:100%; }
+/* ═══ PRELOADER — Honmoon Awakening ═══ */
+.preloader-honmoon {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.7s ease;
+}
+.preloader-honmoon.preloader-done {
+  opacity: 0;
+  pointer-events: none;
+}
+.preloader-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--void);
+}
+.preloader-circle-wrap {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+.preloader-ring-svg {
+  width: 100%;
+  height: 100%;
+  animation: preloader-pulse-glow 2s ease-in-out infinite;
+}
+.preloader-ring-fill {
+  stroke-dasharray: 326.73; /* 2 * PI * 52 */
+  stroke-dashoffset: 326.73;
+  animation: preloader-ring-fill 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  filter: drop-shadow(0 0 6px rgba(200,80,255,0.4));
+}
+.preloader-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  padding-top: 38px;
+  gap: 1px;
+}
+.preloader-pct {
+  font-family: var(--font-geist-mono);
+  font-size: 20px;
+  font-weight: 200;
+  color: var(--neon-purple);
+  letter-spacing: -0.03em;
+}
+.preloader-pct-label {
+  font-family: var(--font-geist-mono);
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--t3);
+}
+.preloader-label {
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--t3);
+  margin-top: 16px;
+  opacity: 0.7;
+}
+.preloader-flash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,245,164,0.3) 0%, transparent 70%);
+  opacity: 0;
+  animation: preloader-flash 0.4s ease-out 1.4s forwards;
+  pointer-events: none;
+}
+
+@keyframes preloader-ring-fill {
+  from { stroke-dashoffset: 326.73; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes preloader-pulse-glow {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.2); }
+}
+@keyframes preloader-flash {
+  0% { opacity: 0; }
+  30% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 /* ═══ NUMBERED SECTION ACCENT ═══ */
