@@ -607,10 +607,9 @@ export default function HomePage() {
             const toMode = themeMode === 'dark' ? 'light' as const : 'dark' as const;
             setRipple({ active: true, x, y, toMode });
             setBurstKey(k => k + 1);
-            // Switch theme midway: awaken = after fill covers screen, dormant = immediately
-            const switchDelay = toMode === 'light' ? 800 : 50;
-            setTimeout(() => { toggleTheme(); }, switchDelay);
-            setTimeout(() => { setRipple(null); }, 1300);
+            // Both directions expand — switch theme when fill covers the screen (~55% of 1.5s)
+            setTimeout(() => { toggleTheme(); }, 750);
+            setTimeout(() => { setRipple(null); }, 1600);
           }}
           role="button"
           title={themeMode === 'dark' ? 'Toca para despertar o Honmoon' : 'Toca para adormecer o Honmoon'}
