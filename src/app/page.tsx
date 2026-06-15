@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import {
   Ticket, MapPin, Clock, Instagram, Youtube, Music2,
   ExternalLink, Send, ChevronRight, ArrowUpRight, Phone, Mail, Facebook,
@@ -40,14 +40,14 @@ function useReveal() {
   return { ref, visible: v };
 }
 
-function Rv({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+const Rv = React.memo(function Rv({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const { ref, visible } = useReveal();
   return (
     <div ref={ref} className={`rv ${visible ? "in" : ""} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
       {children}
     </div>
   );
-}
+});
 
 /* ═══ COUNTDOWN ═══ */
 
@@ -81,7 +81,7 @@ function Countdown() {
 
 /* ═══ MARQUEE ═══ */
 
-function Marquee({ text }: { text: string }) {
+const Marquee = React.memo(function Marquee({ text }: { text: string }) {
   const r = Array(10).fill(text).join("  ✦  ");
   return (
     <div className="overflow-hidden border-y py-5" style={{borderColor:"rgba(200,80,255,0.08)"}}>
@@ -91,7 +91,7 @@ function Marquee({ text }: { text: string }) {
       </div>
     </div>
   );
-}
+});
 
 /* ═══ LED WALL VIDEO — single looping tunnel with color-sync reflections ═══ */
 
@@ -144,13 +144,22 @@ function LedWallVideo({ active }: { active: boolean }) {
 
     sectionRef.current = canvas.closest(".manifesto-section") as HTMLElement;
 
+    let lastSampleTime = 0;
     function sample() {
       /* Stop loop entirely when not active — saves CPU/GPU when offscreen */
       if (!startedRef.current || !activeRef.current) {
         return; // no more rAF — loop pauses
       }
 
-      const now = performance.now() / 1000;
+      /* Throttle to ~15fps (66ms between samples) instead of 60fps */
+      const nowMs = performance.now();
+      if (nowMs - lastSampleTime < 66) {
+        rafRef.current = requestAnimationFrame(sample);
+        return;
+      }
+      lastSampleTime = nowMs;
+
+      const now = nowMs / 1000;
       const vid = vidRef.current;
 
       let synced = false;
@@ -213,7 +222,7 @@ function LedWallVideo({ active }: { active: boolean }) {
         muted
         loop
         playsInline
-        preload="auto"
+        preload={active ? "auto" : "none"}
         style={{ opacity: on ? 1 : 0 }}
       />
       <canvas ref={sampleCanvas} style={{ display: "none" }} />
@@ -230,7 +239,7 @@ const CHAR_SILHOUETTES: Record<string, string> = {
   ZOE: "M85,15 C90,10 100,10 105,15 C110,8 115,3 112,0 C120,5 125,18 120,28 C115,22 108,25 105,32 C100,40 105,50 98,58 C92,52 85,45 82,48 C76,55 72,65 70,78 C68,90 66,105 64,118 C62,132 58,148 55,162 L58,168 L62,158 L64,168 L68,158 L70,168 C72,155 75,142 78,130 C82,118 86,108 92,100 C98,95 105,92 112,95 C118,100 122,110 120,122 C118,135 114,148 110,160 L108,170 L112,162 L110,172 L114,168 C112,178 108,188 102,198 C96,190 92,180 88,168 C84,155 82,142 80,128 C78,120 74,118 70,122 C66,128 62,140 60,155 C58,168 55,182 52,195 L54,200 L58,192 L56,202 L62,195 C65,180 68,165 72,148 C75,132 72,120 66,118 C60,118 56,125 55,140 C54,155 50,172 46,188 L44,195 L48,188 L46,198 L52,192",
 };
 
-function DualRevealCard({ name, color, delay, animImg, realImg }: {
+const DualRevealCard = React.memo(function DualRevealCard({ name, color, delay, animImg, realImg }: {
   name: string; color: string; delay: number; animImg: string; realImg: string;
 }) {
   return (
@@ -260,37 +269,40 @@ function DualRevealCard({ name, color, delay, animImg, realImg }: {
 
       {/* Animated character layer (on top, clips away on hover) */}
       <div className="dc-layer dc-anim">
-        <img src={animImg} alt={`${name} animated`} className="dc-img"/>
+        <img src={animImg} alt={`${name} animated`} className="dc-img" loading="lazy" decoding="async"/>
       </div>
 
       {/* Real performer layer (underneath, revealed on hover) */}
       <div className="dc-layer dc-real">
-        <img src={realImg} alt={name} className="dc-img"/>
+        <img src={realImg} alt={name} className="dc-img" loading="lazy" decoding="async"/>
       </div>
     </div>
   );
-}
+});
 
 /* ═══ CARREGA O HONMOON — Interactive Charging ═══ */
 
-function HonmoonCharger() {
+const HonmoonCharger = React.memo(function HonmoonCharger() {
   const [energy, setEnergy] = useState(0);
   const [charged, setCharged] = useState(false);
   const [pulses, setPulses] = useState<Array<{id: number; x: number; y: number}>>([]);
   const chargerRef = useRef<HTMLDivElement>(null);
+  const chargedRef = useRef(false);
 
-  const charge = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (charged) return;
-    const newEnergy = Math.min(energy + 8, 100);
-    setEnergy(newEnergy);
+  const charge = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (chargedRef.current) return;
+    setEnergy(prev => {
+      const newEnergy = Math.min(prev + 8, 100);
+      if (newEnergy >= 100) { chargedRef.current = true; setCharged(true); }
+      return newEnergy;
+    });
     const rect = e.currentTarget.getBoundingClientRect();
     setPulses(prev => [...prev.slice(-6), { id: Date.now(), x: e.clientX - rect.left, y: e.clientY - rect.top }]);
-    if (newEnergy >= 100) setCharged(true);
-  };
+  }, []);
 
   useEffect(() => {
     if (charged) {
-      const t = setTimeout(() => { setCharged(false); setEnergy(0); }, 6000);
+      const t = setTimeout(() => { setCharged(false); setEnergy(0); chargedRef.current = false; }, 6000);
       return () => clearTimeout(t);
     }
   }, [charged]);
@@ -357,7 +369,7 @@ function HonmoonCharger() {
       )}
     </div>
   );
-}
+});
 
 /* ════════════════════════════════════════ */
 /* ═══ MAIN PAGE ══════════════════════════ */
@@ -371,6 +383,7 @@ export default function HomePage() {
   const [ripple, setRipple] = useState<{active:boolean; x:number; y:number; toMode:'dark'|'light'}|null>(null);
   const [waveActive, setWaveActive] = useState(false);
   const orbRef = useRef<HTMLDivElement>(null);
+  const sectionRefs = useRef<HTMLElement[] | null>(null);
   const { ref: manifestoRef, visible: manifestoVisible } = useReveal();
 
   useEffect(() => {
@@ -396,18 +409,18 @@ export default function HomePage() {
     localStorage.setItem('honmoon-theme', themeMode);
   }, [themeMode]);
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
-  };
+  }, []);
 
-  const navLinks = [
+  const navLinks = useMemo(() => [
     { l: "Espetáculo", h: "#espetaculo" },
     { l: "Identidade", h: "#identidade" },
     { l: "Lineup", h: "#lineup" },
     { l: "Concertos", h: "#concertos" },
     { l: "Bilhetes", h: "#bilhetes" },
     { l: "Honmoon", h: "#honmoon" },
-  ];
+  ], []);
 
   return (
     <>
@@ -454,14 +467,14 @@ export default function HomePage() {
 
       {/* ═══ SOUL PARTICLES — fixed overlay across entire site ═══ */}
       <div className="soul-particles-site">
-        {Array.from({length: 24}, (_, i) => (
+        {Array.from({length: 16}, (_, i) => (
           <div
             key={i}
             className="soul-particle-site"
             style={{
-              left: `${5 + (i * 3.8) % 90}%`,
-              animationDelay: `${(i * 0.7) % 8}s`,
-              animationDuration: `${6 + (i % 5) * 1.5}s`,
+              left: `${5 + (i * 5.8) % 90}%`,
+              animationDelay: `${(i * 0.9) % 8}s`,
+              animationDuration: `${7 + (i % 4) * 1.5}s`,
               width: `${3 + (i % 4) * 2}px`,
               height: `${3 + (i % 4) * 2}px`,
             }}
@@ -476,6 +489,8 @@ export default function HomePage() {
           src="/hero-girls.png"
           alt=""
           className="hero-bg-img"
+          fetchPriority="high"
+          decoding="async"
         />
 
         {/* Grid texture overlay */}
@@ -632,7 +647,11 @@ export default function HomePage() {
 
             // ─── Wave delay: sections closer to orb change first ───
             const maxDist = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);
-            const allSections = document.querySelectorAll('section, header, footer, nav, .fixed.bottom-0');
+            /* Cache section refs on first click to avoid querySelectorAll on every click */
+            if (!sectionRefs.current) {
+              sectionRefs.current = Array.from(document.querySelectorAll('section, header, footer, nav, .fixed.bottom-0'));
+            }
+            const allSections = sectionRefs.current;
             allSections.forEach(el => {
               const r = el.getBoundingClientRect();
               const cx = r.left + r.width / 2;
@@ -920,7 +939,7 @@ export default function HomePage() {
               <Rv key={a.name} delay={i*100}>
                 <div className="group relative overflow-hidden cursor-pointer" style={{background:"var(--surface)"}}>
                   <div className="aspect-[3/4] overflow-hidden">
-                    <img src="/poster.png" alt={a.name} className="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105" style={{filter:"grayscale(75%) brightness(0.5)"}}
+                    <img src="/poster.png" alt={a.name} className="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105" style={{filter:"grayscale(75%) brightness(0.5)"}} loading="lazy" decoding="async"
                       onMouseEnter={e=>{(e.target as HTMLImageElement).style.filter="grayscale(0%) brightness(0.8)"}} 
                       onMouseLeave={e=>{(e.target as HTMLImageElement).style.filter="grayscale(75%) brightness(0.5)"}}/>
                   </div>
@@ -1077,7 +1096,7 @@ export default function HomePage() {
             <div className="lg:col-span-5">
               <Rv delay={200}>
                 <div className="overflow-hidden" style={{borderRadius:"2px"}}>
-                  <img src="/venue-bg.png" alt="Academia das Artes do Estoril" className="w-full h-64 sm:h-80 object-cover cin"/>
+                  <img src="/venue-bg.png" alt="Academia das Artes do Estoril" className="w-full h-64 sm:h-80 object-cover cin" loading="lazy" decoding="async"/>
                 </div>
                 <p className="text-[12px] leading-relaxed mt-4" style={{color:"var(--t3)"}}>
                   Estação de comboios do Estoril a 5 min a pé. Estacionamento gratuito nas proximidades. Acessível para mobilidade reduzida.

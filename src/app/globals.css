@@ -982,9 +982,9 @@ html { scroll-behavior: smooth; }
     inset 0 0 15px rgba(255,100,200,0.1);
 }
 @keyframes honmoonArcPulse {
-  0% { opacity: 0.4; filter: hue-rotate(0deg); }
+  0% { opacity: 0.4; }
   50% { opacity: 0.8; }
-  100% { opacity: 0.6; filter: hue-rotate(30deg); }
+  100% { opacity: 0.6; }
 }
 .honmoon-strand {
   position: absolute;
@@ -1018,8 +1018,8 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 0 12px rgba(100,200,255,0.3), 0 0 25px rgba(200,80,255,0.15);
 }
 @keyframes honmoonStrandPulse {
-  0% { opacity: 0.3; filter: hue-rotate(0deg) brightness(0.8); }
-  100% { opacity: 0.7; filter: hue-rotate(20deg) brightness(1.2); }
+  0% { opacity: 0.3; }
+  100% { opacity: 0.7; }
 }
 /* Honmoon nodes — glowing connection points like souls */
 .honmoon-node {
@@ -3523,4 +3523,528 @@ html { scroll-behavior: smooth; }
 
 .light-mode .mini-honmoon-toggle:hover {
   box-shadow: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ PERFORMANCE OPTIMIZATIONS ════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════ */
+
+/* GPU compositing for animated elements */
+.neon-shimmer, .gold-shimmer {
+  will-change: background-position, opacity;
+  backface-visibility: hidden;
+}
+.marquee-track {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.scroll-line {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+.rv {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Mix-blend-mode elements — force GPU layer */
+.esp-spotlight {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Contain paint boundaries for heavy sections */
+.espetaculo-section {
+  contain: content;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 800px;
+}
+.identidade-section {
+  contain: content;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 800px;
+}
+.honmoon-shield-section {
+  contain: content;
+}
+.honmoon-section {
+  contain: content;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 800px;
+}
+
+/* Below-fold sections with content-visibility */
+section#bilhetes {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 800px;
+}
+section#local {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 800px;
+}
+section#faq {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 600px;
+}
+section#lineup {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 800px;
+}
+section#concertos {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 800px;
+}
+
+/* Honmoon shield elements — GPU acceleration */
+.hm-neon-circle {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.hm-neon-arc {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.hm-ring {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+.hm-orb {
+  will-change: transform, box-shadow;
+  backface-visibility: hidden;
+}
+.hm-strand {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.hm-node {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+.hm-burst-ring {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+.hm-particle {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Manifesto honmoon elements */
+.honmoon-node {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+.honmoon-arc {
+  will-change: opacity;
+  backface-visibility: hidden;
+}
+.honmoon-strand {
+  will-change: opacity;
+  backface-visibility: hidden;
+}
+
+/* Neon border SVG animations */
+.nb-rect {
+  will-change: opacity, filter;
+  backface-visibility: hidden;
+}
+.nb-vine {
+  will-change: stroke-dashoffset, opacity, filter;
+  backface-visibility: hidden;
+}
+.nb-arc {
+  will-change: stroke-dashoffset, opacity;
+  backface-visibility: hidden;
+}
+.nb-eye {
+  will-change: opacity;
+  backface-visibility: hidden;
+}
+.nb-dot {
+  will-change: opacity, filter;
+  backface-visibility: hidden;
+}
+
+/* Dual card sweep */
+.dc-neon-sweep {
+  will-change: top, opacity;
+  backface-visibility: hidden;
+}
+
+/* Honmoon charger */
+.honmoon-bg-glow {
+  will-change: opacity, width, height;
+}
+.honmoon-pulse {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Shimmer rings (ripple transition) */
+.hm-shimmer-ring {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* LED ambient sync */
+.led-ambient-sync {
+  will-change: transform, opacity;
+}
+
+/* Espetaculo glow orbs */
+.esp-glow-orb {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Demon vine animations */
+.demon-vine {
+  will-change: stroke-dashoffset, stroke-opacity, filter;
+}
+.demon-vine-eye {
+  will-change: stroke-dashoffset, opacity;
+}
+
+/* Traveling light on dual cards */
+.dual-card::before {
+  will-change: background-position, opacity;
+  backface-visibility: hidden;
+}
+
+/* Ticket card hover */
+.tk {
+  will-change: transform, box-shadow;
+}
+
+/* Concert card */
+.concert-card {
+  will-change: transform, box-shadow, border-color;
+}
+
+/* Manifesto glow pulse */
+.manifesto-glow {
+  will-change: transform, opacity;
+  contain: layout style;
+}
+
+/* Monitor glow */
+.monitor-glow {
+  will-change: opacity;
+  contain: layout style;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ RESPONSIVE DESIGN — TABLETS (768px - 1024px) ════════════ */
+/* ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  /* Hero text scaling */
+  .hero-title {
+    font-size: clamp(2rem, 6vw, 4rem);
+  }
+  .hero-subtitle {
+    font-size: clamp(0.8rem, 1.8vw, 1rem);
+  }
+
+  /* Manifesto LED wall — slightly smaller */
+  .led-wall-frame {
+    aspect-ratio: 16 / 9;
+  }
+  .temple-roof {
+    height: 80px;
+  }
+  .temple-roof-peak {
+    width: 30px;
+    height: 30px;
+    top: -6px;
+  }
+  .temple-roof-tier-1 {
+    top: 16px;
+    height: 22px;
+  }
+  .temple-roof-tier-2 {
+    top: 32px;
+    height: 20px;
+  }
+  .temple-roof-cornice {
+    top: 48px;
+    height: 30px;
+  }
+  .temple-cap {
+    top: 12px;
+    width: 26px;
+    height: 44px;
+  }
+
+  /* Honmoon shield section — scale orb and rings */
+  .hm-orb {
+    width: 120px;
+    height: 120px;
+  }
+  .hm-ring-1 { width: 190px; height: 190px; }
+  .hm-ring-2 { width: 240px; height: 240px; }
+  .hm-ring-3 { width: 290px; height: 290px; }
+
+  .hm-neon-circle-1 { width: 150px; height: 150px; }
+  .hm-neon-circle-2 { width: 200px; height: 200px; }
+  .hm-neon-circle-3 { width: 250px; height: 250px; }
+  .hm-neon-circle-4 { width: 300px; height: 300px; }
+
+  .hm-neon-arc-1 { width: 180px; height: 180px; }
+  .hm-neon-arc-2 { width: 220px; height: 220px; }
+  .hm-neon-arc-3 { width: 270px; height: 270px; }
+
+  /* Honmoon charger — slightly smaller */
+  .honmoon-charger {
+    width: 230px;
+    height: 230px;
+  }
+  .honmoon-center {
+    width: 155px;
+    height: 155px;
+  }
+
+  /* Espetáculo title */
+  .esp-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+  }
+
+  /* Countdown */
+  .hero-countdown-wrap .text-3xl {
+    font-size: 1.75rem;
+  }
+
+  /* Marquee text */
+  .marquee-track span {
+    font-size: 1.25rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ RESPONSIVE DESIGN — MOBILE (<768px) ═════════════════════ */
+/* ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+  /* Hero — fluid typography */
+  .hero-title {
+    font-size: clamp(1.8rem, 8vw, 3rem);
+  }
+  .hero-tag {
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    padding: 0.3rem 0.8rem;
+    margin-bottom: 1.2rem;
+  }
+  .hero-subtitle {
+    font-size: clamp(0.75rem, 2.5vw, 0.95rem);
+    margin-bottom: 1.5rem;
+  }
+  .hero-cta {
+    padding: 0.9rem 2rem;
+    font-size: 10px;
+    gap: 0.5rem;
+  }
+
+  /* Hero section min-height */
+  .hero-section {
+    min-height: 550px;
+  }
+
+  /* Countdown — smaller */
+  .hero-countdown-wrap {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Honmoon shield section — reduce orb size, hide outer rings */
+  .honmoon-shield-section {
+    min-height: 35vh;
+    padding: 2rem 1rem;
+  }
+  .hm-orb {
+    width: 100px;
+    height: 100px;
+  }
+  .hm-ring-3 {
+    display: none;
+  }
+  .hm-ring-1 { width: 150px; height: 150px; }
+  .hm-ring-2 { width: 190px; height: 190px; }
+
+  /* Neon circles — reduce on mobile */
+  .hm-neon-circle-3, .hm-neon-circle-4 {
+    display: none;
+  }
+  .hm-neon-circle-1 { width: 120px; height: 120px; }
+  .hm-neon-circle-2 { width: 160px; height: 160px; }
+
+  /* Neon arcs — reduce */
+  .hm-neon-arc-3 {
+    display: none;
+  }
+  .hm-neon-arc-1 { width: 140px; height: 140px; }
+  .hm-neon-arc-2 { width: 170px; height: 170px; }
+
+  /* Manifesto LED wall — reduce height */
+  .manifesto-section {
+    min-height: 50vh;
+    padding: 2rem 1rem;
+  }
+  .led-wall-frame {
+    aspect-ratio: 16 / 10;
+  }
+
+  /* Temple pillars — narrower */
+  .temple-pillar {
+    width: 40px !important;
+  }
+  .pillar-base {
+    height: 20px;
+  }
+  .pillar-capital {
+    height: 16px;
+  }
+  .pillar-ornament {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Temple roof — smaller */
+  .temple-roof {
+    height: 60px;
+  }
+  .temple-roof-peak {
+    width: 24px;
+    height: 24px;
+    top: -4px;
+  }
+  .temple-roof-tier-1 {
+    top: 12px;
+    height: 16px;
+  }
+  .temple-roof-tier-2 {
+    top: 24px;
+    height: 14px;
+  }
+  .temple-roof-cornice {
+    top: 36px;
+    height: 24px;
+  }
+  .temple-cap {
+    top: 8px;
+    width: 20px;
+    height: 34px;
+  }
+
+  /* Temple base — smaller steps */
+  .temple-base-step-1 { height: 10px; }
+  .temple-base-step-2 { height: 8px; }
+  .temple-base-step-3 { height: 8px; }
+
+  /* Espetáculo — stack vertically */
+  .esp-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .esp-title {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+  }
+
+  /* Photo grid — 2x2 on mobile (hide last 2) */
+  .esp-photo-slot:nth-child(n+5) {
+    display: none;
+  }
+
+  /* Dual cards — single column */
+  .dual-grid {
+    grid-template-columns: 1fr;
+    max-width: 280px;
+  }
+
+  /* Lineup section */
+  .lineup-grid {
+    gap: 1px;
+  }
+
+  /* Bilhetes — stack cards */
+  .bilhetes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* FAQ — full width */
+  section#faq .max-w-3xl {
+    max-width: 100%;
+  }
+
+  /* Honmoon charger — smaller */
+  .honmoon-charger {
+    width: 200px;
+    height: 200px;
+  }
+  .honmoon-center {
+    width: 130px;
+    height: 130px;
+  }
+  .honmoon-pct {
+    font-size: 2rem;
+  }
+  .honmoon-btn {
+    padding: 0.8rem 2rem;
+    font-size: 9px;
+  }
+
+  /* Marquee — smaller text */
+  .marquee-track span {
+    font-size: 1rem;
+  }
+
+  /* Sections — reduced padding */
+  section.py-24 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  /* Touch targets — minimum 44px */
+  .hamburger {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mini-honmoon-toggle {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .hm-orb {
+    min-width: 100px;
+    min-height: 100px;
+  }
+  .concert-buy-btn {
+    min-height: 44px;
+  }
+  .esp-cta {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .hero-cta {
+    min-height: 44px;
+  }
+
+  /* Countdown — compact */
+  .hero-countdown-wrap {
+    gap: 0.75rem;
+  }
+
+  /* Honmoon charger touch target */
+  .honmoon-charger {
+    min-width: 200px;
+    min-height: 200px;
+  }
+
+  /* Shimmer rings — reduce size on mobile */
+  .hm-shimmer-ring {
+    width: 150vmax;
+    height: 150vmax;
+  }
 }
