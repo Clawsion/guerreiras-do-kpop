@@ -91,6 +91,40 @@ function Countdown() {
   );
 }
 
+/* ═══ HERO COUNTDOWN — Neon Boxes ═══ */
+
+function HeroCountdown() {
+  const [t, setT] = useState({ d: 0, h: 0, m: 0, s: 0 });
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    const tick = () => {
+      const diff = EVENT.getTime() - Date.now();
+      if (diff <= 0) return;
+      setT({ d: Math.floor(diff/864e5), h: Math.floor((diff/36e5)%24), m: Math.floor((diff/6e4)%60), s: Math.floor((diff/1e3)%60) });
+    };
+    tick();
+    setMounted(true);
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+  const units = [{v:t.d,l:"Dias"},{v:t.h,l:"Horas"},{v:t.m,l:"Min"},{v:t.s,l:"Seg"}];
+  return (
+    <div className="hero-countdown-neon">
+      {units.map((u, i) => (
+        <React.Fragment key={u.l}>
+          <div className="hero-countdown-box">
+            <span className="hero-countdown-num" suppressHydrationWarning>
+              {mounted ? String(u.v).padStart(2, "0") : "\u2013\u2013"}
+            </span>
+            <span className="hero-countdown-label">{u.l}</span>
+          </div>
+          {i < units.length - 1 && <span className="hero-countdown-sep">:</span>}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
 /* ═══ MARQUEE ═══ */
 
 const Marquee = React.memo(function Marquee({ text }: { text: string }) {
@@ -266,7 +300,7 @@ export default function HomePage() {
   const { ref: manifestoRef, visible: manifestoVisible } = useReveal();
 
   useEffect(() => {
-    const t = setTimeout(() => setLoaded(true), 1800);
+    const t = setTimeout(() => setLoaded(true), 900);
     return () => clearTimeout(t);
   }, []);
 
@@ -354,24 +388,10 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* ═══ PRELOADER — Honmoon Awakening ═══ */}
+      {/* ═══ PRELOADER — Curtain Reveal ═══ */}
       <div className={`preloader-honmoon ${loaded?"preloader-done":""}`}>
-        {/* Background */}
-        <div className="preloader-bg"/>
-        {/* Honmoon circle */}
-        <div className="preloader-circle-wrap">
-          <svg className="preloader-ring-svg" viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(200,80,255,0.08)" strokeWidth="1"/>
-            <circle className="preloader-ring-fill" cx="60" cy="60" r="52" fill="none" stroke="var(--neon-purple)" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
-          <div className="preloader-center">
-            <span className="preloader-pct"></span>
-            <span className="preloader-pct-label">%</span>
-          </div>
-        </div>
-        <span className="preloader-label">Honmoon</span>
-        {/* Golden flash on complete */}
-        <div className="preloader-flash"/>
+        <div className="preloader-curtain-left"/>
+        <div className="preloader-curtain-right"/>
       </div>
 
       {/* ═══ SOUL PARTICLES — fixed overlay across entire site ═══ */}
@@ -431,24 +451,26 @@ export default function HomePage() {
               <span />
               <span />
             </button>
-            {/* RIGHT: Ticket + Theme Toggle */}
-            <div className="flex items-center gap-5">
+            {/* RIGHT: Ticketline + Theme Toggle */}
+            <div className="flex items-center gap-4 sm:gap-6">
               <a
                 href={TL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hero-ticket-nav group relative"
-                title="Compra na Ticketline"
+                className="hero-nav-ticket group"
               >
-                <Ticket className="w-[18px] h-[18px] transition-all duration-300" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as SVGElement).style.color="var(--neon-purple)";(e.currentTarget as SVGElement).style.filter="drop-shadow(0 0 8px rgba(200,80,255,0.5))"}} onMouseLeave={e=>{(e.currentTarget as SVGElement).style.color="var(--t3)";(e.currentTarget as SVGElement).style.filter="none"}}/>
-                <span className="hero-ticket-tooltip">Compra na Ticketline</span>
+                <Ticket className="w-5 h-5 sm:w-[22px] sm:h-[22px] transition-all duration-300" style={{color:"var(--neon-purple)"}}/>
+                <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"var(--neon-purple)"}}>Ticketline</span>
               </a>
               <button
-                className="mini-honmoon-toggle"
+                className="hero-nav-theme"
                 onClick={toggleTheme}
                 aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
               >
-                <span className={`mini-honmoon-orb ${themeMode}`}/>
+                <span className={`hero-nav-orb ${themeMode}`}/>
+                <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"var(--t3)"}}>
+                  {themeMode === 'dark' ? 'Noite' : 'Dia'}
+                </span>
               </button>
             </div>
           </div>
@@ -500,7 +522,7 @@ export default function HomePage() {
         {/* ═══ HERO BOTTOM — Countdown + CTA ═══ */}
         <div className="absolute bottom-0 inset-x-0 z-10 flex flex-col items-center pb-10 sm:pb-14">
           <div className="hero-countdown-wrap">
-            <Countdown />
+            <HeroCountdown />
           </div>
           <a
             href="#concertos"
