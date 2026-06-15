@@ -583,113 +583,24 @@ export default function HomePage() {
 
       </section>
 
-      {/* ═══ MANIFESTO — LED WALL TUNNEL ═══ */}
+      {/* ═══ MANIFESTO — LED WALL FULLSCREEN TUNNEL ═══ */}
       <section
         ref={manifestoRef}
         className={`manifesto-section ${manifestoVisible ? "manifesto-in" : ""}`}
         style={{background:"var(--void)"}}
       >
-        {/* Ambient glow behind LED wall */}
-        <div className="manifesto-glow"/>
+        {/* Fullscreen shader — fills entire viewport */}
+        <LedWallShader active={manifestoVisible}/>
+
+        {/* Power-on flash overlay */}
+        <div className="led-power-flash"/>
 
         {/* Dynamic LED ambient — synced with shader color */}
         <div className="led-ambient-sync"/>
 
-        {/* Monitor glow — light spill from LED wall onto page sides */}
+        {/* Monitor glow — light spill onto page sides */}
         <div className="monitor-glow monitor-glow-left"/>
         <div className="monitor-glow monitor-glow-right"/>
-
-        {/* ═══ HONMOON SHIELD — iridescent soul barrier ═══ */}
-        <div className="honmoon-shield">
-          <div className="honmoon-arc honmoon-arc-top"/>
-          <div className="honmoon-arc honmoon-arc-bottom"/>
-          <div className="honmoon-strand honmoon-strand-left"/>
-          <div className="honmoon-strand honmoon-strand-right"/>
-          <div className="honmoon-node honmoon-node-1"/>
-          <div className="honmoon-node honmoon-node-2"/>
-          <div className="honmoon-node honmoon-node-3"/>
-          <div className="honmoon-node honmoon-node-4"/>
-          <div className="honmoon-node honmoon-node-5"/>
-          <div className="honmoon-node honmoon-node-6"/>
-        </div>
-
-        {/* ═══ DEMON MARKINGS — Gwi-Ma vines on pillars ═══ */}
-        <div className="demon-markings demon-markings-left">
-          <svg viewBox="0 0 60 400" className="demon-vine-svg" preserveAspectRatio="none">
-            <path className="demon-vine demon-vine-1" d="M30,0 C10,50 50,80 20,140 C-5,190 55,220 25,280 C5,330 40,360 30,400" fill="none"/>
-            <path className="demon-vine demon-vine-2" d="M15,0 C45,60 5,100 35,160 C55,210 10,250 30,300 C45,340 20,370 15,400" fill="none"/>
-            <path className="demon-vine-eye demon-vine-eye-1" d="M18,120 C22,110 32,110 32,120 C32,130 22,130 18,120Z" fill="none"/>
-            <path className="demon-vine-eye demon-vine-eye-2" d="M28,260 C32,250 42,250 42,260 C42,270 32,270 28,260Z" fill="none"/>
-          </svg>
-        </div>
-        <div className="demon-markings demon-markings-right">
-          <svg viewBox="0 0 60 400" className="demon-vine-svg" preserveAspectRatio="none">
-            <path className="demon-vine demon-vine-1" d="M30,0 C50,50 10,80 40,140 C65,190 5,220 35,280 C55,330 20,360 30,400" fill="none"/>
-            <path className="demon-vine demon-vine-2" d="M45,0 C15,60 55,100 25,160 C5,210 50,250 30,300 C15,340 40,370 45,400" fill="none"/>
-            <path className="demon-vine-eye demon-vine-eye-1" d="M28,120 C32,110 42,110 42,120 C42,130 32,130 28,120Z" fill="none"/>
-            <path className="demon-vine-eye demon-vine-eye-2" d="M18,260 C22,250 32,250 32,260 C32,270 22,270 18,260Z" fill="none"/>
-          </svg>
-        </div>
-
-        {/* ═══ TEMPLE FRAME ═══ */}
-        <div className="temple-frame">
-          {/* Temple roof — curved multi-tier top */}
-          <div className="temple-roof">
-            <div className="temple-roof-peak"/>
-            <div className="temple-roof-tier-1"/>
-            <div className="temple-roof-tier-2"/>
-            <div className="temple-roof-cornice"/>
-            {/* Decorative end caps */}
-            <div className="temple-cap temple-cap-left"/>
-            <div className="temple-cap temple-cap-right"/>
-          </div>
-
-          {/* Temple body — pillars + LED wall */}
-          <div className="temple-body">
-            {/* Left pillar */}
-            <div className="temple-pillar temple-pillar-left">
-              <div className="pillar-base"/>
-              <div className="pillar-shaft"/>
-              <div className="pillar-capital"/>
-              <div className="pillar-ornament pillar-ornament-1"/>
-              <div className="pillar-ornament pillar-ornament-2"/>
-              <div className="pillar-ornament pillar-ornament-3"/>
-            </div>
-
-            {/* Center: LED Wall */}
-            <div className="led-wall-frame">
-              {/* Power-on flash effect */}
-              <div className="led-power-flash"/>
-
-              {/* LED Wall screen */}
-              <div className="led-wall-screen">
-                <LedWallShader active={manifestoVisible}/>
-              </div>
-
-              <div className="led-frame-top"/>
-              <div className="led-frame-bottom"/>
-            </div>
-
-            {/* Right pillar */}
-            <div className="temple-pillar temple-pillar-right">
-              <div className="pillar-base"/>
-              <div className="pillar-shaft"/>
-              <div className="pillar-capital"/>
-              <div className="pillar-ornament pillar-ornament-1"/>
-              <div className="pillar-ornament pillar-ornament-2"/>
-              <div className="pillar-ornament pillar-ornament-3"/>
-            </div>
-          </div>
-
-          {/* Temple base platform */}
-          <div className="temple-base">
-            <div className="temple-base-step temple-base-step-1"/>
-            <div className="temple-base-step temple-base-step-2"/>
-            <div className="temple-base-step temple-base-step-3"/>
-          </div>
-
-
-        </div>
       </section>
 
       {/* ═══ ESPETÁCULO — Descrição + Galeria ═══ */}
