@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* Server mode — enables API routes (video proxy) for external video hosting */
+  output: "export",
   typescript: {
     ignoreBuildErrors: true,
   },
