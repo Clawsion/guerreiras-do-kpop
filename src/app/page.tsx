@@ -459,8 +459,8 @@ export default function HomePage() {
                 rel="noopener noreferrer"
                 className="hero-nav-ticket group"
               >
-                <Ticket className="w-5 h-5 sm:w-[22px] sm:h-[22px] transition-all duration-300" style={{color:"#fff"}}/>
-                <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"#fff"}}>Ticketline</span>
+                <Ticket className="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300" style={{color:"#fff"}}/>
+                <span className="hidden sm:inline text-[11px] tracking-[0.2em] uppercase font-bold" style={{color:"#fff"}}>Ticketline</span>
               </a>
               <button
                 className="hero-nav-theme"
@@ -468,7 +468,7 @@ export default function HomePage() {
                 aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
               >
                 <span className={`hero-nav-orb ${themeMode}`}/>
-                <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"rgba(255,255,255,0.85)"}}>
+                <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"var(--neon-purple)"}}>
                   {themeMode === 'dark' ? 'Noite' : 'Dia'}
                 </span>
               </button>
