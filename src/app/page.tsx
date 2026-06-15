@@ -368,6 +368,8 @@ export default function HomePage() {
   const [loaded, setLoaded] = useState(false);
   const [themeMode, setThemeMode] = useState<'dark' | 'light'>('dark');
   const [honmoonFlash, setHonmoonFlash] = useState(false);
+  const [burstKey, setBurstKey] = useState(0);
+  const [flashActive, setFlashActive] = useState(false);
   const { ref: manifestoRef, visible: manifestoVisible } = useReveal();
 
   useEffect(() => {
@@ -394,11 +396,7 @@ export default function HomePage() {
   }, [themeMode]);
 
   const toggleTheme = () => {
-    setHonmoonFlash(true);
-    setTimeout(() => {
-      setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
-      setHonmoonFlash(false);
-    }, 200);
+    setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
   const navLinks = [
@@ -562,6 +560,11 @@ export default function HomePage() {
         {/* Background glow */}
         <div className={`hm-bg-glow ${themeMode}`}/>
 
+        {/* Floating ambient particles */}
+        {[...Array(12)].map((_, i) => (
+          <div key={i} className={`hm-particle hm-particle-${i} ${themeMode}`}/>
+        ))}
+
         {/* Outer energy rings */}
         <div className={`hm-ring hm-ring-1 ${themeMode}`}/>
         <div className={`hm-ring hm-ring-2 ${themeMode}`}/>
@@ -575,10 +578,23 @@ export default function HomePage() {
         <div className={`hm-node hm-node-e ${themeMode}`}/>
         <div className={`hm-node hm-node-f ${themeMode}`}/>
 
+        {/* Title above orb */}
+        <div className="hm-title-wrap">
+          <p className={`hm-title ${themeMode}`}>HONMOON</p>
+          <p className={`hm-subtitle ${themeMode}`}>
+            {themeMode === 'dark' ? 'Toca para despertar' : 'Honmoon ativo — toca para adormecer'}
+          </p>
+        </div>
+
         {/* Central shield orb — clickable */}
         <div
           className={`hm-orb ${themeMode}`}
-          onClick={toggleTheme}
+          onClick={() => {
+            setBurstKey(k => k + 1);
+            setFlashActive(true);
+            setTimeout(() => setFlashActive(false), 600);
+            toggleTheme();
+          }}
           role="button"
           title={themeMode === 'dark' ? 'Toca para despertar o Honmoon' : 'Toca para adormecer o Honmoon'}
           aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
@@ -598,6 +614,16 @@ export default function HomePage() {
             {themeMode === 'dark' ? 'DESPERTAR' : 'ADORMECER'}
           </span>
         </div>
+
+        {/* Click burst — expanding rings on click */}
+        <div key={burstKey} className="hm-burst">
+          <div className="hm-burst-ring hm-burst-ring-1"/>
+          <div className="hm-burst-ring hm-burst-ring-2"/>
+          <div className="hm-burst-ring hm-burst-ring-3"/>
+        </div>
+
+        {/* Flash overlay — awakening transition */}
+        {flashActive && <div className={`hm-flash ${themeMode}`}/>}
       </section>
 
       {/* ═══ MANIFESTO — LED WALL TUNNEL ═══ */}
