@@ -540,8 +540,8 @@ export default function HomePage() {
           <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
         </div>
 
-        {/* ═══ HERO CONTENT — CTA bottom center ═══ */}
-        <a
+        {/* ═══ HERO CTA — temporarily hidden, re-enable when ready ═══ */}
+        {/* <a
           href={TL}
           target="_blank"
           rel="noopener noreferrer"
@@ -549,7 +549,7 @@ export default function HomePage() {
           style={{marginBottom:"10vh"}}
         >
           <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
-        </a>
+        </a> */}
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
