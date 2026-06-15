@@ -595,6 +595,15 @@ export default function HomePage() {
         <div className={`hm-ring hm-ring-2 ${themeMode}`}/>
         <div className={`hm-ring hm-ring-3 ${themeMode}`}/>
 
+        {/* ═══ Neon rose circles — anime Honmoon aesthetic, dark mode only ═══ */}
+        <div className={`hm-neon-circle hm-neon-circle-1 ${themeMode}`}/>
+        <div className={`hm-neon-circle hm-neon-circle-2 ${themeMode}`}/>
+        <div className={`hm-neon-circle hm-neon-circle-3 ${themeMode}`}/>
+        <div className={`hm-neon-circle hm-neon-circle-4 ${themeMode}`}/>
+        <div className={`hm-neon-arc hm-neon-arc-1 ${themeMode}`}/>
+        <div className={`hm-neon-arc hm-neon-arc-2 ${themeMode}`}/>
+        <div className={`hm-neon-arc hm-neon-arc-3 ${themeMode}`}/>
+
         {/* Orbiting energy nodes */}
         <div className={`hm-node hm-node-a ${themeMode}`}/>
         <div className={`hm-node hm-node-b ${themeMode}`}/>
@@ -655,12 +664,15 @@ export default function HomePage() {
           <div className={`hm-strand hm-strand-2 ${themeMode}`}/>
           <div className={`hm-strand hm-strand-3 ${themeMode}`}/>
 
-          {/* Center text */}
+          {/* Center text — MODO DIA / MODO NOITE */}
           <span className={`hm-label ${themeMode}`}>
-            {themeMode === 'light' ? 'ATIVO' : ''}
+            {themeMode === 'light' ? 'MODO DIA' : 'MODO NOITE'}
           </span>
 
-          {/* Hover hint — appears on hover to show it's interactive */}
+          {/* Click hint — finger tap indicator */}
+          <span className={`hm-tap-hint ${themeMode}`}/>
+
+          {/* Hover hint — appears on hover */}
           <span className="hm-hover-hint">
             {themeMode === 'dark' ? 'DESPERTAR' : 'ADORMECER'}
           </span>
