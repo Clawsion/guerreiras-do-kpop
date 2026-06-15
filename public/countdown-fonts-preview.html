@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Countdown Font Packs — Hero Preview</title>
+
+<!-- Pack fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Bebas+Neue&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@100;200;300;400;500;600;700;800;900&family=Chakra+Petch:wght@300;400;500;600;700&family=Oxanium:wght@200;300;400;500;600;700;800&family=Sora:wght@100;200;300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Geist:wght@100;200;300;400;500;600;700&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0B0813;
+    color: #fff;
+    padding: 40px 20px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+
+  /* ── Header ── */
+  .main-header {
+    text-align: center;
+    margin-bottom: 60px;
+    padding: 40px;
+    border: 1px solid rgba(200,80,255,0.2);
+    border-radius: 8px;
+    background: rgba(28,18,64,0.3);
+  }
+  .main-header h1 {
+    font-family: 'Geist', sans-serif;
+    font-weight: 200;
+    font-size: 36px;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .main-header p {
+    font-size: 14px;
+    color: #8a6fb5;
+    letter-spacing: 0.05em;
+  }
+  .main-header .spec {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: #C850FF;
+    margin-top: 16px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Section toggle: Dark / Light mode preview ── */
+  .mode-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .mode-btn {
+    padding: 8px 24px;
+    border: 1px solid rgba(200,80,255,0.3);
+    border-radius: 6px;
+    background: transparent;
+    color: #C850FF;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .mode-btn.active {
+    background: rgba(200,80,255,0.15);
+    border-color: #C850FF;
+  }
+  .mode-btn:hover {
+    background: rgba(200,80,255,0.1);
+  }
+
+  /* ── Pack card ── */
+  .pack-card {
+    margin-bottom: 48px;
+    border: 1px solid rgba(200,80,255,0.15);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .pack-header {
+    padding: 20px 28px;
+    background: rgba(28,18,64,0.4);
+    border-bottom: 1px solid rgba(200,80,255,0.1);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .pack-num {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: #C850FF;
+    letter-spacing: 0.15em;
+    opacity: 0.6;
+  }
+  .pack-name {
+    font-family: 'Geist', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .pack-tags {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+  }
+  .pack-tag {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border: 1px solid rgba(200,80,255,0.25);
+    border-radius: 3px;
+    color: #DA98FF;
+  }
+  .pack-fonts {
+    padding: 12px 28px;
+    background: rgba(28,18,64,0.2);
+    border-bottom: 1px solid rgba(200,80,255,0.06);
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: #8a6fb5;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── Preview area ── */
+  .pack-preview {
+    padding: 40px 28px;
+    position: relative;
+  }
+
+  /* Dark mode preview (default) */
+  .preview-dark {
+    background: #0B0813;
+    background-image:
+      radial-gradient(ellipse at 50% 30%, rgba(200,80,255,0.08) 0%, transparent 60%),
+      linear-gradient(to bottom, rgba(28,18,64,0.4) 0%, #0B0813 100%);
+  }
+
+  /* Light mode preview */
+  .preview-light {
+    background: #F5F0FF;
+    background-image:
+      radial-gradient(ellipse at 50% 30%, rgba(200,80,255,0.06) 0%, transparent 60%);
+    display: none;
+  }
+  .preview-light.visible { display: block; }
+  .preview-dark.visible { display: block; }
+  .preview-dark.hidden { display: none; }
+  .preview-light.hidden { display: none; }
+
+  /* ── Countdown layout (matching hero) ── */
+  .countdown-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  .countdown-ring {
+    position: relative;
+    width: 90px;
+    height: 90px;
+  }
+  .ring-outer {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1.5px solid transparent;
+    border-top-color: #C850FF;
+    border-right-color: rgba(200,80,255,0.3);
+    animation: r1 6s linear infinite;
+  }
+  .ring-inner {
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    border: 1.5px solid transparent;
+    border-bottom-color: #FF2D78;
+    border-left-color: rgba(236,72,153,0.2);
+    animation: r2 8s linear infinite;
+  }
+  @keyframes r1 { to { transform: rotate(360deg); } }
+  @keyframes r2 { to { transform: rotate(-360deg); } }
+
+  /* Light mode ring overrides */
+  .preview-light .ring-outer {
+    border-top-color: #9333EA;
+    border-right-color: rgba(147,51,234,0.25);
+  }
+  .preview-light .ring-inner {
+    border-bottom-color: #E040A0;
+    border-left-color: rgba(224,64,160,0.15);
+  }
+
+  .countdown-num {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    font-size: 34px;
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    z-index: 2;
+  }
+  .countdown-label {
+    margin-top: 6px;
+    font-size: 8px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .countdown-sep {
+    font-size: 18px;
+    opacity: 0.6;
+    margin-top: -8px;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:0.6} 50%{opacity:0.15} }
+
+  /* ── Dark mode colors ── */
+  .preview-dark .countdown-num {
+    color: #ffffff;
+    text-shadow: 0 0 24px rgba(200,80,255,0.6), 0 0 60px rgba(200,80,255,0.2);
+  }
+  .preview-dark .countdown-label {
+    color: #C850FF;
+    text-shadow: 0 0 12px rgba(200,80,255,0.3);
+  }
+  .preview-dark .countdown-sep {
+    color: #C850FF;
+  }
+
+  /* ── Light mode colors — NUMBERS ALWAYS WHITE ── */
+  .preview-light .countdown-num {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 0 20px rgba(147,51,234,0.3);
+  }
+  .preview-light .countdown-label {
+    color: #7C3AED;
+    text-shadow: none;
+  }
+  .preview-light .countdown-sep {
+    color: #9333EA;
+  }
+
+  /* ── Per-pack font assignments ── */
+
+  /* Pack 1: Neon Blade — Geist Mono + Geist */
+  .pack-1 .countdown-num {
+    font-family: 'Geist Mono', monospace;
+  }
+  .pack-1 .countdown-label {
+    font-family: 'Geist Mono', monospace;
+  }
+
+  /* Pack 2: Cyber Seoul — Orbitron + Rajdhani */
+  .pack-2 .countdown-num {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+  .pack-2 .countdown-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+  }
+
+  /* Pack 3: K-Pop Edge — Bebas Neue + Outfit */
+  .pack-3 .countdown-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    font-size: 42px;
+    letter-spacing: 0.04em;
+  }
+  .pack-3 .countdown-label {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+  }
+
+  /* Pack 4: Honmoon Tech — Oxanium + Chakra Petch */
+  .pack-4 .countdown-num {
+    font-family: 'Oxanium', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+  .pack-4 .countdown-label {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+  }
+
+  /* Pack 5: Minimal Pulse — Inter + Sora */
+  .pack-5 .countdown-num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 100;
+    letter-spacing: -0.04em;
+  }
+  .pack-5 .countdown-label {
+    font-family: 'Sora', sans-serif;
+    font-weight: 600;
+  }
+
+  /* Pack 6: Digital Dream — Exo 2 + Space Grotesk */
+  .pack-6 .countdown-num {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 200;
+    letter-spacing: 0.03em;
+  }
+  .pack-6 .countdown-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+  }
+
+  /* ── Recommendation badge ── */
+  .recommend-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #C850FF, #FF2D78);
+    color: #fff;
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+
+  /* ── Note area ── */
+  .pack-note {
+    padding: 12px 28px 20px;
+    background: rgba(28,18,64,0.15);
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: #8a6fb5;
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="main-header">
+    <h1>Countdown Font Packs</h1>
+    <p>Preview de fonts para os números e labels do countdown no hero</p>
+    <div class="spec">NÚMEROS → BRANCO (ambos modos) · LABELS → PERCEPTÍVEIS NO MODO DIA</div>
+  </div>
+
+  <!-- Mode Toggle -->
+  <div class="mode-toggle">
+    <button class="mode-btn active" onclick="setMode('dark')">DARK MODE</button>
+    <button class="mode-btn" onclick="setMode('light')">LIGHT MODE</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PACK 1: Neon Blade (current) -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="pack-card pack-1">
+    <div class="pack-header">
+      <span class="pack-num">PACK 01</span>
+      <span class="pack-name">Neon Blade</span>
+      <div class="pack-tags">
+        <span class="pack-tag">ATUAL</span>
+        <span class="pack-tag">MONO</span>
+      </div>
+    </div>
+    <div class="pack-fonts">Números: Geist Mono 200 · Labels: Geist Mono 600</div>
+    <div class="pack-preview preview-dark visible">
+      <div class="countdown-row">
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">32</span>
+          <span class="countdown-label">Dias</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">14</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">07</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">52</span>
+          <span class="countdown-label">Seg</span>
+        </div>
+      </div>
+    </div>
+    <div class="pack-preview preview-light hidden">
+      <div class="countdown-row">
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">32</span>
+          <span class="countdown-label">Dias</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">14</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">07</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">52</span>
+          <span class="countdown-label">Seg</span>
+        </div>
+      </div>
+    </div>
+    <div class="pack-note">O que tens agora. Geist Mono é clean mas o weight 200 fica fino demais no modo dia. Labels roxos pouco visíveis em fundo claro.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PACK 2: Cyber Seoul -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="pack-card pack-2">
+    <div class="pack-header">
+      <span class="pack-num">PACK 02</span>
+      <span class="pack-name">Cyber Seoul</span>
+      <div class="pack-tags">
+        <span class="recommend-badge">★ RECOMENDADO</span>
+        <span class="pack-tag">FUTURISTA</span>
+      </div>
+    </div>
+    <div class="pack-fonts">Números: Orbitron 400 · Labels: Rajdhani 500</div>
+    <div class="pack-preview preview-dark visible">
+      <div class="countdown-row">
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">32</span>
+          <span class="countdown-label">Dias</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">14</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">07</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">52</span>
+          <span class="countdown-label">Seg</span>
+        </div>
+      </div>
+    </div>
+    <div class="pack-preview preview-light hidden">
+      <div class="countdown-row">
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">32</span>
+          <span class="countdown-label">Dias</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">14</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">07</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">52</span>
+          <span class="countdown-label">Seg</span>
+        </div>
+      </div>
+    </div>
+    <div class="pack-note">Orbitron tem presença digital forte — os números brancos saltam bem em ambos os modos. Rajdhani dá label legível e tech. Combina com o tema K-Pop futurista.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PACK 3: K-Pop Edge -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="pack-card pack-3">
+    <div class="pack-header">
+      <span class="pack-num">PACK 03</span>
+      <span class="pack-name">K-Pop Edge</span>
+      <div class="pack-tags">
+        <span class="pack-tag">BOLD</span>
+        <span class="pack-tag">IMPACTO</span>
+      </div>
+    </div>
+    <div class="pack-fonts">Números: Bebas Neue 400 · Labels: Outfit 500</div>
+    <div class="pack-preview preview-dark visible">
+      <div class="countdown-row">
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">32</span>
+          <span class="countdown-label">Dias</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">14</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">07</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">52</span>
+          <span class="countdown-label">Seg</span>
+        </div>
+      </div>
+    </div>
+    <div class="pack-preview preview-light hidden">
+      <div class="countdown-row">
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">32</span>
+          <span class="countdown-label">Dias</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">14</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">07</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">52</span>
+          <span class="countdown-label">Seg</span>
+        </div>
+      </div>
+    </div>
+    <div class="pack-note">Bebas Neue é condensed e impactante — os números ficam altos e imponentes em branco. Outfit é clean e moderno para os labels. Visual forte e memorável.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PACK 4: Honmoon Tech -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="pack-card pack-4">
+    <div class="pack-header">
+      <span class="pack-num">PACK 04</span>
+      <span class="pack-name">Honmoon Tech</span>
+      <div class="pack-tags">
+        <span class="recommend-badge">★ RECOMENDADO</span>
+        <span class="pack-tag">GAMING</span>
+      </div>
+    </div>
+    <div class="pack-fonts">Números: Oxanium 300 · Labels: Chakra Petch 500</div>
+    <div class="pack-preview preview-dark visible">
+      <div class="countdown-row">
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">32</span>
+          <span class="countdown-label">Dias</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">14</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">07</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">52</span>
+          <span class="countdown-label">Seg</span>
+        </div>
+      </div>
+    </div>
+    <div class="pack-preview preview-light hidden">
+      <div class="countdown-row">
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">32</span>
+          <span class="countdown-label">Dias</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">14</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">07</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">52</span>
+          <span class="countdown-label">Seg</span>
+        </div>
+      </div>
+    </div>
+    <div class="pack-note">Oxanium tem aquele look de sci-fi/gaming que combina perfeitamente com Honmoon. Chakra Petch dá label angular e tech. Números brancos com glow sutil ficam premium.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PACK 5: Minimal Pulse -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="pack-card pack-5">
+    <div class="pack-header">
+      <span class="pack-num">PACK 05</span>
+      <span class="pack-name">Minimal Pulse</span>
+      <div class="pack-tags">
+        <span class="pack-tag">CLEAN</span>
+        <span class="pack-tag">ELEGANTE</span>
+      </div>
+    </div>
+    <div class="pack-fonts">Números: Inter 100 · Labels: Sora 600</div>
+    <div class="pack-preview preview-dark visible">
+      <div class="countdown-row">
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">32</span>
+          <span class="countdown-label">Dias</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">14</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">07</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">52</span>
+          <span class="countdown-label">Seg</span>
+        </div>
+      </div>
+    </div>
+    <div class="pack-preview preview-light hidden">
+      <div class="countdown-row">
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">32</span>
+          <span class="countdown-label">Dias</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">14</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">07</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">52</span>
+          <span class="countdown-label">Seg</span>
+        </div>
+      </div>
+    </div>
+    <div class="pack-note">Inter weight 100 é ultra-fino e elegante. Contraste forte com Sora 600 nos labels. Visual minimal e sofisticado, mas pode ficar pouco legível em ecrãs pequenos.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PACK 6: Digital Dream -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="pack-card pack-6">
+    <div class="pack-header">
+      <span class="pack-num">PACK 06</span>
+      <span class="pack-name">Digital Dream</span>
+      <div class="pack-tags">
+        <span class="pack-tag">DREAMY</span>
+        <span class="pack-tag">MODERNO</span>
+      </div>
+    </div>
+    <div class="pack-fonts">Números: Exo 2 200 · Labels: Space Grotesk 500</div>
+    <div class="pack-preview preview-dark visible">
+      <div class="countdown-row">
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">32</span>
+          <span class="countdown-label">Dias</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">14</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">07</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">52</span>
+          <span class="countdown-label">Seg</span>
+        </div>
+      </div>
+    </div>
+    <div class="pack-preview preview-light hidden">
+      <div class="countdown-row">
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">32</span>
+          <span class="countdown-label">Dias</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">14</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">07</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <span class="countdown-sep">✦</span>
+        <div class="countdown-unit">
+          <div class="countdown-ring"><div class="ring-outer"></div><div class="ring-inner"></div></div>
+          <span class="countdown-num">52</span>
+          <span class="countdown-label">Seg</span>
+        </div>
+      </div>
+    </div>
+    <div class="pack-note">Exo 2 tem uma qualidade futuristic-dreamy que funciona bem com K-Pop. Space Grotesk nos labels dá personalidade sem competir com os números. Bom equilíbrio.</div>
+  </div>
+
+</div>
+
+<script>
+function setMode(mode) {
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+
+  document.querySelectorAll('.preview-dark').forEach(el => {
+    el.classList.toggle('visible', mode === 'dark');
+    el.classList.toggle('hidden', mode !== 'dark');
+  });
+  document.querySelectorAll('.preview-light').forEach(el => {
+    el.classList.toggle('visible', mode === 'light');
+    el.classList.toggle('hidden', mode !== 'light');
+  });
+}
+</script>
+</body>
+</html>
