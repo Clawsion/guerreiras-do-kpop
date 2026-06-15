@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Font Preview — Guerreiras do K-Pop</title>
+
+<!-- Pack 1: Geist Sans + Plus Jakarta Sans -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Geist:wght@100;200;300;400;500;600;700&family=Geist+Mono:wght@200;300;400&display=swap" rel="stylesheet">
+
+<!-- Pack 5: Clash Display + Satoshi (Fontshare) -->
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background: #0B0813;
+    color: #fff;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1.pack-title {
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border: 1px solid rgba(200,80,255,0.3);
+    border-radius: 4px;
+    margin-bottom: 48px;
+    text-align: center;
+    background: rgba(200,80,255,0.06);
+  }
+
+  .pack-section {
+    margin-bottom: 80px;
+    padding: 48px;
+    border: 1px solid rgba(200,80,255,0.1);
+    border-radius: 8px;
+    background: rgba(28,18,64,0.3);
+  }
+
+  .pack-label {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #C850FF;
+    margin-bottom: 32px;
+    font-weight: 600;
+  }
+
+  .sample-title {
+    font-size: 48px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+
+  .sample-subtitle {
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    margin-bottom: 24px;
+    color: #d4c4f0;
+  }
+
+  .sample-body {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 16px;
+    color: #d4c4f0;
+  }
+
+  .sample-highlight {
+    font-size: 16px;
+    line-height: 1.8;
+    font-weight: 500;
+    color: #C850FF;
+    margin-bottom: 32px;
+  }
+
+  .sample-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #C850FF;
+    margin-bottom: 6px;
+  }
+
+  .sample-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+    background: #C850FF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 24px;
+  }
+
+  .sample-countdown {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .sample-seal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+  }
+
+  .seal-num {
+    font-size: 32px;
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(200,80,255,0.3);
+  }
+
+  .seal-label {
+    font-size: 8px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #C850FF;
+    margin-top: 6px;
+    font-weight: 600;
+  }
+
+  .seal-sep {
+    font-size: 18px;
+    color: #C850FF;
+    opacity: 0.6;
+    margin-top: -8px;
+  }
+
+  .sample-date {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #C850FF;
+    text-shadow: 0 0 16px rgba(200,80,255,0.3);
+  }
+
+  .sample-faq-q {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #fff;
+  }
+
+  .sample-faq-a {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #d4c4f0;
+    margin-bottom: 20px;
+  }
+
+  .sample-price {
+    font-size: 48px;
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .divider {
+    height: 1px;
+    background: rgba(200,80,255,0.15);
+    margin: 24px 0;
+  }
+
+  .font-info {
+    font-size: 11px;
+    color: #8a6fb5;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  /* ═══ Pack 1: Geist Sans titles + Jakarta Sans body ═══ */
+  .pack1 .sample-title { font-family: 'Geist', sans-serif; font-weight: 200; }
+  .pack1 .sample-subtitle { font-family: 'Geist', sans-serif; font-weight: 300; }
+  .pack1 .sample-body { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 400; }
+  .pack1 .sample-highlight { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; }
+  .pack1 .sample-label { font-family: 'Plus Jakarta Sans', sans-serif; }
+  .pack1 .sample-cta { font-family: 'Plus Jakarta Sans', sans-serif; }
+  .pack1 .seal-num { font-family: 'Geist Mono', monospace; }
+  .pack1 .seal-label { font-family: 'Plus Jakarta Sans', sans-serif; }
+  .pack1 .sample-date { font-family: 'Plus Jakarta Sans', sans-serif; }
+  .pack1 .sample-faq-q { font-family: 'Geist', sans-serif; }
+  .pack1 .sample-faq-a { font-family: 'Plus Jakarta Sans', sans-serif; }
+  .pack1 .sample-price { font-family: 'Geist', sans-serif; font-weight: 200; }
+
+  /* ═══ Pack 5: Clash Display titles + Satoshi body ═══ */
+  .pack5 .sample-title { font-family: 'Clash Display', sans-serif; font-weight: 200; }
+  .pack5 .sample-subtitle { font-family: 'Clash Display', sans-serif; font-weight: 300; }
+  .pack5 .sample-body { font-family: 'Satoshi', sans-serif; font-weight: 400; }
+  .pack5 .sample-highlight { font-family: 'Satoshi', sans-serif; font-weight: 500; }
+  .pack5 .sample-label { font-family: 'Satoshi', sans-serif; }
+  .pack5 .sample-cta { font-family: 'Satoshi', sans-serif; }
+  .pack5 .seal-num { font-family: 'Geist Mono', monospace; }
+  .pack5 .seal-label { font-family: 'Satoshi', sans-serif; }
+  .pack5 .sample-date { font-family: 'Satoshi', sans-serif; }
+  .pack5 .sample-faq-q { font-family: 'Clash Display', sans-serif; }
+  .pack5 .sample-faq-a { font-family: 'Satoshi', sans-serif; }
+  .pack5 .sample-price { font-family: 'Clash Display', sans-serif; font-weight: 200; }
+
+  /* Light mode section */
+  .light-section {
+    background: #F8F2FC;
+    padding: 48px;
+    border-radius: 8px;
+    margin-top: 32px;
+  }
+
+  .light-section .sample-title { color: #1E1040; }
+  .light-section .sample-subtitle { color: #5B3E8A; }
+  .light-section .sample-body { color: #5B3E8A; }
+  .light-section .sample-highlight { color: #9333EA; }
+  .light-section .sample-label { color: #9333EA; }
+  .light-section .seal-num { color: #1E1040; text-shadow: 0 0 20px rgba(147,51,234,0.15); }
+  .light-section .seal-label { color: #9333EA; }
+  .light-section .sample-date { color: #9333EA; text-shadow: none; }
+  .light-section .sample-faq-q { color: #1E1040; }
+  .light-section .sample-faq-a { color: #5B3E8A; }
+  .light-section .sample-price { color: #1E1040; }
+  .light-section .sample-cta { background: #9333EA; }
+  .light-section .pack-label { color: #9333EA; }
+
+  .mode-label {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0.5;
+  }
+  .dark-label { color: #8a6fb5; }
+  .light-label { color: #9470C4; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ═══ PACK 1 — HONMOON BLADE ═══ -->
+  <h1 class="pack-title" style="color:#C850FF;">Pack 1 — Honmoon Blade</h1>
+
+  <div class="pack1">
+    <div class="pack-section">
+      <div class="font-info">Títulos: Geist Sans 200 · Corpo: Plus Jakarta Sans 400 · Números: Geist Mono 200</div>
+      <div class="divider"></div>
+      
+      <div class="mode-label dark-label">🌑 MODO ESCURO</div>
+
+      <div class="sample-label">Tributo Musical</div>
+      <div class="sample-title">O Honmoon<br>Ganha Vida</div>
+      <div class="sample-subtitle">As Guerreiras Demon Hunters chegam a Portugal</div>
+      <div class="sample-body">Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa e a magia das Demon Hunters se torna real.</div>
+      <div class="sample-highlight">O Honmoon brilha quando todos se unem.</div>
+
+      <div class="sample-countdown">
+        <div class="sample-seal"><span class="seal-num">32</span><span class="seal-label">Dias</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">14</span><span class="seal-label">Horas</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">07</span><span class="seal-label">Min</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">42</span><span class="seal-label">Seg</span></div>
+      </div>
+
+      <button class="sample-cta">Garante o Teu Lugar →</button>
+      <div class="sample-date">Próximo: 18 JUL · Estoril · 18:30h</div>
+
+      <div class="divider" style="margin-top:32px;"></div>
+
+      <div class="sample-label">Bilhetes</div>
+      <div class="sample-price">€25</div>
+      <div class="sample-body">Bilhete geral com acesso a todas as zonas do evento.</div>
+
+      <div class="divider" style="margin-top:24px;"></div>
+
+      <div class="sample-label">FAQ</div>
+      <div class="sample-faq-q">O evento é adequado para menores?</div>
+      <div class="sample-faq-a">Sim! O espetáculo é recomendado para todas as idades. Menores de 12 anos devem ser acompanhados por um adulto.</div>
+
+      <!-- Light mode -->
+      <div class="light-section">
+        <div class="mode-label light-label">☀️ MODO CLARO</div>
+
+        <div class="sample-label">Tributo Musical</div>
+        <div class="sample-title">O Honmoon<br>Ganha Vida</div>
+        <div class="sample-subtitle">As Guerreiras Demon Hunters chegam a Portugal</div>
+        <div class="sample-body">Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa e a magia das Demon Hunters se torna real.</div>
+        <div class="sample-highlight">O Honmoon brilha quando todos se unem.</div>
+
+        <div class="sample-countdown">
+          <div class="sample-seal"><span class="seal-num">32</span><span class="seal-label">Dias</span></div>
+          <span class="seal-sep">✦</span>
+          <div class="sample-seal"><span class="seal-num">14</span><span class="seal-label">Horas</span></div>
+          <span class="seal-sep">✦</span>
+          <div class="sample-seal"><span class="seal-num">07</span><span class="seal-label">Min</span></div>
+          <span class="seal-sep">✦</span>
+          <div class="sample-seal"><span class="seal-num">42</span><span class="seal-label">Seg</span></div>
+        </div>
+
+        <button class="sample-cta">Garante o Teu Lugar →</button>
+        <div class="sample-date">Próximo: 18 JUL · Estoril · 18:30h</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PACK 5 — DEMON CORE ═══ -->
+  <h1 class="pack-title" style="color:#C850FF; margin-top:80px;">Pack 5 — Demon Core</h1>
+
+  <div class="pack5">
+    <div class="pack-section">
+      <div class="font-info">Títulos: Clash Display 200 · Corpo: Satoshi 400 · Números: Geist Mono 200</div>
+      <div class="divider"></div>
+
+      <div class="mode-label dark-label">🌑 MODO ESCURO</div>
+
+      <div class="sample-label">Tributo Musical</div>
+      <div class="sample-title">O Honmoon<br>Ganha Vida</div>
+      <div class="sample-subtitle">As Guerreiras Demon Hunters chegam a Portugal</div>
+      <div class="sample-body">Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa e a magia das Demon Hunters se torna real.</div>
+      <div class="sample-highlight">O Honmoon brilha quando todos se unem.</div>
+
+      <div class="sample-countdown">
+        <div class="sample-seal"><span class="seal-num">32</span><span class="seal-label">Dias</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">14</span><span class="seal-label">Horas</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">07</span><span class="seal-label">Min</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">42</span><span class="seal-label">Seg</span></div>
+      </div>
+
+      <button class="sample-cta">Garante o Teu Lugar →</button>
+      <div class="sample-date">Próximo: 18 JUL · Estoril · 18:30h</div>
+
+      <div class="divider" style="margin-top:32px;"></div>
+
+      <div class="sample-label">Bilhetes</div>
+      <div class="sample-price">€25</div>
+      <div class="sample-body">Bilhete geral com acesso a todas as zonas do evento.</div>
+
+      <div class="divider" style="margin-top:24px;"></div>
+
+      <div class="sample-label">FAQ</div>
+      <div class="sample-faq-q">O evento é adequado para menores?</div>
+      <div class="sample-faq-a">Sim! O espetáculo é recomendado para todas as idades. Menores de 12 anos devem ser acompanhados por um adulto.</div>
+
+      <!-- Light mode -->
+      <div class="light-section">
+        <div class="mode-label light-label">☀️ MODO CLARO</div>
+
+        <div class="sample-label">Tributo Musical</div>
+        <div class="sample-title">O Honmoon<br>Ganha Vida</div>
+        <div class="sample-subtitle">As Guerreiras Demon Hunters chegam a Portugal</div>
+        <div class="sample-body">Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa e a magia das Demon Hunters se torna real.</div>
+        <div class="sample-highlight">O Honmoon brilha quando todos se unem.</div>
+
+        <div class="sample-countdown">
+          <div class="sample-seal"><span class="seal-num">32</span><span class="seal-label">Dias</span></div>
+          <span class="seal-sep">✦</span>
+          <div class="sample-seal"><span class="seal-num">14</span><span class="seal-label">Horas</span></div>
+          <span class="seal-sep">✦</span>
+          <div class="sample-seal"><span class="seal-num">07</span><span class="seal-label">Min</span></div>
+          <span class="seal-sep">✦</span>
+          <div class="sample-seal"><span class="seal-num">42</span><span class="seal-label">Seg</span></div>
+        </div>
+
+        <button class="sample-cta">Garante o Teu Lugar →</button>
+        <div class="sample-date">Próximo: 18 JUL · Estoril · 18:30h</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
