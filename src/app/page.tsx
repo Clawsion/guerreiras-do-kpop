@@ -117,21 +117,6 @@ function LedWallVideo({ active }: { active: boolean }) {
   const activeRef = useRef(false);
   const [on, setOn] = useState(false);
 
-  /* Seamless infinite loop — restart 2 frames early so the visual never jumps.
-     The V3 tunnel has a slight diff at the exact last→first frame boundary.
-     By seeking back ~80ms before the end, the transition is invisible. */
-  useEffect(() => {
-    const v = vidRef.current;
-    if (!v) return;
-    const onTime = () => {
-      if (v.currentTime >= v.duration - 0.08) {
-        v.currentTime = 0;
-      }
-    };
-    v.addEventListener("timeupdate", onTime);
-    return () => v.removeEventListener("timeupdate", onTime);
-  }, []);
-
   /* Pause video when tab is hidden — saves CPU/GPU */
   useEffect(() => {
     const onVis = () => {
@@ -197,6 +182,7 @@ function LedWallVideo({ active }: { active: boolean }) {
         className="led-video-layer"
         src={LED_TUNNEL_SRC}
         muted
+        loop
         playsInline
         preload={active ? "auto" : "none"}
         style={{ opacity: on ? 1 : 0 }}
