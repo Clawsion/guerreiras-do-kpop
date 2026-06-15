@@ -2444,17 +2444,20 @@ html { scroll-behavior: smooth; }
   background: linear-gradient(to bottom, transparent, rgba(147, 51, 234, 0.1), transparent);
 }
 
-/* ═══ Dual cards in light mode — purple gradient bg INSIDE the cards like the anime ═══ */
+/* ═══ Dual cards in light mode — deep purple portal, the Guerreiras' world stays intense ═══ */
 .light-mode .identidade-section {
-  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
+  background: linear-gradient(180deg, #1a0e2e 0%, #2d1b69 40%, #1a0e2e 80%, #0d0815 100%);
+  --t1: #ffffff;
+  --t2: #d4c4f0;
+  --t3: #a78bfa;
 }
 .light-mode .dual-card {
-  background: linear-gradient(180deg, #EAD5F8 0%, #DCC2F0 35%, #D4B0EC 65%, #E8D0F5 100%);
-  box-shadow: 0 4px 20px rgba(147, 51, 234, 0.12), 0 0 40px rgba(200, 80, 255, 0.06);
+  background: linear-gradient(180deg, #2a1860 0%, #3d2878 35%, #2d1b69 65%, #1a0e2e 100%);
+  box-shadow: 0 4px 25px rgba(147, 51, 234, 0.25), 0 0 50px rgba(200, 80, 255, 0.1);
   border-radius: 8px;
 }
 .light-mode .dual-card:hover {
-  box-shadow: 0 0 50px rgba(0,0,0,0.3), 0 0 30px color-mix(in srgb, var(--char-color) 30%, transparent);
+  box-shadow: 0 0 50px rgba(0,0,0,0.4), 0 0 35px color-mix(in srgb, var(--char-color) 40%, transparent);
 }
 /* CRITICAL: Ensure clip-path and neon sweep transitions are IDENTICAL to dark mode */
 /* The .light-mode * catch-all transition overrides these, so we must re-declare them */
@@ -2480,14 +2483,14 @@ html { scroll-behavior: smooth; }
     0 -6px 20px color-mix(in srgb, var(--char-color) 35%, transparent),
     0 6px 20px color-mix(in srgb, var(--char-color) 35%, transparent);
 }
-/* Neon border SVG — vivid in light mode */
+/* Neon border SVG — vivid on dark purple */
 .light-mode .nb-rect {
-  opacity: 0.6;
-  filter: drop-shadow(0 0 6px var(--char-color, var(--pink-kpop)));
+  opacity: 0.8;
+  filter: drop-shadow(0 0 8px var(--char-color, var(--pink-kpop)));
 }
 .light-mode .dual-card:hover .nb-rect {
   opacity: 1;
-  filter: drop-shadow(0 0 12px var(--char-color, var(--pink-kpop))) brightness(1.5);
+  filter: drop-shadow(0 0 15px var(--char-color, var(--pink-kpop))) brightness(1.6);
 }
 /* Traveling light — visible in light mode */
 .light-mode .dual-card::before {
@@ -2503,17 +2506,17 @@ html { scroll-behavior: smooth; }
   100% { background-position: 130% 0; opacity: 0; }
 }
 
-/* Name label gradient lighter */
+/* Name label — keep light gradient for readability on dark cards */
 .light-mode .dc-name-label {
-  background: linear-gradient(to top, rgba(255,255,255,0.95) 5%, rgba(255,255,255,0.8) 45%, transparent 100%);
+  background: linear-gradient(to top, rgba(20,12,40,0.95) 5%, rgba(30,18,55,0.8) 45%, transparent 100%);
 }
 
-/* Photo placeholders lighter */
+/* Photo placeholders — dark to match the portal aesthetic */
 .light-mode .esp-photo-placeholder {
-  background: linear-gradient(135deg, rgba(240,232,255,0.8) 0%, rgba(255,245,248,0.9) 100%);
+  background: linear-gradient(135deg, rgba(45,27,105,0.8) 0%, rgba(26,14,46,0.9) 100%);
 }
 .light-mode .esp-photo-grid {
-  background: var(--deep);
+  background: #1a0e2e;
 }
 
 /* Concert cards */
@@ -2525,10 +2528,10 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 16px 48px rgba(147, 51, 234, 0.08), 0 0 30px rgba(236, 72, 153, 0.06);
 }
 
-/* Lineup cards */
+/* Lineup cards — dark to match portal */
 .light-mode .esp-photo-slot {
-  background: linear-gradient(135deg, rgba(240,232,255,0.9) 0%, rgba(255,245,248,0.95) 100%);
-  border-color: rgba(147, 51, 234, 0.08);
+  background: linear-gradient(135deg, rgba(45,27,105,0.9) 0%, rgba(26,14,46,0.95) 100%);
+  border-color: rgba(147, 51, 234, 0.15);
 }
 
 /* Ticket cards */
@@ -2544,9 +2547,9 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 0 20px rgba(236, 72, 153, 0.2), 0 0 50px rgba(236, 72, 153, 0.08), 0 8px 32px rgba(147, 51, 234, 0.1);
 }
 
-/* Neon dividers subtler in light */
+/* Neon dividers — full strength on dark purple background */
 .light-mode .neon-div {
-  opacity: 0.2;
+  opacity: 0.8;
 }
 
 /* Soul particles more visible in light */
