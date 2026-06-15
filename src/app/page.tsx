@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import {
   Ticket, MapPin, Clock, Instagram, Youtube, Music2,
   ExternalLink, Send, ChevronRight, ArrowUpRight, Phone, Mail, Facebook,
-  Flame, Sparkles, Mic2, MonitorPlay, PartyPopper, Cherry, Moon, Sun,
+  Flame, Sparkles, Mic2, MonitorPlay, PartyPopper, Cherry,
 } from "lucide-react";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
@@ -464,15 +464,6 @@ export default function HomePage() {
         {/* Vignette — darkens edges */}
         <div className="hero-vignette"/>
 
-        {/* ═══ LOGO — minimalist Honmoon logo, top center ═══ */}
-        <div className="hero-logo">
-          <img
-            src={themeMode === 'dark' ? '/logo-honmoon.svg' : '/logo-honmoon-light.svg'}
-            alt="Guerreiras K-Pop Demon Hunters"
-            className="hero-logo-img"
-          />
-        </div>
-
         {/* Glow orbs */}
         <div className="hero-glow-orb" style={{width:"40vw",height:"40vw",left:"25%",top:"30%",color:"rgba(200,80,255,0.15)"}}/>
         <div className="hero-glow-orb" style={{width:"25vw",height:"25vw",right:"10%",top:"55%",color:"rgba(74,144,226,0.10)",animationDelay:"3s"}}/>
@@ -505,7 +496,7 @@ export default function HomePage() {
               onClick={toggleTheme}
               aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
             >
-              {themeMode === 'dark' ? <Moon className="w-3.5 h-3.5"/> : <Sun className="w-3.5 h-3.5"/>}
+              <span className={`mini-honmoon-orb ${themeMode}`}/>
             </button>
           </div>
         </nav>
