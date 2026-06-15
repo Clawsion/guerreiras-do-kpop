@@ -3,14 +3,16 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 
 /* ═══════════════════════════════════════════════════════════════════
-   HONMOON LED WALL — WebGL Shader
+   LED WALL TUNNEL — WebGL Shader
    
-   A procedural Honmoon soul barrier animation.
-   Dark mode: Neon purple / Pink-Red / Electric Blue
-   Light mode: Golden light / Iridescent / Pastel rainbow
-   
+   Tunnel animation that mimics the original 24MB video.
    Zero compression. Zero pixelation. True infinite loop.
    GPU-rendered at native resolution.
+   
+   Dark mode (night): Neon Purple, Neon Pink, Electric Blue cycling
+   Light mode (day): Golden core, Iridescent/Rainbow pastels outward
+   
+   Auto-detects theme via MutationObserver on <html> class.
    ═══════════════════════════════════════════════════════════════════ */
 
 const VERT = `
@@ -25,7 +27,7 @@ precision highp float;
 
 uniform float u_time;
 uniform vec2  u_resolution;
-uniform float u_darkMode;   // 1.0 = dark, 0.0 = light
+uniform float u_darkMode;   // 1.0 = dark/night, 0.0 = light/day
 
 #define PI 3.14159265359
 #define TAU 6.28318530718
@@ -37,67 +39,6 @@ vec3 hsv2rgb(vec3 c) {
   return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
 
-/* ── Dark Mode Palettes ── */
-// Neon Purple: #AA28FF → rgb(170,40,255)
-// Neon Pink:   #FF2D78 → rgb(255,45,120)
-// Electric Blue:#4F8CFF → rgb(79,140,255)
-
-vec3 darkColor(float t, float dist) {
-  // Cycle through the 3 mandatory neon colors
-  vec3 purple = vec3(0.667, 0.157, 1.0);
-  vec3 pink   = vec3(1.0, 0.176, 0.471);
-  vec3 blue   = vec3(0.31, 0.55, 1.0);
-  
-  // Smooth 3-way blend cycling over time
-  float phase = fract(t * 0.08);
-  
-  vec3 color;
-  if (phase < 0.333) {
-    color = mix(purple, pink, smoothstep(0.0, 0.333, phase));
-  } else if (phase < 0.667) {
-    color = mix(pink, blue, smoothstep(0.333, 0.667, phase));
-  } else {
-    color = mix(blue, purple, smoothstep(0.667, 1.0, phase));
-  }
-  
-  // Distance-based shift: center is brighter, edges shift hue
-  color = mix(color, purple, dist * 0.3);
-  
-  return color;
-}
-
-/* ── Light Mode Palettes ── */
-// Golden Light: #F59E0B → rgb(245,158,11)
-// Iridescent Pink: #F9A8D4 → rgb(249,168,212)
-// Iridescent Blue: #93C5FD → rgb(147,197,253)
-// Warm Cream: #FEF3C7 → rgb(254,243,199)
-
-vec3 lightColor(float t, float dist) {
-  // Iridescent rainbow cycling — the final Honmoon state
-  float hue = fract(t * 0.06 + dist * 0.3);
-  
-  // Pastel rainbow: shift hue but keep saturation soft
-  vec3 rainbow = hsv2rgb(vec3(hue, 0.45, 1.0));
-  
-  // Golden core
-  vec3 gold = vec3(0.96, 0.62, 0.04);
-  vec3 cream = vec3(0.996, 0.953, 0.78);
-  
-  // Center is golden-cream, transitions to iridescent rainbow outward
-  vec3 color = mix(gold, rainbow, smoothstep(0.0, 0.5, dist));
-  color = mix(cream, color, smoothstep(0.05, 0.25, dist));
-  
-  // Add pink and blue highlights
-  vec3 pastelPink = vec3(0.976, 0.659, 0.831);
-  vec3 pastelBlue = vec3(0.576, 0.773, 0.992);
-  float pinkPhase = sin(t * 0.4 + dist * 2.0) * 0.5 + 0.5;
-  float bluePhase = sin(t * 0.3 + dist * 1.5 + 1.0) * 0.5 + 0.5;
-  color = mix(color, pastelPink, pinkPhase * 0.15 * smoothstep(0.2, 0.6, dist));
-  color = mix(color, pastelBlue, bluePhase * 0.12 * smoothstep(0.3, 0.7, dist));
-  
-  return color;
-}
-
 void main() {
   vec2 uv = (gl_FragCoord.xy * 2.0 - u_resolution) / min(u_resolution.x, u_resolution.y);
   
@@ -106,60 +47,110 @@ void main() {
   float t = u_time;
   
   /* ═══════════════════════════════════════════
-     RING PATTERNS — Honmoon barrier energy rings
+     TUNNEL WARP — the core depth illusion
+     Like looking into an infinite tunnel
      ═══════════════════════════════════════════ */
   
-  // Primary barrier rings — expanding outward like Honmoon pulses
-  float ring1 = sin(dist * 22.0 - t * 3.5) * 0.5 + 0.5;
-  // Secondary rings — counter-rotating energy layer
-  float ring2 = sin(dist * 38.0 - t * 6.0 + 1.2) * 0.5 + 0.5;
-  // Deep pulse — the breathing heartbeat of the barrier
-  float ring3 = sin(dist * 10.0 - t * 1.8 + 2.5) * 0.5 + 0.5;
-  // Micro rings — fine detail texture
-  float ring4 = sin(dist * 60.0 - t * 10.0 + 0.5) * 0.5 + 0.5;
+  // Tunnel coordinates — polar to tunnel space
+  float tunnelZ = 1.0 / max(dist, 0.01);  // depth = 1/distance
+  float tunnelAngle = angle / TAU;          // wrap angle to 0-1
   
-  float pattern = ring1 * 0.40 + ring2 * 0.28 + ring3 * 0.18 + ring4 * 0.14;
+  // Scroll through the tunnel over time
+  float zScroll = t * 1.2;
+  float zPos = tunnelZ + zScroll;
   
   /* ═══════════════════════════════════════════
-     ENERGY STRANDS — thin lines connecting rings (like in the anime)
+     TUNNEL RING PATTERN — expanding rings
      ═══════════════════════════════════════════ */
   
-  // Spiral strands that rotate slowly
-  float strand1 = pow(abs(sin(angle * 3.0 + dist * 8.0 - t * 1.5)), 20.0);
-  float strand2 = pow(abs(sin(angle * 5.0 - dist * 12.0 + t * 2.0)), 25.0);
-  float strand3 = pow(abs(sin(angle * 2.0 + dist * 6.0 - t * 0.8 + PI)), 15.0);
-  float strands = (strand1 + strand2 * 0.6 + strand3 * 0.4) * smoothstep(0.15, 0.05, dist);
+  // Primary rings — the main expanding tunnel rings
+  float ring1 = sin(zPos * 6.0) * 0.5 + 0.5;
+  // Secondary rings — finer detail
+  float ring2 = sin(zPos * 12.0 + 0.5) * 0.5 + 0.5;
+  // Tertiary — very fine texture
+  float ring3 = sin(zPos * 24.0 + 1.0) * 0.5 + 0.5;
+  // Slow pulse — breathing
+  float pulse = sin(t * 0.8) * 0.15 + 0.85;
+  
+  // Combine rings with decreasing weight
+  float ringPattern = ring1 * 0.50 + ring2 * 0.30 + ring3 * 0.20;
+  ringPattern *= pulse;
+  
+  /* ═══════════════════════════════════════════
+     SPIRAL ARMS — rotational depth lines
+     ═══════════════════════════════════════════ */
+  
+  // Multiple spiral arms that rotate
+  float spiral1 = pow(abs(sin(angle * 3.0 + zPos * 2.0 - t * 1.5)), 12.0);
+  float spiral2 = pow(abs(sin(angle * 5.0 - zPos * 1.5 + t * 2.0)), 16.0);
+  float spiral3 = pow(abs(sin(angle * 2.0 + zPos * 3.0 - t * 0.7)), 8.0);
+  float spiralPattern = (spiral1 + spiral2 * 0.5 + spiral3 * 0.3) * 0.4;
   
   /* ═══════════════════════════════════════════
      NEON ACCENT LINES — bright thin rings
      ═══════════════════════════════════════════ */
   
-  float neon1 = pow(abs(sin(dist * 50.0 - t * 8.0)), 50.0);
-  float neon2 = pow(abs(sin(dist * 35.0 - t * 5.5 + 0.7)), 35.0);
-  float neon3 = pow(abs(sin(dist * 70.0 - t * 12.0 + 1.3)), 60.0);
-  float neonLines = neon1 + neon2 * 0.6 + neon3 * 0.3;
+  float neon1 = pow(abs(sin(zPos * 8.0 - t * 2.0)), 30.0);
+  float neon2 = pow(abs(sin(zPos * 14.0 - t * 3.5 + 0.7)), 40.0);
+  float neon3 = pow(abs(sin(zPos * 20.0 - t * 5.0 + 1.3)), 50.0);
+  float neonPattern = neon1 * 0.5 + neon2 * 0.35 + neon3 * 0.15;
   
   /* ═══════════════════════════════════════════
-     ORBITING SOUL PARTICLES — 6 nodes like the Honmoon shield
+     DARK MODE COLORS — Neon Purple / Pink / Blue cycling
      ═══════════════════════════════════════════ */
   
-  float particles = 0.0;
-  for (int i = 0; i < 6; i++) {
-    float fi = float(i);
-    float orbitR = 0.35 + fi * 0.12;
-    float orbitSpeed = 0.6 + fi * 0.15;
-    float orbitAngle = t * orbitSpeed + fi * TAU / 6.0;
-    vec2 particlePos = vec2(cos(orbitAngle), sin(orbitAngle)) * orbitR;
-    float d = length(uv - particlePos);
-    particles += exp(-d * 40.0) * 0.4;
+  // Neon Purple: #AA28FF → rgb(170,40,255)
+  vec3 purple = vec3(0.667, 0.157, 1.0);
+  // Neon Pink: #FF2D78 → rgb(255,45,120)
+  vec3 pink   = vec3(1.0, 0.176, 0.471);
+  // Electric Blue: #4F8CFF → rgb(79,140,255)
+  vec3 blue   = vec3(0.31, 0.55, 1.0);
+  
+  // 3-way neon color cycle
+  float darkPhase = fract(t * 0.08);
+  vec3 darkCol;
+  if (darkPhase < 0.333) {
+    darkCol = mix(purple, pink, smoothstep(0.0, 0.333, darkPhase));
+  } else if (darkPhase < 0.667) {
+    darkCol = mix(pink, blue, smoothstep(0.333, 0.667, darkPhase));
+  } else {
+    darkCol = mix(blue, purple, smoothstep(0.667, 1.0, darkPhase));
   }
   
+  // Distance-based variation: center brighter, edges shift
+  darkCol = mix(darkCol, purple * 0.8, dist * 0.25);
+  
   /* ═══════════════════════════════════════════
-     COLOR — blend between dark and light palettes
+     LIGHT MODE COLORS — Golden / Iridescent / Rainbow
      ═══════════════════════════════════════════ */
   
-  vec3 darkCol = darkColor(t, dist);
-  vec3 lightCol = lightColor(t, dist);
+  // Golden Light: #F59E0B → rgb(245,158,11)
+  vec3 gold  = vec3(0.96, 0.62, 0.04);
+  vec3 cream = vec3(0.996, 0.953, 0.78);
+  
+  // Iridescent rainbow cycling
+  float hue = fract(t * 0.06 + dist * 0.35);
+  vec3 rainbow = hsv2rgb(vec3(hue, 0.45, 1.0));
+  
+  // Center golden → iridescent outward
+  vec3 lightCol = mix(gold, rainbow, smoothstep(0.0, 0.45, dist));
+  lightCol = mix(cream, lightCol, smoothstep(0.03, 0.2, dist));
+  
+  // Pastel highlights
+  vec3 pastelPink  = vec3(0.976, 0.659, 0.831);
+  vec3 pastelBlue  = vec3(0.576, 0.773, 0.992);
+  vec3 pastelMint  = vec3(0.431, 0.906, 0.718);
+  float pinkPhase  = sin(t * 0.4 + dist * 2.0) * 0.5 + 0.5;
+  float bluePhase  = sin(t * 0.3 + dist * 1.5 + 1.0) * 0.5 + 0.5;
+  float mintPhase  = sin(t * 0.35 + dist * 1.8 + 2.0) * 0.5 + 0.5;
+  lightCol = mix(lightCol, pastelPink, pinkPhase * 0.18 * smoothstep(0.2, 0.6, dist));
+  lightCol = mix(lightCol, pastelBlue, bluePhase * 0.15 * smoothstep(0.3, 0.7, dist));
+  lightCol = mix(lightCol, pastelMint, mintPhase * 0.12 * smoothstep(0.4, 0.8, dist));
+  
+  /* ═══════════════════════════════════════════
+     BLEND DARK/LIGHT based on mode
+     ═══════════════════════════════════════════ */
+  
   vec3 color = mix(lightCol, darkCol, u_darkMode);
   
   // Boost saturation for dark mode — make neons POP
@@ -170,37 +161,27 @@ void main() {
      BRIGHTNESS COMPOSITE
      ═══════════════════════════════════════════ */
   
-  float brightness = pattern * 0.55 + neonLines * 0.45 + strands * 0.3;
+  float brightness = ringPattern * 0.55 + neonPattern * 0.30 + spiralPattern * 0.15;
   
   /* ═══════════════════════════════════════════
-     CENTER GLOW — the soul core
+     CENTER GLOW — bright core at tunnel end
      ═══════════════════════════════════════════ */
   
-  // Bright white-gold center in light, white-purple in dark
-  vec3 centerDark = vec3(0.95, 0.85, 1.0);
+  // White-purple in dark, white-gold in light
+  vec3 centerDark  = vec3(0.95, 0.85, 1.0);
   vec3 centerLight = vec3(1.0, 0.97, 0.85);
   vec3 centerColor = mix(centerLight, centerDark, u_darkMode);
   
-  // Multi-layered center glow for richness
-  float glow1 = exp(-dist * 4.0);
-  float glow2 = exp(-dist * 12.0) * 0.5;
+  // Multi-layer glow
+  float glow1 = exp(-dist * 3.5);
+  float glow2 = exp(-dist * 10.0) * 0.6;
   float centerTotal = glow1 + glow2;
-  
-  /* ═══════════════════════════════════════════
-     SOUL PARTICLE GLOW — orbiting lights have their own color
-     ═══════════════════════════════════════════ */
-  
-  vec3 particleColor = mix(
-    vec3(1.0, 0.92, 0.75),  // light: warm gold
-    mix(vec3(0.667, 0.157, 1.0), vec3(1.0, 0.176, 0.471), sin(t * 0.5) * 0.5 + 0.5), // dark: purple↔pink
-    u_darkMode
-  );
   
   /* ═══════════════════════════════════════════
      VIGNETTE — fade edges to darkness
      ═══════════════════════════════════════════ */
   
-  float vignette = smoothstep(1.35, 0.15, dist);
+  float vignette = smoothstep(1.5, 0.1, dist);
   
   /* ═══════════════════════════════════════════
      FINAL COMPOSITE
@@ -208,24 +189,21 @@ void main() {
   
   vec3 finalColor = vec3(0.0);
   
-  // Barrier rings with color
+  // Tunnel rings with color
   finalColor += color * brightness * vignette;
   
-  // Center soul core glow
-  finalColor += centerColor * centerTotal * vignette * 1.3;
+  // Center glow
+  finalColor += centerColor * centerTotal * vignette * 1.4;
   
-  // Orbiting soul particles
-  finalColor += particleColor * particles * vignette;
+  // Spiral arms add their own colored glow
+  finalColor += color * spiralPattern * vignette * 0.5;
   
-  // Energy strands glow
-  finalColor += color * strands * 0.4 * vignette;
-  
-  // Subtle angular variation — depth without clock effect
-  float depthShimmer = sin(angle * 4.0 + t * 0.6 + dist * 3.0) * 0.04 + 1.0;
+  // Depth shimmer — subtle angular variation
+  float depthShimmer = sin(angle * 6.0 + t * 0.5 + dist * 4.0) * 0.05 + 1.0;
   finalColor *= depthShimmer;
   
   // Dark mode: deeper blacks at edges
-  finalColor *= mix(1.0, smoothstep(1.4, 0.3, dist), u_darkMode * 0.3);
+  finalColor *= mix(1.0, smoothstep(1.6, 0.3, dist), u_darkMode * 0.3);
   
   gl_FragColor = vec4(finalColor, 1.0);
 }
@@ -358,7 +336,7 @@ export default function LedWallShader({ active }: { active: boolean }) {
     rafRef.current = requestAnimationFrame(render);
   }, [resize]);
 
-  /* ── Start with portal emerge ── */
+  /* ── Start with power-on delay ── */
   useEffect(() => {
     activeRef.current = active;
     if (active && !startedRef.current) {
@@ -370,19 +348,15 @@ export default function LedWallShader({ active }: { active: boolean }) {
           startTimeRef.current = performance.now();
           rafRef.current = requestAnimationFrame(render);
         }
-      }, 800); // portal emerges faster than old TV power-on
+      }, 1500); // matches power-on flash timing
       return () => clearTimeout(t);
     }
   }, [active, initGL, render]);
 
-  /* ── Detect dark/light mode from parent section ── */
+  /* ── Detect dark/light mode from <html> class ── */
   useEffect(() => {
     if (!active) return;
 
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    // Find the root element to check theme mode
     const root = document.documentElement;
 
     const checkTheme = () => {
@@ -400,7 +374,7 @@ export default function LedWallShader({ active }: { active: boolean }) {
     return () => observer.disconnect();
   }, [active]);
 
-  /* ── Color sync via setInterval ── */
+  /* ── Color sync via setInterval — for CSS vars (monitor glow, etc.) ── */
   useEffect(() => {
     if (!active) return;
 
