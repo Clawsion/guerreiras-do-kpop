@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top 5 Label Fonts — Pack 1: Honmoon Blade</title>
+
+<!-- Pack 1 base fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Geist:wght@100;200;300;400;500;600;700&family=Geist+Mono:wght@300;400;500&family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0B0813;
+    color: #fff;
+    padding: 40px 20px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; }
+
+  /* ── Header ── */
+  .main-header {
+    text-align: center;
+    margin-bottom: 60px;
+    padding: 40px;
+    border: 1px solid rgba(200,80,255,0.2);
+    border-radius: 8px;
+    background: rgba(28,18,64,0.3);
+  }
+  .main-header h1 {
+    font-family: 'Geist', sans-serif;
+    font-weight: 200;
+    font-size: 36px;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .main-header p {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: #8a6fb5;
+    letter-spacing: 0.05em;
+  }
+  .main-header .base-info {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: #C850FF;
+    margin-top: 16px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Pack card ── */
+  .label-pack {
+    margin-bottom: 64px;
+    padding: 44px;
+    border: 1px solid rgba(200,80,255,0.15);
+    border-radius: 8px;
+    background: rgba(28,18,64,0.3);
+    position: relative;
+  }
+
+  .pack-number {
+    position: absolute;
+    top: -14px;
+    left: 28px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #C850FF;
+    background: #0B0813;
+    padding: 4px 16px;
+    border: 1px solid rgba(200,80,255,0.3);
+    border-radius: 3px;
+    font-weight: 500;
+  }
+
+  .font-spec {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: #8a6fb5;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .font-verdict {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    color: #d4c4f0;
+    line-height: 1.6;
+    margin-bottom: 28px;
+    padding: 12px 16px;
+    background: rgba(200,80,255,0.04);
+    border-left: 2px solid rgba(200,80,255,0.3);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .divider {
+    height: 1px;
+    background: rgba(200,80,255,0.12);
+    margin: 24px 0;
+  }
+
+  /* ── Shared sample styles (Pack 1 base) ── */
+  .sample-title {
+    font-family: 'Geist', sans-serif;
+    font-weight: 200;
+    font-size: 44px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 6px;
+    color: #fff;
+  }
+  .sample-subtitle {
+    font-family: 'Geist', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    margin-bottom: 24px;
+    color: #d4c4f0;
+  }
+  .sample-body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 16px;
+    color: #d4c4f0;
+  }
+  .sample-highlight {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #C850FF;
+    margin-bottom: 32px;
+  }
+
+  /* ── Label — the star of the show ── */
+  .sample-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #C850FF;
+    margin-bottom: 8px;
+  }
+
+  .sample-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+    background: #C850FF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+
+  .sample-countdown {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .sample-seal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 76px;
+  }
+  .seal-num {
+    font-family: 'Geist Mono', monospace;
+    font-size: 30px;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(200,80,255,0.3);
+  }
+  .seal-sub {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 8px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #C850FF;
+    margin-top: 6px;
+    font-weight: 600;
+  }
+  .seal-sep {
+    font-size: 16px;
+    color: #C850FF;
+    opacity: 0.5;
+    margin-top: -8px;
+  }
+
+  .sample-date {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #C850FF;
+    text-shadow: 0 0 16px rgba(200,80,255,0.3);
+  }
+
+  .sample-faq-q {
+    font-family: 'Geist', sans-serif;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #fff;
+  }
+  .sample-faq-a {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #d4c4f0;
+    margin-bottom: 20px;
+  }
+
+  .sample-price {
+    font-family: 'Geist', sans-serif;
+    font-size: 44px;
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  /* ── Light mode section ── */
+  .light-section {
+    background: #F8F2FC;
+    padding: 44px;
+    border-radius: 8px;
+    margin-top: 28px;
+  }
+  .light-section .sample-title { color: #1E1040; }
+  .light-section .sample-subtitle { color: #5B3E8A; }
+  .light-section .sample-body { color: #5B3E8A; }
+  .light-section .sample-highlight { color: #9333EA; }
+  .light-section .sample-label { color: #9333EA; }
+  .light-section .seal-num { color: #1E1040; text-shadow: 0 0 20px rgba(147,51,234,0.15); }
+  .light-section .seal-sub { color: #9333EA; }
+  .light-section .sample-date { color: #9333EA; text-shadow: none; }
+  .light-section .sample-faq-q { color: #1E1040; }
+  .light-section .sample-faq-a { color: #5B3E8A; }
+  .light-section .sample-price { color: #1E1040; }
+  .light-section .sample-cta { background: #9333EA; }
+  .light-section .font-verdict { color: #5B3E8A; border-left-color: rgba(147,51,234,0.3); background: rgba(147,51,234,0.04); }
+  .light-section .font-spec { color: #9470C4; }
+
+  .mode-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0.5;
+  }
+  .dark-label { color: #8a6fb5; }
+  .light-label { color: #9470C4; }
+
+  /* ═══════════════════════════════════════════
+     LABEL FONT ASSIGNMENTS — Each pack changes
+     only the .sample-label font-family
+     ═══════════════════════════════════════════ */
+
+  /* Pack A: Geist Mono */
+  .packA .sample-label { font-family: 'Geist Mono', monospace; }
+
+  /* Pack B: Space Mono */
+  .packB .sample-label { font-family: 'Space Mono', monospace; }
+
+  /* Pack C: Syne */
+  .packC .sample-label { font-family: 'Syne', sans-serif; }
+
+  /* Pack D: IBM Plex Mono */
+  .packD .sample-label { font-family: 'IBM Plex Mono', monospace; }
+
+  /* Pack E: DM Mono */
+  .packE .sample-label { font-family: 'DM Mono', monospace; }
+
+  /* ── Comparison strip ── */
+  .compare-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 32px;
+    border: 1px solid rgba(200,80,255,0.15);
+    border-radius: 8px;
+    background: rgba(28,18,64,0.3);
+    margin-bottom: 64px;
+  }
+  .compare-item {
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+  }
+  .compare-item .compare-font-name {
+    font-family: 'Geist Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #8a6fb5;
+    margin-bottom: 10px;
+  }
+  .compare-item .compare-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #C850FF;
+  }
+  .compare-item.cA .compare-label { font-family: 'Geist Mono', monospace; }
+  .compare-item.cB .compare-label { font-family: 'Space Mono', monospace; }
+  .compare-item.cC .compare-label { font-family: 'Syne', sans-serif; }
+  .compare-item.cD .compare-label { font-family: 'IBM Plex Mono', monospace; }
+  .compare-item.cE .compare-label { font-family: 'DM Mono', monospace; }
+
+  .recommended {
+    display: inline-block;
+    font-family: 'Geist Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #FF69B4;
+    margin-left: 8px;
+    padding: 2px 8px;
+    border: 1px solid rgba(255,105,180,0.3);
+    border-radius: 2px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ═══ HEADER ═══ -->
+  <div class="main-header">
+    <h1>Top 5 — Label Fonts</h1>
+    <p>Para Pack 1: Honmoon Blade (Geist Sans + Plus Jakarta Sans)</p>
+    <div class="base-info">Títulos: Geist Sans · Corpo: Plus Jakarta Sans · Números: Geist Mono</div>
+  </div>
+
+  <!-- ═══ QUICK COMPARISON STRIP ═══ -->
+  <div class="compare-strip">
+    <div class="compare-item cA">
+      <div class="compare-font-name">A · Geist Mono</div>
+      <div class="compare-label">Tributo Musical</div>
+    </div>
+    <div class="compare-item cB">
+      <div class="compare-font-name">B · Space Mono</div>
+      <div class="compare-label">Tributo Musical</div>
+    </div>
+    <div class="compare-item cC">
+      <div class="compare-font-name">C · Syne</div>
+      <div class="compare-label">Tributo Musical</div>
+    </div>
+    <div class="compare-item cD">
+      <div class="compare-font-name">D · IBM Plex Mono</div>
+      <div class="compare-label">Tributo Musical</div>
+    </div>
+    <div class="compare-item cE">
+      <div class="compare-font-name">E · DM Mono</div>
+      <div class="compare-label">Tributo Musical</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PACK A — GEIST MONO
+       ══════════════════════════════════════════ -->
+  <div class="label-pack packA">
+    <div class="pack-number">A — Geist Mono <span class="recommended">Recomendado</span></div>
+
+    <div class="font-spec">Label: Geist Mono 500 · Tamanho: 10px · Spacing: 0.3em</div>
+    <div class="font-verdict">
+      Monospace da mesma família do Geist Sans (títulos). Cria uma hierarquia perfeita: os labels ficam com aspeto "código de selo" — técnico, místico, como runas ativadas. Como já está carregado para os números do countdown, não adiciona peso ao site. É a escolha mais coesa e eficiente.
+    </div>
+
+    <div class="mode-label dark-label">🌑 MODO ESCURO</div>
+
+    <div class="sample-label">Tributo Musical</div>
+    <div class="sample-title">O Honmoon<br>Ganha Vida</div>
+    <div class="sample-subtitle">As Guerreiras Demon Hunters chegam a Portugal</div>
+    <div class="sample-body">Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa e a magia das Demon Hunters se torna real.</div>
+    <div class="sample-highlight">O Honmoon brilha quando todos se unem.</div>
+
+    <div class="sample-countdown">
+      <div class="sample-seal"><span class="seal-num">32</span><span class="seal-sub">Dias</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">14</span><span class="seal-sub">Horas</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">07</span><span class="seal-sub">Min</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">42</span><span class="seal-sub">Seg</span></div>
+    </div>
+
+    <button class="sample-cta">Garante o Teu Lugar →</button>
+    <div class="sample-date">Próximo: 18 JUL · Estoril · 18:30h</div>
+
+    <div class="divider" style="margin-top:32px;"></div>
+
+    <div class="sample-label">Bilhetes</div>
+    <div class="sample-price">€25</div>
+    <div class="sample-body">Bilhete geral com acesso a todas as zonas do evento.</div>
+
+    <div class="divider" style="margin-top:24px;"></div>
+
+    <div class="sample-label">FAQ</div>
+    <div class="sample-faq-q">O evento é adequado para menores?</div>
+    <div class="sample-faq-a">Sim! O espetáculo é recomendado para todas as idades. Menores de 12 anos devem ser acompanhados por um adulto.</div>
+
+    <!-- Light mode -->
+    <div class="light-section">
+      <div class="mode-label light-label">☀️ MODO CLARO</div>
+
+      <div class="sample-label">Tributo Musical</div>
+      <div class="sample-title">O Honmoon<br>Ganha Vida</div>
+      <div class="sample-subtitle">As Guerreiras Demon Hunters chegam a Portugal</div>
+      <div class="sample-body">Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa e a magia das Demon Hunters se torna real.</div>
+      <div class="sample-highlight">O Honmoon brilha quando todos se unem.</div>
+
+      <div class="sample-countdown">
+        <div class="sample-seal"><span class="seal-num">32</span><span class="seal-sub">Dias</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">14</span><span class="seal-sub">Horas</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">07</span><span class="seal-sub">Min</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">42</span><span class="seal-sub">Seg</span></div>
+      </div>
+
+      <button class="sample-cta">Garante o Teu Lugar →</button>
+      <div class="sample-date">Próximo: 18 JUL · Estoril · 18:30h</div>
+
+      <div class="divider" style="margin-top:32px;"></div>
+
+      <div class="sample-label">Bilhetes</div>
+      <div class="sample-price">€25</div>
+      <div class="sample-body">Bilhete geral com acesso a todas as zonas do evento.</div>
+
+      <div class="divider" style="margin-top:24px;"></div>
+
+      <div class="sample-label">FAQ</div>
+      <div class="sample-faq-q">O evento é adequado para menores?</div>
+      <div class="sample-faq-a">Sim! O espetáculo é recomendado para todas as idades. Menores de 12 anos devem ser acompanhados por um adulto.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PACK B — SPACE MONO
+       ══════════════════════════════════════════ -->
+  <div class="label-pack packB">
+    <div class="pack-number">B — Space Mono</div>
+
+    <div class="font-spec">Label: Space Mono 700 · Tamanho: 10px · Spacing: 0.3em</div>
+    <div class="font-verdict">
+      Monospace retro-futurista do Google. Tem mais personalidade que o Geist Mono — os caracteres são ligeiramente mais largos e com mais peso visual. Dá um ar "sci-fi dos anos 70" aos labels, como se fossem transmissões de uma dimensão paralela. Funciona bem com o tema Demon Hunters mas pesa ~30KB extra.
+    </div>
+
+    <div class="mode-label dark-label">🌑 MODO ESCURO</div>
+
+    <div class="sample-label">Tributo Musical</div>
+    <div class="sample-title">O Honmoon<br>Ganha Vida</div>
+    <div class="sample-subtitle">As Guerreiras Demon Hunters chegam a Portugal</div>
+    <div class="sample-body">Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa e a magia das Demon Hunters se torna real.</div>
+    <div class="sample-highlight">O Honmoon brilha quando todos se unem.</div>
+
+    <div class="sample-countdown">
+      <div class="sample-seal"><span class="seal-num">32</span><span class="seal-sub">Dias</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">14</span><span class="seal-sub">Horas</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">07</span><span class="seal-sub">Min</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">42</span><span class="seal-sub">Seg</span></div>
+    </div>
+
+    <button class="sample-cta">Garante o Teu Lugar →</button>
+    <div class="sample-date">Próximo: 18 JUL · Estoril · 18:30h</div>
+
+    <div class="divider" style="margin-top:32px;"></div>
+
+    <div class="sample-label">Bilhetes</div>
+    <div class="sample-price">€25</div>
+    <div class="sample-body">Bilhete geral com acesso a todas as zonas do evento.</div>
+
+    <div class="divider" style="margin-top:24px;"></div>
+
+    <div class="sample-label">FAQ</div>
+    <div class="sample-faq-q">O evento é adequado para menores?</div>
+    <div class="sample-faq-a">Sim! O espetáculo é recomendado para todas as idades. Menores de 12 anos devem ser acompanhados por um adulto.</div>
+
+    <!-- Light mode -->
+    <div class="light-section">
+      <div class="mode-label light-label">☀️ MODO CLARO</div>
+
+      <div class="sample-label">Tributo Musical</div>
+      <div class="sample-title">O Honmoon<br>Ganha Vida</div>
+      <div class="sample-subtitle">As Guerreiras Demon Hunters chegam a Portugal</div>
+      <div class="sample-body">Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa e a magia das Demon Hunters se torna real.</div>
+      <div class="sample-highlight">O Honmoon brilha quando todos se unem.</div>
+
+      <div class="sample-countdown">
+        <div class="sample-seal"><span class="seal-num">32</span><span class="seal-sub">Dias</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">14</span><span class="seal-sub">Horas</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">07</span><span class="seal-sub">Min</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">42</span><span class="seal-sub">Seg</span></div>
+      </div>
+
+      <button class="sample-cta">Garante o Teu Lugar →</button>
+      <div class="sample-date">Próximo: 18 JUL · Estoril · 18:30h</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PACK C — SYNE
+       ══════════════════════════════════════════ -->
+  <div class="label-pack packC">
+    <div class="pack-number">C — Syne</div>
+
+    <div class="font-spec">Label: Syne 700 · Tamanho: 10px · Spacing: 0.3em</div>
+    <div class="font-verdict">
+      Font display artística com carácter quase místico. As formas das letras são únicas — o "R", "M" e "A" têm uma personalidade arcanista que combina na perfeição com o tema Demon Hunters. É a escolha mais expressiva e visualmente impactante. O contraste com o Geist Sans limpo dos títulos é forte e deliberado. Pesa ~25KB extra.
+    </div>
+
+    <div class="mode-label dark-label">🌑 MODO ESCURO</div>
+
+    <div class="sample-label">Tributo Musical</div>
+    <div class="sample-title">O Honmoon<br>Ganha Vida</div>
+    <div class="sample-subtitle">As Guerreiras Demon Hunters chegam a Portugal</div>
+    <div class="sample-body">Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa e a magia das Demon Hunters se torna real.</div>
+    <div class="sample-highlight">O Honmoon brilha quando todos se unem.</div>
+
+    <div class="sample-countdown">
+      <div class="sample-seal"><span class="seal-num">32</span><span class="seal-sub">Dias</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">14</span><span class="seal-sub">Horas</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">07</span><span class="seal-sub">Min</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">42</span><span class="seal-sub">Seg</span></div>
+    </div>
+
+    <button class="sample-cta">Garante o Teu Lugar →</button>
+    <div class="sample-date">Próximo: 18 JUL · Estoril · 18:30h</div>
+
+    <div class="divider" style="margin-top:32px;"></div>
+
+    <div class="sample-label">Bilhetes</div>
+    <div class="sample-price">€25</div>
+    <div class="sample-body">Bilhete geral com acesso a todas as zonas do evento.</div>
+
+    <div class="divider" style="margin-top:24px;"></div>
+
+    <div class="sample-label">FAQ</div>
+    <div class="sample-faq-q">O evento é adequado para menores?</div>
+    <div class="sample-faq-a">Sim! O espetáculo é recomendado para todas as idades. Menores de 12 anos devem ser acompanhados por um adulto.</div>
+
+    <!-- Light mode -->
+    <div class="light-section">
+      <div class="mode-label light-label">☀️ MODO CLARO</div>
+
+      <div class="sample-label">Tributo Musical</div>
+      <div class="sample-title">O Honmoon<br>Ganha Vida</div>
+      <div class="sample-subtitle">As Guerreiras Demon Hunters chegam a Portugal</div>
+      <div class="sample-body">Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa e a magia das Demon Hunters se torna real.</div>
+      <div class="sample-highlight">O Honmoon brilha quando todos se unem.</div>
+
+      <div class="sample-countdown">
+        <div class="sample-seal"><span class="seal-num">32</span><span class="seal-sub">Dias</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">14</span><span class="seal-sub">Horas</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">07</span><span class="seal-sub">Min</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">42</span><span class="seal-sub">Seg</span></div>
+      </div>
+
+      <button class="sample-cta">Garante o Teu Lugar →</button>
+      <div class="sample-date">Próximo: 18 JUL · Estoril · 18:30h</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PACK D — IBM PLEX MONO
+       ══════════════════════════════════════════ -->
+  <div class="label-pack packD">
+    <div class="pack-number">D — IBM Plex Mono</div>
+
+    <div class="font-spec">Label: IBM Plex Mono 500 · Tamanho: 10px · Spacing: 0.3em</div>
+    <div class="font-verdict">
+      Monospace técnico e preciso da IBM. Mais neutro que o Space Mono, mais largo que o Geist Mono. Dá um ar de "sistema operativo de selo" — como se os labels fossem comandos digitados num terminal mágico. Bom equilíbrio entre personalidade e discrição. Pesa ~35KB extra.
+    </div>
+
+    <div class="mode-label dark-label">🌑 MODO ESCURO</div>
+
+    <div class="sample-label">Tributo Musical</div>
+    <div class="sample-title">O Honmoon<br>Ganha Vida</div>
+    <div class="sample-subtitle">As Guerreiras Demon Hunters chegam a Portugal</div>
+    <div class="sample-body">Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa e a magia das Demon Hunters se torna real.</div>
+    <div class="sample-highlight">O Honmoon brilha quando todos se unem.</div>
+
+    <div class="sample-countdown">
+      <div class="sample-seal"><span class="seal-num">32</span><span class="seal-sub">Dias</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">14</span><span class="seal-sub">Horas</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">07</span><span class="seal-sub">Min</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">42</span><span class="seal-sub">Seg</span></div>
+    </div>
+
+    <button class="sample-cta">Garante o Teu Lugar →</button>
+    <div class="sample-date">Próximo: 18 JUL · Estoril · 18:30h</div>
+
+    <div class="divider" style="margin-top:32px;"></div>
+
+    <div class="sample-label">Bilhetes</div>
+    <div class="sample-price">€25</div>
+    <div class="sample-body">Bilhete geral com acesso a todas as zonas do evento.</div>
+
+    <div class="divider" style="margin-top:24px;"></div>
+
+    <div class="sample-label">FAQ</div>
+    <div class="sample-faq-q">O evento é adequado para menores?</div>
+    <div class="sample-faq-a">Sim! O espetáculo é recomendado para todas as idades. Menores de 12 anos devem ser acompanhados por um adulto.</div>
+
+    <!-- Light mode -->
+    <div class="light-section">
+      <div class="mode-label light-label">☀️ MODO CLARO</div>
+
+      <div class="sample-label">Tributo Musical</div>
+      <div class="sample-title">O Honmoon<br>Ganha Vida</div>
+      <div class="sample-subtitle">As Guerreiras Demon Hunters chegam a Portugal</div>
+      <div class="sample-body">Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa e a magia das Demon Hunters se torna real.</div>
+      <div class="sample-highlight">O Honmoon brilha quando todos se unem.</div>
+
+      <div class="sample-countdown">
+        <div class="sample-seal"><span class="seal-num">32</span><span class="seal-sub">Dias</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">14</span><span class="seal-sub">Horas</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">07</span><span class="seal-sub">Min</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">42</span><span class="seal-sub">Seg</span></div>
+      </div>
+
+      <button class="sample-cta">Garante o Teu Lugar →</button>
+      <div class="sample-date">Próximo: 18 JUL · Estoril · 18:30h</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PACK E — DM MONO
+       ══════════════════════════════════════════ -->
+  <div class="label-pack packE">
+    <div class="pack-number">E — DM Mono</div>
+
+    <div class="font-spec">Label: DM Mono 500 · Tamanho: 10px · Spacing: 0.3em</div>
+    <div class="font-verdict">
+      Monospace leve e elegante, inspirado nos desenhos da Dutch Masters. É o mais slim e refinado dos 5 — quase caligráfico para um monospace. Dá um ar sofisticado e discreto aos labels, sem competir com os títulos. Ideal se quiseres algo mais subtil. Pesa ~20KB extra.
+    </div>
+
+    <div class="mode-label dark-label">🌑 MODO ESCURO</div>
+
+    <div class="sample-label">Tributo Musical</div>
+    <div class="sample-title">O Honmoon<br>Ganha Vida</div>
+    <div class="sample-subtitle">As Guerreiras Demon Hunters chegam a Portugal</div>
+    <div class="sample-body">Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa e a magia das Demon Hunters se torna real.</div>
+    <div class="sample-highlight">O Honmoon brilha quando todos se unem.</div>
+
+    <div class="sample-countdown">
+      <div class="sample-seal"><span class="seal-seal"><span class="seal-num">32</span><span class="seal-sub">Dias</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">14</span><span class="seal-sub">Horas</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">07</span><span class="seal-sub">Min</span></div>
+      <span class="seal-sep">✦</span>
+      <div class="sample-seal"><span class="seal-num">42</span><span class="seal-sub">Seg</span></div>
+    </div>
+
+    <button class="sample-cta">Garante o Teu Lugar →</button>
+    <div class="sample-date">Próximo: 18 JUL · Estoril · 18:30h</div>
+
+    <div class="divider" style="margin-top:32px;"></div>
+
+    <div class="sample-label">Bilhetes</div>
+    <div class="sample-price">€25</div>
+    <div class="sample-body">Bilhete geral com acesso a todas as zonas do evento.</div>
+
+    <div class="divider" style="margin-top:24px;"></div>
+
+    <div class="sample-label">FAQ</div>
+    <div class="sample-faq-q">O evento é adequado para menores?</div>
+    <div class="sample-faq-a">Sim! O espetáculo é recomendado para todas as idades. Menores de 12 anos devem ser acompanhados por um adulto.</div>
+
+    <!-- Light mode -->
+    <div class="light-section">
+      <div class="mode-label light-label">☀️ MODO CLARO</div>
+
+      <div class="sample-label">Tributo Musical</div>
+      <div class="sample-title">O Honmoon<br>Ganha Vida</div>
+      <div class="sample-subtitle">As Guerreiras Demon Hunters chegam a Portugal</div>
+      <div class="sample-body">Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa e a magia das Demon Hunters se torna real.</div>
+      <div class="sample-highlight">O Honmoon brilha quando todos se unem.</div>
+
+      <div class="sample-countdown">
+        <div class="sample-seal"><span class="seal-num">32</span><span class="seal-sub">Dias</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">14</span><span class="seal-sub">Horas</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">07</span><span class="seal-sub">Min</span></div>
+        <span class="seal-sep">✦</span>
+        <div class="sample-seal"><span class="seal-num">42</span><span class="seal-sub">Seg</span></div>
+      </div>
+
+      <button class="sample-cta">Garante o Teu Lugar →</button>
+      <div class="sample-date">Próximo: 18 JUL · Estoril · 18:30h</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
