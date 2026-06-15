@@ -828,8 +828,7 @@ export default function HomePage() {
               </Rv>
               <Rv delay={350}>
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
-                  Essa mesma energia atravessa o ecr&atilde; e ganha forma ao vivo &mdash; com <span style={{color:"var(--neon-purple)"}}>coreografias</span>
-                  de BLACKPINK, BTS e aespa executadas por performers de elite, luzes deslumbrantes e <span style={{color:"var(--pink-kpop)"}}>efeitos pirot&eacute;cnicos</span>.
+                  Essa mesma energia atravessa o ecr&atilde; e ganha forma ao vivo - com <span style={{color:"var(--neon-purple)"}}>coreografias de</span> BLACKPINK, BTS e aespa executadas por performers de elite, luzes deslumbrantes e <span style={{color:"var(--pink-kpop)"}}>efeitos pirot&eacute;cnicos</span>.
                   Os maiores hits K-Pop ressoam num palco que se transforma em campo de batalha, e cada momento
                   &eacute; uma fatia do universo das Hunters servida ao vivo.
                 </p>
@@ -906,14 +905,14 @@ export default function HomePage() {
       <section id="lineup" className="py-24 sm:py-40 px-5 sm:px-10">
         <div className="max-w-[1400px] mx-auto">
           <Rv>
-            <p className="sec-num mb-4">02 — Lineup</p>
+            <p className="sec-num mb-4">02 - Lineup</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-16" style={{color:"var(--t1)"}}>
               As Nossas Guerreiras
             </h2>
           </Rv>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-[2px]">
             {[
-              {name:"HUNTRIX",sub:"Headliner — Demon Hunters",c:"var(--gold)"},
+              {name:"HUNTRIX",sub:"Headliner - Demon Hunters",c:"var(--gold)"},
               {name:"RUMI",sub:"Vocal Principal",c:"var(--pink-kpop)"},
               {name:"MIRAE",sub:"Dança & Rap",c:"var(--blue-accent)"},
               {name:"ZOE",sub:"Performance Especial",c:"var(--neon-purple)"},
@@ -991,7 +990,7 @@ export default function HomePage() {
         <div className="max-w-[1400px] mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-16 gap-6">
             <Rv>
-              <p className="sec-num mb-4">03 — Bilhetes</p>
+              <p className="sec-num mb-4">03 - Bilhetes</p>
               <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em]" style={{color:"var(--t1)"}}>
                 Escolhe o Teu Lugar
               </h2>
@@ -1039,7 +1038,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
             <div className="lg:col-span-7">
               <Rv>
-                <p className="sec-num mb-4">04 — Local</p>
+                <p className="sec-num mb-4">04 - Local</p>
                 <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-8" style={{color:"var(--t1)"}}>
                   Academia das Artes<br/>do Estoril
                 </h2>
@@ -1064,7 +1063,7 @@ export default function HomePage() {
                     <Clock className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
                     <div>
                       <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Data & Hora</p>
-                      <p className="text-[14px]" style={{color:"var(--t1)"}}>18 Julho 2026 — Portas às 18:30h</p>
+                      <p className="text-[14px]" style={{color:"var(--t1)"}}>18 Julho 2026 - Portas às 18:30h</p>
                     </div>
                   </div>
                 </div>
@@ -1095,7 +1094,7 @@ export default function HomePage() {
       <section id="faq" className="py-24 sm:py-40 px-5 sm:px-10">
         <div className="max-w-3xl mx-auto">
           <Rv>
-            <p className="sec-num mb-4">05 — FAQ</p>
+            <p className="sec-num mb-4">05 - FAQ</p>
             <h2 className="text-3xl sm:text-5xl font-extralight tracking-[-0.03em] mb-14" style={{color:"var(--t1)"}}>Perguntas Frequentes</h2>
           </Rv>
           <Rv delay={100}>
