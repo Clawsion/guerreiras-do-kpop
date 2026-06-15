@@ -754,7 +754,7 @@ export default function HomePage() {
               </Rv>
               <Rv delay={420}>
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
-                  Um espet&aacute;culo de variedades que transcende o concerto tradicional &mdash; onde cada momento &eacute; uma fatia
+                  Um espet&aacute;culo de variedades que transcende o concerto tradicional &mdash; com momentos de intera&ccedil;&atilde;o com o p&uacute;blico, onde cada instante &eacute; uma fatia
                   do universo das Hunters ao vivo, e cada cena se torna uma mem&oacute;ria que n&atilde;o vais querer deixar ir.
                 </p>
                 <p className="text-[16px] leading-[1.8] mb-10 font-medium" style={{color:"var(--t1)"}}>
