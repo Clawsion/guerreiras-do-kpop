@@ -367,9 +367,9 @@ export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [themeMode, setThemeMode] = useState<'dark' | 'light'>('dark');
-  const [honmoonFlash, setHonmoonFlash] = useState(false);
   const [burstKey, setBurstKey] = useState(0);
-  const [flashActive, setFlashActive] = useState(false);
+  const [ripple, setRipple] = useState<{active:boolean; x:number; y:number; toMode:'dark'|'light'}|null>(null);
+  const orbRef = useRef<HTMLDivElement>(null);
   const { ref: manifestoRef, visible: manifestoVisible } = useReveal();
 
   useEffect(() => {
@@ -411,13 +411,28 @@ export default function HomePage() {
   return (
     <div className={`min-h-screen flex flex-col ${themeMode === 'light' ? 'light-mode' : ''}`} style={{background:"var(--deep)"}}>
 
-      {/* ═══ HONMOON FLASH OVERLAY ═══ */}
-      {honmoonFlash && (
-        <div className="honmoon-flash" style={{
-          background: themeMode === 'dark'
-            ? 'rgba(255, 245, 164, 0.6)'
-            : 'rgba(147, 51, 234, 0.35)'
-        }}/>
+      {/* ═══ RIPPLE TRANSITION — expanding circle from Honmoon ═══ */}
+      {ripple?.active && (
+        <div className="hm-ripple-container">
+          {/* Wave rings — travel ahead of the fill like water ripples */}
+          <div
+            className={`hm-ripple-ring hm-ripple-ring-1 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
+            style={{left:`${ripple.x}%`, top:`${ripple.y}%`}}
+          />
+          <div
+            className={`hm-ripple-ring hm-ripple-ring-2 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
+            style={{left:`${ripple.x}%`, top:`${ripple.y}%`}}
+          />
+          <div
+            className={`hm-ripple-ring hm-ripple-ring-3 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
+            style={{left:`${ripple.x}%`, top:`${ripple.y}%`}}
+          />
+          {/* Main fill — light expanding or shrinking */}
+          <div
+            className={`hm-ripple-fill ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
+            style={{left:`${ripple.x}%`, top:`${ripple.y}%`}}
+          />
+        </div>
       )}
 
       {/* ═══ PRELOADER ═══ */}
@@ -578,22 +593,24 @@ export default function HomePage() {
         <div className={`hm-node hm-node-e ${themeMode}`}/>
         <div className={`hm-node hm-node-f ${themeMode}`}/>
 
-        {/* Title above orb */}
-        <div className="hm-title-wrap">
-          <p className={`hm-title ${themeMode}`}>HONMOON</p>
-          <p className={`hm-subtitle ${themeMode}`}>
-            {themeMode === 'dark' ? 'Toca para despertar' : 'Honmoon ativo — toca para adormecer'}
-          </p>
-        </div>
-
         {/* Central shield orb — clickable */}
         <div
+          ref={orbRef}
           className={`hm-orb ${themeMode}`}
           onClick={() => {
+            if (ripple?.active) return;
+            const orb = orbRef.current;
+            if (!orb) return;
+            const rect = orb.getBoundingClientRect();
+            const x = ((rect.left + rect.width / 2) / window.innerWidth) * 100;
+            const y = ((rect.top + rect.height / 2) / window.innerHeight) * 100;
+            const toMode = themeMode === 'dark' ? 'light' as const : 'dark' as const;
+            setRipple({ active: true, x, y, toMode });
             setBurstKey(k => k + 1);
-            setFlashActive(true);
-            setTimeout(() => setFlashActive(false), 600);
-            toggleTheme();
+            // Switch theme midway: awaken = after fill covers screen, dormant = immediately
+            const switchDelay = toMode === 'light' ? 800 : 50;
+            setTimeout(() => { toggleTheme(); }, switchDelay);
+            setTimeout(() => { setRipple(null); }, 1300);
           }}
           role="button"
           title={themeMode === 'dark' ? 'Toca para despertar o Honmoon' : 'Toca para adormecer o Honmoon'}
@@ -622,8 +639,6 @@ export default function HomePage() {
           <div className="hm-burst-ring hm-burst-ring-3"/>
         </div>
 
-        {/* Flash overlay — awakening transition */}
-        {flashActive && <div className={`hm-flash ${themeMode}`}/>}
       </section>
 
       {/* ═══ MANIFESTO — LED WALL TUNNEL ═══ */}
