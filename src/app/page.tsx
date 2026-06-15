@@ -95,7 +95,7 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
 
 /* ═══ LED WALL VIDEO — single looping tunnel with color-sync reflections ═══ */
 
-const LED_TUNNEL_SRC = "/videos/led-tunnel.mp4";
+const LED_TUNNEL_SRC = "/api/led-video";
 
 /* Color cycle for fallback glow sync (purple → violet → blue) */
 const TUNNEL_COLORS: Array<[number, number, number]> = [
