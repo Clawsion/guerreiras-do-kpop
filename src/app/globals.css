@@ -1372,7 +1372,95 @@ html { scroll-behavior: smooth; }
   margin-bottom: 1rem;
 }
 
-/* ═══ Hero Nav — Ticketline + Theme Toggle (unified dark/light) ═══ */
+/* ═══ Hero Countdown — Honmoon Seals (demon hunter magic rings) ═══ */
+.hero-countdown-seals {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.hero-seal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 90px;
+  height: 100px;
+}
+.hero-seal-ring {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hero-seal-arc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+}
+.hero-seal-arc-1 {
+  border-top-color: var(--neon-purple);
+  border-right-color: rgba(200,80,255,0.3);
+  animation: seal-spin-1 6s linear infinite;
+  filter: drop-shadow(0 0 4px rgba(200,80,255,0.4));
+}
+.hero-seal-arc-2 {
+  inset: 6px;
+  border-bottom-color: var(--pink-kpop);
+  border-left-color: rgba(236,72,153,0.2);
+  animation: seal-spin-2 8s linear infinite;
+  filter: drop-shadow(0 0 3px rgba(236,72,153,0.3));
+}
+@keyframes seal-spin-1 {
+  to { transform: rotate(360deg); }
+}
+@keyframes seal-spin-2 {
+  to { transform: rotate(-360deg); }
+}
+.hero-seal-num {
+  font-family: var(--font-geist-mono);
+  font-size: 34px;
+  font-weight: 200;
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-shadow: 0 0 24px rgba(200,80,255,0.4), 0 0 60px rgba(200,80,255,0.1);
+  margin-top: 22px;
+  position: relative;
+  z-index: 2;
+}
+.hero-seal-label {
+  font-size: 8px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--neon-purple);
+  margin-top: 6px;
+  font-weight: 600;
+  text-shadow: 0 0 12px rgba(200,80,255,0.3);
+  position: relative;
+  z-index: 2;
+}
+.hero-seal-sep {
+  font-size: 18px;
+  color: var(--neon-purple);
+  opacity: 0.6;
+  animation: seal-pulse 1.5s ease-in-out infinite;
+  margin-top: -8px;
+  text-shadow: 0 0 10px rgba(200,80,255,0.3);
+}
+@keyframes seal-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.15; }
+}
+
+/* Date line below CTA */
+.hero-date-line {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 1rem;
+  font-weight: 600;
+  text-shadow: 0 0 16px rgba(200,80,255,0.3);
+}
 .hero-nav-ticket {
   display: inline-flex;
   align-items: center;
@@ -1418,67 +1506,6 @@ html { scroll-behavior: smooth; }
 .hero-nav-orb.light {
   background: radial-gradient(circle at 40% 35%, #FFF5A4 0%, #FFD700 40%, #E0A800 100%);
   box-shadow: 0 0 8px rgba(255,245,164,0.5), 0 0 20px rgba(255,245,164,0.2);
-}
-
-/* ═══ Hero Countdown — Neon Boxes (unified dark/light) ═══ */
-.hero-countdown-neon {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-}
-.hero-countdown-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 14px 18px 10px;
-  background: rgba(30,16,64,0.45);
-  border: 1px solid rgba(200,80,255,0.3);
-  border-radius: 4px;
-  min-width: 72px;
-  position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-.hero-countdown-box::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--neon-purple), transparent);
-  opacity: 0.6;
-}
-.hero-countdown-num {
-  font-family: var(--font-geist-mono);
-  font-size: 36px;
-  font-weight: 200;
-  color: #fff;
-  letter-spacing: -0.03em;
-  line-height: 1;
-  text-shadow: 0 0 20px rgba(200,80,255,0.3);
-}
-.hero-countdown-label {
-  font-size: 8px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--neon-purple);
-  margin-top: 8px;
-  font-weight: 600;
-}
-.hero-countdown-sep {
-  font-family: var(--font-geist-mono);
-  font-size: 28px;
-  font-weight: 200;
-  color: var(--neon-purple);
-  animation: countdown-pulse 1s ease-in-out infinite;
-  padding-top: 14px;
-  opacity: 0.6;
-}
-@keyframes countdown-pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 0.15; }
 }
 
 /* hero-particles removed — soul particles now cover entire site */
@@ -4068,25 +4095,32 @@ section#concertos {
     font-size: clamp(1.8rem, 4vw, 3rem);
   }
 
-  /* Countdown — Neon Boxes compact */
-  .hero-countdown-neon {
-    gap: 6px;
+  /* Countdown — Honmoon Seals compact */
+  .hero-countdown-seals {
+    gap: 8px;
   }
-  .hero-countdown-box {
-    padding: 10px 12px 8px;
-    min-width: 56px;
+  .hero-seal {
+    width: 68px;
+    height: 76px;
   }
-  .hero-countdown-num {
-    font-size: 24px;
+  .hero-seal-arc-2 {
+    inset: 4px;
   }
-  .hero-countdown-label {
+  .hero-seal-num {
+    font-size: 22px;
+    margin-top: 16px;
+  }
+  .hero-seal-label {
     font-size: 6px;
     letter-spacing: 0.25em;
-    margin-top: 6px;
+    margin-top: 4px;
   }
-  .hero-countdown-sep {
-    font-size: 20px;
-    padding-top: 10px;
+  .hero-seal-sep {
+    font-size: 12px;
+  }
+  .hero-date-line {
+    font-size: 9px;
+    letter-spacing: 0.15em;
   }
 
   /* Marquee text */

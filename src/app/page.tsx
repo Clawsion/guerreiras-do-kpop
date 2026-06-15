@@ -109,16 +109,20 @@ function HeroCountdown() {
   }, []);
   const units = [{v:t.d,l:"Dias"},{v:t.h,l:"Horas"},{v:t.m,l:"Min"},{v:t.s,l:"Seg"}];
   return (
-    <div className="hero-countdown-neon">
+    <div className="hero-countdown-seals">
       {units.map((u, i) => (
         <React.Fragment key={u.l}>
-          <div className="hero-countdown-box">
-            <span className="hero-countdown-num" suppressHydrationWarning>
+          <div className="hero-seal">
+            <div className="hero-seal-ring">
+              <div className="hero-seal-arc hero-seal-arc-1"/>
+              <div className="hero-seal-arc hero-seal-arc-2"/>
+            </div>
+            <span className="hero-seal-num" suppressHydrationWarning>
               {mounted ? String(u.v).padStart(2, "0") : "\u2013\u2013"}
             </span>
-            <span className="hero-countdown-label">{u.l}</span>
+            <span className="hero-seal-label">{u.l}</span>
           </div>
-          {i < units.length - 1 && <span className="hero-countdown-sep">:</span>}
+          {i < units.length - 1 && <span className="hero-seal-sep">&#x2726;</span>}
         </React.Fragment>
       ))}
     </div>
@@ -531,7 +535,7 @@ export default function HomePage() {
           >
             Garante o Teu Lugar <ChevronRight className="w-3.5 h-3.5"/>
           </a>
-          <p className="text-[11px] tracking-[0.2em] mt-4 uppercase" style={{color:"rgba(255,255,255,0.7)"}}>
+          <p className="hero-date-line" style={{color:"var(--neon-purple)"}}>
             Pr&oacute;ximo: 18 JUL &middot; Estoril &middot; 18:30h
           </p>
         </div>
