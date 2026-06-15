@@ -29,12 +29,12 @@ const CONCERTS = [
 
 /* K-Pop gallery photos — hosted externally on PostImg */
 const GALLERY_PHOTOS = [
-  { src: "https://i.postimg.cc/x8S0prmN/kpop2.png", caption: "Elenco Completo · Posição Sincronizada" },
-  { src: "https://i.postimg.cc/PxDXMfCP/kpop1.png", caption: "Coreografia ao Vivo · Pirotecnia" },
-  { src: "https://i.postimg.cc/KvfZfH8S/kpop6.png", caption: "Cenário Cyberpunk · Visão Cinematográfica" },
-  { src: "https://i.postimg.cc/2yFCPHd2/kpop3.png", caption: "Atmosfera Vermelha · Lightsticks" },
-  { src: "https://i.postimg.cc/mZQZzDxY/kpop4.png", caption: "Interação com o Público" },
-  { src: "https://i.postimg.cc/Qxh8p3sq/kpop5.png", caption: "Personagem Surpresa no Palco" },
+  { src: "https://i.postimg.cc/x8S0prmN/kpop2.png" },
+  { src: "https://i.postimg.cc/PxDXMfCP/kpop1.png" },
+  { src: "https://i.postimg.cc/KvfZfH8S/kpop6.png" },
+  { src: "https://i.postimg.cc/2yFCPHd2/kpop3.png" },
+  { src: "https://i.postimg.cc/mZQZzDxY/kpop4.png" },
+  { src: "https://i.postimg.cc/Qxh8p3sq/kpop5.png" },
 ];
 
 /* ═══ HOOKS ═══ */
@@ -774,13 +774,11 @@ export default function HomePage() {
                       >
                         <img
                           src={photo.src}
-                          alt={photo.caption}
+                          alt="Foto do espetáculo"
                           loading="lazy"
                           decoding="async"
                         />
-                        <div className="esp-photo-overlay">
-                          <span className="esp-photo-overlay-text">{photo.caption}</span>
-                        </div>
+                        <div className="esp-photo-overlay" />
                       </div>
                     </Rv>
                   ))}
