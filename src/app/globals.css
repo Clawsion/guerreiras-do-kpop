@@ -1365,14 +1365,6 @@ html { scroll-behavior: smooth; }
   background: linear-gradient(to bottom, transparent, rgba(200,80,255,0.15), transparent);
   pointer-events: none;
 }
-.hero-corner-tag {
-  position: absolute;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  color: rgba(200,80,255,0.2);
-  font-family: var(--font-geist-mono);
-  pointer-events: none;
-}
 
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ ESPETÁCULO — Stage Spotlight Atmosphere ═══ */
@@ -2448,10 +2440,6 @@ html { scroll-behavior: smooth; }
 /* Hero side lines — match light theme */
 .light-mode .hero-side-line {
   background: linear-gradient(to bottom, transparent, rgba(147, 51, 234, 0.1), transparent);
-}
-/* Hero corner tags — visible in light mode */
-.light-mode .hero-corner-tag {
-  color: rgba(147, 51, 234, 0.25);
 }
 
 /* ═══ Dual cards in light mode — purple gradient bg INSIDE the cards like the anime ═══ */

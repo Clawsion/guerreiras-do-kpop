@@ -473,10 +473,6 @@ export default function HomePage() {
         <div className="hero-side-line hidden sm:block" style={{left:"5%",top:"15%",height:"30%"}}/>
         <div className="hero-side-line hidden sm:block" style={{right:"5%",top:"25%",height:"25%"}}/>
 
-        {/* Corner tags */}
-        <div className="hero-corner-tag hidden sm:block" style={{left:"5%",bottom:"8%"}}>CASCAIS 2026</div>
-        <div className="hero-corner-tag hidden sm:block" style={{right:"5%",bottom:"8%"}}>18 JUL · 18:30H</div>
-
         {/* ═══ HAMBURGER NAV — pinned at top of hero ═══ */}
         <nav className="absolute top-0 inset-x-0 z-[95] py-6" style={{background:"transparent"}}>
           <div className="max-w-[1400px] mx-auto px-5 sm:px-10 flex items-center justify-between">
