@@ -22,8 +22,11 @@ function detectTier(): Tier {
   try {
     const ua = navigator.userAgent || "";
     const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
-    // Old mobile OS — use non-character-class patterns to avoid regex range errors
-    const isOldMobile = /Android [4-7]/i.test(ua) || /iPhone OS [89]|iPhone OS 1[0-2]/i.test(ua) || /iPad.*CPU OS [89]|iPad.*CPU OS 1[0-2]/i.test(ua);
+    // Old mobile OS — alternation patterns (no character-class ranges) for max compat
+    const isOldMobile =
+      /Android [4]|Android [5]|Android [6]|Android [7]/i.test(ua) ||
+      /iPhone OS 8|iPhone OS 9|iPhone OS 10|iPhone OS 11|iPhone OS 12/i.test(ua) ||
+      /iPad.*CPU OS 8|iPad.*CPU OS 9|iPad.*CPU OS 10|iPad.*CPU OS 11|iPad.*CPU OS 12/i.test(ua);
     if (isOldMobile) return "low";
 
     // Check GPU via WebGL debug info
@@ -33,8 +36,13 @@ function detectTier(): Tier {
     const ext = gl.getExtension("WEBGL_debug_renderer_info");
     if (ext) {
       const renderer = String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)).toLowerCase();
-      // Known weak GPUs
-      if (/mali-[gt4]/i.test(renderer) || /adreno [3-5]\d\d/i.test(renderer) || /powervr sgx/i.test(renderer) || /hd graphics [2-4]\d\d\d/i.test(renderer)) {
+      // Known weak GPUs — alternation only, no char-class ranges
+      if (
+        /mali-g|mali-t|mali-4/i.test(renderer) ||
+        /adreno 3\d\d|adreno 4\d\d|adreno 5\d\d/i.test(renderer) ||
+        /powervr sgx/i.test(renderer) ||
+        /hd graphics 2\d\d\d|hd graphics 3\d\d\d|hd graphics 4\d\d\d/i.test(renderer)
+      ) {
         return isMobile ? "low" : "mid";
       }
     }
