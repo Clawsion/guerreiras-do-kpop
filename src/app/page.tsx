@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import LedWallShader from "@/components/LedWallShader";
+import NeonLightbox from "@/components/NeonLightbox";
 import {
   Ticket, MapPin, Clock, Instagram, Youtube, Music2,
   ExternalLink, Send, ChevronRight, ArrowUpRight, Phone, Mail, Facebook,
@@ -24,6 +25,16 @@ const CONCERTS = [
   { day: "25", month: "JUL 2026", venue: "Coliseu dos Recreios", city: "Lisboa", time: "Portas 20:00h", url: TL, next: false },
   { day: "02", month: "AGO 2026", venue: "Theatro Circo", city: "Braga", time: "Portas 19:00h", url: TL, next: false },
   { day: "09", month: "AGO 2026", venue: "Centro de Artes e Espetáculos", city: "Porto", time: "Portas 20:00h", url: TL, next: false },
+];
+
+/* K-Pop gallery photos — ordered: epic → atmospheric → intimate */
+const GALLERY_PHOTOS = [
+  { src: "/kpop2.png", caption: "Elenco Completo · Posição Sincronizada" },
+  { src: "/kpop1.png", caption: "Coreografia ao Vivo · Pirotecnia" },
+  { src: "/kpop6.png", caption: "Cenário Cyberpunk · Visão Cinematográfica" },
+  { src: "/kpop3.png", caption: "Atmosfera Vermelha · Lightsticks" },
+  { src: "/kpop4.png", caption: "Interação com o Público" },
+  { src: "/kpop5.png", caption: "Personagem Surpresa no Palco" },
 ];
 
 /* ═══ HOOKS ═══ */
@@ -249,6 +260,7 @@ export default function HomePage() {
   const [burstKey, setBurstKey] = useState(0);
   const [ripple, setRipple] = useState<{active:boolean; x:number; y:number; toMode:'dark'|'light'}|null>(null);
   const [waveActive, setWaveActive] = useState(false);
+  const [lightbox, setLightbox] = useState<number | null>(null);
   const orbRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<HTMLElement[] | null>(null);
   const { ref: manifestoRef, visible: manifestoVisible } = useReveal();
@@ -754,12 +766,20 @@ export default function HomePage() {
               </Rv>
               <div className="esp-photo-frame">
                 <div className="esp-photo-grid">
-                  {Array.from({length: 6}, (_, i) => (
+                  {GALLERY_PHOTOS.map((photo, i) => (
                     <Rv key={i} delay={200 + i * 80}>
-                      <div className="esp-photo-slot" data-num={`0${i + 1}`}>
-                        <div className="esp-photo-placeholder">
-                          <Music2 className="w-5 h-5" style={{color:"rgba(255,45,120,0.4)"}}/>
-                          <span className="esp-photo-label">Foto {i + 1}</span>
+                      <div
+                        className="esp-photo-slot"
+                        onClick={() => setLightbox(i)}
+                      >
+                        <img
+                          src={photo.src}
+                          alt={photo.caption}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        <div className="esp-photo-overlay">
+                          <span className="esp-photo-overlay-text">{photo.caption}</span>
                         </div>
                       </div>
                     </Rv>
@@ -1103,6 +1123,17 @@ export default function HomePage() {
           <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
         </a>
       </div>
+
+      {/* ═══ NEON LIGHTBOX ═══ */}
+      {lightbox !== null && (
+        <NeonLightbox
+          images={GALLERY_PHOTOS}
+          index={lightbox}
+          onClose={() => setLightbox(null)}
+          onPrev={() => setLightbox(Math.max(0, lightbox - 1))}
+          onNext={() => setLightbox(Math.min(GALLERY_PHOTOS.length - 1, lightbox + 1))}
+        />
+      )}
     </div>
     </>
   );
