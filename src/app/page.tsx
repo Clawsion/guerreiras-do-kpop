@@ -280,11 +280,18 @@ export default function HomePage() {
     if (saved === 'light') {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setThemeMode('light');
+      document.documentElement.classList.add('light-mode');
     }
   }, []);
 
   useEffect(() => {
     localStorage.setItem('honmoon-theme', themeMode);
+    // Sync light-mode class to <html> so WebGL shaders can detect theme
+    if (themeMode === 'light') {
+      document.documentElement.classList.add('light-mode');
+    } else {
+      document.documentElement.classList.remove('light-mode');
+    }
   }, [themeMode]);
 
   const toggleTheme = useCallback(() => {
