@@ -3143,39 +3143,39 @@ html { scroll-behavior: smooth; }
   --t3: #a78bfa;
 }
 
-/* ═══ Galeria — light mode ═══ */
+/* ═══ Galeria — light mode (lavanda lilás, igual ao Tributo) ═══ */
 .light-mode .galeria-section {
-  background: linear-gradient(180deg, #1a0e2e 0%, #2d1b69 50%, #1a0e2e 100%);
-  --t1: #ffffff;
-  --t2: #d4c4f0;
-  --t3: #a78bfa;
+  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
+  --t1: #1E1040;
+  --t2: #5B3E8A;
+  --t3: #8B6CB0;
 }
 .light-mode .galeria-card {
-  background: rgba(44,21,80,0.6);
+  background: rgba(255,255,255,0.55);
   backdrop-filter: blur(20px) saturate(1.4);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
-  border: 1px solid rgba(200,80,255,0.15);
-  box-shadow: 0 4px 20px rgba(147,51,234,0.15);
+  border: 1px solid rgba(147,51,234,0.18);
+  box-shadow: 0 8px 30px rgba(147,51,234,0.12);
 }
 .light-mode .galeria-card:hover {
-  box-shadow: 0 24px 64px rgba(11,8,19,0.5),
-              0 0 50px rgba(200,80,255,0.12);
-  border-color: rgba(200,80,255,0.3);
+  box-shadow: 0 24px 64px rgba(91,62,138,0.18),
+              0 0 50px rgba(200,80,255,0.15);
+  border-color: rgba(200,80,255,0.4);
 }
 .light-mode .galeria-overlay {
   background: linear-gradient(
     to top,
-    rgba(20,12,40,0.9) 0%,
-    rgba(30,18,55,0.4) 40%,
+    rgba(30,16,64,0.88) 0%,
+    rgba(60,35,110,0.45) 40%,
     transparent 70%
   );
 }
 .light-mode .galeria-caption {
-  border-top-color: rgba(200,80,255,0.1);
+  border-top-color: rgba(147,51,234,0.2);
 }
 .light-mode .galeria-zoom-icon {
-  background: rgba(30,18,55,0.7);
-  border-color: rgba(200,80,255,0.2);
+  background: rgba(255,255,255,0.75);
+  border-color: rgba(147,51,234,0.3);
 }
 
 /* ═══ Tributo Ao Vivo — lavender daylight, clean and elegant ═══ */
