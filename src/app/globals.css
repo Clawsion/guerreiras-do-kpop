@@ -159,7 +159,7 @@ html { scroll-behavior: smooth; }
 /* ═══ MARQUEE ═══ */
 .marquee-track {
   display: inline-flex;
-  animation: marquee 45s linear infinite;
+  animation: marquee 75s linear infinite;
 }
 @keyframes marquee {
   from { transform: translateX(0); }
@@ -3282,6 +3282,115 @@ html { scroll-behavior: smooth; }
   align-items: center;
   justify-content: center;
 }
+
+/* ═══ CONTACTO (substitui secção Carrega o Honmoon) ═══ */
+.contacto-section {
+  position: relative;
+  padding: 6rem 0;
+  background: var(--void);
+  overflow: hidden;
+}
+.contacto-form {
+  padding: 2.5rem;
+  background: var(--surface);
+  border: 1px solid rgba(200, 80, 255, 0.12);
+  backdrop-filter: blur(10px);
+}
+.contacto-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.contacto-field > span {
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--t3);
+}
+.contacto-field input,
+.contacto-field select,
+.contacto-field textarea {
+  font-family: var(--font-geist-sans);
+  font-size: 14px;
+  padding: 0.85rem 1rem;
+  background: var(--void);
+  border: 1px solid rgba(200, 80, 255, 0.18);
+  color: var(--t1);
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  border-radius: 0;
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.contacto-field input::placeholder,
+.contacto-field textarea::placeholder {
+  color: var(--t3);
+  opacity: 0.7;
+}
+.contacto-field input:focus,
+.contacto-field select:focus,
+.contacto-field textarea:focus {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 0 1px var(--neon-purple), 0 0 20px rgba(147, 51, 234, 0.18);
+}
+.contacto-field select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--t3) 50%),
+                    linear-gradient(135deg, var(--t3) 50%, transparent 50%);
+  background-position: calc(100% - 18px) center, calc(100% - 13px) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+.contacto-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem 2.4rem;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #fff;
+  background: var(--neon-purple);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  font-family: var(--font-geist-sans);
+}
+.contacto-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 30px rgba(147, 51, 234, 0.45), 0 0 60px rgba(147, 51, 234, 0.20);
+  background: #a855f7;
+}
+.contacto-submit:active {
+  transform: translateY(0);
+}
+
+/* Light mode — fundo lavanda lilás igual ao Manifesto/Tributo */
+.light-mode .contacto-section {
+  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
+}
+.light-mode .contacto-form {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(147, 51, 234, 0.18);
+  backdrop-filter: blur(8px);
+}
+.light-mode .contacto-field input,
+.light-mode .contacto-field select,
+.light-mode .contacto-field textarea {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(91, 62, 138, 0.22);
+  color: #1E1040;
+}
+.light-mode .contacto-field input::placeholder,
+.light-mode .contacto-field textarea::placeholder {
+  color: #5B3E8A;
+  opacity: 0.55;
+}
+
 
 .honmoon-charger {
   position: relative;

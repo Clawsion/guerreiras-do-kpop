@@ -25,14 +25,6 @@ const IS_MOBILE = typeof window !== "undefined" && /Android|iPhone|iPad|iPod/i.t
 const SHIELD_PARTICLES = IS_MOBILE ? 6 : 12;
 const CHARGER_PARTICLES = IS_MOBILE ? 4 : 8;
 
-const CONCERTS = [
-  { day: "18", month: "JUL 2026", venue: "Academia das Artes do Estoril", city: "Cascais", time: "Portas 18:30h", url: TL, next: true },
-  { day: "25", month: "JUL 2026", venue: "Coliseu dos Recreios", city: "Lisboa", time: "Portas 20:00h", url: TL, next: false },
-  { day: "02", month: "AGO 2026", venue: "Theatro Circo", city: "Braga", time: "Portas 19:00h", url: TL, next: false },
-  { day: "09", month: "AGO 2026", venue: "Centro de Artes e Espetáculos", city: "Porto", time: "Portas 20:00h", url: TL, next: false },
-  { day: "15", month: "AGO 2026", venue: "Pavilhão Desportivo de Sesimbra", city: "Sesimbra", time: "Portas 18:30h", url: TL, next: false },
-];
-
 /* K-Pop gallery photos — hosted externally on PostImg */
 const GALLERY_PHOTOS = [
   { src: "https://i.postimg.cc/x8S0prmN/kpop2.png", caption: "Saja Boys estão aqui" },
@@ -481,9 +473,8 @@ export default function HomePage() {
     { l: "Mural", h: "#galeria" },
     { l: "Cartazes", h: "#cartazes" },
     { l: "Lineup", h: "#lineup" },
-    { l: "Concertos", h: "#concertos" },
-    { l: "Bilhetes", h: "#bilhetes" },
-    { l: "Honmoon", h: "#honmoon" },
+    { l: "FAQ", h: "#faq" },
+    { l: "Contacto", h: "#contacto" },
   ], []);
 
   return (
@@ -1102,7 +1093,7 @@ export default function HomePage() {
       <section id="cartazes" className="cartazes-section px-5 sm:px-10">
         <div className="max-w-[1400px] mx-auto">
           <Rv>
-            <p className="sec-num mb-4">Cartazes Oficiais</p>
+            <p className="sec-num mb-4">Pr&oacute;ximos Concertos em Tour</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
               O Espet&aacute;culo <span className="neon-shimmer">Ao Vivo</span>
             </h2>
@@ -1202,153 +1193,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Marquee text="HUNTRIX · RUMI · MIRAE · ZOEY · GUERREIRAS DO K-POP · TRIBUTO MUSICAL"/>
-
-      {/* ═══ PRÓXIMOS CONCERTOS ═══ */}
-      <section id="concertos" className="concerts-section px-5 sm:px-10">
-        <div className="max-w-[1400px] mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-6">
-            <Rv>
-              <p className="sec-num mb-4">Pr&oacute;ximos Concertos</p>
-              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05]" style={{color:"var(--t1)"}}>
-                Em <span style={{color:"var(--pink-kpop)"}}>Tour</span>
-              </h2>
-            </Rv>
-            <Rv delay={150}>
-              <p className="text-[13px] max-w-xs" style={{color:"var(--t3)"}}>
-                N&atilde;o percas a oportunidade de ver as Guerreiras ao vivo.
-                Cada concerto &eacute; uma experi&ecirc;ncia &uacute;nica.
-              </p>
-            </Rv>
-          </div>
-          <div className="concerts-grid">
-            {CONCERTS.map((c, i) => (
-              <Rv key={c.city} delay={i * 100}>
-                <div className={`concert-card ${c.next ? "next" : ""}`}>
-                  {c.next && <div className="concert-badge">PR&Oacute;XIMO</div>}
-                  <div className="concert-date-strip">
-                    <div className="concert-day">{c.day}</div>
-                    <div className="concert-month">{c.month}</div>
-                  </div>
-                  <div className="concert-details">
-                    <div>
-                      <p className="concert-venue">{c.venue}</p>
-                      <p className="concert-city">{c.city}</p>
-                      <p className="concert-time">{c.time}</p>
-                    </div>
-                    <a href={c.url} target="_blank" rel="noopener noreferrer" className="concert-buy-btn">
-                      <Ticket className="w-3.5 h-3.5"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
-                    </a>
-                  </div>
-                </div>
-              </Rv>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ BILHETES ═══ */}
-      <section id="bilhetes" className="py-24 sm:py-40 px-5 sm:px-10" style={{background:"var(--surface)"}}>
-        <div className="max-w-[1400px] mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-16 gap-6">
-            <Rv>
-              <p className="sec-num mb-4">03 - Bilhetes</p>
-              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em]" style={{color:"var(--t1)"}}>
-                Escolhe o Teu Lugar
-              </h2>
-            </Rv>
-            <Rv delay={200}>
-              <a href={TL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[11px] tracking-[0.15em]" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
-                ticketline.pt <ExternalLink className="w-3 h-3"/>
-              </a>
-            </Rv>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              {name:"GERAL",price:"25€",features:["Acesso a todos os palcos","Random Play Dance","K-Culture Zone"],c:"var(--t2)",featured:false},
-              {name:"VIP",price:"45€",features:["Tudo do Geral","Zona VIP frente ao palco","Meet & Greet inclusivo","Merch exclusivo"],c:"var(--neon-purple)",featured:true},
-              {name:"PREMIUM",price:"75€",features:["Tudo do VIP","Backstage Experience","Jantar K-Food inclusivo","Kit Premium completo"],c:"var(--gold)",featured:false},
-            ].map((t,i)=>(
-              <Rv key={t.name} delay={i*120}>
-                <div className={`tk p-8 sm:p-10 flex flex-col h-full ${t.featured?"glass-neon":"glass"}`}>
-                  {t.featured && <span className="self-start text-[8px] tracking-[0.3em] font-bold px-2.5 py-1 mb-6 uppercase" style={{background:"var(--neon-purple)",color:"#fff"}}>Popular</span>}
-                  <h3 className="text-[10px] tracking-[0.3em] font-semibold uppercase mb-2" style={{color:t.c}}>{t.name}</h3>
-                  <span className="text-5xl sm:text-6xl font-extralight tracking-[-0.03em] mb-8" style={{color:"var(--t1)"}}>{t.price}</span>
-                  <ul className="space-y-3 mb-10 flex-1">
-                    {t.features.map(f=>(
-                      <li key={f} className="flex items-start gap-3 text-[14px]" style={{color:"var(--t2)"}}>
-                        <span className="mt-2 w-1 h-1 rounded-full flex-shrink-0" style={{background:t.c}}/>{f}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href={TL} target="_blank" rel="noopener noreferrer" className="block text-center py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase transition-all duration-400" style={t.featured?{background:"var(--neon-purple)",color:"#fff"}:{background:"transparent",border:"1px solid rgba(200,80,255,0.15)",color:"var(--neon-purple)"}} onMouseEnter={e=>{if(!t.featured){(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff"}}} onMouseLeave={e=>{if(!t.featured){(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}}}>
-                    Comprar <ExternalLink className="w-3 h-3 inline ml-1"/>
-                  </a>
-                </div>
-              </Rv>
-            ))}
-          </div>
-          <Rv className="mt-10 text-center">
-            <p className="text-[13px]" style={{color:"var(--t3)"}}>Desconto de grupo: 4+ bilhetes com 10% desconto. <a href={TL} target="_blank" rel="noopener noreferrer" className="hover:underline" style={{color:"var(--neon-purple)"}}>Saber mais</a></p>
-          </Rv>
-        </div>
-      </section>
-
-      {/* ═══ LOCAL ═══ */}
-      <section id="local" className="py-24 sm:py-40 px-5 sm:px-10">
-        <div className="max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-            <div className="lg:col-span-7">
-              <Rv>
-                <p className="sec-num mb-4">04 - Local</p>
-                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-8" style={{color:"var(--t1)"}}>
-                  Academia das Artes<br/>do Estoril
-                </h2>
-              </Rv>
-              <Rv delay={120}>
-                <p className="text-[16px] leading-[1.8] mb-8 max-w-lg" style={{color:"var(--t2)"}}>
-                  Um espaço icónico na costa de Cascais, onde a arte e a cultura se encontram.
-                  A localização perfeita para receber as Guerreiras do K-Pop, com vista sobre
-                  o Atlântico e infraestruturas de primeiro nível.
-                </p>
-              </Rv>
-              <Rv delay={220}>
-                <div className="space-y-5 mb-10">
-                  <div className="flex items-start gap-4">
-                    <MapPin className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
-                    <div>
-                      <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Morada</p>
-                      <p className="text-[14px]" style={{color:"var(--t1)"}}>Av. Marginal, 2765-282 Estoril, Cascais</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <Clock className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
-                    <div>
-                      <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Data & Hora</p>
-                      <p className="text-[14px]" style={{color:"var(--t1)"}}>18 Julho 2026 - Portas às 18:30h</p>
-                    </div>
-                  </div>
-                </div>
-              </Rv>
-              <Rv delay={320}>
-                <a href="https://maps.google.com/?q=Academia+das+Artes+do+Estoril" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 text-[10px] tracking-[0.22em] uppercase font-semibold border transition-all duration-400" style={{borderColor:"rgba(200,80,255,0.25)",color:"var(--neon-purple)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background="var(--neon-purple)";(e.currentTarget as HTMLElement).style.color="#fff";(e.currentTarget as HTMLElement).style.borderColor="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background="transparent";(e.currentTarget as HTMLElement).style.color="var(--neon-purple)";(e.currentTarget as HTMLElement).style.borderColor="rgba(200,80,255,0.25)"}}>
-                  <MapPin className="w-3.5 h-3.5"/> Google Maps <ArrowUpRight className="w-3 h-3"/>
-                </a>
-              </Rv>
-            </div>
-            <div className="lg:col-span-5">
-              <Rv delay={200}>
-                <div className="overflow-hidden" style={{borderRadius:"2px"}}>
-                  <img src="/venue-bg.webp" alt="Academia das Artes do Estoril" className="w-full h-64 sm:h-80 object-cover cin" loading="lazy" decoding="async"/>
-                </div>
-                <p className="text-[12px] leading-relaxed mt-4" style={{color:"var(--t3)"}}>
-                  Estação de comboios do Estoril a 5 min a pé. Estacionamento gratuito nas proximidades. Acessível para mobilidade reduzida.
-                </p>
-              </Rv>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 18 JUL CASCAIS · 15 AGO SESIMBRA · HUNTRIX · RUMI · MIRAE · ZOEY"/>
 
       <div className="neon-div max-w-[1400px] mx-auto"/>
 
@@ -1379,24 +1224,153 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ CARREGA O HONMOON — Interactive ═══ */}
-      <section id="honmoon" className="honmoon-section px-5 sm:px-10">
-        <div className="max-w-[1400px] mx-auto text-center">
-          <Rv>
-            <p className="sec-num mb-4">Carrega o Honmoon</p>
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
-              Protege o <span className="gold-shimmer">Honmoon</span>
-            </h2>
-          </Rv>
-          <Rv delay={120}>
-            <p className="text-[16px] leading-[1.8] mb-12 max-w-md mx-auto" style={{color:"var(--t2)"}}>
-              O escudo Honmoon protege o mundo dos dem&oacute;nios.
-              Clica para carregar a energia e ativar a prote&ccedil;&atilde;o!
-            </p>
-          </Rv>
-          <Rv delay={200}>
-            <HonmoonCharger/>
-          </Rv>
+      {/* ═══ CONTACTE-NOS — Reservas & Eventos ═══ */}
+      <section id="contacto" className="contacto-section px-5 sm:px-10">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+            {/* ── Coluna esquerda: pitch + info ── */}
+            <div className="lg:col-span-5">
+              <Rv>
+                <p className="sec-num mb-4">Contacte-nos</p>
+                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-8" style={{color:"var(--t1)"}}>
+                  Leve o <span className="neon-shimmer">Espet&aacute;culo</span> &agrave; sua Casa
+                </h2>
+              </Rv>
+              <Rv delay={120}>
+                <p className="text-[16px] leading-[1.8] mb-8 max-w-lg" style={{color:"var(--t2)"}}>
+                  Este tributo musical foi pensado para viajar. Adapta-se a teatros, audit&oacute;rios,
+                  pavilh&otilde;es multiusos e estruturas ef&eacute;meras — como tendas de Natal para
+                  festas de empresas, escolas, associa&ccedil;&otilde;es e c&acirc;maras municipais.
+                  Montamos a experi&ecirc;ncia completa onde for mais conveniente para o seu p&uacute;blico.
+                </p>
+              </Rv>
+              <Rv delay={200}>
+                <p className="text-[15px] leading-[1.7] mb-10 max-w-lg" style={{color:"var(--t3)"}}>
+                  Reserve j&aacute; a sua data — estamos dispon&iacute;veis para orientar a produ&ccedil;&atilde;o
+                  t&eacute;cnica, ajustar o formato &agrave; lota&ccedil;&atilde;o do espa&ccedil;o e personalizar
+                  o repert&oacute;rio em fun&ccedil;&atilde;o do seu p&uacute;blico-alvo.
+                </p>
+              </Rv>
+              <Rv delay={280}>
+                <div className="space-y-4 mb-10">
+                  <a href="tel:+351926828841" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
+                    <Phone className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
+                    <div>
+                      <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Telefone direto</p>
+                      <p className="text-[15px]" style={{color:"var(--t1)"}}>+351 926 828 841</p>
+                    </div>
+                  </a>
+                  <a href="mailto:producao@guerreirasdokpop.pt" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
+                    <Mail className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
+                    <div>
+                      <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>E-mail de produ&ccedil;&atilde;o</p>
+                      <p className="text-[15px]" style={{color:"var(--t1)"}}>producao@guerreirasdokpop.pt</p>
+                    </div>
+                  </a>
+                </div>
+              </Rv>
+            </div>
+
+            {/* ── Coluna direita: formulário ── */}
+            <div className="lg:col-span-7">
+              <Rv delay={150}>
+                <form className="contacto-form" onSubmit={(e)=>{
+                  e.preventDefault();
+                  const f = e.currentTarget as HTMLFormElement;
+                  const fd = new FormData(f);
+                  const nome = encodeURIComponent(fd.get("nome") as string || "");
+                  const tipo = encodeURIComponent(fd.get("tipo") as string || "");
+                  const local = encodeURIComponent(fd.get("local") as string || "");
+                  const data_ev = encodeURIComponent(fd.get("data") as string || "");
+                  const publico = encodeURIComponent(fd.get("publico") as string || "");
+                  const email = encodeURIComponent(fd.get("email") as string || "");
+                  const tel = encodeURIComponent(fd.get("tel") as string || "");
+                  const msg = encodeURIComponent(fd.get("msg") as string || "");
+                  const subject = encodeURIComponent(`Reserva — Guerreiras do K-Pop · ${fd.get("tipo") || "Tributo musical"}`);
+                  const body = encodeURIComponent(
+`Nome: ${fd.get("nome") || ""}
+Tipo de evento: ${fd.get("tipo") || ""}
+Local pretendido: ${fd.get("local") || ""}
+Data prevista: ${fd.get("data") || ""}
+Público estimado: ${fd.get("publico") || ""}
+E-mail: ${fd.get("email") || ""}
+Telefone: ${fd.get("tel") || ""}
+
+Mensagem:
+${fd.get("msg") || ""}`
+                  );
+                  window.location.href = `mailto:producao@guerreirasdokpop.pt?subject=${subject}&body=${body}`;
+                  f.reset();
+                  const ok = document.getElementById("contacto-ok");
+                  if (ok) { ok.style.display = "block"; setTimeout(()=>{ if(ok) ok.style.display = "none"; }, 5000); }
+                }}>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <label className="contacto-field">
+                      <span>Nome *</span>
+                      <input type="text" name="nome" required placeholder="O seu nome ou entidade"/>
+                    </label>
+                    <label className="contacto-field">
+                      <span>Tipo de evento</span>
+                      <select name="tipo" defaultValue="">
+                        <option value="" disabled>Selecione…</option>
+                        <option value="Teatro / Auditório">Teatro / Auditório</option>
+                        <option value="Pavilhão multiusos">Pavilhão multiusos</option>
+                        <option value="Tenda de Natal (empresa)">Tenda de Natal (empresa)</option>
+                        <option value="Tenda de Natal (escola/associação)">Tenda de Natal (escola/associação)</option>
+                        <option value="Tenda de Natal (autarquia)">Tenda de Natal (autarquia)</option>
+                        <option value="Festival / Evento cultural">Festival / Evento cultural</option>
+                        <option value="Evento privado">Evento privado</option>
+                        <option value="Outro">Outro</option>
+                      </select>
+                    </label>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                    <label className="contacto-field">
+                      <span>Local pretendido</span>
+                      <input type="text" name="local" placeholder="Cidade ou sala"/>
+                    </label>
+                    <label className="contacto-field">
+                      <span>Data prevista</span>
+                      <input type="text" name="data" placeholder="Ex.: 12 Dez 2026"/>
+                    </label>
+                    <label className="contacto-field">
+                      <span>P&uacute;blico estimado</span>
+                      <input type="text" name="publico" placeholder="Ex.: 400 pessoas"/>
+                    </label>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <label className="contacto-field">
+                      <span>E-mail *</span>
+                      <input type="email" name="email" required placeholder="email@exemplo.pt"/>
+                    </label>
+                    <label className="contacto-field">
+                      <span>Telefone</span>
+                      <input type="tel" name="tel" placeholder="+351 …"/>
+                    </label>
+                  </div>
+
+                  <label className="contacto-field mb-6">
+                    <span>Mensagem</span>
+                    <textarea name="msg" rows={4} placeholder="Diga-nos o que precisa — formato, duração, orçamento aproximado, perguntas…"/>
+                  </label>
+
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <button type="submit" className="contacto-submit">
+                      <Mail className="w-4 h-4"/> Enviar pedido de reserva
+                    </button>
+                    <p id="contacto-ok" className="text-[12px]" style={{color:"var(--neon-purple)", display:"none"}}>
+                      Pedido preparado — abrimos o seu cliente de e-mail. Estamos em contacto brevemente.
+                    </p>
+                  </div>
+                  <p className="text-[11px] mt-5" style={{color:"var(--t3)"}}>
+                    Resposta t&iacute;pica em 24-48h em dias &uacute;teis. Para reservas urgentes, ligue diretamente.
+                  </p>
+                </form>
+              </Rv>
+            </div>
+          </div>
         </div>
       </section>
 
