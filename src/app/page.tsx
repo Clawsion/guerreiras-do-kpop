@@ -1055,11 +1055,11 @@ export default function HomePage() {
               </Rv>
               <Rv delay={280}>
                 <div className="space-y-4 mb-10">
-                  <a href="tel:+351926828841" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
+                  <a href="tel:+351960191005" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
                     <Phone className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
                     <div>
                       <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Telefone direto</p>
-                      <p className="text-[15px]" style={{color:"var(--t1)"}}>+351 926 828 841</p>
+                      <p className="text-[15px]" style={{color:"var(--t1)"}}>+351 960 191 005</p>
                     </div>
                   </a>
                   <a href="mailto:producao@guerreirasdokpop.pt" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
@@ -1186,8 +1186,8 @@ ${fd.get("msg") || ""}`
               <div>
                 <p className="sec-num mb-3">Contacto</p>
                 <div className="space-y-3">
-                  <a href="tel:+351926828841" className="flex items-center gap-2.5 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
-                    <Phone className="w-3.5 h-3.5"/> +351 926 828 841
+                  <a href="tel:+351960191005" className="flex items-center gap-2.5 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
+                    <Phone className="w-3.5 h-3.5"/> +351 960 191 005
                   </a>
                   <a href="mailto:producao@guerreirasdokpop.pt" className="flex items-center gap-2.5 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
                     <Mail className="w-3.5 h-3.5"/> producao@guerreirasdokpop.pt
