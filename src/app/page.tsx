@@ -1003,13 +1003,13 @@ export default function HomePage() {
               </Rv>
             </div>
 
-            {/* RIGHT — Weapons Artwork */}
+            {/* RIGHT — Weapons Artwork (sem fundo) */}
             <div className="esp-right">
               <div className="esp-weapons-stack">
                 {[
-                  { src: "/weapon-zoey.webp", alt: "Adagas da Zoey", color: "var(--blue-accent)" },
-                  { src: "/weapon-rumi.webp", alt: "Espada da Rumi", color: "var(--neon-purple)" },
-                  { src: "/weapon-mira.webp", alt: "Guilhotina da Mirae", color: "var(--pink-kpop)" },
+                  { src: "/weapon-zoey-nobg.png", alt: "Adagas da Zoey", color: "var(--blue-accent)" },
+                  { src: "/weapon-rumi-nobg.png", alt: "Espada da Rumi", color: "var(--neon-purple)" },
+                  { src: "/weapon-mira-nobg.png", alt: "Guilhotina da Mirae", color: "var(--pink-kpop)" },
                 ].map((w, i) => (
                   <Rv key={w.alt} delay={150 + i * 120}>
                     <div className="esp-weapon-item" style={{ '--weapon-color': w.color } as React.CSSProperties}>
