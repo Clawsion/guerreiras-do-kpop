@@ -309,7 +309,7 @@ export default function HomePage() {
   const { ref: manifestoRef, visible: manifestoVisible } = useReveal();
 
   useEffect(() => {
-    const t = setTimeout(() => setLoaded(true), 900);
+    const t = setTimeout(() => setLoaded(true), 1200);
     return () => clearTimeout(t);
   }, []);
 
