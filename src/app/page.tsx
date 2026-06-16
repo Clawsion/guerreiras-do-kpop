@@ -466,24 +466,14 @@ export default function HomePage() {
   // ═══ Efeito "acender/apagar" premium da imagem do hero ao trocar de tema ═══
   // Dispara um bloom/vela radial que cresce do centro, troca a imagem no pico,
   // e fade-out revelando a nova imagem. Sincronizado com o ripple effect do orb.
-  // Também sincroniza o heroZoom: pausa durante o flash e reinicia no fim
-  // para que ambas as imagens (escura/clara) fiquem no mesmo ponto do zoom.
   // Duração: 1.6s. Pico (toggleTheme) aos ~50% = 800ms.
+  // (Zoom está desativado neste momento — não há necessidade de reiniciar animação.)
   const triggerHeroFlash = useCallback((toMode: 'light' | 'dark') => {
     const flashClass = toMode === 'light' ? 'to-light' : 'to-dark';
     setHeroFlash(flashClass as 'to-light' | 'to-dark');
-    // Limpa o estado depois da animação terminar (~1.6s) e reinicia o zoom
+    // Limpa o estado depois da animação terminar (~1.6s)
     window.setTimeout(() => {
       setHeroFlash('none');
-      // Força reinício do heroZoom/heroZoomLight aplicando animation: none e re-aplicando
-      // Isto garante que a nova imagem começa o zoom num ponto previsível
-      const heroImg = document.querySelector('.hero-bg-img') as HTMLImageElement | null;
-      if (heroImg) {
-        heroImg.style.animation = 'none';
-        // Reflow para o browser registar a remoção
-        void heroImg.offsetWidth;
-        heroImg.style.animation = '';
-      }
     }, 1600);
   }, []);
 
