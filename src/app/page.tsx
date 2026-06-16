@@ -168,8 +168,6 @@ const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
           aria-hidden={i !== active}
         />
       ))}
-      {/* Overlay com gradiente para legibilidade */}
-      <div className="memories-overlay" aria-hidden="true"/>
       {/* Indicadores (pontos) */}
       <div className="memories-dots">
         {MEMORIES_IMAGES.map((_, i) => (
@@ -886,14 +884,17 @@ export default function HomePage() {
 
       </section>
 
-      {/* ═══ MEMÓRIAS - Slideshow crossfade + Ken Burns zoom ═══ */}
+      {/* ═══ MEMÓRIAS - Slideshow cénico (sem legendas) ═══ */}
       <section id="memorias" className="memories-section">
-        <MemoriesSlideshow/>
-        <div className="memories-caption">
-          <p className="memories-eyebrow">Lembran&ccedil;as</p>
-          <h2 className="memories-title">Momentos que <span className="neon-shimmer">Ficam</span></h2>
-          <p className="memories-sub">O universo das Guerreiras em imagens que respiram</p>
+        {/* Moldura cénica - pilares + vinheta + spotlight */}
+        <div className="memories-stage-frame" aria-hidden="true">
+          <div className="memories-pillar memories-pillar-left"/>
+          <div className="memories-pillar memories-pillar-right"/>
+          <div className="memories-spotlight"/>
+          <div className="memories-curtain-top"/>
+          <div className="memories-curtain-bottom"/>
         </div>
+        <MemoriesSlideshow/>
       </section>
 
       {/* ═══ ESPETÁCULO - Descrição + Galeria ═══ */}

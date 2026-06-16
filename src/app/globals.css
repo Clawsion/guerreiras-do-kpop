@@ -310,16 +310,119 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ MEMORIES SECTION - Slideshow crossfade + Ken Burns zoom ═══ */
+/* ═══ MEMORIES SECTION - Slideshow cénico (sem legendas) ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
 .memories-section {
   position: relative;
   width: 100%;
-  height: 70vh;
-  min-height: 480px;
+  height: 75vh;
+  min-height: 500px;
   overflow: hidden;
   background: var(--void);
 }
+
+/* ═══ Moldura cénica - pilares + vinheta + spotlight ═══ */
+.memories-stage-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+/* Pilares laterais (esquerdo + direito) - sensação de palco */
+.memories-pillar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 12vw;
+  max-width: 180px;
+  background: linear-gradient(90deg,
+    rgba(11,8,19,0.85) 0%,
+    rgba(11,8,19,0.5) 50%,
+    transparent 100%);
+  pointer-events: none;
+}
+.memories-pillar-left { left: 0; }
+.memories-pillar-right {
+  right: 0;
+  background: linear-gradient(270deg,
+    rgba(11,8,19,0.85) 0%,
+    rgba(11,8,19,0.5) 50%,
+    transparent 100%);
+}
+/* Cortinas superior e inferior (topo + fundo do palco) */
+.memories-curtain-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 15vh;
+  background: linear-gradient(180deg,
+    rgba(11,8,19,0.95) 0%,
+    rgba(11,8,19,0.5) 50%,
+    transparent 100%);
+}
+.memories-curtain-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 18vh;
+  background: linear-gradient(0deg,
+    rgba(11,8,19,0.95) 0%,
+    rgba(11,8,19,0.5) 50%,
+    transparent 100%);
+}
+/* Spotlight central - cone de luz do topo */
+.memories-spotlight {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 120%;
+  background: radial-gradient(ellipse at 50% 0%,
+    rgba(255,250,235,0.18) 0%,
+    rgba(255,250,235,0.08) 25%,
+    rgba(255,250,235,0.02) 50%,
+    transparent 75%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+/* Modo dia: pilares + cortinas mais subtis (lavanda em vez de preto) */
+.light-mode .memories-pillar-left {
+  background: linear-gradient(90deg,
+    rgba(237,224,245,0.85) 0%,
+    rgba(237,224,245,0.5) 50%,
+    transparent 100%);
+}
+.light-mode .memories-pillar-right {
+  background: linear-gradient(270deg,
+    rgba(237,224,245,0.85) 0%,
+    rgba(237,224,245,0.5) 50%,
+    transparent 100%);
+}
+.light-mode .memories-curtain-top {
+  background: linear-gradient(180deg,
+    rgba(237,224,245,0.95) 0%,
+    rgba(237,224,245,0.5) 50%,
+    transparent 100%);
+}
+.light-mode .memories-curtain-bottom {
+  background: linear-gradient(0deg,
+    rgba(237,224,245,0.95) 0%,
+    rgba(237,224,245,0.5) 50%,
+    transparent 100%);
+}
+.light-mode .memories-spotlight {
+  background: radial-gradient(ellipse at 50% 0%,
+    rgba(255,255,255,0.35) 0%,
+    rgba(255,255,255,0.15) 25%,
+    rgba(255,255,255,0.05) 50%,
+    transparent 75%);
+  mix-blend-mode: overlay;
+}
+
+/* ═══ Slideshow stage ═══ */
 .memories-stage {
   position: absolute;
   inset: 0;
@@ -330,154 +433,84 @@ html { scroll-behavior: smooth; }
   background-size: cover;
   background-position: center center;
   opacity: 0;
-  transition: opacity 1.8s ease-in-out;
-  /* Ken Burns zoom lento */
-  transform: scale(1.08);
-  animation: memoriesKenBurns 12s ease-out forwards;
-  will-change: transform, opacity;
+  /* Nova transição: wipe + scale (em vez de crossfade simples) */
+  transform: scale(1.15) translateX(8%);
+  filter: brightness(0.85) saturate(0.9);
+  transition:
+    opacity 1.4s cubic-bezier(0.65, 0, 0.35, 1),
+    transform 1.8s cubic-bezier(0.65, 0, 0.35, 1),
+    filter 1.4s ease-out;
+  will-change: transform, opacity, filter;
 }
 .memories-slide.active {
   opacity: 1;
+  transform: scale(1.05) translateX(0%);
+  filter: brightness(1) saturate(1);
   animation: memoriesKenBurnsActive 12s ease-out forwards;
 }
-/* Quando a slide perde o active, reverte lentamente para 1.08 (não salta) */
+/* Quando a slide perde o active, faz zoom-out + wipe para a esquerda */
 .memories-slide:not(.active) {
-  animation: memoriesKenBurnsReverse 1.8s ease-in-out forwards;
-}
-@keyframes memoriesKenBurns {
-  0%   { transform: scale(1.08); }
-  100% { transform: scale(1.18); }
+  transform: scale(1.0) translateX(-8%);
+  filter: brightness(0.85) saturate(0.9);
 }
 @keyframes memoriesKenBurnsActive {
-  0%   { transform: scale(1.08); }
-  100% { transform: scale(1.18); }
-}
-@keyframes memoriesKenBurnsReverse {
-  0%   { transform: scale(1.18); }
-  100% { transform: scale(1.08); }
+  0%   { transform: scale(1.05) translateX(0%); }
+  100% { transform: scale(1.18) translateX(0%); }
 }
 
-/* Overlay com gradiente para legibilidade do caption */
-.memories-overlay {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(11,8,19,0.45) 0%, rgba(11,8,19,0.05) 30%, rgba(11,8,19,0.05) 60%, rgba(11,8,19,0.85) 100%),
-    radial-gradient(ellipse at center, transparent 40%, rgba(11,8,19,0.5) 100%);
-  pointer-events: none;
-  z-index: 2;
-}
-/* Modo dia: overlay mais claro (lavanda em vez de preto) */
-.light-mode .memories-overlay {
-  background:
-    linear-gradient(180deg, rgba(237,224,245,0.40) 0%, rgba(237,224,245,0.05) 30%, rgba(237,224,245,0.05) 60%, rgba(237,224,245,0.75) 100%),
-    radial-gradient(ellipse at center, transparent 40%, rgba(237,224,245,0.40) 100%);
-}
-
-/* Caption - título sobre o slideshow */
-.memories-caption {
-  position: absolute;
-  bottom: 12vh;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  z-index: 3;
-  width: 90%;
-  max-width: 800px;
-  pointer-events: none;
-}
-.memories-eyebrow {
-  font-family: var(--font-geist-mono);
-  font-size: 11px;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  color: var(--neon-purple);
-  text-shadow: 0 0 14px rgba(200,80,255,0.5);
-  margin: 0 0 1rem;
-  font-weight: 700;
-}
-.memories-title {
-  font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 200;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-  color: #ffffff;
-  margin: 0 0 0.75rem;
-  text-shadow: 0 2px 12px rgba(11,8,19,0.8), 0 0 30px rgba(200,80,255,0.3);
-}
-.memories-sub {
-  font-size: clamp(13px, 1.2vw, 16px);
-  font-weight: 300;
-  letter-spacing: 0.05em;
-  color: rgba(255,255,255,0.85);
-  margin: 0;
-  text-shadow: 0 1px 6px rgba(11,8,19,0.8);
-}
-/* Modo dia: caption com cores escuras */
-.light-mode .memories-eyebrow {
-  color: #6D28D9;
-  text-shadow: 0 1px 3px rgba(255,255,255,0.6);
-}
-.light-mode .memories-title {
-  color: #1E1040;
-  text-shadow: 0 2px 8px rgba(255,255,255,0.7), 0 0 20px rgba(147,51,234,0.2);
-}
-.light-mode .memories-sub {
-  color: #3A2666;
-  text-shadow: 0 1px 3px rgba(255,255,255,0.7);
-}
-
-/* Indicadores (pontos) */
+/* Indicadores (pontos) - mantidos mas mais discretos */
 .memories-dots {
   position: absolute;
-  bottom: 5vh;
+  bottom: 4vh;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 0.75rem;
-  z-index: 4;
+  gap: 0.6rem;
+  z-index: 11;
 }
 .memories-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.3);
-  border: 1px solid rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.35);
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 0;
 }
 .memories-dot:hover {
-  background: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.5);
   transform: scale(1.2);
 }
 .memories-dot.active {
   background: var(--neon-purple);
   border-color: var(--neon-purple);
-  box-shadow: 0 0 12px rgba(200,80,255,0.7), 0 0 24px rgba(200,80,255,0.4);
+  box-shadow: 0 0 10px rgba(200,80,255,0.6), 0 0 20px rgba(200,80,255,0.3);
   transform: scale(1.3);
 }
 .light-mode .memories-dot {
-  background: rgba(30,16,64,0.3);
-  border-color: rgba(30,16,64,0.4);
+  background: rgba(30,16,64,0.25);
+  border-color: rgba(30,16,64,0.35);
 }
 .light-mode .memories-dot:hover {
-  background: rgba(30,16,64,0.6);
+  background: rgba(30,16,64,0.5);
 }
 .light-mode .memories-dot.active {
   background: #7C3AED;
   border-color: #7C3AED;
-  box-shadow: 0 0 10px rgba(124,58,237,0.5);
+  box-shadow: 0 0 8px rgba(124,58,237,0.5);
 }
 
-/* Mobile: secção mais pequena */
+/* Mobile: secção mais pequena, pilares mais estreitos */
 @media (max-width: 767px) {
   .memories-section {
-    height: 55vh;
-    min-height: 380px;
+    height: 60vh;
+    min-height: 400px;
   }
-  .memories-caption { bottom: 10vh; }
-  .memories-dots { bottom: 4vh; }
+  .memories-pillar { width: 18vw; }
+  .memories-curtain-top { height: 12vh; }
+  .memories-curtain-bottom { height: 14vh; }
+  .memories-dots { bottom: 3vh; }
 }
 
 /* ═══ CINEMATIC IMAGE ═══ */
