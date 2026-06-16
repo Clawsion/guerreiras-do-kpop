@@ -31,24 +31,31 @@ function detectTier(): Tier {
 
     // Check GPU via WebGL debug info
     const c = document.createElement("canvas");
-    const gl = c.getContext("webgl");
+    c.width = 1; c.height = 1;  // Minimal canvas — don't waste GPU memory
+    const gl = c.getContext("webgl", { failIfMajorPerformanceCaveat: true });
     if (!gl) return "low";
-    const ext = gl.getExtension("WEBGL_debug_renderer_info");
-    if (ext) {
-      const renderer = String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)).toLowerCase();
-      // Known weak GPUs — alternation only, no char-class ranges
-      if (
-        /mali-g|mali-t|mali-4/i.test(renderer) ||
-        /adreno 3\d\d|adreno 4\d\d|adreno 5\d\d/i.test(renderer) ||
-        /powervr sgx/i.test(renderer) ||
-        /hd graphics 2\d\d\d|hd graphics 3\d\d\d|hd graphics 4\d\d\d/i.test(renderer)
-      ) {
-        return isMobile ? "low" : "mid";
+    try {
+      const ext = gl.getExtension("WEBGL_debug_renderer_info");
+      if (ext) {
+        const renderer = String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)).toLowerCase();
+        // Known weak GPUs — alternation only, no char-class ranges
+        if (
+          /mali-g|mali-t|mali-4/i.test(renderer) ||
+          /adreno 3\d\d|adreno 4\d\d|adreno 5\d\d/i.test(renderer) ||
+          /powervr sgx/i.test(renderer) ||
+          /hd graphics 2\d\d\d|hd graphics 3\d\d\d|hd graphics 4\d\d\d/i.test(renderer)
+        ) {
+          return isMobile ? "low" : "mid";
+        }
       }
+      // Max texture size as rough proxy for GPU capability
+      const maxTex = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+      if (maxTex < 4096) return "low";
+    } finally {
+      // CRITICAL: Release the WebGL context so initGL() can create one later
+      const loseCtx = gl.getExtension("WEBGL_lose_context");
+      if (loseCtx) loseCtx.loseContext();
     }
-    // Max texture size as rough proxy for GPU capability
-    const maxTex = gl.getParameter(gl.MAX_TEXTURE_SIZE);
-    if (maxTex < 4096) return "low";
 
     // Memory heuristic
     const nav = navigator as any;
