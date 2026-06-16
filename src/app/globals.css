@@ -2876,32 +2876,102 @@ html { scroll-behavior: smooth; }
   letter-spacing: 0.05em;
 }
 
-/* ═══ Light mode — lavanda com cortinas laterais (parede de galeria) ═══ */
-/* Mantém o lavanda puro das outras secções (continuidade) mas adiciona
-   2 faixas verticais laterais que simulam cortinas teatrais — dá identidade
-   própria à secção sem competir com o Tributo */
+/* ═══ Light mode — lavanda com cortinas laterais animadas ═══ */
+/* Cortinas laterais mais visíveis + animação subtil de ondulação */
 .light-mode .cartazes-section {
+  position: relative;
   background:
-    /* Cortina esquerda — mais escura na borda, desaparece para o centro */
+    /* Cortina esquerda — mais intensa */
     linear-gradient(90deg,
-      rgba(160,110,180,0.30) 0%,
-      rgba(190,150,210,0.18) 6%,
-      rgba(220,190,235,0.06) 14%,
-      transparent 22%
+      rgba(120,80,150,0.55) 0%,
+      rgba(150,100,180,0.38) 8%,
+      rgba(180,130,205,0.18) 18%,
+      rgba(210,180,230,0.04) 28%,
+      transparent 36%
     ),
-    /* Cortina direita — espelho da esquerda */
+    /* Cortina direita — espelho */
     linear-gradient(270deg,
-      rgba(160,110,180,0.30) 0%,
-      rgba(190,150,210,0.18) 6%,
-      rgba(220,190,235,0.06) 14%,
-      transparent 22%
+      rgba(120,80,150,0.55) 0%,
+      rgba(150,100,180,0.38) 8%,
+      rgba(180,130,205,0.18) 18%,
+      rgba(210,180,230,0.04) 28%,
+      transparent 36%
     ),
-    /* Fundo base lavanda puro (igual às outras secções) */
+    /* Fundo base lavanda puro */
     linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
   --t1: #1E1040;
   --t2: #5B3E8A;
   --t3: #8B6CB0;
 }
+
+/* Cortinas animadas — overlay separado para ondular */
+.light-mode .cartazes-section::before,
+.light-mode .cartazes-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 38%;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+}
+.light-mode .cartazes-section::before {
+  left: 0;
+  background: linear-gradient(90deg,
+    rgba(120,80,150,0.40) 0%,
+    rgba(140,95,170,0.25) 15%,
+    rgba(170,120,195,0.10) 35%,
+    transparent 60%
+  );
+  animation: curtainSwayLeft 8s ease-in-out infinite;
+}
+.light-mode .cartazes-section::after {
+  right: 0;
+  background: linear-gradient(270deg,
+    rgba(120,80,150,0.40) 0%,
+    rgba(140,95,170,0.25) 15%,
+    rgba(170,120,195,0.10) 35%,
+    transparent 60%
+  );
+  animation: curtainSwayRight 8s ease-in-out infinite;
+}
+
+@keyframes curtainSwayLeft {
+  0%, 100% {
+    transform: translateX(0) scaleX(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-8px) scaleX(1.03);
+    opacity: 0.85;
+  }
+}
+@keyframes curtainSwayRight {
+  0%, 100% {
+    transform: translateX(0) scaleX(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(8px) scaleX(1.03);
+    opacity: 0.85;
+  }
+}
+
+/* Acessibilidade — sem animação para quem prefere movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  .light-mode .cartazes-section::before,
+  .light-mode .cartazes-section::after {
+    animation: none;
+  }
+}
+
+/* Conteúdo acima das cortinas */
+.light-mode .cartazes-section > * {
+  position: relative;
+  z-index: 2;
+}
+
 .light-mode .cartaz-img {
   filter: brightness(1.02) saturate(1.05);
 }
@@ -3612,11 +3682,12 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══ Galeria — light mode (lavanda lilás, igual ao Tributo) ═══ */
+/* Mural — lavanda mais escuro para hierarquia (arquivo/coleção) */
 .light-mode .galeria-section {
-  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
-  --t1: #1E1040;
-  --t2: #5B3E8A;
-  --t3: #8B6CB0;
+  background: linear-gradient(180deg, #C8B0DA 0%, #BFA5D2 30%, #B59AC8 60%, #CBB5DC 100%);
+  --t1: #1A0A38;
+  --t2: #4A2A75;
+  --t3: #735BA0;
 }
 .light-mode .galeria-card {
   background: rgba(255,255,255,0.55);
