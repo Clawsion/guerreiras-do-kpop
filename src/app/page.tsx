@@ -211,9 +211,9 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
 ];
 
 const QUIZ_CHARACTERS = [
-  { name: "ZOEY", color: "var(--blue-accent)", img: "/real-zoe.webp" },
-  { name: "RUMI", color: "var(--neon-purple)", img: "/real-rumi.webp" },
-  { name: "MIRAE", color: "var(--pink-kpop)", img: "/real-mirae.webp" },
+  { name: "ZOEY", color: "var(--blue-accent)", img: "/real-zoe.webp", weapon: "/weapon-zoey-nobg.png", theme: "Coragem", weaponPos: "top" },
+  { name: "RUMI", color: "var(--neon-purple)", img: "/real-rumi.webp", weapon: "/weapon-rumi-nobg.png", theme: "Música", weaponPos: "center" },
+  { name: "MIRAE", color: "var(--pink-kpop)", img: "/real-mirae.webp", weapon: "/weapon-mira-nobg.png", theme: "Dança", weaponPos: "bottom" },
 ];
 
 function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[number]; onScore: (correct: boolean) => void }) {
@@ -222,17 +222,25 @@ function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[nu
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [usedQ, setUsedQ] = useState<Set<number>>(new Set());
+  const [currentTheme, setCurrentTheme] = useState(character.name);
+
+  /* Alternar temas — cicla entre ZOEY, RUMI, MIRAE para variedade */
+  const allThemes: Array<"ZOEY" | "RUMI" | "MIRAE"> = ["ZOEY", "RUMI", "MIRAE"];
 
   const pickQuestion = useCallback(() => {
-    const pool = QUIZ_QUESTIONS.filter((q, i) => q.theme === character.name && !usedQ.has(i));
-    const allPool = QUIZ_QUESTIONS.filter((_, i) => !usedQ.has(i));
-    const available = pool.length > 0 ? pool : allPool.length > 0 ? allPool : QUIZ_QUESTIONS;
+    /* Primeiro tenta o tema atual, depois outros temas para alternar */
+    const themePool = QUIZ_QUESTIONS.filter((q, i) => q.theme === currentTheme && !usedQ.has(i));
+    const anyPool = QUIZ_QUESTIONS.filter((_, i) => !usedQ.has(i));
+    const available = themePool.length > 0 ? themePool : anyPool.length > 0 ? anyPool : QUIZ_QUESTIONS;
     const idx = Math.floor(Math.random() * available.length);
     const chosen = available[idx];
     const globalIdx = QUIZ_QUESTIONS.indexOf(chosen);
     setUsedQ(prev => new Set([...prev, globalIdx]));
+    /* Alternar o tema para a próxima pergunta */
+    const nextThemeIdx = (allThemes.indexOf(currentTheme) + 1) % allThemes.length;
+    setCurrentTheme(allThemes[nextThemeIdx]);
     return chosen;
-  }, [character.name, usedQ]);
+  }, [currentTheme, usedQ]);
 
   const handleFlip = useCallback(() => {
     if (!flipped) {
@@ -261,21 +269,34 @@ function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[nu
     }, 500);
   }, []);
 
+  /* Posição da arma: cada carta tem a arma num sítio diferente */
+  const weaponPositionClass = `quiz-weapon-${character.weaponPos}`;
+
   return (
     <div className="quiz-card" onClick={!flipped ? handleFlip : undefined} role="button" tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' && !flipped) handleFlip(); }}>
       <div className={`quiz-card-inner${flipped ? " quiz-flipped" : ""}`}>
-        {/* Front — character image */}
+        {/* ═══ FRONT — Character Image + Weapon + Neon Theme Badge ═══ */}
         <div className="quiz-card-front">
           <div className="quiz-glow" style={{ background: `radial-gradient(circle, ${character.color}33 0%, transparent 70%)` }} />
           <img src={character.img} alt={character.name} className="quiz-char-img" loading="lazy" decoding="async" />
+          {/* Weapon overlay — sem fundo, adaptável ao claro/escuro */}
+          <div className={`quiz-weapon-overlay ${weaponPositionClass}`}>
+            <img src={character.weapon} alt={`Arma de ${character.name}`} className="quiz-weapon-img" loading="lazy" decoding="async" />
+          </div>
+          {/* Neon theme badge */}
+          <div className="quiz-theme-badge" style={{ '--badge-color': character.color } as React.CSSProperties}>
+            <span className="quiz-theme-icon">⚔</span>
+            <span className="quiz-theme-text">{character.theme}</span>
+          </div>
           <p className="quiz-char-name" style={{ color: character.color }}>{character.name}</p>
           <p className="quiz-hint">Clica para jogar</p>
         </div>
-        {/* Back — quiz question */}
+        {/* ═══ BACK — Quiz Question (fundo branco/adaptável, sem espelho) ═══ */}
         <div className="quiz-card-back">
           {question ? (
             <>
+              <p className="quiz-back-theme" style={{ color: character.color }}>{question.theme}</p>
               <p className="quiz-question">{question.q}</p>
               <div className="quiz-options">
                 {question.options.map((opt, i) => {
