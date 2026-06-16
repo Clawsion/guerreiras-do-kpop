@@ -660,8 +660,33 @@ export default function HomePage() {
 
         {/* ═══ HAMBURGER NAV - pinned at top of hero ═══ */}
         <nav className="absolute top-0 inset-x-0 z-[95] py-4" style={{background:"transparent"}}>
-          <div className="hero-nav-panel max-w-[1400px] mx-auto px-8 sm:px-16 flex items-center justify-between">
-            {/* LEFT: Hamburger only */}
+          <div className="hero-nav-panel max-w-[1400px] mx-auto px-5 sm:px-8 flex items-center justify-end gap-5 sm:gap-8">
+            {/* Ticketline - à esquerda do hamburger (lado direito do nav) */}
+            <a
+              href={TL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-nav-ticket group"
+            >
+              <Ticket className="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300" style={{color:"#fff"}}/>
+              <span className="hidden sm:inline text-[11px] tracking-[0.2em] uppercase font-bold" style={{color:"#fff"}}>Ticketline</span>
+            </a>
+            {/* Theme toggle - ao lado do Ticketline */}
+            <button
+              className="hero-nav-theme"
+              onClick={() => {
+                const toMode = themeMode === 'dark' ? 'light' : 'dark';
+                triggerHeroFlash(toMode);
+                window.setTimeout(() => toggleTheme(), 200);
+              }}
+              aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
+            >
+              <span className={`hero-nav-orb ${themeMode}`}/>
+              <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"var(--neon-purple)", minWidth:"38px", textAlign:"center"}}>
+                {themeMode === 'dark' ? 'Noite' : 'Dia'}
+              </span>
+            </button>
+            {/* Hamburger - encostado à direita */}
             <button
               onClick={()=>setMenuOpen(!menuOpen)}
               className={`hamburger ${menuOpen?"open":""}`}
@@ -671,33 +696,6 @@ export default function HomePage() {
               <span />
               <span />
             </button>
-            {/* RIGHT: Ticketline + Theme Toggle */}
-            <div className="flex items-center gap-6 sm:gap-10">
-              <a
-                href={TL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hero-nav-ticket group"
-              >
-                <Ticket className="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300" style={{color:"#fff"}}/>
-                <span className="hidden sm:inline text-[11px] tracking-[0.2em] uppercase font-bold" style={{color:"#fff"}}>Ticketline</span>
-              </a>
-              <button
-                className="hero-nav-theme"
-                onClick={() => {
-                  const toMode = themeMode === 'dark' ? 'light' : 'dark';
-                  triggerHeroFlash(toMode);
-                  // Pequeno delay para o flash começar antes da troca
-                  window.setTimeout(() => toggleTheme(), 200);
-                }}
-                aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
-              >
-                <span className={`hero-nav-orb ${themeMode}`}/>
-                <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"var(--neon-purple)", minWidth:"38px", textAlign:"center"}}>
-                  {themeMode === 'dark' ? 'Noite' : 'Dia'}
-                </span>
-              </button>
-            </div>
           </div>
         </nav>
 
@@ -744,8 +742,8 @@ export default function HomePage() {
           <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
         </div>
 
-        {/* ═══ HERO BOTTOM - CTA + Data (sem countdown) ═══ */}
-        <div className="hero-bottom-panel absolute bottom-0 inset-x-0 z-10 flex flex-col items-center pb-14 sm:pb-20">
+        {/* ═══ HERO BOTTOM-LEFT - CTA + Data (sem countdown) ═══ */}
+        <div className="hero-bottom-panel absolute bottom-0 left-0 z-10 flex flex-col items-start pb-14 sm:pb-20 pl-5 sm:pl-16">
           {/* Arco de neons decorativo atrás do botão */}
           <div className="hero-cta-arc" aria-hidden="true">
             <div className="hero-cta-arc-ring hero-cta-arc-ring-1"/>
