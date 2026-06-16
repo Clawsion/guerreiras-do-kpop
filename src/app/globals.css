@@ -1988,7 +1988,7 @@ html { scroll-behavior: smooth; }
 /* ═══════════════════════════════════════════════════════════════ */
 
 .quiz-card {
-  perspective: 900px;
+  perspective: 1000px;
   cursor: pointer;
   aspect-ratio: 1 / 2.97;
   position: relative;
@@ -1998,7 +1998,7 @@ html { scroll-behavior: smooth; }
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.7s cubic-bezier(0.4, 0.0, 0.2, 1);
   transform-style: preserve-3d;
 }
 
@@ -2012,8 +2012,7 @@ html { scroll-behavior: smooth; }
   inset: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  border-radius: 6px;
-  overflow: hidden;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2024,11 +2023,9 @@ html { scroll-behavior: smooth; }
 .quiz-card-front {
   background: var(--void);
   border: 1px solid rgba(255,45,120,0.08);
-  position: relative;
-  transition: border-color 0.4s ease, box-shadow 0.4s ease;
   overflow: hidden;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  z-index: 1;
+  transform: rotateY(0deg);
 }
 
 .quiz-card:hover .quiz-card-front {
@@ -2147,7 +2144,7 @@ html { scroll-behavior: smooth; }
   text-shadow: 0 0 6px currentColor;
 }
 
-/* ═══ BACK — Quiz Question ═══ */
+/* ═══ BACK — Quiz Question (WHITE, no mirror) ═══ */
 .quiz-card-back {
   background: #ffffff;
   border: 1px solid rgba(200,80,255,0.15);
@@ -2157,8 +2154,7 @@ html { scroll-behavior: smooth; }
   justify-content: center;
   box-shadow: 0 0 30px rgba(200,80,255,0.06), 0 4px 20px rgba(0,0,0,0.08);
   overflow-y: auto;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  z-index: 2;
 }
 
 .quiz-question {
@@ -3016,9 +3012,9 @@ html { scroll-behavior: smooth; }
 /* Smooth transition on themed elements — wave-delay creates ripple effect */
 /* Applied to BOTH directions so wave-delay works dark→light AND light→dark */
 .light-mode,
-.light-mode *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.quiz-weapon-img):not(.quiz-weapon-overlay):not(.quiz-theme-badge):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right),
+.light-mode *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right),
 :not(.light-mode).wave-transition,
-:not(.light-mode).wave-transition *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.quiz-weapon-img):not(.quiz-weapon-overlay):not(.quiz-theme-badge):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right) {
+:not(.light-mode).wave-transition *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right) {
   transition: background-color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
               color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
               border-color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
