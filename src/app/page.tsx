@@ -417,7 +417,6 @@ export default function HomePage() {
   const [ripple, setRipple] = useState<{active:boolean; x:number; y:number; toMode:'dark'|'light'}|null>(null);
   const [waveActive, setWaveActive] = useState(false);
   const [lightbox, setLightbox] = useState<number | null>(null);
-  const [quizScore, setQuizScore] = useState<{ correct: number; total: number }>({ correct: 0, total: 0 });
     const [privacyOpen, setPrivacyOpen] = useState(false);
   const orbRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<HTMLElement[] | null>(null);
@@ -467,7 +466,6 @@ export default function HomePage() {
     { l: "Espetáculo", h: "#espetaculo" },
     { l: "Mural", h: "#galeria" },
     { l: "Cartazes", h: "#cartazes" },
-    { l: "Quiz", h: "#identidade" },
     { l: "Contacto", h: "#contacto" },
   ], []);
 
@@ -1024,44 +1022,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="neon-div max-w-[1400px] mx-auto"/>
-
-      {/* ═══ QUIZ - Perguntas sobre o Filme ═══ */}
-      <section id="identidade" className="identidade-section px-5 sm:px-10">
-        <div className="max-w-[1400px] mx-auto">
-          <Rv>
-            <p className="sec-num mb-4">Quiz das Guerreiras</p>
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
-              Quanto <span className="neon-shimmer">sabes</span><br/>sobre o Filme?
-            </h2>
-          </Rv>
-          <Rv delay={120}>
-            <p className="text-[16px] leading-[1.8] mb-12 max-w-lg" style={{color:"var(--t2)"}}>
-              Vira cada carta para descobrir uma pergunta sobre as Guerreiras do K-Pop. Será que sabes tudo sobre o filme?
-            </p>
-          </Rv>
-          <div className="dual-grid">
-            {QUIZ_CHARACTERS.map((c, i) => (
-              <QuizCard
-                key={c.name}
-                character={c}
-                onScore={(correct) => setQuizScore(prev => ({ correct: prev.correct + (correct ? 1 : 0), total: prev.total + 1 }))}
-              />
-            ))}
-          </div>
-          {quizScore.total > 0 && (
-            <Rv delay={200}>
-              <div className="quiz-score-bar">
-                <span className="quiz-score-label">Respostas corretas</span>
-                <span className="quiz-score-value">{quizScore.correct}/{quizScore.total}</span>
-                <div className="quiz-score-progress">
-                  <div className="quiz-score-fill" style={{ width: `${(quizScore.correct / quizScore.total) * 100}%` }} />
-                </div>
-              </div>
-            </Rv>
-          )}
-        </div>
-      </section>
       <div className="neon-div max-w-[1400px] mx-auto"/>
 
       <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 08 AGO CASCAIS · 09 AGO COSTA DA CAPARICA · 15 AGO SESIMBRA · ZOEY · RUMI · MIRA"/>
