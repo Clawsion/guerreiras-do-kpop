@@ -2165,18 +2165,18 @@ html { scroll-behavior: smooth; }
     inset 0 0 60px rgba(200,80,255,0.03);
   overflow: hidden;
   z-index: 2;
-  position: relative;
 }
 .quiz-card-back::before {
   content: '';
   position: absolute;
-  top: -1px;
+  top: 0;
   left: 10%;
   right: 10%;
   height: 3px;
   background: linear-gradient(90deg, transparent, rgba(200,80,255,0.5), rgba(255,45,120,0.5), rgba(120,60,255,0.5), transparent);
   border-radius: 0 0 4px 4px;
   animation: backTopGlow 3s ease-in-out infinite;
+  pointer-events: none;
 }
 @keyframes backTopGlow {
   0%, 100% { opacity: 0.5; }
