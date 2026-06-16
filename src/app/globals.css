@@ -427,6 +427,93 @@ html { scroll-behavior: smooth; }
   position: absolute;
   inset: 0;
 }
+
+/* ═══ Camada de fumaça - aparece e desaparece na mudança de foto ═══ */
+.memories-smoke-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+}
+.memories-smoke {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0;
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+/* 3 blobs de fumaça em posições diferentes, com timings diferentes */
+.memories-smoke-1 {
+  top: 20%;
+  left: -10%;
+  background: radial-gradient(circle,
+    rgba(200,80,255,0.45) 0%,
+    rgba(180,60,220,0.25) 40%,
+    transparent 70%);
+  animation: memoriesSmokePulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.memories-smoke-2 {
+  top: 10%;
+  right: -10%;
+  background: radial-gradient(circle,
+    rgba(255,200,235,0.40) 0%,
+    rgba(220,150,255,0.20) 40%,
+    transparent 70%);
+  animation: memoriesSmokePulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+}
+.memories-smoke-3 {
+  bottom: 5%;
+  left: 30%;
+  background: radial-gradient(circle,
+    rgba(255,250,235,0.35) 0%,
+    rgba(255,220,180,0.18) 40%,
+    transparent 70%);
+  animation: memoriesSmokePulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+}
+@keyframes memoriesSmokePulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) translateX(0) translateY(0);
+  }
+  25% {
+    opacity: 0.9;
+    transform: scale(1.3) translateX(20px) translateY(-10px);
+  }
+  60% {
+    opacity: 0.6;
+    transform: scale(1.6) translateX(40px) translateY(-25px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.0) translateX(60px) translateY(-50px);
+  }
+}
+/* Modo dia: fumaça mais clara (lavanda/branco) e mix-blend-mode multiply para escurecer subtílmente */
+.light-mode .memories-smoke {
+  mix-blend-mode: multiply;
+}
+.light-mode .memories-smoke-1 {
+  background: radial-gradient(circle,
+    rgba(180,140,220,0.40) 0%,
+    rgba(160,120,200,0.22) 40%,
+    transparent 70%);
+}
+.light-mode .memories-smoke-2 {
+  background: radial-gradient(circle,
+    rgba(220,180,240,0.35) 0%,
+    rgba(200,160,230,0.20) 40%,
+    transparent 70%);
+}
+.light-mode .memories-smoke-3 {
+  background: radial-gradient(circle,
+    rgba(255,255,255,0.50) 0%,
+    rgba(240,230,250,0.25) 40%,
+    transparent 70%);
+}
 .memories-slide {
   position: absolute;
   inset: 0;
