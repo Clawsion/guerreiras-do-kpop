@@ -427,7 +427,8 @@ export default function LedWallShader({ active }: { active: boolean }) {
     const elapsed = (now - startTimeRef.current) / 1000.0;
 
     const target = darkModeRef.current;
-    darkModeSmoothRef.current += (target - darkModeSmoothRef.current) * 0.04;
+    // Faster lerp (0.08) so day/night transition is clearly visible (~2s)
+    darkModeSmoothRef.current += (target - darkModeSmoothRef.current) * 0.08;
 
     // Use cached uniform locations
     gl.uniform1f(getLoc(gl, program, "u_time"), elapsed);

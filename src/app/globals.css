@@ -2919,21 +2919,21 @@ html { scroll-behavior: smooth; }
 
 /* Manifesto section — warm daytime in light mode, dark temple in dark mode */
 .light-mode .manifesto-section {
-  background: #F5EAF8;
+  background: #F5EAF8 !important;
 }
 
 /* Manifesto glow — golden/iridescent in light mode instead of purple */
 .light-mode .manifesto-glow {
-  background: radial-gradient(ellipse at 50% 50%, rgba(245,158,11,0.12) 0%, rgba(252,211,77,0.06) 25%, transparent 60%);
+  background: radial-gradient(ellipse at 50% 50%, rgba(245,158,11,0.15) 0%, rgba(252,211,77,0.08) 25%, transparent 60%);
 }
 
 /* LED wall frame — golden glow in light mode */
 .light-mode .led-wall-frame {
   box-shadow:
-    0 0 50px rgba(245,158,11,0.25),
-    0 0 100px rgba(245,158,11,0.10),
+    0 0 50px rgba(245,158,11,0.30),
+    0 0 100px rgba(245,158,11,0.12),
     0 0 160px rgba(196,181,253,0.08),
-    0 10px 40px rgba(30,16,64,0.3);
+    0 10px 40px rgba(30,16,64,0.15);
 }
 
 /* Monitor glow — warm golden spill in light mode */
@@ -2955,50 +2955,85 @@ html { scroll-behavior: smooth; }
 /* LED ambient sync — warm palette in light mode */
 .light-mode .led-ambient-sync {
   background: radial-gradient(ellipse at 50% 50%,
-    rgba(245,158,11,0.10) 0%,
-    rgba(252,211,77,0.04) 30%,
+    rgba(245,158,11,0.12) 0%,
+    rgba(252,211,77,0.05) 30%,
     transparent 60%) !important;
 }
 
-/* Demon markings — subtler in light mode */
+/* Demon markings — much subtler in light mode */
 .light-mode .demon-markings {
-  opacity: 0.25;
+  opacity: 0.15;
 }
 .light-mode .demon-vine {
-  stroke: rgba(147, 51, 234, 0.4);
+  stroke: rgba(147, 51, 234, 0.35);
 }
 .light-mode .demon-vine-eye {
-  stroke: rgba(236, 72, 153, 0.5);
+  stroke: rgba(236, 72, 153, 0.4);
 }
 
-/* Pillars — lighter stone color in light mode */
+/* Pillars — warm lavender stone in light mode */
 .light-mode .pillar-shaft {
-  background: linear-gradient(180deg, #2a1a4e, #3d2878, #2a1a4e) !important;
-  box-shadow: inset 0 0 25px rgba(30,16,64,0.5),
-    0 0 20px rgba(245,158,11,0.08) !important;
+  background: linear-gradient(180deg, #6B4FA0, #7C5BB5, #6B4FA0) !important;
+  box-shadow: inset 0 0 25px rgba(100,60,150,0.3),
+    0 0 20px rgba(245,158,11,0.10) !important;
 }
 
-/* Temple base — lighter in light mode */
+/* Pillar bases & capitals — lighter */
+.light-mode .pillar-base {
+  background: linear-gradient(180deg, #5B3E8A, #7C5BB5) !important;
+}
+.light-mode .pillar-capital {
+  background: linear-gradient(180deg, #7C5BB5, #5B3E8A) !important;
+}
+
+/* Temple base — warm purple in light mode */
 .light-mode .temple-base-step {
-  background: linear-gradient(90deg, #2a1a4e, #3d2878, #2a1a4e) !important;
+  background: linear-gradient(90deg, #6B4FA0, #7C5BB5, #6B4FA0) !important;
 }
 
-/* Roof — warm glow in light mode */
+/* Roof — warm golden glow in light mode */
 .light-mode .temple-roof-peak {
-  background: radial-gradient(circle, #FFF5A4 0%, #F59E0B 30%, #1a0e2e 100%) !important;
-  box-shadow: 0 -5px 25px rgba(245,158,11,0.4), 0 0 15px rgba(245,158,11,0.2) !important;
+  background: radial-gradient(circle, #FFF5A4 0%, #F59E0B 40%, #7C5BB5 100%) !important;
+  box-shadow: 0 -5px 25px rgba(245,158,11,0.5), 0 0 15px rgba(245,158,11,0.25) !important;
 }
 .light-mode .temple-roof-tier-1 {
-  background: linear-gradient(180deg, #3d2878, #2a1a4e) !important;
-  border-bottom-color: rgba(245,158,11,0.3) !important;
+  background: linear-gradient(180deg, #7C5BB5, #5B3E8A) !important;
+  border-bottom-color: rgba(245,158,11,0.4) !important;
 }
 .light-mode .temple-roof-tier-2 {
-  background: linear-gradient(180deg, #2a1a4e, #1a0e2e) !important;
+  background: linear-gradient(180deg, #6B4FA0, #5B3E8A) !important;
+}
+.light-mode .temple-roof-cornice {
+  background: linear-gradient(90deg, #5B3E8A, #7C5BB5, #5B3E8A) !important;
 }
 
-/* Ornaments — warm glow in light mode */
+/* Ornaments — warm golden glow in light mode */
 .light-mode .pillar-ornament {
-  box-shadow: 0 0 10px rgba(245,158,11,0.4), 0 0 20px rgba(245,158,11,0.15) !important;
+  background: var(--gold) !important;
+  box-shadow: 0 0 12px rgba(245,158,11,0.5), 0 0 25px rgba(245,158,11,0.2) !important;
+}
+
+/* Temple caps — golden */
+.light-mode .temple-cap {
+  background: linear-gradient(135deg, #F59E0B, #FBBF24) !important;
+  box-shadow: 0 0 10px rgba(245,158,11,0.4) !important;
+}
+
+/* LED bezels — warmer in light mode */
+.light-mode .led-frame-top {
+  background: linear-gradient(90deg, #4a2a6e, #6B4FA0, #4a2a6e) !important;
+  border-bottom-color: rgba(245,158,11,0.3) !important;
+  box-shadow: 0 2px 20px rgba(245,158,11,0.12), 0 0 40px rgba(245,158,11,0.05) !important;
+}
+.light-mode .led-frame-bottom {
+  background: linear-gradient(90deg, #4a2a6e, #6B4FA0, #4a2a6e) !important;
+  border-top-color: rgba(245,158,11,0.3) !important;
+  box-shadow: 0 -2px 20px rgba(245,158,11,0.12), 0 0 40px rgba(245,158,11,0.05) !important;
+}
+
+/* Power flash — golden in light mode */
+.light-mode .led-power-flash {
+  background: rgba(245,158,11,0.5);
 }
 
 /* Mobile sticky CTA */

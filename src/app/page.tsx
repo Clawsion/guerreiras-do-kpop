@@ -660,7 +660,7 @@ export default function HomePage() {
       {/* ═══ MANIFESTO — LED WALL TUNNEL ═══ */}
       <section
         ref={manifestoRef}
-        className={`manifesto-section ${manifestoVisible ? "manifesto-in" : ""} ${themeMode === 'light' ? 'light-mode' : ''}`}
+        className={`manifesto-section ${manifestoVisible ? "manifesto-in" : ""}`}
       >
         {/* Ambient glow behind LED wall */}
         <div className="manifesto-glow"/>
