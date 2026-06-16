@@ -206,96 +206,125 @@ const DualRevealCard = React.memo(function DualRevealCard({ name, color, delay, 
   );
 });
 
-/* ═══ WEAPON FLIP CARDS — Interactive Quotes ═══ */
+/* ═══ QUIZ — K-Pop Demon Hunters Trivia ═══ */
 
-const WEAPON_QUOTES = {
-  ZOEY: [
-    "A verdadeira coragem não é não ter medo — é ter medo e avançar mesmo assim 🌸",
-    "Mesmo quando o mundo escurece, as guerreiras mais corajosas acendem a própria luz ⚔️",
-    "Cada passo em frente é uma vitória sobre o medo que ficou para trás 🌟",
-    "Ser corajosa não significa ser invencível — significa nunca desistir 💎",
-    "O poder nasce quando decides que ninguém vai lutar por ti melhor que tu 🔥",
-    "Quando tudo parece impossível, é aí que a coragem começa ✨",
-    "As guerreiras não nascem sem medo — elas escolhem agir apesar dele 💜",
-    "Cada cicatriz conta a história de uma batalha que não abandonaste 🌙",
-    "A força não está em nunca cair — está em te levantares sempre que cais 💫",
-    "O medo é só uma porta — a coragem é a chave que a abre 🗝️",
-    "Quem luta pelos outros encontra uma coragem que nunca soube que tinha 💖",
-    "No coração de uma guerreira, a coragem e a esperança andam de mãos dadas 🌺",
-  ],
-  RUMI: [
-    "A música é a linguagem que o coração fala quando as palavras não chegam 🎵",
-    "Cada nota carrega um pedaço da alma de quem canta 🎤",
-    "Quando o mundo fica em silêncio, a música é a voz que nos guia 🎶",
-    "Uma canção pode mudar o mundo — e Rumi prova isso todos os dias 💜",
-    "O Honmoon respira ao ritmo da música que nos une 🌙",
-    "No palco, cada melodia conta uma história que só o coração entende ✨",
-    "A música não precisa de tradução — ela sente-se diretamente na alma 🎸",
-    "Quando Rumi canta, até as estrelas param para ouvir 🌟",
-    "Cada acorde é um passo mais perto do coração do universo 🎹",
-    "A voz é a arma mais poderosa — e a música é o campo de batalha 🔥",
-    "Canções de guerreiras não se cantam — sentem-se no peito 💫",
-    "A melodia do Honmoon ecoa para sempre em quem a ouve 🎼",
-  ],
-  MIRAE: [
-    "A dança é poesia em movimento — cada passo é uma palavra 💃",
-    "Quando Mirae dança, o mundo esquece tudo e só vê magia ✨",
-    "Cada movimento conta uma história que os olhos nunca esquecem 🌸",
-    "O corpo é o palco, e cada passo é uma cena de um espetáculo 🎭",
-    "Dançar é esquecer quem somos e descobrir quem podemos ser 💫",
-    "Os pés de Mirae não tocam o chão — voam sobre ele 🌙",
-    "A dança é a linguagem secreta das Guerreiras do K-Pop 🔥",
-    "Cada coreografia é uma batalha dançada com graça e poder ⚔️",
-    "Quando a música para, a dança continua no coração 💖",
-    "O ritmo corre nas veias de quem nasceu para dançar 🎶",
-    "Cada giro é um grito de liberdade que ninguém consegue calar 🌟",
-    "Dançar como se ninguém estivesse a ver — essa é a verdadeira arte 🌺",
-  ],
-};
+interface QuizQuestion {
+  q: string;
+  options: string[];
+  answer: number; // index of correct option (0-3)
+  theme: "ZOEY" | "RUMI" | "MIRAE";
+}
 
-type WeaponKey = keyof typeof WEAPON_QUOTES;
-
-const WEAPONS: { name: WeaponKey; weapon: string; img: string; color: string; icon: string }[] = [
-  { name: "ZOEY", weapon: "Adagas da Zoey", img: "/weapon-zoey.webp", color: "var(--blue-accent)", icon: "🌸" },
-  { name: "RUMI", weapon: "Espada da Rumi", img: "/weapon-rumi.webp", color: "var(--neon-purple)", icon: "⚔️" },
-  { name: "MIRAE", weapon: "Guilhotina da Mira", img: "/weapon-mira.webp", color: "var(--pink-kpop)", icon: "🌙" },
+const QUIZ_QUESTIONS: QuizQuestion[] = [
+  { q: "Qual é o nome do grupo K-Pop das Guerreiras?", options: ["Saja Boys", "HUNTR/X", "BLACKPINK", "BTS"], answer: 1, theme: "RUMI" },
+  { q: "Quem é a líder e vocalista principal do HUNTR/X?", options: ["Zoey", "Mirae", "Rumi", "Jinu"], answer: 2, theme: "RUMI" },
+  { q: "Como se chama a barreira mágica que protege o mundo dos demónios?", options: ["Honmoon", "Soul Gate", "Gwi-Ma", "Demon Shield"], answer: 0, theme: "MIRAE" },
+  { q: "Qual é o nome do grupo de rapazes que são demónios?", options: ["HUNTR/X", "Saja Boys", "Demon Squad", "Shadow Crew"], answer: 1, theme: "ZOEY" },
+  { q: "Quem é o governante do mundo dos demónios?", options: ["Jinu", "Dokkaebi", "Gwi-Ma", "Ma-Gi"], answer: 2, theme: "RUMI" },
+  { q: "De que cor fica o Honmoon quando todos os demónios desaparecem?", options: ["Vermelho", "Roxo", "Dourado", "Azul"], answer: 2, theme: "MIRAE" },
+  { q: "Qual destas é a especialidade de Zoey?", options: ["Canto", "Dança", "Performance Especial", "Rap"], answer: 2, theme: "ZOEY" },
+  { q: "Qual é a arma de Rumi?", options: ["Adagas", "Espada Longa", "Guilhotina", "Arco"], answer: 1, theme: "RUMI" },
+  { q: "Qual é a arma de Mirae?", options: ["Espada", "Guilhotina (Lâmina de Haste)", "Adagas", "Lança"], answer: 1, theme: "MIRAE" },
+  { q: "Qual é a arma de Zoey?", options: ["Espada", "Guilhotina", "Arco", "Adagas"], answer: 3, theme: "ZOEY" },
+  { q: "Em que plataforma o filme Guerreiras do K-Pop estreou?", options: ["Disney+", "Netflix", "Prime Video", "HBO Max"], answer: 1, theme: "ZOEY" },
+  { q: "Quem criou o Honmoon pela primeira vez?", options: ["Rumi", "Os primeiros caçadores de demónios", "Gwi-Ma", "As Saja Boys"], answer: 1, theme: "RUMI" },
+  { q: "O que as Guerreiras fazem durante o dia?", options: ["Caçam demónios", "São estrelas K-Pop", "Vão à escola", "Treinam artes marciais"], answer: 1, theme: "MIRAE" },
+  { q: "Qual grupo de K-Pop da vida real inspirou os personagens de HUNTR/X?", options: ["TWICE", "BLACKPINK", "aespa", "ITZY"], answer: 1, theme: "ZOEY" },
+  { q: "Quem é o membro dos Saja Boys que tem uma ligação com Rumi?", options: ["Abby", "Jinu", "Romance", "Mystery"], answer: 1, theme: "RUMI" },
+  { q: "O que acontece quando o Honmoon se enfraquece?", options: ["Nada", "Os demónios podem entrar no mundo humano", "Chove", "A música para"], answer: 1, theme: "MIRAE" },
+  { q: "Qual é a identidade secreta das membros do HUNTR/X?", options: ["Estudantes", "Caçadoras de demónios", "Princesas", "Espiãs"], answer: 1, theme: "ZOEY" },
+  { q: "Quem cuidou de Rumi enquanto ela crescia?", options: ["Sua mãe", "Hina", "Gwi-Ma", "Uma treinadora"], answer: 1, theme: "RUMI" },
+  { q: "O que Rumi descobre sobre si mesma no filme?", options: ["Que é uma princesa", "Que tem sangue de demónio", "Que pode voar", "Que é imortal"], answer: 1, theme: "RUMI" },
+  { q: "Como as Guerreiras derrotam Gwi-Ma no final?", options: ["Com uma espada mágica", "Com o poder do Honmoon alimentado pelas almas", "Com um feitiço", "Com a ajuda dos Saja Boys"], answer: 1, theme: "MIRAE" },
+  { q: "O que o Honmoon significa em coreano?", options: ["Porta da Luz", "Porta da Alma", "Escudo Eterno", "Barreira Sagrada"], answer: 1, theme: "MIRAE" },
+  { q: "Quantas membros tem o HUNTR/X?", options: ["2", "3", "4", "5"], answer: 1, theme: "ZOEY" },
+  { q: "Quem é a dançarina principal do HUNTR/X?", options: ["Rumi", "Zoey", "Mirae", "Nenhuma"], answer: 2, theme: "MIRAE" },
+  { q: "O que os Saja Boys querem fazer ao Honmoon?", options: ["Protegê-lo", "Destruí-lo", "Roubá-lo", "Escondê-lo"], answer: 1, theme: "ZOEY" },
+  { q: "Qual é o nome da mascote do filme?", options: ["Derpy", "Honmoon Bunny", "K-Pop Cat", "Soul Fox"], answer: 0, theme: "ZOEY" },
+  { q: "Os Saja Boys são demónios que se disfarçam de quê?", options: ["Grupo K-Pop", "Professores", "Polícias", "Médicos"], answer: 0, theme: "RUMI" },
+  { q: "Que tipo de criaturas as Guerreiras caçam?", options: ["Vampiros", "Demónios", "Zumbis", "Fantasmas"], answer: 1, theme: "MIRAE" },
+  { q: "Quem dirige o filme Guerreiras do K-Pop?", options: ["Maggie Kang e Chris Appelhans", "Hayao Miyazaki", "Pixar", "Disney"], answer: 0, theme: "ZOEY" },
 ];
 
-function WeaponFlipCard({ weapon, onDiscover }: { weapon: typeof WEAPONS[number]; onDiscover: () => void }) {
+const QUIZ_CHARACTERS = [
+  { name: "ZOEY", color: "var(--blue-accent)", img: "/char-zoe.webp" },
+  { name: "RUMI", color: "var(--neon-purple)", img: "/char-rumi.webp" },
+  { name: "MIRAE", color: "var(--pink-kpop)", img: "/char-mirae.webp" },
+];
+
+function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[number]; onScore: (correct: boolean) => void }) {
   const [flipped, setFlipped] = useState(false);
-  const [quote, setQuote] = useState("");
-  const [usedIndices, setUsedIndices] = useState<Set<number>>(new Set());
+  const [question, setQuestion] = useState<QuizQuestion | null>(null);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [showResult, setShowResult] = useState(false);
+  const [usedQ, setUsedQ] = useState<Set<number>>(new Set());
+
+  const pickQuestion = useCallback(() => {
+    const pool = QUIZ_QUESTIONS.filter((q, i) => q.theme === character.name && !usedQ.has(i));
+    const allPool = QUIZ_QUESTIONS.filter((_, i) => !usedQ.has(i));
+    const available = pool.length > 0 ? pool : allPool.length > 0 ? allPool : QUIZ_QUESTIONS;
+    const idx = Math.floor(Math.random() * available.length);
+    const chosen = available[idx];
+    const globalIdx = QUIZ_QUESTIONS.indexOf(chosen);
+    setUsedQ(prev => new Set([...prev, globalIdx]));
+    return chosen;
+  }, [character.name, usedQ]);
 
   const handleFlip = useCallback(() => {
     if (!flipped) {
-      // Pick a random quote not yet seen
-      const allQuotes = WEAPON_QUOTES[weapon.name];
-      const available = allQuotes.map((_, i) => i).filter(i => !usedIndices.has(i));
-      const pool = available.length > 0 ? available : allQuotes.map((_, i) => i); // reset if all seen
-      const idx = pool[Math.floor(Math.random() * pool.length)];
-      setQuote(allQuotes[idx]);
-      setUsedIndices(prev => new Set([...prev, idx]));
-      onDiscover();
+      setQuestion(pickQuestion());
+      setSelected(null);
+      setShowResult(false);
     }
     setFlipped(f => !f);
-  }, [flipped, weapon.name, usedIndices, onDiscover]);
+  }, [flipped, pickQuestion]);
+
+  const handleAnswer = useCallback((idx: number) => {
+    if (showResult) return;
+    setSelected(idx);
+    setShowResult(true);
+    if (question) onScore(idx === question.answer);
+  }, [showResult, question, onScore]);
 
   return (
-    <div className="weapon-card" onClick={handleFlip}>
-      <div className={`weapon-card-inner${flipped ? " weapon-flipped" : ""}`}>
-        {/* Front — weapon image */}
-        <div className="weapon-card-front">
-          <div className="weapon-glow" style={{ background: `radial-gradient(circle, ${weapon.color}33 0%, transparent 70%)` }} />
-          <img src={weapon.img} alt={weapon.weapon} className="weapon-img" loading="lazy" decoding="async" />
-          <p className="weapon-label" style={{ color: weapon.color }}>{weapon.weapon}</p>
-          <p className="weapon-hint">Clica para revelar</p>
+    <div className="quiz-card" onClick={!flipped ? handleFlip : undefined}>
+      <div className={`quiz-card-inner${flipped ? " quiz-flipped" : ""}`}>
+        {/* Front — character image */}
+        <div className="quiz-card-front">
+          <div className="quiz-glow" style={{ background: `radial-gradient(circle, ${character.color}33 0%, transparent 70%)` }} />
+          <img src={character.img} alt={character.name} className="quiz-char-img" loading="lazy" decoding="async" />
+          <p className="quiz-char-name" style={{ color: character.color }}>{character.name}</p>
+          <p className="quiz-hint">Clica para jogar</p>
         </div>
-        {/* Back — quote */}
-        <div className="weapon-card-back">
-          <span className="weapon-quote-icon">{weapon.icon}</span>
-          <p className="weapon-quote-text">{quote}</p>
-          <p className="weapon-quote-attr" style={{ color: weapon.color }}>— {weapon.name}</p>
-          <p className="weapon-hint">Clica para voltar</p>
+        {/* Back — quiz question */}
+        <div className="quiz-card-back">
+          {question && (
+            <>
+              <p className="quiz-question">{question.q}</p>
+              <div className="quiz-options">
+                {question.options.map((opt, i) => {
+                  let optClass = "quiz-option";
+                  if (showResult) {
+                    if (i === question.answer) optClass += " quiz-correct";
+                    else if (i === selected) optClass += " quiz-wrong";
+                  }
+                  return (
+                    <button key={i} className={optClass} onClick={(e) => { e.stopPropagation(); handleAnswer(i); }}>
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
+              {showResult && (
+                <div className={`quiz-result ${selected === question.answer ? "quiz-result-correct" : "quiz-result-wrong"}`}>
+                  {selected === question.answer ? "✓ Correto!" : "✗ Errado!"}
+                </div>
+              )}
+              {showResult && (
+                <p className="quiz-hint" onClick={(e) => { e.stopPropagation(); handleFlip(); }}>Clica para voltar</p>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -411,8 +440,7 @@ export default function HomePage() {
   const [ripple, setRipple] = useState<{active:boolean; x:number; y:number; toMode:'dark'|'light'}|null>(null);
   const [waveActive, setWaveActive] = useState(false);
   const [lightbox, setLightbox] = useState<number | null>(null);
-  const [discoveredQuotes, setDiscoveredQuotes] = useState(0);
-  const TOTAL_QUOTES = 36; // 12 per weapon × 3 weapons
+  const [quizScore, setQuizScore] = useState<{ correct: number; total: number }>({ correct: 0, total: 0 });
   const orbRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<HTMLElement[] | null>(null);
   const { ref: manifestoRef, visible: manifestoVisible } = useReveal();
@@ -973,25 +1001,14 @@ export default function HomePage() {
               </Rv>
             </div>
 
-            {/* RIGHT — Weapon Flip Cards */}
+            {/* RIGHT — Weapons Artwork */}
             <div className="esp-right">
               <Rv delay={150}>
                 <p className="sec-num mb-4" style={{color:"var(--pink-light)"}}>As Armas</p>
               </Rv>
-              <div className="weapon-cards-container">
-                {WEAPONS.map((w, i) => (
-                  <Rv key={w.name} delay={200 + i * 100}>
-                    <WeaponFlipCard weapon={w} onDiscover={() => setDiscoveredQuotes(q => Math.min(q + 1, TOTAL_QUOTES))} />
-                  </Rv>
-                ))}
-              </div>
-              <Rv delay={500}>
-                <div className="weapon-discovery-counter">
-                  <span className="weapon-counter-label">Frases descobertas</span>
-                  <span className="weapon-counter-value">{discoveredQuotes}/{TOTAL_QUOTES}</span>
-                  <div className="weapon-counter-bar">
-                    <div className="weapon-counter-fill" style={{ width: `${(discoveredQuotes / TOTAL_QUOTES) * 100}%` }} />
-                  </div>
+              <Rv delay={300}>
+                <div className="esp-weapon-frame">
+                  <img src="/weapons-trio.png" alt="As armas das Guerreiras" className="esp-weapon-img" loading="lazy" decoding="async" />
                 </div>
               </Rv>
             </div>
@@ -1001,30 +1018,40 @@ export default function HomePage() {
 
       <div className="neon-div max-w-[1400px] mx-auto"/>
 
-      {/* ═══ IDENTIDADE DUAL — Character → Performer Scroll Reveal ═══ */}
+      {/* ═══ QUIZ — Perguntas sobre o Filme ═══ */}
       <section id="identidade" className="identidade-section px-5 sm:px-10">
         <div className="max-w-[1400px] mx-auto">
           <Rv>
-            <p className="sec-num mb-4">Identidade Dual</p>
+            <p className="sec-num mb-4">Quiz das Guerreiras</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
-              De <span className="neon-shimmer">Guerreira</span><br/>a Estrela K-Pop
+              Quanto <span className="neon-shimmer">sabes</span><br/>sobre o Filme?
             </h2>
           </Rv>
           <Rv delay={120}>
             <p className="text-[16px] leading-[1.8] mb-12 max-w-lg" style={{color:"var(--t2)"}}>
-              Cada guerreira esconde uma identidade secreta. Passa com o rato por cima para descobrir
-              quem se esconde por tr&aacute;s de cada Guerreira do K-Pop.
+              Vira cada carta para descobrir uma pergunta sobre as Guerreiras do K-Pop. Será que sabes tudo sobre o filme?
             </p>
           </Rv>
           <div className="dual-grid">
-            {[
-              { name: "ZOEY", color: "var(--blue-accent)", animImg: "/real-zoe.webp", realImg: "/char-zoe.webp" },
-              { name: "RUMI", color: "var(--neon-purple)", animImg: "/real-rumi.webp", realImg: "/char-rumi.webp" },
-              { name: "MIRAE", color: "var(--pink-kpop)", animImg: "/real-mirae.webp", realImg: "/char-mirae.webp" },
-            ].map((c, i) => (
-              <DualRevealCard key={c.name} name={c.name} color={c.color} delay={i * 200} animImg={c.animImg} realImg={c.realImg}/>
+            {QUIZ_CHARACTERS.map((c, i) => (
+              <QuizCard
+                key={c.name}
+                character={c}
+                onScore={(correct) => setQuizScore(prev => ({ correct: prev.correct + (correct ? 1 : 0), total: prev.total + 1 }))}
+              />
             ))}
           </div>
+          {quizScore.total > 0 && (
+            <Rv delay={200}>
+              <div className="quiz-score-bar">
+                <span className="quiz-score-label">Respostas corretas</span>
+                <span className="quiz-score-value">{quizScore.correct}/{quizScore.total}</span>
+                <div className="quiz-score-progress">
+                  <div className="quiz-score-fill" style={{ width: `${(quizScore.correct / quizScore.total) * 100}%` }} />
+                </div>
+              </div>
+            </Rv>
+          )}
         </div>
       </section>
 
