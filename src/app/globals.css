@@ -1786,6 +1786,43 @@ html { scroll-behavior: smooth; }
   border-color: rgba(255,255,255,0.2);
 }
 
+/* ═══ Pitch — bloco de destaque para a frase-âncora (D2) ═══ */
+.esp-pitch {
+  position: relative;
+  padding: 1.8rem 2rem 1.8rem 2.2rem;
+  margin: 0 0 1.8rem;
+  border-left: 2px solid var(--pink-kpop);
+  background: linear-gradient(135deg, rgba(255,45,120,0.06) 0%, rgba(200,80,255,0.04) 100%);
+  border-radius: 0 4px 4px 0;
+  overflow: hidden;
+}
+.esp-pitch::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 2px; height: 100%;
+  background: linear-gradient(180deg, var(--pink-kpop) 0%, var(--neon-purple) 100%);
+  filter: blur(4px);
+  opacity: 0.7;
+}
+.esp-pitch-text {
+  position: relative;
+  font-size: 18px;
+  line-height: 1.65;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  color: var(--t1);
+  font-style: italic;
+}
+.esp-pitch-text::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 1px;
+  margin-top: 1rem;
+  background: linear-gradient(90deg, var(--pink-kpop), transparent);
+}
+
 /* ═══ Photo Frame — neon-bordered container with ambient glow ═══ */
 .esp-photo-frame {
   position: relative;
@@ -3602,22 +3639,41 @@ html { scroll-behavior: smooth; }
   opacity: 0.85;
 }
 
-/* ═══ Tributo Ao Vivo — lavender daylight, clean and elegant ═══ */
+/* ═══ Tributo Ao Vivo — lavanda quente rosado (identidade própria) ═══ */
+/* Gradiente mais rosado que as outras secções para diferenciar e dar calor ao "Espetáculo Ao Vivo" */
 .light-mode .espetaculo-section {
-  --t1: #1E1040;
-  --t2: #5B3E8A;
-  --t3: #8B6CB0;
-  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
+  --t1: #2A0F4A;
+  --t2: #6B3590;
+  --t3: #8E6BB5;
+  background:
+    /* Cortinas laterais — gradientes verticais em rosa-lilás */
+    linear-gradient(90deg,
+      rgba(220,180,225,0.55) 0%,
+      rgba(230,200,235,0.20) 12%,
+      transparent 22%,
+      transparent 78%,
+      rgba(230,200,235,0.20) 88%,
+      rgba(220,180,225,0.55) 100%
+    ),
+    /* Fundo base lavanda quente → rosa-claro → lavanda */
+    linear-gradient(180deg,
+      #EAD7F0 0%,
+      #EFD0E5 25%,
+      #F2D8EC 50%,
+      #E8D5F0 75%,
+      #DFCFEC 100%
+    );
+  background-attachment: fixed, scroll;
 }
-/* Spotlights — purple curtains swaying in light mode */
-.light-mode .esp-spotlight { opacity: 1; mix-blend-mode: normal; }
+/* Spotlights — feixes de luz quentes (rosa+púrpura) mais intensos */
+.light-mode .esp-spotlight { opacity: 1; mix-blend-mode: screen; }
 .light-mode .esp-spotlight-left {
   background: conic-gradient(
     from 170deg at 50% 0%,
     transparent 0deg,
-    rgba(200,80,255,0.10) 15deg,
-    rgba(200,80,255,0.22) 30deg,
-    rgba(180,60,240,0.10) 45deg,
+    rgba(255,120,180,0.12) 15deg,
+    rgba(220,100,220,0.28) 30deg,
+    rgba(200,80,255,0.14) 45deg,
     transparent 60deg
   );
 }
@@ -3625,9 +3681,9 @@ html { scroll-behavior: smooth; }
   background: conic-gradient(
     from 175deg at 50% 0%,
     transparent 0deg,
-    rgba(200,80,255,0.14) 12deg,
-    rgba(210,100,255,0.25) 25deg,
-    rgba(200,80,255,0.12) 40deg,
+    rgba(255,100,180,0.16) 12deg,
+    rgba(230,120,230,0.32) 25deg,
+    rgba(255,80,160,0.18) 40deg,
     transparent 55deg
   );
 }
@@ -3635,19 +3691,30 @@ html { scroll-behavior: smooth; }
   background: conic-gradient(
     from 190deg at 50% 0%,
     transparent 0deg,
-    rgba(180,60,240,0.10) 15deg,
-    rgba(180,60,240,0.18) 30deg,
-    rgba(200,80,255,0.08) 45deg,
+    rgba(200,80,255,0.14) 15deg,
+    rgba(255,100,180,0.22) 30deg,
+    rgba(220,100,220,0.12) 45deg,
     transparent 60deg
   );
 }
-/* Glow orbs softer */
-.light-mode .esp-glow-orb { opacity: 0.3; }
-/* Grid texture subtle */
-.light-mode .esp-grid-texture { opacity: 0.3; }
-/* Vignette softer */
+/* Glow orbs — tons quentes (rosa) mais visíveis */
+.light-mode .esp-glow-pink { opacity: 0.45; }
+.light-mode .esp-glow-purple { opacity: 0.32; }
+.light-mode .esp-glow-blue { opacity: 0.20; }
+/* Grid texture — subtil mas visível */
+.light-mode .esp-grid-texture { opacity: 0.35; }
+/* Vignette — mais quente, com tom rosado nos cantos */
 .light-mode .esp-vignette {
-  background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(210,190,235,0.2) 100%);
+  background: radial-gradient(ellipse at 50% 40%, transparent 35%, rgba(220,170,210,0.30) 100%);
+}
+
+/* Pitch — em modo dia fica com borda rosa mais quente */
+.light-mode .esp-pitch {
+  background: linear-gradient(135deg, rgba(255,100,160,0.08) 0%, rgba(200,100,220,0.05) 100%);
+  border-left-color: var(--pink-kpop);
+}
+.light-mode .esp-pitch-text {
+  color: #2A0F4A;
 }
 /* Photo grid — white/cream */
 .light-mode .esp-photo-grid {
