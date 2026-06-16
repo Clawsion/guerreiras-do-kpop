@@ -286,7 +286,13 @@ html { scroll-behavior: smooth; }
   font-size: 11px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--t3);
+  color: var(--neon-purple);
+  text-shadow: 0 0 12px rgba(200,80,255,0.45);
+  font-weight: 600;
+}
+.light-mode .sec-num {
+  color: #6D28D9;
+  text-shadow: none;
 }
 
 /* ═══ HAMBURGER BUTTON ═══ */
@@ -1982,6 +1988,15 @@ html { scroll-behavior: smooth; }
   animation: espTitleShimmer 6s ease-in-out infinite;
   font-weight: 500;
   letter-spacing: 0.04em;
+  filter: drop-shadow(0 0 14px rgba(255,45,120,0.35)) drop-shadow(0 0 24px rgba(200,80,255,0.25));
+}
+.light-mode .esp-title-accent {
+  background: linear-gradient(135deg, #9333EA 0%, #EC4899 45%, #F59E0B 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 1px 2px rgba(147,51,234,0.18));
 }
 @keyframes espTitleShimmer {
   0%, 100% { background-position: 0% 50%; }
@@ -2012,6 +2027,18 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 0 50px rgba(255,45,120,0.5), 0 0 100px rgba(255,45,120,0.15), 0 12px 40px rgba(11,8,19,0.5);
   transform: translateY(-3px);
   border-color: rgba(255,255,255,0.2);
+}
+/* Light-mode: roxo escuro com glow roxo (harmoniza com fundo lavanda) */
+.light-mode .esp-cta {
+  background: #7C3AED;
+  color: #fff;
+  border: 1px solid rgba(147,51,234,0.35);
+  box-shadow: 0 6px 24px rgba(124,58,237,0.35), 0 0 40px rgba(147,51,234,0.15), 0 2px 6px rgba(30,16,64,0.1);
+}
+.light-mode .esp-cta:hover {
+  background: #6D28D9;
+  box-shadow: 0 10px 36px rgba(124,58,237,0.5), 0 0 60px rgba(147,51,234,0.25), 0 4px 10px rgba(30,16,64,0.18);
+  transform: translateY(-3px);
 }
 
 /* ═══ Pitch - bloco de destaque para a frase-âncora (D2) ═══ */
@@ -4077,7 +4104,7 @@ html { scroll-behavior: smooth; }
   }
 }
 /* Spotlights - purple curtains swaying in light mode */
-.light-mode .esp-spotlight { opacity: 1; mix-blend-mode: normal; }
+.light-mode .esp-spotlight { opacity: 0.45; mix-blend-mode: normal; }
 .light-mode .esp-spotlight-left {
   background: conic-gradient(
     from 170deg at 50% 0%,
@@ -4117,13 +4144,24 @@ html { scroll-behavior: smooth; }
   background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(210,190,235,0.2) 100%);
 }
 
-/* Pitch - em modo dia fica com borda rosa (mantém destaque) */
+/* Pitch - em modo dia fica com borda roxa + fundo branco translúcido */
 .light-mode .esp-pitch {
-  background: linear-gradient(135deg, rgba(255,100,160,0.08) 0%, rgba(200,100,220,0.05) 100%);
-  border-left-color: var(--pink-kpop);
+  background: linear-gradient(135deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.45) 100%);
+  border-left-color: #7C3AED;
+  box-shadow: 0 4px 18px rgba(124,58,237,0.10);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.light-mode .esp-pitch::before {
+  background: linear-gradient(180deg, #9333EA 0%, #EC4899 100%);
+  opacity: 0.8;
 }
 .light-mode .esp-pitch-text {
   color: #1E1040;
+  font-weight: 500;
+}
+.light-mode .esp-pitch-text::after {
+  background: linear-gradient(90deg, #7C3AED, transparent);
 }
 /* Photo grid - white/cream */
 .light-mode .esp-photo-grid {
@@ -4220,6 +4258,17 @@ html { scroll-behavior: smooth; }
 
 .light-mode .esp-cta {
   box-shadow: 0 0 20px rgba(236, 72, 153, 0.2), 0 0 50px rgba(236, 72, 153, 0.08), 0 8px 32px rgba(147, 51, 234, 0.1);
+}
+
+/* Reforçar contraste do texto sobre o novo lilás saturado */
+.light-mode .espetaculo-section { --t1: #14082E; --t2: #3A2666; }
+/* Mas manter o body text mais escuro que o --t2 global para legibilidade */
+.light-mode .espetaculo-section .esp-left p:not(.sec-num):not(.esp-pitch-text) {
+  color: #2A1A4A !important;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.35);
+}
+.light-mode .espetaculo-section .esp-left h2 {
+  text-shadow: 0 2px 6px rgba(255,255,255,0.4);
 }
 
 /* Neon dividers - full strength on dark purple background */
