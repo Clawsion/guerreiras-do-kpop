@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 /* ═══ DATA ══════════════════════════════ */
 /* ════════════════════════════════════════ */
 
-const TL = "https://www.ticketline.pt";
+const TL = "https://www.ticketline.pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105657";
 const EVENT = new Date("2026-08-08T18:30:00");
 
 /* ── Device detection for adaptive performance ── */
