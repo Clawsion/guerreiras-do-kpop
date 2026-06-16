@@ -3845,9 +3845,9 @@ html { scroll-behavior: smooth; }
   background: linear-gradient(90deg, #1a0e2e, #2a1a4e, #1a0e2e);
 }
 
-/* Manifesto section — warm daytime in light mode, dark temple in dark mode */
+/* Manifesto section — same dark background as the honmoon button section */
 .light-mode .manifesto-section {
-  background: #F5EAF8 !important;
+  background: #0d0815 !important;
 }
 
 /* Manifesto glow — golden/iridescent in light mode instead of purple */
