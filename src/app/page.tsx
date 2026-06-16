@@ -881,6 +881,53 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ═══ TRIBUTO AO VIVO — Performance Photo Gallery ═══ */}
+      <section id="tributo" className="tributo-section px-5 sm:px-10">
+        <div className="max-w-[1400px] mx-auto">
+          <Rv>
+            <p className="sec-num mb-4">Tributo ao Vivo</p>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
+              Momentos que <span className="neon-shimmer">Brilham</span>
+            </h2>
+          </Rv>
+          <Rv delay={120}>
+            <p className="text-[16px] leading-[1.8] mb-12 max-w-lg" style={{color:"var(--t2)"}}>
+              Cada performance &eacute; um ritual de luz e som. Revive os momentos mais
+              eletrizantes dos concertos que deixaram o palco a arder.
+            </p>
+          </Rv>
+          <div className="tributo-grid">
+            {[
+              { img: "/real-rumi.webp",  caption: "Rumi — Vocal Explosivo", color: "var(--pink-kpop)" },
+              { img: "/real-mirae.webp", caption: "Mirae — Dança Hipnótica", color: "var(--blue-accent)" },
+              { img: "/real-zoe.webp",   caption: "Zoe — Presença Magnética", color: "var(--neon-purple)" },
+              { img: "/char-rumi.webp",  caption: "Rumi — Demon Hunter", color: "var(--pink-kpop)" },
+              { img: "/char-mirae.webp", caption: "Mirae — Demon Hunter", color: "var(--blue-accent)" },
+              { img: "/char-zoe.webp",   caption: "Zoe — Demon Hunter", color: "var(--neon-purple)" },
+            ].map((p, i) => (
+              <Rv key={i} delay={i * 100}>
+                <div className="tributo-card">
+                  <div className="tributo-img-wrap">
+                    <img
+                      src={p.img}
+                      alt={p.caption}
+                      className="tributo-img"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div className="tributo-overlay"/>
+                  </div>
+                  <div className="tributo-caption">
+                    <span className="tributo-dot" style={{background: p.color}}/>
+                    <span style={{color: p.color}}>{p.caption}</span>
+                  </div>
+                </div>
+              </Rv>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <div className="neon-div max-w-[1400px] mx-auto"/>
 
       {/* ═══ LINEUP ═══ */}
