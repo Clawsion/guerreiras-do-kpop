@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "NO. The image shows a person with styled hair and a black leather jacket against a dark background, with no visible watermark, logo, text overlay, or branding.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1781575905,
+  "id": "20260616101143ee448288c83b4c72",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260616101143ee448288c83b4c72",
+  "usage": {
+    "completion_tokens": 36,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1409,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1445
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "NO. The image shows a person in traditional blue attire with floral embroidery, holding a black umbrella, against a backdrop of green foliage and blurred structures—no watermarks, logos, text overlays, or branding are visible.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1781575908,
+  "id": "202606161011474174257524154383",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606161011474174257524154383",
+  "usage": {
+    "completion_tokens": 47,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1409,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1456
+  }
+}

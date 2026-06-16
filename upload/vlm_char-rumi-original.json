@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "YES. The image has the text \"RUMI\" in purple at the bottom. There are no other visible watermarks, logos, or branding.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1781575927,
+  "id": "2026061610120631402257889f4665",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "2026061610120631402257889f4665",
+  "usage": {
+    "completion_tokens": 34,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 698,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 732
+  }
+}

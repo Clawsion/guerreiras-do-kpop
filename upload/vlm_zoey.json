@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "The image shows a pair of dual daggers titled \"ADAGAS DA ZOEY\" (Dual Daggers). The daggers have a sleek, crystalline design with vibrant pink and blue hues, featuring sharp, pointed blades that converge at a central, glowing light source. A golden band and a gem - like base adorn the handle, set against a dark background with soft, out - of - focus blue and purple bokeh effects, giving the weapon a magical, ethereal appearance.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1781575824,
+  "id": "20260616101022ef78d61fdc554f3f",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260616101022ef78d61fdc554f3f",
+  "usage": {
+    "completion_tokens": 100,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 450,
+    "prompt_tokens_details": {
+      "cached_tokens": 6
+    },
+    "total_tokens": 550
+  }
+}

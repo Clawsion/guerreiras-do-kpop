@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "NO. The image shows a person with dark, wavy hair and a lace - textured top against a dark background, with no visible watermark, logo, text overlay, or branding.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1781575915,
+  "id": "20260616101152333006f11ccb4e22",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "20260616101152333006f11ccb4e22",
+  "usage": {
+    "completion_tokens": 40,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 1409,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "total_tokens": 1449
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "YES. The image has the text \"MIRAE\" in red at the bottom, which serves as a text overlay/branding element. No other watermarks, logos, or additional text overlays are visible.",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1781575930,
+  "id": "202606161012092abee94069444642",
+  "model": "glm-4.6v",
+  "object": "chat.completion",
+  "request_id": "202606161012092abee94069444642",
+  "usage": {
+    "completion_tokens": 46,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens": 698,
+    "prompt_tokens_details": {
+      "cached_tokens": 20
+    },
+    "total_tokens": 744
+  }
+}
