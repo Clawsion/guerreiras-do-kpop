@@ -1430,6 +1430,8 @@ html { scroll-behavior: smooth; }
   text-transform: uppercase;
   color: var(--neon-purple);
   margin-bottom: 1rem;
+  text-shadow: 0 0 14px rgba(200,80,255,0.5), 0 1px 4px rgba(11,8,19,0.6);
+  font-weight: 700;
 }
 
 /* ═══ Hero Countdown - Honmoon Seals (demon hunter magic rings) ═══ */
@@ -1495,8 +1497,8 @@ html { scroll-behavior: smooth; }
   text-transform: uppercase;
   color: #DA98FF;
   margin-top: 6px;
-  font-weight: 600;
-  text-shadow: 0 0 12px rgba(200,80,255,0.3);
+  font-weight: 700;
+  text-shadow: 0 0 14px rgba(200,80,255,0.5), 0 1px 4px rgba(11,8,19,0.7);
   position: relative;
   z-index: 2;
 }
@@ -1520,9 +1522,9 @@ html { scroll-behavior: smooth; }
   letter-spacing: 0.2em;
   text-transform: uppercase;
   margin-top: 1rem;
-  font-weight: 600;
-  color: var(--neon-purple);
-  text-shadow: 0 0 16px rgba(200,80,255,0.3);
+  font-weight: 700;
+  color: #F0E6FF;
+  text-shadow: 0 0 18px rgba(200,80,255,0.55), 0 0 36px rgba(200,80,255,0.25), 0 2px 6px rgba(11,8,19,0.8);
 }
 /* Wrapper com glow branco subtíl para destacar a data-line roxa */
 .hero-date-wrap {
@@ -4071,19 +4073,19 @@ html { scroll-behavior: smooth; }
 /* ═══ Hero Countdown - Light mode ═══ */
 .light-mode .hero-seal-num {
   color: #ffffff;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.25), 0 0 20px rgba(147,51,234,0.3);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.35), 0 0 28px rgba(147,51,234,0.45), 0 0 60px rgba(236,72,153,0.25);
   font-weight: 300;
 }
 .light-mode .hero-seal-label {
   color: #4C1D95;
-  text-shadow: 0 1px 2px rgba(255,255,255,0.6);
+  text-shadow: 0 1px 3px rgba(255,255,255,0.85), 0 0 12px rgba(255,255,255,0.45);
   font-weight: 800;
-  font-size: 11px;
+  font-size: 8px;
   letter-spacing: 0.35em;
 }
 .light-mode .hero-seal-sep {
   color: #9333EA;
-  text-shadow: none;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.6);
 }
 .light-mode .hero-seal-arc-1 {
   border-top-color: #9333EA;
@@ -4097,10 +4099,12 @@ html { scroll-behavior: smooth; }
 }
 .light-mode .hero-countdown-label {
   color: #5B21B6;
+  text-shadow: 0 1px 3px rgba(255,255,255,0.85), 0 0 14px rgba(255,255,255,0.4);
+  font-weight: 800;
 }
 .light-mode .hero-date-line {
-  color: #4C1D95;
-  text-shadow: 0 1px 2px rgba(255,255,255,0.6);
+  color: #2A0E5E;
+  text-shadow: 0 1px 3px rgba(255,255,255,0.95), 0 0 14px rgba(255,255,255,0.5), 0 2px 6px rgba(11,8,19,0.4);
   font-weight: 800;
   font-size: 11px;
   letter-spacing: 0.2em;
