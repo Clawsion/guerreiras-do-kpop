@@ -2622,13 +2622,13 @@ html { scroll-behavior: smooth; }
   grid-template-columns: 1fr;
   gap: 2rem;
   align-items: start;
-  max-width: 1100px;
+  max-width: 760px;
   margin: 0 auto;
 }
 
 @media (min-width: 768px) {
   .cartazes-grid {
-    grid-template-columns: 1.6fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 2.5rem;
   }
 }
@@ -2659,7 +2659,7 @@ html { scroll-behavior: smooth; }
 
 /* ═══ Cartaz FEATURED - moldura mínima, sem padding (proporção correta) ═══ */
 .cartaz-featured .cartaz-img-wrap {
-  aspect-ratio: 1240 / 1748;
+  aspect-ratio: 766 / 1012;
 }
 
 /* Linha fina subtil sempre visível */
