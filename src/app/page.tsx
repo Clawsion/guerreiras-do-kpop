@@ -879,9 +879,7 @@ export default function HomePage() {
             </div>
 
             {/* RIGHT - espaço reservado para armas */}
-            <div className="esp-right">
-              <img src="/espetaculo-stage.png" alt="Palco Guerreiras do K-Pop" className="esp-right-img"/>
-            </div>
+            <div className="esp-right" />
           </div>
         </div>
       </section>
