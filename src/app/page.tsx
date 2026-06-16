@@ -1109,7 +1109,7 @@ export default function HomePage() {
           </Rv>
           <Rv delay={120}>
             <p className="text-[16px] leading-[1.8] mb-12 max-w-lg" style={{color:"var(--t2)"}}>
-              Duas datas &uacute;nicas. Duas cidades. O mesmo ritual Honmoon.
+              Cada cartaz &eacute; um portal para a noite do concerto.
             </p>
           </Rv>
 
