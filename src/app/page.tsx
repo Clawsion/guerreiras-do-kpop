@@ -398,7 +398,7 @@ export default function HomePage() {
       )}
 
       {/* ═══ PRELOADER — Curtain Reveal ═══ */}
-      <div className={`preloader-honmoon ${loaded?"preloader-done":""}`}>
+      <div className={`preloader-honmoon ${loaded?"preloader-done":""} ${themeMode}`}>
         <div className="preloader-curtain-left"/>
         <div className="preloader-curtain-right"/>
       </div>

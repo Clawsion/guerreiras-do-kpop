@@ -251,7 +251,7 @@ html { scroll-behavior: smooth; }
   bottom: 0;
   width: 52%;
   background: var(--void);
-  /* MUST be !important to override .light-mode * catch-all */
+  /* ONLY transform transition — no background/color transitions on curtains */
   transition: transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
   will-change: transform;
 }
@@ -270,6 +270,28 @@ html { scroll-behavior: smooth; }
 }
 .preloader-honmoon.preloader-done .preloader-curtain-right {
   transform: translateX(105%);
+}
+
+/* ═══ Light mode curtains — instant color, no transition ═══ */
+.preloader-honmoon.light .preloader-curtain-left,
+.preloader-honmoon.light .preloader-curtain-right {
+  background: #E0CCF2;
+  border-color: rgba(147, 51, 234, 0.25);
+  box-shadow: inset -20px 0 40px rgba(147,51,234,0.06);
+}
+.preloader-honmoon.light .preloader-curtain-right {
+  box-shadow: inset 20px 0 40px rgba(147,51,234,0.06);
+}
+/* Override .light-mode * catch-all — curtains only transition transform */
+.light-mode .preloader-curtain-left,
+.light-mode .preloader-curtain-right {
+  background: #E0CCF2 !important;
+  border-color: rgba(147, 51, 234, 0.25) !important;
+  box-shadow: inset -20px 0 40px rgba(147,51,234,0.06) !important;
+  transition: transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+}
+.light-mode .preloader-curtain-right {
+  box-shadow: inset 20px 0 40px rgba(147,51,234,0.06) !important;
 }
 .preloader-circle-wrap,
 .preloader-center,
@@ -3016,22 +3038,6 @@ html { scroll-behavior: smooth; }
 /* CTA buttons — same style both modes, slight shadow tweak */
 .light-mode .hero-cta {
   box-shadow: 0 0 25px rgba(236, 72, 153, 0.25), 0 8px 32px rgba(147, 51, 234, 0.1);
-}
-
-/* ═══ Light mode — Curtain Preloader (same animation, different color) ═══ */
-.light-mode .preloader-curtain-left,
-.light-mode .preloader-curtain-right {
-  background: #E0CCF2;
-  border-color: rgba(147, 51, 234, 0.25);
-  box-shadow: inset -20px 0 40px rgba(147,51,234,0.06);
-}
-.light-mode .preloader-curtain-right {
-  box-shadow: inset 20px 0 40px rgba(147,51,234,0.06);
-}
-/* MUST re-declare transition to override .light-mode * catch-all */
-.light-mode .preloader-curtain-left,
-.light-mode .preloader-curtain-right {
-  transition: transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
 }
 
 .light-mode .esp-cta {
