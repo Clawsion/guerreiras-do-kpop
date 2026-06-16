@@ -846,7 +846,6 @@ export default function HomePage() {
               </Rv>
               <Rv delay={350}>
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
-                <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
                   Este n&atilde;o &eacute; um concerto. &Eacute; um tributo que traz a magia do filme de anima&ccedil;&atilde;o para o palco &mdash; onde a fic&ccedil;&atilde;o
                   se torna realidade e cada nota carrega o poder de um universo inteiro.
                 </p>
@@ -860,6 +859,7 @@ export default function HomePage() {
                   num campo de batalha &mdash; exatamente como no filme. Os maiores hits K-Pop ressoam num espet&aacute;culo
                   que se sente, n&atilde;o se v&ecirc; apenas.
                 </p>
+              </Rv>
               <Rv delay={420}>
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
                   Um espet&aacute;culo de variedades que transcende o concerto tradicional &mdash; com momentos de intera&ccedil;&atilde;o com o p&uacute;blico, onde cada instante &eacute; uma fatia
