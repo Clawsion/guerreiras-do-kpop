@@ -418,6 +418,7 @@ export default function HomePage() {
   const [waveActive, setWaveActive] = useState(false);
   const [lightbox, setLightbox] = useState<number | null>(null);
   const [quizScore, setQuizScore] = useState<{ correct: number; total: number }>({ correct: 0, total: 0 });
+    const [privacyOpen, setPrivacyOpen] = useState(false);
   const orbRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<HTMLElement[] | null>(null);
 
