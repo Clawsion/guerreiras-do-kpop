@@ -5905,3 +5905,26 @@ section#concertos {
     .privacy-modal { padding: 2rem 1.25rem 1.5rem; max-height: 90vh; }
   }
   
+  /* ═══ ESPETÁCULO - Right stage image ═══ */
+  .esp-right {
+    position: relative;
+    flex: 1;
+    min-height: 480px;
+    overflow: hidden;
+  }
+  .esp-right-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 68% center;
+    display: block;
+  }
+  @media (max-width: 1023px) {
+    .esp-right { min-height: 320px; }
+  }
+  @media (max-width: 767px) {
+    .esp-right { min-height: 260px; }
+  }
+  
