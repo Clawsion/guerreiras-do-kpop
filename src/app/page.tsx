@@ -463,19 +463,19 @@ export default function HomePage() {
     setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
   }, []);
 
-  // ═══ Efeito "acender/apagar" da imagem do hero ao trocar de tema ═══
-  // Dispara um flash que cobre o hero, troca a imagem a meio do flash,
-  // e depois fade-out para revelar a nova imagem. Sincronizado com o
-  // ripple effect do orb (650ms até ao toggleTheme).
+  // ═══ Efeito "acender/apagar" premium da imagem do hero ao trocar de tema ═══
+  // Dispara um bloom/vela radial que cresce do centro, troca a imagem no pico,
+  // e fade-out revelando a nova imagem. Sincronizado com o ripple effect do orb.
   // Também sincroniza o heroZoom: pausa durante o flash e reinicia no fim
   // para que ambas as imagens (escura/clara) fiquem no mesmo ponto do zoom.
+  // Duração: 1.6s. Pico (toggleTheme) aos ~50% = 800ms.
   const triggerHeroFlash = useCallback((toMode: 'light' | 'dark') => {
     const flashClass = toMode === 'light' ? 'to-light' : 'to-dark';
     setHeroFlash(flashClass as 'to-light' | 'to-dark');
-    // Limpa o estado depois da animação terminar (~1.4s) e reinicia o zoom
+    // Limpa o estado depois da animação terminar (~1.6s) e reinicia o zoom
     window.setTimeout(() => {
       setHeroFlash('none');
-      // Força reinício do heroZoom aplicando animation: none e re-aplicando
+      // Força reinício do heroZoom/heroZoomLight aplicando animation: none e re-aplicando
       // Isto garante que a nova imagem começa o zoom num ponto previsível
       const heroImg = document.querySelector('.hero-bg-img') as HTMLImageElement | null;
       if (heroImg) {
@@ -484,7 +484,7 @@ export default function HomePage() {
         void heroImg.offsetWidth;
         heroImg.style.animation = '';
       }
-    }, 1400);
+    }, 1600);
   }, []);
 
   const navLinks = useMemo(() => [
@@ -783,7 +783,8 @@ export default function HomePage() {
             setBurstKey(k => k + 1);
             setWaveActive(true);
 
-            // Dispara o flash do hero ~400ms antes do toggle (sincronizado com o ripple)
+            // Dispara o flash do hero ~400ms antes do toggle (sincronizado com o ripple).
+            // Pico do flash é aos ~800ms (50% de 1.6s), toggleTheme aos 650ms (ripple original).
             window.setTimeout(() => triggerHeroFlash(toMode), 400);
 
             // ─── Wave delay: sections closer to orb change first ───
