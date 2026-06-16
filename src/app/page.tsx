@@ -137,6 +137,15 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
   );
 });
 
+/* ═══ HONMOON DIVIDER - divisória visual com símbolo + brilho ═══ */
+const HonmoonDivider = React.memo(function HonmoonDivider() {
+  return (
+    <div className="honmoon-divider max-w-[1400px] mx-auto" aria-hidden="true">
+      <span className="honmoon-divider-symbol"/>
+    </div>
+  );
+});
+
 /* ═══ LED WALL - WebGL Shader (zero compression, max quality, infinite loop) ═══ */
 /* Build: 2026-06-16-v11 */
 
@@ -914,7 +923,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="neon-div max-w-[1400px] mx-auto"/>
+      <HonmoonDivider/>
 
       {/* ═══ GALERIA - Momentos ao Vivo com Legenda + Lightbox ═══ */}
       <section id="galeria" className="galeria-section px-5 sm:px-10">
@@ -963,7 +972,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="neon-div max-w-[1400px] mx-auto"/>
+      <HonmoonDivider/>
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section px-5 sm:px-10">
@@ -1050,15 +1059,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="neon-div max-w-[1400px] mx-auto"/>
+      <HonmoonDivider/>
 
       <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 08 AGO CASCAIS · 09 AGO COSTA DA CAPARICA · 15 AGO SESIMBRA · ZOEY · RUMI · MIRA"/>
 
-      <div className="neon-div max-w-[1400px] mx-auto"/>
+      <HonmoonDivider/>
 
       {/* ═══ CONTACTE-NOS - Reservas & Eventos ═══ */}
       <section id="contacto" className="contacto-section px-5 sm:px-10">
-        <div className="max-w-[1400px] mx-auto">
+        {/* Marca de água centralizada */}
+        <div className="section-watermark" aria-hidden="true"/>
+        <div className="max-w-[1400px] mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
             {/* ── Coluna esquerda: pitch + info ── */}
             <div className="lg:col-span-5">

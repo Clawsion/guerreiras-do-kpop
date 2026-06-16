@@ -198,6 +198,117 @@ html { scroll-behavior: smooth; }
   opacity:0.15;
 }
 
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ HONMOON DIVIDER - divisória visual com símbolo + brilho ═══ */
+/* ═══════════════════════════════════════════════════════════════ */
+.honmoon-divider {
+  position: relative;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem 0;
+  pointer-events: none;
+}
+.honmoon-divider::before,
+.honmoon-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  height: 1px;
+  width: calc(50% - 24px);
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--purple-mid) 20%,
+    var(--neon-purple) 50%,
+    var(--purple-mid) 80%,
+    transparent 100%);
+  opacity: 0.35;
+}
+.honmoon-divider::before { left: 0; }
+.honmoon-divider::after { right: 0; transform: scaleX(-1); }
+/* Símbolo Honmoon central com glow pulsante */
+.honmoon-divider > .honmoon-divider-symbol {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,80,255,0.25) 0%, rgba(200,80,255,0.05) 60%, transparent 100%);
+  border: 1px solid rgba(200,80,255,0.4);
+  box-shadow:
+    0 0 12px rgba(200,80,255,0.4),
+    0 0 24px rgba(200,80,255,0.2),
+    inset 0 0 8px rgba(200,80,255,0.3);
+  animation: honmoonDividerPulse 4s ease-in-out infinite;
+}
+.honmoon-divider > .honmoon-divider-symbol::after {
+  content: "";
+  position: absolute;
+  inset: 35%;
+  border-radius: 50%;
+  background: var(--neon-purple);
+  box-shadow: 0 0 8px var(--neon-purple), 0 0 16px rgba(200,80,255,0.6);
+}
+@keyframes honmoonDividerPulse {
+  0%, 100% {
+    opacity: 0.7;
+    box-shadow:
+      0 0 12px rgba(200,80,255,0.4),
+      0 0 24px rgba(200,80,255,0.2),
+      inset 0 0 8px rgba(200,80,255,0.3);
+  }
+  50% {
+    opacity: 1;
+    box-shadow:
+      0 0 20px rgba(200,80,255,0.6),
+      0 0 40px rgba(200,80,255,0.3),
+      inset 0 0 12px rgba(200,80,255,0.5);
+  }
+}
+/* Modo dia: divisória mais subtíl, sem glow forte */
+.light-mode .honmoon-divider::before,
+.light-mode .honmoon-divider::after {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(124,58,237,0.3) 20%,
+    rgba(147,51,234,0.5) 50%,
+    rgba(124,58,237,0.3) 80%,
+    transparent 100%);
+  opacity: 0.5;
+}
+.light-mode .honmoon-divider > .honmoon-divider-symbol {
+  background: radial-gradient(circle, rgba(147,51,234,0.2) 0%, rgba(147,51,234,0.05) 60%, transparent 100%);
+  border-color: rgba(147,51,234,0.45);
+  box-shadow:
+    0 0 8px rgba(147,51,234,0.25),
+    inset 0 0 6px rgba(147,51,234,0.2);
+}
+.light-mode .honmoon-divider > .honmoon-divider-symbol::after {
+  background: #7C3AED;
+  box-shadow: 0 0 6px rgba(124,58,237,0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ SECTION WATERMARK - marca de água centralizada subtíl ═══ */
+/* ═══════════════════════════════════════════════════════════════ */
+.section-watermark {
+  position: absolute;
+  inset: 0;
+  background-image: url('/watermark.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50% auto;
+  opacity: 0.08;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 1;
+}
+/* Modo dia: opacity maior + multiply para escurecer subtílmente sobre lavanda */
+.light-mode .section-watermark {
+  opacity: 0.10;
+  mix-blend-mode: multiply;
+}
+
 /* ═══ CINEMATIC IMAGE ═══ */
 .cin { filter: brightness(0.85) contrast(1.05) saturate(0.9); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
 
