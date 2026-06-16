@@ -540,7 +540,7 @@ export default function HomePage() {
           >
             Garante o Teu Lugar <ChevronRight className="w-3.5 h-3.5"/>
           </a>
-          <p className="hero-date-line" style={{color:"var(--neon-purple)"}}>
+          <p className="hero-date-line">
             Pr&oacute;ximo: 18 JUL &middot; Estoril &middot; 18:30h
           </p>
         </div>

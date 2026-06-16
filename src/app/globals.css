@@ -1468,6 +1468,7 @@ html { scroll-behavior: smooth; }
   text-transform: uppercase;
   margin-top: 1rem;
   font-weight: 600;
+  color: var(--neon-purple);
   text-shadow: 0 0 16px rgba(200,80,255,0.3);
 }
 .hero-nav-ticket {
@@ -2808,7 +2809,7 @@ html { scroll-behavior: smooth; }
   font-weight: 300;
 }
 .light-mode .hero-seal-label {
-  color: #7C3AED;
+  color: #5B21B6;
   text-shadow: none;
   font-weight: 700;
   font-size: 9px;
@@ -2828,7 +2829,11 @@ html { scroll-behavior: smooth; }
   filter: drop-shadow(0 0 3px rgba(192,38,211,0.3));
 }
 .light-mode .hero-countdown-label {
-  color: #7C3AED;
+  color: #5B21B6;
+}
+.light-mode .hero-date-line {
+  color: #5B21B6;
+  text-shadow: none;
 }
 
 /* Concert cards */
