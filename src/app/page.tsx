@@ -30,6 +30,7 @@ const CONCERTS = [
   { day: "25", month: "JUL 2026", venue: "Coliseu dos Recreios", city: "Lisboa", time: "Portas 20:00h", url: TL, next: false },
   { day: "02", month: "AGO 2026", venue: "Theatro Circo", city: "Braga", time: "Portas 19:00h", url: TL, next: false },
   { day: "09", month: "AGO 2026", venue: "Centro de Artes e Espetáculos", city: "Porto", time: "Portas 20:00h", url: TL, next: false },
+  { day: "15", month: "AGO 2026", venue: "Pavilhão Desportivo de Sesimbra", city: "Sesimbra", time: "Portas 18:30h", url: TL, next: false },
 ];
 
 /* K-Pop gallery photos — hosted externally on PostImg */
@@ -1132,11 +1133,11 @@ export default function HomePage() {
                 </div>
                 <div className="cartaz-info">
                   <p className="cartaz-city" style={{color:"var(--blue-accent)"}}>Sesimbra</p>
-                  <p className="cartaz-date">Data a anunciar</p>
+                  <p className="cartaz-date">15 AGO 2026 &middot; 18:30h</p>
                   <p className="cartaz-status cartaz-status-soon">
                     <span className="cartaz-status-dot cartaz-status-dot-soon"/> Bilhetes &agrave; venda a partir de 20 de Junho
                   </p>
-                  <p className="cartaz-venue">Local a confirmar</p>
+                  <p className="cartaz-venue">Pavilh&atilde;o Desportivo de Sesimbra</p>
                 </div>
               </div>
             </Rv>
