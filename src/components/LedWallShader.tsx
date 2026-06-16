@@ -20,6 +20,8 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 /* ── Simple mobile detection ── */
 const IS_MOBILE = typeof window !== "undefined" && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 const MAX_DPR = IS_MOBILE ? 1.5 : 2;
+const TARGET_FPS = IS_MOBILE ? 30 : 60;
+const FRAME_INTERVAL = 1000 / TARGET_FPS;  // ~16.7ms desktop, ~33.3ms mobile
 
 const VERT = `
 attribute vec2 a_position;
@@ -266,6 +268,7 @@ export default function LedWallShader({ active }: { active: boolean }) {
   const [on, setOn] = useState(false);
   const visibleRef = useRef(true);  // IntersectionObserver — pause when off-screen
   const locCacheRef = useRef<Record<string, WebGLUniformLocation | null>>({});  // Cached uniform locations
+  const lastFrameRef = useRef(0);  // Frame rate limiter
 
   /* ── Cache uniform locations (avoids per-frame getUniformLocation calls) ── */
   const getLoc = useCallback((gl: WebGLRenderingContext, program: WebGLProgram, name: string) => {
@@ -369,9 +372,17 @@ export default function LedWallShader({ active }: { active: boolean }) {
       return;
     }
 
+    // Frame rate limiter — 60fps desktop, 30fps mobile
+    const now = performance.now();
+    if (now - lastFrameRef.current < FRAME_INTERVAL) {
+      rafRef.current = requestAnimationFrame(render);
+      return;
+    }
+    lastFrameRef.current = now;
+
     resize();
 
-    const elapsed = (performance.now() - startTimeRef.current) / 1000.0;
+    const elapsed = (now - startTimeRef.current) / 1000.0;
 
     // Use cached uniform locations — avoids expensive per-frame lookups
     gl.uniform1f(getLoc(gl, program, "u_time"), elapsed);
@@ -400,6 +411,7 @@ export default function LedWallShader({ active }: { active: boolean }) {
 
         if (initGL()) {
           startTimeRef.current = performance.now();
+          lastFrameRef.current = performance.now();
           rafRef.current = requestAnimationFrame(render);
         }
       }, 1500);
