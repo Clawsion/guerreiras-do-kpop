@@ -987,7 +987,7 @@ export default function HomePage() {
                     <p className="cartaz-city" style={{color:"var(--gold)"}}>Costa da Caparica</p>
                     <p className="cartaz-date">09 AGO 2026 &middot; 18:00h</p>
                     <p className="cartaz-status cartaz-status-soon">
-                      <span className="cartaz-status-dot cartaz-status-dot-soon"/> Bilhetes em breve
+                      <span className="cartaz-status-dot cartaz-status-dot-soon"/> Bilhetes &agrave; venda a partir de 20 de Junho
                     </p>
                     <p className="cartaz-venue">Pavilhão Municipal da Costa da Caparica</p>
                     <button type="button" className="cartaz-buy-btn cartaz-buy-btn-soon" disabled>
