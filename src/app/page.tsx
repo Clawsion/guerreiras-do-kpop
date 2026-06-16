@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 /* ════════════════════════════════════════ */
 
 const TL = "https://www.ticketline.pt";
-const EVENT = new Date("2026-07-18T18:30:00");
+const EVENT = new Date("2026-08-08T18:30:00");
 
 /* ── Device detection for adaptive performance ── */
 const IS_MOBILE = typeof window !== "undefined" && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -965,7 +965,7 @@ export default function HomePage() {
                 </div>
                 <div className="cartaz-info">
                   <p className="cartaz-city" style={{color:"var(--pink-kpop)"}}>Cascais &middot; Estoril</p>
-                  <p className="cartaz-date">18 JUL 2026 &middot; 18:30h</p>
+                  <p className="cartaz-date">08 AGO 2026 &middot; 18:30h</p>
                   <p className="cartaz-status cartaz-status-live">
                     <span className="cartaz-status-dot"/> Bilhetes j&aacute; &agrave; venda
                   </p>
@@ -1064,7 +1064,7 @@ export default function HomePage() {
       </section>
       <div className="neon-div max-w-[1400px] mx-auto"/>
 
-      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 18 JUL CASCAIS · 09 AGO COSTA DA CAPARICA · 15 AGO SESIMBRA · ZOEY · RUMI · MIRA"/>
+      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 08 AGO CASCAIS · 09 AGO COSTA DA CAPARICA · 15 AGO SESIMBRA · ZOEY · RUMI · MIRA"/>
 
       <div className="neon-div max-w-[1400px] mx-auto"/>
 
