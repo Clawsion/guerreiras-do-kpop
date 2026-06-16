@@ -211,9 +211,9 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
 ];
 
 const QUIZ_CHARACTERS = [
-  { name: "ZOEY", color: "var(--blue-accent)", img: "/char-zoe.webp" },
-  { name: "RUMI", color: "var(--neon-purple)", img: "/char-rumi.webp" },
-  { name: "MIRAE", color: "var(--pink-kpop)", img: "/char-mirae.webp" },
+  { name: "ZOEY", color: "var(--blue-accent)", img: "/real-zoe.webp" },
+  { name: "RUMI", color: "var(--neon-purple)", img: "/real-rumi.webp" },
+  { name: "MIRAE", color: "var(--pink-kpop)", img: "/real-mirae.webp" },
 ];
 
 function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[number]; onScore: (correct: boolean) => void }) {
@@ -236,7 +236,8 @@ function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[nu
 
   const handleFlip = useCallback(() => {
     if (!flipped) {
-      setQuestion(pickQuestion());
+      const q = pickQuestion();
+      setQuestion(q);
       setSelected(null);
       setShowResult(false);
     }
@@ -250,8 +251,19 @@ function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[nu
     if (question) onScore(idx === question.answer);
   }, [showResult, question, onScore]);
 
+  const handleBack = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setFlipped(false);
+    setTimeout(() => {
+      setQuestion(null);
+      setSelected(null);
+      setShowResult(false);
+    }, 500);
+  }, []);
+
   return (
-    <div className="quiz-card" onClick={!flipped ? handleFlip : undefined}>
+    <div className="quiz-card" onClick={!flipped ? handleFlip : undefined} role="button" tabIndex={0}
+      onKeyDown={(e) => { if (e.key === 'Enter' && !flipped) handleFlip(); }}>
       <div className={`quiz-card-inner${flipped ? " quiz-flipped" : ""}`}>
         {/* Front — character image */}
         <div className="quiz-card-front">
@@ -262,7 +274,7 @@ function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[nu
         </div>
         {/* Back — quiz question */}
         <div className="quiz-card-back">
-          {question && (
+          {question ? (
             <>
               <p className="quiz-question">{question.q}</p>
               <div className="quiz-options">
@@ -273,7 +285,8 @@ function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[nu
                     else if (i === selected) optClass += " quiz-wrong";
                   }
                   return (
-                    <button key={i} className={optClass} onClick={(e) => { e.stopPropagation(); handleAnswer(i); }}>
+                    <button key={i} className={optClass} onClick={(e) => { e.stopPropagation(); handleAnswer(i); }}
+                      onTouchEnd={(e) => { e.stopPropagation(); }}>
                       {opt}
                     </button>
                   );
@@ -281,13 +294,17 @@ function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[nu
               </div>
               {showResult && (
                 <div className={`quiz-result ${selected === question.answer ? "quiz-result-correct" : "quiz-result-wrong"}`}>
-                  {selected === question.answer ? "✓ Correto!" : "✗ Errado!"}
+                  {selected === question.answer ? "Correto!" : "Errado!"}
                 </div>
               )}
               {showResult && (
-                <p className="quiz-hint" onClick={(e) => { e.stopPropagation(); handleFlip(); }}>Clica para voltar</p>
+                <button className="quiz-back-btn" onClick={handleBack}>
+                  Voltar
+                </button>
               )}
             </>
+          ) : (
+            <p className="quiz-question" style={{ opacity: 0.5 }}>A carregar...</p>
           )}
         </div>
       </div>

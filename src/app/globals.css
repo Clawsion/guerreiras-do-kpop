@@ -2346,6 +2346,39 @@ html { scroll-behavior: smooth; }
   text-shadow: 0 0 8px rgba(200,80,255,0.12);
 }
 
+/* ═══ Quiz Back Button ═══ */
+.quiz-back-btn {
+  margin-top: 0.6rem;
+  padding: 0.4rem 1.2rem;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+.quiz-back-btn:hover {
+  color: #fff;
+  background: rgba(200,80,255,0.15);
+  border-color: rgba(200,80,255,0.4);
+  box-shadow: 0 0 12px rgba(200,80,255,0.15);
+}
+
+.light-mode .quiz-back-btn {
+  color: rgba(40,20,60,0.6);
+  background: rgba(200,80,255,0.04);
+  border-color: rgba(200,80,255,0.12);
+}
+.light-mode .quiz-back-btn:hover {
+  color: rgba(30,15,50,0.95);
+  background: rgba(200,80,255,0.1);
+  border-color: rgba(200,80,255,0.3);
+}
+
 /* ═══ END QUIZ CARDS ═══ */
 
 /* ═══════════════════════════════════════════════════════════════ */
