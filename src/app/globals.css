@@ -1332,41 +1332,41 @@ html { scroll-behavior: smooth; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* DARK mode (default): sujeito centrado em 62% X / 57% Y na imagem original (1937×812, aspect 2.39:1) */
-  object-position: 62% center;
-  transform-origin: 62% 57%;
+  /* DARK mode: K do "K-POP" está em 13.47% X. object-position 13% faz o K ficar visível no canto esquerdo do ecrã. */
+  object-position: 13% center;
+  /* transform-origin centralizado horizontalmente para o zoom expandir de forma equilibrada */
+  transform-origin: 50% 57%;
   animation: heroZoom 25s ease-in-out infinite alternate;
 }
-/* LIGHT mode: a imagem clara (1723×913, aspect 1.89:1) tem aspect ratio diferente.
-   - Sujeito está +2.4% mais à direita → object-position 62% -> 64%
-   - Imagem é menos larga → com object-fit: cover o sujeito fica ~18% mais pequeno
-   - Compensamos com scale 1.22× nos keyframes heroZoomLight para o sujeito ter o mesmo tamanho pixel a pixel
-   Resultado: ao trocar de tema, o sujeito fica no mesmo sítio com o mesmo tamanho. */
+/* LIGHT mode: K do "K-POP" está em 5.92% X (mais à esquerda do que na escura). object-position 6% alinha visualmente o K no mesmo sítio do ecrã. */
 .light-mode .hero-bg-img {
-  object-position: 64% center;
-  transform-origin: 64% 56%;
+  object-position: 6% center;
+  transform-origin: 50% 56%;
   animation: heroZoomLight 25s ease-in-out infinite alternate;
 }
 /* Em viewports portrait/tall (mobile), ambas as imagens cortam demasiado em altura.
-   Levanta o sujeito para a cara ficar visível, preservando o ancoramento X por modo. */
+   Levanta o sujeito para a cara ficar visível, preservando o ancoramento X do K. */
 @media (max-aspect-ratio: 16/10) {
   .hero-bg-img {
-    object-position: 62% 40%;
-    transform-origin: 62% 50%;
+    object-position: 13% 40%;
+    transform-origin: 50% 50%;
   }
   .light-mode .hero-bg-img {
-    object-position: 64% 40%;
-    transform-origin: 64% 50%;
+    object-position: 6% 40%;
+    transform-origin: 50% 50%;
   }
 }
+/* Zoom limitado para o K do "K-POP" nunca desaparecer do ecrã.
+   Análise VLM mostrou que K está em 13.47% X (escura) e 5.92% X (clara).
+   Com object-position ancorado no K, scale máx 1.05 mantém K visível em ecrãs 16:9. */
 @keyframes heroZoom {
   0% { transform: scale(1.0); }
-  100% { transform: scale(1.1); }
+  100% { transform: scale(1.05); }
 }
-/* heroZoomLight: scale inicial 1.218 = 1.22× (compensar aspect ratio diferente) */
+/* heroZoomLight: zoom espelhado ao heroZoom (1.0 -> 1.05) para que ambas as imagens estejam em fase. */
 @keyframes heroZoomLight {
-  0% { transform: scale(1.218); }
-  100% { transform: scale(1.340); }
+  0% { transform: scale(1.0); }
+  100% { transform: scale(1.05); }
 }
 
 /* ═══ Grid overlay - subtle depth texture ═══ */
