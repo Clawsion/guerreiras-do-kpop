@@ -871,9 +871,9 @@ export default function HomePage() {
           </Rv>
           <div className="dual-grid">
             {[
-              { name: "ZOE", color: "var(--blue-accent)", animImg: "/real-zoe.webp", realImg: "/char-zoe.webp" },
+              { name: "ZOEY", color: "var(--blue-accent)", animImg: "/real-zoe.webp", realImg: "/char-zoe.webp" },
               { name: "RUMI", color: "var(--neon-purple)", animImg: "/real-rumi.webp", realImg: "/char-rumi.webp" },
-              { name: "MIRAE", color: "var(--pink-kpop)", animImg: "/real-mirae.webp", realImg: "/char-mirae.webp" },
+              { name: "MIRA", color: "var(--pink-kpop)", animImg: "/real-mirae.webp", realImg: "/char-mirae.webp" },
             ].map((c, i) => (
               <DualRevealCard key={c.name} name={c.name} color={c.color} delay={i * 200} animImg={c.animImg} realImg={c.realImg}/>
             ))}
@@ -943,8 +943,8 @@ export default function HomePage() {
             {[
               {name:"HUNTRIX",sub:"Headliner - Guerreiras do K-Pop",c:"var(--gold)"},
               {name:"RUMI",sub:"Vocal Principal",c:"var(--pink-kpop)"},
-              {name:"MIRAE",sub:"Dança & Rap",c:"var(--blue-accent)"},
-              {name:"ZOE",sub:"Performance Especial",c:"var(--neon-purple)"},
+              {name:"MIRA",sub:"Dança & Rap",c:"var(--blue-accent)"},
+              {name:"ZOEY",sub:"Performance Especial",c:"var(--neon-purple)"},
             ].map((a,i)=>(
               <Rv key={a.name} delay={i*100}>
                 <div className="group relative overflow-hidden cursor-pointer" style={{background:"var(--surface)"}}>
@@ -969,7 +969,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Marquee text="HUNTRIX · RUMI · MIRAE · ZOE · GUERREIRAS DO K-POP · TRIBUTO MUSICAL"/>
+      <Marquee text="HUNTRIX · RUMI · MIRA · ZOEY · GUERREIRAS DO K-POP · TRIBUTO MUSICAL"/>
 
       {/* ═══ PRÓXIMOS CONCERTOS ═══ */}
       <section id="concertos" className="concerts-section px-5 sm:px-10">
