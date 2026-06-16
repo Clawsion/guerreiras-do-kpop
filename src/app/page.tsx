@@ -25,7 +25,7 @@ const IS_MOBILE = typeof window !== "undefined" && /Android|iPhone|iPad|iPod/i.t
 const SHIELD_PARTICLES = IS_MOBILE ? 6 : 12;
 const CHARGER_PARTICLES = IS_MOBILE ? 4 : 8;
 
-/* K-Pop gallery photos — hosted externally on PostImg */
+/* K-Pop gallery photos - hosted externally on PostImg */
 const GALLERY_PHOTOS = [
   { src: "https://i.postimg.cc/x8S0prmN/kpop2.png", caption: "Saja Boys estão aqui" },
   { src: "https://i.postimg.cc/PxDXMfCP/kpop1.png", caption: "As Guerreiras do K-Pop à tua espera" },
@@ -89,7 +89,7 @@ function Countdown() {
   );
 }
 
-/* ═══ HERO COUNTDOWN — Neon Boxes ═══ */
+/* ═══ HERO COUNTDOWN - Neon Boxes ═══ */
 
 function HeroCountdown() {
   const [t, setT] = useState({ d: 0, h: 0, m: 0, s: 0 });
@@ -141,10 +141,10 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
   );
 });
 
-/* ═══ LED WALL — WebGL Shader (zero compression, max quality, infinite loop) ═══ */
+/* ═══ LED WALL - WebGL Shader (zero compression, max quality, infinite loop) ═══ */
 /* Build: 2026-06-16-v11 */
 
-/* ═══ QUIZ — K-Pop Demon Hunters Trivia ═══ */
+/* ═══ QUIZ - K-Pop Demon Hunters Trivia ═══ */
 
 interface QuizQuestion {
   q: string;
@@ -154,7 +154,7 @@ interface QuizQuestion {
 }
 
 const QUIZ_QUESTIONS: QuizQuestion[] = [
-  /* ── ZOEY — Coragem ── */
+  /* ── ZOEY - Coragem ── */
   { q: "Qual é a arma de Zoey?", options: ["Espada Saingeom", "Gok-do (l\u00e2mina curva)", "Adagas Shin-kal", "Arco celestial"], answer: 2, theme: "ZOEY" },
   { q: "Zoey \u00e9 a maknae do HUNTR/X. O que isso significa?", options: ["A l\u00edder do grupo", "A mais nova do grupo", "A dan\u00e7arina principal", "A vocalista principal"], answer: 1, theme: "ZOEY" },
   { q: "Quantos cadernos de insultos contra dem\u00f3nios Zoey tem?", options: ["5", "12", "23", "50"], answer: 2, theme: "ZOEY" },
@@ -166,7 +166,7 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
   { q: "Na abertura do filme, as Guerreiras lutam contra dem\u00f3nios onde?", options: ["Num comboio", "Num jato privado", "Num est\u00e1dio", "Namsan Tower"], answer: 1, theme: "ZOEY" },
   { q: "Quantos membros tem o grupo Saja Boys?", options: ["3", "4", "5", "6"], answer: 2, theme: "ZOEY" },
 
-  /* ── RUMI — M\u00fasica ── */
+  /* ── RUMI - M\u00fasica ── */
   { q: "Qual \u00e9 o segredo de Rumi sobre a sua identidade?", options: ["\u00c9 uma princesa", "\u00c9 meio-dem\u00f3nio (cambion)", "\u00c9 uma espi\u00e3", "\u00c9 imortal"], answer: 1, theme: "RUMI" },
   { q: "Qual \u00e9 a arma de Rumi?", options: ["Adagas Shin-kal", "Gok-do", "Espada Saingeom", "Arco espiritual"], answer: 2, theme: "RUMI" },
   { q: "Quem criou Rumi ap\u00f3s a morte da sua m\u00e3e?", options: ["Bobby", "Healer Han", "Celine", "Gwi-Ma"], answer: 2, theme: "RUMI" },
@@ -178,7 +178,7 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
   { q: "Quando Rumi perde a voz, o que a enfraquece?", options: ["Uma maldi\u00e7\u00e3o de Gwi-Ma", "A vergonha da sua identidade", "Uma doen\u00e7a", "O cansa\u00e7o"], answer: 1, theme: "RUMI" },
   { q: "O que acontece \u00e0 espada de Rumi depois de Jinu dar a sua alma?", options: ["Desaparece", "Fica mais forte com rosto de dokkaebi", "Transforma-se em adagas", "Fica dourada"], answer: 1, theme: "RUMI" },
 
-  /* ── MIRAE — Dan\u00e7a ── */
+  /* ── MIRAE - Dan\u00e7a ── */
   { q: "Qual \u00e9 a arma de Mirae?", options: ["Adagas Shin-kal", "Espada Saingeom", "Gok-do (l\u00e2mina curva de haste)", "Arco espiritual"], answer: 2, theme: "MIRAE" },
   { q: "Mirae \u00e9 conhecida como o qu\u00ea do grupo?", options: ["A l\u00edder", "A Dennis Rodman do grupo", "A mais calma", "A mais nova"], answer: 1, theme: "MIRAE" },
   { q: "Qual \u00e9 o signo do zod\u00edaco de Mirae?", options: ["Peixes", "\u00c1ries", "Escorpi\u00e3o", "Le\u00e3o"], answer: 1, theme: "MIRAE" },
@@ -190,7 +190,7 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
   { q: "A arma gok-do de Mirae pode fazer o qu\u00ea?", options: ["Voar", "Emitir ondas de choque", "Curar feridas", "Criar ilus\u00f5es"], answer: 1, theme: "MIRAE" },
   { q: "De que tipo de fam\u00edlia Mirae vem?", options: ["Pobre", "Adotiva", "Rica", "De dem\u00f3nios"], answer: 2, theme: "MIRAE" },
 
-  /* ── Geral — Misturado ── */
+  /* ── Geral - Misturado ── */
   { q: "Como se chama a barreira m\u00e1gica que protege o mundo?", options: ["Honmoon", "Soul Gate", "Gwi-Ma", "Demon Shield"], answer: 0, theme: "RUMI" },
   { q: "O que significa Honmoon em coreano?", options: ["Porta da Luz", "Porta da Alma", "Escudo Eterno", "Barreira Sagrada"], answer: 1, theme: "MIRAE" },
   { q: "Qual \u00e9 a m\u00fasica de estreia dos Saja Boys?", options: ["Your Idol", "Takedown", "Soda Pop", "How It\u2019s Done"], answer: 2, theme: "ZOEY" },
@@ -263,7 +263,7 @@ function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[nu
     <div className="quiz-card" onClick={!flipped ? handleFlip : undefined} role="button" tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' && !flipped) handleFlip(); }}>
       <div className={`quiz-card-inner${flipped ? " quiz-flipped" : ""}`}>
-        {/* ═══ FRONT — Character Image + Theme Badge ═══ */}
+        {/* ═══ FRONT - Character Image + Theme Badge ═══ */}
         <div className="quiz-card-front">
           <div className="quiz-glow" style={{ background: `radial-gradient(circle, ${character.color}33 0%, transparent 70%)` }} />
           <img src={character.img} alt={character.name} className="quiz-char-img" loading="lazy" decoding="async" />
@@ -271,7 +271,7 @@ function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[nu
           <p className="quiz-char-name" style={{ color: character.color }}>{character.name}</p>
           <p className="quiz-hint">Clica para jogar</p>
         </div>
-        {/* ═══ BACK — White background, question + 4 options, no mirror ═══ */}
+        {/* ═══ BACK - White background, question + 4 options, no mirror ═══ */}
         <div className="quiz-card-back">
           {question ? (
             <>
@@ -312,7 +312,7 @@ function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[nu
   );
 }
 
-/* ═══ CARREGA O HONMOON — Interactive Charging ═══ */
+/* ═══ CARREGA O HONMOON - Interactive Charging ═══ */
 
 const HonmoonCharger = React.memo(function HonmoonCharger() {
   const [energy, setEnergy] = useState(0);
@@ -436,7 +436,7 @@ export default function HomePage() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
-  /* Pause ALL CSS animations when tab is hidden — massive CPU/GPU savings */
+  /* Pause ALL CSS animations when tab is hidden - massive CPU/GPU savings */
   useEffect(() => {
     const onVis = () => {
       document.body.style.setProperty("--anim-state", document.hidden ? "paused" : "running");
@@ -479,7 +479,7 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ═══ RIPPLE BG LAYER — new theme background spreads from orb via clip-path ═══ */}
+      {/* ═══ RIPPLE BG LAYER - new theme background spreads from orb via clip-path ═══ */}
       {ripple?.active && (
         <div className="hm-ripple-bg-layer">
           <div
@@ -489,13 +489,13 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* ═══ MAIN CONTENT — always visible, transparent bg during transition ═══ */}
+      {/* ═══ MAIN CONTENT - always visible, transparent bg during transition ═══ */}
       <div
         className={`min-h-screen flex flex-col relative z-10 ${themeMode === 'light' ? 'light-mode' : ''} ${waveActive ? 'wave-transition' : ''}`}
         style={{background: ripple?.active ? 'transparent' : 'var(--deep)'}}
       >
 
-      {/* ═══ RIPPLE SHIMMER — subtle wave glow that passes over content ═══ */}
+      {/* ═══ RIPPLE SHIMMER - subtle wave glow that passes over content ═══ */}
       {ripple?.active && (
         <div className="hm-ripple-shimmer-layer">
           <div
@@ -513,7 +513,7 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* ═══ PRELOADER — Curtain Reveal ═══ */}
+      {/* ═══ PRELOADER - Curtain Reveal ═══ */}
       {themeMode === 'dark' ? (
         <div className={`preloader-honmoon ${loaded?"preloader-done":""}`}>
           <div className="preloader-curtain-left"/>
@@ -564,7 +564,7 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* ═══ SOUL PARTICLES — fixed overlay across entire site ═══ */}
+      {/* ═══ SOUL PARTICLES - fixed overlay across entire site ═══ */}
       <div className="soul-particles-site">
         {Array.from({length: 12}, (_, i) => (
           <div
@@ -581,9 +581,9 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* ═══ HERO — FULL SCREEN ═══ */}
+      {/* ═══ HERO - FULL SCREEN ═══ */}
       <section className="hero-section" style={{background:"var(--void)"}}>
-        {/* Background image — full bleed */}
+        {/* Background image - full bleed */}
         <img
           src="/hero-girls.webp"
           alt=""
@@ -595,10 +595,10 @@ export default function HomePage() {
         {/* Grid texture overlay */}
         <div className="hero-grid"/>
 
-        {/* Depth overlay — fade at bottom */}
+        {/* Depth overlay - fade at bottom */}
         <div className="hero-bg-overlay"/>
 
-        {/* Vignette — darkens edges */}
+        {/* Vignette - darkens edges */}
         <div className="hero-vignette"/>
 
         {/* Glow orbs */}
@@ -608,7 +608,7 @@ export default function HomePage() {
 
 
 
-        {/* ═══ HAMBURGER NAV — pinned at top of hero ═══ */}
+        {/* ═══ HAMBURGER NAV - pinned at top of hero ═══ */}
         <nav className="absolute top-0 inset-x-0 z-[95] py-6" style={{background:"transparent"}}>
           <div className="hero-nav-panel max-w-[1400px] mx-auto px-5 sm:px-10 flex items-center justify-between">
             {/* LEFT: Hamburger only */}
@@ -646,7 +646,7 @@ export default function HomePage() {
           </div>
         </nav>
 
-        {/* ═══ FULLSCREEN MENU OVERLAY — cascade from LEFT ═══ */}
+        {/* ═══ FULLSCREEN MENU OVERLAY - cascade from LEFT ═══ */}
         <div className={`menu-overlay ${menuOpen?"open":""}`}>
           <div className="flex flex-col items-start gap-1 sm:gap-2 mb-16">
             {navLinks.map((n, i) => (
@@ -670,7 +670,7 @@ export default function HomePage() {
               <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
             </a>
           </div>
-          {/* Menu Footer — social bottom right */}
+          {/* Menu Footer - social bottom right */}
           <div className="absolute bottom-8 right-8 sm:right-12 flex gap-7" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 350}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
               <Instagram className="w-7 h-7"/>
@@ -689,7 +689,7 @@ export default function HomePage() {
           <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
         </div>
 
-        {/* ═══ HERO BOTTOM — Countdown + CTA ═══ */}
+        {/* ═══ HERO BOTTOM - Countdown + CTA ═══ */}
         <div className="hero-bottom-panel absolute bottom-0 inset-x-0 z-10 flex flex-col items-center pb-10 sm:pb-14">
           <div className="hero-countdown-wrap">
             <HeroCountdown />
@@ -707,7 +707,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ HONMOON SHIELD — Theme Toggle (like the anime) ═══ */}
+      {/* ═══ HONMOON SHIELD - Theme Toggle (like the anime) ═══ */}
       <section className="honmoon-shield-section">
         {/* Background glow */}
         <div className={`hm-bg-glow ${themeMode}`}/>
@@ -722,7 +722,7 @@ export default function HomePage() {
         <div className={`hm-ring hm-ring-2 ${themeMode}`}/>
         <div className={`hm-ring hm-ring-3 ${themeMode}`}/>
 
-        {/* ═══ Neon rose circles — anime Honmoon aesthetic, dark mode only ═══ */}
+        {/* ═══ Neon rose circles - anime Honmoon aesthetic, dark mode only ═══ */}
         <div className={`hm-neon-circle hm-neon-circle-1 ${themeMode}`}/>
         <div className={`hm-neon-circle hm-neon-circle-2 ${themeMode}`}/>
         <div className={`hm-neon-circle hm-neon-circle-3 ${themeMode}`}/>
@@ -739,7 +739,7 @@ export default function HomePage() {
         <div className={`hm-node hm-node-e ${themeMode}`}/>
         <div className={`hm-node hm-node-f ${themeMode}`}/>
 
-        {/* Central shield orb — clickable */}
+        {/* Central shield orb - clickable */}
         <div
           ref={orbRef}
           className={`hm-orb ${themeMode}`}
@@ -795,21 +795,21 @@ export default function HomePage() {
           <div className={`hm-strand hm-strand-2 ${themeMode}`}/>
           <div className={`hm-strand hm-strand-3 ${themeMode}`}/>
 
-          {/* Center text — MODO DIA / MODO NOITE */}
+          {/* Center text - MODO DIA / MODO NOITE */}
           <span className={`hm-label ${themeMode}`}>
             {themeMode === 'light' ? 'MODO DIA' : 'MODO NOITE'}
           </span>
 
-          {/* Click hint — finger tap indicator */}
+          {/* Click hint - finger tap indicator */}
           <span className={`hm-tap-hint ${themeMode}`}/>
 
-          {/* Hover hint — appears on hover */}
+          {/* Hover hint - appears on hover */}
           <span className="hm-hover-hint">
             {themeMode === 'dark' ? 'DESPERTAR' : 'ADORMECER'}
           </span>
         </div>
 
-        {/* Click burst — expanding rings on click */}
+        {/* Click burst - expanding rings on click */}
         <div key={burstKey} className="hm-burst">
           <div className="hm-burst-ring hm-burst-ring-1"/>
           <div className="hm-burst-ring hm-burst-ring-2"/>
@@ -818,7 +818,7 @@ export default function HomePage() {
 
       </section>
 
-      {/* ═══ MANIFESTO — LED WALL TUNNEL ═══ */}
+      {/* ═══ MANIFESTO - LED WALL TUNNEL ═══ */}
       <section
         ref={manifestoRef}
         className={`manifesto-section ${manifestoVisible ? "manifesto-in" : ""}`}
@@ -826,14 +826,14 @@ export default function HomePage() {
         {/* Ambient glow behind LED wall */}
         <div className="manifesto-glow"/>
 
-        {/* Dynamic LED ambient — synced with shader color */}
+        {/* Dynamic LED ambient - synced with shader color */}
         <div className="led-ambient-sync"/>
 
-        {/* Monitor glow — light spill from LED wall onto page sides */}
+        {/* Monitor glow - light spill from LED wall onto page sides */}
         <div className="monitor-glow monitor-glow-left"/>
         <div className="monitor-glow monitor-glow-right"/>
 
-        {/* ═══ HONMOON SHIELD — iridescent soul barrier ═══ */}
+        {/* ═══ HONMOON SHIELD - iridescent soul barrier ═══ */}
         <div className="honmoon-shield">
           <div className="honmoon-arc honmoon-arc-top"/>
           <div className="honmoon-arc honmoon-arc-bottom"/>
@@ -847,7 +847,7 @@ export default function HomePage() {
           <div className="honmoon-node honmoon-node-6"/>
         </div>
 
-        {/* ═══ DEMON MARKINGS — Gwi-Ma vines on pillars ═══ */}
+        {/* ═══ DEMON MARKINGS - Gwi-Ma vines on pillars ═══ */}
         <div className="demon-markings demon-markings-left">
           <svg viewBox="0 0 60 400" className="demon-vine-svg" preserveAspectRatio="none">
             <path className="demon-vine demon-vine-1" d="M30,0 C10,50 50,80 20,140 C-5,190 55,220 25,280 C5,330 40,360 30,400" fill="none"/>
@@ -867,7 +867,7 @@ export default function HomePage() {
 
         {/* ═══ TEMPLE FRAME ═══ */}
         <div className="temple-frame">
-          {/* Temple roof — curved multi-tier top */}
+          {/* Temple roof - curved multi-tier top */}
           <div className="temple-roof">
             <div className="temple-roof-peak"/>
             <div className="temple-roof-tier-1"/>
@@ -878,7 +878,7 @@ export default function HomePage() {
             <div className="temple-cap temple-cap-right"/>
           </div>
 
-          {/* Temple body — pillars + LED wall */}
+          {/* Temple body - pillars + LED wall */}
           <div className="temple-body">
             {/* Left pillar */}
             <div className="temple-pillar temple-pillar-left">
@@ -924,7 +924,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ ESPETÁCULO — Descrição + Galeria ═══ */}
+      {/* ═══ ESPETÁCULO - Descrição + Galeria ═══ */}
       <section id="espetaculo" className="espetaculo-section px-5 sm:px-10">
         {/* ═══ Atmospheric layers ═══ */}
         <div className="esp-spotlight esp-spotlight-left"/>
@@ -938,7 +938,7 @@ export default function HomePage() {
 
         <div className="max-w-[1400px] mx-auto relative z-10">
           <div className="esp-layout">
-            {/* LEFT — Description */}
+            {/* LEFT - Description */}
             <div className="esp-left">
               <Rv>
                 <p className="sec-num mb-4" style={{color:"var(--pink-light)"}}>Tributo Ao Vivo</p>
@@ -995,7 +995,7 @@ export default function HomePage() {
               </Rv>
             </div>
 
-            {/* RIGHT — espaço reservado para armas */}
+            {/* RIGHT - espaço reservado para armas */}
             <div className="esp-right" />
           </div>
         </div>
@@ -1003,7 +1003,7 @@ export default function HomePage() {
 
       <div className="neon-div max-w-[1400px] mx-auto"/>
 
-      {/* ═══ QUIZ — Perguntas sobre o Filme ═══ */}
+      {/* ═══ QUIZ - Perguntas sobre o Filme ═══ */}
       <section id="identidade" className="identidade-section px-5 sm:px-10">
         <div className="max-w-[1400px] mx-auto">
           <Rv>
@@ -1040,7 +1040,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ GALERIA — Momentos ao Vivo com Legenda + Lightbox ═══ */}
+      {/* ═══ GALERIA - Momentos ao Vivo com Legenda + Lightbox ═══ */}
       <section id="galeria" className="galeria-section px-5 sm:px-10">
         <div className="max-w-[1400px] mx-auto">
           <Rv>
@@ -1089,7 +1089,7 @@ export default function HomePage() {
 
       <div className="neon-div max-w-[1400px] mx-auto"/>
 
-      {/* ═══ CARTAZES — Posters + Ticketline CTA ═══ */}
+      {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section px-5 sm:px-10">
         <div className="max-w-[1400px] mx-auto">
           <Rv>
@@ -1105,7 +1105,7 @@ export default function HomePage() {
           </Rv>
 
           <div className="cartazes-grid">
-            {/* ═══ CASCAIS — Destaque principal (maior) ═══ */}
+            {/* ═══ CASCAIS - Destaque principal (maior) ═══ */}
             <Rv delay={200}>
               <article className="cartaz-card cartaz-featured">
                 <div className="cartaz-img-wrap">
@@ -1127,7 +1127,7 @@ export default function HomePage() {
               </article>
             </Rv>
 
-            {/* ═══ SESIMBRA — Destaque secundário (mais pequeno) ═══ */}
+            {/* ═══ SESIMBRA - Destaque secundário (mais pequeno) ═══ */}
             <Rv delay={350}>
               <article className="cartaz-card cartaz-secondary">
                 <div className="cartaz-img-wrap">
@@ -1224,7 +1224,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ CONTACTE-NOS — Reservas & Eventos ═══ */}
+      {/* ═══ CONTACTE-NOS - Reservas & Eventos ═══ */}
       <section id="contacto" className="contacto-section px-5 sm:px-10">
         <div className="max-w-[1400px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
@@ -1239,14 +1239,14 @@ export default function HomePage() {
               <Rv delay={120}>
                 <p className="text-[16px] leading-[1.8] mb-8 max-w-lg" style={{color:"var(--t2)"}}>
                   Este tributo musical foi pensado para viajar. Adapta-se a teatros, audit&oacute;rios,
-                  pavilh&otilde;es multiusos e estruturas ef&eacute;meras — como tendas de Natal para
+                  pavilh&otilde;es multiusos e estruturas ef&eacute;meras - como tendas de Natal para
                   festas de empresas, escolas, associa&ccedil;&otilde;es e c&acirc;maras municipais.
                   Montamos a experi&ecirc;ncia completa onde for mais conveniente para o seu p&uacute;blico.
                 </p>
               </Rv>
               <Rv delay={200}>
                 <p className="text-[15px] leading-[1.7] mb-10 max-w-lg" style={{color:"var(--t3)"}}>
-                  Reserve j&aacute; a sua data — estamos dispon&iacute;veis para orientar a produ&ccedil;&atilde;o
+                  Reserve j&aacute; a sua data - estamos dispon&iacute;veis para orientar a produ&ccedil;&atilde;o
                   t&eacute;cnica, ajustar o formato &agrave; lota&ccedil;&atilde;o do espa&ccedil;o e personalizar
                   o repert&oacute;rio em fun&ccedil;&atilde;o do seu p&uacute;blico-alvo.
                 </p>
@@ -1286,7 +1286,7 @@ export default function HomePage() {
                   const email = encodeURIComponent(fd.get("email") as string || "");
                   const tel = encodeURIComponent(fd.get("tel") as string || "");
                   const msg = encodeURIComponent(fd.get("msg") as string || "");
-                  const subject = encodeURIComponent(`Reserva — Guerreiras do K-Pop · ${fd.get("tipo") || "Tributo musical"}`);
+                  const subject = encodeURIComponent(`Reserva - Guerreiras do K-Pop · ${fd.get("tipo") || "Tributo musical"}`);
                   const body = encodeURIComponent(
 `Nome: ${fd.get("nome") || ""}
 Tipo de evento: ${fd.get("tipo") || ""}
@@ -1353,7 +1353,7 @@ ${fd.get("msg") || ""}`
 
                   <label className="contacto-field mb-6">
                     <span>Mensagem</span>
-                    <textarea name="msg" rows={4} placeholder="Diga-nos o que precisa — formato, duração, orçamento aproximado, perguntas…"/>
+                    <textarea name="msg" rows={4} placeholder="Diga-nos o que precisa - formato, duração, orçamento aproximado, perguntas…"/>
                   </label>
 
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -1361,7 +1361,7 @@ ${fd.get("msg") || ""}`
                       <Mail className="w-4 h-4"/> Enviar pedido de reserva
                     </button>
                     <p id="contacto-ok" className="text-[12px]" style={{color:"var(--neon-purple)", display:"none"}}>
-                      Pedido preparado — abrimos o seu cliente de e-mail. Estamos em contacto brevemente.
+                      Pedido preparado - abrimos o seu cliente de e-mail. Estamos em contacto brevemente.
                     </p>
                   </div>
                   <p className="text-[11px] mt-5" style={{color:"var(--t3)"}}>
