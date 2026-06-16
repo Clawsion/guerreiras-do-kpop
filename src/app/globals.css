@@ -3845,9 +3845,9 @@ html { scroll-behavior: smooth; }
   background: linear-gradient(90deg, #1a0e2e, #2a1a4e, #1a0e2e);
 }
 
-/* Manifesto section — same dark background as the honmoon button section */
+/* Manifesto section — same lavender background as Tributo (espetaculo) section in light mode */
 .light-mode .manifesto-section {
-  background: #0d0815 !important;
+  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%) !important;
 }
 
 /* Manifesto glow — golden/iridescent in light mode instead of purple */
