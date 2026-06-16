@@ -151,61 +151,6 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
 /* ═══ LED WALL — WebGL Shader (zero compression, max quality, infinite loop) ═══ */
 /* Build: 2026-06-16-v11 */
 
-/* ═══ IDENTIDADE DUAL — Character → Performer Card ═══ */
-
-/* SVG character silhouettes — demon hunter poses with weapons */
-const CHAR_SILHOUETTES: Record<string, string> = {
-  RUMI: "M80,15 C85,10 95,10 100,15 C105,10 115,10 120,15 C125,8 130,5 128,0 C135,8 140,20 135,30 C130,25 120,28 115,35 C112,40 115,50 110,55 C105,50 100,45 95,48 C88,52 85,60 82,68 C78,78 75,90 72,100 C68,115 65,130 62,145 C58,160 55,175 52,190 L55,195 C58,192 62,188 65,185 L68,195 C70,192 73,188 76,185 L78,195 L82,185 C85,175 88,165 90,155 C92,145 95,135 98,125 C100,115 105,105 110,100 L120,108 C125,112 130,120 135,130 C140,140 138,155 135,165 L132,175 L136,170 L134,182 L138,178 C135,188 130,195 125,200 C120,195 115,185 112,175 C108,165 105,155 102,145 C98,140 92,138 88,140 C85,145 82,155 80,165 C78,175 75,188 72,200 L75,205 L78,198 L80,205 L84,198 C87,185 90,170 92,155 C94,140 90,130 85,125 C80,120 75,118 72,120 C70,125 68,135 65,145 C62,160 58,178 55,195 L52,200 L56,193 L54,203 L60,195",
-  MIRAE: "M90,12 C95,8 105,8 110,12 C115,5 120,2 118,0 C125,5 128,15 125,25 C120,20 115,22 110,28 C105,35 108,45 102,52 C98,48 92,42 88,45 C82,50 78,60 75,70 C72,82 70,95 68,108 C65,122 62,138 60,152 L62,158 L66,148 L68,158 L72,148 L74,158 C76,148 78,138 80,128 C82,118 85,108 88,100 C92,92 98,88 105,85 L112,92 C118,100 120,112 118,125 C116,138 112,150 108,162 L106,172 L110,165 L108,175 L112,170 C110,180 105,190 100,198 C95,190 90,180 88,170 C85,158 82,145 80,132 C78,125 74,122 70,125 C66,130 62,140 60,152 C58,162 55,175 52,190 L54,196 L58,188 L56,198 L62,190 C64,178 68,165 72,150 C75,138 72,128 68,122 C64,118 60,120 58,128 C55,138 52,155 48,172 L46,180 L50,174 L48,185 L54,178",
-  ZOE: "M85,15 C90,10 100,10 105,15 C110,8 115,3 112,0 C120,5 125,18 120,28 C115,22 108,25 105,32 C100,40 105,50 98,58 C92,52 85,45 82,48 C76,55 72,65 70,78 C68,90 66,105 64,118 C62,132 58,148 55,162 L58,168 L62,158 L64,168 L68,158 L70,168 C72,155 75,142 78,130 C82,118 86,108 92,100 C98,95 105,92 112,95 C118,100 122,110 120,122 C118,135 114,148 110,160 L108,170 L112,162 L110,172 L114,168 C112,178 108,188 102,198 C96,190 92,180 88,168 C84,155 82,142 80,128 C78,120 74,118 70,122 C66,128 62,140 60,155 C58,168 55,182 52,195 L54,200 L58,192 L56,202 L62,195 C65,180 68,165 72,148 C75,132 72,120 66,118 C60,118 56,125 55,140 C54,155 50,172 46,188 L44,195 L48,188 L46,198 L52,192",
-};
-
-const DualRevealCard = React.memo(function DualRevealCard({ name, color, delay, animImg, realImg }: {
-  name: string; color: string; delay: number; animImg: string; realImg: string;
-}) {
-  return (
-    <div
-      className="dual-card"
-      style={{ '--char-color': color, '--card-delay': `${delay}ms` } as React.CSSProperties}
-    >
-      {/* Neon SVG border traces */}
-      <svg className="neon-border-svg" viewBox="0 0 300 891" preserveAspectRatio="none">
-        <rect className="nb-rect" x="2" y="2" width="296" height="887" rx="2" ry="2"/>
-        <path className="nb-vine nb-vine-l" d="M4,60 C12,80 4,120 10,160 C4,200 12,240 6,280 C4,320 10,360 6,400 C4,440 10,470 6,500 C4,530 10,560 6,590 C4,620 10,650 6,680 C4,710 10,740 6,770 C4,800 10,830 6,860"/>
-        <path className="nb-vine nb-vine-r" d="M296,50 C288,70 296,110 290,150 C296,190 288,230 294,270 C296,310 290,350 296,390 C294,430 296,470 294,510 C296,540 290,570 296,600 C294,630 296,660 294,690 C296,720 290,750 296,780 C294,810 296,840 294,870"/>
-        <path className="nb-arc nb-arc-top" d="M60,4 C120,20 180,20 240,4"/>
-        <path className="nb-arc nb-arc-bot" d="M60,887 C120,871 180,871 240,887"/>
-        <circle className="nb-eye" cx="6" cy="250" r="2.5"/>
-        <circle className="nb-eye" cx="6" cy="262" r="2.5"/>
-        <circle className="nb-eye" cx="294" cy="250" r="2.5"/>
-        <circle className="nb-eye" cx="294" cy="262" r="2.5"/>
-        <circle className="nb-dot" cx="4" cy="4" r="3"/>
-        <circle className="nb-dot" cx="296" cy="4" r="3"/>
-        <circle className="nb-dot" cx="296" cy="887" r="3"/>
-        <circle className="nb-dot" cx="4" cy="887" r="3"/>
-      </svg>
-
-      {/* Neon sweep line — sweeps down on hover, up on leave */}
-      <div className="dc-neon-sweep"/>
-
-      {/* Animated character layer (on top, clips away on hover) */}
-      <div className="dc-layer dc-anim">
-        <img src={animImg} alt={`${name} animated`} className="dc-img" loading="lazy" decoding="async"/>
-      </div>
-
-      {/* Real performer layer (underneath, revealed on hover) */}
-      <div className="dc-layer dc-real">
-        <img src={realImg} alt={name} className="dc-img" loading="lazy" decoding="async"/>
-      </div>
-
-      {/* Name label */}
-      <div className="dc-name-label">
-        <span style={{ color: color }}>{name}</span>
-      </div>
-    </div>
-  );
-});
-
 /* ═══ QUIZ — K-Pop Demon Hunters Trivia ═══ */
 
 interface QuizQuestion {
@@ -216,34 +161,53 @@ interface QuizQuestion {
 }
 
 const QUIZ_QUESTIONS: QuizQuestion[] = [
-  { q: "Qual é o nome do grupo K-Pop das Guerreiras?", options: ["Saja Boys", "HUNTR/X", "BLACKPINK", "BTS"], answer: 1, theme: "RUMI" },
-  { q: "Quem é a líder e vocalista principal do HUNTR/X?", options: ["Zoey", "Mirae", "Rumi", "Jinu"], answer: 2, theme: "RUMI" },
-  { q: "Como se chama a barreira mágica que protege o mundo dos demónios?", options: ["Honmoon", "Soul Gate", "Gwi-Ma", "Demon Shield"], answer: 0, theme: "MIRAE" },
-  { q: "Qual é o nome do grupo de rapazes que são demónios?", options: ["HUNTR/X", "Saja Boys", "Demon Squad", "Shadow Crew"], answer: 1, theme: "ZOEY" },
-  { q: "Quem é o governante do mundo dos demónios?", options: ["Jinu", "Dokkaebi", "Gwi-Ma", "Ma-Gi"], answer: 2, theme: "RUMI" },
-  { q: "De que cor fica o Honmoon quando todos os demónios desaparecem?", options: ["Vermelho", "Roxo", "Dourado", "Azul"], answer: 2, theme: "MIRAE" },
-  { q: "Qual destas é a especialidade de Zoey?", options: ["Canto", "Dança", "Performance Especial", "Rap"], answer: 2, theme: "ZOEY" },
-  { q: "Qual é a arma de Rumi?", options: ["Adagas", "Espada Longa", "Guilhotina", "Arco"], answer: 1, theme: "RUMI" },
-  { q: "Qual é a arma de Mirae?", options: ["Espada", "Guilhotina (Lâmina de Haste)", "Adagas", "Lança"], answer: 1, theme: "MIRAE" },
-  { q: "Qual é a arma de Zoey?", options: ["Espada", "Guilhotina", "Arco", "Adagas"], answer: 3, theme: "ZOEY" },
-  { q: "Em que plataforma o filme Guerreiras do K-Pop estreou?", options: ["Disney+", "Netflix", "Prime Video", "HBO Max"], answer: 1, theme: "ZOEY" },
-  { q: "Quem criou o Honmoon pela primeira vez?", options: ["Rumi", "Os primeiros caçadores de demónios", "Gwi-Ma", "As Saja Boys"], answer: 1, theme: "RUMI" },
-  { q: "O que as Guerreiras fazem durante o dia?", options: ["Caçam demónios", "São estrelas K-Pop", "Vão à escola", "Treinam artes marciais"], answer: 1, theme: "MIRAE" },
-  { q: "Qual grupo de K-Pop da vida real inspirou os personagens de HUNTR/X?", options: ["TWICE", "BLACKPINK", "aespa", "ITZY"], answer: 1, theme: "ZOEY" },
-  { q: "Quem é o membro dos Saja Boys que tem uma ligação com Rumi?", options: ["Abby", "Jinu", "Romance", "Mystery"], answer: 1, theme: "RUMI" },
-  { q: "O que acontece quando o Honmoon se enfraquece?", options: ["Nada", "Os demónios podem entrar no mundo humano", "Chove", "A música para"], answer: 1, theme: "MIRAE" },
-  { q: "Qual é a identidade secreta das membros do HUNTR/X?", options: ["Estudantes", "Caçadoras de demónios", "Princesas", "Espiãs"], answer: 1, theme: "ZOEY" },
-  { q: "Quem cuidou de Rumi enquanto ela crescia?", options: ["Sua mãe", "Hina", "Gwi-Ma", "Uma treinadora"], answer: 1, theme: "RUMI" },
-  { q: "O que Rumi descobre sobre si mesma no filme?", options: ["Que é uma princesa", "Que tem sangue de demónio", "Que pode voar", "Que é imortal"], answer: 1, theme: "RUMI" },
-  { q: "Como as Guerreiras derrotam Gwi-Ma no final?", options: ["Com uma espada mágica", "Com o poder do Honmoon alimentado pelas almas", "Com um feitiço", "Com a ajuda dos Saja Boys"], answer: 1, theme: "MIRAE" },
-  { q: "O que o Honmoon significa em coreano?", options: ["Porta da Luz", "Porta da Alma", "Escudo Eterno", "Barreira Sagrada"], answer: 1, theme: "MIRAE" },
-  { q: "Quantas membros tem o HUNTR/X?", options: ["2", "3", "4", "5"], answer: 1, theme: "ZOEY" },
-  { q: "Quem é a dançarina principal do HUNTR/X?", options: ["Rumi", "Zoey", "Mirae", "Nenhuma"], answer: 2, theme: "MIRAE" },
-  { q: "O que os Saja Boys querem fazer ao Honmoon?", options: ["Protegê-lo", "Destruí-lo", "Roubá-lo", "Escondê-lo"], answer: 1, theme: "ZOEY" },
-  { q: "Qual é o nome da mascote do filme?", options: ["Derpy", "Honmoon Bunny", "K-Pop Cat", "Soul Fox"], answer: 0, theme: "ZOEY" },
-  { q: "Os Saja Boys são demónios que se disfarçam de quê?", options: ["Grupo K-Pop", "Professores", "Polícias", "Médicos"], answer: 0, theme: "RUMI" },
-  { q: "Que tipo de criaturas as Guerreiras caçam?", options: ["Vampiros", "Demónios", "Zumbis", "Fantasmas"], answer: 1, theme: "MIRAE" },
-  { q: "Quem dirige o filme Guerreiras do K-Pop?", options: ["Maggie Kang e Chris Appelhans", "Hayao Miyazaki", "Pixar", "Disney"], answer: 0, theme: "ZOEY" },
+  /* ── ZOEY — Coragem ── */
+  { q: "Qual é a arma de Zoey?", options: ["Espada Saingeom", "Gok-do (l\u00e2mina curva)", "Adagas Shin-kal", "Arco celestial"], answer: 2, theme: "ZOEY" },
+  { q: "Zoey \u00e9 a maknae do HUNTR/X. O que isso significa?", options: ["A l\u00edder do grupo", "A mais nova do grupo", "A dan\u00e7arina principal", "A vocalista principal"], answer: 1, theme: "ZOEY" },
+  { q: "Quantos cadernos de insultos contra dem\u00f3nios Zoey tem?", options: ["5", "12", "23", "50"], answer: 2, theme: "ZOEY" },
+  { q: "De onde \u00e9 Zoey antes de se juntar ao HUNTR/X?", options: ["Seul, Coreia", "T\u00f3quio, Jap\u00e3o", "Burbank, Calif\u00f3rnia", "Londres, Inglaterra"], answer: 2, theme: "ZOEY" },
+  { q: "Quem faz a voz de canto de Zoey no filme?", options: ["EJAE", "Audrey Nuna", "Rei Ami", "Lea Salonga"], answer: 2, theme: "ZOEY" },
+  { q: "Qual membro dos Saja Boys est\u00e1 emparelhado com Zoey no fan meetup?", options: ["Jinu", "Romance", "Mystery", "Abs"], answer: 2, theme: "ZOEY" },
+  { q: "Zoey \u00e9 a primeira a cair sob o feiti\u00e7o de quem?", options: ["Gwi-Ma", "Saja Boys", "Jinu", "Healer Han"], answer: 1, theme: "ZOEY" },
+  { q: "Qual \u00e9 o tipo de personalidade MBTI de Zoey?", options: ["INFJ", "ENFP", "ISTP", "ENTJ"], answer: 1, theme: "ZOEY" },
+  { q: "Na abertura do filme, as Guerreiras lutam contra dem\u00f3nios onde?", options: ["Num comboio", "Num jato privado", "Num est\u00e1dio", "Namsan Tower"], answer: 1, theme: "ZOEY" },
+  { q: "Quantos membros tem o grupo Saja Boys?", options: ["3", "4", "5", "6"], answer: 2, theme: "ZOEY" },
+
+  /* ── RUMI — M\u00fasica ── */
+  { q: "Qual \u00e9 o segredo de Rumi sobre a sua identidade?", options: ["\u00c9 uma princesa", "\u00c9 meio-dem\u00f3nio (cambion)", "\u00c9 uma espi\u00e3", "\u00c9 imortal"], answer: 1, theme: "RUMI" },
+  { q: "Qual \u00e9 a arma de Rumi?", options: ["Adagas Shin-kal", "Gok-do", "Espada Saingeom", "Arco espiritual"], answer: 2, theme: "RUMI" },
+  { q: "Quem criou Rumi ap\u00f3s a morte da sua m\u00e3e?", options: ["Bobby", "Healer Han", "Celine", "Gwi-Ma"], answer: 2, theme: "RUMI" },
+  { q: "Que m\u00fasica Rumi n\u00e3o consegue cantar por causa da letra?", options: ["Golden", "Takedown", "Soda Pop", "Free"], answer: 1, theme: "RUMI" },
+  { q: "Qual \u00e9 a m\u00fasica que Rumi improvisa na batalha final?", options: ["Golden", "Free", "What It Sounds Like", "How It\u2019s Done"], answer: 2, theme: "RUMI" },
+  { q: "Quem faz a voz de canto de Rumi?", options: ["Rei Ami", "EJAE", "Audrey Nuna", "Lea Salonga"], answer: 1, theme: "RUMI" },
+  { q: "Rumi e Jinu cantam um dueto. Qual \u00e9 o nome?", options: ["Golden", "Free", "Takedown", "What It Sounds Like"], answer: 1, theme: "RUMI" },
+  { q: "A m\u00e3e de Rumi era membro de que grupo de ca\u00e7adoras?", options: ["HUNTR/X", "Sunshine Sisters", "Saja Girls", "Demon Slayers"], answer: 1, theme: "RUMI" },
+  { q: "Quando Rumi perde a voz, o que a enfraquece?", options: ["Uma maldi\u00e7\u00e3o de Gwi-Ma", "A vergonha da sua identidade", "Uma doen\u00e7a", "O cansa\u00e7o"], answer: 1, theme: "RUMI" },
+  { q: "O que acontece \u00e0 espada de Rumi depois de Jinu dar a sua alma?", options: ["Desaparece", "Fica mais forte com rosto de dokkaebi", "Transforma-se em adagas", "Fica dourada"], answer: 1, theme: "RUMI" },
+
+  /* ── MIRAE — Dan\u00e7a ── */
+  { q: "Qual \u00e9 a arma de Mirae?", options: ["Adagas Shin-kal", "Espada Saingeom", "Gok-do (l\u00e2mina curva de haste)", "Arco espiritual"], answer: 2, theme: "MIRAE" },
+  { q: "Mirae \u00e9 conhecida como o qu\u00ea do grupo?", options: ["A l\u00edder", "A Dennis Rodman do grupo", "A mais calma", "A mais nova"], answer: 1, theme: "MIRAE" },
+  { q: "Qual \u00e9 o signo do zod\u00edaco de Mirae?", options: ["Peixes", "\u00c1ries", "Escorpi\u00e3o", "Le\u00e3o"], answer: 1, theme: "MIRAE" },
+  { q: "Quem faz a voz de canto de Mirae?", options: ["EJAE", "Rei Ami", "Audrey Nuna", "Arden Cho"], answer: 2, theme: "MIRAE" },
+  { q: "Mirae \u00e9 a primeira a fazer o qu\u00ea?", options: ["Derrotar Gwi-Ma", "Sentir que Rumi esconde um segredo", "Cantar solo", "Abandonar o grupo"], answer: 1, theme: "MIRAE" },
+  { q: "Qual membro dos Saja Boys est\u00e1 emparelhado com Mirae?", options: ["Jinu", "Romance", "Mystery", "Abs"], answer: 3, theme: "MIRAE" },
+  { q: "Que cor \u00e9 o cabelo de Mirae?", options: ["Roxo", "Azul", "Cor-de-rosa", "Loiro"], answer: 2, theme: "MIRAE" },
+  { q: "Qual \u00e9 a fun\u00e7\u00e3o de Mirae no HUNTR/X?", options: ["Rapper principal", "Vocalista principal", "Dan\u00e7arina principal e core\u00f3grafa", "Maknae"], answer: 2, theme: "MIRAE" },
+  { q: "A arma gok-do de Mirae pode fazer o qu\u00ea?", options: ["Voar", "Emitir ondas de choque", "Curar feridas", "Criar ilus\u00f5es"], answer: 1, theme: "MIRAE" },
+  { q: "De que tipo de fam\u00edlia Mirae vem?", options: ["Pobre", "Adotiva", "Rica", "De dem\u00f3nios"], answer: 2, theme: "MIRAE" },
+
+  /* ── Geral — Misturado ── */
+  { q: "Como se chama a barreira m\u00e1gica que protege o mundo?", options: ["Honmoon", "Soul Gate", "Gwi-Ma", "Demon Shield"], answer: 0, theme: "RUMI" },
+  { q: "O que significa Honmoon em coreano?", options: ["Porta da Luz", "Porta da Alma", "Escudo Eterno", "Barreira Sagrada"], answer: 1, theme: "MIRAE" },
+  { q: "Qual \u00e9 a m\u00fasica de estreia dos Saja Boys?", options: ["Your Idol", "Takedown", "Soda Pop", "How It\u2019s Done"], answer: 2, theme: "ZOEY" },
+  { q: "O que acontece quando o Honmoon se enfraquece?", options: ["Nada", "Os dem\u00f3nios entram no mundo humano", "Chove", "A m\u00fasica para"], answer: 1, theme: "MIRAE" },
+  { q: "Onde acontece a batalha final do filme?", options: ["Seoul Olympic Stadium", "Namsan Tower", "Banhos p\u00fablicos", "Myeongdong"], answer: 1, theme: "RUMI" },
+  { q: "Quantas ca\u00e7adoras de dem\u00f3nios podem estar ativas de cada vez?", options: ["2", "3", "5", "Sem limite"], answer: 1, theme: "ZOEY" },
+  { q: "Qual \u00e9 o nome do rei dos dem\u00f3nios?", options: ["Jinu", "Dokkaebi", "Gwi-Ma", "Ma-Gi"], answer: 2, theme: "RUMI" },
+  { q: "O que os Saja Boys querem fazer ao Honmoon?", options: ["Proteg\u00ea-lo", "Destru\u00ed-lo", "Roub\u00e1-lo", "Escond\u00ea-lo"], answer: 1, theme: "ZOEY" },
+  { q: "Qual m\u00fasica ganhou o Globo de Ouro e o \u00d3scar?", options: ["Soda Pop", "Takedown", "Golden", "How It\u2019s Done"], answer: 2, theme: "MIRAE" },
+  { q: "Que tipo de Honmoon Rumi cria no final?", options: ["Dourado", "Arco-\u00edris", "Vermelho", "Prateado"], answer: 1, theme: "RUMI" },
 ];
 
 const QUIZ_CHARACTERS = [
