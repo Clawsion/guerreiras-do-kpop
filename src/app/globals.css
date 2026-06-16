@@ -1332,14 +1332,13 @@ html { scroll-behavior: smooth; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Sem zoom — apenas a imagem estática cobrindo o ecrã.
-     object-position equal para ambos os modos para alinhar visualmente. */
+  /* Ambas as imagens (dia e noite) têm agora dimensões idênticas (1419x752, aspect 1.887:1)
+     e composição alinhada. object-position igual para ambos garante alinhamento perfeito. */
   object-position: center center;
   /* Sem animação de zoom (a pedido do user para não atrapalhar o alinhamento) */
   animation: none;
 }
-/* LIGHT mode: imagem foi recortada verticalmente (-14px do topo) para alinhar
-   com a escura. Sem scale compensatório — ambas ficam em scale 1.0. */
+/* LIGHT mode: mesma configuração que o dark - imagens já vêm alinhadas */
 .light-mode .hero-bg-img {
   animation: none;
 }
