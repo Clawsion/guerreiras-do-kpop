@@ -1332,13 +1332,13 @@ html { scroll-behavior: smooth; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Ambas as imagens (dia e noite) têm agora dimensões idênticas (1419x752, aspect 1.887:1)
-     e composição alinhada. object-position igual para ambos garante alinhamento perfeito. */
+  /* Ambas as imagens (dia e noite) originais do usuário — dimensões idênticas (1419x752)
+     e composição alinhada. Sem crops, sem scales, sem zoom. */
   object-position: center center;
-  /* Sem animação de zoom (a pedido do user para não atrapalhar o alinhamento) */
+  /* Sem animação de zoom */
   animation: none;
 }
-/* LIGHT mode: mesma configuração que o dark - imagens já vêm alinhadas */
+/* LIGHT mode: mesma configuração que o dark */
 .light-mode .hero-bg-img {
   animation: none;
 }
