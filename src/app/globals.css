@@ -1349,8 +1349,8 @@ html { scroll-behavior: smooth; }
     linear-gradient(90deg, rgba(200,80,255,0.03) 1px, transparent 1px);
   background-size: 80px 80px;
   pointer-events: none;
-  mask-image: radial-gradient(ellipse at 50% 60%, black 20%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 60%, black 20%, transparent 70%);
+  mask-image: radial-gradient(ellipse at 25% 60%, black 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at 25% 60%, black 20%, transparent 70%);
 }
 
 /* ═══ subtle depth + fade overlay ═══ */
@@ -1358,15 +1358,15 @@ html { scroll-behavior: smooth; }
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(11,8,19,0.3) 0%, rgba(11,8,19,0.0) 25%, rgba(11,8,19,0.0) 40%, rgba(11,8,19,0.6) 75%, rgba(11,8,19,0.98) 100%);
+    linear-gradient(180deg, rgba(11,8,19,0.35) 0%, rgba(11,8,19,0.0) 25%, rgba(11,8,19,0.0) 40%, rgba(11,8,19,0.4) 75%, rgba(11,8,19,0.78) 100%);
   pointer-events: none;
 }
 
-/* ═══ vignette - darkens edges ═══ */
+/* ═══ vignette - darkens edges, centered on left so right-side subject stays bright ═══ */
 .hero-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 40%, transparent 40%, rgba(11,8,19,0.6) 100%);
+  background: radial-gradient(ellipse at 30% 40%, transparent 50%, rgba(11,8,19,0.55) 100%);
   pointer-events: none;
 }
 

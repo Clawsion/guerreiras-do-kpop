@@ -593,9 +593,7 @@ export default function HomePage() {
         {/* Vignette - darkens edges */}
         <div className="hero-vignette"/>
 
-        {/* Glow orbs */}
-        <div className="hero-glow-orb" style={{width:"40vw",height:"40vw",left:"25%",top:"30%",color:"rgba(200,80,255,0.15)"}}/>
-        <div className="hero-glow-orb" style={{width:"25vw",height:"25vw",right:"10%",top:"55%",color:"rgba(74,144,226,0.10)",animationDelay:"3s"}}/>
+        {/* Glow orbs - apenas 1 (rosa, longe da personagem) para não competir com o glow dourado da HERO.png */}
         <div className="hero-glow-orb" style={{width:"20vw",height:"20vw",left:"5%",bottom:"20%",color:"rgba(255,45,120,0.08)",animationDelay:"6s"}}/>
 
 
