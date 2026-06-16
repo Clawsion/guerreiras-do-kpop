@@ -1338,14 +1338,21 @@ html { scroll-behavior: smooth; }
   /* Sem animação de zoom */
   animation: none;
 }
-/* LIGHT mode: mesmo object-position que o dark para alinhamento idêntico */
+/* LIGHT mode: a imagem clara original tem personagens ~8.3% mais pequenos que a escura
+   (VLM confirmou: NOITE=65% altura, DIA=60% altura). Compensamos com scale estático 1.083
+   para as personagens ficarem com o mesmo tamanho aparente em ambos os modos. */
 .light-mode .hero-bg-img {
   animation: none;
+  transform: scale(1.083);
+  transform-origin: center center;
 }
 /* Em viewports portrait/tall (mobile), levanta o sujeito para a cara ficar visível. */
 @media (max-aspect-ratio: 16/10) {
   .hero-bg-img {
     object-position: center 40%;
+  }
+  .light-mode .hero-bg-img {
+    transform-origin: center 40%;
   }
 }
 /* Keyframes mantidos mas não usados (poderão ser reativados depois) */
