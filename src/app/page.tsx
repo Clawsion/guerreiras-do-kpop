@@ -179,16 +179,16 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
   { q: "O que acontece \u00e0 espada de Rumi depois de Jinu dar a sua alma?", options: ["Desaparece", "Fica mais forte com rosto de dokkaebi", "Transforma-se em adagas", "Fica dourada"], answer: 1, theme: "RUMI" },
 
   /* ── MIRAE - Dan\u00e7a ── */
-  { q: "Qual \u00e9 a arma de Mirae?", options: ["Adagas Shin-kal", "Espada Saingeom", "Gok-do (l\u00e2mina curva de haste)", "Arco espiritual"], answer: 2, theme: "MIRAE" },
-  { q: "Mirae \u00e9 conhecida como o qu\u00ea do grupo?", options: ["A l\u00edder", "A Dennis Rodman do grupo", "A mais calma", "A mais nova"], answer: 1, theme: "MIRAE" },
-  { q: "Qual \u00e9 o signo do zod\u00edaco de Mirae?", options: ["Peixes", "\u00c1ries", "Escorpi\u00e3o", "Le\u00e3o"], answer: 1, theme: "MIRAE" },
-  { q: "Quem faz a voz de canto de Mirae?", options: ["EJAE", "Rei Ami", "Audrey Nuna", "Arden Cho"], answer: 2, theme: "MIRAE" },
-  { q: "Mirae \u00e9 a primeira a fazer o qu\u00ea?", options: ["Derrotar Gwi-Ma", "Sentir que Rumi esconde um segredo", "Cantar solo", "Abandonar o grupo"], answer: 1, theme: "MIRAE" },
-  { q: "Qual membro dos Saja Boys est\u00e1 emparelhado com Mirae?", options: ["Jinu", "Romance", "Mystery", "Abs"], answer: 3, theme: "MIRAE" },
-  { q: "Que cor \u00e9 o cabelo de Mirae?", options: ["Roxo", "Azul", "Cor-de-rosa", "Loiro"], answer: 2, theme: "MIRAE" },
-  { q: "Qual \u00e9 a fun\u00e7\u00e3o de Mirae no HUNTR/X?", options: ["Rapper principal", "Vocalista principal", "Dan\u00e7arina principal e core\u00f3grafa", "Maknae"], answer: 2, theme: "MIRAE" },
-  { q: "A arma gok-do de Mirae pode fazer o qu\u00ea?", options: ["Voar", "Emitir ondas de choque", "Curar feridas", "Criar ilus\u00f5es"], answer: 1, theme: "MIRAE" },
-  { q: "De que tipo de fam\u00edlia Mirae vem?", options: ["Pobre", "Adotiva", "Rica", "De dem\u00f3nios"], answer: 2, theme: "MIRAE" },
+  { q: "Qual \u00e9 a arma de Mira?", options: ["Adagas Shin-kal", "Espada Saingeom", "Gok-do (l\u00e2mina curva de haste)", "Arco espiritual"], answer: 2, theme: "MIRAE" },
+  { q: "Mira \u00e9 conhecida como o qu\u00ea do grupo?", options: ["A l\u00edder", "A Dennis Rodman do grupo", "A mais calma", "A mais nova"], answer: 1, theme: "MIRAE" },
+  { q: "Qual \u00e9 o signo do zod\u00edaco de Mira?", options: ["Peixes", "\u00c1ries", "Escorpi\u00e3o", "Le\u00e3o"], answer: 1, theme: "MIRAE" },
+  { q: "Quem faz a voz de canto de Mira?", options: ["EJAE", "Rei Ami", "Audrey Nuna", "Arden Cho"], answer: 2, theme: "MIRAE" },
+  { q: "Mira \u00e9 a primeira a fazer o qu\u00ea?", options: ["Derrotar Gwi-Ma", "Sentir que Rumi esconde um segredo", "Cantar solo", "Abandonar o grupo"], answer: 1, theme: "MIRAE" },
+  { q: "Qual membro dos Saja Boys est\u00e1 emparelhado com Mira?", options: ["Jinu", "Romance", "Mystery", "Abs"], answer: 3, theme: "MIRAE" },
+  { q: "Que cor \u00e9 o cabelo de Mira?", options: ["Roxo", "Azul", "Cor-de-rosa", "Loiro"], answer: 2, theme: "MIRAE" },
+  { q: "Qual \u00e9 a fun\u00e7\u00e3o de Mira no HUNTR/X?", options: ["Rapper principal", "Vocalista principal", "Dan\u00e7arina principal e core\u00f3grafa", "Maknae"], answer: 2, theme: "MIRAE" },
+  { q: "A arma gok-do de Mira pode fazer o qu\u00ea?", options: ["Voar", "Emitir ondas de choque", "Curar feridas", "Criar ilus\u00f5es"], answer: 1, theme: "MIRAE" },
+  { q: "De que tipo de fam\u00edlia Mira vem?", options: ["Pobre", "Adotiva", "Rica", "De dem\u00f3nios"], answer: 2, theme: "MIRAE" },
 
   /* ── Geral - Misturado ── */
   { q: "Como se chama a barreira m\u00e1gica que protege o mundo?", options: ["Honmoon", "Soul Gate", "Gwi-Ma", "Demon Shield"], answer: 0, theme: "RUMI" },
@@ -204,9 +204,9 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
 ];
 
 const QUIZ_CHARACTERS = [
-  { name: "ZOEY", color: "var(--blue-accent)", img: "/real-zoe.webp", theme: "Coragem" },
-  { name: "RUMI", color: "var(--neon-purple)", img: "/real-rumi.webp", theme: "Música" },
-  { name: "MIRAE", color: "var(--pink-kpop)", img: "/real-mirae.webp", theme: "Dança" },
+  { name: "Zoey", color: "var(--blue-accent)", img: "/real-zoe.webp", theme: "Coragem" },
+  { name: "Rumi", color: "var(--neon-purple)", img: "/real-rumi.webp", theme: "Música" },
+  { name: "Mira", color: "var(--pink-kpop)", img: "/real-mirae.webp", theme: "Dança" },
 ];
 
 function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[number]; onScore: (correct: boolean) => void }) {
@@ -275,7 +275,7 @@ function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[nu
         <div className="quiz-card-back">
           {question ? (
             <>
-              <p className="quiz-back-theme" style={{ color: character.color }}>{question.theme}</p>
+              <p className="quiz-back-theme" style={{ color: character.color }}>{character.name}</p>
               <p className="quiz-question">{question.q}</p>
               <div className="quiz-options">
                 {question.options.map((opt, i) => {
@@ -1153,7 +1153,7 @@ export default function HomePage() {
 
       <div className="neon-div max-w-[1400px] mx-auto"/>
 
-      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 18 JUL CASCAIS · 15 AGO SESIMBRA · HUNTRIX · RUMI · MIRAE · ZOEY"/>
+      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 18 JUL CASCAIS · 15 AGO SESIMBRA · ZOEY · RUMI · MIRA"/>
 
       <div className="neon-div max-w-[1400px] mx-auto"/>
 
