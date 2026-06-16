@@ -967,14 +967,19 @@ export default function HomePage() {
 
             {/* RIGHT — Weapons Artwork */}
             <div className="esp-right">
-              <Rv delay={150}>
-                <p className="sec-num mb-4" style={{color:"var(--pink-light)"}}>As Armas</p>
-              </Rv>
-              <Rv delay={300}>
-                <div className="esp-weapon-frame">
-                  <img src="/weapons-trio.png" alt="As armas das Guerreiras" className="esp-weapon-img" loading="lazy" decoding="async" />
-                </div>
-              </Rv>
+              <div className="esp-weapons-stack">
+                {[
+                  { src: "/weapon-zoey.webp", alt: "Adagas da Zoey", color: "var(--blue-accent)" },
+                  { src: "/weapon-rumi.webp", alt: "Espada da Rumi", color: "var(--neon-purple)" },
+                  { src: "/weapon-mira.webp", alt: "Guilhotina da Mirae", color: "var(--pink-kpop)" },
+                ].map((w, i) => (
+                  <Rv key={w.alt} delay={150 + i * 120}>
+                    <div className="esp-weapon-item" style={{ '--weapon-color': w.color } as React.CSSProperties}>
+                      <img src={w.src} alt={w.alt} className="esp-weapon-img" loading="lazy" decoding="async" />
+                    </div>
+                  </Rv>
+                ))}
+              </div>
             </div>
           </div>
         </div>

@@ -1724,8 +1724,9 @@ html { scroll-behavior: smooth; }
 
 @media (min-width: 1024px) {
   .esp-layout {
-    grid-template-columns: 7fr 5fr;
-    gap: 5rem;
+    grid-template-columns: 8fr 4fr;
+    gap: 4rem;
+    align-items: center;
   }
 }
 
@@ -1885,48 +1886,95 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ WEAPON ARTWORK — Tributo Right Side ═════════════════════ */
+/* ═══ WEAPON ARTWORK — Tributo Right Side (Vertical Stack) ══ */
 /* ═══════════════════════════════════════════════════════════════ */
 
-.esp-weapon-frame {
-  position: relative;
-  padding: 4px;
-  background: linear-gradient(135deg, rgba(255,45,120,0.2), rgba(200,80,255,0.15), rgba(100,140,255,0.2));
-  border-radius: 4px;
-  box-shadow: 0 0 50px rgba(255,45,120,0.08), 0 0 100px rgba(200,80,255,0.04);
-  animation: espWeaponPulse 5s ease-in-out infinite alternate;
-  cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
-}
-.esp-weapon-frame:hover {
-  box-shadow: 0 0 60px rgba(255,45,120,0.18), 0 0 120px rgba(200,80,255,0.08);
-  transform: scale(1.02);
-}
-@keyframes espWeaponPulse {
-  0%   { box-shadow: 0 0 50px rgba(255,45,120,0.08), 0 0 100px rgba(200,80,255,0.04); }
-  100% { box-shadow: 0 0 70px rgba(255,45,120,0.14), 0 0 120px rgba(200,80,255,0.07); }
-}
-.esp-weapon-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 2px;
-  filter: brightness(0.85) saturate(0.9);
-  transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
-}
-.esp-weapon-frame:hover .esp-weapon-img {
-  filter: brightness(1.1) saturate(1.2) drop-shadow(0 0 20px rgba(200,80,255,0.3));
+.esp-weapons-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.8rem;
+  padding-top: 1rem;
+  justify-content: center;
+  min-height: 100%;
 }
 
-.light-mode .esp-weapon-frame {
-  background: linear-gradient(135deg, rgba(200,80,255,0.12), rgba(255,45,120,0.08), rgba(100,140,255,0.12));
-  box-shadow: 0 0 30px rgba(200,80,255,0.05), 0 0 60px rgba(255,45,120,0.02);
+@media (min-width: 1024px) {
+  .esp-weapons-stack {
+    gap: 2.2rem;
+    padding-top: 0;
+    justify-content: center;
+  }
 }
+
+.esp-weapon-item {
+  position: relative;
+  cursor: pointer;
+  border-radius: 6px;
+  overflow: visible;
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  --weapon-color: var(--pink-kpop);
+}
+
+.esp-weapon-item::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 8px;
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, box-shadow 0.4s ease;
+}
+
+.esp-weapon-item:active {
+  transform: scale(0.97);
+}
+
+.esp-weapon-img {
+  width: 140px;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+  filter: brightness(0.8) saturate(0.85) drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+  transition: filter 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+@media (min-width: 768px) {
+  .esp-weapon-img {
+    width: 180px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .esp-weapon-img {
+    width: 200px;
+  }
+}
+
+/* ═══ Neon glow on touch/hover — only on the weapon itself ═══ */
+.esp-weapon-item:hover .esp-weapon-img,
+.esp-weapon-item:active .esp-weapon-img {
+  filter: brightness(1.15) saturate(1.3) drop-shadow(0 0 18px color-mix(in srgb, var(--weapon-color) 60%, transparent))
+                                   drop-shadow(0 0 40px color-mix(in srgb, var(--weapon-color) 30%, transparent));
+  transform: scale(1.05);
+}
+
+.esp-weapon-item:hover::before,
+.esp-weapon-item:active::before {
+  opacity: 1;
+  box-shadow: 0 0 20px color-mix(in srgb, var(--weapon-color) 25%, transparent),
+              0 0 50px color-mix(in srgb, var(--weapon-color) 12%, transparent);
+}
+
+/* ═══ Light Mode ═══ */
 .light-mode .esp-weapon-img {
-  filter: brightness(0.9) saturate(0.85);
+  filter: brightness(0.85) saturate(0.8) drop-shadow(0 4px 10px rgba(0,0,0,0.2));
 }
-.light-mode .esp-weapon-frame:hover .esp-weapon-img {
-  filter: brightness(1.05) saturate(1.1) drop-shadow(0 0 12px rgba(200,80,255,0.15));
+.light-mode .esp-weapon-item:hover .esp-weapon-img,
+.light-mode .esp-weapon-item:active .esp-weapon-img {
+  filter: brightness(1.05) saturate(1.15) drop-shadow(0 0 14px color-mix(in srgb, var(--weapon-color) 50%, transparent))
+                                       drop-shadow(0 0 30px color-mix(in srgb, var(--weapon-color) 20%, transparent));
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
