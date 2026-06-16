@@ -1632,10 +1632,18 @@ html { scroll-behavior: smooth; }
     padding: 7rem 0 8rem;
     background: var(--void);
     background-image: url('/espetaculo-bg-dark.png');
-    background-size: cover;
-    background-position: right center;
+    background-size: 72% auto;
+    background-position: 100% center;
+    background-repeat: no-repeat;
     overflow: hidden;
   }
+/* Mobile: layout stacks vertically, so go back to full cover for impact */
+@media (max-width: 1023px) {
+  .espetaculo-section {
+    background-size: cover;
+    background-position: right center;
+  }
+}
 
 /* ═══ Stage Spotlights - 3 cones of pink/magenta light from above ═══ */
 .esp-spotlight {
@@ -1778,11 +1786,11 @@ html { scroll-behavior: smooth; }
   z-index: 2;
   background:
     linear-gradient(90deg,
-      rgba(11,8,19,0.86) 0%,
-      rgba(11,8,19,0.70) 28%,
-      rgba(11,8,19,0.40) 50%,
-      rgba(11,8,19,0.10) 70%,
-      rgba(11,8,19,0.00) 88%
+      rgba(11,8,19,0.94) 0%,
+      rgba(11,8,19,0.88) 30%,
+      rgba(11,8,19,0.55) 45%,
+      rgba(11,8,19,0.15) 55%,
+      rgba(11,8,19,0.00) 65%
     ),
     linear-gradient(180deg,
       rgba(11,8,19,0.55) 0%,
@@ -3871,9 +3879,16 @@ html { scroll-behavior: smooth; }
 .light-mode .espetaculo-section {
   background: var(--void);
   background-image: url('/espetaculo-bg-light.png');
-  background-size: cover;
-  background-position: right center;
+  background-size: 72% auto;
+  background-position: 100% center;
+  background-repeat: no-repeat;
   background-blend-mode: normal;
+}
+@media (max-width: 1023px) {
+  .light-mode .espetaculo-section {
+    background-size: cover;
+    background-position: right center;
+  }
 }
 /* Hide dark-mode atmospheric overlays in light mode */
 .light-mode .esp-readability-overlay { display: none; }
@@ -3888,11 +3903,11 @@ html { scroll-behavior: smooth; }
   z-index: 2;
   background:
     linear-gradient(90deg,
-      rgba(237,224,245,0.92) 0%,
-      rgba(237,224,245,0.80) 28%,
-      rgba(237,224,245,0.45) 50%,
-      rgba(237,224,245,0.15) 70%,
-      rgba(237,224,245,0.00) 88%
+      rgba(237,224,245,0.96) 0%,
+      rgba(237,224,245,0.92) 30%,
+      rgba(237,224,245,0.65) 45%,
+      rgba(237,224,245,0.20) 55%,
+      rgba(237,224,245,0.00) 65%
     ),
     linear-gradient(180deg,
       rgba(237,224,245,0.55) 0%,
