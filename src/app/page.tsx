@@ -146,6 +146,45 @@ const HonmoonDivider = React.memo(function HonmoonDivider() {
   );
 });
 
+/* ═══ MEMORIES - Slideshow crossfade + Ken Burns zoom ═══ */
+const MEMORIES_IMAGES = [
+  { src: "/memories/memory-1.webp", alt: "Lembrança do universo K-Pop" },
+  { src: "/memories/memory-2.webp", alt: "Lembrança das Guerreiras" },
+];
+
+const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setActive(prev => (prev + 1) % MEMORIES_IMAGES.length), 6000);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div className="memories-stage">
+      {MEMORIES_IMAGES.map((img, i) => (
+        <div
+          key={img.src}
+          className={`memories-slide ${i === active ? "active" : ""}`}
+          style={{ backgroundImage: `url(${img.src})` }}
+          aria-hidden={i !== active}
+        />
+      ))}
+      {/* Overlay com gradiente para legibilidade */}
+      <div className="memories-overlay" aria-hidden="true"/>
+      {/* Indicadores (pontos) */}
+      <div className="memories-dots">
+        {MEMORIES_IMAGES.map((_, i) => (
+          <button
+            key={i}
+            className={`memories-dot ${i === active ? "active" : ""}`}
+            onClick={() => setActive(i)}
+            aria-label={`Ver lembrança ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+});
+
 /* ═══ LED WALL - WebGL Shader (zero compression, max quality, infinite loop) ═══ */
 /* Build: 2026-06-16-v11 */
 
@@ -845,6 +884,16 @@ export default function HomePage() {
           <div className="hm-burst-ring hm-burst-ring-3"/>
         </div>
 
+      </section>
+
+      {/* ═══ MEMÓRIAS - Slideshow crossfade + Ken Burns zoom ═══ */}
+      <section id="memorias" className="memories-section">
+        <MemoriesSlideshow/>
+        <div className="memories-caption">
+          <p className="memories-eyebrow">Lembran&ccedil;as</p>
+          <h2 className="memories-title">Momentos que <span className="neon-shimmer">Ficam</span></h2>
+          <p className="memories-sub">O universo das Guerreiras em imagens que respiram</p>
+        </div>
       </section>
 
       {/* ═══ ESPETÁCULO - Descrição + Galeria ═══ */}
