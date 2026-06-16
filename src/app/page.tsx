@@ -34,12 +34,12 @@ const CONCERTS = [
 
 /* K-Pop gallery photos — hosted externally on PostImg */
 const GALLERY_PHOTOS = [
-  { src: "https://i.postimg.cc/x8S0prmN/kpop2.png", caption: "As Guerreiras do K-Pop à tua espera" },
   { src: "https://i.postimg.cc/PxDXMfCP/kpop1.png", caption: "Saja Boys estão aqui" },
-  { src: "https://i.postimg.cc/KvfZfH8S/kpop6.png", caption: "Derpy" },
+  { src: "https://i.postimg.cc/x8S0prmN/kpop2.png", caption: "As Guerreiras do K-Pop à tua espera" },
   { src: "https://i.postimg.cc/2yFCPHd2/kpop3.png", caption: "Experiência Imersiva" },
   { src: "https://i.postimg.cc/mZQZzDxY/kpop4.png", caption: "Atmosfera do Concerto" },
   { src: "https://i.postimg.cc/Qxh8p3sq/kpop5.png", caption: "Interação com o Público" },
+  { src: "https://i.postimg.cc/KvfZfH8S/kpop6.png", caption: "Derpy" },
 ];
 
 /* ═══ HOOKS ═══ */
