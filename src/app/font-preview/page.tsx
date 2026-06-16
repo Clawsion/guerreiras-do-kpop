@@ -118,7 +118,7 @@ export default function FontTop10() {
 
               <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 9, letterSpacing: "0.35em", textTransform: "uppercase", color: "#C850FF", marginBottom: 8, fontWeight: 600 }}>Tributo Musical</div>
               <div style={{ fontFamily: pack.titleFont, fontSize: 40, fontWeight: 200, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 6 }}>O Honmoon Ganha Vida</div>
-              <div style={{ fontFamily: pack.titleFont, fontSize: 17, fontWeight: 300, letterSpacing: "0.04em", marginBottom: 20, color: "#d4c4f0" }}>As Guerreiras Demon Hunters chegam a Portugal</div>
+              <div style={{ fontFamily: pack.titleFont, fontSize: 17, fontWeight: 300, letterSpacing: "0.04em", marginBottom: 20, color: "#d4c4f0" }}>As Guerreiras do K-Pop chegam a Portugal</div>
               <div style={{ fontFamily: pack.bodyFont, fontSize: 15, lineHeight: 1.8, marginBottom: 12, color: "#d4c4f0" }}>Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa.</div>
               <div style={{ fontFamily: pack.bodyFont, fontSize: 15, lineHeight: 1.8, fontWeight: 500, color: "#C850FF", marginBottom: 24 }}>O Honmoon brilha quando todos se unem.</div>
 
@@ -155,7 +155,7 @@ export default function FontTop10() {
 
               <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 9, letterSpacing: "0.35em", textTransform: "uppercase", color: "#9333EA", marginBottom: 8, fontWeight: 600 }}>Tributo Musical</div>
               <div style={{ fontFamily: pack.titleFont, fontSize: 40, fontWeight: 200, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 6, color: "#1E1040" }}>O Honmoon Ganha Vida</div>
-              <div style={{ fontFamily: pack.titleFont, fontSize: 17, fontWeight: 300, letterSpacing: "0.04em", marginBottom: 20, color: "#5B3E8A" }}>As Guerreiras Demon Hunters chegam a Portugal</div>
+              <div style={{ fontFamily: pack.titleFont, fontSize: 17, fontWeight: 300, letterSpacing: "0.04em", marginBottom: 20, color: "#5B3E8A" }}>As Guerreiras do K-Pop chegam a Portugal</div>
               <div style={{ fontFamily: pack.bodyFont, fontSize: 15, lineHeight: 1.8, marginBottom: 12, color: "#5B3E8A" }}>Quando as luzes se apagam e o primeiro acorde ecoa pelo coliseu, algo muda no ar. Não é apenas um concerto — é o momento em que o Honmoon se ativa.</div>
               <div style={{ fontFamily: pack.bodyFont, fontSize: 15, lineHeight: 1.8, fontWeight: 500, color: "#9333EA", marginBottom: 24 }}>O Honmoon brilha quando todos se unem.</div>
 

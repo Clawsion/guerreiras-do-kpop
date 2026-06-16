@@ -785,12 +785,12 @@ export default function HomePage() {
                   O Honmoon <span className="esp-title-accent">Ganha Vida</span>
                 </h2>
                 <p className="text-lg sm:text-xl font-light tracking-wide mb-8" style={{color:"var(--t2)"}}>
-                  O universo K-Pop das Hunters sai do ecr&atilde; e invade o palco
+                  O universo K-Pop das Guerreiras sai do ecr&atilde; e invade o palco
                 </p>
               </Rv>
               <Rv delay={200}>
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
-                  De dia, estrelas brilhantes do palco. De noite, ca&ccedil;adoras de dem&oacute;nios que protegem o mundo
+                  De dia, estrelas brilhantes do palco. De noite, Guerreiras do K-Pop que protegem o mundo
                   atrav&eacute;s do poder do Honmoon. Tr&ecirc;s idolas. Duas identidades. Um universo que milh&otilde;es levam
                   no cora&ccedil;&atilde;o &mdash; e que agora, finalmente, podes viver ao vivo.
                 </p>
@@ -799,7 +799,7 @@ export default function HomePage() {
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
                   Este n&atilde;o &eacute; um concerto. &Eacute; um tributo que traz a magia do filme de anima&ccedil;&atilde;o para o palco &mdash; onde a fic&ccedil;&atilde;o
                   se torna realidade e cada nota carrega o poder de um universo inteiro. <span style={{color:"var(--neon-purple)"}}>Coreografias de</span> BLACKPINK, BTS e aespa
-                  executadas por performers de elite que encarnam o esp&iacute;rito das Hunters com precis&atilde;o e intensidade.
+                  executadas por performers de elite que encarnam o esp&iacute;rito das Guerreiras com precis&atilde;o e intensidade.
                   N&uacute;meros de dan&ccedil;a, interl&uacute;dios teatrais e momentos visuais que recriam as cenas mais ic&oacute;nicas.
                   Luzes que cortam o escuro como l&acirc;minas de energia. <span style={{color:"var(--pink-kpop)"}}>Efeitos pirot&eacute;cnicos</span> que transformam o palco
                   num campo de batalha &mdash; exatamente como no filme. Os maiores hits K-Pop ressoam num espet&aacute;culo
@@ -809,7 +809,7 @@ export default function HomePage() {
               <Rv delay={420}>
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
                   Um espet&aacute;culo de variedades que transcende o concerto tradicional &mdash; com momentos de intera&ccedil;&atilde;o com o p&uacute;blico, onde cada instante &eacute; uma fatia
-                  do universo das Hunters ao vivo, e cada cena se torna uma mem&oacute;ria que n&atilde;o vais querer deixar ir.
+                  do universo das Guerreiras ao vivo, e cada cena se torna uma mem&oacute;ria que n&atilde;o vais querer deixar ir.
                 </p>
                 <p className="text-[16px] leading-[1.8] mb-10 font-medium" style={{color:"var(--neon-purple)"}}>
                   Se aquele filme te marcou, esta noite foi feita para ti. Vem sentir o Honmoon.
@@ -860,13 +860,13 @@ export default function HomePage() {
           <Rv>
             <p className="sec-num mb-4">Identidade Dual</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
-              De Demon Hunter<br/>a <span className="neon-shimmer">Estrela K-Pop</span>
+              De <span className="neon-shimmer">Guerreira</span><br/>a Estrela K-Pop
             </h2>
           </Rv>
           <Rv delay={120}>
             <p className="text-[16px] leading-[1.8] mb-12 max-w-lg" style={{color:"var(--t2)"}}>
               Cada guerreira esconde uma identidade secreta. Passa com o rato por cima para descobrir
-              quem se esconde por tr&aacute;s de cada Demon Hunter.
+              quem se esconde por tr&aacute;s de cada Guerreira do K-Pop.
             </p>
           </Rv>
           <div className="dual-grid">
@@ -941,7 +941,7 @@ export default function HomePage() {
           </Rv>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-[2px]">
             {[
-              {name:"HUNTRIX",sub:"Headliner - Demon Hunters",c:"var(--gold)"},
+              {name:"HUNTRIX",sub:"Headliner - Guerreiras do K-Pop",c:"var(--gold)"},
               {name:"RUMI",sub:"Vocal Principal",c:"var(--pink-kpop)"},
               {name:"MIRAE",sub:"Dança & Rap",c:"var(--blue-accent)"},
               {name:"ZOE",sub:"Performance Especial",c:"var(--neon-purple)"},
@@ -969,7 +969,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Marquee text="HUNTRIX · RUMI · MIRAE · ZOE · DEMON HUNTERS · K-POP TRIBUTE"/>
+      <Marquee text="HUNTRIX · RUMI · MIRAE · ZOE · GUERREIRAS DO K-POP · TRIBUTO MUSICAL"/>
 
       {/* ═══ PRÓXIMOS CONCERTOS ═══ */}
       <section id="concertos" className="concerts-section px-5 sm:px-10">

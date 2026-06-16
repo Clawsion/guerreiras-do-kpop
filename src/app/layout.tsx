@@ -22,12 +22,12 @@ const plusJakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "Guerreiras do K-Pop | Tributo Musical em Tour - Cascais",
   description:
-    "O maior festival de tributo K-Pop em Cascais! Vem viver a experiência das Guerreiras Demon Hunters. Atuações ao vivo, Random Play Dance, K-Culture Zone e muito mais!",
+    "O maior festival de tributo K-Pop em Cascais! Vem viver a experiência das Guerreiras do K-Pop. Atuações ao vivo, Random Play Dance, K-Culture Zone e muito mais!",
   keywords: [
     "K-Pop",
     "festival",
     "Cascais",
-    "demon hunters",
+    "guerreiras do k-pop",
     "tributo",
     "HUNTRIX",
     "concert",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Guerreiras do K-Pop | Tributo Musical em Tour",
     description:
-      "O maior festival de tributo K-Pop em Cascais! Demon Hunters ao vivo.",
+      "O maior festival de tributo K-Pop em Cascais! As Guerreiras do K-Pop ao vivo.",
     type: "website",
     locale: "pt_PT",
   },
