@@ -1226,7 +1226,7 @@ ${fd.get("msg") || ""}`
               </div>
               <div>
                 <p className="sec-num mb-3">Produção</p>
-                <span className="text-[14px]" style={{color:"var(--t2)"}}>Viva - Artes &amp; Produções</span>
+                <span className="text-[14px]" style={{color:"var(--t2)"}}>Francisco Cardinali</span>
               </div>
               <div>
                 <p className="sec-num mb-3">Redes Sociais</p>
@@ -1253,11 +1253,7 @@ ${fd.get("msg") || ""}`
             <div className="w-6 h-6 flex items-center justify-center" style={{background:"var(--neon-purple)"}}>
               <span className="text-[8px] font-black" style={{color:"#fff"}}>GK</span>
             </div>
-            <div className="flex flex-col gap-0.5">
-              <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>&copy; 2026 Guerreiras do K-Pop</span>
-              <span className="text-[9px] tracking-[0.15em] uppercase" style={{color:"var(--t3)"}}>Produ&ccedil;&atilde;o</span>
-              <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>Francisco Cardinali</span>
-            </div>
+            <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>&copy; 2026 Guerreiras do K-Pop</span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-6">
             <a href={TL} target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--neon-purple)"}}>Ticketline</a>
