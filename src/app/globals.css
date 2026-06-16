@@ -3178,6 +3178,18 @@ html { scroll-behavior: smooth; }
   border-color: rgba(147,51,234,0.3);
 }
 
+/* Fotos vibrantes no modo dia — sem escurecimento, como galeria de museu */
+.light-mode .galeria-img {
+  filter: saturate(1.05) brightness(1.02);
+}
+.light-mode .galeria-card:hover .galeria-img {
+  filter: saturate(1.15) brightness(1.08);
+}
+/* Overlay mais leve no modo dia — só para a caption, não escurece a foto */
+.light-mode .galeria-card:hover .galeria-overlay {
+  opacity: 0.85;
+}
+
 /* ═══ Tributo Ao Vivo — lavender daylight, clean and elegant ═══ */
 .light-mode .espetaculo-section {
   --t1: #1E1040;
