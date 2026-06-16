@@ -1332,30 +1332,24 @@ html { scroll-behavior: smooth; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Sem zoom por agora — apenas a imagem estática cobrindo o ecrã.
+  /* Sem zoom — apenas a imagem estática cobrindo o ecrã.
      object-position equal para ambos os modos para alinhar visualmente. */
   object-position: center center;
-  /* Sem animação de zoom */
+  /* Sem animação de zoom (a pedido do user para não atrapalhar o alinhamento) */
   animation: none;
 }
-/* LIGHT mode: a imagem clara original tem personagens ~8.3% mais pequenos que a escura
-   (VLM confirmou: NOITE=65% altura, DIA=60% altura). Compensamos com scale estático 1.083
-   para as personagens ficarem com o mesmo tamanho aparente em ambos os modos. */
+/* LIGHT mode: imagem foi recortada verticalmente (-14px do topo) para alinhar
+   com a escura. Sem scale compensatório — ambas ficam em scale 1.0. */
 .light-mode .hero-bg-img {
   animation: none;
-  transform: scale(1.083);
-  transform-origin: center center;
 }
 /* Em viewports portrait/tall (mobile), levanta o sujeito para a cara ficar visível. */
 @media (max-aspect-ratio: 16/10) {
   .hero-bg-img {
     object-position: center 40%;
   }
-  .light-mode .hero-bg-img {
-    transform-origin: center 40%;
-  }
 }
-/* Keyframes mantidos mas não usados (poderão ser reativados depois) */
+/* Keyframes mantidos mas não usados */
 @keyframes heroZoom {
   0% { transform: scale(1.0); }
   100% { transform: scale(1.05); }
