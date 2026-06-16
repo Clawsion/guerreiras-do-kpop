@@ -2876,9 +2876,28 @@ html { scroll-behavior: smooth; }
   letter-spacing: 0.05em;
 }
 
-/* ═══ Light mode — lavanda para continuidade ═══ */
+/* ═══ Light mode — lavanda com cortinas laterais (parede de galeria) ═══ */
+/* Mantém o lavanda puro das outras secções (continuidade) mas adiciona
+   2 faixas verticais laterais que simulam cortinas teatrais — dá identidade
+   própria à secção sem competir com o Tributo */
 .light-mode .cartazes-section {
-  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
+  background:
+    /* Cortina esquerda — mais escura na borda, desaparece para o centro */
+    linear-gradient(90deg,
+      rgba(160,110,180,0.30) 0%,
+      rgba(190,150,210,0.18) 6%,
+      rgba(220,190,235,0.06) 14%,
+      transparent 22%
+    ),
+    /* Cortina direita — espelho da esquerda */
+    linear-gradient(270deg,
+      rgba(160,110,180,0.30) 0%,
+      rgba(190,150,210,0.18) 6%,
+      rgba(220,190,235,0.06) 14%,
+      transparent 22%
+    ),
+    /* Fundo base lavanda puro (igual às outras secções) */
+    linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
   --t1: #1E1040;
   --t2: #5B3E8A;
   --t3: #8B6CB0;
