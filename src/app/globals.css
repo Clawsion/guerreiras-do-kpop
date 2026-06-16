@@ -1332,8 +1332,20 @@ html { scroll-behavior: smooth; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 20%;
+  /* Ancorar sujeito em 65% horizontal — ambas as imagens (escura 2.39:1 e clara 1.89:1) têm
+     o sujeito centrado em ~65% X / 57% Y, alinhando-se visualmente entre modos. */
+  object-position: 65% center;
+  /* Ancora o zoom no centro do sujeito, evitando drift horizontal durante o heroZoom */
+  transform-origin: 65% 60%;
   animation: heroZoom 25s ease-in-out infinite alternate;
+}
+/* Em viewports portrait/tall (mobile), a imagem clara (1.89:1) corta demasiado em altura.
+   Levanta o sujeito para a cara ficar visível. */
+@media (max-aspect-ratio: 16/10) {
+  .hero-bg-img {
+    object-position: 65% 40%;
+    transform-origin: 65% 50%;
+  }
 }
 @keyframes heroZoom {
   0% { transform: scale(1.0); }
