@@ -467,11 +467,24 @@ export default function HomePage() {
   // Dispara um flash que cobre o hero, troca a imagem a meio do flash,
   // e depois fade-out para revelar a nova imagem. Sincronizado com o
   // ripple effect do orb (650ms até ao toggleTheme).
+  // Também sincroniza o heroZoom: pausa durante o flash e reinicia no fim
+  // para que ambas as imagens (escura/clara) fiquem no mesmo ponto do zoom.
   const triggerHeroFlash = useCallback((toMode: 'light' | 'dark') => {
     const flashClass = toMode === 'light' ? 'to-light' : 'to-dark';
     setHeroFlash(flashClass as 'to-light' | 'to-dark');
-    // Limpa o estado depois da animação terminar (~1.4s)
-    window.setTimeout(() => setHeroFlash('none'), 1400);
+    // Limpa o estado depois da animação terminar (~1.4s) e reinicia o zoom
+    window.setTimeout(() => {
+      setHeroFlash('none');
+      // Força reinício do heroZoom aplicando animation: none e re-aplicando
+      // Isto garante que a nova imagem começa o zoom num ponto previsível
+      const heroImg = document.querySelector('.hero-bg-img') as HTMLImageElement | null;
+      if (heroImg) {
+        heroImg.style.animation = 'none';
+        // Reflow para o browser registar a remoção
+        void heroImg.offsetWidth;
+        heroImg.style.animation = '';
+      }
+    }, 1400);
   }, []);
 
   const navLinks = useMemo(() => [

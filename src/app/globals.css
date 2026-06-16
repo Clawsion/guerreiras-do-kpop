@@ -1405,10 +1405,12 @@ html { scroll-behavior: smooth; }
   50%  { opacity: 1; transform: scale(1.0); }    /* toggleTheme() acontece aqui */
   100% { opacity: 0; transform: scale(0.98); }   /* revela nova imagem escura */
 }
-/* Enquanto o flash está ativo, a imagem recebe um blur subtíl para suavizar a troca */
+/* Enquanto o flash está ativo, a imagem recebe um blur subtíl para suavizar a troca
+   E o heroZoom pausa para a imagem não mexer durante a transição */
 .hero-bg-img.flashing {
   transition: filter 0.3s ease-out;
   filter: blur(2px);
+  animation-play-state: paused;
 }
 
 /* ═══ Hero content area ═══ */
