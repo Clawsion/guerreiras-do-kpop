@@ -428,7 +428,7 @@ html { scroll-behavior: smooth; }
   inset: 0;
 }
 
-/* ═══ Camada de fumaça - aparece e desaparece na mudança de foto ═══ */
+/* ═══ Camada de fumaça subtíl - aparece e desaparece na mudança de foto ═══ */
 .memories-smoke-layer {
   position: absolute;
   inset: 0;
@@ -438,116 +438,50 @@ html { scroll-behavior: smooth; }
 }
 .memories-smoke {
   position: absolute;
-  width: 90%;
-  height: 90%;
+  width: 70%;
+  height: 70%;
   border-radius: 50%;
-  filter: blur(50px);
+  filter: blur(45px);
   opacity: 0;
   mix-blend-mode: screen;
   will-change: transform, opacity;
 }
-/* 3 blobs de fumaça em posições diferentes, com timings diferentes */
+/* 2 blobs de fumaça subtís (em vez de 3) com timings diferentes */
 .memories-smoke-1 {
   top: 15%;
-  left: -15%;
+  left: -10%;
   background: radial-gradient(circle,
-    rgba(200,80,255,0.65) 0%,
-    rgba(180,60,220,0.35) 40%,
+    rgba(200,80,255,0.40) 0%,
+    rgba(180,60,220,0.20) 40%,
     transparent 70%);
-  animation: memoriesSmokePulse 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: memoriesSmokePulse 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 .memories-smoke-2 {
-  top: 5%;
-  right: -15%;
+  top: 10%;
+  right: -10%;
   background: radial-gradient(circle,
-    rgba(255,200,235,0.60) 0%,
-    rgba(220,150,255,0.30) 40%,
+    rgba(255,200,235,0.35) 0%,
+    rgba(220,150,255,0.18) 40%,
     transparent 70%);
-  animation: memoriesSmokePulse 3s cubic-bezier(0.4, 0, 0.2, 1) 0.25s forwards;
-}
-.memories-smoke-3 {
-  bottom: 0%;
-  left: 25%;
-  background: radial-gradient(circle,
-    rgba(255,250,235,0.55) 0%,
-    rgba(255,220,180,0.25) 40%,
-    transparent 70%);
-  animation: memoriesSmokePulse 3s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+  animation: memoriesSmokePulse 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
 }
 @keyframes memoriesSmokePulse {
   0% {
     opacity: 0;
-    transform: scale(0.5) translateX(0) translateY(0);
-  }
-  20% {
-    opacity: 1;
-    transform: scale(1.2) translateX(15px) translateY(-8px);
-  }
-  50% {
-    opacity: 0.95;
-    transform: scale(1.8) translateX(35px) translateY(-25px);
-  }
-  75% {
-    opacity: 0.5;
-    transform: scale(2.2) translateX(55px) translateY(-45px);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(2.8) translateX(80px) translateY(-70px);
-  }
-}
-
-/* ═══ Flash de luz central - esconde completamente a troca no pico da transição ═══ */
-.memories-flash {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 30%;
-  height: 30%;
-  border-radius: 50%;
-  background: radial-gradient(circle,
-    rgba(255,255,255,1) 0%,
-    rgba(255,250,235,0.95) 25%,
-    rgba(255,200,235,0.6) 50%,
-    rgba(200,80,255,0.3) 75%,
-    transparent 100%);
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
-  filter: blur(20px);
-  mix-blend-mode: screen;
-  animation: memoriesFlashBurst 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-@keyframes memoriesFlashBurst {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
+    transform: scale(0.6) translateX(0) translateY(0);
   }
   30% {
-    opacity: 0.4;
-    transform: translate(-50%, -50%) scale(2);
-  }
-  50% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(4);
-  }
-  70% {
     opacity: 0.7;
-    transform: translate(-50%, -50%) scale(5);
+    transform: scale(1.2) translateX(15px) translateY(-8px);
+  }
+  60% {
+    opacity: 0.4;
+    transform: scale(1.5) translateX(30px) translateY(-20px);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(6);
+    transform: scale(1.8) translateX(50px) translateY(-40px);
   }
-}
-/* Modo dia: flash branco mais subtíl com multiply */
-.light-mode .memories-flash {
-  background: radial-gradient(circle,
-    rgba(255,255,255,1) 0%,
-    rgba(255,250,235,0.95) 25%,
-    rgba(255,200,235,0.6) 50%,
-    rgba(180,140,220,0.3) 75%,
-    transparent 100%);
-  mix-blend-mode: overlay;
 }
 
 /* Modo dia: fumaça mais clara (lavanda/branco) e mix-blend-mode multiply para escurecer subtílmente */
@@ -556,56 +490,51 @@ html { scroll-behavior: smooth; }
 }
 .light-mode .memories-smoke-1 {
   background: radial-gradient(circle,
-    rgba(180,140,220,0.55) 0%,
-    rgba(160,120,200,0.30) 40%,
+    rgba(180,140,220,0.35) 0%,
+    rgba(160,120,200,0.20) 40%,
     transparent 70%);
 }
 .light-mode .memories-smoke-2 {
   background: radial-gradient(circle,
-    rgba(220,180,240,0.50) 0%,
-    rgba(200,160,230,0.28) 40%,
+    rgba(220,180,240,0.32) 0%,
+    rgba(200,160,230,0.18) 40%,
     transparent 70%);
 }
-.light-mode .memories-smoke-3 {
-  background: radial-gradient(circle,
-    rgba(255,255,255,0.65) 0%,
-    rgba(240,230,250,0.35) 40%,
-    transparent 70%);
-}
+
+/* ═══ Slides - transição fluida e simples ═══ */
 .memories-slide {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center center;
   opacity: 0;
-  /* Estado inicial (entrada): foto pronta a emergir do flash */
-  transform: scale(1.15) translateX(8%);
-  filter: brightness(0.85) saturate(0.9);
+  /* Estado inicial (entrada): zoom-in ligeiro */
+  transform: scale(1.08);
+  filter: brightness(0.95);
+  /* Transição fluida: opacity + scale + brightness (sem drift lateral, sem blur) */
   transition:
-    opacity 1.4s cubic-bezier(0.65, 0, 0.35, 1),
-    transform 1.8s cubic-bezier(0.65, 0, 0.35, 1),
-    filter 1.4s ease-out;
-  will-change: transform, opacity, filter;
+    opacity 1.2s ease-in-out,
+    transform 1.5s ease-out,
+    filter 1.2s ease-out;
+  will-change: transform, opacity;
 }
 .memories-slide.active {
   opacity: 1;
-  transform: scale(1.05) translateX(0%);
-  filter: brightness(1) saturate(1);
+  transform: scale(1.0);
+  filter: brightness(1);
   animation: memoriesKenBurnsActive 12s ease-out forwards;
 }
-/* Quando a slide perde o active, faz drift lateral + zoom-out (levada pela fumaça) */
+/* Quando a slide perde o active, fade-out simples SEM drift (correção do bug última->primeira) */
 .memories-slide:not(.active) {
   opacity: 0;
-  transform: scale(0.92) translateX(-12%);
-  filter: brightness(0.7) saturate(0.8) blur(3px);
+  /* Mantém o scale final do Ken Burns (sem saltar), apenas fade-out */
+  /* Importante: SEM transition-delay para desaparecer imediatamente quando perde active */
   transition:
-    opacity 1.2s cubic-bezier(0.4, 0, 0.6, 1) 0.2s,
-    transform 1.6s cubic-bezier(0.4, 0, 0.6, 1) 0.1s,
-    filter 1.4s cubic-bezier(0.4, 0, 0.6, 1) 0.2s;
+    opacity 0.8s ease-out;
 }
 @keyframes memoriesKenBurnsActive {
-  0%   { transform: scale(1.05) translateX(0%); }
-  100% { transform: scale(1.18) translateX(0%); }
+  0%   { transform: scale(1.0); }
+  100% { transform: scale(1.12); }
 }
 
 /* Indicadores (pontos) - mantidos mas mais discretos */

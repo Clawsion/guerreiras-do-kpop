@@ -169,13 +169,10 @@ const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
           aria-hidden={i !== active}
         />
       ))}
-      {/* Camadas de fumaça - key dinâmica força re-disparo da animação a cada mudança de slide */}
+      {/* Camada de fumaça subtíl - key dinâmica força re-disparo da animação a cada mudança de slide */}
       <div key={`smoke-${active}`} className="memories-smoke-layer" aria-hidden="true">
         <div className="memories-smoke memories-smoke-1"/>
         <div className="memories-smoke memories-smoke-2"/>
-        <div className="memories-smoke memories-smoke-3"/>
-        {/* Flash de luz central - pico da transição que esconde completamente a troca */}
-        <div className="memories-flash"/>
       </div>
     </div>
   );
