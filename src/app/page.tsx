@@ -1250,9 +1250,6 @@ ${fd.get("msg") || ""}`
       <footer className="py-10 px-5 sm:px-10 mt-auto border-t" style={{background:"var(--void)",borderColor:"rgba(200,80,255,0.04)"}}>
         <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-6 h-6 flex items-center justify-center" style={{background:"var(--neon-purple)"}}>
-              <span className="text-[8px] font-black" style={{color:"#fff"}}>GK</span>
-            </div>
             <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>&copy; 2026 Guerreiras do K-Pop</span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-6">
