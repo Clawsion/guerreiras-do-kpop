@@ -174,6 +174,8 @@ const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
         <div className="memories-smoke memories-smoke-1"/>
         <div className="memories-smoke memories-smoke-2"/>
         <div className="memories-smoke memories-smoke-3"/>
+        {/* Flash de luz central - pico da transição que esconde completamente a troca */}
+        <div className="memories-flash"/>
       </div>
     </div>
   );
