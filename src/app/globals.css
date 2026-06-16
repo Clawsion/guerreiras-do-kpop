@@ -1769,6 +1769,44 @@ html { scroll-behavior: smooth; }
   z-index: 3;
 }
 
+/* ═══ Readability overlay - left-to-right gradient so text stays legible
+   without hiding the pavilion on the right side of the section ═══ */
+.esp-readability-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background:
+    linear-gradient(90deg,
+      rgba(11,8,19,0.86) 0%,
+      rgba(11,8,19,0.70) 28%,
+      rgba(11,8,19,0.40) 50%,
+      rgba(11,8,19,0.10) 70%,
+      rgba(11,8,19,0.00) 88%
+    ),
+    linear-gradient(180deg,
+      rgba(11,8,19,0.55) 0%,
+      rgba(11,8,19,0.00) 18%,
+      rgba(11,8,19,0.00) 80%,
+      rgba(11,8,19,0.55) 100%
+    );
+}
+/* Light-mode counterpart - hidden by default, only visible in .light-mode */
+.esp-readability-light { display: none; }
+@media (max-width: 1023px) {
+  /* On mobile, the layout stacks — darkening comes from top so the
+     stacked text stays readable while the pavilion bleeds through below */
+  .esp-readability-overlay {
+    background:
+      linear-gradient(180deg,
+        rgba(11,8,19,0.92) 0%,
+        rgba(11,8,19,0.78) 35%,
+        rgba(11,8,19,0.40) 65%,
+        rgba(11,8,19,0.30) 100%
+      );
+  }
+}
+
 /* ═══ Two-column layout ═══ */
 .esp-layout {
   display: grid;
@@ -3831,7 +3869,48 @@ html { scroll-behavior: smooth; }
 
 /* ═══ Tributo Ao Vivo - lavanda puro (estado anterior, sem rosado) ═══ */
 .light-mode .espetaculo-section {
-  background-image: none;
+  background: var(--void);
+  background-image: url('/espetaculo-bg-light.png');
+  background-size: cover;
+  background-position: right center;
+  background-blend-mode: normal;
+}
+/* Hide dark-mode atmospheric overlays in light mode */
+.light-mode .esp-readability-overlay { display: none; }
+.light-mode .esp-vignette { display: none; }
+/* New light-mode readability overlay: keeps dark text legible on the left
+   while letting the bright pavilion show through on the right */
+.light-mode .esp-readability-light { display: block; }
+.light-mode .espetaculo-section .esp-readability-light {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background:
+    linear-gradient(90deg,
+      rgba(237,224,245,0.92) 0%,
+      rgba(237,224,245,0.80) 28%,
+      rgba(237,224,245,0.45) 50%,
+      rgba(237,224,245,0.15) 70%,
+      rgba(237,224,245,0.00) 88%
+    ),
+    linear-gradient(180deg,
+      rgba(237,224,245,0.55) 0%,
+      rgba(237,224,245,0.00) 18%,
+      rgba(237,224,245,0.00) 80%,
+      rgba(237,224,245,0.55) 100%
+    );
+}
+@media (max-width: 1023px) {
+  .light-mode .espetaculo-section .esp-readability-light {
+    background:
+      linear-gradient(180deg,
+        rgba(237,224,245,0.95) 0%,
+        rgba(237,224,245,0.80) 35%,
+        rgba(237,224,245,0.45) 65%,
+        rgba(237,224,245,0.35) 100%
+      );
+  }
 }
 /* Spotlights - purple curtains swaying in light mode */
 .light-mode .esp-spotlight { opacity: 1; mix-blend-mode: normal; }

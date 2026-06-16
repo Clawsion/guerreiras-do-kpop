@@ -814,6 +814,15 @@ export default function HomePage() {
 
       {/* ═══ ESPETÁCULO - Descrição + Galeria ═══ */}
       <section id="espetaculo" className="espetaculo-section px-5 sm:px-10">
+        {/* Atmospheric overlays - spotlights, glow orbs, vignette */}
+        <div className="esp-spotlight esp-spotlight-left" aria-hidden="true"/>
+        <div className="esp-spotlight esp-spotlight-center" aria-hidden="true"/>
+        <div className="esp-spotlight esp-spotlight-right" aria-hidden="true"/>
+        <div className="esp-glow-orb esp-glow-pink" aria-hidden="true"/>
+        <div className="esp-glow-orb esp-glow-purple" aria-hidden="true"/>
+        <div className="esp-readability-overlay" aria-hidden="true"/>
+        <div className="esp-readability-light" aria-hidden="true"/>
+        <div className="esp-vignette" aria-hidden="true"/>
         <div className="max-w-[1400px] mx-auto relative z-10">
           <div className="esp-layout">
             {/* LEFT - Description */}
