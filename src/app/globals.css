@@ -2554,7 +2554,7 @@ html { scroll-behavior: smooth; }
 }
 
 .cartaz-featured {
-  cursor: pointer;
+  /* sem cursor:pointer — agora o card não é link, só o botão */
 }
 
 /* ═══ Moldura base — leve e limpa ═══ */
@@ -2684,79 +2684,108 @@ html { scroll-behavior: smooth; }
   opacity: 0.4;
 }
 
-/* ═══ CTA Badge — "Comprar Bilhete" no cartaz principal ═══ */
-.cartaz-cta-badge {
+/* ═══ Tag (sobre a imagem) — "Cascais" / "Em breve" ═══ */
+.cartaz-tag {
   position: absolute;
-  bottom: 1.6rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(8px);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.8rem 1.6rem;
-  background: linear-gradient(135deg, var(--neon-purple) 0%, var(--pink-kpop) 100%);
-  color: #fff;
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  font-weight: 700;
-  border-radius: 2px;
-  box-shadow: 0 6px 24px rgba(200,80,255,0.45),
-              0 0 50px rgba(255,45,120,0.25),
-              inset 0 1px 0 rgba(255,255,255,0.25);
-  opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
-  white-space: nowrap;
-  z-index: 5;
-}
-
-.cartaz-featured:hover .cartaz-cta-badge {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* ═══ "Em breve" badge no cartaz secundário — glass neon ═══ */
-.cartaz-soon-badge {
-  position: absolute;
-  top: 1.4rem;
-  right: 1.4rem;
-  padding: 0.4rem 1rem;
-  background: rgba(20,12,32,0.55);
-  backdrop-filter: blur(12px) saturate(1.3);
-  -webkit-backdrop-filter: blur(12px) saturate(1.3);
-  color: var(--blue-light);
+  top: 1rem;
+  left: 1rem;
+  padding: 0.4rem 0.9rem;
   font-size: 10px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   font-weight: 700;
   border-radius: 2px;
+  z-index: 5;
+  background: linear-gradient(135deg, rgba(200,80,255,0.92) 0%, rgba(255,45,120,0.88) 100%);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 16px rgba(11,8,19,0.4),
+              0 0 20px rgba(200,80,255,0.25),
+              inset 0 1px 0 rgba(255,255,255,0.25);
+}
+.cartaz-tag-soon {
+  background: rgba(20,12,32,0.55);
+  color: var(--blue-light);
+  backdrop-filter: blur(12px) saturate(1.3);
+  -webkit-backdrop-filter: blur(12px) saturate(1.3);
   border: 1px solid rgba(177,213,240,0.35);
   box-shadow: 0 4px 16px rgba(11,8,19,0.4),
               0 0 20px rgba(177,213,240,0.18),
               inset 0 1px 0 rgba(255,255,255,0.08);
-  z-index: 5;
 }
 
-/* ═══ Cartaz info (abaixo de cada cartaz) ═══ */
+/* ═══ Botão "Comprar Bilhete" / "Avisar-me" — separado da imagem, junto das letras ═══ */
+.cartaz-buy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  width: 100%;
+  margin-top: 1.1rem;
+  padding: 0.9rem 1.4rem;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 3px;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  font-family: inherit;
+  background: linear-gradient(135deg, var(--neon-purple) 0%, var(--pink-kpop) 100%);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(200,80,255,0.30),
+              0 0 24px rgba(255,45,120,0.18),
+              inset 0 1px 0 rgba(255,255,255,0.22);
+  transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.cartaz-buy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(200,80,255,0.45),
+              0 0 40px rgba(255,45,120,0.30),
+              inset 0 1px 0 rgba(255,255,255,0.3);
+}
+.cartaz-buy-btn-soon {
+  background: transparent;
+  color: var(--blue-accent);
+  border: 1px solid rgba(177,213,240,0.30);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.cartaz-buy-btn-soon:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: rgba(177,213,240,0.30);
+}
+
+/* ═══ Cartaz info — card translúcido com padding reforçado para legibilidade ═══ */
 .cartaz-info {
-  padding: 1.2rem 0.2rem 0;
+  padding: 1.3rem 1.3rem 1.5rem;
+  margin-top: 0.8rem;
   text-align: left;
+  border-radius: 4px;
+  background: rgba(20,12,32,0.35);
+  backdrop-filter: blur(10px) saturate(1.15);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  border: 1px solid rgba(200,80,255,0.08);
 }
 
 .cartaz-city {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.3rem;
-  text-shadow: 0 0 12px currentColor;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+  text-shadow: 0 0 14px currentColor;
 }
 
 .cartaz-date {
   font-size: 14px;
   font-family: var(--font-geist-mono);
   letter-spacing: 0.15em;
-  color: var(--t2);
-  margin-bottom: 0.6rem;
+  color: var(--t1);
+  margin-bottom: 0.7rem;
+  font-weight: 500;
 }
 
 .cartaz-status {
@@ -2855,14 +2884,41 @@ html { scroll-behavior: smooth; }
     transparent 60%
   );
 }
-/* Light: "Em breve" mantém-se glass mas com tom mais claro */
-.light-mode .cartaz-soon-badge {
+/* Light: "Em breve" tag mais clara para contrastar com fundo lavanda */
+.light-mode .cartaz-tag-soon {
   background: rgba(255,255,255,0.7);
   color: #4A2D7A;
   border-color: rgba(96,165,250,0.45);
   box-shadow: 0 4px 16px rgba(91,62,138,0.15),
               0 0 20px rgba(96,165,250,0.20),
               inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+/* Light: cartaz-info mais legível — fundo branco translúcido + texto escuro reforçado */
+.light-mode .cartaz-info {
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border-color: rgba(147,51,234,0.15);
+  box-shadow: 0 8px 24px rgba(91,62,138,0.10);
+}
+.light-mode .cartaz-date {
+  color: #1E1040;
+}
+.light-mode .cartaz-venue {
+  color: #5B3E8A;
+}
+/* Light: botão "Avisar-me" com cor mais escura para legibilidade */
+.light-mode .cartaz-buy-btn-soon {
+  color: #4A2D7A;
+  border-color: rgba(74,45,122,0.35);
+  background: rgba(255,255,255,0.5);
+}
+/* Light: botão "Comprar Bilhete" mantém gradiente neon (visível em ambos os modos) */
+.light-mode .cartaz-buy-btn {
+  box-shadow: 0 6px 20px rgba(147,51,234,0.35),
+              0 0 24px rgba(236,72,153,0.20),
+              inset 0 1px 0 rgba(255,255,255,0.25);
 }
 
 /* ═══════════════════════════════════════════════════════════════ */

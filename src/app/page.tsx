@@ -6,7 +6,7 @@ import NeonLightbox from "@/components/NeonLightbox";
 import {
   Ticket, MapPin, Clock, Instagram, Youtube, Music2,
   ExternalLink, Send, ChevronRight, ArrowUpRight, Phone, Mail, Facebook,
-  Flame, Sparkles, Mic2, MonitorPlay, PartyPopper, Cherry,
+  Flame, Sparkles, Mic2, MonitorPlay, PartyPopper, Cherry, Bell,
 } from "lucide-react";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
@@ -1104,13 +1104,11 @@ export default function HomePage() {
           <div className="cartazes-grid">
             {/* ═══ CASCAIS — Destaque principal (maior) ═══ */}
             <Rv delay={200}>
-              <a href={TL} target="_blank" rel="noopener noreferrer" className="cartaz-card cartaz-featured">
+              <article className="cartaz-card cartaz-featured">
                 <div className="cartaz-img-wrap">
                   <img src="/poster.webp" alt="Cartaz Cascais - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
                   <div className="cartaz-overlay"/>
-                  <div className="cartaz-cta-badge">
-                    <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
-                  </div>
+                  <div className="cartaz-tag">Cascais</div>
                 </div>
                 <div className="cartaz-info">
                   <p className="cartaz-city" style={{color:"var(--pink-kpop)"}}>Cascais &middot; Estoril</p>
@@ -1119,17 +1117,20 @@ export default function HomePage() {
                     <span className="cartaz-status-dot"/> Bilhetes j&aacute; &agrave; venda
                   </p>
                   <p className="cartaz-venue">Academia das Artes do Estoril</p>
+                  <a href={TL} target="_blank" rel="noopener noreferrer" className="cartaz-buy-btn">
+                    <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
+                  </a>
                 </div>
-              </a>
+              </article>
             </Rv>
 
             {/* ═══ SESIMBRA — Destaque secundário (mais pequeno) ═══ */}
             <Rv delay={350}>
-              <div className="cartaz-card cartaz-secondary">
+              <article className="cartaz-card cartaz-secondary">
                 <div className="cartaz-img-wrap">
                   <img src="/poster-sesimbra.webp" alt="Cartaz Sesimbra - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
                   <div className="cartaz-overlay"/>
-                  <div className="cartaz-soon-badge">Em breve</div>
+                  <div className="cartaz-tag cartaz-tag-soon">Em breve</div>
                 </div>
                 <div className="cartaz-info">
                   <p className="cartaz-city" style={{color:"var(--blue-accent)"}}>Sesimbra</p>
@@ -1138,8 +1139,11 @@ export default function HomePage() {
                     <span className="cartaz-status-dot cartaz-status-dot-soon"/> Bilhetes &agrave; venda a partir de 20 de Junho
                   </p>
                   <p className="cartaz-venue">Pavilh&atilde;o Desportivo de Sesimbra</p>
+                  <button type="button" className="cartaz-buy-btn cartaz-buy-btn-soon" disabled>
+                    <Bell className="w-4 h-4"/> Avisar-me quando abrir
+                  </button>
                 </div>
-              </div>
+              </article>
             </Rv>
           </div>
         </div>
