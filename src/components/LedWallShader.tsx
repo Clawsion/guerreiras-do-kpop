@@ -406,7 +406,12 @@ export default function LedWallShader({ active }: { active: boolean }) {
     const program = programRef.current;
     if (!gl || !program) return;
 
-    // Pause when tab hidden OR section not visible
+    // Always update darkModeSmoothRef — even when off-screen —
+    // so when user scrolls back, the shader is already at the correct mode
+    const target = darkModeRef.current;
+    darkModeSmoothRef.current += (target - darkModeSmoothRef.current) * 0.08;
+
+    // Pause GPU drawing when tab hidden OR section not visible
     if (document.hidden || !visibleRef.current) {
       rafRef.current = requestAnimationFrame(render);
       return;
@@ -425,10 +430,6 @@ export default function LedWallShader({ active }: { active: boolean }) {
     resize();
 
     const elapsed = (now - startTimeRef.current) / 1000.0;
-
-    const target = darkModeRef.current;
-    // Faster lerp (0.08) so day/night transition is clearly visible (~2s)
-    darkModeSmoothRef.current += (target - darkModeSmoothRef.current) * 0.08;
 
     // Use cached uniform locations
     gl.uniform1f(getLoc(gl, program, "u_time"), elapsed);
