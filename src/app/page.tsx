@@ -466,7 +466,7 @@ export default function HomePage() {
 
   const navLinks = useMemo(() => [
     { l: "Espetáculo", h: "#espetaculo" },
-    { l: "Identidade", h: "#identidade" },
+    { l: "Quiz", h: "#identidade" },
     { l: "Mural", h: "#galeria" },
     { l: "Cartazes", h: "#cartazes" },
     { l: "Contacto", h: "#contacto" },
