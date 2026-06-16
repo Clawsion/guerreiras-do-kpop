@@ -472,7 +472,6 @@ export default function HomePage() {
     { l: "Identidade", h: "#identidade" },
     { l: "Mural", h: "#galeria" },
     { l: "Cartazes", h: "#cartazes" },
-    { l: "Lineup", h: "#lineup" },
     { l: "FAQ", h: "#faq" },
     { l: "Contacto", h: "#contacto" },
   ], []);
@@ -1153,45 +1152,6 @@ export default function HomePage() {
       </section>
 
       <div className="neon-div max-w-[1400px] mx-auto"/>
-
-      {/* ═══ LINEUP ═══ */}
-      <section id="lineup" className="py-24 sm:py-40 px-5 sm:px-10">
-        <div className="max-w-[1400px] mx-auto">
-          <Rv>
-            <p className="sec-num mb-4">02 - Lineup</p>
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-16" style={{color:"var(--t1)"}}>
-              As Nossas Guerreiras
-            </h2>
-          </Rv>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-[2px]">
-            {[
-              {name:"HUNTRIX",sub:"Headliner - Guerreiras do K-Pop",c:"var(--gold)"},
-              {name:"RUMI",sub:"Vocal Principal",c:"var(--pink-kpop)"},
-              {name:"MIRAE",sub:"Dança & Rap",c:"var(--blue-accent)"},
-              {name:"ZOEY",sub:"Performance Especial",c:"var(--neon-purple)"},
-            ].map((a,i)=>(
-              <Rv key={a.name} delay={i*100}>
-                <div className="group relative overflow-hidden cursor-pointer" style={{background:"var(--surface)"}}>
-                  <div className="aspect-[3/4] overflow-hidden">
-                    <img src="/poster.webp" alt={a.name} className="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105" style={{filter:"grayscale(75%) brightness(0.5)"}} loading="lazy" decoding="async"
-                      onMouseEnter={e=>{(e.target as HTMLImageElement).style.filter="grayscale(0%) brightness(0.8)"}} 
-                      onMouseLeave={e=>{(e.target as HTMLImageElement).style.filter="grayscale(75%) brightness(0.5)"}}/>
-                  </div>
-                  <div className="absolute inset-x-0 bottom-0 pt-20 pb-5 px-5" style={{background:"linear-gradient(to top, var(--void) 5%, transparent 100%)"}}>
-                    <p className="text-[8px] tracking-[0.3em] font-semibold mb-1 uppercase" style={{color:a.c}}>{a.sub}</p>
-                    <h3 className="text-lg sm:text-xl font-light tracking-[-0.01em] transition-colors duration-300" style={{color:"var(--t1)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color=a.c}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t1)"}}>{a.name}</h3>
-                    <div className="flex gap-3 mt-2">
-                      <Instagram className="w-3 h-3 transition-colors cursor-pointer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as SVGElement).style.color="var(--pink-kpop)"}} onMouseLeave={e=>{(e.currentTarget as SVGElement).style.color="var(--t3)"}}/>
-                      <Youtube className="w-3 h-3 transition-colors cursor-pointer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as SVGElement).style.color="#ff0000"}} onMouseLeave={e=>{(e.currentTarget as SVGElement).style.color="var(--t3)"}}/>
-                      <Music2 className="w-3 h-3 transition-colors cursor-pointer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as SVGElement).style.color="#00F2EA"}} onMouseLeave={e=>{(e.currentTarget as SVGElement).style.color="var(--t3)"}}/>
-                    </div>
-                  </div>
-                </div>
-              </Rv>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 18 JUL CASCAIS · 15 AGO SESIMBRA · HUNTRIX · RUMI · MIRAE · ZOEY"/>
 
