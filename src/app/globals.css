@@ -2156,7 +2156,7 @@ html { scroll-behavior: smooth; }
   gap: 0.75rem;
   justify-content: center;
   box-shadow: 0 0 30px rgba(200,80,255,0.06), 0 4px 20px rgba(0,0,0,0.08);
-  overflow: hidden;
+  overflow-y: auto;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
