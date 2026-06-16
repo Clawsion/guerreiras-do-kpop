@@ -1628,11 +1628,14 @@ html { scroll-behavior: smooth; }
 /* ═══════════════════════════════════════════════════════════════ */
 
 .espetaculo-section {
-  position: relative;
-  padding: 7rem 0 8rem;
-  background: var(--void);
-  overflow: hidden;
-}
+    position: relative;
+    padding: 7rem 0 8rem;
+    background: var(--void);
+    background-image: url('/espetaculo-bg-dark.png');
+    background-size: cover;
+    background-position: right center;
+    overflow: hidden;
+  }
 
 /* ═══ Stage Spotlights - 3 cones of pink/magenta light from above ═══ */
 .esp-spotlight {
@@ -3828,10 +3831,7 @@ html { scroll-behavior: smooth; }
 
 /* ═══ Tributo Ao Vivo - lavanda puro (estado anterior, sem rosado) ═══ */
 .light-mode .espetaculo-section {
-  --t1: #1E1040;
-  --t2: #5B3E8A;
-  --t3: #8B6CB0;
-  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
+  background-image: none;
 }
 /* Spotlights - purple curtains swaying in light mode */
 .light-mode .esp-spotlight { opacity: 1; mix-blend-mode: normal; }
