@@ -416,6 +416,7 @@ export default function HomePage() {
   const [burstKey, setBurstKey] = useState(0);
   const [ripple, setRipple] = useState<{active:boolean; x:number; y:number; toMode:'dark'|'light'}|null>(null);
   const [waveActive, setWaveActive] = useState(false);
+  const [heroFlash, setHeroFlash] = useState<'none' | 'to-light' | 'to-dark'>('none');
   const [lightbox, setLightbox] = useState<number | null>(null);
     const [privacyOpen, setPrivacyOpen] = useState(false);
   const orbRef = useRef<HTMLDivElement>(null);
@@ -460,6 +461,17 @@ export default function HomePage() {
 
   const toggleTheme = useCallback(() => {
     setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
+  }, []);
+
+  // ═══ Efeito "acender/apagar" da imagem do hero ao trocar de tema ═══
+  // Dispara um flash que cobre o hero, troca a imagem a meio do flash,
+  // e depois fade-out para revelar a nova imagem. Sincronizado com o
+  // ripple effect do orb (650ms até ao toggleTheme).
+  const triggerHeroFlash = useCallback((toMode: 'light' | 'dark') => {
+    const flashClass = toMode === 'light' ? 'to-light' : 'to-dark';
+    setHeroFlash(flashClass as 'to-light' | 'to-dark');
+    // Limpa o estado depois da animação terminar (~1.4s)
+    window.setTimeout(() => setHeroFlash('none'), 1400);
   }, []);
 
   const navLinks = useMemo(() => [
@@ -579,10 +591,14 @@ export default function HomePage() {
         <img
           src={themeMode === 'light' ? "/hero-bg-light.png" : "/hero-bg.png"}
           alt=""
-          className="hero-bg-img"
+          className={`hero-bg-img ${heroFlash !== 'none' ? 'flashing' : ''}`}
           fetchPriority="high"
           decoding="async"
         />
+        {/* Flash layer - efeito 'acender/apagar' sincronizado com a troca de tema */}
+        {heroFlash !== 'none' && (
+          <div className={`hero-img-flash ${heroFlash}`} aria-hidden="true"/>
+        )}
 
         {/* Grid texture overlay */}
         <div className="hero-grid"/>
@@ -624,7 +640,12 @@ export default function HomePage() {
               </a>
               <button
                 className="hero-nav-theme"
-                onClick={toggleTheme}
+                onClick={() => {
+                  const toMode = themeMode === 'dark' ? 'light' : 'dark';
+                  triggerHeroFlash(toMode);
+                  // Pequeno delay para o flash começar antes da troca
+                  window.setTimeout(() => toggleTheme(), 200);
+                }}
                 aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
               >
                 <span className={`hero-nav-orb ${themeMode}`}/>
@@ -748,6 +769,9 @@ export default function HomePage() {
             setRipple({ active: true, x, y, toMode });
             setBurstKey(k => k + 1);
             setWaveActive(true);
+
+            // Dispara o flash do hero ~400ms antes do toggle (sincronizado com o ripple)
+            window.setTimeout(() => triggerHeroFlash(toMode), 400);
 
             // ─── Wave delay: sections closer to orb change first ───
             const maxDist = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);

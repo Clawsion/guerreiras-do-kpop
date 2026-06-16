@@ -1370,6 +1370,47 @@ html { scroll-behavior: smooth; }
   pointer-events: none;
 }
 
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ HERO FLASH - efeito "acender/apagar" ao trocar de tema ═══ */
+/* ═══════════════════════════════════════════════════════════════ */
+.hero-img-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+/* Noite -> Dia: flash branco/lavanda (acender a luz) */
+.hero-img-flash.to-light {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.95) 0%, rgba(237,224,245,0.92) 40%, rgba(200,165,220,0.85) 100%);
+  animation: heroFlashToLight 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+/* Dia -> Noite: flash preto/roxo escuro (apagar a luz) */
+.hero-img-flash.to-dark {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(11,8,19,0.96) 0%, rgba(30,10,50,0.94) 40%, rgba(45,15,75,0.88) 100%);
+  animation: heroFlashToDark 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes heroFlashToLight {
+  0%   { opacity: 0; transform: scale(1.05); }
+  35%  { opacity: 1; transform: scale(1.0); }    /* pico: imagem antiga escondida */
+  50%  { opacity: 1; transform: scale(1.0); }    /* toggleTheme() acontece aqui */
+  100% { opacity: 0; transform: scale(0.98); }   /* revela nova imagem clara */
+}
+@keyframes heroFlashToDark {
+  0%   { opacity: 0; transform: scale(1.05); }
+  35%  { opacity: 1; transform: scale(1.0); }    /* pico: imagem antiga escondida */
+  50%  { opacity: 1; transform: scale(1.0); }    /* toggleTheme() acontece aqui */
+  100% { opacity: 0; transform: scale(0.98); }   /* revela nova imagem escura */
+}
+/* Enquanto o flash está ativo, a imagem recebe um blur subtíl para suavizar a troca */
+.hero-bg-img.flashing {
+  transition: filter 0.3s ease-out;
+  filter: blur(2px);
+}
+
 /* ═══ Hero content area ═══ */
 .hero-content {
   position: relative;
