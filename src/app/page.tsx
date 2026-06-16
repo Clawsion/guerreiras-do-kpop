@@ -197,6 +197,11 @@ const DualRevealCard = React.memo(function DualRevealCard({ name, color, delay, 
       <div className="dc-layer dc-real">
         <img src={realImg} alt={name} className="dc-img" loading="lazy" decoding="async"/>
       </div>
+
+      {/* Name label */}
+      <div className="dc-name-label">
+        <span style={{ color: color }}>{name}</span>
+      </div>
     </div>
   );
 });
