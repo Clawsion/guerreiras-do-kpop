@@ -6,6 +6,7 @@ import {
   Ticket, MapPin, Clock, Instagram, Youtube, Music2,
   ExternalLink, Send, ChevronRight, ArrowUpRight, Phone, Mail, Facebook,
   Flame, Sparkles, Mic2, MonitorPlay, PartyPopper, Cherry, Bell,
+  Star, Crown, Heart,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
@@ -679,6 +680,32 @@ export default function HomePage() {
           </div>
           {/* Decorative circle */}
           <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
+        </div>
+
+        {/* ═══ HERO TEXT PANEL - alinhado à esquerda (conforme referência) ═══ */}
+        <div className="hero-text-panel">
+          <div className="hero-text-inner">
+            <p className="hero-tagline">Do filme de anima&ccedil;&atilde;o mais visto, agora ao vivo!</p>
+            <h1 className="hero-title">GUERREIRAS<br/>DO K-POP</h1>
+            <div className="hero-pill">TRIBUTO MUSICAL EM TOUR</div>
+            <p className="hero-body">
+              Elas conquistaram o mundo nos ecr&atilde;s. Agora, &eacute; a vez de conquistarem o palco.
+            </p>
+            <div className="hero-icons">
+              <div className="hero-icon">
+                <Star className="hero-icon-glyph"/>
+                <span className="hero-icon-label">Ao Vivo</span>
+              </div>
+              <div className="hero-icon">
+                <Crown className="hero-icon-glyph"/>
+                <span className="hero-icon-label">&Eacute;pico</span>
+              </div>
+              <div className="hero-icon">
+                <Heart className="hero-icon-glyph"/>
+                <span className="hero-icon-label">Para os F&atilde;s</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* ═══ HERO BOTTOM - Countdown + CTA ═══ */}
