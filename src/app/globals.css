@@ -3822,10 +3822,10 @@ html { scroll-behavior: smooth; }
 
 /* Hero overlay - softer in light mode, not harsh white */
 .light-mode .hero-bg-overlay {
-  background: linear-gradient(180deg, rgba(248,242,252,0.15) 0%, rgba(248,242,252,0.0) 25%, rgba(248,242,252,0.0) 40%, rgba(248,242,252,0.25) 75%, rgba(248,242,252,0.55) 100%);
+  background: linear-gradient(180deg, rgba(60,30,90,0.18) 0%, rgba(60,30,90,0.0) 25%, rgba(60,30,90,0.0) 40%, rgba(60,30,90,0.30) 75%, rgba(60,30,90,0.55) 100%);
 }
 .light-mode .hero-vignette {
-  background: radial-gradient(ellipse at 50% 40%, transparent 50%, rgba(248,242,252,0.15) 100%);
+  background: radial-gradient(ellipse at 30% 40%, transparent 50%, rgba(60,30,90,0.25) 100%);
 }
 /* Hero - same surface color as manifesto for seamless flow */
 .light-mode .hero-section {
@@ -3839,7 +3839,7 @@ html { scroll-behavior: smooth; }
 }
 /* Hero glow orbs - softer in light mode */
 .light-mode .hero-glow-orb {
-  opacity: 0.5;
+  opacity: 0.3;
 }
 /* Hero side lines - match light theme */
 .light-mode .hero-side-line {
