@@ -2666,7 +2666,7 @@ html { scroll-behavior: smooth; }
 
 /* ═══ Cartaz FEATURED - moldura mínima, sem padding (proporção correta) ═══ */
 .cartaz-featured .cartaz-img-wrap {
-  aspect-ratio: 766 / 1012;
+  aspect-ratio: auto;
 }
 
 /* Linha fina subtil sempre visível */
@@ -2710,7 +2710,7 @@ html { scroll-behavior: smooth; }
 
 /* ═══ Cartaz SECONDARY - mesmo efeito mas em azul ═══ */
 .cartaz-secondary .cartaz-img-wrap {
-  aspect-ratio: 766 / 1012;
+  aspect-ratio: auto;
 }
 .cartaz-secondary .cartaz-img-wrap::before {
   content: "";
@@ -2748,7 +2748,8 @@ html { scroll-behavior: smooth; }
 
 .cartaz-img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  display: block;
   object-fit: contain;
   object-position: center;
   transition: transform 0.8s cubic-bezier(0.16,1,0.3,1),
