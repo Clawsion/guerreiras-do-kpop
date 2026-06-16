@@ -3877,17 +3877,41 @@ html { scroll-behavior: smooth; }
 
 /* ═══ Tributo Ao Vivo - lavanda puro (estado anterior, sem rosado) ═══ */
 .light-mode .espetaculo-section {
-  background: var(--void);
-  background-image: url('/espetaculo-bg-light.png');
-  background-size: 78% auto;
-  background-position: 100% 25%;
-  background-repeat: no-repeat;
-  background-blend-mode: normal;
+  background-color: #D8B8E8;
+  background-image:
+    linear-gradient(90deg,
+      #C8A5DC 0%,
+      #D2B0E2 25%,
+      #DCBEEC 45%,
+      rgba(216,184,232,0.55) 60%,
+      rgba(216,184,232,0.00) 72%
+    ),
+    url('/espetaculo-bg-light.png');
+  background-size:
+    100% 100%,
+    78% auto;
+  background-position:
+    0 0,
+    100% 25%;
+  background-repeat: no-repeat, no-repeat;
+  background-blend-mode: normal, normal;
 }
 @media (max-width: 1023px) {
   .light-mode .espetaculo-section {
-    background-size: cover;
-    background-position: right top;
+    background-image:
+      linear-gradient(180deg,
+        #C8A5DC 0%,
+        #D8B8E8 40%,
+        rgba(216,184,232,0.55) 70%,
+        rgba(216,184,232,0.30) 100%
+      ),
+      url('/espetaculo-bg-light.png');
+    background-size:
+      100% 100%,
+      cover;
+    background-position:
+      0 0,
+      right top;
   }
 }
 /* Hide dark-mode atmospheric overlays in light mode */
@@ -3903,27 +3927,26 @@ html { scroll-behavior: smooth; }
   z-index: 2;
   background:
     linear-gradient(90deg,
-      rgba(237,224,245,0.96) 0%,
-      rgba(237,224,245,0.92) 30%,
-      rgba(237,224,245,0.65) 45%,
-      rgba(237,224,245,0.20) 55%,
-      rgba(237,224,245,0.00) 65%
+      rgba(200,165,220,0.35) 0%,
+      rgba(210,176,226,0.30) 30%,
+      rgba(216,184,232,0.18) 45%,
+      rgba(216,184,232,0.00) 65%
     ),
     linear-gradient(180deg,
-      rgba(237,224,245,0.55) 0%,
-      rgba(237,224,245,0.00) 18%,
-      rgba(237,224,245,0.00) 80%,
-      rgba(237,224,245,0.55) 100%
+      rgba(200,165,220,0.18) 0%,
+      rgba(216,184,232,0.00) 18%,
+      rgba(216,184,232,0.00) 80%,
+      rgba(200,165,220,0.18) 100%
     );
 }
 @media (max-width: 1023px) {
   .light-mode .espetaculo-section .esp-readability-light {
     background:
       linear-gradient(180deg,
-        rgba(237,224,245,0.95) 0%,
-        rgba(237,224,245,0.80) 35%,
-        rgba(237,224,245,0.45) 65%,
-        rgba(237,224,245,0.35) 100%
+        rgba(200,165,220,0.30) 0%,
+        rgba(216,184,232,0.18) 35%,
+        rgba(216,184,232,0.05) 65%,
+        rgba(216,184,232,0.00) 100%
       );
   }
 }
