@@ -3824,9 +3824,9 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 0 6px rgba(147, 51, 234, 0.3), 0 0 12px rgba(147, 51, 234, 0.1);
 }
 
-/* Honmoon charger section — keep dark in light mode for contrast */
+/* Honmoon charger section — same lavender background as Manifesto/Tributo (no curtain) */
 .light-mode .honmoon-section {
-  background: #0d0815;
+  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
 }
 .light-mode .honmoon-center {
   border-color: rgba(245, 158, 11, 0.15);
