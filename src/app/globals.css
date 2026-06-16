@@ -2020,6 +2020,7 @@ html { scroll-behavior: smooth; }
   border: 1px solid rgba(255,45,120,0.08);
   position: relative;
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  overflow: hidden;
 }
 
 .quiz-card:hover .quiz-card-front {
@@ -2090,15 +2091,144 @@ html { scroll-behavior: smooth; }
   50% { opacity: 0.7; }
 }
 
+/* ═══ WEAPON OVERLAY on Card Front ═══ */
+.quiz-weapon-overlay {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.7;
+  transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+
+.quiz-card:hover .quiz-weapon-overlay {
+  opacity: 1;
+}
+
+/* Position variants — each card has weapon in different spot */
+.quiz-weapon-top {
+  top: 6%;
+}
+.quiz-weapon-center {
+  top: 38%;
+}
+.quiz-weapon-bottom {
+  bottom: 22%;
+}
+
+.quiz-weapon-img {
+  width: 90px;
+  height: auto;
+  display: block;
+  filter: brightness(1.1) drop-shadow(0 0 12px rgba(200,80,255,0.3));
+  mix-blend-mode: screen;
+  transition: filter 0.5s ease;
+}
+
+@media (min-width: 768px) {
+  .quiz-weapon-img {
+    width: 110px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .quiz-weapon-img {
+    width: 130px;
+  }
+}
+
+.quiz-card:hover .quiz-weapon-img {
+  filter: brightness(1.3) drop-shadow(0 0 20px rgba(200,80,255,0.5)) drop-shadow(0 0 40px rgba(255,45,120,0.2));
+}
+
+/* Light mode weapon — adapt to bright background */
+.light-mode .quiz-weapon-img {
+  mix-blend-mode: multiply;
+  filter: brightness(0.85) drop-shadow(0 0 8px rgba(200,80,255,0.15));
+}
+.light-mode .quiz-card:hover .quiz-weapon-img {
+  mix-blend-mode: multiply;
+  filter: brightness(1) drop-shadow(0 0 15px rgba(200,80,255,0.25));
+}
+
+/* ═══ NEON THEME BADGE ═══ */
+.quiz-theme-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(0,0,0,0.55);
+  border: 1px solid color-mix(in srgb, var(--badge-color) 50%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: themeBadgeGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes themeBadgeGlow {
+  0%, 100% { box-shadow: 0 0 8px color-mix(in srgb, var(--badge-color) 20%, transparent); }
+  50% { box-shadow: 0 0 18px color-mix(in srgb, var(--badge-color) 45%, transparent), 0 0 35px color-mix(in srgb, var(--badge-color) 15%, transparent); }
+}
+
+.quiz-theme-icon {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.quiz-theme-text {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--badge-color);
+  text-shadow: 0 0 10px color-mix(in srgb, var(--badge-color) 60%, transparent), 0 0 25px color-mix(in srgb, var(--badge-color) 30%, transparent);
+  font-family: var(--font-geist-mono);
+}
+
+.light-mode .quiz-theme-badge {
+  background: rgba(255,255,255,0.7);
+  border-color: color-mix(in srgb, var(--badge-color) 35%, transparent);
+}
+
+.light-mode .quiz-theme-text {
+  text-shadow: 0 0 6px color-mix(in srgb, var(--badge-color) 25%, transparent);
+}
+
+/* ═══ BACK THEME LABEL ═══ */
+.quiz-back-theme {
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: var(--font-geist-mono);
+  text-shadow: 0 0 12px currentColor, 0 0 25px currentColor;
+  margin-bottom: 0.4rem;
+  animation: backThemePulse 2s ease-in-out infinite;
+}
+
+@keyframes backThemePulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; text-shadow: 0 0 18px currentColor, 0 0 35px currentColor; }
+}
+
+.light-mode .quiz-back-theme {
+  text-shadow: 0 0 6px currentColor;
+}
+
 /* ═══ BACK — Quiz Question ═══ */
 .quiz-card-back {
-  background: linear-gradient(135deg, rgba(28,18,64,0.98) 0%, rgba(11,8,19,1) 100%);
-  border: 1px solid rgba(200,80,255,0.2);
+  background: rgba(255,255,255,0.97);
+  border: 1px solid rgba(200,80,255,0.15);
   transform: rotateY(180deg);
   padding: 1.5rem 1.2rem;
   gap: 0.75rem;
   justify-content: center;
-  box-shadow: 0 0 40px rgba(200,80,255,0.1), 0 0 80px rgba(255,45,120,0.04);
+  box-shadow: 0 0 30px rgba(200,80,255,0.06), 0 4px 20px rgba(0,0,0,0.08);
   overflow-y: auto;
 }
 
@@ -2106,10 +2236,9 @@ html { scroll-behavior: smooth; }
   font-size: 15px;
   line-height: 1.5;
   text-align: center;
-  color: rgba(255,255,255,0.92);
-  font-weight: 400;
+  color: rgba(30,15,50,0.9);
+  font-weight: 500;
   letter-spacing: -0.01em;
-  text-shadow: 0 0 15px rgba(200,80,255,0.12);
   margin-bottom: 0.5rem;
 }
 
@@ -2127,9 +2256,9 @@ html { scroll-behavior: smooth; }
   font-size: 12px;
   line-height: 1.4;
   text-align: left;
-  color: rgba(255,255,255,0.8);
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
+  color: rgba(40,20,60,0.8);
+  background: rgba(200,80,255,0.04);
+  border: 1px solid rgba(200,80,255,0.12);
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
@@ -2137,10 +2266,10 @@ html { scroll-behavior: smooth; }
   letter-spacing: 0.01em;
 }
 .quiz-option:hover {
-  background: rgba(200,80,255,0.12);
+  background: rgba(200,80,255,0.1);
   border-color: rgba(200,80,255,0.35);
-  color: #fff;
-  box-shadow: 0 0 15px rgba(200,80,255,0.1);
+  color: rgba(30,15,50,0.95);
+  box-shadow: 0 0 12px rgba(200,80,255,0.08);
   transform: translateX(3px);
 }
 .quiz-option:active {
@@ -2149,27 +2278,25 @@ html { scroll-behavior: smooth; }
 
 /* ═══ Correct Answer — Green Neon Burst ═══ */
 .quiz-option.quiz-correct {
-  background: rgba(0,255,136,0.15);
-  border-color: rgba(0,255,136,0.6);
-  color: #00ff88;
-  box-shadow: 0 0 20px rgba(0,255,136,0.25), 0 0 40px rgba(0,255,136,0.08);
-  text-shadow: 0 0 8px rgba(0,255,136,0.4);
+  background: rgba(0,200,100,0.12);
+  border-color: rgba(0,200,100,0.5);
+  color: #00994d;
+  box-shadow: 0 0 15px rgba(0,200,100,0.15), 0 0 30px rgba(0,200,100,0.05);
   animation: quizCorrectPulse 0.6s ease-out;
   pointer-events: none;
 }
 @keyframes quizCorrectPulse {
-  0% { transform: scale(1); box-shadow: 0 0 0 rgba(0,255,136,0); }
-  50% { transform: scale(1.04); box-shadow: 0 0 30px rgba(0,255,136,0.4), 0 0 60px rgba(0,255,136,0.15); }
-  100% { transform: scale(1); box-shadow: 0 0 20px rgba(0,255,136,0.25), 0 0 40px rgba(0,255,136,0.08); }
+  0% { transform: scale(1); box-shadow: 0 0 0 rgba(0,200,100,0); }
+  50% { transform: scale(1.04); box-shadow: 0 0 25px rgba(0,200,100,0.3), 0 0 50px rgba(0,200,100,0.1); }
+  100% { transform: scale(1); box-shadow: 0 0 15px rgba(0,200,100,0.15), 0 0 30px rgba(0,200,100,0.05); }
 }
 
 /* ═══ Wrong Answer — Red Neon Flash ═══ */
 .quiz-option.quiz-wrong {
-  background: rgba(255,45,80,0.15);
-  border-color: rgba(255,45,80,0.6);
-  color: #ff2d50;
-  box-shadow: 0 0 20px rgba(255,45,80,0.25), 0 0 40px rgba(255,45,80,0.08);
-  text-shadow: 0 0 8px rgba(255,45,80,0.4);
+  background: rgba(220,30,60,0.1);
+  border-color: rgba(220,30,60,0.5);
+  color: #cc1a3a;
+  box-shadow: 0 0 15px rgba(220,30,60,0.15), 0 0 30px rgba(220,30,60,0.05);
   animation: quizWrongShake 0.5s ease-out;
   pointer-events: none;
 }
@@ -2201,26 +2328,24 @@ html { scroll-behavior: smooth; }
 }
 
 .quiz-result-correct {
-  color: #00ff88;
-  background: rgba(0,255,136,0.08);
-  border: 1px solid rgba(0,255,136,0.3);
-  text-shadow: 0 0 10px rgba(0,255,136,0.3);
-  box-shadow: 0 0 20px rgba(0,255,136,0.1);
+  color: #00994d;
+  background: rgba(0,200,100,0.08);
+  border: 1px solid rgba(0,200,100,0.3);
+  box-shadow: 0 0 15px rgba(0,200,100,0.1);
 }
 
 .quiz-result-wrong {
-  color: #ff2d50;
-  background: rgba(255,45,80,0.08);
-  border: 1px solid rgba(255,45,80,0.3);
-  text-shadow: 0 0 10px rgba(255,45,80,0.3);
-  box-shadow: 0 0 20px rgba(255,45,80,0.1);
+  color: #cc1a3a;
+  background: rgba(220,30,60,0.08);
+  border: 1px solid rgba(220,30,60,0.3);
+  box-shadow: 0 0 15px rgba(220,30,60,0.1);
 }
 
 /* ═══ Quiz Score Bar ═══ */
 .quiz-score-bar {
   margin-top: 2rem;
   padding: 1rem 1.5rem;
-  background: linear-gradient(135deg, rgba(28,18,64,0.6) 0%, rgba(11,8,19,0.8) 100%);
+  background: rgba(255,255,255,0.92);
   border: 1px solid rgba(200,80,255,0.12);
   border-radius: 6px;
   display: flex;
@@ -2230,13 +2355,14 @@ html { scroll-behavior: smooth; }
   max-width: 480px;
   margin-left: auto;
   margin-right: auto;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
 }
 
 .quiz-score-label {
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
+  color: rgba(60,40,80,0.5);
   font-family: var(--font-geist-mono);
 }
 
@@ -2245,14 +2371,14 @@ html { scroll-behavior: smooth; }
   font-weight: 200;
   letter-spacing: 0.05em;
   color: var(--pink-kpop);
-  text-shadow: 0 0 15px rgba(255,45,120,0.3);
+  text-shadow: 0 0 10px rgba(255,45,120,0.15);
   margin-left: auto;
 }
 
 .quiz-score-progress {
   width: 100%;
   height: 3px;
-  background: rgba(255,255,255,0.06);
+  background: rgba(200,80,255,0.08);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -2262,7 +2388,7 @@ html { scroll-behavior: smooth; }
   background: linear-gradient(90deg, var(--pink-kpop), var(--neon-purple));
   border-radius: 2px;
   transition: width 0.5s cubic-bezier(0.16,1,0.3,1);
-  box-shadow: 0 0 10px rgba(255,45,120,0.3);
+  box-shadow: 0 0 10px rgba(255,45,120,0.2);
 }
 
 /* ═══ Quiz Light Mode ═══ */
@@ -2282,19 +2408,19 @@ html { scroll-behavior: smooth; }
 }
 .light-mode .quiz-char-name {
   background: linear-gradient(to top, #f0e6ff 0%, rgba(240,230,255,0.6) 60%, transparent 100%);
+  color: rgba(60,40,80,0.9);
 }
 .light-mode .quiz-hint {
   color: rgba(60,40,80,0.35);
 }
 
 .light-mode .quiz-card-back {
-  background: linear-gradient(135deg, rgba(245,238,255,0.98) 0%, rgba(230,222,248,1) 100%);
-  border-color: rgba(200,80,255,0.15);
-  box-shadow: 0 0 25px rgba(200,80,255,0.06);
+  background: rgba(255,255,255,0.98);
+  border-color: rgba(200,80,255,0.12);
+  box-shadow: 0 0 15px rgba(200,80,255,0.04), 0 2px 10px rgba(0,0,0,0.06);
 }
 .light-mode .quiz-question {
   color: rgba(30,15,50,0.9);
-  text-shadow: none;
 }
 .light-mode .quiz-option {
   color: rgba(40,20,60,0.75);
@@ -2312,32 +2438,29 @@ html { scroll-behavior: smooth; }
   border-color: rgba(0,200,100,0.5);
   color: #00994d;
   box-shadow: 0 0 12px rgba(0,200,100,0.12);
-  text-shadow: none;
 }
 .light-mode .quiz-option.quiz-wrong {
   background: rgba(220,30,60,0.1);
   border-color: rgba(220,30,60,0.5);
   color: #cc1a3a;
   box-shadow: 0 0 12px rgba(220,30,60,0.12);
-  text-shadow: none;
 }
 .light-mode .quiz-result-correct {
   color: #00994d;
   background: rgba(0,200,100,0.06);
   border-color: rgba(0,200,100,0.25);
-  text-shadow: none;
   box-shadow: 0 0 12px rgba(0,200,100,0.08);
 }
 .light-mode .quiz-result-wrong {
   color: #cc1a3a;
   background: rgba(220,30,60,0.06);
   border-color: rgba(220,30,60,0.25);
-  text-shadow: none;
   box-shadow: 0 0 12px rgba(220,30,60,0.08);
 }
 .light-mode .quiz-score-bar {
-  background: linear-gradient(135deg, rgba(245,238,255,0.5) 0%, rgba(230,222,248,0.7) 100%);
+  background: rgba(255,255,255,0.95);
   border-color: rgba(200,80,255,0.1);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.03);
 }
 .light-mode .quiz-score-label {
   color: rgba(60,40,80,0.45);
@@ -2353,19 +2476,19 @@ html { scroll-behavior: smooth; }
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.6);
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(40,20,60,0.6);
+  background: rgba(200,80,255,0.06);
+  border: 1px solid rgba(200,80,255,0.15);
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: inherit;
 }
 .quiz-back-btn:hover {
-  color: #fff;
-  background: rgba(200,80,255,0.15);
+  color: rgba(30,15,50,0.95);
+  background: rgba(200,80,255,0.12);
   border-color: rgba(200,80,255,0.4);
-  box-shadow: 0 0 12px rgba(200,80,255,0.15);
+  box-shadow: 0 0 12px rgba(200,80,255,0.1);
 }
 
 .light-mode .quiz-back-btn {
@@ -2964,9 +3087,9 @@ html { scroll-behavior: smooth; }
 /* Smooth transition on themed elements — wave-delay creates ripple effect */
 /* Applied to BOTH directions so wave-delay works dark→light AND light→dark */
 .light-mode,
-.light-mode *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right),
+.light-mode *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.quiz-weapon-img):not(.quiz-weapon-overlay):not(.quiz-theme-badge):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right),
 :not(.light-mode).wave-transition,
-:not(.light-mode).wave-transition *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right) {
+:not(.light-mode).wave-transition *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.quiz-weapon-img):not(.quiz-weapon-overlay):not(.quiz-theme-badge):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right) {
   transition: background-color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
               color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
               border-color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
