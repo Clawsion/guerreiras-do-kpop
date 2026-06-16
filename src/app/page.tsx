@@ -8,9 +8,6 @@ import {
   ExternalLink, Send, ChevronRight, ArrowUpRight, Phone, Mail, Facebook,
   Flame, Sparkles, Mic2, MonitorPlay, PartyPopper, Cherry, Bell,
 } from "lucide-react";
-import {
-  Accordion, AccordionContent, AccordionItem, AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 
 /* ════════════════════════════════════════ */
@@ -472,7 +469,6 @@ export default function HomePage() {
     { l: "Identidade", h: "#identidade" },
     { l: "Mural", h: "#galeria" },
     { l: "Cartazes", h: "#cartazes" },
-    { l: "FAQ", h: "#faq" },
     { l: "Contacto", h: "#contacto" },
   ], []);
 
@@ -786,25 +782,25 @@ export default function HomePage() {
             }, 2200);
           }}
           role="button"
-          title={themeMode === 'dark' ? 'Toca para despertar o Honmoon' : 'Toca para adormecer o Honmoon'}
-          aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
+          title={themeMode === 'dark' ? 'Carrega para Ativar o modo Dia' : 'Carrega para Ativar o modo Noite'}
+          aria-label={themeMode === 'dark' ? 'Ativar modo Dia' : 'Ativar modo Noite'}
         >
           {/* Inner energy strands */}
           <div className={`hm-strand hm-strand-1 ${themeMode}`}/>
           <div className={`hm-strand hm-strand-2 ${themeMode}`}/>
           <div className={`hm-strand hm-strand-3 ${themeMode}`}/>
 
-          {/* Center text - MODO DIA / MODO NOITE */}
+          {/* Center text - ADORMECER E DESPERTAR */}
           <span className={`hm-label ${themeMode}`}>
-            {themeMode === 'light' ? 'MODO DIA' : 'MODO NOITE'}
+            {themeMode === 'light' ? 'ADORMECER' : 'DESPERTAR'}
           </span>
 
           {/* Click hint - finger tap indicator */}
           <span className={`hm-tap-hint ${themeMode}`}/>
 
-          {/* Hover hint - appears on hover */}
-          <span className="hm-hover-hint">
-            {themeMode === 'dark' ? 'DESPERTAR' : 'ADORMECER'}
+          {/* Soft hint for kids - always visible */}
+          <span className={`hm-kid-hint ${themeMode}`}>
+            {themeMode === 'light' ? 'Carrega para Ativar o modo Noite' : 'Carrega para Ativar o modo Dia'}
           </span>
         </div>
 
@@ -1156,33 +1152,6 @@ export default function HomePage() {
       <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 18 JUL CASCAIS · 15 AGO SESIMBRA · ZOEY · RUMI · MIRA"/>
 
       <div className="neon-div max-w-[1400px] mx-auto"/>
-
-      {/* ═══ FAQ ═══ */}
-      <section id="faq" className="py-24 sm:py-40 px-5 sm:px-10">
-        <div className="max-w-3xl mx-auto">
-          <Rv>
-            <p className="sec-num mb-4">05 - FAQ</p>
-            <h2 className="text-3xl sm:text-5xl font-extralight tracking-[-0.03em] mb-14" style={{color:"var(--t1)"}}>Perguntas Frequentes</h2>
-          </Rv>
-          <Rv delay={100}>
-            <Accordion type="single" collapsible className="space-y-[2px]">
-              {[
-                {q:"Qual a idade mínima para entrar no festival?",a:"O festival é para todas as idades! Crianças até aos 5 anos não pagam entrada (desde que acompanhadas por um adulto). Menores de 12 anos devem estar sempre acompanhados por um responsável adulto. O ambiente é familiar e seguro."},
-                {q:"Onde posso comprar bilhetes?",a:"Os bilhetes estão disponíveis exclusivamente na Ticketline, o nosso parceiro oficial. Podes comprar online em ticketline.pt ou nos pontos de venda habituais."},
-                {q:"Posso trazer a minha lightstick?",a:"Claro que sim! As lightsticks são bem-vindas e encorajadas. Não são permitidos objetos perigosos como bastões com pontas metálicas ou lasers."},
-                {q:"Há estacionamento no local?",a:"Sim, existe estacionamento gratuito nas proximidades da Academia das Artes do Estoril. A estação de comboios fica a 5 minutos a pé."},
-                {q:"O evento acontece com chuva?",a:"Os palcos principais são cobertos. Aconselhamos impermeável leve. Em condições extremas, o evento poderá ser adiado e os bilhetes mantêm-se válidos."},
-                {q:"Posso reembolsar o meu bilhete?",a:"Bilhetes reembolsáveis até 7 dias após compra, com 48h de antecedência. Contacta a Ticketline diretamente."},
-              ].map((f,i)=>(
-                <AccordionItem key={i} value={`f-${i}`} style={{background:"var(--surface)",border:"none",borderRadius:0}}>
-                  <AccordionTrigger className="text-left text-[14px] font-normal px-6 py-5 hover:no-underline transition-colors" style={{color:"var(--t1)"}}>{f.q}</AccordionTrigger>
-                  <AccordionContent className="px-6 pb-5 text-[14px] leading-relaxed" style={{color:"var(--t2)"}}>{f.a}</AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </Rv>
-        </div>
-      </section>
 
       {/* ═══ CONTACTE-NOS - Reservas & Eventos ═══ */}
       <section id="contacto" className="contacto-section px-5 sm:px-10">
