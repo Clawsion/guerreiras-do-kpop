@@ -1632,8 +1632,8 @@ html { scroll-behavior: smooth; }
     padding: 7rem 0 8rem;
     background: var(--void);
     background-image: url('/espetaculo-bg-dark.png');
-    background-size: 72% auto;
-    background-position: 100% center;
+    background-size: 78% auto;
+    background-position: 100% 25%;
     background-repeat: no-repeat;
     overflow: hidden;
   }
@@ -1641,7 +1641,7 @@ html { scroll-behavior: smooth; }
 @media (max-width: 1023px) {
   .espetaculo-section {
     background-size: cover;
-    background-position: right center;
+    background-position: right top;
   }
 }
 
@@ -3879,15 +3879,15 @@ html { scroll-behavior: smooth; }
 .light-mode .espetaculo-section {
   background: var(--void);
   background-image: url('/espetaculo-bg-light.png');
-  background-size: 72% auto;
-  background-position: 100% center;
+  background-size: 78% auto;
+  background-position: 100% 25%;
   background-repeat: no-repeat;
   background-blend-mode: normal;
 }
 @media (max-width: 1023px) {
   .light-mode .espetaculo-section {
     background-size: cover;
-    background-position: right center;
+    background-position: right top;
   }
 }
 /* Hide dark-mode atmospheric overlays in light mode */
