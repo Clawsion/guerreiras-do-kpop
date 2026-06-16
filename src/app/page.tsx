@@ -575,9 +575,9 @@ export default function HomePage() {
 
       {/* ═══ HERO - FULL SCREEN ═══ */}
       <section className="hero-section" style={{background:"var(--void)"}}>
-        {/* Background image - full bleed */}
+        {/* Background image - full bleed (imagem clara em modo dia, escura em modo noite) */}
         <img
-          src="/hero-bg.png"
+          src={themeMode === 'light' ? "/hero-bg-light.png" : "/hero-bg.png"}
           alt=""
           className="hero-bg-img"
           fetchPriority="high"
