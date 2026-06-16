@@ -175,17 +175,6 @@ const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
         <div className="memories-smoke memories-smoke-2"/>
         <div className="memories-smoke memories-smoke-3"/>
       </div>
-      {/* Indicadores (pontos) */}
-      <div className="memories-dots">
-        {MEMORIES_IMAGES.map((_, i) => (
-          <button
-            key={i}
-            className={`memories-dot ${i === active ? "active" : ""}`}
-            onClick={() => setActive(i)}
-            aria-label={`Ver lembrança ${i + 1}`}
-          />
-        ))}
-      </div>
     </div>
   );
 });
