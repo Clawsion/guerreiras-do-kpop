@@ -977,6 +977,28 @@ export default function HomePage() {
               </article>
             </Rv>
 
+              {/* ═══ CAPARICA - Costa da Caparica ═══ */}
+              <Rv delay={275}>
+                <article className="cartaz-card cartaz-secondary">
+                  <div className="cartaz-img-wrap">
+                    <img src="/poster-caparica.png" alt="Cartaz Costa da Caparica - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
+                    <div className="cartaz-overlay"/>
+                    <div className="cartaz-tag cartaz-tag-soon">Em breve</div>
+                  </div>
+                  <div className="cartaz-info">
+                    <p className="cartaz-city" style={{color:"var(--gold)"}}>Costa da Caparica</p>
+                    <p className="cartaz-date">09 AGO 2026 &middot; 18:00h</p>
+                    <p className="cartaz-status cartaz-status-soon">
+                      <span className="cartaz-status-dot cartaz-status-dot-soon"/> Bilhetes em breve
+                    </p>
+                    <p className="cartaz-venue">Pavilhão Municipal da Costa da Caparica</p>
+                    <button type="button" className="cartaz-buy-btn cartaz-buy-btn-soon" disabled>
+                      <Bell className="w-4 h-4"/> Avisar-me quando abrir
+                    </button>
+                  </div>
+                </article>
+              </Rv>
+
             {/* ═══ SESIMBRA - Destaque secundário (mais pequeno) ═══ */}
             <Rv delay={350}>
               <article className="cartaz-card cartaz-secondary">
@@ -1042,7 +1064,7 @@ export default function HomePage() {
       </section>
       <div className="neon-div max-w-[1400px] mx-auto"/>
 
-      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 18 JUL CASCAIS · 15 AGO SESIMBRA · ZOEY · RUMI · MIRA"/>
+      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 18 JUL CASCAIS · 09 AGO COSTA DA CAPARICA · 15 AGO SESIMBRA · ZOEY · RUMI · MIRA"/>
 
       <div className="neon-div max-w-[1400px] mx-auto"/>
 
