@@ -744,17 +744,20 @@ export default function HomePage() {
           <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
         </div>
 
-        {/* ═══ HERO BOTTOM - Countdown + CTA ═══ */}
+        {/* ═══ HERO BOTTOM - CTA + Data (sem countdown) ═══ */}
         <div className="hero-bottom-panel absolute bottom-0 inset-x-0 z-10 flex flex-col items-center pb-14 sm:pb-20">
-          <div className="hero-countdown-wrap">
-            <HeroCountdown />
+          {/* Arco de neons decorativo atrás do botão */}
+          <div className="hero-cta-arc" aria-hidden="true">
+            <div className="hero-cta-arc-ring hero-cta-arc-ring-1"/>
+            <div className="hero-cta-arc-ring hero-cta-arc-ring-2"/>
+            <div className="hero-cta-arc-ring hero-cta-arc-ring-3"/>
           </div>
           <a
             href="#cartazes"
             className="hero-cta"
             onClick={e => { e.preventDefault(); document.getElementById('cartazes')?.scrollIntoView({ behavior: 'smooth' }); }}
           >
-            Garante o Teu Lugar <ChevronRight className="w-3.5 h-3.5"/>
+            Garante o Teu Lugar <ChevronRight className="w-3 h-3"/>
           </a>
           <div className="hero-date-wrap">
             <p className="hero-date-line">
