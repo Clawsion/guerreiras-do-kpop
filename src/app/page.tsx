@@ -395,7 +395,13 @@ const HonmoonCharger = React.memo(function HonmoonCharger() {
 export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [themeMode, setThemeMode] = useState<'dark' | 'light'>('dark');
+  const [themeMode, setThemeMode] = useState<'dark' | 'light'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('honmoon-theme');
+      if (saved === 'light') return 'light';
+    }
+    return 'dark';
+  });
   const [burstKey, setBurstKey] = useState(0);
   const [ripple, setRipple] = useState<{active:boolean; x:number; y:number; toMode:'dark'|'light'}|null>(null);
   const [waveActive, setWaveActive] = useState(false);
@@ -426,12 +432,9 @@ export default function HomePage() {
     return () => document.removeEventListener("visibilitychange", onVis);
   }, []);
 
-  // localStorage persistence for theme — read on mount
+  // Sync light-mode class to <html> on mount (theme already read from localStorage via useState initializer)
   useEffect(() => {
-    const saved = localStorage.getItem('honmoon-theme');
-    if (saved === 'light') {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setThemeMode('light');
+    if (themeMode === 'light') {
       document.documentElement.classList.add('light-mode');
     }
   }, []);
