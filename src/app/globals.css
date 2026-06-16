@@ -3850,41 +3850,41 @@ html { scroll-behavior: smooth; }
   background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%) !important;
 }
 
-/* Manifesto glow — golden/iridescent in light mode instead of purple */
+/* Manifesto glow — soft lavender aura in light mode to match section background */
 .light-mode .manifesto-glow {
-  background: radial-gradient(ellipse at 50% 50%, rgba(245,158,11,0.15) 0%, rgba(252,211,77,0.08) 25%, transparent 60%);
+  background: radial-gradient(ellipse at 50% 50%, rgba(167,139,250,0.22) 0%, rgba(196,181,253,0.12) 25%, transparent 60%);
 }
 
-/* LED wall frame — golden glow in light mode */
+/* LED wall frame — soft lavender glow in light mode */
 .light-mode .led-wall-frame {
   box-shadow:
-    0 0 50px rgba(245,158,11,0.30),
-    0 0 100px rgba(245,158,11,0.12),
+    0 0 50px rgba(167,139,250,0.30),
+    0 0 100px rgba(196,181,253,0.15),
     0 0 160px rgba(196,181,253,0.08),
-    0 10px 40px rgba(30,16,64,0.15);
+    0 10px 40px rgba(91,62,138,0.18);
 }
 
-/* Monitor glow — warm golden spill in light mode */
+/* Monitor glow — soft lavender spill in light mode */
 .light-mode .monitor-glow-left {
   background: radial-gradient(ellipse at 100% 50%,
-    rgba(245,158,11,0.25) 0%,
-    rgba(245,158,11,0.10) 12%,
-    rgba(245,158,11,0.03) 25%,
+    rgba(167,139,250,0.22) 0%,
+    rgba(196,181,253,0.10) 12%,
+    rgba(196,181,253,0.03) 25%,
     transparent 50%) !important;
 }
 .light-mode .monitor-glow-right {
   background: radial-gradient(ellipse at 0% 50%,
-    rgba(245,158,11,0.25) 0%,
-    rgba(245,158,11,0.10) 12%,
-    rgba(245,158,11,0.03) 25%,
+    rgba(167,139,250,0.22) 0%,
+    rgba(196,181,253,0.10) 12%,
+    rgba(196,181,253,0.03) 25%,
     transparent 50%) !important;
 }
 
-/* LED ambient sync — warm palette in light mode */
+/* LED ambient sync — soft lavender palette in light mode */
 .light-mode .led-ambient-sync {
   background: radial-gradient(ellipse at 50% 50%,
-    rgba(245,158,11,0.12) 0%,
-    rgba(252,211,77,0.05) 30%,
+    rgba(167,139,250,0.14) 0%,
+    rgba(196,181,253,0.06) 30%,
     transparent 60%) !important;
 }
 
