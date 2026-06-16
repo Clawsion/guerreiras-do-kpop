@@ -989,16 +989,16 @@ export default function HomePage() {
               </Rv>
             </div>
 
-            {/* RIGHT — Weapons Artwork (sem fundo) */}
+            {/* RIGHT — Weapons Artwork (sem fundo, vertical, distribuídas) */}
             <div className="esp-right">
               <div className="esp-weapons-stack">
                 {[
-                  { src: "/weapon-zoey-nobg.png", alt: "Adagas da Zoey", color: "var(--blue-accent)" },
-                  { src: "/weapon-rumi-nobg.png", alt: "Espada da Rumi", color: "var(--neon-purple)" },
-                  { src: "/weapon-mira-nobg.png", alt: "Guilhotina da Mirae", color: "var(--pink-kpop)" },
+                  { src: "/weapon-mira-nobg.png", alt: "Guilhotina da Mirae", color: "var(--pink-kpop)", rot: "-6deg", offset: "-8px" },
+                  { src: "/weapon-zoey-nobg.png", alt: "Adagas da Zoey", color: "var(--blue-accent)", rot: "4deg", offset: "12px" },
+                  { src: "/weapon-rumi-nobg.png", alt: "Espada da Rumi", color: "var(--neon-purple)", rot: "-3deg", offset: "-4px" },
                 ].map((w, i) => (
                   <Rv key={w.alt} delay={150 + i * 120}>
-                    <div className="esp-weapon-item" style={{ '--weapon-color': w.color } as React.CSSProperties}>
+                    <div className="esp-weapon-item" style={{ '--weapon-color': w.color, '--weapon-rot': w.rot, '--weapon-offset': w.offset } as React.CSSProperties}>
                       <img src={w.src} alt={w.alt} className="esp-weapon-img" loading="lazy" decoding="async" />
                     </div>
                   </Rv>
