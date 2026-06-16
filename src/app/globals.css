@@ -2024,6 +2024,8 @@ html { scroll-behavior: smooth; }
   position: relative;
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
   overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .quiz-card:hover .quiz-card-front {
@@ -2094,112 +2096,31 @@ html { scroll-behavior: smooth; }
   50% { opacity: 0.7; }
 }
 
-/* ═══ WEAPON OVERLAY on Card Front ═══ */
-.quiz-weapon-overlay {
+/* ═══ THEME LABEL — centered at top, neon text, no icon ═══ */
+.quiz-theme-label {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5;
-  pointer-events: none;
-  opacity: 0.7;
-  transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1);
-}
-
-.quiz-card:hover .quiz-weapon-overlay {
-  opacity: 1;
-}
-
-/* Position variants — each card has weapon in different spot */
-.quiz-weapon-top {
-  top: 6%;
-}
-.quiz-weapon-center {
-  top: 38%;
-}
-.quiz-weapon-bottom {
-  bottom: 22%;
-}
-
-.quiz-weapon-img {
-  width: 90px;
-  height: auto;
-  display: block;
-  filter: brightness(1.1) drop-shadow(0 0 12px rgba(200,80,255,0.3));
-  mix-blend-mode: screen;
-  transition: filter 0.5s ease;
-}
-
-@media (min-width: 768px) {
-  .quiz-weapon-img {
-    width: 110px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .quiz-weapon-img {
-    width: 130px;
-  }
-}
-
-.quiz-card:hover .quiz-weapon-img {
-  filter: brightness(1.3) drop-shadow(0 0 20px rgba(200,80,255,0.5)) drop-shadow(0 0 40px rgba(255,45,120,0.2));
-}
-
-/* Light mode weapon — adapt to bright background */
-.light-mode .quiz-weapon-img {
-  mix-blend-mode: multiply;
-  filter: brightness(0.85) drop-shadow(0 0 8px rgba(200,80,255,0.15));
-}
-.light-mode .quiz-card:hover .quiz-weapon-img {
-  mix-blend-mode: multiply;
-  filter: brightness(1) drop-shadow(0 0 15px rgba(200,80,255,0.25));
-}
-
-/* ═══ NEON THEME BADGE ═══ */
-.quiz-theme-badge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
   z-index: 6;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  background: rgba(0,0,0,0.55);
-  border: 1px solid color-mix(in srgb, var(--badge-color) 50%, transparent);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  animation: themeBadgeGlow 2.5s ease-in-out infinite;
-}
-
-@keyframes themeBadgeGlow {
-  0%, 100% { box-shadow: 0 0 8px color-mix(in srgb, var(--badge-color) 20%, transparent); }
-  50% { box-shadow: 0 0 18px color-mix(in srgb, var(--badge-color) 45%, transparent), 0 0 35px color-mix(in srgb, var(--badge-color) 15%, transparent); }
-}
-
-.quiz-theme-icon {
-  font-size: 12px;
-  line-height: 1;
-}
-
-.quiz-theme-text {
-  font-size: 9px;
-  letter-spacing: 0.2em;
+  font-size: 10px;
+  letter-spacing: 0.35em;
   text-transform: uppercase;
   font-weight: 700;
-  color: var(--badge-color);
-  text-shadow: 0 0 10px color-mix(in srgb, var(--badge-color) 60%, transparent), 0 0 25px color-mix(in srgb, var(--badge-color) 30%, transparent);
   font-family: var(--font-geist-mono);
+  text-shadow: 0 0 12px currentColor, 0 0 28px currentColor;
+  animation: themeLabelPulse 2.5s ease-in-out infinite;
+  pointer-events: none;
 }
 
-.light-mode .quiz-theme-badge {
-  background: rgba(255,255,255,0.7);
-  border-color: color-mix(in srgb, var(--badge-color) 35%, transparent);
+@keyframes themeLabelPulse {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; text-shadow: 0 0 18px currentColor, 0 0 40px currentColor; }
 }
 
-.light-mode .quiz-theme-text {
-  text-shadow: 0 0 6px color-mix(in srgb, var(--badge-color) 25%, transparent);
+.light-mode .quiz-theme-label {
+  text-shadow: 0 0 8px currentColor;
 }
 
 /* ═══ BACK THEME LABEL ═══ */
