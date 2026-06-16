@@ -150,6 +150,7 @@ const HonmoonDivider = React.memo(function HonmoonDivider() {
 const MEMORIES_IMAGES = [
   { src: "/memories/memory-1.webp", alt: "Lembrança do universo K-Pop" },
   { src: "/memories/memory-2.webp", alt: "Lembrança das Guerreiras" },
+  { src: "/memories/memory-3.webp", alt: "Lembrança do espetáculo ao vivo" },
 ];
 
 const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
