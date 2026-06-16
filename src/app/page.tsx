@@ -1354,9 +1354,7 @@ ${fd.get("msg") || ""}`
               </div>
               <div>
                 <p className="sec-num mb-3">Produção</p>
-                <a href="https://jovsta.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
-                  JOVSTA <ArrowUpRight className="w-3 h-3"/>
-                </a>
+                <span className="text-[14px]" style={{color:"var(--t2)"}}>Viva - Artes &amp; Produções</span>
               </div>
               <div>
                 <p className="sec-num mb-3">Redes Sociais</p>
