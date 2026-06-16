@@ -1038,7 +1038,7 @@ export default function HomePage() {
       <section id="galeria" className="galeria-section px-5 sm:px-10">
         <div className="max-w-[1400px] mx-auto">
           <Rv>
-            <p className="sec-num mb-4">Galeria</p>
+            <p className="sec-num mb-4">Mural</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
               Momentos que <span className="neon-shimmer">Brilham</span>
             </h2>
