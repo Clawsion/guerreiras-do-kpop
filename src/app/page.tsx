@@ -829,7 +829,7 @@ export default function HomePage() {
             {/* LEFT - Description */}
             <div className="esp-left">
               <Rv>
-                <p className="sec-num mb-4" style={{color:"var(--pink-light)"}}>Tributo Ao Vivo</p>
+                <p className="sec-num mb-4"><span style={{color:"var(--pink-light)"}}>+</span> TRIBUTO AO VIVO</p>
                 <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-3" style={{color:"var(--t1)"}}>
                   O Honmoon <span className="esp-title-accent">Ganha Vida</span>
                 </h2>
@@ -846,15 +846,20 @@ export default function HomePage() {
               </Rv>
               <Rv delay={350}>
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
+                <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
                   Este n&atilde;o &eacute; um concerto. &Eacute; um tributo que traz a magia do filme de anima&ccedil;&atilde;o para o palco &mdash; onde a fic&ccedil;&atilde;o
-                  se torna realidade e cada nota carrega o poder de um universo inteiro. <span style={{color:"var(--neon-purple)"}}>Coreografias de</span> BLACKPINK, BTS e aespa
+                  se torna realidade e cada nota carrega o poder de um universo inteiro.
+                </p>
+              </Rv>
+              <Rv delay={380}>
+                <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
+                  <span style={{color:"var(--pink-light)"}}>Coreografias</span> de BLACKPINK, BTS e aespa
                   executadas por performers de elite que encarnam o esp&iacute;rito das Guerreiras com precis&atilde;o e intensidade.
                   N&uacute;meros de dan&ccedil;a, interl&uacute;dios teatrais e momentos visuais que recriam as cenas mais ic&oacute;nicas.
                   Luzes que cortam o escuro como l&acirc;minas de energia. <span style={{color:"var(--pink-kpop)"}}>Efeitos pirot&eacute;cnicos</span> que transformam o palco
                   num campo de batalha &mdash; exatamente como no filme. Os maiores hits K-Pop ressoam num espet&aacute;culo
                   que se sente, n&atilde;o se v&ecirc; apenas.
                 </p>
-              </Rv>
               <Rv delay={420}>
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
                   Um espet&aacute;culo de variedades que transcende o concerto tradicional &mdash; com momentos de intera&ccedil;&atilde;o com o p&uacute;blico, onde cada instante &eacute; uma fatia
@@ -884,7 +889,9 @@ export default function HomePage() {
             </div>
 
             {/* RIGHT - espaço reservado para armas */}
-            <div className="esp-right" />
+            <div className="esp-right">
+              <img src="/espetaculo-stage.png" alt="Palco Guerreiras do K-Pop" className="esp-right-img"/>
+            </div>
           </div>
         </div>
       </section>
