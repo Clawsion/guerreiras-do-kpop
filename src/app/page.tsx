@@ -875,11 +875,6 @@ export default function HomePage() {
                   </p>
                 </div>
               </Rv>
-              <Rv delay={560}>
-                <p className="text-[16px] leading-[1.8] mb-10 font-medium" style={{color:"var(--neon-purple)"}}>
-                  Se aquele filme te marcou, esta noite foi feita para ti. Vem sentir o Honmoon.
-                </p>
-              </Rv>
               <Rv delay={500}>
                 <a href={TL} target="_blank" rel="noopener noreferrer" className="esp-cta">
                   <Ticket className="w-3.5 h-3.5"/> Reservar Lugar <ArrowUpRight className="w-3 h-3"/>
