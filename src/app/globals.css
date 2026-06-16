@@ -3991,9 +3991,9 @@ html { scroll-behavior: smooth; }
   background: var(--deep);
 }
 
-/* Honmoon shield section — soft lavender like the anime daytime */
+/* Honmoon shield section — softer lavender lilac gradient to match Manifesto/Tributo */
 .light-mode .honmoon-shield-section {
-  background: #EDE0F5;
+  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
   --t1: #1E1040;
   --t2: #5B3E8A;
   --t3: #8B6CB0;
