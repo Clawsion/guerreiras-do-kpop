@@ -1524,6 +1524,22 @@ html { scroll-behavior: smooth; }
   color: var(--neon-purple);
   text-shadow: 0 0 16px rgba(200,80,255,0.3);
 }
+/* Wrapper com glow branco subtíl para destacar a data-line roxa */
+.hero-date-wrap {
+  position: relative;
+  padding: 0.35rem 1.2rem;
+  margin-top: 0.25rem;
+  border-radius: 2px;
+}
+.hero-date-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 50%, transparent 80%);
+  filter: blur(8px);
+  z-index: -1;
+  pointer-events: none;
+}
 .hero-nav-ticket {
   display: inline-flex;
   align-items: center;
@@ -4088,6 +4104,11 @@ html { scroll-behavior: smooth; }
   font-weight: 800;
   font-size: 11px;
   letter-spacing: 0.2em;
+}
+/* Modo dia: glow branco um pouco mais forte para destacar o roxo escuro */
+.light-mode .hero-date-wrap::before {
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.12) 50%, transparent 80%);
+  filter: blur(10px);
 }
 
 /* Concert cards */
