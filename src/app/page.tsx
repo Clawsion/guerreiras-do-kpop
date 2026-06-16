@@ -39,7 +39,7 @@ const GALLERY_PHOTOS = [
   { src: "https://i.postimg.cc/KvfZfH8S/kpop6.png", caption: "Experiência Imersiva" },
   { src: "https://i.postimg.cc/2yFCPHd2/kpop3.png", caption: "Atmosfera do Concerto" },
   { src: "https://i.postimg.cc/mZQZzDxY/kpop4.png", caption: "Interação com o Público" },
-  { src: "https://i.postimg.cc/Qxh8p3sq/kpop5.png", caption: "Derpy" },
+  { src: "https://i.postimg.cc/Qxh8p3sq/kpop5.png", caption: "Derpy também está cá" },
 ];
 
 /* ═══ HOOKS ═══ */

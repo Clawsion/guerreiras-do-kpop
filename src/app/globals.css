@@ -272,26 +272,28 @@ html { scroll-behavior: smooth; }
   transform: translateX(105%);
 }
 
-/* ═══ Light mode curtains — instant color, no transition ═══ */
+/* ═══ Light mode curtains — same animation, different color ═══ */
 .preloader-honmoon.light .preloader-curtain-left,
 .preloader-honmoon.light .preloader-curtain-right {
   background: #E0CCF2;
   border-color: rgba(147, 51, 234, 0.25);
+}
+.preloader-honmoon.light .preloader-curtain-left {
   box-shadow: inset -20px 0 40px rgba(147,51,234,0.06);
 }
 .preloader-honmoon.light .preloader-curtain-right {
   box-shadow: inset 20px 0 40px rgba(147,51,234,0.06);
 }
-/* Override .light-mode * catch-all — curtains only transition transform */
 .light-mode .preloader-curtain-left,
 .light-mode .preloader-curtain-right {
-  background: #E0CCF2 !important;
-  border-color: rgba(147, 51, 234, 0.25) !important;
-  box-shadow: inset -20px 0 40px rgba(147,51,234,0.06) !important;
-  transition: transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+  background: #E0CCF2;
+  border-color: rgba(147, 51, 234, 0.25);
+}
+.light-mode .preloader-curtain-left {
+  box-shadow: inset -20px 0 40px rgba(147,51,234,0.06);
 }
 .light-mode .preloader-curtain-right {
-  box-shadow: inset 20px 0 40px rgba(147,51,234,0.06) !important;
+  box-shadow: inset 20px 0 40px rgba(147,51,234,0.06);
 }
 .preloader-circle-wrap,
 .preloader-center,
@@ -2751,9 +2753,9 @@ html { scroll-behavior: smooth; }
 /* Smooth transition on themed elements — wave-delay creates ripple effect */
 /* Applied to BOTH directions so wave-delay works dark→light AND light→dark */
 .light-mode,
-.light-mode *:not(.dc-anim):not(.dc-neon-sweep):not(.dc-img):not(.dc-layer):not(.hm-shimmer-ring):not(.hm-ripple-bg),
+.light-mode *:not(.dc-anim):not(.dc-neon-sweep):not(.dc-img):not(.dc-layer):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right),
 :not(.light-mode).wave-transition,
-:not(.light-mode).wave-transition *:not(.dc-anim):not(.dc-neon-sweep):not(.dc-img):not(.dc-layer):not(.hm-shimmer-ring):not(.hm-ripple-bg) {
+:not(.light-mode).wave-transition *:not(.dc-anim):not(.dc-neon-sweep):not(.dc-img):not(.dc-layer):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right) {
   transition: background-color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
               color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
               border-color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
