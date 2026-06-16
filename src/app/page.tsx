@@ -504,10 +504,55 @@ export default function HomePage() {
       )}
 
       {/* ═══ PRELOADER — Curtain Reveal ═══ */}
-      <div className={`preloader-honmoon ${loaded?"preloader-done":""} ${themeMode}`}>
-        <div className="preloader-curtain-left"/>
-        <div className="preloader-curtain-right"/>
-      </div>
+      {themeMode === 'dark' ? (
+        <div className={`preloader-honmoon ${loaded?"preloader-done":""}`}>
+          <div className="preloader-curtain-left"/>
+          <div className="preloader-curtain-right"/>
+        </div>
+      ) : (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 100,
+            display: 'flex',
+            transition: 'opacity 0.6s ease 2.3s',
+            opacity: loaded ? 0 : 1,
+            pointerEvents: loaded ? 'none' : 'auto',
+          }}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              bottom: 0,
+              left: 0,
+              width: '52%',
+              background: '#E0CCF2',
+              borderRight: '1px solid rgba(147,51,234,0.25)',
+              boxShadow: 'inset -20px 0 40px rgba(147,51,234,0.06)',
+              transform: loaded ? 'translateX(-105%)' : 'translateX(0)',
+              transition: 'transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1)',
+              willChange: 'transform',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              bottom: 0,
+              right: 0,
+              width: '52%',
+              background: '#E0CCF2',
+              borderLeft: '1px solid rgba(147,51,234,0.25)',
+              boxShadow: 'inset 20px 0 40px rgba(147,51,234,0.06)',
+              transform: loaded ? 'translateX(105%)' : 'translateX(0)',
+              transition: 'transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1)',
+              willChange: 'transform',
+            }}
+          />
+        </div>
+      )}
 
       {/* ═══ SOUL PARTICLES — fixed overlay across entire site ═══ */}
       <div className="soul-particles-site">

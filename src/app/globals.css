@@ -272,47 +272,7 @@ html { scroll-behavior: smooth; }
   transform: translateX(105%);
 }
 
-/* ═══ Light mode curtains — same animation, different color ═══ */
-.preloader-honmoon.light .preloader-curtain-left,
-.preloader-honmoon.light .preloader-curtain-right {
-  background: #E0CCF2 !important;
-  border-color: rgba(147, 51, 234, 0.25);
-  /* RE-DECLARE the transform transition to ensure it's never overridden */
-  transition: transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
-}
-.preloader-honmoon.light .preloader-curtain-left {
-  box-shadow: inset -20px 0 40px rgba(147,51,234,0.06);
-}
-.preloader-honmoon.light .preloader-curtain-right {
-  box-shadow: inset 20px 0 40px rgba(147,51,234,0.06);
-}
-/* Light mode OPEN animation — explicit so it can never be missed */
-.preloader-honmoon.preloader-done.light .preloader-curtain-left {
-  transform: translateX(-105%) !important;
-}
-.preloader-honmoon.preloader-done.light .preloader-curtain-right {
-  transform: translateX(105%) !important;
-}
-.light-mode .preloader-curtain-left,
-.light-mode .preloader-curtain-right {
-  background: #E0CCF2 !important;
-  border-color: rgba(147, 51, 234, 0.25);
-  /* RE-DECLARE the transform transition to ensure it's never overridden */
-  transition: transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
-}
-.light-mode .preloader-curtain-left {
-  box-shadow: inset -20px 0 40px rgba(147,51,234,0.06);
-}
-.light-mode .preloader-curtain-right {
-  box-shadow: inset 20px 0 40px rgba(147,51,234,0.06);
-}
-/* Light mode via <html> class — OPEN animation */
-.light-mode .preloader-honmoon.preloader-done .preloader-curtain-left {
-  transform: translateX(-105%) !important;
-}
-.light-mode .preloader-honmoon.preloader-done .preloader-curtain-right {
-  transform: translateX(105%) !important;
-}
+
 .preloader-circle-wrap,
 .preloader-center,
 .preloader-label,
