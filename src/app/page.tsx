@@ -742,8 +742,8 @@ export default function HomePage() {
           <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
         </div>
 
-        {/* ═══ HERO BOTTOM-LEFT - CTA + Data (sem countdown) ═══ */}
-        <div className="hero-bottom-panel absolute bottom-0 left-0 z-10 flex flex-col items-start pb-14 sm:pb-20 pl-5 sm:pl-16">
+        {/* ═══ HERO CTA - em baixo de 'Épico' (alinhado a ~20% X da imagem) ═══ */}
+        <div className="hero-bottom-panel absolute z-10 flex flex-col items-start" style={{left: "20%", bottom: "18%", transform: "translateX(-30%)"}}>
           {/* Arco de neons decorativo atrás do botão */}
           <div className="hero-cta-arc" aria-hidden="true">
             <div className="hero-cta-arc-ring hero-cta-arc-ring-1"/>
@@ -757,11 +757,6 @@ export default function HomePage() {
           >
             Garante o Teu Lugar <ChevronRight className="w-3 h-3"/>
           </a>
-          <div className="hero-date-wrap">
-            <p className="hero-date-line">
-              Pr&oacute;ximo: 18 JUL &middot; Estoril &middot; 18:30h
-            </p>
-          </div>
         </div>
       </section>
 
