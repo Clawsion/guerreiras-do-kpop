@@ -201,6 +201,102 @@ const DualRevealCard = React.memo(function DualRevealCard({ name, color, delay, 
   );
 });
 
+/* ═══ WEAPON FLIP CARDS — Interactive Quotes ═══ */
+
+const WEAPON_QUOTES = {
+  ZOEY: [
+    "A verdadeira coragem não é não ter medo — é ter medo e avançar mesmo assim 🌸",
+    "Mesmo quando o mundo escurece, as guerreiras mais corajosas acendem a própria luz ⚔️",
+    "Cada passo em frente é uma vitória sobre o medo que ficou para trás 🌟",
+    "Ser corajosa não significa ser invencível — significa nunca desistir 💎",
+    "O poder nasce quando decides que ninguém vai lutar por ti melhor que tu 🔥",
+    "Quando tudo parece impossível, é aí que a coragem começa ✨",
+    "As guerreiras não nascem sem medo — elas escolhem agir apesar dele 💜",
+    "Cada cicatriz conta a história de uma batalha que não abandonaste 🌙",
+    "A força não está em nunca cair — está em te levantares sempre que cais 💫",
+    "O medo é só uma porta — a coragem é a chave que a abre 🗝️",
+    "Quem luta pelos outros encontra uma coragem que nunca soube que tinha 💖",
+    "No coração de uma guerreira, a coragem e a esperança andam de mãos dadas 🌺",
+  ],
+  RUMI: [
+    "A música é a linguagem que o coração fala quando as palavras não chegam 🎵",
+    "Cada nota carrega um pedaço da alma de quem canta 🎤",
+    "Quando o mundo fica em silêncio, a música é a voz que nos guia 🎶",
+    "Uma canção pode mudar o mundo — e Rumi prova isso todos os dias 💜",
+    "O Honmoon respira ao ritmo da música que nos une 🌙",
+    "No palco, cada melodia conta uma história que só o coração entende ✨",
+    "A música não precisa de tradução — ela sente-se diretamente na alma 🎸",
+    "Quando Rumi canta, até as estrelas param para ouvir 🌟",
+    "Cada acorde é um passo mais perto do coração do universo 🎹",
+    "A voz é a arma mais poderosa — e a música é o campo de batalha 🔥",
+    "Canções de guerreiras não se cantam — sentem-se no peito 💫",
+    "A melodia do Honmoon ecoa para sempre em quem a ouve 🎼",
+  ],
+  MIRAE: [
+    "A dança é poesia em movimento — cada passo é uma palavra 💃",
+    "Quando Mirae dança, o mundo esquece tudo e só vê magia ✨",
+    "Cada movimento conta uma história que os olhos nunca esquecem 🌸",
+    "O corpo é o palco, e cada passo é uma cena de um espetáculo 🎭",
+    "Dançar é esquecer quem somos e descobrir quem podemos ser 💫",
+    "Os pés de Mirae não tocam o chão — voam sobre ele 🌙",
+    "A dança é a linguagem secreta das Guerreiras do K-Pop 🔥",
+    "Cada coreografia é uma batalha dançada com graça e poder ⚔️",
+    "Quando a música para, a dança continua no coração 💖",
+    "O ritmo corre nas veias de quem nasceu para dançar 🎶",
+    "Cada giro é um grito de liberdade que ninguém consegue calar 🌟",
+    "Dançar como se ninguém estivesse a ver — essa é a verdadeira arte 🌺",
+  ],
+};
+
+type WeaponKey = keyof typeof WEAPON_QUOTES;
+
+const WEAPONS: { name: WeaponKey; weapon: string; img: string; color: string; icon: string }[] = [
+  { name: "ZOEY", weapon: "Adagas da Zoey", img: "/weapon-zoey.webp", color: "var(--blue-accent)", icon: "🌸" },
+  { name: "RUMI", weapon: "Espada da Rumi", img: "/weapon-rumi.webp", color: "var(--neon-purple)", icon: "⚔️" },
+  { name: "MIRAE", weapon: "Guilhotina da Mira", img: "/weapon-mira.webp", color: "var(--pink-kpop)", icon: "🌙" },
+];
+
+function WeaponFlipCard({ weapon, onDiscover }: { weapon: typeof WEAPONS[number]; onDiscover: () => void }) {
+  const [flipped, setFlipped] = useState(false);
+  const [quote, setQuote] = useState("");
+  const [usedIndices, setUsedIndices] = useState<Set<number>>(new Set());
+
+  const handleFlip = useCallback(() => {
+    if (!flipped) {
+      // Pick a random quote not yet seen
+      const allQuotes = WEAPON_QUOTES[weapon.name];
+      const available = allQuotes.map((_, i) => i).filter(i => !usedIndices.has(i));
+      const pool = available.length > 0 ? available : allQuotes.map((_, i) => i); // reset if all seen
+      const idx = pool[Math.floor(Math.random() * pool.length)];
+      setQuote(allQuotes[idx]);
+      setUsedIndices(prev => new Set([...prev, idx]));
+      onDiscover();
+    }
+    setFlipped(f => !f);
+  }, [flipped, weapon.name, usedIndices, onDiscover]);
+
+  return (
+    <div className="weapon-card" onClick={handleFlip}>
+      <div className={`weapon-card-inner${flipped ? " weapon-flipped" : ""}`}>
+        {/* Front — weapon image */}
+        <div className="weapon-card-front">
+          <div className="weapon-glow" style={{ background: `radial-gradient(circle, ${weapon.color}33 0%, transparent 70%)` }} />
+          <img src={weapon.img} alt={weapon.weapon} className="weapon-img" loading="lazy" decoding="async" />
+          <p className="weapon-label" style={{ color: weapon.color }}>{weapon.weapon}</p>
+          <p className="weapon-hint">Clica para revelar</p>
+        </div>
+        {/* Back — quote */}
+        <div className="weapon-card-back">
+          <span className="weapon-quote-icon">{weapon.icon}</span>
+          <p className="weapon-quote-text">{quote}</p>
+          <p className="weapon-quote-attr" style={{ color: weapon.color }}>— {weapon.name}</p>
+          <p className="weapon-hint">Clica para voltar</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ═══ CARREGA O HONMOON — Interactive Charging ═══ */
 
 const HonmoonCharger = React.memo(function HonmoonCharger() {
@@ -304,6 +400,8 @@ export default function HomePage() {
   const [ripple, setRipple] = useState<{active:boolean; x:number; y:number; toMode:'dark'|'light'}|null>(null);
   const [waveActive, setWaveActive] = useState(false);
   const [lightbox, setLightbox] = useState<number | null>(null);
+  const [discoveredQuotes, setDiscoveredQuotes] = useState(0);
+  const TOTAL_QUOTES = 36; // 12 per weapon × 3 weapons
   const orbRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<HTMLElement[] | null>(null);
   const { ref: manifestoRef, visible: manifestoVisible } = useReveal();
@@ -822,31 +920,27 @@ export default function HomePage() {
               </Rv>
             </div>
 
-            {/* RIGHT — Photo Grid */}
+            {/* RIGHT — Weapon Flip Cards */}
             <div className="esp-right">
               <Rv delay={150}>
-                <p className="sec-num mb-4" style={{color:"var(--pink-light)"}}>Eventos Anteriores</p>
+                <p className="sec-num mb-4" style={{color:"var(--pink-light)"}}>As Armas</p>
               </Rv>
-              <div className="esp-photo-frame">
-                <div className="esp-photo-grid">
-                  {GALLERY_PHOTOS.map((photo, i) => (
-                    <Rv key={i} delay={200 + i * 80}>
-                      <div
-                        className="esp-photo-slot"
-                        onClick={() => setLightbox(i)}
-                      >
-                        <img
-                          src={photo.src}
-                          alt="Foto do espetáculo"
-                          loading="lazy"
-                          decoding="async"
-                        />
-                        <div className="esp-photo-overlay" />
-                      </div>
-                    </Rv>
-                  ))}
-                </div>
+              <div className="weapon-cards-container">
+                {WEAPONS.map((w, i) => (
+                  <Rv key={w.name} delay={200 + i * 100}>
+                    <WeaponFlipCard weapon={w} onDiscover={() => setDiscoveredQuotes(q => Math.min(q + 1, TOTAL_QUOTES))} />
+                  </Rv>
+                ))}
               </div>
+              <Rv delay={500}>
+                <div className="weapon-discovery-counter">
+                  <span className="weapon-counter-label">Frases descobertas</span>
+                  <span className="weapon-counter-value">{discoveredQuotes}/{TOTAL_QUOTES}</span>
+                  <div className="weapon-counter-bar">
+                    <div className="weapon-counter-fill" style={{ width: `${(discoveredQuotes / TOTAL_QUOTES) * 100}%` }} />
+                  </div>
+                </div>
+              </Rv>
             </div>
           </div>
         </div>
@@ -873,7 +967,7 @@ export default function HomePage() {
             {[
               { name: "ZOEY", color: "var(--blue-accent)", animImg: "/real-zoe.webp", realImg: "/char-zoe.webp" },
               { name: "RUMI", color: "var(--neon-purple)", animImg: "/real-rumi.webp", realImg: "/char-rumi.webp" },
-              { name: "MIRA", color: "var(--pink-kpop)", animImg: "/real-mirae.webp", realImg: "/char-mirae.webp" },
+              { name: "MIRAE", color: "var(--pink-kpop)", animImg: "/real-mirae.webp", realImg: "/char-mirae.webp" },
             ].map((c, i) => (
               <DualRevealCard key={c.name} name={c.name} color={c.color} delay={i * 200} animImg={c.animImg} realImg={c.realImg}/>
             ))}
@@ -943,7 +1037,7 @@ export default function HomePage() {
             {[
               {name:"HUNTRIX",sub:"Headliner - Guerreiras do K-Pop",c:"var(--gold)"},
               {name:"RUMI",sub:"Vocal Principal",c:"var(--pink-kpop)"},
-              {name:"MIRA",sub:"Dança & Rap",c:"var(--blue-accent)"},
+              {name:"MIRAE",sub:"Dança & Rap",c:"var(--blue-accent)"},
               {name:"ZOEY",sub:"Performance Especial",c:"var(--neon-purple)"},
             ].map((a,i)=>(
               <Rv key={a.name} delay={i*100}>
@@ -969,7 +1063,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Marquee text="HUNTRIX · RUMI · MIRA · ZOEY · GUERREIRAS DO K-POP · TRIBUTO MUSICAL"/>
+      <Marquee text="HUNTRIX · RUMI · MIRAE · ZOEY · GUERREIRAS DO K-POP · TRIBUTO MUSICAL"/>
 
       {/* ═══ PRÓXIMOS CONCERTOS ═══ */}
       <section id="concertos" className="concerts-section px-5 sm:px-10">

@@ -1906,6 +1906,233 @@ html { scroll-behavior: smooth; }
   text-shadow: 0 0 10px rgba(200,80,255,0.3);
 }
 
+/* ═══ WEAPON FLIP CARDS — Interactive Quote Reveal ═══ */
+
+.weapon-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.weapon-card {
+  perspective: 800px;
+  cursor: pointer;
+  height: 200px;
+}
+
+.weapon-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.weapon-flipped {
+  transform: rotateY(180deg);
+}
+
+.weapon-card-front,
+.weapon-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* FRONT — weapon image with neon glow */
+.weapon-card-front {
+  background: linear-gradient(135deg, rgba(28,18,64,0.95) 0%, rgba(11,8,19,0.98) 100%);
+  border: 1px solid rgba(255,45,120,0.1);
+  padding: 1rem;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.weapon-card:hover .weapon-card-front {
+  border-color: rgba(255,45,120,0.4);
+  box-shadow: 0 0 30px rgba(200,80,255,0.2), 0 0 60px rgba(255,45,120,0.1);
+}
+
+.weapon-glow {
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.weapon-card:hover .weapon-glow {
+  opacity: 1;
+}
+
+.weapon-img {
+  max-height: 110px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  filter: brightness(0.7) saturate(0.6);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.weapon-card:hover .weapon-img {
+  filter: brightness(1.1) saturate(1.2) drop-shadow(0 0 12px rgba(200,80,255,0.4));
+  transform: scale(1.05);
+}
+
+.weapon-label {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.weapon-hint {
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  margin-top: 0.4rem;
+  font-family: var(--font-geist-mono);
+}
+
+/* BACK — quote with themed icon */
+.weapon-card-back {
+  background: linear-gradient(135deg, rgba(28,18,64,0.98) 0%, rgba(11,8,19,1) 100%);
+  border: 1px solid rgba(200,80,255,0.25);
+  padding: 1.5rem 1.25rem;
+  transform: rotateY(180deg);
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 0 30px rgba(200,80,255,0.12), 0 0 60px rgba(255,45,120,0.06);
+}
+
+.weapon-quote-icon {
+  font-size: 28px;
+  margin-bottom: 0.25rem;
+  filter: drop-shadow(0 0 8px rgba(200,80,255,0.3));
+}
+
+.weapon-quote-text {
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+  color: rgba(255,255,255,0.9);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-shadow: 0 0 15px rgba(200,80,255,0.15);
+}
+
+.weapon-quote-attr {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-top: 0.25rem;
+  text-shadow: 0 0 8px currentColor;
+}
+
+/* Discovery Counter */
+.weapon-discovery-counter {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, rgba(28,18,64,0.6) 0%, rgba(11,8,19,0.8) 100%);
+  border: 1px solid rgba(255,45,120,0.08);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.weapon-counter-label {
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  font-family: var(--font-geist-mono);
+}
+
+.weapon-counter-value {
+  font-size: 18px;
+  font-weight: 200;
+  letter-spacing: 0.05em;
+  color: var(--pink-kpop);
+  text-shadow: 0 0 15px rgba(255,45,120,0.3);
+}
+
+.weapon-counter-bar {
+  height: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.weapon-counter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--pink-kpop), var(--neon-purple));
+  border-radius: 1px;
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 8px rgba(255,45,120,0.3);
+}
+
+/* ═══ Light mode overrides for weapon cards ═══ */
+.light-mode .weapon-card-front {
+  background: linear-gradient(135deg, rgba(240,230,255,0.95) 0%, rgba(220,210,245,0.98) 100%);
+  border-color: rgba(200,80,255,0.15);
+}
+
+.light-mode .weapon-card:hover .weapon-card-front {
+  border-color: rgba(200,80,255,0.35);
+  box-shadow: 0 0 20px rgba(200,80,255,0.1), 0 0 40px rgba(255,45,120,0.05);
+}
+
+.light-mode .weapon-img {
+  filter: brightness(0.85) saturate(0.7);
+}
+
+.light-mode .weapon-card:hover .weapon-img {
+  filter: brightness(1) saturate(1.1) drop-shadow(0 0 8px rgba(200,80,255,0.2));
+}
+
+.light-mode .weapon-hint {
+  color: rgba(60,40,80,0.3);
+}
+
+.light-mode .weapon-card-back {
+  background: linear-gradient(135deg, rgba(245,238,255,0.98) 0%, rgba(230,222,248,1) 100%);
+  border-color: rgba(200,80,255,0.2);
+}
+
+.light-mode .weapon-quote-text {
+  color: rgba(40,20,60,0.85);
+}
+
+.light-mode .weapon-hint {
+  color: rgba(60,40,80,0.3);
+}
+
+.light-mode .weapon-discovery-counter {
+  background: linear-gradient(135deg, rgba(240,230,255,0.5) 0%, rgba(225,215,248,0.7) 100%);
+  border-color: rgba(200,80,255,0.1);
+}
+
+.light-mode .weapon-counter-label {
+  color: rgba(60,40,80,0.4);
+}
+
+.light-mode .weapon-counter-value {
+  text-shadow: 0 0 8px rgba(200,80,255,0.15);
+}
+
+/* ═══ END WEAPON FLIP CARDS ═══ */
+
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ IDENTIDADE DUAL — Character → Performer Scroll Reveal ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
