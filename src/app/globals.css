@@ -384,6 +384,59 @@ html { scroll-behavior: smooth; }
 }
 
 
+
+
+  /* ═══ HAMBURGER - Mobile touch target (coarse pointer = touchscreen) ═══ */
+  @media (pointer: coarse) {
+    .hamburger {
+      padding: 12px;
+      margin: -12px;
+    }
+  }
+
+  /* ═══ MENU OVERLAY - Mobile optimizations (≤640px) ═══ */
+  @media (max-width: 640px) {
+    .menu-overlay {
+      padding: 4.5rem 1.5rem 6rem;
+      justify-content: flex-start;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .menu-overlay .menu-link {
+      font-size: clamp(1.75rem, 8vw, 2.5rem);
+    }
+    .menu-overlay .flex.flex-col.items-start {
+      gap: 0.25rem;
+      margin-bottom: 2.5rem;
+    }
+  }
+
+  /* ═══ MENU OVERLAY - Tablet optimizations (641px–1024px) ═══ */
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .menu-overlay {
+      padding: 5.5rem 2.5rem 4rem;
+      overflow-y: auto;
+    }
+  }
+
+  /* ═══ MENU OVERLAY - iOS safe areas (notch + home bar) ═══ */
+  @supports (padding: env(safe-area-inset-top)) {
+    .menu-overlay {
+      padding-top: max(6rem, calc(env(safe-area-inset-top) + 4rem));
+      padding-bottom: max(3rem, env(safe-area-inset-bottom));
+    }
+  }
+  @supports (padding: env(safe-area-inset-top)) {
+    @media (max-width: 640px) {
+      .menu-overlay {
+        padding-top: max(4.5rem, calc(env(safe-area-inset-top) + 3.5rem));
+        padding-left: max(1.5rem, env(safe-area-inset-left));
+        padding-right: max(1.5rem, env(safe-area-inset-right));
+        padding-bottom: max(6rem, calc(env(safe-area-inset-bottom) + 5rem));
+      }
+    }
+  }
+  
 /* ═══ Dynamic LED ambient - color synced with canvas ═══ */
 .led-ambient-sync {
   position: absolute;
