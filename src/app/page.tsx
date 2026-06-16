@@ -1268,9 +1268,11 @@ ${fd.get("msg") || ""}`
             </div>
             <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>&copy; 2026 Guerreiras do K-Pop</span>
           </div>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-6">
             <a href={TL} target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--neon-purple)"}}>Ticketline</a>
             <a href="https://guerreirasdokpop.pt" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--t3)"}}>guerreirasdokpop.pt</a>
+            <button onClick={()=>setPrivacyOpen(true)} className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer bg-transparent border-0 p-0" style={{color:"var(--t3)"}}>Política de Privacidade</button>
+            <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--t3)"}}>Livro de Reclamações</a>
           </div>
         </div>
       </footer>
@@ -1291,6 +1293,36 @@ ${fd.get("msg") || ""}`
           onPrev={() => setLightbox(Math.max(0, lightbox - 1))}
           onNext={() => setLightbox(Math.min(GALLERY_PHOTOS.length - 1, lightbox + 1))}
         />
+      )}
+
+      {/* ═══ POLÍTICA DE PRIVACIDADE - Modal RGPD ═══ */}
+      {privacyOpen && (
+        <div className="privacy-overlay" onClick={()=>setPrivacyOpen(false)} role="dialog" aria-modal="true" aria-label="Política de Privacidade">
+          <div className="privacy-modal" onClick={e=>e.stopPropagation()}>
+            <button className="privacy-close" onClick={()=>setPrivacyOpen(false)} aria-label="Fechar">✕</button>
+            <h2 className="privacy-title">Política de Privacidade</h2>
+            <p className="privacy-updated">Última atualização: Junho de 2026</p>
+            <div className="privacy-body">
+              <h3>1. Responsável pelo Tratamento</h3>
+              <p>Viva &mdash; Artes &amp; Produções, responsável pela organização do espetáculo Guerreiras do K-Pop. Contacto: <a href="mailto:producao@guerreirasdokpop.pt">producao@guerreirasdokpop.pt</a></p>
+              <h3>2. Dados Recolhidos</h3>
+              <p>Através do formulário de contacto, recolhemos: nome, e-mail, telefone e mensagem, fornecidos voluntariamente pelo utilizador.</p>
+              <h3>3. Finalidade do Tratamento</h3>
+              <p>Os dados são utilizados exclusivamente para responder a pedidos de informação, reservas e colaborações. Não são usados para marketing sem consentimento expresso.</p>
+              <h3>4. Base Legal</h3>
+              <p>Consentimento do titular (art.º 6.º, n.º 1, al. a) do RGPD), dado ao submeter o formulário.</p>
+              <h3>5. Prazo de Conservação</h3>
+              <p>Os dados são conservados pelo período necessário para responder ao pedido e, no máximo, 12 meses após a última comunicação.</p>
+              <h3>6. Partilha de Dados</h3>
+              <p>Os seus dados não são partilhados, vendidos ou cedidos a terceiros, exceto quando exigido por lei.</p>
+              <h3>7. Direitos do Titular</h3>
+              <p>Tem direito a aceder, retificar ou eliminar os seus dados, opor-se ao tratamento e apresentar reclamação à <a href="https://www.cnpd.pt" target="_blank" rel="noopener noreferrer">CNPD</a>.</p>
+              <p>Para exercer estes direitos: <a href="mailto:producao@guerreirasdokpop.pt">producao@guerreirasdokpop.pt</a></p>
+              <h3>8. Alterações</h3>
+              <p>Esta política pode ser atualizada. A data da última revisão consta no topo deste documento.</p>
+            </div>
+          </div>
+        </div>
       )}
     </div>
     </>
