@@ -2191,82 +2191,85 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ TRIBUTO AO VIVO — Performance Photo Gallery ═══ */
+/* ═══ GALERIA — Photo Gallery with Captions + Lightbox ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
 
-.tributo-section {
+.galeria-section {
   position: relative;
   padding: 6rem 0 4rem;
   background: var(--deep);
   overflow: hidden;
 }
 
-.tributo-grid {
+.galeria-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
 @media (min-width: 640px) {
-  .tributo-grid {
+  .galeria-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .tributo-grid {
-    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
   }
 }
 
-.tributo-card {
+@media (min-width: 1024px) {
+  .galeria-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+.galeria-card {
   position: relative;
   overflow: hidden;
+  cursor: pointer;
   background: rgba(44,21,80,0.5);
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
   border: 1px solid rgba(200,80,255,0.1);
+  border-radius: 6px;
   transition: transform 0.5s cubic-bezier(0.16,1,0.3,1),
               box-shadow 0.5s ease,
               border-color 0.5s ease;
 }
 
-.tributo-card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 20px 60px rgba(11,8,19,0.6),
-              0 0 40px rgba(200,80,255,0.08);
-  border-color: rgba(200,80,255,0.2);
+.galeria-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 24px 64px rgba(11,8,19,0.6),
+              0 0 50px rgba(200,80,255,0.1),
+              0 0 100px rgba(255,45,120,0.05);
+  border-color: rgba(200,80,255,0.25);
 }
 
-.tributo-img-wrap {
+.galeria-img-wrap {
   position: relative;
   aspect-ratio: 3 / 4;
   overflow: hidden;
 }
 
-.tributo-img {
+.galeria-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
+  object-position: center;
   transition: transform 0.7s cubic-bezier(0.16,1,0.3,1),
               filter 0.7s ease;
-  filter: saturate(0.7) brightness(0.6);
+  filter: saturate(0.75) brightness(0.65);
 }
 
-.tributo-card:hover .tributo-img {
+.galeria-card:hover .galeria-img {
   transform: scale(1.08);
-  filter: saturate(1) brightness(0.85);
+  filter: saturate(1.1) brightness(0.9);
 }
 
-.tributo-overlay {
+.galeria-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(11,8,19,0.85) 0%,
+    rgba(11,8,19,0.9) 0%,
     rgba(11,8,19,0.3) 40%,
     transparent 70%
   );
@@ -2274,33 +2277,53 @@ html { scroll-behavior: smooth; }
   transition: opacity 0.5s ease;
 }
 
-.tributo-card:hover .tributo-overlay {
-  opacity: 0.7;
+.galeria-card:hover .galeria-overlay {
+  opacity: 0.6;
 }
 
-.tributo-caption {
+.galeria-zoom-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(11,8,19,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(200,80,255,0.15);
+  border-radius: 50%;
+  color: var(--t2);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+
+.galeria-card:hover .galeria-zoom-icon {
+  opacity: 1;
+  transform: scale(1);
+  color: var(--neon-purple);
+}
+
+.galeria-caption {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.875rem 1rem;
+  padding: 1rem 1.25rem;
   font-family: var(--font-geist-mono);
-  font-size: 11px;
-  letter-spacing: 0.15em;
+  font-size: 12px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  border-top: 1px solid rgba(200,80,255,0.06);
+  color: var(--t2);
+  border-top: 1px solid rgba(200,80,255,0.08);
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 
-.tributo-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  box-shadow: 0 0 8px currentColor;
-  transition: box-shadow 0.3s ease;
-}
-
-.tributo-card:hover .tributo-dot {
-  box-shadow: 0 0 12px currentColor, 0 0 24px currentColor;
+.galeria-card:hover .galeria-caption {
+  color: var(--t1);
+  border-top-color: rgba(200,80,255,0.15);
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
@@ -2853,26 +2876,26 @@ html { scroll-behavior: smooth; }
   background: linear-gradient(to top, rgba(20,12,40,0.95) 5%, rgba(30,18,55,0.8) 45%, transparent 100%);
 }
 
-/* ═══ Tributo Ao Vivo — light mode ═══ */
-.light-mode .tributo-section {
+/* ═══ Galeria — light mode ═══ */
+.light-mode .galeria-section {
   background: linear-gradient(180deg, #1a0e2e 0%, #2d1b69 50%, #1a0e2e 100%);
   --t1: #ffffff;
   --t2: #d4c4f0;
   --t3: #a78bfa;
 }
-.light-mode .tributo-card {
+.light-mode .galeria-card {
   background: rgba(44,21,80,0.6);
   backdrop-filter: blur(20px) saturate(1.4);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
   border: 1px solid rgba(200,80,255,0.15);
   box-shadow: 0 4px 20px rgba(147,51,234,0.15);
 }
-.light-mode .tributo-card:hover {
-  box-shadow: 0 20px 60px rgba(11,8,19,0.5),
-              0 0 40px rgba(200,80,255,0.1);
-  border-color: rgba(200,80,255,0.25);
+.light-mode .galeria-card:hover {
+  box-shadow: 0 24px 64px rgba(11,8,19,0.5),
+              0 0 50px rgba(200,80,255,0.12);
+  border-color: rgba(200,80,255,0.3);
 }
-.light-mode .tributo-overlay {
+.light-mode .galeria-overlay {
   background: linear-gradient(
     to top,
     rgba(20,12,40,0.9) 0%,
@@ -2880,8 +2903,12 @@ html { scroll-behavior: smooth; }
     transparent 70%
   );
 }
-.light-mode .tributo-caption {
+.light-mode .galeria-caption {
   border-top-color: rgba(200,80,255,0.1);
+}
+.light-mode .galeria-zoom-icon {
+  background: rgba(30,18,55,0.7);
+  border-color: rgba(200,80,255,0.2);
 }
 
 /* ═══ Tributo Ao Vivo — lavender daylight, clean and elegant ═══ */
@@ -4154,6 +4181,11 @@ html { scroll-behavior: smooth; }
   content-visibility: auto;
   contain-intrinsic-size: 0 900px;
 }
+.galeria-section {
+  contain: content;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 900px;
+}
 .honmoon-shield-section {
   contain: content;
 }
@@ -4437,6 +4469,13 @@ section#concertos {
 
   /* Tributo gallery — single column on small mobile */
   .tributo-grid {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  /* Galeria — single column on small mobile */
+  .galeria-grid {
     grid-template-columns: 1fr;
     max-width: 360px;
     margin: 0 auto;
