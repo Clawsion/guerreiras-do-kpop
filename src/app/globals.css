@@ -2876,100 +2876,14 @@ html { scroll-behavior: smooth; }
   letter-spacing: 0.05em;
 }
 
-/* ═══ Light mode — lavanda com cortinas laterais animadas ═══ */
-/* Cortinas laterais mais visíveis + animação subtil de ondulação */
+/* ═══ Light mode — fundo branco lavanda (igual ao Manifesto) ═══ */
+/* Fundo claro quase branco para destacar os cartazes como peças de museu */
 .light-mode .cartazes-section {
   position: relative;
-  background:
-    /* Cortina esquerda — mais intensa */
-    linear-gradient(90deg,
-      rgba(120,80,150,0.55) 0%,
-      rgba(150,100,180,0.38) 8%,
-      rgba(180,130,205,0.18) 18%,
-      rgba(210,180,230,0.04) 28%,
-      transparent 36%
-    ),
-    /* Cortina direita — espelho */
-    linear-gradient(270deg,
-      rgba(120,80,150,0.55) 0%,
-      rgba(150,100,180,0.38) 8%,
-      rgba(180,130,205,0.18) 18%,
-      rgba(210,180,230,0.04) 28%,
-      transparent 36%
-    ),
-    /* Fundo base lavanda puro */
-    linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
+  background: #F5EAF8;
   --t1: #1E1040;
   --t2: #5B3E8A;
   --t3: #8B6CB0;
-}
-
-/* Cortinas animadas — overlay separado para ondular */
-.light-mode .cartazes-section::before,
-.light-mode .cartazes-section::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 38%;
-  pointer-events: none;
-  z-index: 1;
-  mix-blend-mode: multiply;
-}
-.light-mode .cartazes-section::before {
-  left: 0;
-  background: linear-gradient(90deg,
-    rgba(120,80,150,0.40) 0%,
-    rgba(140,95,170,0.25) 15%,
-    rgba(170,120,195,0.10) 35%,
-    transparent 60%
-  );
-  animation: curtainSwayLeft 8s ease-in-out infinite;
-}
-.light-mode .cartazes-section::after {
-  right: 0;
-  background: linear-gradient(270deg,
-    rgba(120,80,150,0.40) 0%,
-    rgba(140,95,170,0.25) 15%,
-    rgba(170,120,195,0.10) 35%,
-    transparent 60%
-  );
-  animation: curtainSwayRight 8s ease-in-out infinite;
-}
-
-@keyframes curtainSwayLeft {
-  0%, 100% {
-    transform: translateX(0) scaleX(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translateX(-8px) scaleX(1.03);
-    opacity: 0.85;
-  }
-}
-@keyframes curtainSwayRight {
-  0%, 100% {
-    transform: translateX(0) scaleX(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translateX(8px) scaleX(1.03);
-    opacity: 0.85;
-  }
-}
-
-/* Acessibilidade — sem animação para quem prefere movimento reduzido */
-@media (prefers-reduced-motion: reduce) {
-  .light-mode .cartazes-section::before,
-  .light-mode .cartazes-section::after {
-    animation: none;
-  }
-}
-
-/* Conteúdo acima das cortinas */
-.light-mode .cartazes-section > * {
-  position: relative;
-  z-index: 2;
 }
 
 .light-mode .cartaz-img {
@@ -2979,27 +2893,27 @@ html { scroll-behavior: smooth; }
   filter: brightness(1.06) saturate(1.12);
 }
 
-/* Light: linhas subtis mais visíveis para contrastar com o branco */
+/* Light: molduras mais definidas contra o fundo branco lavanda */
 .light-mode .cartaz-featured .cartaz-img-wrap::before {
-  border-color: rgba(147,51,234,0.20);
+  border-color: rgba(147,51,234,0.25);
 }
 .light-mode .cartaz-featured:hover .cartaz-img-wrap::before {
-  border-color: rgba(200,80,255,0.45);
+  border-color: rgba(200,80,255,0.55);
 }
 .light-mode .cartaz-secondary .cartaz-img-wrap::before {
-  border-color: rgba(96,165,250,0.25);
+  border-color: rgba(96,165,250,0.30);
 }
 .light-mode .cartaz-secondary:hover .cartaz-img-wrap::before {
-  border-color: rgba(96,165,250,0.55);
+  border-color: rgba(96,165,250,0.60);
 }
 .light-mode .cartaz-img-wrap {
-  box-shadow: 0 12px 36px rgba(91,62,138,0.18);
+  box-shadow: 0 16px 48px rgba(91,62,138,0.22);
 }
 .light-mode .cartaz-featured:hover .cartaz-img-wrap {
-  box-shadow: 0 20px 60px rgba(91,62,138,0.28), 0 0 50px rgba(200,80,255,0.18);
+  box-shadow: 0 24px 70px rgba(91,62,138,0.32), 0 0 60px rgba(200,80,255,0.22);
 }
 .light-mode .cartaz-secondary:hover .cartaz-img-wrap {
-  box-shadow: 0 18px 50px rgba(91,62,138,0.22), 0 0 40px rgba(96,165,250,0.15);
+  box-shadow: 0 20px 60px rgba(91,62,138,0.26), 0 0 50px rgba(96,165,250,0.18);
 }
 
 .light-mode .cartaz-overlay {
@@ -3010,23 +2924,34 @@ html { scroll-behavior: smooth; }
     transparent 60%
   );
 }
-/* Light: "Em breve" tag mais clara para contrastar com fundo lavanda */
+/* Light: "Em breve" tag — glass mais opaco para destacar no fundo claro */
 .light-mode .cartaz-tag-soon {
-  background: rgba(255,255,255,0.7);
-  color: #4A2D7A;
-  border-color: rgba(96,165,250,0.45);
-  box-shadow: 0 4px 16px rgba(91,62,138,0.15),
-              0 0 20px rgba(96,165,250,0.20),
-              inset 0 1px 0 rgba(255,255,255,0.5);
+  background: rgba(74,45,122,0.85);
+  color: #E8DAF2;
+  border-color: rgba(96,165,250,0.50);
+  backdrop-filter: blur(10px) saturate(1.3);
+  -webkit-backdrop-filter: blur(10px) saturate(1.3);
+  box-shadow: 0 6px 20px rgba(74,45,122,0.30),
+              0 0 24px rgba(96,165,250,0.25),
+              inset 0 1px 0 rgba(255,255,255,0.15);
+}
+/* Light: tag "Cascais" — gradiente neon mais saturado para destacar no branco */
+.light-mode .cartaz-tag {
+  background: linear-gradient(135deg, rgba(200,80,255,0.95) 0%, rgba(255,45,120,0.92) 100%);
+  box-shadow: 0 6px 20px rgba(200,80,255,0.40),
+              0 0 28px rgba(255,45,120,0.30),
+              inset 0 1px 0 rgba(255,255,255,0.35);
 }
 
-/* Light: cartaz-info mais legível — fundo branco translúcido + texto escuro reforçado */
+/* Light: cartaz-info — card branco opaco com sombra mais marcada */
 .light-mode .cartaz-info {
-  background: rgba(255,255,255,0.78);
-  backdrop-filter: blur(14px) saturate(1.2);
-  -webkit-backdrop-filter: blur(14px) saturate(1.2);
-  border-color: rgba(147,51,234,0.15);
-  box-shadow: 0 8px 24px rgba(91,62,138,0.10);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px) saturate(1.25);
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  border-color: rgba(147,51,234,0.18);
+  border: 1px solid rgba(147,51,234,0.18);
+  box-shadow: 0 12px 32px rgba(91,62,138,0.14),
+              0 2px 8px rgba(91,62,138,0.08);
 }
 .light-mode .cartaz-date {
   color: #1E1040;
@@ -3034,11 +2959,13 @@ html { scroll-behavior: smooth; }
 .light-mode .cartaz-venue {
   color: #5B3E8A;
 }
-/* Light: botão "Avisar-me" com cor mais escura para legibilidade */
+/* Light: botão "Avisar-me" — outline mais visível no fundo branco lavanda */
 .light-mode .cartaz-buy-btn-soon {
   color: #4A2D7A;
-  border-color: rgba(74,45,122,0.35);
-  background: rgba(255,255,255,0.5);
+  border: 1.5px solid rgba(74,45,122,0.40);
+  background: rgba(245,234,248,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 /* Light: botão "Comprar Bilhete" mantém gradiente neon (visível em ambos os modos) */
 .light-mode .cartaz-buy-btn {
@@ -3682,12 +3609,12 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══ Galeria — light mode (lavanda lilás, igual ao Tributo) ═══ */
-/* Mural — lavanda mais escuro para hierarquia (arquivo/coleção) */
+/* ═══ Galeria (Mural) — lavanda puro reposto (estado original) ═══ */
 .light-mode .galeria-section {
-  background: linear-gradient(180deg, #C8B0DA 0%, #BFA5D2 30%, #B59AC8 60%, #CBB5DC 100%);
-  --t1: #1A0A38;
-  --t2: #4A2A75;
-  --t3: #735BA0;
+  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
+  --t1: #1E1040;
+  --t2: #5B3E8A;
+  --t3: #8B6CB0;
 }
 .light-mode .galeria-card {
   background: rgba(255,255,255,0.55);
