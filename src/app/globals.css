@@ -2517,6 +2517,260 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
+/* ═══ CARTAZES — Posters + Ticketline CTA ═══ */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.cartazes-section {
+  position: relative;
+  padding: 6rem 0 5rem;
+  background: var(--deep);
+  overflow: hidden;
+}
+
+.cartazes-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: start;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .cartazes-grid {
+    grid-template-columns: 1.6fr 1fr;
+    gap: 2.5rem;
+  }
+}
+
+.cartaz-card {
+  display: block;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1),
+              box-shadow 0.6s ease;
+}
+
+.cartaz-featured {
+  cursor: pointer;
+}
+
+.cartaz-img-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(200,80,255,0.12);
+  box-shadow: 0 12px 40px rgba(11,8,19,0.5),
+              0 0 60px rgba(200,80,255,0.06);
+  transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.cartaz-featured .cartaz-img-wrap {
+  aspect-ratio: 1240 / 1748;
+}
+
+.cartaz-secondary .cartaz-img-wrap {
+  aspect-ratio: 766 / 1012;
+}
+
+.cartaz-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.8s cubic-bezier(0.16,1,0.3,1),
+              filter 0.6s ease;
+  filter: brightness(0.9) saturate(0.95);
+}
+
+.cartaz-card:hover .cartaz-img {
+  transform: scale(1.04);
+  filter: brightness(1) saturate(1.1);
+}
+
+.cartaz-card:hover .cartaz-img-wrap {
+  border-color: rgba(200,80,255,0.4);
+  box-shadow: 0 20px 60px rgba(11,8,19,0.6),
+              0 0 80px rgba(200,80,255,0.15);
+}
+
+.cartaz-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(11,8,19,0.5) 0%,
+    rgba(11,8,19,0.1) 30%,
+    transparent 60%
+  );
+  pointer-events: none;
+  opacity: 0.8;
+  transition: opacity 0.5s ease;
+}
+
+.cartaz-card:hover .cartaz-overlay {
+  opacity: 0.4;
+}
+
+/* ═══ CTA Badge — "Comprar Bilhete" no cartaz principal ═══ */
+.cartaz-cta-badge {
+  position: absolute;
+  bottom: 1.2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  background: var(--neon-purple);
+  color: #fff;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 4px;
+  box-shadow: 0 4px 20px rgba(200,80,255,0.4),
+              0 0 40px rgba(200,80,255,0.2);
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  white-space: nowrap;
+}
+
+.cartaz-featured:hover .cartaz-cta-badge {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ═══ "Em breve" badge no cartaz secundário ═══ */
+.cartaz-soon-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.35rem 0.9rem;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: rgba(40,15,70,0.9);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 4px;
+  border: 1px solid rgba(200,80,255,0.2);
+}
+
+/* ═══ Cartaz info (abaixo de cada cartaz) ═══ */
+.cartaz-info {
+  padding: 1.2rem 0.2rem 0;
+  text-align: left;
+}
+
+.cartaz-city {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
+  text-shadow: 0 0 12px currentColor;
+}
+
+.cartaz-date {
+  font-size: 14px;
+  font-family: var(--font-geist-mono);
+  letter-spacing: 0.15em;
+  color: var(--t2);
+  margin-bottom: 0.6rem;
+}
+
+.cartaz-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  margin-bottom: 0.6rem;
+}
+
+.cartaz-status-live {
+  color: #00d66e;
+  background: rgba(0,214,110,0.1);
+  border: 1px solid rgba(0,214,110,0.3);
+}
+
+.cartaz-status-soon {
+  color: var(--blue-accent);
+  background: rgba(91,62,138,0.12);
+  border: 1px solid rgba(91,62,138,0.3);
+}
+
+.cartaz-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 10px currentColor;
+  animation: cartazDotPulse 1.8s ease-in-out infinite;
+}
+
+.cartaz-status-dot-soon {
+  animation: none;
+  background: var(--blue-accent);
+  box-shadow: 0 0 6px var(--blue-accent);
+}
+
+@keyframes cartazDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.cartaz-venue {
+  font-size: 12px;
+  color: var(--t3);
+  letter-spacing: 0.05em;
+}
+
+/* ═══ Light mode — lavanda para continuidade ═══ */
+.light-mode .cartazes-section {
+  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
+  --t1: #1E1040;
+  --t2: #5B3E8A;
+  --t3: #8B6CB0;
+}
+.light-mode .cartaz-img {
+  filter: brightness(1.02) saturate(1.05);
+}
+.light-mode .cartaz-card:hover .cartaz-img {
+  filter: brightness(1.08) saturate(1.15);
+}
+.light-mode .cartaz-img-wrap {
+  border-color: rgba(147,51,234,0.18);
+  box-shadow: 0 12px 40px rgba(91,62,138,0.15),
+              0 0 60px rgba(200,80,255,0.08);
+}
+.light-mode .cartaz-card:hover .cartaz-img-wrap {
+  border-color: rgba(200,80,255,0.4);
+  box-shadow: 0 20px 60px rgba(91,62,138,0.25),
+              0 0 80px rgba(200,80,255,0.2);
+}
+.light-mode .cartaz-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(30,16,64,0.35) 0%,
+    rgba(30,16,64,0.08) 30%,
+    transparent 60%
+  );
+}
+.light-mode .cartaz-soon-badge {
+  background: rgba(255,255,255,0.9);
+  color: rgba(40,15,70,0.95);
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
 /* ═══ GALERIA — Photo Gallery with Captions + Lightbox ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
 

@@ -477,6 +477,8 @@ export default function HomePage() {
   const navLinks = useMemo(() => [
     { l: "Espetáculo", h: "#espetaculo" },
     { l: "Identidade", h: "#identidade" },
+    { l: "Mural", h: "#galeria" },
+    { l: "Cartazes", h: "#cartazes" },
     { l: "Lineup", h: "#lineup" },
     { l: "Concertos", h: "#concertos" },
     { l: "Bilhetes", h: "#bilhetes" },
@@ -701,9 +703,9 @@ export default function HomePage() {
             <HeroCountdown />
           </div>
           <a
-            href="#concertos"
+            href="#cartazes"
             className="hero-cta"
-            onClick={e => { e.preventDefault(); document.getElementById('concertos')?.scrollIntoView({ behavior: 'smooth' }); }}
+            onClick={e => { e.preventDefault(); document.getElementById('cartazes')?.scrollIntoView({ behavior: 'smooth' }); }}
           >
             Garante o Teu Lugar <ChevronRight className="w-3.5 h-3.5"/>
           </a>
@@ -1077,6 +1079,67 @@ export default function HomePage() {
                 </div>
               </Rv>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="neon-div max-w-[1400px] mx-auto"/>
+
+      {/* ═══ CARTAZES — Posters + Ticketline CTA ═══ */}
+      <section id="cartazes" className="cartazes-section px-5 sm:px-10">
+        <div className="max-w-[1400px] mx-auto">
+          <Rv>
+            <p className="sec-num mb-4">Cartazes Oficiais</p>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
+              O Espet&aacute;culo <span className="neon-shimmer">Ao Vivo</span>
+            </h2>
+          </Rv>
+          <Rv delay={120}>
+            <p className="text-[16px] leading-[1.8] mb-12 max-w-lg" style={{color:"var(--t2)"}}>
+              Duas datas &uacute;nicas. Duas cidades. O mesmo ritual Honmoon.
+            </p>
+          </Rv>
+
+          <div className="cartazes-grid">
+            {/* ═══ CASCAIS — Destaque principal (maior) ═══ */}
+            <Rv delay={200}>
+              <a href={TL} target="_blank" rel="noopener noreferrer" className="cartaz-card cartaz-featured">
+                <div className="cartaz-img-wrap">
+                  <img src="/poster.webp" alt="Cartaz Cascais - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
+                  <div className="cartaz-overlay"/>
+                  <div className="cartaz-cta-badge">
+                    <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
+                  </div>
+                </div>
+                <div className="cartaz-info">
+                  <p className="cartaz-city" style={{color:"var(--pink-kpop)"}}>Cascais &middot; Estoril</p>
+                  <p className="cartaz-date">18 JUL 2026 &middot; 18:30h</p>
+                  <p className="cartaz-status cartaz-status-live">
+                    <span className="cartaz-status-dot"/> Bilhetes j&aacute; &agrave; venda
+                  </p>
+                  <p className="cartaz-venue">Academia das Artes do Estoril</p>
+                </div>
+              </a>
+            </Rv>
+
+            {/* ═══ SESIMBRA — Destaque secundário (mais pequeno) ═══ */}
+            <Rv delay={350}>
+              <div className="cartaz-card cartaz-secondary">
+                <div className="cartaz-img-wrap">
+                  <img src="/poster-sesimbra.webp" alt="Cartaz Sesimbra - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
+                  <div className="cartaz-overlay"/>
+                  <div className="cartaz-soon-badge">Em breve</div>
+                </div>
+                <div className="cartaz-info">
+                  <p className="cartaz-city" style={{color:"var(--blue-accent)"}}>Sesimbra</p>
+                  <p className="cartaz-date">Data a anunciar</p>
+                  <p className="cartaz-status cartaz-status-soon">
+                    <span className="cartaz-status-dot cartaz-status-dot-soon"/> Bilhetes &agrave; venda a partir de 20 de Junho
+                  </p>
+                  <p className="cartaz-venue">Local a confirmar</p>
+                </div>
+              </div>
+            </Rv>
           </div>
         </div>
       </section>
