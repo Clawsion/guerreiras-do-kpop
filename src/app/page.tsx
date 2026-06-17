@@ -490,6 +490,15 @@ export default function HomePage() {
     }
   }, []);
 
+  // Cleanup todas as transições pendentes quando o componente desmonta
+  // (evita memory leaks e setStates em componentes desmontados)
+  useEffect(() => {
+    return () => {
+      transitionRef.current.forEach(t => clearTimeout(t));
+      if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current);
+    };
+  }, []);
+
   useEffect(() => {
     localStorage.setItem('honmoon-theme', themeMode);
     // Sync light-mode class to <html> so WebGL shaders can detect theme
@@ -504,28 +513,141 @@ export default function HomePage() {
     setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
   }, []);
 
-  // ═══ Efeito "acender/apagar" suave da imagem do hero ao trocar de tema ═══
-  // Dispara um bloom/vela radial suave que cresce do centro, troca a imagem no pico,
-  // e fade-out revelando a nova imagem. Sincronizado com o ripple effect do orb.
-  // Duração: 2.2s. Pico (toggleTheme) aos ~50% = 1.1s.
-  // Guard: bloqueia cliques durante a transição para evitar bug de "ficar parado"
+  // ═══ SISTEMA DE TROCA DE TEMA — REFEITO 2026-06 ═══
+  // Bug antigo: timeouts dispersos + stale closures causavam trocas falhadas
+  // em mobile. Solução: ref centralizado que rastreia todos os timeouts,
+  // cancelamento limpo ao iniciar nova transição, e durações adaptativas.
+  //
+  // Arquitetura:
+  //   - transitionRef: guarda TODOS os timeouts da transição atual
+  //   - isTransitioningRef: flag sincronizada (sem stale closures)
+  //   - cleanupTransition(): cancela tudo e reseta estado
+  //   - startThemeTransition(): ponto único de entrada
+  const transitionRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const isTransitioningRef = useRef(false);
   const flashTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const cleanupTransition = useCallback(() => {
+    // Cancela todos os timeouts pendentes
+    transitionRef.current.forEach(t => clearTimeout(t));
+    transitionRef.current = [];
+    if (flashTimeoutRef.current) {
+      clearTimeout(flashTimeoutRef.current);
+      flashTimeoutRef.current = null;
+    }
+    isTransitioningRef.current = false;
+    setHeroFlash('none');
+    setRipple(null);
+    setWaveActive(false);
+    // Limpa --wave-delay das secções
+    if (sectionRefs.current) {
+      sectionRefs.current.forEach(el => {
+        (el as HTMLElement).style.removeProperty('--wave-delay');
+      });
+    }
+  }, []);
+
   const triggerHeroFlash = useCallback((toMode: 'light' | 'dark') => {
-    // Se já há um flash em curso, ignora o clique (previne bug)
-    if (heroFlash !== 'none') return;
+    // Usar ref em vez de state para evitar stale closure
+    if (isTransitioningRef.current) return;
+    isTransitioningRef.current = true;
     const flashClass = toMode === 'light' ? 'to-light' : 'to-dark';
     setHeroFlash(flashClass as 'to-light' | 'to-dark');
-    // Limpa timeout anterior se existir
-    if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current);
-    // Duração adaptativa: em smartphone a animação é leve (0.4s crossfade),
-    // em desktop é completa (2.2s com scale+blur). Sincronizar o cleanup.
+
+    // Duração adaptativa: smartphone = 600ms (premium radial wipe),
+    // desktop = 2200ms (cinemático com ripple + wave)
     const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
-    const flashDuration = isMobileViewport ? 450 : 2200;
+    const flashDuration = isMobileViewport ? 600 : 2200;
     flashTimeoutRef.current = setTimeout(() => {
       setHeroFlash('none');
       flashTimeoutRef.current = null;
+      // Note: isTransitioningRef é resetado pela cleanup final, não aqui
     }, flashDuration);
-  }, [heroFlash]);
+  }, []);
+
+  // Ponto único de entrada para trocar de tema.
+  // Origin: 'button' (botão do topo) ou 'orb' (orb central)
+  const startThemeTransition = useCallback((origin: 'button' | 'orb', clickX?: number, clickY?: number) => {
+    // Se já em transição, CANCELA a anterior e começa nova
+    // (bug antigo: cliques rápidos falhavam porque o guard retornava)
+    cleanupTransition();
+
+    const toMode = themeMode === 'dark' ? 'light' as const : 'dark' as const;
+    const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
+
+    if (origin === 'orb' && !isMobileViewport) {
+      // ═══ DESKTOP/TABLET via ORB — efeito cinemático completo (ripple + wave) ═══
+      const orb = orbRef.current;
+      if (!orb) return;
+      const rect = orb.getBoundingClientRect();
+      const orbCX = rect.left + rect.width / 2;
+      const orbCY = rect.top + rect.height / 2;
+      const x = (orbCX / window.innerWidth) * 100;
+      const y = (orbCY / window.innerHeight) * 100;
+
+      setRipple({ active: true, x, y, toMode });
+      setBurstKey(k => k + 1);
+      setWaveActive(true);
+
+      // Dispara o flash do hero ~400ms antes do toggle
+      transitionRef.current.push(setTimeout(() => triggerHeroFlash(toMode), 400));
+
+      // Wave delay: secções mais próximas do orb mudam primeiro
+      const maxDist = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);
+      if (!sectionRefs.current) {
+        sectionRefs.current = Array.from(document.querySelectorAll('section, header, footer, nav, .fixed.bottom-0'));
+      }
+      const allSections = sectionRefs.current;
+      allSections.forEach(el => {
+        const r = el.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height / 2;
+        const dist = Math.sqrt((orbCX - cx) ** 2 + (orbCY - cy) ** 2);
+        const normalized = dist / maxDist;
+        const delay = Math.round(normalized * 700);
+        (el as HTMLElement).style.setProperty('--wave-delay', `${delay}ms`);
+      });
+
+      // Toggle theme quando clip-path cobre o viewport (~50% de 1.5s)
+      transitionRef.current.push(setTimeout(() => { toggleTheme(); }, 650));
+      // Cleanup final
+      transitionRef.current.push(setTimeout(() => {
+        setRipple(null);
+        setWaveActive(false);
+        allSections.forEach(el => {
+          (el as HTMLElement).style.removeProperty('--wave-delay');
+        });
+        isTransitioningRef.current = false;
+      }, 2200));
+    } else {
+      // ═══ SMARTPHONE (qualquer origem) ou DESKTOP via BOTÃO — animação premium leve ═══
+      // Em mobile usamos um radial-wipe premium (600ms) em vez do ripple pesado.
+      // Em desktop via botão do topo, comportamento original simplificado.
+      const cx = clickX ?? 50;
+      const cy = clickY ?? 50;
+
+      if (isMobileViewport) {
+        // Mobile: radial wipe premium a partir do ponto de clique
+        setRipple({ active: true, x: cx, y: cy, toMode });
+        // Toggle imediatamente — a animação premium faz o crossfade visual
+        // (bug antigo: toggleTheme tinha 200ms de delay, causava race)
+        triggerHeroFlash(toMode);
+        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, 300));
+        // Cleanup
+        transitionRef.current.push(setTimeout(() => {
+          setRipple(null);
+          isTransitioningRef.current = false;
+        }, 600));
+      } else {
+        // Desktop via botão do topo: flash + toggle (sem ripple)
+        triggerHeroFlash(toMode);
+        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, 1100));
+        transitionRef.current.push(setTimeout(() => {
+          isTransitioningRef.current = false;
+        }, 2200));
+      }
+    }
+  }, [themeMode, cleanupTransition, triggerHeroFlash, toggleTheme]);
 
   const navLinks = useMemo(() => [
     { l: "Espetáculo", h: "#espetaculo" },
@@ -702,14 +824,13 @@ export default function HomePage() {
             {/* Theme toggle - ao lado do Ticketline */}
             <button
               className="hero-nav-theme"
-              disabled={heroFlash !== 'none'}
-              onClick={() => {
-                if (heroFlash !== 'none') return; // Guard: não troca se flash em curso
-                const toMode = themeMode === 'dark' ? 'light' : 'dark';
-                triggerHeroFlash(toMode);
-                window.setTimeout(() => toggleTheme(), 200);
+              onClick={(e) => {
+                // Nova arquitetura: ponto único de entrada, cancela transições anteriores
+                const rect = e.currentTarget.getBoundingClientRect();
+                const cx = ((rect.left + rect.width / 2) / window.innerWidth) * 100;
+                const cy = ((rect.top + rect.height / 2) / window.innerHeight) * 100;
+                startThemeTransition('button', cx, cy);
               }}
-              style={heroFlash !== 'none' ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}
               aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
             >
               <span className={`hero-nav-orb ${themeMode}`}/>
@@ -823,52 +944,14 @@ export default function HomePage() {
           ref={orbRef}
           className={`hm-orb ${themeMode}`}
           onClick={() => {
-            if (ripple?.active) return;
-            if (heroFlash !== 'none') return; // Guard: não troca se flash em curso
+            // Nova arquitetura: ponto único de entrada, cancela transições anteriores
+            // (bug antigo: cliques rápidos falhavam porque guards impediam nova troca)
             const orb = orbRef.current;
             if (!orb) return;
             const rect = orb.getBoundingClientRect();
-            const orbCX = rect.left + rect.width / 2;
-            const orbCY = rect.top + rect.height / 2;
-            const x = (orbCX / window.innerWidth) * 100;
-            const y = (orbCY / window.innerHeight) * 100;
-            const toMode = themeMode === 'dark' ? 'light' as const : 'dark' as const;
-            setRipple({ active: true, x, y, toMode });
-            setBurstKey(k => k + 1);
-            setWaveActive(true);
-
-            // Dispara o flash do hero ~400ms antes do toggle (sincronizado com o ripple).
-            // Pico do flash é aos ~800ms (50% de 1.6s), toggleTheme aos 650ms (ripple original).
-            window.setTimeout(() => triggerHeroFlash(toMode), 400);
-
-            // ─── Wave delay: sections closer to orb change first ───
-            const maxDist = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);
-            /* Cache section refs on first click to avoid querySelectorAll on every click */
-            if (!sectionRefs.current) {
-              sectionRefs.current = Array.from(document.querySelectorAll('section, header, footer, nav, .fixed.bottom-0'));
-            }
-            const allSections = sectionRefs.current;
-            allSections.forEach(el => {
-              const r = el.getBoundingClientRect();
-              const cx = r.left + r.width / 2;
-              const cy = r.top + r.height / 2;
-              const dist = Math.sqrt((orbCX - cx) ** 2 + (orbCY - cy) ** 2);
-              const normalized = dist / maxDist;
-              // 0ms near orb → 700ms far from orb
-              const delay = Math.round(normalized * 700);
-              (el as HTMLElement).style.setProperty('--wave-delay', `${delay}ms`);
-            });
-
-            // Switch theme when clip-path covers viewport (~50% of 1.5s)
-            setTimeout(() => { toggleTheme(); }, 650);
-            // Clean up wave delays + remove ripple
-            setTimeout(() => {
-              setRipple(null);
-              setWaveActive(false);
-              allSections.forEach(el => {
-                (el as HTMLElement).style.removeProperty('--wave-delay');
-              });
-            }, 2200);
+            const cx = ((rect.left + rect.width / 2) / window.innerWidth) * 100;
+            const cy = ((rect.top + rect.height / 2) / window.innerHeight) * 100;
+            startThemeTransition('orb', cx, cy);
           }}
           role="button"
           title={themeMode === 'dark' ? 'Carrega para Ativar o modo Dia' : 'Carrega para Ativar o modo Noite'}

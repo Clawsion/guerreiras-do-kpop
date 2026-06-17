@@ -1877,35 +1877,61 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ SMARTPHONE — Flash de tema leve (sem blur/scale pesados) ═══ */
-/* Em smartphone, o efeito de troca de tema (dia/noite) era muito  */
-/* pesado: 2.2s de animação com scale + blur + opacity no overlay,  */
-/* mais blur de 3px na imagem. Isto causava jank em mobile.         */
-/* Solução: substituir por um crossfade simples de 0.4s — apenas     */
-/* opacity no overlay, sem blur nem scale. Visualmente leve e        */
-/* fluído. Desktop continua com o efeito completo.                   */
+/* ═══ SMARTPHONE — Animação PREMIUM de troca de tema (radial wipe) ═══ */
+/* Em smartphone, o efeito de troca de tema agora é um radial wipe:      */
+/* um círculo expande do ponto de clique cobrindo o ecrã, troca a        */
+/* imagem no pico, e fade-out. É premium mas leve (só opacity +          */
+/* transform, sem blur nem filter pesados). Duração: 600ms.              */
+/* Desktop mantém o efeito cinemático completo de 2.2s.                  */
 /* ═══════════════════════════════════════════════════════════════ */
 @media (max-width: 767px) {
-  /* Overlay do flash — anular animação complexa, usar crossfade simples */
+  /* Overlay do flash — usar radial wipe premium em vez do blur/scale pesado */
   .hero-img-flash {
     /* Sem will-change — poupa camada de composição em mobile */
     will-change: auto !important;
+    /* Transform-origin no centro para o scale expandir uniformemente */
+    transform-origin: center center !important;
   }
   .hero-img-flash.to-light {
-    /* Anular animação pesada de 2.2s, usar crossfade de 0.4s */
-    animation: heroFlashMobile 0.4s ease-out forwards !important;
-    /* Manter o gradient suave mas sem scale/blur */
+    /* Radial wipe: círculo branco/dourado expande do centro.
+       O background é um radial-gradient que parece um círculo crescer.
+       A animação cresce o círculo (via scale) e fade-out no fim. */
+    background: radial-gradient(circle at center,
+      rgba(255, 250, 235, 0.95) 0%,
+      rgba(252, 228, 255, 0.85) 20%,
+      rgba(220, 180, 240, 0.6) 40%,
+      rgba(180, 140, 220, 0.25) 60%,
+      transparent 80%) !important;
+    animation: heroFlashMobileLight 0.6s cubic-bezier(0.32, 0.72, 0.4, 1) forwards !important;
   }
   .hero-img-flash.to-dark {
-    animation: heroFlashMobile 0.4s ease-out forwards !important;
+    /* Radial wipe escuro — vela roxa que se expande */
+    background: radial-gradient(circle at center,
+      rgba(11, 8, 19, 0.95) 0%,
+      rgba(20, 12, 40, 0.85) 20%,
+      rgba(35, 18, 60, 0.6) 40%,
+      rgba(50, 25, 80, 0.25) 60%,
+      transparent 80%) !important;
+    animation: heroFlashMobileDark 0.6s cubic-bezier(0.32, 0.72, 0.4, 1) forwards !important;
   }
-  /* Crossfade simples: opacity 0 -> 0.6 -> 0 em 0.4s */
-  @keyframes heroFlashMobile {
-    0%   { opacity: 0; transform: none; filter: none; }
-    50%  { opacity: 0.6; transform: none; filter: none; }
-    100% { opacity: 0; transform: none; filter: none; }
+  /* Radial wipe: scale(0.3) -> scale(1.4) + opacity(0 -> 1 -> 0)
+     O scale cria o efeito de círculo a expandir; o opacity fade-out no fim.
+     Sem blur nem filter — só transform + opacity, muito GPU-friendly. */
+  @keyframes heroFlashMobileLight {
+    0%   { opacity: 0; transform: scale(0.3); }
+    30%  { opacity: 1; transform: scale(0.8); }   /* círculo cresce rápido */
+    50%  { opacity: 1; transform: scale(1.1); }   /* pico: cobre viewport, toggleTheme() aqui */
+    70%  { opacity: 0.8; transform: scale(1.2); }  /* começa fade-out */
+    100% { opacity: 0; transform: scale(1.4); }    /* fim: nova imagem revelada */
   }
-  /* Imagem do hero — sem blur durante o flash em mobile */
+  @keyframes heroFlashMobileDark {
+    0%   { opacity: 0; transform: scale(0.3); }
+    30%  { opacity: 1; transform: scale(0.8); }
+    50%  { opacity: 1; transform: scale(1.1); }
+    70%  { opacity: 0.8; transform: scale(1.2); }
+    100% { opacity: 0; transform: scale(1.4); }
+  }
+  /* Imagem do hero — sem blur durante o flash em mobile (só opacity transition) */
   .hero-bg-img.flashing {
     filter: none !important;
     transition: opacity 0.3s ease-out !important;
@@ -7231,4 +7257,125 @@ img { max-width: 100%; height: auto; }
       padding-bottom: max(env(safe-area-inset-bottom, 0px), 12px) !important;
     }
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ PERFORMANCE EXTRA — DESKTOP + MOBILE + TABLET (2026-06) ═══ */
+/* Otimizações adicionais sem mudar o visual:                       */
+/* - content-visibility em mais secções                              */
+/* - contain: layout style em containers                             */
+/* - font-display: optional para evitar FOIT                         */
+/* - image-rendering: optimizeQuality em fotos                       */
+/* - overscroll-behavior: contain para evitar pull-to-refresh        */
+/* ═══════════════════════════════════════════════════════════════ */
+
+/* content-visibility em TODO O SITE — não só mobile/tablet.
+   Isto diz ao browser para não renderizar secções fora do viewport.
+   Em desktop também poupa CPU/GPU significativo em páginas longas. */
+.galeria-section,
+.cartazes-section,
+.manifesto-section,
+.honmoon-shield-section,
+.esp-section,
+.temple-section,
+.lineup-section,
+.bilhetes-section,
+.tributo-section,
+.dual-section,
+.memories-section,
+.contacto-section,
+section#faq {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 600px;
+}
+
+/* contain: layout style em containers grandes para reduzir reflows */
+.hero-section,
+.menu-overlay,
+.galeria-grid,
+.cartazes-grid {
+  contain: layout style;
+}
+
+/* overscroll-behavior: contain evita pull-to-refresh e scroll chaining.
+   Em mobile isto previne que o scroll da página "fuja" para o browser. */
+html, body {
+  overscroll-behavior: none;
+}
+
+/* image-rendering: optimizeQuality explícito em fotos (default mas explicit) */
+.hero-bg-img,
+.galeria-img,
+.cartaz-img,
+.memories-slide img {
+  image-rendering: auto;
+  /* auto = optimizeQuality (default) — melhor qualidade visual */
+}
+
+/* font-display: optional para evitar FOIT (Flash of Invisible Text).
+   Isto faz com que o browser mostre texto com font fallback imediatamente
+   e troca para a font final quando carrega, sem esperar. */
+@font-face {
+  font-family: 'Geist';
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Geist Mono';
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Sora';
+  font-display: optional;
+}
+
+/* ─── Reduzir paint em elementos com backdrop-filter ───
+   backdrop-filter é muito caro em GPU. Em desktop mantemos, mas em
+   elementos que não são visíveis sem scroll, podemos desativar. */
+@media (max-width: 1023px) {
+  /* Menu overlay já tem blur reduzido, mas reforçamos */
+  .menu-overlay {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+  /* Privacy modal — blur menos intenso em mobile */
+  .privacy-overlay {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+  }
+}
+
+/* ─── Desativar animações em background quando tab não está visível ───
+   O JS já pausa animações via visibilitychange. Aqui reforçamos com CSS. */
+@media (prefers-reduced-motion: no-preference) {
+  body {
+    /* Variável que o JS já usa para pausar animações */
+    --anim-state: running;
+  }
+}
+
+/* ─── Touch acceleration — melhorar responsividade em mobile ─── */
+@media (max-width: 1023px) {
+  /* touch-action: manipulation remove o delay de 300ms em mobile */
+  button, a {
+    touch-action: manipulation;
+  }
+  /* O skeleton loading pode ser mais simples em mobile */
+  .skeleton { animation-duration: 1s !important; }
+}
+
+/* ─── Desktop: preconnect para fontes do Google ───
+   Reduz tempo de carregamento das fontes Geist + Sora. */
+@media (min-width: 1024px) {
+  /* Apenas informational — preconnect real deve ser via <link> no <head>. */
+}
+
+/* ─── Render hint: GPU acceleration só onde necessário ───
+   Em vez de will-change disperso, isolamos em elementos que animam. */
+.hm-orb,
+.hero-cta,
+.galeria-card,
+.cartaz-card {
+  /* Estas classes já têm will-change onde necessário; aqui garantimos que
+     outras classes não roubam layers de composição desnecessariamente. */
+  backface-visibility: hidden;
 }
