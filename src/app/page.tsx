@@ -660,6 +660,9 @@ export default function HomePage() {
 
   return (
     <>
+      {/* ═══ MARCA DE ÁGUA FIXA (parallax) - acompanha o scroll, dá vida ao site ═══ */}
+      <div className="site-watermark-parallax" aria-hidden="true"/>
+
       {/* ═══ RIPPLE BG LAYER - new theme background spreads from orb via clip-path ═══ */}
       {ripple?.active && (
         <div className="hm-ripple-bg-layer">
