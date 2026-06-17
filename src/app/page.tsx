@@ -744,12 +744,6 @@ export default function HomePage() {
 
         {/* ═══ HERO CTA - em baixo de 'Épico' (alinhado a ~20% X da imagem) ═══ */}
         <div className="hero-bottom-panel absolute z-10 flex flex-col items-start" style={{left: "20%", bottom: "18%", transform: "translateX(-30%)"}}>
-          {/* Arco de neons decorativo atrás do botão */}
-          <div className="hero-cta-arc" aria-hidden="true">
-            <div className="hero-cta-arc-ring hero-cta-arc-ring-1"/>
-            <div className="hero-cta-arc-ring hero-cta-arc-ring-2"/>
-            <div className="hero-cta-arc-ring hero-cta-arc-ring-3"/>
-          </div>
           <a
             href="#cartazes"
             className="hero-cta"
