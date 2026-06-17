@@ -548,11 +548,15 @@ export default function HomePage() {
   }, []);
 
   const triggerHeroFlash = useCallback((toMode: 'light' | 'dark', x = 50, y = 50) => {
-    // Flash desativado — o ripple do Honmoon Shield faz o efeito visual
-    // Mantemos a função para não quebrar as chamadas existentes
+    if (isTransitioningRef.current) return;
     isTransitioningRef.current = true;
-    const flashDuration = 100;
+    const flashClass = toMode === 'light' ? 'to-light' : 'to-dark';
+    setHeroFlash({type: flashClass as 'to-light' | 'to-dark', x, y});
+
+    const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
+    const flashDuration = isMobileViewport ? 600 : 1000;
     flashTimeoutRef.current = setTimeout(() => {
+      setHeroFlash({type: 'none', x: 50, y: 50});
       flashTimeoutRef.current = null;
     }, flashDuration);
   }, []);
@@ -568,7 +572,7 @@ export default function HomePage() {
     const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
 
     if (origin === 'orb' && !isMobileViewport) {
-      // ═══ DESKTOP/TABLET via ORB — efeito cinemático completo (ripple + wave) ═══
+      // ═══ DESKTOP/TABLET via ORB — expande/suga luz do Honmoon (sem ripple) ═══
       const orb = orbRef.current;
       if (!orb) return;
       const rect = orb.getBoundingClientRect();
@@ -577,12 +581,10 @@ export default function HomePage() {
       const x = (orbCX / window.innerWidth) * 100;
       const y = (orbCY / window.innerHeight) * 100;
 
-      setRipple({ active: true, x, y, toMode });
+      // Sem ripple — só o flash expande/suga do orb
       setBurstKey(k => k + 1);
       setWaveActive(true);
-
-      // Dispara o flash do hero ~400ms antes do toggle, com coordenadas do orb
-      transitionRef.current.push(setTimeout(() => triggerHeroFlash(toMode, x, y), 400));
+      triggerHeroFlash(toMode, x, y);
 
       // Wave delay: secções mais próximas do orb mudam primeiro
       const maxDist = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);
@@ -600,10 +602,8 @@ export default function HomePage() {
         (el as HTMLElement).style.setProperty('--wave-delay', `${delay}ms`);
       });
 
-      // Toggle theme no pico do efeito (50% da animação)
-      // to-light: luz expande, toggle quando cobre tudo (500ms após flash)
-      // to-dark: luz contrai, toggle imediato (bg escuro precisa estar em baixo)
-      transitionRef.current.push(setTimeout(() => { toggleTheme(); }, toMode === 'light' ? 900 : 450));
+      // Toggle theme no pico do flash (50% de 1s)
+      transitionRef.current.push(setTimeout(() => { toggleTheme(); }, toMode === 'light' ? 500 : 50));
       // Cleanup final
       transitionRef.current.push(setTimeout(() => {
         setRipple(null);
@@ -621,8 +621,7 @@ export default function HomePage() {
       const cy = clickY ?? 50;
 
       if (isMobileViewport) {
-        // Mobile: radial wipe premium a partir do ponto de clique
-        setRipple({ active: true, x: cx, y: cy, toMode });
+        // Mobile: flash expande/suga do ponto de clique (sem ripple)
         triggerHeroFlash(toMode, cx, cy);
         // to-light: toggle aos 300ms (50% de 600ms)
         // to-dark: toggle aos 50ms (quase imediato)
@@ -655,6 +654,22 @@ export default function HomePage() {
 
   return (
     <>
+      {/* ═══ FLASH LAYER — expande/suga luz do Honmoon (position fixed, cobre tudo) ═══ */}
+      {heroFlash.type !== 'none' && (
+        <>
+          <div
+            className={`hero-img-flash ${heroFlash.type}`}
+            style={{'--tx': `${heroFlash.x}%`, '--ty': `${heroFlash.y}%`} as React.CSSProperties}
+            aria-hidden="true"
+          />
+          <div
+            className={`hero-orb-burst ${heroFlash.type}`}
+            style={{'--tx': `${heroFlash.x}%`, '--ty': `${heroFlash.y}%`} as React.CSSProperties}
+            aria-hidden="true"
+          />
+        </>
+      )}
+
       {/* ═══ RIPPLE BG LAYER - new theme background spreads from orb via clip-path ═══ */}
       {ripple?.active && (
         <div className="hm-ripple-bg-layer">
