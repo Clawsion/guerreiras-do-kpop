@@ -517,11 +517,14 @@ export default function HomePage() {
     setHeroFlash(flashClass as 'to-light' | 'to-dark');
     // Limpa timeout anterior se existir
     if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current);
-    // Limpa o estado depois da animação terminar (~2.2s)
+    // Duração adaptativa: em smartphone a animação é leve (0.4s crossfade),
+    // em desktop é completa (2.2s com scale+blur). Sincronizar o cleanup.
+    const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
+    const flashDuration = isMobileViewport ? 450 : 2200;
     flashTimeoutRef.current = setTimeout(() => {
       setHeroFlash('none');
       flashTimeoutRef.current = null;
-    }, 2200);
+    }, flashDuration);
   }, [heroFlash]);
 
   const navLinks = useMemo(() => [

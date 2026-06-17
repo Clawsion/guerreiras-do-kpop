@@ -1876,6 +1876,42 @@ html { scroll-behavior: smooth; }
   filter: blur(3px) brightness(1.05);
 }
 
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ SMARTPHONE — Flash de tema leve (sem blur/scale pesados) ═══ */
+/* Em smartphone, o efeito de troca de tema (dia/noite) era muito  */
+/* pesado: 2.2s de animação com scale + blur + opacity no overlay,  */
+/* mais blur de 3px na imagem. Isto causava jank em mobile.         */
+/* Solução: substituir por um crossfade simples de 0.4s — apenas     */
+/* opacity no overlay, sem blur nem scale. Visualmente leve e        */
+/* fluído. Desktop continua com o efeito completo.                   */
+/* ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+  /* Overlay do flash — anular animação complexa, usar crossfade simples */
+  .hero-img-flash {
+    /* Sem will-change — poupa camada de composição em mobile */
+    will-change: auto !important;
+  }
+  .hero-img-flash.to-light {
+    /* Anular animação pesada de 2.2s, usar crossfade de 0.4s */
+    animation: heroFlashMobile 0.4s ease-out forwards !important;
+    /* Manter o gradient suave mas sem scale/blur */
+  }
+  .hero-img-flash.to-dark {
+    animation: heroFlashMobile 0.4s ease-out forwards !important;
+  }
+  /* Crossfade simples: opacity 0 -> 0.6 -> 0 em 0.4s */
+  @keyframes heroFlashMobile {
+    0%   { opacity: 0; transform: none; filter: none; }
+    50%  { opacity: 0.6; transform: none; filter: none; }
+    100% { opacity: 0; transform: none; filter: none; }
+  }
+  /* Imagem do hero — sem blur durante o flash em mobile */
+  .hero-bg-img.flashing {
+    filter: none !important;
+    transition: opacity 0.3s ease-out !important;
+  }
+}
+
 /* ═══ Hero content area ═══ */
 .hero-content {
   position: relative;
