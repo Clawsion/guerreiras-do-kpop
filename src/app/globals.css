@@ -6776,9 +6776,69 @@ section#concertos {
   .menu-overlay { backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important; }
   .contacto-form { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
   
-  /* Faster transitions (less GPU work) */
-  * { transition-duration: 0.3s !important; animation-duration: 0.5s !important; }
+  /* ─── Transições rápidas (mantém, isto é OK para transições) ───
+     NÃO usar animation-duration: 0.5s !important aqui — isso fazia com que
+     TODAS as animações infinitas (partículas, honmoon rings, neon circles,
+     strands) rodassem 10-40x mais rápido do que o planeado.
+     Em vez disso, tratamos cada animação individualmente abaixo. */
+  * { transition-duration: 0.3s !important; }
   
+  /* ─── Honmoon shield — abrandar/desativar animações decorativas ───
+     Prioridade: animações infinitas pesadas (rotações, partículas)
+     são abrandadas ou desativadas para poupar GPU e bateria em mobile. */
+
+  /* Partículas — abrandar (de 12s/10s para 20s) para parecerem serenas */
+  .hm-particle.dark { animation-duration: 20s !important; }
+  .hm-particle.light { animation-duration: 18s !important; }
+
+  /* Esconder partículas em excesso — em static export IS_MOBILE=false no build,
+     por isso renderiza sempre 12 partículas. Escondemos 6-11 em mobile via CSS. */
+  .hm-particle-6, .hm-particle-7, .hm-particle-8,
+  .hm-particle-9, .hm-particle-10, .hm-particle-11 {
+    display: none !important;
+  }
+
+  /* Neon circles (rodam a 20-42s no desktop) — abrandar para 40-80s em mobile */
+  .hm-neon-circle-1 { animation-duration: 40s !important; }
+  .hm-neon-circle-2 { animation-duration: 56s !important; }
+  .hm-neon-circle-3 { animation-duration: 70s !important; }
+  .hm-neon-circle-4 { animation-duration: 84s !important; }
+
+  /* Neon arcs (rodam a 12-22s) — abrandar para 24-44s em mobile */
+  .hm-neon-arc-1 { animation-duration: 24s !important; }
+  .hm-neon-arc-2 { animation-duration: 32s !important; }
+  .hm-neon-arc-3 { animation-duration: 44s !important; }
+
+  /* Rings (5-9s no desktop) — abrandar para 10-18s em mobile */
+  .hm-ring-1 { animation-duration: 10s !important; }
+  .hm-ring-2 { animation-duration: 14s !important; }
+  .hm-ring-3 { animation-duration: 18s !important; }
+
+  /* Orb pulse (3-4s) — abrandar para 6-8s em mobile (sereno) */
+  .hm-orb.dark { animation-duration: 8s, 10s !important; }
+  .hm-orb.light { animation-duration: 6s, 10s !important; }
+
+  /* Strands (4-12s no desktop) — abrandar para 16-24s em mobile */
+  .hm-strand-1 { animation-duration: 16s !important; }
+  .hm-strand-2 { animation-duration: 20s !important; }
+  .hm-strand-3 { animation-duration: 24s !important; }
+
+  /* Nodes (orbitam a 8-14s) — abrandar para 16-28s em mobile */
+  .hm-node-a, .hm-node-b, .hm-node-c,
+  .hm-node-d, .hm-node-e, .hm-node-f {
+    animation-duration: 16s !important;
+  }
+
+  /* Honmoon charger particles (4s) — abrandar para 8s e esconder metade */
+  .honmoon-particle { animation-duration: 8s !important; }
+
+  /* Esconder partículas do charger 4-7 em mobile (mesma razão que hm-particle).
+     Estrutura HTML: bg-glow (1), particle 0-7 (8), charger (1) — todos divs.
+     :nth-of-type(n+6) seleciona posições 6-9 = partículas 4-7 = últimas 4. */
+  .honmoon-particle:nth-of-type(n+6) {
+    display: none !important;
+  }
+
   /* Disable Ken Burns zoom on mobile (saves GPU) */
   .memories-slide.active { animation: none !important; transform: scale(1.0) !important; }
   .memories-slide { transform: scale(1.0) !important; }
@@ -6807,6 +6867,31 @@ section#concertos {
   .hero-glow-orb { opacity: 0.5; }
   .esp-glow-orb { opacity: 0.5; }
   .memories-smoke { filter: blur(30px); }
+
+  /* ─── Honmoon — abrandar ligeiramente e reduzir densidade ───
+     Tablet tem mais GPU que mobile, mas ecrã maior faz as animações
+     parecerem mais "agitadas". Abrandamos só um pouco. */
+
+  /* Esconder 4 das 12 partículas do shield (manter 8) */
+  .hm-particle-8, .hm-particle-9, .hm-particle-10, .hm-particle-11 {
+    display: none !important;
+  }
+
+  /* Esconder 2 das 8 partículas do charger (manter 6) */
+  .honmoon-particle:nth-of-type(n+8) {
+    display: none !important;
+  }
+
+  /* Neon circles — abrandar ~50% (40-60s em vez de 20-42s) */
+  .hm-neon-circle-1 { animation-duration: 30s !important; }
+  .hm-neon-circle-2 { animation-duration: 42s !important; }
+  .hm-neon-circle-3 { animation-duration: 52s !important; }
+  .hm-neon-circle-4 { animation-duration: 63s !important; }
+
+  /* Neon arcs — abrandar ~50% (18-33s em vez de 12-22s) */
+  .hm-neon-arc-1 { animation-duration: 18s !important; }
+  .hm-neon-arc-2 { animation-duration: 24s !important; }
+  .hm-neon-arc-3 { animation-duration: 33s !important; }
 }
 
 /* Prevent horizontal scroll on all devices */
