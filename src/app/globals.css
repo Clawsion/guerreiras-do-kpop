@@ -359,12 +359,20 @@ html { scroll-behavior: smooth; }
   width: 100%;
   height: 100%;
 }
+/* ═══ Cores das molduras — IGUAIS às cartazes (Próximos Concertos em Tour) ═══ */
+/* Dark mode: roxo escuro #1a0d2e (mesmo tom das cartazes) */
 .memories-shape-fill {
-  fill: #0a0612;
+  fill: #1a0d2e;
   transition: fill 0.6s ease;
 }
+/* Light mode: lavanda #e8d8f2 (igual às cartazes) + leve brilho branco subtil */
 .light-mode .memories-shape-fill {
   fill: #e8d8f2;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,0.45));
+}
+/* Camada extra de brilho branco leve no topo das montanhas (modo dia) */
+.light-mode .memories-shape svg {
+  filter: drop-shadow(0 -1px 6px rgba(255,255,255,0.35));
 }
 
 /* ═══ Moldura cénica - pilares + vinheta + spotlight ═══ */
