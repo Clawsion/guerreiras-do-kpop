@@ -4089,6 +4089,34 @@ html { scroll-behavior: smooth; }
 .contacto-submit:active {
   transform: translateY(0);
 }
+.contacto-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Spinner no botão de envio (loading state) */
+.contacto-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: contacto-spin 0.7s linear infinite;
+}
+@keyframes contacto-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Mensagem de sucesso animada */
+.contacto-msg-success {
+  animation: contacto-msg-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes contacto-msg-pop {
+  0%   { opacity: 0; transform: translateY(10px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
 
 /* Light mode - fundo lavanda lilás igual ao Manifesto/Tributo */
 .light-mode .contacto-section {

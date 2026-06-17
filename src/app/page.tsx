@@ -1125,36 +1125,49 @@ export default function HomePage() {
             {/* ── Coluna direita: formulário ── */}
             <div className="lg:col-span-7">
               <Rv delay={150}>
-                <form className="contacto-form" onSubmit={(e)=>{
+                <form className="contacto-form" onSubmit={async (e)=>{
                   e.preventDefault();
                   const f = e.currentTarget as HTMLFormElement;
                   const fd = new FormData(f);
-                  const nome = encodeURIComponent(fd.get("nome") as string || "");
-                  const tipo = encodeURIComponent(fd.get("tipo") as string || "");
-                  const local = encodeURIComponent(fd.get("local") as string || "");
-                  const data_ev = encodeURIComponent(fd.get("data") as string || "");
-                  const publico = encodeURIComponent(fd.get("publico") as string || "");
-                  const email = encodeURIComponent(fd.get("email") as string || "");
-                  const tel = encodeURIComponent(fd.get("tel") as string || "");
-                  const msg = encodeURIComponent(fd.get("msg") as string || "");
-                  const subject = encodeURIComponent(`Reserva - Guerreiras do K-Pop · ${fd.get("tipo") || "Tributo musical"}`);
-                  const body = encodeURIComponent(
-`Nome: ${fd.get("nome") || ""}
-Tipo de evento: ${fd.get("tipo") || ""}
-Local pretendido: ${fd.get("local") || ""}
-Data prevista: ${fd.get("data") || ""}
-Público estimado: ${fd.get("publico") || ""}
-E-mail: ${fd.get("email") || ""}
-Telefone: ${fd.get("tel") || ""}
-
-Mensagem:
-${fd.get("msg") || ""}`
-                  );
-                  window.location.href = `mailto:geral@guerreirasdokpop.com?subject=${subject}&body=${body}`;
-                  f.reset();
-                  const ok = document.getElementById("contacto-ok");
-                  if (ok) { ok.style.display = "block"; setTimeout(()=>{ if(ok) ok.style.display = "none"; }, 5000); }
+                  const submitBtn = f.querySelector('button[type="submit"]') as HTMLButtonElement;
+                  const okMsg = document.getElementById("contacto-ok");
+                  const errMsg = document.getElementById("contacto-err");
+                  // Esconde mensagens anteriores
+                  if (okMsg) okMsg.style.display = "none";
+                  if (errMsg) errMsg.style.display = "none";
+                  // Estado loading no botão
+                  const originalText = submitBtn.innerHTML;
+                  submitBtn.innerHTML = '<span class="contacto-spinner"></span> A enviar...';
+                  submitBtn.disabled = true;
+                  try {
+                    // Adiciona campos especiais do Formspree
+                    fd.append("_subject", `Reserva - Guerreiras do K-Pop · ${fd.get("tipo") || "Tributo musical"}`);
+                    fd.append("_captcha", "false");
+                    fd.append("_template", "table");
+                    const res = await fetch("https://formspree.io/f/xeewdbar", {
+                      method: "POST",
+                      body: fd,
+                      headers: { Accept: "application/json" }
+                    });
+                    if (res.ok) {
+                      f.reset();
+                      if (okMsg) {
+                        okMsg.style.display = "block";
+                        okMsg.scrollIntoView({ behavior: "smooth", block: "center" });
+                      }
+                    } else {
+                      throw new Error("Formspree error");
+                    }
+                  } catch (err) {
+                    if (errMsg) errMsg.style.display = "block";
+                  } finally {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                  }
                 }}>
+                  {/* Campos especiais Formspree (escondidos) */}
+                  <input type="hidden" name="_subject" value="Nova reserva - Guerreiras do K-Pop"/>
+                  <input type="hidden" name="_captcha" value="false"/>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <label className="contacto-field">
                       <span>Nome *</span>
@@ -1211,8 +1224,11 @@ ${fd.get("msg") || ""}`
                     <button type="submit" className="contacto-submit">
                       <Mail className="w-4 h-4"/> Enviar pedido de reserva
                     </button>
-                    <p id="contacto-ok" className="text-[12px]" style={{color:"var(--neon-purple)", display:"none"}}>
-                      Pedido preparado - abrimos o seu cliente de e-mail. Estamos em contacto brevemente.
+                    <p id="contacto-ok" className="text-[13px] font-medium contacto-msg-success" style={{color:"var(--neon-purple)", display:"none"}}>
+                      ✓ Pedido enviado com sucesso! Recebemos a sua mensagem e respondemos em breve.
+                    </p>
+                    <p id="contacto-err" className="text-[13px] font-medium" style={{color:"#ef4444", display:"none"}}>
+                      ✗ Erro ao enviar. Tente novamente ou contacte-nos diretamente por email.
                     </p>
                   </div>
                   <p className="text-[11px] mt-5" style={{color:"var(--t3)"}}>
