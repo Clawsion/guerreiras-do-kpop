@@ -4117,8 +4117,35 @@ html { scroll-behavior: smooth; }
 .contacto-section {
   position: relative;
   padding: 6rem 0;
-  background: transparent;
+  background: var(--void);
+  background-image: url('/contacto-bg-night.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   overflow: hidden;
+}
+/* Overlay 85% — imagem visível a ~15% (marca de água subtíl) */
+.contacto-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 8, 19, 0.85);
+  z-index: 1;
+  pointer-events: none;
+}
+/* Modo dia: imagem clara + overlay lavanda */
+.light-mode .contacto-section {
+  background-image: url('/contacto-bg-day.webp');
+}
+.light-mode .contacto-section::before {
+  background: rgba(237, 224, 245, 0.85);
+}
+/* Mobile: scroll em vez de fixed */
+@media (max-width: 767px) {
+  .contacto-section {
+    background-attachment: scroll;
+  }
 }
 .contacto-form {
   padding: 2.5rem;
