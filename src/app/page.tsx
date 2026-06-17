@@ -660,7 +660,7 @@ export default function HomePage() {
 
         {/* ═══ HAMBURGER NAV - pinned at top of hero ═══ */}
         <nav className="absolute top-0 inset-x-0 z-[95] py-4" style={{background:"transparent"}}>
-          <div className="hero-nav-panel max-w-[1400px] mx-auto px-5 sm:px-8 flex items-center justify-end gap-5 sm:gap-8">
+          <div className="hero-nav-panel w-full px-5 sm:px-8 flex items-center justify-end gap-5 sm:gap-8">
             {/* Ticketline - à esquerda do hamburger (lado direito do nav) */}
             <a
               href={TL}
@@ -686,7 +686,7 @@ export default function HomePage() {
                 {themeMode === 'dark' ? 'Noite' : 'Dia'}
               </span>
             </button>
-            {/* Hamburger - encostado à direita */}
+            {/* Hamburger - encostado à direita (último elemento do flex) */}
             <button
               onClick={()=>setMenuOpen(!menuOpen)}
               className={`hamburger ${menuOpen?"open":""}`}
