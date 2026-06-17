@@ -319,23 +319,23 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ SECTION WATERMARK - marca de água centralizada ═══ */
+/* ═══ GLOBAL WATERMARK - marca de água FIXA no ecrã (não faz scroll) ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
 .section-watermark {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background-image: url('/watermark.png');
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 60% auto;
-  opacity: 0.25;
+  background-size: 80vw; /* Full size: ocupa 80% da largura do ecrã */
+  opacity: 0.12;
   pointer-events: none;
   mix-blend-mode: screen;
-  z-index: 1;
+  z-index: 1; /* Fica atrás do conteúdo (z-10) mas à frente do fundo */
 }
-/* Modo dia: opacity maior + multiply para escurecer subtílmente sobre lavanda */
+/* Modo dia: opacity + multiply */
 .light-mode .section-watermark {
-  opacity: 0.20;
+  opacity: 0.10;
   mix-blend-mode: multiply;
 }
 

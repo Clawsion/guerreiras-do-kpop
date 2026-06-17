@@ -533,6 +533,9 @@ export default function HomePage() {
 
   return (
     <>
+      {/* ═══ MARCA DE ÁGUA GLOBAL - fixa no ecrã, sempre centrada, não faz scroll ═══ */}
+      <div className="section-watermark" aria-hidden="true"/>
+
       {/* ═══ RIPPLE BG LAYER - new theme background spreads from orb via clip-path ═══ */}
       {ripple?.active && (
         <div className="hm-ripple-bg-layer">
@@ -1083,8 +1086,6 @@ export default function HomePage() {
 
       {/* ═══ CONTACTE-NOS - Reservas & Eventos ═══ */}
       <section id="contacto" className="contacto-section">
-        {/* Marca de água centralizada */}
-        <div className="section-watermark" aria-hidden="true"/>
         <div className="hero-aligned-container relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
             {/* ── Coluna esquerda: pitch + info ── */}
