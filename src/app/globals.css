@@ -216,6 +216,18 @@ html { scroll-behavior: smooth; }
   padding-right: clamp(20px, 5vw, 80px);
 }
 
+/* ═══ HERO-ALIGNED CONTAINER ═══
+   Full-width proporcional ao hero (sem max-width), mantendo o mesmo padding do hero.
+   - Sem max-width (ocupa toda a largura do ecrã)
+   - Padding lateral igual ao hero: px-5 sm:px-8 (20px / 32px)
+   - Usa para conteúdo que deve acompanhar o hero em largura
+   - NÃO altera tamanhos de imagens/elementos — só o container exterior */
+.hero-aligned-container {
+  width: 100%;
+  padding-left: clamp(20px, 5vw, 80px);
+  padding-right: clamp(20px, 5vw, 80px);
+}
+
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ HONMOON DIVIDER - divisória visual com símbolo + brilho ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
