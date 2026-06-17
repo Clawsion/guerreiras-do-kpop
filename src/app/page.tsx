@@ -554,10 +554,9 @@ export default function HomePage() {
     const flashClass = toMode === 'light' ? 'to-light' : 'to-dark';
     setHeroFlash(flashClass as 'to-light' | 'to-dark');
 
-    // Duração adaptativa: smartphone = 600ms (premium radial wipe),
-    // desktop = 2200ms (cinemático com ripple + wave)
+    // Duração: 800ms (flash rápido e profissional, sem câmara lenta)
     const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
-    const flashDuration = isMobileViewport ? 600 : 2200;
+    const flashDuration = isMobileViewport ? 600 : 800;
     flashTimeoutRef.current = setTimeout(() => {
       setHeroFlash('none');
       flashTimeoutRef.current = null;
