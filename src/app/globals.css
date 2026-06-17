@@ -6936,26 +6936,47 @@ img { max-width: 100%; height: auto; }
 /* ═══ HERO RESPONSIVO — SMARTPHONE & TABLET (edição 2026-06) ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
 
-/* ─── SMARTPHONE (<768px) — Hero proporcional e CTA visível ─── */
+/* ─── SMARTPHONE (<768px) — Hero 100% compatível ─── */
+/* Imagem original é 1419×752 (paisagem 1.89:1). Em mobile portrait (9:16),
+   object-fit: cover corta ~70% da largura — daí a sensação de "zoom".
+   Solução: usar object-fit: contain para ver a imagem TODA, com um fundo
+   que prolonga visualmente as bordas (gradiente suave da cor de fundo). */
 @media (max-width: 767px) {
   /* Altura total do viewport dinâmico — evita que a barra de URL do mobile
      esconda o CTA quando aparece/desaparece. */
   .hero-section {
     height: 100svh !important;
     min-height: 100svh !important;
+    /* Fundo que prolonga as bordas da imagem — usa a cor escura do hero.
+       Quando a imagem não preenche tudo (contain), este fundo mostra-se
+       e cria uma transição suave em vez de barras pretas duras. */
+    background:
+      radial-gradient(ellipse at center,
+        rgba(11,8,19,0) 0%,
+        rgba(11,8,19,0.4) 50%,
+        rgba(11,8,19,0.95) 100%),
+      var(--void) !important;
   }
 
-  /* Em ecrãs estreitos portrait, mostramos mais do topo da imagem para
-     a cara do sujeito ficar visível (a foto original é 1419×752 — paisagem). */
+  /* ─── A MUDANÇA PRINCIPAL: contain em vez de cover ───
+     Agora a imagem 1419×752 mostra-se TODA em mobile.
+     Pode haver barras pretas em cima/baixo (portrait), mas o fundo
+     radial-gradient do .hero-section disfarça-as. */
   .hero-bg-img {
-    object-position: center 30% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    /* Mantém a imagem na sua proporção natural (1.89:1).
+       Em mobile portrait isto significa que a imagem preenche toda a
+       largura do ecrã e fica uma faixa escura em cima e em baixo. */
+    width: 100% !important;
+    height: 100% !important;
   }
 
-  /* O hero-bottom-panel está posicionado absolutamente em % que não funcionam
-     bem em mobile. Centralizamos ao fundo do hero, acima da sticky CTA bar. */
+  /* O hero-bottom-panel estava em % absolutas que não funcionavam.
+     Centralizamos ao fundo do hero, acima da sticky CTA bar. */
   .hero-bottom-panel {
     left: 50% !important;
-    bottom: 14% !important;
+    bottom: 12% !important;
     transform: translateX(-50%) !important;
     width: 100% !important;
     max-width: 320px;
@@ -6970,42 +6991,73 @@ img { max-width: 100%; height: auto; }
     font-size: 11px !important;
   }
 
-  /* Nav panel — logo/ticketline/theme não competir por espaço em mobile estreito */
+  /* Nav panel — padding superior para respeitar notch/status bar */
   .hero-nav-panel {
-    padding-top: env(safe-area-inset-top, 0);
+    padding-top: max(env(safe-area-inset-top, 0px), 8px);
   }
 
-  /* Glow orb — já está desativado por performance, mas garantimos */
+  /* ─── HAMBURGER — igual ao desktop visualmente, com touch target 44px ───
+     O hamburger visual é o mesmo em todas as resoluções (28×20px com 3 spans).
+     Em mobile, aumentamos só a área de toque (44×44px) usando padding
+     transparente, sem mexer no visual dos spans.
+     Importante: NÃO mudar display/flex-direction porque isso quebra a animação
+     do X (que usa translateY(9.25px) com flex-direction:column). */
+  .hamburger {
+    /* box-sizing: content-box garante que o visual 28×20px se mantém
+       e o padding 12px adiciona-se À VOLTA (em vez de comer do visual). */
+    box-sizing: content-box !important;
+    /* Visual dos 28×20px mantém-se (do CSS original), padding transparente
+       aumenta a área de toque para 52×44px sem mexer no visual. */
+    padding: 12px !important;
+    margin: -12px !important;
+  }
+
+  /* Glow orb — desativado por performance */
   .hero-glow-orb { display: none !important; }
 
   /* Vignette mais forte para o CTA se destacar do fundo */
   .hero-bg-overlay {
     background: linear-gradient(180deg,
-      rgba(11,8,19,0.55) 0%,
-      rgba(11,8,19,0.0) 22%,
-      rgba(11,8,19,0.0) 45%,
-      rgba(11,8,19,0.65) 78%,
-      rgba(11,8,19,0.92) 100%) !important;
+      rgba(11,8,19,0.45) 0%,
+      rgba(11,8,19,0.0) 30%,
+      rgba(11,8,19,0.0) 50%,
+      rgba(11,8,19,0.65) 80%,
+      rgba(11,8,19,0.95) 100%) !important;
+  }
+
+  /* Grid menos visível para não competir com a imagem contida */
+  .hero-grid {
+    opacity: 0.5;
   }
 }
 
-/* ─── TABLET (768–1023px) — Hero ajustado ao formato retrato/landscape ─── */
+/* ─── TABLET (768–1023px) — Hero 100% compatível ─── */
 @media (min-width: 768px) and (max-width: 1023px) {
   .hero-section {
     height: 100svh !important;
     min-height: 100svh !important;
+    background:
+      radial-gradient(ellipse at center,
+        rgba(11,8,19,0) 0%,
+        rgba(11,8,19,0.3) 50%,
+        rgba(11,8,19,0.9) 100%),
+      var(--void) !important;
   }
 
-  /* Em tablet a imagem continua a ser paisagem — ajustamos só ligeiramente */
+  /* Tablet em PORTRAIT (768×1024): proporção 0.75:1 — ainda preciso de contain */
+  /* Tablet em LANDSCAPE (1024×768): proporção 1.33:1 — mais perto de 1.89:1,
+     cover corta menos, mas contain garante ver tudo. Usamos contain sempre. */
   .hero-bg-img {
-    object-position: center 35% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    width: 100% !important;
+    height: 100% !important;
   }
 
-  /* O CTA em tablet fica um pouco mais acima e centralizado, porque as %
-     absolutas (left:19%, bottom:22%) ficam deslocadas no tablet */
+  /* CTA centralizado em tablet */
   .hero-bottom-panel {
     left: 50% !important;
-    bottom: 18% !important;
+    bottom: 14% !important;
     transform: translateX(-50%) !important;
   }
 
@@ -7018,11 +7070,11 @@ img { max-width: 100%; height: auto; }
   /* Vignette reforçada para legibilidade em tablet */
   .hero-bg-overlay {
     background: linear-gradient(180deg,
-      rgba(11,8,19,0.45) 0%,
-      rgba(11,8,19,0.0) 25%,
-      rgba(11,8,19,0.0) 45%,
-      rgba(11,8,19,0.55) 78%,
-      rgba(11,8,19,0.85) 100%) !important;
+      rgba(11,8,19,0.4) 0%,
+      rgba(11,8,19,0.0) 30%,
+      rgba(11,8,19,0.0) 50%,
+      rgba(11,8,19,0.55) 80%,
+      rgba(11,8,19,0.9) 100%) !important;
   }
 }
 
@@ -7031,6 +7083,11 @@ img { max-width: 100%; height: auto; }
   .hero-section {
     height: 100vh !important;
     min-height: 480px !important;
+  }
+  /* Em landscape mobile a imagem paisagem cabe melhor — pode usar cover */
+  .hero-bg-img {
+    object-fit: cover !important;
+    object-position: center center !important;
   }
   .hero-bottom-panel {
     bottom: 8% !important;
