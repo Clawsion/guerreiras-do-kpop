@@ -7393,33 +7393,22 @@ img { max-width: 100%; height: auto; }
 /* ═══════════════════════════════════════════════════════════════ */
 .showcase-section {
   position: relative;
-  height: 80vh;
-  min-height: 500px;
+  height: 55vh;
+  min-height: 380px;
   overflow: hidden;
   background: var(--void);
-}
-
-/* Camada parallax — imagem que se move com scroll nativo */
-.showcase-parallax {
-  position: absolute;
-  top: -10%;
-  left: 0;
-  width: 100%;
-  height: 120%;
   background-image: url('/showcase-night.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  z-index: 1;
-  will-change: transform;
 }
 
-/* Overlay com profundidade épica — fade nas bordas + vinheta central */
+/* Overlay com profundidade — fade nas bordas + vinheta central */
 .showcase-overlay {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 1;
   background:
     linear-gradient(180deg,
       var(--void) 0%,
@@ -7435,7 +7424,7 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Modo dia */
-.light-mode .showcase-parallax {
+.light-mode .showcase-section {
   background-image: url('/showcase-day.webp');
 }
 .light-mode .showcase-overlay {
@@ -7456,12 +7445,8 @@ img { max-width: 100%; height: auto; }
 /* Mobile: scroll em vez de fixed (iOS) + altura menor */
 @media (max-width: 767px) {
   .showcase-section {
-    height: 50vh;
-    min-height: 300px;
-  }
-  .showcase-parallax {
+    height: 45vh;
+    min-height: 280px;
     background-attachment: scroll;
-    top: 0;
-    height: 100%;
   }
 }
