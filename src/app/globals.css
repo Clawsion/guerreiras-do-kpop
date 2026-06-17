@@ -7454,6 +7454,11 @@ img { max-width: 100%; height: auto; }
   min-height: 380px;
   overflow: hidden;
   background: var(--void);
+  background-image: url('/showcase-night.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /* Overlay com profundidade — fade nas bordas + vinheta central */
@@ -7477,7 +7482,7 @@ img { max-width: 100%; height: auto; }
 
 /* Modo dia */
 .light-mode .showcase-section {
-  background: var(--void);
+  background-image: url('/showcase-day.webp');
 }
 .light-mode .showcase-overlay {
   background:
@@ -7494,11 +7499,15 @@ img { max-width: 100%; height: auto; }
     );
 }
 
-/* Mobile: scroll em vez de fixed (iOS) + altura menor */
+/* Mobile: scroll + imagens otimizadas para smartphone */
 @media (max-width: 767px) {
   .showcase-section {
     height: 45vh;
     min-height: 280px;
     background-attachment: scroll;
+    background-image: url('/showcase-night-mobile.webp');
+  }
+  .light-mode .showcase-section {
+    background-image: url('/showcase-day-mobile.webp');
   }
 }
