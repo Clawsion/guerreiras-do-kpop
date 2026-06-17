@@ -3417,20 +3417,27 @@ html { scroll-behavior: smooth; }
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ CARTAZES - Posters + Ticketline CTA ═══ */
 /* Estratégia profissional (inspirada em guerreirasdokpop.pt):
-   - Fundo SÓLIDO com gradiente subtil (não imagem)
+   - Imagem de fundo 4K (3840x2160) com overlay subtil para legibilidade
    - Shape dividers SVG (montanhas) no topo e fundo para transição suave
-   - Cartazes são os protagonistas visuais — sem filtro/overlay por cima */
+   - Cartazes são os protagonistas visuais — sem filtro/overlay por cima deles */
 
 .cartazes-section {
   position: relative;
   padding: 7rem 0 6rem;
-  /* Gradiente vertical subtil — roxo escuro premium (dark mode) */
-  background: linear-gradient(180deg,
-    #0a0612 0%,
-    #110a1f 30%,
-    #150d28 60%,
-    #0a0612 100%
-  );
+  /* Imagem 4K (3840x2160) + gradiente subtil por cima para legibilidade */
+  background-color: #0a0612;
+  background-image:
+    linear-gradient(180deg,
+      rgba(10,6,18,0.92) 0%,
+      rgba(10,6,18,0.78) 30%,
+      rgba(10,6,18,0.78) 70%,
+      rgba(10,6,18,0.92) 100%
+    ),
+    url('/cartazes-bg-night.webp');
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-attachment: fixed, fixed;
   overflow: hidden;
   isolation: isolate;
 }
@@ -3463,14 +3470,21 @@ html { scroll-behavior: smooth; }
   transition: fill 0.6s ease;
 }
 
-/* Modo dia: fundo branco lavanda premium com gradiente subtil */
+/* Modo dia: imagem 4K clara + overlay lavanda translúcido */
 .light-mode .cartazes-section {
-  background: linear-gradient(180deg,
-    #f7effa 0%,
-    #faf5fc 30%,
-    #fdfbff 60%,
-    #f7effa 100%
-  ) !important;
+  background-color: #f7effa !important;
+  background-image:
+    linear-gradient(180deg,
+      rgba(247,239,250,0.86) 0%,
+      rgba(247,239,250,0.70) 30%,
+      rgba(247,239,250,0.70) 70%,
+      rgba(247,239,250,0.86) 100%
+    ),
+    url('/cartazes-bg-day.webp') !important;
+  background-size: cover, cover !important;
+  background-position: center, center !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-attachment: fixed, fixed !important;
 }
 /* Shape dividers em modo dia — lavanda mais escuro para contrastar com o branco */
 .light-mode .cartazes-shape-fill {
@@ -3484,10 +3498,14 @@ html { scroll-behavior: smooth; }
   display: none !important;
 }
 
-/* Mobile: shape dividers mais baixos para não roubar espaço */
+/* Mobile: shape dividers mais baixos + scroll parallax (fixed não funciona bem em mobile) */
 @media (max-width: 767px) {
   .cartazes-section {
     padding: 5.5rem 0 5rem;
+    background-attachment: scroll, scroll;
+  }
+  .light-mode .cartazes-section {
+    background-attachment: scroll, scroll !important;
   }
   .cartazes-shape {
     height: 60px;
