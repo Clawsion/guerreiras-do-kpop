@@ -140,7 +140,8 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
 /* ═══ HONMOON DIVIDER - divisória visual com símbolo + brilho ═══ */
 const HonmoonDivider = React.memo(function HonmoonDivider() {
   return (
-    <div className="honmoon-divider hero-aligned-container" aria-hidden="true">
+    <div className="honmoon-divider" aria-hidden="true">
+      <div className="divider-neon-line"/>
       <span className="honmoon-divider-symbol"/>
     </div>
   );
