@@ -3446,7 +3446,7 @@ html { scroll-behavior: smooth; }
 .light-mode .cartazes-section {
   background-color: var(--void);
   background-image: url('/cartazes-bg-day.webp') !important;
-  background-size: cover !important;
+  background-size: 100% auto !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
   background-attachment: fixed !important;
