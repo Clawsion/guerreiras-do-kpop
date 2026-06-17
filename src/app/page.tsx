@@ -793,13 +793,20 @@ export default function HomePage() {
             decoding="async"
           />
         </picture>
-        {/* Flash layer — expande luz (dia) / contrai luz (noite) com clip-path */}
+        {/* Flash layer — energia expande do Honmoon (dia) / é sugada pelo Honmoon (noite) */}
         {heroFlash.type !== 'none' && (
-          <div
-            className={`hero-img-flash ${heroFlash.type}`}
-            style={{'--tx': `${heroFlash.x}%`, '--ty': `${heroFlash.y}%`} as React.CSSProperties}
-            aria-hidden="true"
-          />
+          <>
+            <div
+              className={`hero-img-flash ${heroFlash.type}`}
+              style={{'--tx': `${heroFlash.x}%`, '--ty': `${heroFlash.y}%`} as React.CSSProperties}
+              aria-hidden="true"
+            />
+            <div
+              className={`hero-orb-burst ${heroFlash.type}`}
+              style={{'--tx': `${heroFlash.x}%`, '--ty': `${heroFlash.y}%`} as React.CSSProperties}
+              aria-hidden="true"
+            />
+          </>
         )}
 
         {/* Grid texture overlay */}

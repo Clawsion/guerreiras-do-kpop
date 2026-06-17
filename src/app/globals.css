@@ -1816,7 +1816,7 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ HERO FLASH — Expandir luz (dia) / Engolir luz (noite) ═══ */
+/* ═══ HERO FLASH — Energia expande/sugada do Honmoon ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
 .hero-img-flash {
   position: absolute;
@@ -1827,37 +1827,89 @@ html { scroll-behavior: smooth; }
   will-change: clip-path, opacity;
 }
 
-/* ═══ TO DAY (expandir luz): luz cresce do orb e cobre tudo ═══ */
+/* ═══ TO DAY (expandir): Honmoon acende → energia expande ═══ */
 .hero-img-flash.to-light {
   background: radial-gradient(circle at var(--tx, 50%) var(--ty, 50%),
     rgba(255,255,255,1) 0%,
-    rgba(255,250,235,1) 30%,
-    rgba(255,220,200,0.8) 60%,
-    rgba(255,200,180,0.4) 80%,
+    rgba(255,250,235,1) 15%,
+    rgba(255,230,200,0.9) 35%,
+    rgba(255,200,180,0.5) 60%,
+    rgba(200,150,255,0.2) 80%,
     transparent 100%);
   clip-path: circle(0% at var(--tx, 50%) var(--ty, 50%));
-  animation: heroExpandLight 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: heroExpandLight 1s cubic-bezier(0.25, 0.8, 0.3, 1) forwards;
 }
 @keyframes heroExpandLight {
-  0%   { clip-path: circle(0% at var(--tx, 50%) var(--ty, 50%)); opacity: 1; }
-  50%  { clip-path: circle(150% at var(--tx, 50%) var(--ty, 50%)); opacity: 1; }
+  0%   { clip-path: circle(0% at var(--tx, 50%) var(--ty, 50%)); opacity: 0.5; }
+  15%  { clip-path: circle(5% at var(--tx, 50%) var(--ty, 50%)); opacity: 1; }
+  50%  { clip-path: circle(120% at var(--tx, 50%) var(--ty, 50%)); opacity: 1; }
   100% { clip-path: circle(150% at var(--tx, 50%) var(--ty, 50%)); opacity: 0; }
 }
 
-/* ═══ TO NIGHT (engolir luz): luz contrai para dentro do orb ═══ */
+/* ═══ TO NIGHT (sugar): Luz é sugada pelo Honmoon ═══ */
 .hero-img-flash.to-dark {
   background: radial-gradient(circle at var(--tx, 50%) var(--ty, 50%),
-    rgba(255,250,235,1) 0%,
-    rgba(245,235,250,1) 40%,
-    rgba(220,200,240,0.6) 70%,
+    rgba(255,255,255,1) 0%,
+    rgba(245,235,255,1) 20%,
+    rgba(220,200,250,0.7) 45%,
+    rgba(180,140,220,0.3) 70%,
     transparent 90%);
   clip-path: circle(150% at var(--tx, 50%) var(--ty, 50%));
-  animation: heroContractLight 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: heroContractLight 1s cubic-bezier(0.25, 0.8, 0.3, 1) forwards;
 }
 @keyframes heroContractLight {
   0%   { clip-path: circle(150% at var(--tx, 50%) var(--ty, 50%)); opacity: 1; }
-  50%  { clip-path: circle(0% at var(--tx, 50%) var(--ty, 50%)); opacity: 1; }
+  50%  { clip-path: circle(20% at var(--tx, 50%) var(--ty, 50%)); opacity: 1; }
+  75%  { clip-path: circle(3% at var(--tx, 50%) var(--ty, 50%)); opacity: 1; }
   100% { clip-path: circle(0% at var(--tx, 50%) var(--ty, 50%)); opacity: 0; }
+}
+
+/* ═══ ORB BURST — brilho extra no Honmoon durante a transição ═══ */
+.hero-orb-burst {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 51;
+  pointer-events: none;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+/* TO DAY: orb brilha forte e expande energia */
+.hero-orb-burst.to-light {
+  background: radial-gradient(circle at var(--tx, 50%) var(--ty, 50%),
+    rgba(255,255,255,1) 0%,
+    rgba(255,245,220,0.9) 8%,
+    rgba(255,200,150,0.5) 15%,
+    rgba(200,100,255,0.2) 25%,
+    transparent 35%);
+  animation: orbBurstExpand 1s cubic-bezier(0.25, 0.8, 0.3, 1) forwards;
+}
+@keyframes orbBurstExpand {
+  0%   { opacity: 0; transform: scale(0.3); }
+  15%  { opacity: 1; transform: scale(0.5); }
+  40%  { opacity: 1; transform: scale(2); }
+  100% { opacity: 0; transform: scale(4); }
+}
+
+/* TO NIGHT: orb suga a luz para dentro */
+.hero-orb-burst.to-dark {
+  background: radial-gradient(circle at var(--tx, 50%) var(--ty, 50%),
+    rgba(255,255,255,1) 0%,
+    rgba(200,150,255,0.8) 5%,
+    rgba(100,50,150,0.4) 12%,
+    rgba(11,8,19,0.6) 20%,
+    transparent 30%);
+  animation: orbBurstContract 1s cubic-bezier(0.25, 0.8, 0.3, 1) forwards;
+}
+@keyframes orbBurstContract {
+  0%   { opacity: 0; transform: scale(4); }
+  20%  { opacity: 1; transform: scale(3); }
+  50%  { opacity: 1; transform: scale(1.5); }
+  80%  { opacity: 1; transform: scale(0.5); }
+  100% { opacity: 0; transform: scale(0.2); }
 }
 
 /* Imagem durante flash: sem efeitos (leve) */
