@@ -2189,7 +2189,7 @@ html { scroll-behavior: smooth; }
 
 .espetaculo-section {
     position: relative;
-    padding: 7rem 0 8rem;
+    padding: 7rem 8vw 8rem;
     background: var(--void);
     background-image: url('/espetaculo-bg-dark.png');
     background-size: 78% auto;

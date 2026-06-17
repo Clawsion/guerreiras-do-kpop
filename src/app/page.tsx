@@ -140,7 +140,7 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
 /* ═══ HONMOON DIVIDER - divisória visual com símbolo + brilho ═══ */
 const HonmoonDivider = React.memo(function HonmoonDivider() {
   return (
-    <div className="honmoon-divider max-w-[1400px] mx-auto" aria-hidden="true">
+    <div className="honmoon-divider w-full" aria-hidden="true">
       <span className="honmoon-divider-symbol"/>
     </div>
   );
@@ -893,7 +893,7 @@ export default function HomePage() {
         <div className="esp-readability-overlay" aria-hidden="true"/>
         <div className="esp-readability-light" aria-hidden="true"/>
         <div className="esp-vignette" aria-hidden="true"/>
-        <div className="max-w-[1400px] mx-auto relative z-10">
+        <div className="w-full relative z-10">
           <div className="esp-layout">
             {/* LEFT - Description */}
             <div className="esp-left">
@@ -903,47 +903,28 @@ export default function HomePage() {
                   O Honmoon <span className="esp-title-accent">Ganha Vida</span>
                 </h2>
                 <p className="text-lg sm:text-xl font-light tracking-wide mb-8" style={{color:"var(--t2)"}}>
-                  O universo K-Pop das Guerreiras sai do ecr&atilde; e invade o palco
+                  O universo das Guerreiras do K-Pop sai do ecr&atilde; e invade o palco
                 </p>
               </Rv>
-              <Rv delay={200}>
+              <Rv delay={150}>
+                <p className="text-2xl sm:text-3xl font-light tracking-wide mb-8" style={{color:"var(--t1)"}}>
+                  &iexcl;Um Espet&aacute;culo Musical Imperd&iacute;vel!
+                </p>
+              </Rv>
+              <Rv delay={250}>
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
-                  De dia, estrelas brilhantes do palco. De noite, Guerreiras do K-Pop que protegem o mundo
-                  atrav&eacute;s do poder do Honmoon. Tr&ecirc;s idolas. Duas identidades. Um universo que milh&otilde;es levam
-                  no cora&ccedil;&atilde;o &mdash; e que agora, finalmente, podes viver ao vivo.
+                  Prepare-se para uma explos&atilde;o de m&uacute;sica, dan&ccedil;a e cor! <strong style={{color:"var(--t1)"}}>Guerreiras do K-Pop</strong> &eacute; um tributo musical &uacute;nico ao fen&oacute;meno global que rompe as barreiras entre a anima&ccedil;&atilde;o e o palco. Com uma encena&ccedil;&atilde;o espetacular e uma fus&atilde;o distinta de ritmos, este espet&aacute;culo promete fazer o p&uacute;blico vibrar do primeiro ao &uacute;ltimo minuto.
                 </p>
               </Rv>
               <Rv delay={350}>
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
-                  Este n&atilde;o &eacute; um concerto. &Eacute; um tributo que traz a magia do filme de anima&ccedil;&atilde;o para o palco &mdash; onde a fic&ccedil;&atilde;o
-                  se torna realidade e cada nota carrega o poder de um universo inteiro.
+                  <span style={{color:"var(--pink-light)"}}>Coreografias</span> envolventes, momentos teatrais e efeitos visuais impactantes transformam o palco num universo de emo&ccedil;&otilde;es. A ilumina&ccedil;&atilde;o din&acirc;mica amplifica a experi&ecirc;ncia, transportando o p&uacute;blico para as cenas mais ic&oacute;nicas atrav&eacute;s de imagens memor&aacute;veis e envolventes.
                 </p>
               </Rv>
-              <Rv delay={380}>
-                <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
-                  <span style={{color:"var(--pink-light)"}}>Coreografias</span> de BLACKPINK, BTS e aespa
-                  executadas por performers de elite que encarnam o esp&iacute;rito das Guerreiras com precis&atilde;o e intensidade.
-                  N&uacute;meros de dan&ccedil;a, interl&uacute;dios teatrais e momentos visuais que recriam as cenas mais ic&oacute;nicas.
-                  Luzes que cortam o escuro como l&acirc;minas de energia. <span style={{color:"var(--pink-kpop)"}}>Efeitos pirot&eacute;cnicos</span> que transformam o palco
-                  num campo de batalha &mdash; exatamente como no filme. Os maiores hits K-Pop ressoam num espet&aacute;culo
-                  que se sente, n&atilde;o se v&ecirc; apenas.
+              <Rv delay={450}>
+                <p className="text-[16px] leading-[1.8] mb-6" style={{color:"#FFFFFF", fontWeight: 500, textShadow: "0 1px 8px rgba(11,8,19,0.7)"}}>
+                  Traga a fam&iacute;lia e os amigos e embarquem juntos numa viagem emocionante, guiada pela m&uacute;sica, pela magia do palco e por uma energia verdadeiramente envolvente.
                 </p>
-              </Rv>
-              <Rv delay={420}>
-                <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)"}}>
-                  Um espet&aacute;culo de variedades que transcende o concerto tradicional &mdash; com momentos de intera&ccedil;&atilde;o com o p&uacute;blico, onde cada instante &eacute; uma fatia
-                  do universo das Guerreiras ao vivo, e cada cena se torna uma mem&oacute;ria que n&atilde;o vais querer deixar ir.
-                </p>
-              </Rv>
-              <Rv delay={480}>
-                <div className="esp-pitch">
-                  <p className="esp-pitch-text">
-                    Mais do que um tributo &mdash; uma noite que vai ficar.
-                    Fam&iacute;lia, amigos e a energia que te define.
-                    Quando o palco acender, a magia ganha vida.
-                    Desta vez, tu fazes parte dela.
-                  </p>
-                </div>
               </Rv>
               <Rv delay={500}>
                 <a href={TL} target="_blank" rel="noopener noreferrer" className="esp-cta">
@@ -962,7 +943,7 @@ export default function HomePage() {
 
       {/* ═══ GALERIA - Momentos ao Vivo com Legenda + Lightbox ═══ */}
       <section id="galeria" className="galeria-section px-5 sm:px-10">
-        <div className="max-w-[1400px] mx-auto">
+        <div className="w-full">
           <Rv>
             <p className="sec-num mb-4">Mural</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
@@ -1011,7 +992,7 @@ export default function HomePage() {
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section px-5 sm:px-10">
-        <div className="max-w-[1400px] mx-auto">
+        <div className="w-full">
           <Rv>
             <p className="sec-num mb-4">Pr&oacute;ximos Concertos em Tour</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
@@ -1104,7 +1085,7 @@ export default function HomePage() {
       <section id="contacto" className="contacto-section px-5 sm:px-10">
         {/* Marca de água centralizada */}
         <div className="section-watermark" aria-hidden="true"/>
-        <div className="max-w-[1400px] mx-auto relative z-10">
+        <div className="w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
             {/* ── Coluna esquerda: pitch + info ── */}
             <div className="lg:col-span-5">
@@ -1252,11 +1233,11 @@ ${fd.get("msg") || ""}`
         </div>
       </section>
 
-      <div className="neon-div max-w-[1400px] mx-auto"/>
+      <div className="neon-div w-full"/>
 
       {/* ═══ CONTACT ═══ */}
       <section className="py-20 sm:py-28 px-5 sm:px-10" style={{background:"var(--surface)"}}>
-        <div className="max-w-[1400px] mx-auto">
+        <div className="w-full">
           <Rv>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
               <div>
@@ -1294,7 +1275,7 @@ ${fd.get("msg") || ""}`
 
       {/* ═══ FOOTER ═══ */}
       <footer className="py-10 px-5 sm:px-10 mt-auto border-t" style={{background:"var(--void)",borderColor:"rgba(200,80,255,0.04)"}}>
-        <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 px-5 sm:px-8">
           <div className="flex items-center gap-3">
             <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>&copy; 2026 Guerreiras do K-Pop</span>
           </div>
