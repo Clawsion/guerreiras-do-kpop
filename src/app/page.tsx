@@ -632,12 +632,14 @@ export default function HomePage() {
         // Toggle imediatamente — a animação premium faz o crossfade visual
         // (bug antigo: toggleTheme tinha 200ms de delay, causava race)
         triggerHeroFlash(toMode);
-        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, 300));
-        // Cleanup
+        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, 250));
+        // Cleanup mais cedo em mobile (500ms em vez de 600ms) — quanto antes
+        // o ripple.active passar a false, menos camadas extras o browser tem
+        // de compor, e o scroll volta a ser fluído imediatamente.
         transitionRef.current.push(setTimeout(() => {
           setRipple(null);
           isTransitioningRef.current = false;
-        }, 600));
+        }, 500));
       } else {
         // Desktop via botão do topo: flash + toggle (sem ripple)
         triggerHeroFlash(toMode);

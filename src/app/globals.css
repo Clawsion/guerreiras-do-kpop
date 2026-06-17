@@ -5806,6 +5806,9 @@ html { scroll-behavior: smooth; }
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  /* touch-action: pan-y garante que scroll vertical passa por esta camada
+     mesmo durante a animação do ripple. */
+  touch-action: pan-y;
 }
 
 /* New theme background - expands from orb position via clip-path circle */
@@ -5846,6 +5849,9 @@ html { scroll-behavior: smooth; }
   z-index: 9999;
   pointer-events: none;
   overflow: hidden;
+  /* touch-action: pan-y garante que scroll vertical passa por esta camada
+     mesmo durante a animação do shimmer. */
+  touch-action: pan-y;
 }
 
 .hm-shimmer-ring {
@@ -7343,4 +7349,68 @@ img { max-width: 100%; height: auto; }
 .galeria-card,
 .cartaz-card {
   backface-visibility: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ SMARTPHONE — Transição de tema sem bloquear scroll ════════ */
+/* Bug: em smartphone, após trocar de tema (dia/noite), o scroll     */
+/* ficava lento durante ~1.6s porque as animações CSS do ripple e    */
+/* shimmer continuavam a correr muito tempo depois do cleanup do JS  */
+/* (aos 600ms). Isto causava lag quando o utilizador tentava fazer   */
+/* scroll imediatamente após a troca.                                */
+/*                                                                   */
+/* Solução: encurtar as animações em mobile para 600ms (igual ao     */
+/* cleanup do JS) e garantir que as camadas não bloqueiam scroll.    */
+/* ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+  /* Ripple clip-path: 1.5s -> 0.5s em mobile (mais rápido que o cleanup de 600ms) */
+  .hm-ripple-bg {
+    animation-duration: 0.5s !important;
+  }
+
+  /* Shimmer rings: 1.6s + delays de 0.12s/0.24s -> 0.5s sem delays em mobile */
+  .hm-shimmer-ring-1.awaken,
+  .hm-shimmer-ring-1.dormant {
+    animation-duration: 0.5s !important;
+    animation-delay: 0s !important;
+  }
+  .hm-shimmer-ring-2.awaken,
+  .hm-shimmer-ring-2.dormant {
+    animation-duration: 0.5s !important;
+    animation-delay: 0s !important;
+  }
+  .hm-shimmer-ring-3.awaken,
+  .hm-shimmer-ring-3.dormant {
+    animation-duration: 0.5s !important;
+    animation-delay: 0s !important;
+  }
+
+  /* will-change: auto em elementos de transição quando não estão a animar.
+     Isto liberta layers de composição após a transição terminar. */
+  .hm-ripple-bg-layer,
+  .hm-ripple-shimmer-layer,
+  .hm-shimmer-ring {
+    will-change: auto;
+  }
+
+  /* Shimmer rings menores em mobile (250vmax é gigante) para poupar GPU */
+  .hm-shimmer-ring {
+    width: 150vmax !important;
+    height: 150vmax !important;
+  }
+
+  /* ─── Wave transition mais leve em mobile ───
+     O seletor .wave-transition * aplica transition a TODOS os elementos
+     durante a troca de tema (700ms). Em mobile isto é MUITO pesado
+     porque obriga o browser a animar milhares de elementos.
+     Solução: reduzir para 300ms em mobile e remover box-shadow da transição. */
+  .light-mode,
+  .light-mode *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right),
+  :not(.light-mode).wave-transition,
+  :not(.light-mode).wave-transition *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right) {
+    transition: background-color 0.3s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
+                color 0.3s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
+                border-color 0.3s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms) !important;
+    /* box-shadow removido em mobile — muito caro em GPU */
+  }
 }
