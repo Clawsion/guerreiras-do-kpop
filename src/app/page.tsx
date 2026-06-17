@@ -743,7 +743,7 @@ export default function HomePage() {
         </div>
 
         {/* ═══ HERO CTA - em baixo de 'Épico' (alinhado a ~20% X da imagem) ═══ */}
-        <div className="hero-bottom-panel absolute z-10 flex flex-col items-start" style={{left: "20%", bottom: "18%", transform: "translateX(-30%)"}}>
+        <div className="hero-bottom-panel absolute z-10 flex flex-col items-start" style={{left: "22%", bottom: "22%", transform: "translateX(-25%)"}}>
           <a
             href="#cartazes"
             className="hero-cta"
