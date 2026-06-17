@@ -434,38 +434,38 @@ html { scroll-behavior: smooth; }
   mix-blend-mode: screen;
   pointer-events: none;
 }
-/* Modo dia: pilares + cortinas mais subtis (lavanda em vez de preto) */
+/* Modo dia: pilares + cortinas em roxo escuro (NÃO lavanda pálido) para reduzir brilho branco */
 .light-mode .memories-pillar-left {
   background: linear-gradient(90deg,
-    rgba(237,224,245,0.85) 0%,
-    rgba(237,224,245,0.5) 50%,
+    rgba(74,45,122,0.92) 0%,
+    rgba(74,45,122,0.60) 50%,
     transparent 100%);
 }
 .light-mode .memories-pillar-right {
   background: linear-gradient(270deg,
-    rgba(237,224,245,0.85) 0%,
-    rgba(237,224,245,0.5) 50%,
+    rgba(74,45,122,0.92) 0%,
+    rgba(74,45,122,0.60) 50%,
     transparent 100%);
 }
 .light-mode .memories-curtain-top {
   background: linear-gradient(180deg,
-    rgba(237,224,245,0.95) 0%,
-    rgba(237,224,245,0.5) 50%,
+    rgba(74,45,122,0.95) 0%,
+    rgba(74,45,122,0.60) 50%,
     transparent 100%);
 }
 .light-mode .memories-curtain-bottom {
   background: linear-gradient(0deg,
-    rgba(237,224,245,0.95) 0%,
-    rgba(237,224,245,0.5) 50%,
+    rgba(74,45,122,0.95) 0%,
+    rgba(74,45,122,0.60) 50%,
     transparent 100%);
 }
 .light-mode .memories-spotlight {
+  /* Sem spotlight branca em modo dia — substituído por vinheta lavanda escura */
   background: radial-gradient(ellipse at 50% 0%,
-    rgba(255,255,255,0.08) 0%,
-    rgba(255,255,255,0.03) 25%,
-    rgba(255,255,255,0.01) 50%,
-    transparent 75%);
-  mix-blend-mode: overlay;
+    rgba(120,90,160,0.15) 0%,
+    rgba(120,90,160,0.08) 25%,
+    transparent 60%);
+  mix-blend-mode: multiply;
 }
 
 /* ═══ Slideshow stage ═══ */
@@ -485,20 +485,20 @@ html { scroll-behavior: smooth; }
   background-position: center center;
   background-attachment: scroll; /* SEM parallax — só transição de foto */
   opacity: 0;
-  filter: brightness(0.78) saturate(0.92) contrast(1.05) blur(0px);
+  filter: brightness(0.68) saturate(0.88) contrast(1.10) blur(0px);
   will-change: opacity, filter;
 }
 .memories-slide.active {
   opacity: 1;
-  filter: brightness(1) saturate(1) contrast(1) blur(0px);
+  filter: brightness(0.88) saturate(0.95) contrast(1.05) blur(0px);
 }
 
-/* Modo dia: menos brilho também nas fotos das memories */
+/* Modo dia: ainda menos brilho para combater o "lavanda pálido" anterior */
 .light-mode .memories-slide {
-  filter: brightness(0.88) saturate(0.95) contrast(1.02) blur(0px);
+  filter: brightness(0.72) saturate(0.88) contrast(1.08) blur(0px);
 }
 .light-mode .memories-slide.active {
-  filter: brightness(1) saturate(1) contrast(1) blur(0px);
+  filter: brightness(0.90) saturate(0.95) contrast(1.05) blur(0px);
 }
 
 /* Indicadores (pontos) - mantidos mas mais discretos */
@@ -7572,138 +7572,68 @@ img { max-width: 100%; height: auto; }
 
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ SHOWCASE SECTION — Slideshow cinematográfico + molduras SVG ═══ */
+/* ═══ SHOWCASE SECTION — Parallax épico entre Mural e Cartazes ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
 .showcase-section {
   position: relative;
-  height: 60vh;
-  min-height: 420px;
+  height: 55vh;
+  min-height: 380px;
   overflow: hidden;
-  background: #050309; /* fundo preto puro para a pausa entre slides */
-  isolation: isolate;
-}
-
-/* Stack de slides — todos absolutos, opacidade controlada por JS */
-.showcase-slideshow {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-.showcase-slide {
-  position: absolute;
-  inset: 0;
+  background: var(--void);
+  background-image: url('/showcase-night.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed; /* parallax mantido em cada slide */
-  opacity: 0;
-  will-change: opacity;
-  /* Reduzir brilho natural das fotos */
-  filter: brightness(0.78) saturate(0.92) contrast(1.05);
-}
-.showcase-slide-active {
-  opacity: 1;
-}
-/* Primeiro slide troca conforme dark/light mode (usa hero image apropriada) */
-.showcase-slide-hero {
-  background-image: url('/showcase-night.webp');
-}
-.light-mode .showcase-slide-hero {
-  background-image: url('/showcase-day.webp');
+  background-attachment: fixed;
 }
 
-/* Overlay com profundidade — vinheta escura + fade nas bordas */
+/* Overlay com profundidade — fade nas bordas + vinheta central mais escura */
 .showcase-overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
-  pointer-events: none;
   background:
     linear-gradient(180deg,
-      rgba(5,3,9,0.55) 0%,
-      transparent 18%,
-      transparent 82%,
-      rgba(5,3,9,0.55) 100%
+      var(--void) 0%,
+      transparent 15%,
+      transparent 85%,
+      var(--void) 100%
     ),
     radial-gradient(ellipse at center,
-      transparent 35%,
-      rgba(5,3,9,0.45) 75%,
-      rgba(5,3,9,0.80) 100%
+      transparent 20%,
+      rgba(11,8,19,0.55) 70%,
+      rgba(11,8,19,0.85) 100%
     );
 }
 
-/* Shape dividers SVG — continuidade do cenário (igual às cartazes) */
-.showcase-shape {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 110px;
-  pointer-events: none;
-  z-index: 2;
-  line-height: 0;
-}
-.showcase-shape-top {
-  top: -1px;
-  transform: scaleY(-1); /* inverter para "descer" do topo */
-}
-.showcase-shape-bottom {
-  bottom: -1px;
-}
-.showcase-shape svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-/* Cor das montanhas — escuras para fazer a ponte com as secções vizinhas */
-.showcase-shape-fill {
-  fill: #0a0612;
-  transition: fill 0.6s ease;
-}
-
-/* Modo dia */
+/* Modo dia — overlay lavanda mais saturado para reduzir brilho branco */
 .light-mode .showcase-section {
-  background: #f3eafa;
-}
-.light-mode .showcase-slide {
-  filter: brightness(0.88) saturate(0.95) contrast(1.02);
+  background-image: url('/showcase-day.webp');
 }
 .light-mode .showcase-overlay {
   background:
     linear-gradient(180deg,
-      rgba(243,234,250,0.55) 0%,
-      transparent 18%,
-      transparent 82%,
-      rgba(243,234,250,0.55) 100%
+      var(--void) 0%,
+      transparent 15%,
+      transparent 85%,
+      var(--void) 100%
     ),
     radial-gradient(ellipse at center,
-      transparent 40%,
-      rgba(170,140,200,0.30) 75%,
-      rgba(120,90,160,0.55) 100%
+      transparent 25%,
+      rgba(170,140,200,0.45) 70%,
+      rgba(120,90,160,0.75) 100%
     );
 }
-.light-mode .showcase-shape-fill {
-  fill: #e8d8f2;
-}
 
-/* Mobile: scroll + shape dividers mais baixos */
+/* Mobile: scroll + imagens otimizadas para smartphone */
 @media (max-width: 767px) {
   .showcase-section {
-    height: 48vh;
-    min-height: 320px;
-  }
-  .showcase-slide {
+    height: 45vh;
+    min-height: 280px;
     background-attachment: scroll;
-    background-size: cover;
-    background-position: center top;
+    background-image: url('/showcase-night-mobile.webp');
   }
-  .showcase-shape {
-    height: 70px;
-  }
-}
-
-/* Respeitar prefers-reduced-motion — desligar filtro/selecção se user prefere menos motion */
-@media (prefers-reduced-motion: reduce) {
-  .showcase-slide {
-    filter: brightness(0.85) saturate(0.92);
+  .light-mode .showcase-section {
+    background-image: url('/showcase-day-mobile.webp');
   }
 }
