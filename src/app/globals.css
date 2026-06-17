@@ -3367,20 +3367,11 @@ html { scroll-behavior: smooth; }
   background: var(--deep);
   box-shadow: 0 12px 36px rgba(11,8,19,0.45);
   transition: box-shadow 0.5s ease;
+  aspect-ratio: 3 / 4; /* MESMO aspect-ratio para TODOS os cartazes */
 }
 
-/* ═══ Cartaz FEATURED - mesmo tamanho que os outros (sem cortes) ═══ */
-.cartaz-featured .cartaz-img-wrap {
-  aspect-ratio: 3 / 4;
-}
-.cartaz-featured .cartaz-img {
-  object-fit: contain;
-  width: 100%;
-  height: 100%;
-}
-
-/* Linha fina subtil sempre visível */
-.cartaz-featured .cartaz-img-wrap::before {
+/* Linha fina subtil sempre visível (todos iguais) */
+.cartaz-img-wrap::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -3391,15 +3382,14 @@ html { scroll-behavior: smooth; }
   transition: border-color 0.5s ease;
 }
 
-/* ═══ Efeito hover: 4 linhas neon que se "desenham" dos cantos para o centro ═══ */
-.cartaz-featured .cartaz-img-wrap::after {
+/* Efeito hover: 4 linhas neon que se "desenham" dos cantos para o centro */
+.cartaz-img-wrap::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 4;
   border-radius: 4px;
-  /* 4 segmentos partem dos cantos: top-left, top-right, bottom-right, bottom-left */
   background:
     linear-gradient(to right, var(--neon-purple), var(--neon-purple)) top left / 0% 1.5px no-repeat,
     linear-gradient(to left, var(--pink-kpop), var(--pink-kpop)) top right / 0% 1.5px no-repeat,
@@ -3408,57 +3398,14 @@ html { scroll-behavior: smooth; }
   transition: background-size 0.7s cubic-bezier(0.16,1,0.3,1);
 }
 
-.cartaz-featured:hover .cartaz-img-wrap::after {
+.cartaz-card:hover .cartaz-img-wrap::after {
   background-size: 50% 1.5px, 50% 1.5px, 50% 1.5px, 50% 1.5px;
 }
-.cartaz-featured:hover .cartaz-img-wrap::before {
+.cartaz-card:hover .cartaz-img-wrap::before {
   border-color: rgba(200,80,255,0.30);
 }
-.cartaz-featured:hover .cartaz-img-wrap {
-  box-shadow: 0 20px 60px rgba(11,8,19,0.55), 0 0 50px rgba(200,80,255,0.12);
-}
-
-/* ═══ Cartaz SECONDARY - mesmo efeito mas em azul ═══ */
-.cartaz-secondary .cartaz-img-wrap {
-  aspect-ratio: 3 / 4;
-}
-.cartaz-secondary .cartaz-img {
-  object-fit: contain;
-  width: 100%;
-  height: 100%;
-}
-.cartaz-secondary .cartaz-img-wrap::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgba(177,213,240,0.12);
-  pointer-events: none;
-  z-index: 3;
-  border-radius: 4px;
-  transition: border-color 0.5s ease;
-}
-.cartaz-secondary .cartaz-img-wrap::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 4;
-  border-radius: 4px;
-  background:
-    linear-gradient(to right, var(--blue-accent), var(--blue-accent)) top left / 0% 1.5px no-repeat,
-    linear-gradient(to left, var(--blue-accent), var(--blue-accent)) top right / 0% 1.5px no-repeat,
-    linear-gradient(to left, var(--blue-accent), var(--blue-accent)) bottom right / 0% 1.5px no-repeat,
-    linear-gradient(to right, var(--blue-accent), var(--blue-accent)) bottom left / 0% 1.5px no-repeat;
-  transition: background-size 0.7s cubic-bezier(0.16,1,0.3,1);
-}
-.cartaz-secondary:hover .cartaz-img-wrap::after {
-  background-size: 50% 1.5px, 50% 1.5px, 50% 1.5px, 50% 1.5px;
-}
-.cartaz-secondary:hover .cartaz-img-wrap::before {
-  border-color: rgba(177,213,240,0.30);
-}
-.cartaz-secondary:hover .cartaz-img-wrap {
-  box-shadow: 0 18px 50px rgba(11,8,19,0.5), 0 0 40px rgba(177,213,240,0.10);
+.cartaz-card:hover .cartaz-img-wrap {
+  box-shadow: 0 18px 50px rgba(11,8,19,0.5), 0 0 40px rgba(200,80,255,0.10);
 }
 
 .cartaz-img {
