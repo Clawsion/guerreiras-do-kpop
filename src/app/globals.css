@@ -3739,65 +3739,26 @@ html { scroll-behavior: smooth; }
 }
 
 .galeria-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-}
-
-@media (min-width: 640px) {
-  .galeria-grid {
-    /* 6 fotos distribuídas em 4 colunas com a 1ª maior (destaque) */
-    grid-template-columns: repeat(2, 1fr);
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 1rem;
+    max-width: 880px;
+    margin: 0 auto;
   }
-  /* Foto 1 ocupa 2 colunas (destaque) */
-  .galeria-grid > :nth-child(1) {
-    grid-column: 1 / -1;
-  }
-}
 
-@media (min-width: 1024px) {
-  .galeria-grid {
-    /* Layout masonry-like: 6 fotos, 4 colunas, 1ª foto maior */
-    grid-template-columns: repeat(6, 1fr);
-    grid-auto-rows: 1fr;
-    gap: 1.25rem;
+  @media (min-width: 640px) {
+    .galeria-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
   }
-  /* Foto 1: destaque (ocupa 3 colunas) */
-  .galeria-grid > :nth-child(1) {
-    grid-column: span 3;
-    grid-row: span 2;
-  }
-  /* Fotos 2-6: distribuídas nas restantes 3 colunas */
-  .galeria-grid > :nth-child(n+2) {
-    grid-column: span 3;
-  }
-}
 
-@media (min-width: 1280px) {
-  .galeria-grid {
-    grid-template-columns: repeat(12, 1fr);
+  @media (min-width: 1024px) {
+    .galeria-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
   }
-  /* Foto 1: grande à esquerda (6 colunas) */
-  .galeria-grid > :nth-child(1) {
-    grid-column: span 6;
-    grid-row: span 2;
-  }
-  /* Fotos 2-5: 4 fotos na direita em grid 2x2 (3 colunas cada) */
-  .galeria-grid > :nth-child(2),
-  .galeria-grid > :nth-child(3),
-  .galeria-grid > :nth-child(4),
-  .galeria-grid > :nth-child(5) {
-    grid-column: span 3;
-    grid-row: span 1;
-  }
-  /* Foto 6: em baixo, centrada (4 colunas) */
-  .galeria-grid > :nth-child(6) {
-    grid-column: 5 / span 4;
-    grid-row: span 1;
-  }
-}
-
 .galeria-card {
   position: relative;
   overflow: hidden;
