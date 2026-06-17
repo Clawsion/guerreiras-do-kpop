@@ -999,11 +999,6 @@ export default function HomePage() {
               O Espet&aacute;culo <span className="neon-shimmer">Ao Vivo</span>
             </h2>
           </Rv>
-          <Rv delay={120}>
-            <p className="text-[16px] leading-[1.8] mb-12 max-w-lg" style={{color:"var(--t2)"}}>
-              Cada cartaz &eacute; um portal para a noite do concerto.
-            </p>
-          </Rv>
 
           <div className="cartazes-grid">
             {/* ═══ CASCAIS - Destaque principal (maior) ═══ */}
