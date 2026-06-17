@@ -195,7 +195,7 @@ html { scroll-behavior: smooth; }
 .neon-div {
   height:1px;
   background: linear-gradient(90deg, transparent, var(--purple-mid) 30%, var(--neon-purple) 50%, var(--purple-mid) 70%, transparent);
-  opacity:0.15;
+  opacity:0.5;
 }
 
 /* ═══ SECTION CONTAINER - padrão da indústria para conteúdo centrado com distância de segurança ═══
@@ -253,7 +253,7 @@ html { scroll-behavior: smooth; }
     var(--neon-purple) 50%,
     var(--purple-mid) 80%,
     transparent 100%);
-  opacity: 0.35;
+  opacity: 0.6;
 }
 .honmoon-divider::before { left: 0; }
 .honmoon-divider::after { right: 0; transform: scaleX(-1); }
@@ -319,7 +319,7 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ SECTION WATERMARK - marca de água centralizada subtíl ═══ */
+/* ═══ SECTION WATERMARK - marca de água centralizada ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
 .section-watermark {
   position: absolute;
@@ -327,15 +327,15 @@ html { scroll-behavior: smooth; }
   background-image: url('/watermark.png');
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 50% auto;
-  opacity: 0.08;
+  background-size: 60% auto;
+  opacity: 0.25;
   pointer-events: none;
   mix-blend-mode: screen;
   z-index: 1;
 }
 /* Modo dia: opacity maior + multiply para escurecer subtílmente sobre lavanda */
 .light-mode .section-watermark {
-  opacity: 0.10;
+  opacity: 0.20;
   mix-blend-mode: multiply;
 }
 
@@ -2232,6 +2232,7 @@ html { scroll-behavior: smooth; }
     background-size: 78% auto;
     background-position: 100% 25%;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     overflow: hidden;
   }
 /* Mobile: layout stacks vertically, so go back to full cover for impact */
@@ -2239,6 +2240,7 @@ html { scroll-behavior: smooth; }
   .espetaculo-section {
     background-size: cover;
     background-position: right top;
+    background-attachment: scroll;
   }
 }
 
