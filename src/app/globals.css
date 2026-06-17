@@ -7017,6 +7017,21 @@ img { max-width: 100%; height: auto; }
   /* Nav panel — padding superior para respeitar notch/status bar */
   .hero-nav-panel {
     padding-top: max(env(safe-area-inset-top, 0px), 8px);
+    /* Em mobile, mudar de justify-end para space-between para que o Ticketline
+       vá para a esquerda e o theme toggle + hamburger fiquem à direita. */
+    justify-content: space-between !important;
+  }
+
+  /* ─── TICKETLINE PARA A ESQUERDA EM SMARTPHONE ───
+     Em desktop o Ticketline fica à direita com os outros (justify-end).
+     Em mobile, o utilizador quer o Ticketline à esquerda. Usamos
+     margin-right: auto para empurrar o Ticketline para a esquerda
+     e os restantes (theme toggle + hamburger) ficam à direita. */
+  .hero-nav-ticket {
+    margin-right: auto !important;
+    /* Padding mais compacto em mobile para não roubar espaço */
+    padding: 8px 14px !important;
+    gap: 6px !important;
   }
 
   /* ─── HAMBURGER — igual ao desktop visualmente, com touch target 44px ───
