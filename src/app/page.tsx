@@ -1111,11 +1111,11 @@ export default function HomePage() {
                       <p className="text-[15px]" style={{color:"var(--t1)"}}>+351 960 191 005</p>
                     </div>
                   </a>
-                  <a href="mailto:producao@guerreirasdokpop.pt" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
+                  <a href="mailto:geral@guerreirasdokpop.com" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
                     <Mail className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
                     <div>
                       <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>E-mail de produ&ccedil;&atilde;o</p>
-                      <p className="text-[15px]" style={{color:"var(--t1)"}}>producao@guerreirasdokpop.pt</p>
+                      <p className="text-[15px]" style={{color:"var(--t1)"}}>geral@guerreirasdokpop.com</p>
                     </div>
                   </a>
                 </div>
@@ -1150,7 +1150,7 @@ Telefone: ${fd.get("tel") || ""}
 Mensagem:
 ${fd.get("msg") || ""}`
                   );
-                  window.location.href = `mailto:producao@guerreirasdokpop.pt?subject=${subject}&body=${body}`;
+                  window.location.href = `mailto:geral@guerreirasdokpop.com?subject=${subject}&body=${body}`;
                   f.reset();
                   const ok = document.getElementById("contacto-ok");
                   if (ok) { ok.style.display = "block"; setTimeout(()=>{ if(ok) ok.style.display = "none"; }, 5000); }
@@ -1238,8 +1238,8 @@ ${fd.get("msg") || ""}`
                   <a href="tel:+351960191005" className="flex items-center gap-2.5 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
                     <Phone className="w-3.5 h-3.5"/> +351 960 191 005
                   </a>
-                  <a href="mailto:producao@guerreirasdokpop.pt" className="flex items-center gap-2.5 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
-                    <Mail className="w-3.5 h-3.5"/> producao@guerreirasdokpop.pt
+                  <a href="mailto:geral@guerreirasdokpop.com" className="flex items-center gap-2.5 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
+                    <Mail className="w-3.5 h-3.5"/> geral@guerreirasdokpop.com
                   </a>
                 </div>
               </div>
@@ -1307,7 +1307,7 @@ ${fd.get("msg") || ""}`
             <p className="privacy-updated">Última atualização: Junho de 2026</p>
             <div className="privacy-body">
               <h3>1. Responsável pelo Tratamento</h3>
-              <p>Viva &mdash; Artes &amp; Produções, responsável pela organização do espetáculo Guerreiras do K-Pop. Contacto: <a href="mailto:producao@guerreirasdokpop.pt">producao@guerreirasdokpop.pt</a></p>
+              <p>Viva &mdash; Artes &amp; Produções, responsável pela organização do espetáculo Guerreiras do K-Pop. Contacto: <a href="mailto:geral@guerreirasdokpop.com">geral@guerreirasdokpop.com</a></p>
               <h3>2. Dados Recolhidos</h3>
               <p>Através do formulário de contacto, recolhemos: nome, e-mail, telefone e mensagem, fornecidos voluntariamente pelo utilizador.</p>
               <h3>3. Finalidade do Tratamento</h3>
@@ -1320,7 +1320,7 @@ ${fd.get("msg") || ""}`
               <p>Os seus dados não são partilhados, vendidos ou cedidos a terceiros, exceto quando exigido por lei.</p>
               <h3>7. Direitos do Titular</h3>
               <p>Tem direito a aceder, retificar ou eliminar os seus dados, opor-se ao tratamento e apresentar reclamação à <a href="https://www.cnpd.pt" target="_blank" rel="noopener noreferrer">CNPD</a>.</p>
-              <p>Para exercer estes direitos: <a href="mailto:producao@guerreirasdokpop.pt">producao@guerreirasdokpop.pt</a></p>
+              <p>Para exercer estes direitos: <a href="mailto:geral@guerreirasdokpop.com">geral@guerreirasdokpop.com</a></p>
               <h3>8. Alterações</h3>
               <p>Esta política pode ser atualizada. A data da última revisão consta no topo deste documento.</p>
             </div>
