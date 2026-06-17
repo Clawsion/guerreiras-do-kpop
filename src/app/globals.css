@@ -4134,12 +4134,12 @@ html { scroll-behavior: smooth; }
   z-index: 1;
   pointer-events: none;
 }
-/* Modo dia: imagem clara + overlay lavanda */
+/* Modo dia: imagem clara + overlay lavanda mais transparente (45%) */
 .light-mode .contacto-section {
   background-image: url('/contacto-bg-day.webp');
 }
 .light-mode .contacto-section::before {
-  background: rgba(237, 224, 245, 0.85);
+  background: rgba(237, 224, 245, 0.45);
 }
 /* Mobile: scroll em vez de fixed */
 @media (max-width: 767px) {
