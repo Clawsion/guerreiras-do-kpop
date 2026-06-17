@@ -141,6 +141,7 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
 const HonmoonDivider = React.memo(function HonmoonDivider() {
   return (
     <div className="honmoon-divider hero-aligned-container" aria-hidden="true">
+      <div className="section-watermark-bg" aria-hidden="true"/>
       <span className="honmoon-divider-symbol"/>
     </div>
   );
@@ -660,9 +661,6 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ═══ MARCA DE ÁGUA FIXA (parallax) - acompanha o scroll, dá vida ao site ═══ */}
-      <div className="site-watermark-parallax" aria-hidden="true"/>
-
       {/* ═══ RIPPLE BG LAYER - new theme background spreads from orb via clip-path ═══ */}
       {ripple?.active && (
         <div className="hm-ripple-bg-layer">
@@ -915,6 +913,8 @@ export default function HomePage() {
 
       {/* ═══ HONMOON SHIELD - Theme Toggle (like the anime) ═══ */}
       <section className="honmoon-shield-section">
+        {/* Marca de água */}
+        <div className="section-watermark-bg" aria-hidden="true"/>
         {/* Background glow */}
         <div className={`hm-bg-glow ${themeMode}`}/>
 
@@ -1117,6 +1117,8 @@ export default function HomePage() {
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
+        {/* Marca de água */}
+        <div className="section-watermark-bg" aria-hidden="true"/>
         <div className="hero-aligned-container">
           <Rv>
             <p className="sec-num mb-4">Pr&oacute;ximos Concertos em Tour</p>
@@ -1197,6 +1199,8 @@ export default function HomePage() {
 
       {/* ═══ CONTACTE-NOS - Reservas & Eventos ═══ */}
       <section id="contacto" className="contacto-section">
+        {/* Marca de água */}
+        <div className="section-watermark-bg" aria-hidden="true"/>
         <div className="hero-aligned-container relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
             {/* ── Coluna esquerda: pitch + info ── */}

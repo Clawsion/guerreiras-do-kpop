@@ -7416,79 +7416,84 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ MARCA DE ÁGUA PARALLAX - fixa no ecrã, acompanha o scroll ═══ */
+/* ═══ MARCA DE ÁGUA - dentro de secções específicas ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
-.site-watermark-parallax {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+.section-watermark-bg {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
   overflow: hidden;
 }
 
-/* Padrão de logos Honmoon repetidos (tile) - muito subtíl */
-.site-watermark-parallax::before {
+/* Padrão de logos Honmoon repetidos (tile) */
+.section-watermark-bg::before {
   content: "";
   position: absolute;
-  inset: -10%;
+  inset: -5%;
   background-image: url('/logo-honmoon.svg');
   background-repeat: repeat;
-  background-size: 280px 280px;
-  opacity: 0.025;
+  background-size: 220px 220px;
+  opacity: 0.06;
   mix-blend-mode: screen;
   animation: watermark-drift 60s linear infinite;
 }
 
-/* Logo grande centralizado - mais visível que o tile */
-.site-watermark-parallax::after {
+/* Logo grande centralizado */
+.section-watermark-bg::after {
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 50vw;
-  height: 50vh;
+  width: 40vw;
+  max-width: 500px;
+  height: 40vh;
   background-image: url('/logo-honmoon.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  opacity: 0.03;
+  opacity: 0.08;
   mix-blend-mode: screen;
 }
 
-/* Animação de drift muito lenta (parallax sutil) */
 @keyframes watermark-drift {
   0%   { transform: translate(0, 0); }
-  50%  { transform: translate(-20px, -15px); }
+  50%  { transform: translate(-15px, -10px); }
   100% { transform: translate(0, 0); }
 }
 
-/* Modo dia: mais visível com multiply */
-.light-mode .site-watermark-parallax::before {
-  opacity: 0.035;
+/* Modo dia: multiply para escurecer subtílmente sobre lavanda */
+.light-mode .section-watermark-bg::before {
+  opacity: 0.07;
   mix-blend-mode: multiply;
 }
-.light-mode .site-watermark-parallax::after {
+.light-mode .section-watermark-bg::after {
+  opacity: 0.10;
+  mix-blend-mode: multiply;
+}
+
+/* Honmoon Divider: marca de água mais compacta */
+.honmoon-divider .section-watermark-bg {
+  position: absolute;
+  inset: 0;
+}
+.honmoon-divider .section-watermark-bg::before {
+  background-size: 120px 120px;
   opacity: 0.04;
-  mix-blend-mode: multiply;
+}
+.honmoon-divider .section-watermark-bg::after {
+  display: none;
 }
 
-/* Mobile: desativar para poupar GPU */
+/* Mobile: manter mas reduzir intensidade */
 @media (max-width: 767px) {
-  .site-watermark-parallax { display: none; }
-}
-
-/* Tablet: reduzir intensidade */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .site-watermark-parallax::before {
-    background-size: 200px 200px;
-    opacity: 0.02;
+  .section-watermark-bg::before {
+    background-size: 150px 150px;
+    opacity: 0.04;
   }
-  .site-watermark-parallax::after {
-    width: 60vw;
-    opacity: 0.025;
+  .section-watermark-bg::after {
+    width: 70vw;
+    opacity: 0.05;
   }
 }
