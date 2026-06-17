@@ -660,8 +660,21 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ═══ FUNDO CÓSMICO FIXO (parallax) — nebulosa que não mexe no scroll ═══ */}
-      <div className="cosmic-bg" aria-hidden="true"/>
+      {/* ═══ PARALLAX BG — imagem das Guerreiras que move em sentido oposto ao scroll ═══ */}
+      <div
+        ref={(el) => {
+          if (el && typeof window !== 'undefined') {
+            const onScroll = () => {
+              const y = window.scrollY * 0.4;
+              el.style.transform = `translateY(${-y}px)`;
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+          }
+        }}
+        className="parallax-bg"
+        aria-hidden="true"
+      />
 
       {/* ═══ RIPPLE BG LAYER - new theme background spreads from orb via clip-path ═══ */}
       {ripple?.active && (
