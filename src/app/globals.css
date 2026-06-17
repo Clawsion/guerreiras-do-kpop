@@ -4325,12 +4325,59 @@ html { scroll-behavior: smooth; }
   background-repeat: no-repeat, no-repeat;
   background-attachment: fixed, fixed;
 }
+
+/* ═══ Mais destaque ao texto (light mode) ═══ */
+/* Título principal — mais escuro e com sombra subtil para "saltar" do fundo */
+.light-mode .contacto-section h2 {
+  color: #1E1040 !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.45), 0 0 24px rgba(255,255,255,0.30);
+}
+/* sec-num ("Contacte-nos" pequeno) */
+.light-mode .contacto-section .sec-num {
+  color: #3A1F6B !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.40);
+}
+/* Parágrafos descritivos (var --t2) — texto mais escuro e com leve sombra branca */
+.light-mode .contacto-section p[style*="--t2"],
+.light-mode .contacto-section p {
+  color: #2E1656 !important;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.35);
+}
+/* Linha de destaque (var --neon-purple) — roxo saturado */
+.light-mode .contacto-section p[style*="--neon-purple"] {
+  color: #6B21C9 !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.40);
+}
+/* Telef/email — texto principal (var --t1) reforçado */
+.light-mode .contacto-section a p {
+  color: #1E1040 !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 1px rgba(255,255,255,0.45);
+}
+/* Labels pequenos (var --t3) — mais saturados e bold */
+.light-mode .contacto-section a p[style*="--t3"],
+.light-mode .contacto-section .text-[9px] {
+  color: #4A2D7A !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.28em !important;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.40);
+}
+/* Ícones (telefone/email) — cor mais escura para contraste */
+.light-mode .contacto-section svg {
+  color: #6B21C9 !important;
+  filter: drop-shadow(0 1px 2px rgba(255,255,255,0.45));
+}
+
 /* Light mode: form SEM brilho branco - card lavanda opaco, sem backdrop blur */
 .light-mode .contacto-form {
   background: rgba(74, 45, 122, 0.92);
   border-color: rgba(147, 51, 234, 0.30);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+  box-shadow: 0 24px 60px rgba(30,16,64,0.35), 0 4px 14px rgba(30,16,64,0.18);
 }
 /* Labels e títulos do form ficam claros sobre o fundo roxo escuro */
 .light-mode .contacto-field > span,
@@ -4338,7 +4385,8 @@ html { scroll-behavior: smooth; }
 .light-mode .contacto-form h3,
 .light-mode .contacto-form p,
 .light-mode .contacto-form label {
-  color: #F5EAF8 !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
 }
 .light-mode .contacto-field input,
 .light-mode .contacto-field select,
