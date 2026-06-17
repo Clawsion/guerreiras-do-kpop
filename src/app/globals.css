@@ -1816,47 +1816,51 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ HERO FLASH - transição rápida e profissional (camera flash) ═══ */
+/* ═══ HERO FLASH — Expandir luz (dia) / Engolir luz (noite) ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
 .hero-img-flash {
   position: absolute;
   inset: 0;
   z-index: 50;
   pointer-events: none;
-  opacity: 0;
-  will-change: opacity;
+  opacity: 1;
+  will-change: clip-path, opacity;
 }
-/* Noite -> Dia: flash branco rápido (camera flash) */
+
+/* ═══ TO DAY (expandir luz): luz cresce do orb e cobre tudo ═══ */
 .hero-img-flash.to-light {
-  background:
-    radial-gradient(circle at 50% 45%,
-      rgba(255,255,255,1) 0%,
-      rgba(255,250,235,0.95) 25%,
-      rgba(255,220,200,0.5) 55%,
-      transparent 80%);
-  animation: heroFlashToLight 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  background: radial-gradient(circle at var(--tx, 50%) var(--ty, 50%),
+    rgba(255,255,255,1) 0%,
+    rgba(255,250,235,1) 30%,
+    rgba(255,220,200,0.8) 60%,
+    rgba(255,200,180,0.4) 80%,
+    transparent 100%);
+  clip-path: circle(0% at var(--tx, 50%) var(--ty, 50%));
+  animation: heroExpandLight 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-/* Dia -> Noite: flash escuro rápido (apagar a luz) */
+@keyframes heroExpandLight {
+  0%   { clip-path: circle(0% at var(--tx, 50%) var(--ty, 50%)); opacity: 1; }
+  50%  { clip-path: circle(150% at var(--tx, 50%) var(--ty, 50%)); opacity: 1; }
+  100% { clip-path: circle(150% at var(--tx, 50%) var(--ty, 50%)); opacity: 0; }
+}
+
+/* ═══ TO NIGHT (engolir luz): luz contrai para dentro do orb ═══ */
 .hero-img-flash.to-dark {
-  background:
-    radial-gradient(circle at 50% 45%,
-      rgba(11,8,19,1) 0%,
-      rgba(20,12,40,0.95) 25%,
-      rgba(35,18,60,0.5) 55%,
-      transparent 80%);
-  animation: heroFlashToDark 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  background: radial-gradient(circle at var(--tx, 50%) var(--ty, 50%),
+    rgba(255,250,235,1) 0%,
+    rgba(245,235,250,1) 40%,
+    rgba(220,200,240,0.6) 70%,
+    transparent 90%);
+  clip-path: circle(150% at var(--tx, 50%) var(--ty, 50%));
+  animation: heroContractLight 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-@keyframes heroFlashToLight {
-  0%   { opacity: 0; }
-  30%  { opacity: 1; }    /* pico: flash total (toggleTheme acontece aqui) */
-  100% { opacity: 0; }    /* fade out rápido */
+@keyframes heroContractLight {
+  0%   { clip-path: circle(150% at var(--tx, 50%) var(--ty, 50%)); opacity: 1; }
+  50%  { clip-path: circle(0% at var(--tx, 50%) var(--ty, 50%)); opacity: 1; }
+  100% { clip-path: circle(0% at var(--tx, 50%) var(--ty, 50%)); opacity: 0; }
 }
-@keyframes heroFlashToDark {
-  0%   { opacity: 0; }
-  30%  { opacity: 1; }    /* pico: flash total (toggleTheme acontece aqui) */
-  100% { opacity: 0; }    /* fade out rápido */
-}
-/* Imagem durante flash: sem blur, sem scale (leve) */
+
+/* Imagem durante flash: sem efeitos (leve) */
 .hero-bg-img.flashing {
   transition: none;
 }
@@ -6899,8 +6903,8 @@ section#concertos {
   .cartaz-img-wrap { box-shadow: 0 4px 12px rgba(11,8,19,0.3) !important; }
   .honmoon-divider > .honmoon-divider-symbol { animation: none !important; }
   
-  /* Simplify hero flash on mobile */
-  .hero-img-flash { animation-duration: 1s !important; }
+  /* Simplify hero flash on mobile — duração 600ms */
+  .hero-img-flash { animation-duration: 600ms !important; }
 }
 
 /* Respect reduced motion preference (accessibility + performance) */

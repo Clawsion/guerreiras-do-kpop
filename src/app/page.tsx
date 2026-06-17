@@ -457,7 +457,7 @@ export default function HomePage() {
   const [burstKey, setBurstKey] = useState(0);
   const [ripple, setRipple] = useState<{active:boolean; x:number; y:number; toMode:'dark'|'light'}|null>(null);
   const [waveActive, setWaveActive] = useState(false);
-  const [heroFlash, setHeroFlash] = useState<'none' | 'to-light' | 'to-dark'>('none');
+  const [heroFlash, setHeroFlash] = useState<{type: 'none' | 'to-light' | 'to-dark', x: number, y: number}>({type: 'none', x: 50, y: 50});
   const [lightbox, setLightbox] = useState<number | null>(null);
     const [privacyOpen, setPrivacyOpen] = useState(false);
   const orbRef = useRef<HTMLDivElement>(null);
@@ -547,20 +547,19 @@ export default function HomePage() {
     }
   }, []);
 
-  const triggerHeroFlash = useCallback((toMode: 'light' | 'dark') => {
+  const triggerHeroFlash = useCallback((toMode: 'light' | 'dark', x = 50, y = 50) => {
     // Usar ref em vez de state para evitar stale closure
     if (isTransitioningRef.current) return;
     isTransitioningRef.current = true;
     const flashClass = toMode === 'light' ? 'to-light' : 'to-dark';
-    setHeroFlash(flashClass as 'to-light' | 'to-dark');
+    setHeroFlash({type: flashClass as 'to-light' | 'to-dark', x, y});
 
-    // Duração: 800ms (flash rápido e profissional, sem câmara lenta)
+    // Duração: 1s (expande/contrai com clip-path)
     const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
-    const flashDuration = isMobileViewport ? 600 : 800;
+    const flashDuration = isMobileViewport ? 600 : 1000;
     flashTimeoutRef.current = setTimeout(() => {
-      setHeroFlash('none');
+      setHeroFlash({type: 'none', x: 50, y: 50});
       flashTimeoutRef.current = null;
-      // Note: isTransitioningRef é resetado pela cleanup final, não aqui
     }, flashDuration);
   }, []);
 
@@ -588,8 +587,8 @@ export default function HomePage() {
       setBurstKey(k => k + 1);
       setWaveActive(true);
 
-      // Dispara o flash do hero ~400ms antes do toggle
-      transitionRef.current.push(setTimeout(() => triggerHeroFlash(toMode), 400));
+      // Dispara o flash do hero ~400ms antes do toggle, com coordenadas do orb
+      transitionRef.current.push(setTimeout(() => triggerHeroFlash(toMode, x, y), 400));
 
       // Wave delay: secções mais próximas do orb mudam primeiro
       const maxDist = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);
@@ -607,8 +606,10 @@ export default function HomePage() {
         (el as HTMLElement).style.setProperty('--wave-delay', `${delay}ms`);
       });
 
-      // Toggle theme quando clip-path cobre o viewport (~50% de 1.5s)
-      transitionRef.current.push(setTimeout(() => { toggleTheme(); }, 650));
+      // Toggle theme no pico do efeito (50% da animação)
+      // to-light: luz expande, toggle quando cobre tudo (500ms após flash)
+      // to-dark: luz contrai, toggle imediato (bg escuro precisa estar em baixo)
+      transitionRef.current.push(setTimeout(() => { toggleTheme(); }, toMode === 'light' ? 900 : 450));
       // Cleanup final
       transitionRef.current.push(setTimeout(() => {
         setRipple(null);
@@ -628,10 +629,10 @@ export default function HomePage() {
       if (isMobileViewport) {
         // Mobile: radial wipe premium a partir do ponto de clique
         setRipple({ active: true, x: cx, y: cy, toMode });
-        // Toggle imediatamente — a animação premium faz o crossfade visual
-        // (bug antigo: toggleTheme tinha 200ms de delay, causava race)
-        triggerHeroFlash(toMode);
-        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, 250));
+        triggerHeroFlash(toMode, cx, cy);
+        // to-light: toggle aos 300ms (50% de 600ms)
+        // to-dark: toggle aos 50ms (quase imediato)
+        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, toMode === 'light' ? 300 : 50));
         // Cleanup mais cedo em mobile (500ms em vez de 600ms) — quanto antes
         // o ripple.active passar a false, menos camadas extras o browser tem
         // de compor, e o scroll volta a ser fluído imediatamente.
@@ -641,8 +642,10 @@ export default function HomePage() {
         }, 500));
       } else {
         // Desktop via botão do topo: flash + toggle (sem ripple)
-        triggerHeroFlash(toMode);
-        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, 1100));
+        triggerHeroFlash(toMode, cx, cy);
+        // to-light: toggle aos 500ms (50% de 1s, luz cobre tudo)
+        // to-dark: toggle aos 50ms (quase imediato, bg escuro em baixo)
+        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, toMode === 'light' ? 500 : 50));
         transitionRef.current.push(setTimeout(() => {
           isTransitioningRef.current = false;
         }, 2200));
@@ -785,14 +788,18 @@ export default function HomePage() {
           <img
             src={themeMode === 'light' ? "/hero-bg-light.webp" : "/hero-bg.webp"}
             alt=""
-            className={`hero-bg-img ${heroFlash !== 'none' ? 'flashing' : ''}`}
+            className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
             decoding="async"
           />
         </picture>
-        {/* Flash layer - efeito 'acender/apagar' sincronizado com a troca de tema */}
-        {heroFlash !== 'none' && (
-          <div className={`hero-img-flash ${heroFlash}`} aria-hidden="true"/>
+        {/* Flash layer — expande luz (dia) / contrai luz (noite) com clip-path */}
+        {heroFlash.type !== 'none' && (
+          <div
+            className={`hero-img-flash ${heroFlash.type}`}
+            style={{'--tx': `${heroFlash.x}%`, '--ty': `${heroFlash.y}%`} as React.CSSProperties}
+            aria-hidden="true"
+          />
         )}
 
         {/* Grid texture overlay */}
