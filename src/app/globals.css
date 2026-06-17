@@ -3422,7 +3422,42 @@ html { scroll-behavior: smooth; }
   position: relative;
   padding: 6rem 0 5rem;
   background: var(--deep);
+  background-image: url('/cartazes-bg-night.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   overflow: hidden;
+}
+/* Overlay — marca de água visível mas subtíl */
+.cartazes-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(11,8,19,0.92) 0%,
+    rgba(11,8,19,0.82) 50%,
+    rgba(11,8,19,0.92) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+/* Modo dia: imagem clara + overlay lavanda */
+.light-mode .cartazes-section {
+  background-image: url('/cartazes-bg-day.webp');
+}
+.light-mode .cartazes-section::before {
+  background: linear-gradient(180deg,
+    rgba(237,224,245,0.88) 0%,
+    rgba(237,224,245,0.78) 50%,
+    rgba(237,224,245,0.88) 100%
+  );
+}
+/* Mobile: scroll em vez de fixed */
+@media (max-width: 767px) {
+  .cartazes-section {
+    background-attachment: scroll;
+  }
 }
 
 .cartazes-grid {
