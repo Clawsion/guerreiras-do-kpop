@@ -154,26 +154,68 @@ const MEMORIES_IMAGES = [
 ];
 
 const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
-  const [active, setActive] = useState(0);
+  const slidesRef = React.useRef<HTMLElement[] | null>(null);
+
   useEffect(() => {
-    const t = setInterval(() => setActive(prev => (prev + 1) % MEMORIES_IMAGES.length), 6000);
-    return () => clearInterval(t);
+    if (typeof window === 'undefined') return;
+    // Respeita prefers-reduced-motion: se sim, não anima
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const slides = Array.from(document.querySelectorAll<HTMLElement>('.memories-slide'));
+    if (slides.length < 2) return;
+    slidesRef.current = slides;
+
+    let currentIdx = 0;
+    let cycleTimer: ReturnType<typeof setTimeout>;
+    const INTERVAL = 6000;       // tempo visível de cada slide
+    const FADE_OUT = 1200;       // duração do fade-out
+    const PAUSE = 500;           // pausa preta entre slides
+    const FADE_IN = 1200;        // duração do fade-in
+
+    function nextSlide() {
+      const slidesArr = slidesRef.current;
+      if (!slidesArr || slidesArr.length === 0) return;
+      const current = slidesArr[currentIdx];
+      const nextIdx = (currentIdx + 1) % slidesArr.length;
+      const next = slidesArr[nextIdx];
+
+      // 1) Fade-out do slide actual
+      current.style.transition = `opacity ${FADE_OUT}ms ease-in-out, filter ${FADE_OUT}ms ease-in-out`;
+      current.style.opacity = '0';
+      current.style.filter = 'brightness(0.6) blur(6px)';
+
+      cycleTimer = setTimeout(() => {
+        // 2) Pausa preta (slide actual já invisível, próximo ainda invisível)
+        current.classList.remove('active');
+
+        cycleTimer = setTimeout(() => {
+          // 3) Fade-in do próximo slide
+          next.style.transition = `opacity ${FADE_IN}ms ease-in-out, filter ${FADE_IN}ms ease-in-out, transform ${FADE_IN}ms ease-out`;
+          next.style.opacity = '1';
+          next.style.filter = 'brightness(1) blur(0px)';
+          next.classList.add('active');
+          currentIdx = nextIdx;
+
+          // 4) Agendar próximo ciclo
+          cycleTimer = setTimeout(nextSlide, INTERVAL);
+        }, PAUSE);
+      }, FADE_OUT);
+    }
+
+    cycleTimer = setTimeout(nextSlide, INTERVAL);
+    return () => clearTimeout(cycleTimer);
   }, []);
+
   return (
     <div className="memories-stage">
       {MEMORIES_IMAGES.map((img, i) => (
         <div
           key={img.src}
-          className={`memories-slide ${i === active ? "active" : ""}`}
+          className={`memories-slide ${i === 0 ? "active" : ""}`}
           style={{ backgroundImage: `url(${img.src})` }}
-          aria-hidden={i !== active}
+          aria-hidden={i !== 0}
         />
       ))}
-      {/* Camada de fumaça subtíl - key dinâmica força re-disparo da animação a cada mudança de slide */}
-      <div key={`smoke-${active}`} className="memories-smoke-layer" aria-hidden="true">
-        <div className="memories-smoke memories-smoke-1"/>
-        <div className="memories-smoke memories-smoke-2"/>
-      </div>
     </div>
   );
 });
@@ -1043,8 +1085,17 @@ export default function HomePage() {
 
       </section>
 
-      {/* ═══ MEMÓRIAS - Slideshow cénico (sem legendas) ═══ */}
+      {/* ═══ MEMÓRIAS - Slideshow cénico com shape dividers + transição cinematográfica ═══ */}
       <section id="memorias" className="memories-section">
+        {/* Shape divider TOPO - montanhas (continuidade com secção anterior) */}
+        <div className="memories-shape memories-shape-top" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+            <path className="memories-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
+            <path className="memories-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
+            <path className="memories-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
+          </svg>
+        </div>
+
         {/* Moldura cénica - pilares + vinheta + spotlight */}
         <div className="memories-stage-frame" aria-hidden="true">
           <div className="memories-pillar memories-pillar-left"/>
@@ -1054,6 +1105,15 @@ export default function HomePage() {
           <div className="memories-curtain-bottom"/>
         </div>
         <MemoriesSlideshow/>
+
+        {/* Shape divider FUNDO - montanhas (continuidade com secção seguinte) */}
+        <div className="memories-shape memories-shape-bottom" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+            <path className="memories-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
+            <path className="memories-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
+            <path className="memories-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
+          </svg>
+        </div>
       </section>
 
       {/* ═══ ESPETÁCULO - Descrição + Galeria ═══ */}
