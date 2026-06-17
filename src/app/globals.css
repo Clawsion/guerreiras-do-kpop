@@ -3429,34 +3429,24 @@ html { scroll-behavior: smooth; }
   background-attachment: fixed;
   overflow: hidden;
 }
-/* Overlay — marca de água com profundidade (gradiente vertical) */
+/* Overlay REMOVIDO — cartazes têm de se notar (sem filtro claro/escuro) */
 .cartazes-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg,
-    rgba(11,8,19,0.90) 0%,
-    rgba(11,8,19,0.75) 50%,
-    rgba(11,8,19,0.90) 100%
-  );
-  z-index: 1;
-  pointer-events: none;
+  content: none;
+  display: none;
 }
-/* Modo dia: imagem clara + overlay lavanda translúcido */
+/* Modo dia: imagem clara sem overlay */
 .light-mode .cartazes-section {
   background-color: var(--void);
   background-image: url('/cartazes-bg-day.webp') !important;
-  background-size: 100% auto !important;
+  background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
   background-attachment: fixed !important;
 }
 .light-mode .cartazes-section::before {
-  background: linear-gradient(180deg,
-    rgba(237,224,245,0.55) 0%,
-    rgba(237,224,245,0.35) 50%,
-    rgba(237,224,245,0.55) 100%
-  ) !important;
+  content: none !important;
+  display: none !important;
+  background: transparent !important;
 }
 /* Mobile: scroll */
 @media (max-width: 767px) {
@@ -3469,6 +3459,8 @@ html { scroll-behavior: smooth; }
 }
 
 .cartazes-grid {
+  position: relative;
+  z-index: 2;
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
@@ -3572,22 +3564,15 @@ html { scroll-behavior: smooth; }
 
 /* (hover shadows now handled per-variant above) */
 
+/* Overlay por cartaz REMOVIDO — imagem do cartaz fica totalmente visível */
 .cartaz-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(11,8,19,0.5) 0%,
-    rgba(11,8,19,0.1) 30%,
-    transparent 60%
-  );
-  pointer-events: none;
-  opacity: 0.8;
-  transition: opacity 0.5s ease;
+  display: none;
+  background: transparent !important;
+  opacity: 0 !important;
 }
 
 .cartaz-card:hover .cartaz-overlay {
-  opacity: 0.4;
+  opacity: 0 !important;
 }
 
 /* ═══ Tag (sobre a imagem) - "Cascais" / "Em breve" ═══ */
@@ -3783,13 +3768,11 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 20px 60px rgba(91,62,138,0.26), 0 0 50px rgba(96,165,250,0.18);
 }
 
+/* Light: overlay por cartaz REMOVIDO */
 .light-mode .cartaz-overlay {
-  background: linear-gradient(
-    to top,
-    rgba(30,16,64,0.35) 0%,
-    rgba(30,16,64,0.08) 30%,
-    transparent 60%
-  );
+  display: none !important;
+  background: transparent !important;
+  opacity: 0 !important;
 }
 /* Light: "Em breve" tag - glass mais opaco para destacar no fundo claro */
 .light-mode .cartaz-tag-soon {
