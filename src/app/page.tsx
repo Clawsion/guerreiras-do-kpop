@@ -1038,7 +1038,7 @@ export default function HomePage() {
               <Rv delay={275}>
                 <article className="cartaz-card cartaz-secondary">
                   <div className="cartaz-img-wrap">
-                    <img src="/poster-caparica.png" alt="Cartaz Costa da Caparica - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
+                    <img src="/poster-caparica.webp" alt="Cartaz Costa da Caparica - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
                     <div className="cartaz-overlay"/>
                     <div className="cartaz-tag cartaz-tag-soon">Em breve</div>
                   </div>
