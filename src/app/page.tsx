@@ -508,14 +508,21 @@ export default function HomePage() {
   // Dispara um bloom/vela radial suave que cresce do centro, troca a imagem no pico,
   // e fade-out revelando a nova imagem. Sincronizado com o ripple effect do orb.
   // Duração: 2.2s. Pico (toggleTheme) aos ~50% = 1.1s.
+  // Guard: bloqueia cliques durante a transição para evitar bug de "ficar parado"
+  const flashTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const triggerHeroFlash = useCallback((toMode: 'light' | 'dark') => {
+    // Se já há um flash em curso, ignora o clique (previne bug)
+    if (heroFlash !== 'none') return;
     const flashClass = toMode === 'light' ? 'to-light' : 'to-dark';
     setHeroFlash(flashClass as 'to-light' | 'to-dark');
+    // Limpa timeout anterior se existir
+    if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current);
     // Limpa o estado depois da animação terminar (~2.2s)
-    window.setTimeout(() => {
+    flashTimeoutRef.current = setTimeout(() => {
       setHeroFlash('none');
+      flashTimeoutRef.current = null;
     }, 2200);
-  }, []);
+  }, [heroFlash]);
 
   const navLinks = useMemo(() => [
     { l: "Espetáculo", h: "#espetaculo" },
@@ -671,11 +678,14 @@ export default function HomePage() {
             {/* Theme toggle - ao lado do Ticketline */}
             <button
               className="hero-nav-theme"
+              disabled={heroFlash !== 'none'}
               onClick={() => {
+                if (heroFlash !== 'none') return; // Guard: não troca se flash em curso
                 const toMode = themeMode === 'dark' ? 'light' : 'dark';
                 triggerHeroFlash(toMode);
                 window.setTimeout(() => toggleTheme(), 200);
               }}
+              style={heroFlash !== 'none' ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}
               aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
             >
               <span className={`hero-nav-orb ${themeMode}`}/>
@@ -789,6 +799,7 @@ export default function HomePage() {
           className={`hm-orb ${themeMode}`}
           onClick={() => {
             if (ripple?.active) return;
+            if (heroFlash !== 'none') return; // Guard: não troca se flash em curso
             const orb = orbRef.current;
             if (!orb) return;
             const rect = orb.getBoundingClientRect();
