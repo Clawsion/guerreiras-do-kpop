@@ -926,7 +926,7 @@ export default function HomePage() {
               </Rv>
               <Rv delay={350}>
                 <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)", maxWidth: "760px"}}>
-                  <span style={{color:"var(--pink-light)"}}>Coreografias</span> envolventes, momentos teatrais e efeitos visuais impactantes transformam o palco num universo de emo&ccedil;&otilde;es. A ilumina&ccedil;&atilde;o din&acirc;mica amplifica a experi&ecirc;ncia, transportando o p&uacute;blico para as cenas mais ic&oacute;nicas atrav&eacute;s de imagens memor&aacute;veis e envolventes.
+                  <span style={{color:"var(--neon-purple)"}}>Coreografias</span> envolventes, momentos teatrais e efeitos visuais impactantes transformam o palco num universo de emo&ccedil;&otilde;es. A ilumina&ccedil;&atilde;o din&acirc;mica amplifica a experi&ecirc;ncia, transportando o p&uacute;blico para as cenas mais ic&oacute;nicas atrav&eacute;s de imagens memor&aacute;veis e envolventes.
                 </p>
               </Rv>
               <Rv delay={450}>
