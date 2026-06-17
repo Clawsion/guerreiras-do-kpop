@@ -996,13 +996,13 @@ export default function HomePage() {
         <div className="hero-aligned-container">
           <Rv>
             <p className="sec-num mb-4">Pr&oacute;ximos Concertos em Tour</p>
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-16" style={{color:"var(--t1)"}}>
               O Espet&aacute;culo <span className="neon-shimmer">Ao Vivo</span>
             </h2>
           </Rv>
 
           <div className="cartazes-grid">
-            {/* ═══ CASCAIS - Destaque principal (maior) ═══ */}
+            {/* ═══ CASCAIS - mesmo tamanho que os outros ═══ */}
             <Rv delay={200}>
               <article className="cartaz-card cartaz-featured">
                 <div className="cartaz-img-wrap">
@@ -1039,14 +1039,11 @@ export default function HomePage() {
                       <span className="cartaz-status-dot cartaz-status-dot-soon"/> Bilhetes &agrave; venda a partir de 20 de Junho
                     </p>
                     <p className="cartaz-venue">Pavilhão Municipal da Costa da Caparica</p>
-                    <button type="button" className="cartaz-buy-btn cartaz-buy-btn-soon" disabled>
-                      <Bell className="w-4 h-4"/> Avisar-me quando abrir
-                    </button>
                   </div>
                 </article>
               </Rv>
 
-            {/* ═══ SESIMBRA - Destaque secundário (mais pequeno) ═══ */}
+            {/* ═══ SESIMBRA - mesmo tamanho que os outros ═══ */}
             <Rv delay={350}>
               <article className="cartaz-card cartaz-secondary">
                 <div className="cartaz-img-wrap">
@@ -1061,9 +1058,6 @@ export default function HomePage() {
                     <span className="cartaz-status-dot cartaz-status-dot-soon"/> Bilhetes &agrave; venda a partir de 20 de Junho
                   </p>
                   <p className="cartaz-venue">Pavilh&atilde;o Desportivo de Sesimbra</p>
-                  <button type="button" className="cartaz-buy-btn cartaz-buy-btn-soon" disabled>
-                    <Bell className="w-4 h-4"/> Avisar-me quando abrir
-                  </button>
                 </div>
               </article>
             </Rv>
