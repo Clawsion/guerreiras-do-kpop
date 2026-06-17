@@ -1038,17 +1038,14 @@ export default function HomePage() {
 
       </section>
 
-      {/* ═══ MEMÓRIAS - Slideshow cénico com ondas lavanda suaves (3 camadas) + transição cinematográfica ═══ */}
+      {/* ═══ MEMÓRIAS - Slideshow cénico com MOLDURAS IGUAIS às cartazes (montanhas) + transição cinematográfica ═══ */}
       <section id="memorias" className="memories-section">
-        {/* Shape divider TOPO - ondas lavanda INVERTIDAS (curvas para baixo) */}
+        {/* Shape divider TOPO - MONTANHAS INVERTIDAS (mesma cor e forma das cartazes, mas espelhada) */}
         <div className="memories-shape memories-shape-top" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-            {/* Camada 3 (mais atrás, mais saturada) */}
-            <path className="memories-shape-fill memories-shape-layer3" d="M0,55 C200,35 400,70 600,50 C800,30 950,55 1000,45 L1000,0 L0,0 Z"/>
-            {/* Camada 2 (meio) */}
-            <path className="memories-shape-fill memories-shape-layer2" d="M0,70 C220,55 420,80 620,65 C820,50 950,65 1000,60 L1000,0 L0,0 Z"/>
-            {/* Camada 1 (mais à frente, mais clara) */}
-            <path className="memories-shape-fill memories-shape-layer1" d="M0,82 C240,72 440,90 640,80 C840,70 950,80 1000,77 L1000,0 L0,0 Z"/>
+            <path className="memories-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
+            <path className="memories-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
+            <path className="memories-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
           </svg>
         </div>
 
@@ -1062,15 +1059,12 @@ export default function HomePage() {
         </div>
         <MemoriesSlideshow/>
 
-        {/* Shape divider FUNDO - ondas lavanda (igual à foto do user) */}
+        {/* Shape divider FUNDO - MONTANHAS IGUAL às cartazes (cópia exacta) */}
         <div className="memories-shape memories-shape-bottom" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-            {/* Camada 3 (mais atrás, mais saturada) */}
-            <path className="memories-shape-fill memories-shape-layer3" d="M0,45 C200,65 400,30 600,50 C800,70 950,45 1000,55 L1000,100 L0,100 Z"/>
-            {/* Camada 2 (meio) */}
-            <path className="memories-shape-fill memories-shape-layer2" d="M0,30 C220,45 420,20 620,35 C820,50 950,35 1000,40 L1000,100 L0,100 Z"/>
-            {/* Camada 1 (mais à frente, mais clara) */}
-            <path className="memories-shape-fill memories-shape-layer1" d="M0,18 C240,28 440,10 640,20 C840,30 950,20 1000,23 L1000,100 L0,100 Z"/>
+            <path className="memories-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
+            <path className="memories-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
+            <path className="memories-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
           </svg>
         </div>
       </section>

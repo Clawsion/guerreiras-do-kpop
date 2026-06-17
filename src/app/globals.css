@@ -337,73 +337,37 @@ html { scroll-behavior: smooth; }
   isolation: isolate;
 }
 
-/* ═══ Shape dividers SVG — ondas lavanda suaves (3 camadas) ═══ */
+/* ═══ Shape dividers SVG — MONTANHAS (IGUAIS às cartazes) ═══ */
 .memories-shape {
   position: absolute;
   left: 0;
   width: 100%;
-  height: 140px;
+  height: 100px; /* MESMA altura das cartazes */
   pointer-events: none;
   z-index: 20;
   line-height: 0;
 }
 .memories-shape-top {
   top: -1px;
-  /* SEM scaleY(-1) — as ondas do topo já têm orientação correcta (para baixo) */
+  transform: scaleY(-1); /* INVERTIDA — espelha a moldura do topo */
 }
 .memories-shape-bottom {
   bottom: -1px;
+  /* SEM transform — igual à moldura do fundo das cartazes */
 }
 .memories-shape svg {
   display: block;
   width: 100%;
   height: 100%;
 }
-/* ═══ Cores das molduras — tons lavanda (iguais à foto do utilizador) ═══ */
-/* 3 camadas com tons crescentes: #f7effa (mais claro) -> #ece0f4 -> #e8d8f2 (mais saturado) */
 
-/* Camada 1 (mais à frente, mais clara) */
+/* ═══ Cores das molduras — IGUAIS às cartazes (mesma classe) ═══ */
 .memories-shape-fill {
-  fill: #1a0d2e; /* fallback dark mode - será overridden por layer1 */
+  fill: #1a0d2e; /* dark mode — mesmo tom das cartazes */
   transition: fill 0.6s ease;
 }
-.memories-shape-layer1 {
-  fill: #f7effa; /* lavanda muito claro (topo da imagem) */
-}
-.memories-shape-layer2 {
-  fill: #ece0f4; /* lavanda médio (meio da imagem) */
-}
-.memories-shape-layer3 {
-  fill: #e8d8f2; /* lavanda mais saturado (fundo da imagem) */
-}
-
-/* Dark mode (default): tons roxo escuro em 3 camadas (escurecendo) */
-.memories-shape-layer1 {
-  fill: #1a0d2e;
-}
-.memories-shape-layer2 {
-  fill: #150a24;
-}
-.memories-shape-layer3 {
-  fill: #0f0719;
-}
-
-/* Light mode: tons lavanda EXACTOS da imagem do utilizador + brilho branco leve */
-.light-mode .memories-shape-layer1 {
-  fill: #f7effa !important; /* lavanda muito claro */
-  filter: drop-shadow(0 0 3px rgba(255,255,255,0.55));
-}
-.light-mode .memories-shape-layer2 {
-  fill: #ece0f4 !important; /* lavanda médio */
-  filter: drop-shadow(0 0 2px rgba(255,255,255,0.45));
-}
-.light-mode .memories-shape-layer3 {
-  fill: #e8d8f2 !important; /* lavanda mais saturado */
-  filter: drop-shadow(0 0 2px rgba(255,255,255,0.35));
-}
-/* Brilho branco extra no contorno do SVG (modo dia) */
-.light-mode .memories-shape svg {
-  filter: drop-shadow(0 -1px 8px rgba(255,255,255,0.40));
+.light-mode .memories-shape-fill {
+  fill: #e8d8f2; /* light mode — mesmo tom lavanda das cartazes */
 }
 
 /* ═══ Moldura cénica - pilares + vinheta + spotlight ═══ */
@@ -7184,8 +7148,8 @@ html, body {
   .hero-bg-img { background-attachment: scroll !important; }
   .memories-section { height: 55vh !important; }
   .hero-section { height: 100vh; height: 100svh; }
-  /* Shape dividers mais baixos em mobile/iOS */
-  .memories-shape { height: 90px !important; }
+  /* Shape dividers iguais às cartazes em mobile/iOS */
+  .memories-shape { height: 60px !important; }
 }
 
 /* Fix viewport units on mobile */
