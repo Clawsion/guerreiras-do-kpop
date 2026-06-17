@@ -765,12 +765,13 @@ export default function HomePage() {
         {/* Background image - full bleed (imagem clara em modo dia, escura em modo noite)
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — preenchem o ecrã todo
-            - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp) */}
+            - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
+            Query parameter ?v=2 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp" : "/hero-bg-mobile.webp"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=2" : "/hero-bg-mobile.webp?v=2"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais */}
