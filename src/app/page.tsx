@@ -140,7 +140,7 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
 /* ═══ HONMOON DIVIDER - divisória visual com símbolo + brilho ═══ */
 const HonmoonDivider = React.memo(function HonmoonDivider() {
   return (
-    <div className="honmoon-divider w-full" aria-hidden="true">
+    <div className="honmoon-divider max-w-[1400px] mx-auto" aria-hidden="true">
       <span className="honmoon-divider-symbol"/>
     </div>
   );
@@ -893,7 +893,7 @@ export default function HomePage() {
         <div className="esp-readability-overlay" aria-hidden="true"/>
         <div className="esp-readability-light" aria-hidden="true"/>
         <div className="esp-vignette" aria-hidden="true"/>
-        <div className="w-full relative z-10">
+        <div className="max-w-[1400px] mx-auto relative z-10">
           <div className="esp-layout">
             {/* LEFT - Description */}
             <div className="esp-left">
@@ -945,7 +945,7 @@ export default function HomePage() {
 
       {/* ═══ GALERIA - Momentos ao Vivo com Legenda + Lightbox ═══ */}
       <section id="galeria" className="galeria-section px-5 sm:px-10">
-        <div className="w-full">
+        <div className="max-w-[1400px] mx-auto">
           <Rv>
             <p className="sec-num mb-4">Mural</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
@@ -994,7 +994,7 @@ export default function HomePage() {
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section px-5 sm:px-10">
-        <div className="w-full">
+        <div className="max-w-[1400px] mx-auto">
           <Rv>
             <p className="sec-num mb-4">Pr&oacute;ximos Concertos em Tour</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
@@ -1082,7 +1082,7 @@ export default function HomePage() {
       <section id="contacto" className="contacto-section px-5 sm:px-10">
         {/* Marca de água centralizada */}
         <div className="section-watermark" aria-hidden="true"/>
-        <div className="w-full relative z-10">
+        <div className="max-w-[1400px] mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
             {/* ── Coluna esquerda: pitch + info ── */}
             <div className="lg:col-span-5">
@@ -1230,11 +1230,11 @@ ${fd.get("msg") || ""}`
         </div>
       </section>
 
-      <div className="neon-div w-full"/>
+      <div className="neon-div max-w-[1400px] mx-auto"/>
 
       {/* ═══ CONTACT ═══ */}
       <section className="py-20 sm:py-28 px-5 sm:px-10" style={{background:"var(--surface)"}}>
-        <div className="w-full">
+        <div className="max-w-[1400px] mx-auto">
           <Rv>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
               <div>
@@ -1272,7 +1272,7 @@ ${fd.get("msg") || ""}`
 
       {/* ═══ FOOTER ═══ */}
       <footer className="py-10 px-5 sm:px-10 mt-auto border-t" style={{background:"var(--void)",borderColor:"rgba(200,80,255,0.04)"}}>
-        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 px-5 sm:px-8">
+        <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>&copy; 2026 Guerreiras do K-Pop</span>
           </div>
