@@ -3374,7 +3374,7 @@ html { scroll-behavior: smooth; }
 .cartazes-section {
   position: relative;
   padding: 6rem 0 5rem;
-  background: var(--deep);
+  background: transparent;
   overflow: hidden;
 }
 
@@ -7394,5 +7394,116 @@ img { max-width: 100%; height: auto; }
                 color 0.3s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
                 border-color 0.3s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms) !important;
     /* box-shadow removido em mobile — muito caro em GPU */
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ FUNDO CÓSMICO FIXO (parallax) — nebulosa que não mexe no scroll ═══ */
+/* ═══════════════════════════════════════════════════════════════ */
+.cosmic-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  /* Nebulosa roxa escura (modo noite) */
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(45, 27, 78, 0.6) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 80% at 80% 70%, rgba(74, 25, 66, 0.5) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(26, 26, 62, 0.4) 0%, transparent 60%),
+    radial-gradient(circle at 70% 20%, rgba(200, 80, 255, 0.08) 0%, transparent 40%),
+    #0a0518;
+}
+
+/* Estrelas subtis (modo noite) - usando box-shadow para criar pontos */
+.cosmic-bg::before {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow:
+    10vw 15vh 0 rgba(255,255,255,0.4),
+    25vw 40vh 0 rgba(255,255,255,0.3),
+    45vw 10vh 0 rgba(255,255,255,0.5),
+    60vw 30vh 0 rgba(255,255,255,0.2),
+    80vw 50vh 0 rgba(255,255,255,0.4),
+    15vw 70vh 0 rgba(255,255,255,0.3),
+    35vw 85vh 0 rgba(255,255,255,0.5),
+    55vw 60vh 0 rgba(255,255,255,0.2),
+    75vw 80vh 0 rgba(255,255,255,0.4),
+    90vw 20vh 0 rgba(255,255,255,0.3),
+    5vw 50vh 0 rgba(255,255,255,0.2),
+    50vw 90vh 0 rgba(255,255,255,0.4),
+    30vw 25vh 0 rgba(255,255,255,0.3),
+    65vw 75vh 0 rgba(255,255,255,0.5),
+    85vw 35vh 0 rgba(255,255,255,0.2),
+    20vw 55vh 0 rgba(255,255,255,0.4),
+    40vw 45vh 0 rgba(255,255,255,0.3),
+    70vw 65vh 0 rgba(255,255,255,0.2),
+    95vw 85vh 0 rgba(255,255,255,0.4),
+    12vw 35vh 0 rgba(255,255,255,0.3);
+  animation: cosmic-twinkle 4s ease-in-out infinite alternate;
+}
+
+/* Brilho central subtíl (modo noite) */
+.cosmic-bg::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60vw;
+  height: 60vh;
+  background: radial-gradient(circle, rgba(200, 80, 255, 0.04) 0%, transparent 70%);
+  filter: blur(30px);
+}
+
+@keyframes cosmic-twinkle {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* ═══ Modo Dia: nebulosa lavanda com brilho dourado ═══ */
+.light-mode .cosmic-bg {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(200, 165, 220, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 80% at 80% 70%, rgba(220, 180, 240, 0.25) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(245, 230, 250, 0.4) 0%, transparent 60%),
+    radial-gradient(circle at 70% 20%, rgba(255, 215, 0, 0.06) 0%, transparent 40%),
+    #f0e6f5;
+}
+
+/* Modo dia: sem estrelas */
+.light-mode .cosmic-bg::before {
+  display: none;
+}
+
+/* Modo dia: brilho dourado central */
+.light-mode .cosmic-bg::after {
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
+}
+
+/* ═══ Mobile: simplificar para performance ═══ */
+@media (max-width: 767px) {
+  .cosmic-bg {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 30%, rgba(45, 27, 78, 0.5) 0%, transparent 50%),
+      #0a0518;
+  }
+  .cosmic-bg::before {
+    display: none;
+  }
+  .cosmic-bg::after {
+    display: none;
+  }
+  .light-mode .cosmic-bg {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 30%, rgba(200, 165, 220, 0.25) 0%, transparent 50%),
+      #f0e6f5;
   }
 }

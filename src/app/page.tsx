@@ -660,6 +660,9 @@ export default function HomePage() {
 
   return (
     <>
+      {/* ═══ FUNDO CÓSMICO FIXO (parallax) — nebulosa que não mexe no scroll ═══ */}
+      <div className="cosmic-bg" aria-hidden="true"/>
+
       {/* ═══ RIPPLE BG LAYER - new theme background spreads from orb via clip-path ═══ */}
       {ripple?.active && (
         <div className="hm-ripple-bg-layer">
@@ -673,7 +676,7 @@ export default function HomePage() {
       {/* ═══ MAIN CONTENT - always visible, transparent bg during transition ═══ */}
       <div
         className={`min-h-screen flex flex-col relative z-10 ${themeMode === 'light' ? 'light-mode' : ''} ${waveActive ? 'wave-transition' : ''}`}
-        style={{background: ripple?.active ? 'transparent' : 'var(--deep)'}}
+        style={{background: 'transparent'}}
       >
 
       {/* ═══ RIPPLE SHIMMER - subtle wave glow that passes over content ═══ */}
