@@ -1279,7 +1279,7 @@ export default function HomePage() {
 
       <HonmoonDivider/>
 
-      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 08 AGO CASCAIS · 09 AGO COSTA DA CAPARICA · 15 AGO SESIMBRA · ZOEY · RUMI · MIRA"/>
+      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 08 AGO CASCAIS · 09 AGO COSTA DA CAPARICA · 15 AGO SESIMBRA · ZOEY · RUMI · MIRA · HUNTRIX · SAJA BOYS"/>
 
       <HonmoonDivider/>
 
@@ -1447,50 +1447,11 @@ export default function HomePage() {
 
       <div className="neon-div hero-aligned-container"/>
 
-      {/* ═══ CONTACT ═══ */}
-      <section className="py-20 sm:py-28" style={{background:"var(--surface)"}}>
-        <div className="hero-aligned-container">
-          <Rv>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
-              <div>
-                <p className="sec-num mb-3">Contacto</p>
-                <div className="space-y-3">
-                  <a href="tel:+351960191005" className="flex items-center gap-2.5 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
-                    <Phone className="w-3.5 h-3.5"/> +351 960 191 005
-                  </a>
-                  <a href="mailto:geral@guerreirasdokpop.com" className="flex items-center gap-2.5 text-[14px] transition-colors" style={{color:"var(--t2)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t2)"}}>
-                    <Mail className="w-3.5 h-3.5"/> geral@guerreirasdokpop.com
-                  </a>
-                </div>
-              </div>
-              <div>
-                <p className="sec-num mb-3">Produção</p>
-                <span className="text-[14px]" style={{color:"var(--t2)"}}>Francisco Cardinali</span>
-              </div>
-              {/* ═══ FORMATO ORIGINAL DAS REDES SOCIAIS (desativado a pedido — guardar para reativar) ═══
-              <div>
-                <p className="sec-num mb-3">Redes Sociais</p>
-                <div className="flex gap-4">
-                  {[
-                    {i:<Instagram className="w-5 h-5"/>,l:"Instagram"},
-                    {i:<Facebook className="w-5 h-5"/>,l:"Facebook"},
-                    {i:<Youtube className="w-5 h-5"/>,l:"YouTube"},
-                    {i:<Music2 className="w-5 h-5"/>,l:"TikTok"},
-                  ].map(s=>(
-                    <a key={s.l} href="#" className="transition-colors duration-300" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}} aria-label={s.l}>{s.i}</a>
-                  ))}
-                </div>
-              </div>
-              ═══ FIM DO FORMATO ORIGINAL DAS REDES SOCIAIS ═══ */}
-            </div>
-          </Rv>
-        </div>
-      </section>
-
       {/* ═══ FOOTER ═══ */}
       <footer className="py-10 mt-auto border-t" style={{background:"var(--void)",borderColor:"rgba(200,80,255,0.04)"}}>
         <div className="hero-aligned-container flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
+            <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>Francisco Cardinali Produções</span>
             <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>&copy; 2026 Guerreiras do K-Pop</span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-6">
