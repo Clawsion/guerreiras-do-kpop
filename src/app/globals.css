@@ -4252,9 +4252,14 @@ html { scroll-behavior: smooth; }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Light mode - fundo lavanda lilás igual ao Manifesto/Tributo */
+/* Light mode - fundo lavanda lilás + imagem de marca de água */
 .light-mode .contacto-section {
-  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
+  background: linear-gradient(180deg, rgba(232,218,242,0.45) 0%, rgba(223,207,236,0.45) 30%, rgba(213,192,229,0.45) 60%, rgba(235,224,245,0.45) 100%);
+  background-image: url('/contacto-bg-day.webp'), linear-gradient(180deg, rgba(232,218,242,0.45) 0%, rgba(223,207,236,0.45) 30%, rgba(213,192,229,0.45) 60%, rgba(235,224,245,0.45) 100%);
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-attachment: fixed, fixed;
 }
 .light-mode .contacto-form {
   background: rgba(255, 255, 255, 0.55);
