@@ -920,7 +920,7 @@ export default function HomePage() {
               </Rv>
               <Rv delay={450}>
                 <div className="esp-pitch esp-pitch-compact">
-                  <p className="esp-pitch-text esp-pitch-text-compact" style={{color:"#1E1040", fontWeight: 600, textShadow: "0 1px 3px rgba(255,255,255,0.4)"}}>
+                  <p className="esp-pitch-text esp-pitch-text-compact esp-pitch-neon">
                     Traga a fam&iacute;lia e os amigos e embarquem juntos numa viagem emocionante,<br/>
                     guiada pela m&uacute;sica, pela magia do palco e por uma energia verdadeiramente envolvente.
                   </p>
