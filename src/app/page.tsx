@@ -548,17 +548,11 @@ export default function HomePage() {
   }, []);
 
   const triggerHeroFlash = useCallback((toMode: 'light' | 'dark', x = 50, y = 50) => {
-    // Usar ref em vez de state para evitar stale closure
-    if (isTransitioningRef.current) return;
+    // Flash desativado — o ripple do Honmoon Shield faz o efeito visual
+    // Mantemos a função para não quebrar as chamadas existentes
     isTransitioningRef.current = true;
-    const flashClass = toMode === 'light' ? 'to-light' : 'to-dark';
-    setHeroFlash({type: flashClass as 'to-light' | 'to-dark', x, y});
-
-    // Duração: 1s (expande/contrai com clip-path)
-    const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
-    const flashDuration = isMobileViewport ? 600 : 1000;
+    const flashDuration = 100;
     flashTimeoutRef.current = setTimeout(() => {
-      setHeroFlash({type: 'none', x: 50, y: 50});
       flashTimeoutRef.current = null;
     }, flashDuration);
   }, []);
@@ -641,11 +635,10 @@ export default function HomePage() {
           isTransitioningRef.current = false;
         }, 500));
       } else {
-        // Desktop via botão do topo: flash + toggle (sem ripple)
+        // Desktop via botão do topo: ripple do Honmoon + toggle
         triggerHeroFlash(toMode, cx, cy);
-        // to-light: toggle aos 500ms (50% de 1s, luz cobre tudo)
-        // to-dark: toggle aos 50ms (quase imediato, bg escuro em baixo)
-        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, toMode === 'light' ? 500 : 50));
+        // toggleTheme aos 300ms (quando o ripple cobre o ecrã)
+        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, 300));
         transitionRef.current.push(setTimeout(() => {
           isTransitioningRef.current = false;
         }, 2200));
@@ -793,21 +786,7 @@ export default function HomePage() {
             decoding="async"
           />
         </picture>
-        {/* Flash layer — energia expande do Honmoon (dia) / é sugada pelo Honmoon (noite) */}
-        {heroFlash.type !== 'none' && (
-          <>
-            <div
-              className={`hero-img-flash ${heroFlash.type}`}
-              style={{'--tx': `${heroFlash.x}%`, '--ty': `${heroFlash.y}%`} as React.CSSProperties}
-              aria-hidden="true"
-            />
-            <div
-              className={`hero-orb-burst ${heroFlash.type}`}
-              style={{'--tx': `${heroFlash.x}%`, '--ty': `${heroFlash.y}%`} as React.CSSProperties}
-              aria-hidden="true"
-            />
-          </>
-        )}
+        {/* Flash layer desativado — efeito visual fica no ripple do Honmoon Shield */}
 
         {/* Grid texture overlay */}
         <div className="hero-grid"/>
