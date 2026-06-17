@@ -234,45 +234,30 @@ html { scroll-behavior: smooth; }
 /* ═══════════════════════════════════════════════════════════════ */
 .honmoon-divider {
   position: relative;
-  height: 45vh;
-  min-height: 320px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0;
+  margin: 1.5rem 0;
   pointer-events: none;
-  overflow: hidden;
 }
 .honmoon-divider::before,
 .honmoon-divider::after {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  height: 30%;
-  z-index: 2;
-  pointer-events: none;
-}
-.honmoon-divider::before {
-  top: 0;
-  background: linear-gradient(180deg, var(--void) 0%, transparent 100%);
-}
-.honmoon-divider::after {
-  bottom: 0;
-  background: linear-gradient(0deg, var(--void) 0%, transparent 100%);
-}
-.honmoon-divider > .divider-neon-line {
-  position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70%;
-  max-width: 500px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--neon-purple) 50%, transparent);
-  opacity: 0.5;
-  z-index: 3;
+  width: calc(50% - 24px);
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--purple-mid) 20%,
+    var(--neon-purple) 50%,
+    var(--purple-mid) 80%,
+    transparent 100%);
+  opacity: 0.6;
 }
+.honmoon-divider::before { left: 0; }
+.honmoon-divider::after { right: 0; transform: scaleX(-1); }
 /* Símbolo Honmoon central com glow pulsante */
 .honmoon-divider > .honmoon-divider-symbol {
   position: relative;
@@ -3389,7 +3374,7 @@ html { scroll-behavior: smooth; }
 .cartazes-section {
   position: relative;
   padding: 6rem 0 5rem;
-  background: transparent;
+  background: var(--deep);
   overflow: hidden;
 }
 
@@ -7409,48 +7394,5 @@ img { max-width: 100%; height: auto; }
                 color 0.3s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
                 border-color 0.3s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms) !important;
     /* box-shadow removido em mobile — muito caro em GPU */
-  }
-}
-
-
-/* ═══════════════════════════════════════════════════════════════ */
-/* ═══ PARALLAX BG — Guerreiras visíveis através dos portais ═══ */
-/* ═══════════════════════════════════════════════════════════════ */
-.parallax-bg {
-  position: fixed;
-  top: -30vh;
-  left: 0;
-  width: 100vw;
-  height: 180vh;
-  z-index: 0;
-  pointer-events: none;
-  background-image: url('/hero-bg.webp');
-  background-size: cover;
-  background-position: center 20%;
-  background-repeat: no-repeat;
-  /* MODO NOITE: visível mas misterioso — como uma visão no escuro */
-  filter: brightness(0.4) contrast(1.2) saturate(0.8);
-  opacity: 0.35;
-  will-change: transform;
-}
-
-/* MODO DIA: brilhante e colorido — como luzes de palco a refletir */
-.light-mode .parallax-bg {
-  background-image: url('/hero-bg-light.webp');
-  filter: brightness(1.1) contrast(1.1) saturate(1.3);
-  opacity: 0.45;
-}
-
-/* Mobile */
-@media (max-width: 767px) {
-  .parallax-bg {
-    opacity: 0.25;
-    height: 140vh;
-    top: -20vh;
-    filter: brightness(0.4) contrast(1.2) saturate(0.8);
-  }
-  .light-mode .parallax-bg {
-    opacity: 0.35;
-    filter: brightness(1.1) contrast(1.1) saturate(1.3);
   }
 }

@@ -140,8 +140,7 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
 /* ═══ HONMOON DIVIDER - divisória visual com símbolo + brilho ═══ */
 const HonmoonDivider = React.memo(function HonmoonDivider() {
   return (
-    <div className="honmoon-divider" aria-hidden="true">
-      <div className="divider-neon-line"/>
+    <div className="honmoon-divider hero-aligned-container" aria-hidden="true">
       <span className="honmoon-divider-symbol"/>
     </div>
   );
@@ -661,22 +660,6 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ═══ PARALLAX BG — imagem das Guerreiras que move em sentido oposto ao scroll ═══ */}
-      <div
-        ref={(el) => {
-          if (el && typeof window !== 'undefined') {
-            const onScroll = () => {
-              const y = window.scrollY * 0.4;
-              el.style.transform = `translateY(${-y}px)`;
-            };
-            window.addEventListener('scroll', onScroll, { passive: true });
-            onScroll();
-          }
-        }}
-        className="parallax-bg"
-        aria-hidden="true"
-      />
-
       {/* ═══ RIPPLE BG LAYER - new theme background spreads from orb via clip-path ═══ */}
       {ripple?.active && (
         <div className="hm-ripple-bg-layer">
@@ -690,7 +673,7 @@ export default function HomePage() {
       {/* ═══ MAIN CONTENT - always visible, transparent bg during transition ═══ */}
       <div
         className={`min-h-screen flex flex-col relative z-10 ${themeMode === 'light' ? 'light-mode' : ''} ${waveActive ? 'wave-transition' : ''}`}
-        style={{background: 'transparent'}}
+        style={{background: ripple?.active ? 'transparent' : 'var(--deep)'}}
       >
 
       {/* ═══ RIPPLE SHIMMER - subtle wave glow that passes over content ═══ */}
