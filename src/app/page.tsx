@@ -1038,14 +1038,17 @@ export default function HomePage() {
 
       </section>
 
-      {/* ═══ MEMÓRIAS - Slideshow cénico com curvas lavanda (3 camadas) + transição cinematográfica ═══ */}
+      {/* ═══ MEMÓRIAS - Slideshow cénico com ondas lavanda suaves (3 camadas) + transição cinematográfica ═══ */}
       <section id="memorias" className="memories-section">
-        {/* Shape divider TOPO - curvas suaves lavanda (3 camadas com tons crescentes) */}
+        {/* Shape divider TOPO - ondas lavanda INVERTIDAS (curvas para baixo) */}
         <div className="memories-shape memories-shape-top" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-            <path className="memories-shape-fill memories-shape-layer1" d="M0,20 C150,5 350,35 500,18 C650,2 850,30 1000,15 L1000,0 L0,0 Z"/>
-            <path className="memories-shape-fill memories-shape-layer2" d="M0,40 C180,25 320,50 500,35 C680,20 820,45 1000,32 L1000,0 L0,0 Z"/>
-            <path className="memories-shape-fill memories-shape-layer3" d="M0,60 C200,45 350,68 500,55 C650,42 800,65 1000,52 L1000,0 L0,0 Z"/>
+            {/* Camada 3 (mais atrás, mais saturada) */}
+            <path className="memories-shape-fill memories-shape-layer3" d="M0,55 C200,35 400,70 600,50 C800,30 950,55 1000,45 L1000,0 L0,0 Z"/>
+            {/* Camada 2 (meio) */}
+            <path className="memories-shape-fill memories-shape-layer2" d="M0,70 C220,55 420,80 620,65 C820,50 950,65 1000,60 L1000,0 L0,0 Z"/>
+            {/* Camada 1 (mais à frente, mais clara) */}
+            <path className="memories-shape-fill memories-shape-layer1" d="M0,82 C240,72 440,90 640,80 C840,70 950,80 1000,77 L1000,0 L0,0 Z"/>
           </svg>
         </div>
 
@@ -1059,12 +1062,15 @@ export default function HomePage() {
         </div>
         <MemoriesSlideshow/>
 
-        {/* Shape divider FUNDO - curvas suaves lavanda (3 camadas, invertidas) */}
+        {/* Shape divider FUNDO - ondas lavanda (igual à foto do user) */}
         <div className="memories-shape memories-shape-bottom" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-            <path className="memories-shape-fill memories-shape-layer1" d="M0,80 C150,95 350,65 500,82 C650,98 850,70 1000,85 L1000,100 L0,100 Z"/>
-            <path className="memories-shape-fill memories-shape-layer2" d="M0,60 C180,75 320,50 500,65 C680,80 820,55 1000,68 L1000,100 L0,100 Z"/>
-            <path className="memories-shape-fill memories-shape-layer3" d="M0,40 C200,55 350,32 500,45 C650,58 800,35 1000,48 L1000,100 L0,100 Z"/>
+            {/* Camada 3 (mais atrás, mais saturada) */}
+            <path className="memories-shape-fill memories-shape-layer3" d="M0,45 C200,65 400,30 600,50 C800,70 950,45 1000,55 L1000,100 L0,100 Z"/>
+            {/* Camada 2 (meio) */}
+            <path className="memories-shape-fill memories-shape-layer2" d="M0,30 C220,45 420,20 620,35 C820,50 950,35 1000,40 L1000,100 L0,100 Z"/>
+            {/* Camada 1 (mais à frente, mais clara) */}
+            <path className="memories-shape-fill memories-shape-layer1" d="M0,18 C240,28 440,10 640,20 C840,30 950,20 1000,23 L1000,100 L0,100 Z"/>
           </svg>
         </div>
       </section>

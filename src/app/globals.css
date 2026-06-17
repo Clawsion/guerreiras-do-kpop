@@ -337,19 +337,19 @@ html { scroll-behavior: smooth; }
   isolation: isolate;
 }
 
-/* ═══ Shape dividers SVG — montanhas (continuidade do cenário) ═══ */
+/* ═══ Shape dividers SVG — ondas lavanda suaves (3 camadas) ═══ */
 .memories-shape {
   position: absolute;
   left: 0;
   width: 100%;
-  height: 110px;
+  height: 140px;
   pointer-events: none;
   z-index: 20;
   line-height: 0;
 }
 .memories-shape-top {
   top: -1px;
-  transform: scaleY(-1); /* inverter para "descer" do topo */
+  /* SEM scaleY(-1) — as ondas do topo já têm orientação correcta (para baixo) */
 }
 .memories-shape-bottom {
   bottom: -1px;
@@ -7185,7 +7185,7 @@ html, body {
   .memories-section { height: 55vh !important; }
   .hero-section { height: 100vh; height: 100svh; }
   /* Shape dividers mais baixos em mobile/iOS */
-  .memories-shape { height: 70px !important; }
+  .memories-shape { height: 90px !important; }
 }
 
 /* Fix viewport units on mobile */
