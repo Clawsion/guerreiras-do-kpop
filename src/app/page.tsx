@@ -632,7 +632,7 @@ export default function HomePage() {
       <section className="hero-section" style={{background:"var(--void)"}}>
         {/* Background image - full bleed (imagem clara em modo dia, escura em modo noite) */}
         <img
-          src={themeMode === 'light' ? "/hero-bg-light.png" : "/hero-bg.png"}
+          src={themeMode === 'light' ? "/hero-bg-light.webp" : "/hero-bg.webp"}
           alt=""
           className={`hero-bg-img ${heroFlash !== 'none' ? 'flashing' : ''}`}
           fetchPriority="high"
