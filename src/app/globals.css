@@ -159,7 +159,8 @@ html { scroll-behavior: smooth; }
 /* ═══ MARQUEE ═══ */
 .marquee-track {
   display: inline-flex;
-  animation: marquee 75s linear infinite;
+  /* 120s = 60% mais lento que o original (75s) */
+  animation: marquee 120s linear infinite;
 }
 @keyframes marquee {
   from { transform: translateX(0); }
@@ -6935,39 +6936,25 @@ img { max-width: 100%; height: auto; }
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ HERO RESPONSIVO — SMARTPHONE & TABLET (edição 2026-06) ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
+/* NOTA: As novas imagens do hero (substituídas em 2026-06) são RETRATO:
+   - hero-bg.webp (noite) = 941×1672 (proporção 0.56:1)
+   - hero-bg-light.webp (dia) = 853×1844 (proporção 0.46:1)
+   Isto é ideal para mobile portrait — preenche o ecrã todo sem zoom excessivo. */
 
 /* ─── SMARTPHONE (<768px) — Hero 100% compatível ─── */
-/* Imagem original é 1419×752 (paisagem 1.89:1). Em mobile portrait (9:16),
-   object-fit: cover corta ~70% da largura — daí a sensação de "zoom".
-   Solução: usar object-fit: contain para ver a imagem TODA, com um fundo
-   que prolonga visualmente as bordas (gradiente suave da cor de fundo). */
 @media (max-width: 767px) {
   /* Altura total do viewport dinâmico — evita que a barra de URL do mobile
      esconda o CTA quando aparece/desaparece. */
   .hero-section {
     height: 100svh !important;
     min-height: 100svh !important;
-    /* Fundo que prolonga as bordas da imagem — usa a cor escura do hero.
-       Quando a imagem não preenche tudo (contain), este fundo mostra-se
-       e cria uma transição suave em vez de barras pretas duras. */
-    background:
-      radial-gradient(ellipse at center,
-        rgba(11,8,19,0) 0%,
-        rgba(11,8,19,0.4) 50%,
-        rgba(11,8,19,0.95) 100%),
-      var(--void) !important;
   }
 
-  /* ─── A MUDANÇA PRINCIPAL: contain em vez de cover ───
-     Agora a imagem 1419×752 mostra-se TODA em mobile.
-     Pode haver barras pretas em cima/baixo (portrait), mas o fundo
-     radial-gradient do .hero-section disfarça-as. */
+  /* A nova imagem é RETRATO (941×1672) — em mobile portrait (9:16) a proporção
+     é quase perfeita. Usamos cover para preencher o ecrã todo. */
   .hero-bg-img {
-    object-fit: contain !important;
+    object-fit: cover !important;
     object-position: center center !important;
-    /* Mantém a imagem na sua proporção natural (1.89:1).
-       Em mobile portrait isto significa que a imagem preenche toda a
-       largura do ecrã e fica uma faixa escura em cima e em baixo. */
     width: 100% !important;
     height: 100% !important;
   }
@@ -7025,7 +7012,7 @@ img { max-width: 100%; height: auto; }
       rgba(11,8,19,0.95) 100%) !important;
   }
 
-  /* Grid menos visível para não competir com a imagem contida */
+  /* Grid menos visível para não competir com a imagem */
   .hero-grid {
     opacity: 0.5;
   }
@@ -7036,19 +7023,15 @@ img { max-width: 100%; height: auto; }
   .hero-section {
     height: 100svh !important;
     min-height: 100svh !important;
-    background:
-      radial-gradient(ellipse at center,
-        rgba(11,8,19,0) 0%,
-        rgba(11,8,19,0.3) 50%,
-        rgba(11,8,19,0.9) 100%),
-      var(--void) !important;
   }
 
-  /* Tablet em PORTRAIT (768×1024): proporção 0.75:1 — ainda preciso de contain */
-  /* Tablet em LANDSCAPE (1024×768): proporção 1.33:1 — mais perto de 1.89:1,
-     cover corta menos, mas contain garante ver tudo. Usamos contain sempre. */
+  /* Tablet em PORTRAIT (768×1024, proporção 0.75:1): imagem retrato (0.56:1)
+     ainda é mais alta que o ecrã — cover com center funciona bem. */
+  /* Tablet em LANDSCAPE (1024×768, proporção 1.33:1): imagem retrato vai
+     cortar muito nos lados. Usamos cover com center top para mostrar o
+     topo da imagem (geralmente a parte mais importante). */
   .hero-bg-img {
-    object-fit: contain !important;
+    object-fit: cover !important;
     object-position: center center !important;
     width: 100% !important;
     height: 100% !important;
@@ -7084,13 +7067,23 @@ img { max-width: 100%; height: auto; }
     height: 100vh !important;
     min-height: 480px !important;
   }
-  /* Em landscape mobile a imagem paisagem cabe melhor — pode usar cover */
   .hero-bg-img {
     object-fit: cover !important;
     object-position: center center !important;
   }
   .hero-bottom-panel {
     bottom: 8% !important;
+  }
+}
+
+/* ─── DESKTOP (≥1024px) — ajustar para a nova imagem retrato ───
+   A imagem retrato (941×1672) em desktop (1440×900 por ex.) com
+   object-fit: cover ia cortar muito dos lados. Usamos cover com
+   object-position: center top para priorizar o topo da imagem. */
+@media (min-width: 1024px) {
+  .hero-bg-img {
+    object-fit: cover !important;
+    object-position: center top !important;
   }
 }
 

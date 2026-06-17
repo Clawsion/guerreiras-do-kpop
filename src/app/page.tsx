@@ -667,14 +667,17 @@ export default function HomePage() {
         {/* ═══ HAMBURGER NAV - pinned at top of hero ═══ */}
         <nav className="absolute top-0 inset-x-0 z-[95] py-4" style={{background:"transparent"}}>
           <div className="hero-nav-panel w-full px-5 sm:px-8 flex items-center justify-end gap-5 sm:gap-8">
-            {/* Ticketline - sem link (visual apenas) */}
-            <div
+            {/* Ticketline - direciona para a zona dos cartazes (#cartazes) */}
+            <a
+              href="#cartazes"
+              onClick={e => { e.preventDefault(); setMenuOpen(false); document.getElementById('cartazes')?.scrollIntoView({ behavior: 'smooth' }); }}
               className="hero-nav-ticket group"
-              style={{cursor: "default"}}
+              style={{cursor: "pointer", textDecoration: "none"}}
+              aria-label="Ir para a zona dos cartazes"
             >
               <Ticket className="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300" style={{color:"#fff"}}/>
               <span className="hidden sm:inline text-[11px] tracking-[0.2em] uppercase font-bold" style={{color:"#fff"}}>Ticketline</span>
-            </div>
+            </a>
             {/* Theme toggle - ao lado do Ticketline */}
             <button
               className="hero-nav-theme"
@@ -730,7 +733,7 @@ export default function HomePage() {
               <Ticket className="w-4 h-4"/> Ticketline
             </button>
           </div>
-          {/* Menu Footer - social bottom right */}
+          {/* ═══ FORMATO ORIGINAL DAS REDES SOCIAIS (desativado a pedido — guardar para reativar) ═══
           <div className="absolute bottom-8 right-8 sm:right-12 flex gap-7" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 350}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
               <Instagram className="w-7 h-7"/>
@@ -745,6 +748,7 @@ export default function HomePage() {
               <Music2 className="w-7 h-7"/>
             </a>
           </div>
+          ═══ FIM DO FORMATO ORIGINAL DAS REDES SOCIAIS ═══ */}
           {/* Decorative circle */}
           <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
         </div>
@@ -1023,8 +1027,8 @@ export default function HomePage() {
                 <div className="cartaz-info">
                   <p className="cartaz-city" style={{color:"var(--pink-kpop)"}}>Cascais &middot; Estoril</p>
                   <p className="cartaz-date">08 AGO 2026 &middot; 18:30h</p>
-                  <p className="cartaz-status cartaz-status-live">
-                    <span className="cartaz-status-dot"/> Bilhetes j&aacute; &agrave; venda
+                  <p className="cartaz-status cartaz-status-soon">
+                    <span className="cartaz-status-dot cartaz-status-dot-soon"/> Bilhetes &agrave; venda a partir de 20 de Junho
                   </p>
                   <p className="cartaz-venue">Academia das Artes do Estoril</p>
                   <button type="button" disabled aria-disabled="true" className="cartaz-buy-btn cursor-not-allowed" style={{opacity:0.85}}>
@@ -1264,6 +1268,7 @@ export default function HomePage() {
                 <p className="sec-num mb-3">Produção</p>
                 <span className="text-[14px]" style={{color:"var(--t2)"}}>Francisco Cardinali</span>
               </div>
+              {/* ═══ FORMATO ORIGINAL DAS REDES SOCIAIS (desativado a pedido — guardar para reativar) ═══
               <div>
                 <p className="sec-num mb-3">Redes Sociais</p>
                 <div className="flex gap-4">
@@ -1277,6 +1282,7 @@ export default function HomePage() {
                   ))}
                 </div>
               </div>
+              ═══ FIM DO FORMATO ORIGINAL DAS REDES SOCIAIS ═══ */}
             </div>
           </Rv>
         </div>
