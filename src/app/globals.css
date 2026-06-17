@@ -4194,12 +4194,16 @@ html { scroll-behavior: smooth; }
   z-index: 1;
   pointer-events: none;
 }
-/* Modo dia: imagem clara + overlay lavanda mais transparente (45%) */
+/* Modo dia: imagem clara + overlay lavanda MAIS OPACO (sem brilho branco) */
 .light-mode .contacto-section {
   background-image: url('/contacto-bg-day.webp');
 }
 .light-mode .contacto-section::before {
-  background: rgba(237, 224, 245, 0.45);
+  background: linear-gradient(180deg,
+    rgba(195,170,220,0.78) 0%,
+    rgba(185,158,213,0.82) 50%,
+    rgba(195,170,220,0.78) 100%
+  );
 }
 /* Mobile: scroll em vez de fixed */
 @media (max-width: 767px) {
@@ -4312,25 +4316,35 @@ html { scroll-behavior: smooth; }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Light mode - fundo lavanda lilás + imagem de marca de água */
+/* Light mode - fundo lavanda lilás OPACO (sem brilho branco translúcido) */
 .light-mode .contacto-section {
-  background: linear-gradient(180deg, rgba(232,218,242,0.45) 0%, rgba(223,207,236,0.45) 30%, rgba(213,192,229,0.45) 60%, rgba(235,224,245,0.45) 100%);
-  background-image: url('/contacto-bg-day.webp'), linear-gradient(180deg, rgba(232,218,242,0.45) 0%, rgba(223,207,236,0.45) 30%, rgba(213,192,229,0.45) 60%, rgba(235,224,245,0.45) 100%);
+  background: linear-gradient(180deg, rgba(170,140,200,0.85) 0%, rgba(160,128,195,0.88) 30%, rgba(150,118,185,0.88) 60%, rgba(170,140,200,0.85) 100%);
+  background-image: url('/contacto-bg-day.webp'), linear-gradient(180deg, rgba(170,140,200,0.85) 0%, rgba(160,128,195,0.88) 30%, rgba(150,118,185,0.88) 60%, rgba(170,140,200,0.85) 100%);
   background-size: cover, cover;
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
   background-attachment: fixed, fixed;
 }
+/* Light mode: form SEM brilho branco - card lavanda opaco, sem backdrop blur */
 .light-mode .contacto-form {
-  background: rgba(255, 255, 255, 0.55);
-  border-color: rgba(147, 51, 234, 0.18);
-  backdrop-filter: blur(8px);
+  background: rgba(74, 45, 122, 0.92);
+  border-color: rgba(147, 51, 234, 0.30);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+/* Labels e títulos do form ficam claros sobre o fundo roxo escuro */
+.light-mode .contacto-field > span,
+.light-mode .contacto-form h2,
+.light-mode .contacto-form h3,
+.light-mode .contacto-form p,
+.light-mode .contacto-form label {
+  color: #F5EAF8 !important;
 }
 .light-mode .contacto-field input,
 .light-mode .contacto-field select,
 .light-mode .contacto-field textarea {
-  background: rgba(255, 255, 255, 0.75);
-  border-color: rgba(91, 62, 138, 0.22);
+  background: rgba(245, 234, 248, 0.95);
+  border-color: rgba(91, 62, 138, 0.30);
   color: #1E1040;
 }
 .light-mode .contacto-field input::placeholder,
