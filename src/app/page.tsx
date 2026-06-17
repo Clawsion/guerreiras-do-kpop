@@ -701,7 +701,7 @@ export default function HomePage() {
 
         {/* ═══ FULLSCREEN MENU OVERLAY - cascade from LEFT ═══ */}
         <div className={`menu-overlay ${menuOpen?"open":""}`}>
-          <div className="flex flex-col items-start gap-1 sm:gap-2 mb-16">
+          <div className="flex flex-col items-end gap-1 sm:gap-2 mb-16">
             {navLinks.map((n, i) => (
               <a
                 key={n.l}
@@ -718,7 +718,7 @@ export default function HomePage() {
             ))}
           </div>
           {/* Menu CTA */}
-          <div style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(-40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
+          <div style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
             <a href={TL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold transition-all duration-400" style={{background:"var(--neon-purple)",color:"#fff"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.boxShadow="0 0 40px rgba(200,80,255,0.4)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.boxShadow="none"}}>
               <Ticket className="w-4 h-4"/> Comprar Bilhete <ExternalLink className="w-3 h-3"/>
             </a>
@@ -743,7 +743,7 @@ export default function HomePage() {
         </div>
 
         {/* ═══ HERO CTA - em baixo de 'Épico' (alinhado a ~20% X da imagem) ═══ */}
-        <div className="hero-bottom-panel absolute z-10 flex flex-col items-start" style={{left: "22%", bottom: "22%", transform: "translateX(-25%)"}}>
+        <div className="hero-bottom-panel absolute z-10 flex flex-col items-start" style={{left: "20%", bottom: "22%", transform: "translateX(-25%)"}}>
           <a
             href="#cartazes"
             className="hero-cta"
@@ -923,7 +923,7 @@ export default function HomePage() {
               </Rv>
               <Rv delay={450}>
                 <div className="esp-pitch esp-pitch-compact">
-                  <p className="esp-pitch-text esp-pitch-text-compact" style={{color:"#FFFFFF", fontWeight: 500, textShadow: "0 1px 8px rgba(11,8,19,0.7)"}}>
+                  <p className="esp-pitch-text esp-pitch-text-compact" style={{color:"#1E1040", fontWeight: 600, textShadow: "0 1px 3px rgba(255,255,255,0.4)"}}>
                     Traga a fam&iacute;lia e os amigos e embarquem juntos<br/>
                     numa viagem emocionante, guiada pela m&uacute;sica,<br/>
                     pela magia do palco e por uma energia<br/>
