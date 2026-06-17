@@ -1014,7 +1014,7 @@ export default function HomePage() {
           <div className="cartazes-grid">
             {/* ═══ CASCAIS - mesmo tamanho que os outros ═══ */}
             <Rv delay={200}>
-              <article className="cartaz-card cartaz-featured">
+              <article className="cartaz-card cartaz-secondary">
                 <div className="cartaz-img-wrap">
                   <img src="/poster.webp" alt="Cartaz Cascais - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
                   <div className="cartaz-overlay"/>

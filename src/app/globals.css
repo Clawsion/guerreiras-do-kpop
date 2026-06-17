@@ -539,19 +539,19 @@ html { scroll-behavior: smooth; }
   background-position: center center;
   opacity: 0;
   /* Estado inicial (entrada): zoom-in ligeiro */
-  transform: scale(1.08);
-  filter: brightness(0.95);
-  /* Transição fluida: opacity + scale + brightness (sem drift lateral, sem blur) */
+  transform: scale(1.05);
+  filter: brightness(0.98) blur(4px);
+  /* Transição muito leve e suave */
   transition:
-    opacity 1.2s ease-in-out,
-    transform 1.5s ease-out,
-    filter 1.2s ease-out;
-  will-change: transform, opacity;
+    opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 2s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity, filter;
 }
 .memories-slide.active {
   opacity: 1;
   transform: scale(1.0);
-  filter: brightness(1);
+  filter: brightness(1) blur(0px);
   animation: memoriesKenBurnsActive 12s ease-out forwards;
 }
 /* Quando a slide perde o active, fade-out simples SEM drift (correção do bug última->primeira) */
@@ -2536,7 +2536,7 @@ html { scroll-behavior: smooth; }
 /* Modo Noite (default): Roxo Neon */
 .esp-pitch-neon {
   color: #C850FF !important;
-  font-weight: 600;
+  font-weight: 400;
   text-shadow:
     0 0 5px rgba(200, 80, 255, 0.8),
     0 0 10px rgba(200, 80, 255, 0.6),
@@ -2546,6 +2546,7 @@ html { scroll-behavior: smooth; }
 /* Modo Dia: Rosa Neon */
 .light-mode .esp-pitch-neon {
   color: #EC4899 !important;
+  font-weight: 400;
   text-shadow:
     0 0 5px rgba(236, 72, 153, 0.6),
     0 0 10px rgba(236, 72, 153, 0.4),
@@ -4064,7 +4065,7 @@ html { scroll-behavior: smooth; }
 .contacto-section {
   position: relative;
   padding: 6rem 0;
-  background: var(--void);
+  background: transparent;
   overflow: hidden;
 }
 .contacto-form {
