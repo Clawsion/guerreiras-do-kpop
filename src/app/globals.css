@@ -6573,6 +6573,46 @@ section#concertos {
   }
 }
 
+/* Swipe hint — only shown briefly to teach the user */
+.neon-lightbox-swipe-hint {
+  position: absolute;
+  bottom: -36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: var(--font-geist-mono);
+  white-space: nowrap;
+  animation: lbSwipeHint 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes lbSwipeHint {
+  0%, 100% { opacity: 0.4; transform: translateX(-50%); }
+  50% { opacity: 0.85; transform: translateX(-30%); }
+}
+
+/* Hide swipe hint on desktop (mouse-only devices) */
+@media (hover: hover) and (pointer: fine) {
+  .neon-lightbox-swipe-hint { display: none; }
+}
+
+/* Disable heavy frame pulse on mobile to keep swipes smooth */
+@media (max-width: 768px) {
+  .neon-lightbox-frame {
+    animation: none !important;
+  }
+  .neon-lightbox-overlay {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ PERFORMANCE - prefers-reduced-motion ═════════════════════ */
 /* ═══════════════════════════════════════════════════════════════ */
@@ -6805,4 +6845,226 @@ img { max-width: 100%; height: auto; }
   .galeria-card:hover { transform: none !important; }
   .cartaz-card:hover .cartaz-img { transform: none !important; }
   .hero-cta:hover { transform: none !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ HERO RESPONSIVO — SMARTPHONE & TABLET (edição 2026-06) ═══ */
+/* ═══════════════════════════════════════════════════════════════ */
+
+/* ─── SMARTPHONE (<768px) — Hero proporcional e CTA visível ─── */
+@media (max-width: 767px) {
+  /* Altura total do viewport dinâmico — evita que a barra de URL do mobile
+     esconda o CTA quando aparece/desaparece. */
+  .hero-section {
+    height: 100svh !important;
+    min-height: 100svh !important;
+  }
+
+  /* Em ecrãs estreitos portrait, mostramos mais do topo da imagem para
+     a cara do sujeito ficar visível (a foto original é 1419×752 — paisagem). */
+  .hero-bg-img {
+    object-position: center 30% !important;
+  }
+
+  /* O hero-bottom-panel está posicionado absolutamente em % que não funcionam
+     bem em mobile. Centralizamos ao fundo do hero, acima da sticky CTA bar. */
+  .hero-bottom-panel {
+    left: 50% !important;
+    bottom: 14% !important;
+    transform: translateX(-50%) !important;
+    width: 100% !important;
+    max-width: 320px;
+    align-items: center !important;
+  }
+
+  /* Botão CTA maior e mais dedo-friendly em mobile */
+  .hero-cta {
+    width: 100%;
+    justify-content: center;
+    padding: 0.95rem 1.5rem !important;
+    font-size: 11px !important;
+  }
+
+  /* Nav panel — logo/ticketline/theme não competir por espaço em mobile estreito */
+  .hero-nav-panel {
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
+  /* Glow orb — já está desativado por performance, mas garantimos */
+  .hero-glow-orb { display: none !important; }
+
+  /* Vignette mais forte para o CTA se destacar do fundo */
+  .hero-bg-overlay {
+    background: linear-gradient(180deg,
+      rgba(11,8,19,0.55) 0%,
+      rgba(11,8,19,0.0) 22%,
+      rgba(11,8,19,0.0) 45%,
+      rgba(11,8,19,0.65) 78%,
+      rgba(11,8,19,0.92) 100%) !important;
+  }
+}
+
+/* ─── TABLET (768–1023px) — Hero ajustado ao formato retrato/landscape ─── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-section {
+    height: 100svh !important;
+    min-height: 100svh !important;
+  }
+
+  /* Em tablet a imagem continua a ser paisagem — ajustamos só ligeiramente */
+  .hero-bg-img {
+    object-position: center 35% !important;
+  }
+
+  /* O CTA em tablet fica um pouco mais acima e centralizado, porque as %
+     absolutas (left:19%, bottom:22%) ficam deslocadas no tablet */
+  .hero-bottom-panel {
+    left: 50% !important;
+    bottom: 18% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  /* Hero CTA mais legível em tablet */
+  .hero-cta {
+    font-size: 10px !important;
+    padding: 0.75rem 1.8rem !important;
+  }
+
+  /* Vignette reforçada para legibilidade em tablet */
+  .hero-bg-overlay {
+    background: linear-gradient(180deg,
+      rgba(11,8,19,0.45) 0%,
+      rgba(11,8,19,0.0) 25%,
+      rgba(11,8,19,0.0) 45%,
+      rgba(11,8,19,0.55) 78%,
+      rgba(11,8,19,0.85) 100%) !important;
+  }
+}
+
+/* ─── Paisagem (landscape) em mobile — altura limitada ─── */
+@media (max-width: 1023px) and (orientation: landscape) and (max-height: 500px) {
+  .hero-section {
+    height: 100vh !important;
+    min-height: 480px !important;
+  }
+  .hero-bottom-panel {
+    bottom: 8% !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ FLUIDEZ & PERFORMANCE — MOBILE & TABLET ═════════════════ */
+/* ═══════════════════════════════════════════════════════════════ */
+
+/* content-visibility: auto em secções fora do viewport.
+   Isto diz ao browser para não renderizar/pintar secções que estão fora
+   do ecrã — ganho enorme em páginas longas como esta. */
+@media (max-width: 1023px) {
+  .galeria-section,
+  .cartazes-section,
+  .manifesto-section,
+  .honmoon-shield-section,
+  .esp-section,
+  .temple-section,
+  .lineup-section,
+  .bilhetes-section,
+  .tributo-section,
+  .dual-section,
+  .memories-section,
+  .contacto-section,
+  section#faq {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 600px;
+  }
+
+  /* Reduzir ainda mais transições pesadas em tablet */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Honmoon shield — desativar shimmer rings em tablet (muito GPU) */
+  .hm-shimmer-ring {
+    display: none !important;
+  }
+
+  /* Backdrop blur — desativar em tablet para fluidez (manter só em desktop) */
+  .contacto-form { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+
+  /* LED wall — desativar animações de partículas pesadas em tablet */
+  .led-wall-frame { will-change: auto !important; }
+
+  /* Cartazes — sombras mais simples para poupar GPU */
+  .cartaz-card { box-shadow: 0 6px 18px rgba(11,8,19,0.35) !important; }
+
+  /* Galeria — transições mais rápidas */
+  .galeria-card { transition: transform 0.2s ease-out !important; }
+
+  /* Honmoon charger — desativar partículas que giram em redor em tablet */
+  .honmoon-particle { display: none !important; }
+
+  /* Disable will-change em elementos que não animam visivelmente em mobile
+     (will-change cria layers de composição que consomem RAM) */
+  .hero-bg-img,
+  .hero-grid,
+  .hero-bg-overlay,
+  .hero-vignette { will-change: auto !important; }
+}
+
+/* ─── Touch-only: desativar TODOS os hover effects (custo 0 em touch) ─── */
+@media (hover: none) {
+  *:hover {
+    transition-duration: 0.1s !important;
+  }
+  .cartaz-card:hover { transform: none !important; }
+  .galeria-card:hover { transform: none !important; }
+  .menu-link:hover { color: inherit !important; }
+  .hero-nav-ticket:hover {
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+}
+
+/* ─── Conexões antecipadas (preconnect) para imagens externas ─── */
+/* Isto faz com que o browser estabeleça a ligação TLS ao postimg.cc
+   antes de precisar das imagens, acelerando o carregamento da galeria. */
+/* (Esta regra é informational — o preconnect real deve ser via <link>
+   no <head>, mas como otimização de CSS marcamos a intenção.) */
+
+/* ─── Scroll suave apenas em dispositivos que não causam jank ─── */
+@media (min-width: 1024px) {
+  html { scroll-behavior: smooth; }
+}
+/* Em mobile, deixar o browser gerir o scroll para evitar jank */
+
+/* ─── Reduce layout shift em imagens da galeria ─── */
+.galeria-img-wrap {
+  aspect-ratio: 4 / 3;
+  background: rgba(11, 8, 19, 0.4);
+}
+
+/* ─── Galeria grid: 2 colunas em tablet em vez de 1 ─── */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .galeria-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    max-width: 720px !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* ─── Footer — padding inferior extra em mobile para não cobrir com sticky CTA ─── */
+@media (max-width: 767px) {
+  footer {
+    padding-bottom: 90px !important;
+  }
+}
+
+/* ─── iOS safe-area insets (notch / bottom bar) ─── */
+@supports (padding: env(safe-area-inset-bottom)) {
+  @media (max-width: 767px) {
+    /* Sticky CTA bar respeita o safe area do iPhone */
+    .fixed.bottom-0.inset-x-0 {
+      padding-bottom: max(env(safe-area-inset-bottom, 0px), 12px) !important;
+    }
+  }
 }

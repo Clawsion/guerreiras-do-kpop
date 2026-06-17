@@ -53,6 +53,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt" suppressHydrationWarning>
+      <head>
+        {/* Preconnect to PostImg (galeria) — acelera carregamento das fotos em mobile */}
+        <link rel="preconnect" href="https://i.postimg.cc" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://i.postimg.cc" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} antialiased bg-background text-foreground`}
         suppressHydrationWarning
