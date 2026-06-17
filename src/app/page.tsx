@@ -533,9 +533,6 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ═══ MARCA DE ÁGUA GLOBAL - fixa no ecrã, sempre centrada, não faz scroll ═══ */}
-      <div className="section-watermark" aria-hidden="true"/>
-
       {/* ═══ RIPPLE BG LAYER - new theme background spreads from orb via clip-path ═══ */}
       {ripple?.active && (
         <div className="hm-ripple-bg-layer">
@@ -909,9 +906,9 @@ export default function HomePage() {
             {/* LEFT - Description */}
             <div className="esp-left">
               <Rv>
-                <p className="sec-num mb-4 sec-num-tributo"><span style={{color:"var(--pink-light)"}}>+</span> TRIBUTO AO VIVO</p>
+                <p className="sec-num mb-4"><span style={{color:"var(--pink-light)"}}>+</span> TRIBUTO AO VIVO</p>
                 <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-1 whitespace-nowrap" style={{color:"var(--t1)"}}>
-                  O Honmoon <span className="esp-title-accent">Ganha Vida</span>
+                  O Honmoon <span style={{color:"var(--neon-purple)"}}>Ganha Vida</span>
                 </h2>
                 <p className="text-lg sm:text-xl font-light tracking-wide mb-8 whitespace-nowrap" style={{color:"var(--t2)"}}>
                   O universo das Guerreiras do K-Pop sai do ecr&atilde; e invade o palco

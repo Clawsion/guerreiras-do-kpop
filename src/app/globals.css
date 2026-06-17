@@ -2232,7 +2232,6 @@ html { scroll-behavior: smooth; }
     background-size: 78% auto;
     background-position: 100% 25%;
     background-repeat: no-repeat;
-    background-attachment: fixed;
     overflow: hidden;
   }
 /* Mobile: layout stacks vertically, so go back to full cover for impact */
@@ -2240,7 +2239,6 @@ html { scroll-behavior: smooth; }
   .espetaculo-section {
     background-size: cover;
     background-position: right top;
-    background-attachment: scroll;
   }
 }
 
