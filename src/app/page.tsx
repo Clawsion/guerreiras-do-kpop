@@ -1089,22 +1089,17 @@ export default function HomePage() {
               <Rv>
                 <p className="sec-num mb-4">Contacte-nos</p>
                 <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-8" style={{color:"var(--t1)"}}>
-                  Leve o <span className="neon-shimmer">Espet&aacute;culo</span> &agrave; sua Casa
+                  Um Espet&aacute;culo Inesquec&iacute;vel <span className="neon-shimmer">Onde Quiser</span>
                 </h2>
               </Rv>
               <Rv delay={120}>
                 <p className="text-[16px] leading-[1.8] mb-8 max-w-lg" style={{color:"var(--t2)"}}>
-                  Este tributo musical foi pensado para viajar. Adapta-se a teatros, audit&oacute;rios,
-                  pavilh&otilde;es multiusos e estruturas ef&eacute;meras - como tendas de Natal para
-                  festas de empresas, escolas, associa&ccedil;&otilde;es e c&acirc;maras municipais.
-                  Montamos a experi&ecirc;ncia completa onde for mais conveniente para o seu p&uacute;blico.
+                  Vers&aacute;til e pensado para diferentes contextos, este espet&aacute;culo pode ser apresentado em espa&ccedil;os culturais, escolas, associa&ccedil;&otilde;es, autarquias, centros comerciais e Festas de Natal de empresas, garantindo sempre um momento &uacute;nico de entretenimento.
                 </p>
               </Rv>
               <Rv delay={200}>
-                <p className="text-[15px] leading-[1.7] mb-10 max-w-lg" style={{color:"var(--t3)"}}>
-                  Reserve j&aacute; a sua data - estamos dispon&iacute;veis para orientar a produ&ccedil;&atilde;o
-                  t&eacute;cnica, ajustar o formato &agrave; lota&ccedil;&atilde;o do espa&ccedil;o e personalizar
-                  o repert&oacute;rio em fun&ccedil;&atilde;o do seu p&uacute;blico-alvo.
+                <p className="text-[16px] leading-[1.7] mb-10 max-w-lg" style={{color:"var(--neon-purple)", fontWeight: 500}}>
+                  Contacte-nos e n&atilde;o perca a oportunidade de oferecer um espet&aacute;culo &uacute;nico. Reserve j&aacute; a sua data.
                 </p>
               </Rv>
               <Rv delay={280}>
