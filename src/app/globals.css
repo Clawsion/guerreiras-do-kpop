@@ -116,16 +116,16 @@
 
 @layer base {
   * { @apply border-border outline-ring/50; }
-  body { @apply bg-background text-foreground; font-family: var(--font-body), 'Manrope', sans-serif; }
+  body { @apply bg-background text-foreground; font-family: var(--font-body), 'Sora', sans-serif; font-size: 17px; }
 }
 
 /* ═══ FONT HIERARCHY - Pack 1: Honmoon Blade ═══ */
 /* Titles:    Geist Sans (via --font-geist-sans / font-sans)   */
-/* Body:      Manrope (via --font-body)               */
+/* Body:      Sora (via --font-body)               */
 /* Labels:    Geist Mono (via --font-geist-mono / font-mono)    */
 /* Numbers:   Geist Mono                                        */
 .font-title   { font-family: var(--font-geist-sans), sans-serif; }
-.font-body    { font-family: var(--font-body), 'Manrope', sans-serif; }
+.font-body    { font-family: var(--font-body), 'Sora', sans-serif; }
 .font-label   { font-family: var(--font-geist-mono), monospace; }
 
 html { scroll-behavior: smooth; }
