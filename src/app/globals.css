@@ -2163,11 +2163,11 @@ html { scroll-behavior: smooth; }
   z-index: 10;
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  /* Botão aumentado com texto proporcional */
-  padding: 0.95rem 2.2rem;
-  font-size: 11px;
-  letter-spacing: 0.22em;
+  gap: 0.5rem;
+  /* Botão mais pequeno com texto proporcional */
+  padding: 0.6rem 1.4rem;
+  font-size: 9px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   font-weight: 600;
   background: var(--neon-purple);

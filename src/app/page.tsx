@@ -661,16 +661,14 @@ export default function HomePage() {
         {/* ═══ HAMBURGER NAV - pinned at top of hero ═══ */}
         <nav className="absolute top-0 inset-x-0 z-[95] py-4" style={{background:"transparent"}}>
           <div className="hero-nav-panel w-full px-5 sm:px-8 flex items-center justify-end gap-5 sm:gap-8">
-            {/* Ticketline - à esquerda do hamburger (lado direito do nav) */}
-            <a
-              href={TL}
-              target="_blank"
-              rel="noopener noreferrer"
+            {/* Ticketline - sem link (visual apenas) */}
+            <div
               className="hero-nav-ticket group"
+              style={{cursor: "default"}}
             >
               <Ticket className="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300" style={{color:"#fff"}}/>
               <span className="hidden sm:inline text-[11px] tracking-[0.2em] uppercase font-bold" style={{color:"#fff"}}>Ticketline</span>
-            </a>
+            </div>
             {/* Theme toggle - ao lado do Ticketline */}
             <button
               className="hero-nav-theme"
@@ -899,10 +897,10 @@ export default function HomePage() {
             <div className="esp-left">
               <Rv>
                 <p className="sec-num mb-4"><span style={{color:"var(--pink-light)"}}>+</span> TRIBUTO AO VIVO</p>
-                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-3 max-w-2xl" style={{color:"var(--t1)"}}>
+                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-1 whitespace-nowrap" style={{color:"var(--t1)"}}>
                   O Honmoon <span className="esp-title-accent">Ganha Vida</span>
                 </h2>
-                <p className="text-lg sm:text-xl font-light tracking-wide mb-8 max-w-xl" style={{color:"var(--t2)"}}>
+                <p className="text-lg sm:text-xl font-light tracking-wide mb-8 whitespace-nowrap" style={{color:"var(--t2)"}}>
                   O universo das Guerreiras do K-Pop sai do ecr&atilde; e invade o palco
                 </p>
               </Rv>
@@ -912,22 +910,20 @@ export default function HomePage() {
                 </p>
               </Rv>
               <Rv delay={250}>
-                <p className="text-[16px] leading-[1.8] mb-6 max-w-2xl" style={{color:"var(--t2)"}}>
+                <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)", maxWidth: "760px"}}>
                   Prepare-se para uma explos&atilde;o de m&uacute;sica, dan&ccedil;a e cor! <strong style={{color:"var(--t1)"}}>Guerreiras do K-Pop</strong> &eacute; um tributo musical &uacute;nico ao fen&oacute;meno global que rompe as barreiras entre a anima&ccedil;&atilde;o e o palco. Com uma encena&ccedil;&atilde;o espetacular e uma fus&atilde;o distinta de ritmos, este espet&aacute;culo promete fazer o p&uacute;blico vibrar do primeiro ao &uacute;ltimo minuto.
                 </p>
               </Rv>
               <Rv delay={350}>
-                <p className="text-[16px] leading-[1.8] mb-6 max-w-2xl" style={{color:"var(--t2)"}}>
+                <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)", maxWidth: "760px"}}>
                   <span style={{color:"var(--pink-light)"}}>Coreografias</span> envolventes, momentos teatrais e efeitos visuais impactantes transformam o palco num universo de emo&ccedil;&otilde;es. A ilumina&ccedil;&atilde;o din&acirc;mica amplifica a experi&ecirc;ncia, transportando o p&uacute;blico para as cenas mais ic&oacute;nicas atrav&eacute;s de imagens memor&aacute;veis e envolventes.
                 </p>
               </Rv>
               <Rv delay={450}>
                 <div className="esp-pitch esp-pitch-compact">
                   <p className="esp-pitch-text esp-pitch-text-compact" style={{color:"#1E1040", fontWeight: 600, textShadow: "0 1px 3px rgba(255,255,255,0.4)"}}>
-                    Traga a fam&iacute;lia e os amigos e embarquem juntos<br/>
-                    numa viagem emocionante, guiada pela m&uacute;sica,<br/>
-                    pela magia do palco e por uma energia<br/>
-                    verdadeiramente envolvente.
+                    Traga a fam&iacute;lia e os amigos e embarquem juntos numa viagem emocionante,<br/>
+                    guiada pela m&uacute;sica, pela magia do palco e por uma energia verdadeiramente envolvente.
                   </p>
                 </div>
               </Rv>
