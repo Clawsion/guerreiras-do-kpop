@@ -1038,14 +1038,14 @@ export default function HomePage() {
 
       </section>
 
-      {/* ═══ MEMÓRIAS - Slideshow cénico com shape dividers + transição cinematográfica ═══ */}
+      {/* ═══ MEMÓRIAS - Slideshow cénico com curvas lavanda (3 camadas) + transição cinematográfica ═══ */}
       <section id="memorias" className="memories-section">
-        {/* Shape divider TOPO - montanhas (continuidade com secção anterior) */}
+        {/* Shape divider TOPO - curvas suaves lavanda (3 camadas com tons crescentes) */}
         <div className="memories-shape memories-shape-top" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-            <path className="memories-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
-            <path className="memories-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
-            <path className="memories-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
+            <path className="memories-shape-fill memories-shape-layer1" d="M0,20 C150,5 350,35 500,18 C650,2 850,30 1000,15 L1000,0 L0,0 Z"/>
+            <path className="memories-shape-fill memories-shape-layer2" d="M0,40 C180,25 320,50 500,35 C680,20 820,45 1000,32 L1000,0 L0,0 Z"/>
+            <path className="memories-shape-fill memories-shape-layer3" d="M0,60 C200,45 350,68 500,55 C650,42 800,65 1000,52 L1000,0 L0,0 Z"/>
           </svg>
         </div>
 
@@ -1059,12 +1059,12 @@ export default function HomePage() {
         </div>
         <MemoriesSlideshow/>
 
-        {/* Shape divider FUNDO - montanhas (continuidade com secção seguinte) */}
+        {/* Shape divider FUNDO - curvas suaves lavanda (3 camadas, invertidas) */}
         <div className="memories-shape memories-shape-bottom" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-            <path className="memories-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
-            <path className="memories-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
-            <path className="memories-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
+            <path className="memories-shape-fill memories-shape-layer1" d="M0,80 C150,95 350,65 500,82 C650,98 850,70 1000,85 L1000,100 L0,100 Z"/>
+            <path className="memories-shape-fill memories-shape-layer2" d="M0,60 C180,75 320,50 500,65 C680,80 820,55 1000,68 L1000,100 L0,100 Z"/>
+            <path className="memories-shape-fill memories-shape-layer3" d="M0,40 C200,55 350,32 500,45 C650,58 800,35 1000,48 L1000,100 L0,100 Z"/>
           </svg>
         </div>
       </section>
