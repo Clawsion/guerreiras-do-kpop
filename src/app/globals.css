@@ -7454,11 +7454,6 @@ img { max-width: 100%; height: auto; }
   min-height: 380px;
   overflow: hidden;
   background: var(--void);
-  background-image: url('/showcase-night.webp');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
 }
 
 /* Overlay com profundidade — fade nas bordas + vinheta central */
@@ -7482,7 +7477,7 @@ img { max-width: 100%; height: auto; }
 
 /* Modo dia */
 .light-mode .showcase-section {
-  background-image: url('/showcase-day.webp');
+  background: var(--void);
 }
 .light-mode .showcase-overlay {
   background:
