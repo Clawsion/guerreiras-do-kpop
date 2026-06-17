@@ -116,7 +116,7 @@
 
 @layer base {
   * { @apply border-border outline-ring/50; }
-  body { @apply bg-background text-foreground; font-family: var(--font-body), 'Sora', sans-serif; font-size: 17px; }
+  body { @apply bg-background text-foreground; font-family: var(--font-body), 'Sora', sans-serif; font-size: 18px; }
 }
 
 /* ═══ FONT HIERARCHY - Pack 1: Honmoon Blade ═══ */
@@ -6718,3 +6718,91 @@ section#concertos {
     .esp-right { min-height: 260px; }
   }
   
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ PERFORMANCE & MOBILE OPTIMIZATION ═══ */
+/* ═══════════════════════════════════════════════════════════════ */
+
+/* Disable heavy animations on mobile for performance */
+@media (max-width: 768px) {
+  /* Reduce blur effects (very GPU intensive) */
+  .memories-smoke { filter: blur(20px) !important; }
+  .memories-spotlight { opacity: 0.5 !important; }
+  .hero-glow-orb { display: none !important; }
+  .esp-glow-orb { display: none !important; }
+  .esp-spotlight { opacity: 0.3 !important; }
+  
+  /* Reduce backdrop-filter (heavy on mobile GPUs) */
+  .galeria-card { backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; }
+  .menu-overlay { backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important; }
+  .contacto-form { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  
+  /* Faster transitions (less GPU work) */
+  * { transition-duration: 0.3s !important; animation-duration: 0.5s !important; }
+  
+  /* Disable Ken Burns zoom on mobile (saves GPU) */
+  .memories-slide.active { animation: none !important; transform: scale(1.0) !important; }
+  .memories-slide { transform: scale(1.0) !important; }
+  
+  /* Reduce shadow complexity */
+  .cartaz-img-wrap { box-shadow: 0 4px 12px rgba(11,8,19,0.3) !important; }
+  .honmoon-divider > .honmoon-divider-symbol { animation: none !important; }
+  
+  /* Simplify hero flash on mobile */
+  .hero-img-flash { animation-duration: 1s !important; }
+}
+
+/* Respect reduced motion preference (accessibility + performance) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .memories-slide { animation: none !important; transform: none !important; }
+  .hero-bg-img { animation: none !important; }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .hero-glow-orb { opacity: 0.5; }
+  .esp-glow-orb { opacity: 0.5; }
+  .memories-smoke { filter: blur(30px); }
+}
+
+/* Prevent horizontal scroll on all devices */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* iOS Safari fixes */
+@supports (-webkit-touch-callout: none) {
+  .hero-bg-img { background-attachment: scroll !important; }
+  .memories-section { height: 55vh !important; }
+  .hero-section { height: 100vh; height: 100svh; }
+}
+
+/* Fix viewport units on mobile */
+@supports (height: 100svh) {
+  .hero-section { height: 100svh; }
+  .memories-section { min-height: 400px; }
+}
+
+/* Optimize font rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
+}
+
+/* Prevent layout shift on images */
+img { max-width: 100%; height: auto; }
+
+/* Touch device optimizations */
+@media (pointer: coarse) {
+  .galeria-card:hover { transform: none !important; }
+  .cartaz-card:hover .cartaz-img { transform: none !important; }
+  .hero-cta:hover { transform: none !important; }
+}

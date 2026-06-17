@@ -907,10 +907,10 @@ export default function HomePage() {
             <div className="esp-left">
               <Rv>
                 <p className="sec-num mb-4"><span style={{color:"var(--pink-light)"}}>+</span> TRIBUTO AO VIVO</p>
-                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-1 whitespace-nowrap" style={{color:"var(--t1)"}}>
+                <h2 className="text-2xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-1 sm:whitespace-nowrap" style={{color:"var(--t1)"}}>
                   O Honmoon <span style={{color:"var(--neon-purple)"}}>Ganha Vida</span>
                 </h2>
-                <p className="text-lg sm:text-xl font-light tracking-wide mb-8 whitespace-nowrap" style={{color:"var(--t2)"}}>
+                <p className="text-base sm:text-xl font-light tracking-wide mb-8 sm:whitespace-nowrap" style={{color:"var(--t2)"}}>
                   O universo das Guerreiras do K-Pop sai do ecr&atilde; e invade o palco
                 </p>
               </Rv>
