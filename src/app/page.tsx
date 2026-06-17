@@ -140,7 +140,7 @@ const Marquee = React.memo(function Marquee({ text }: { text: string }) {
 /* ═══ HONMOON DIVIDER - divisória visual com símbolo + brilho ═══ */
 const HonmoonDivider = React.memo(function HonmoonDivider() {
   return (
-    <div className="honmoon-divider max-w-[1400px] mx-auto" aria-hidden="true">
+    <div className="honmoon-divider section-container" aria-hidden="true">
       <span className="honmoon-divider-symbol"/>
     </div>
   );
@@ -883,7 +883,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══ ESPETÁCULO - Descrição + Galeria ═══ */}
-      <section id="espetaculo" className="espetaculo-section px-5 sm:px-10">
+      <section id="espetaculo" className="espetaculo-section">
         {/* Atmospheric overlays - spotlights, glow orbs, vignette */}
         <div className="esp-spotlight esp-spotlight-left" aria-hidden="true"/>
         <div className="esp-spotlight esp-spotlight-center" aria-hidden="true"/>
@@ -893,7 +893,7 @@ export default function HomePage() {
         <div className="esp-readability-overlay" aria-hidden="true"/>
         <div className="esp-readability-light" aria-hidden="true"/>
         <div className="esp-vignette" aria-hidden="true"/>
-        <div className="max-w-[1400px] mx-auto relative z-10">
+        <div className="section-container relative z-10">
           <div className="esp-layout">
             {/* LEFT - Description */}
             <div className="esp-left">
@@ -944,8 +944,8 @@ export default function HomePage() {
       <HonmoonDivider/>
 
       {/* ═══ GALERIA - Momentos ao Vivo com Legenda + Lightbox ═══ */}
-      <section id="galeria" className="galeria-section px-5 sm:px-10">
-        <div className="max-w-[1400px] mx-auto">
+      <section id="galeria" className="galeria-section">
+        <div className="section-container">
           <Rv>
             <p className="sec-num mb-4">Mural</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
@@ -993,8 +993,8 @@ export default function HomePage() {
       <HonmoonDivider/>
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
-      <section id="cartazes" className="cartazes-section px-5 sm:px-10">
-        <div className="max-w-[1400px] mx-auto">
+      <section id="cartazes" className="cartazes-section">
+        <div className="section-container">
           <Rv>
             <p className="sec-num mb-4">Pr&oacute;ximos Concertos em Tour</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
@@ -1079,10 +1079,10 @@ export default function HomePage() {
       <HonmoonDivider/>
 
       {/* ═══ CONTACTE-NOS - Reservas & Eventos ═══ */}
-      <section id="contacto" className="contacto-section px-5 sm:px-10">
+      <section id="contacto" className="contacto-section">
         {/* Marca de água centralizada */}
         <div className="section-watermark" aria-hidden="true"/>
-        <div className="max-w-[1400px] mx-auto relative z-10">
+        <div className="section-container relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
             {/* ── Coluna esquerda: pitch + info ── */}
             <div className="lg:col-span-5">
@@ -1230,11 +1230,11 @@ ${fd.get("msg") || ""}`
         </div>
       </section>
 
-      <div className="neon-div max-w-[1400px] mx-auto"/>
+      <div className="neon-div section-container"/>
 
       {/* ═══ CONTACT ═══ */}
-      <section className="py-20 sm:py-28 px-5 sm:px-10" style={{background:"var(--surface)"}}>
-        <div className="max-w-[1400px] mx-auto">
+      <section className="py-20 sm:py-28" style={{background:"var(--surface)"}}>
+        <div className="section-container">
           <Rv>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
               <div>
@@ -1271,8 +1271,8 @@ ${fd.get("msg") || ""}`
       </section>
 
       {/* ═══ FOOTER ═══ */}
-      <footer className="py-10 px-5 sm:px-10 mt-auto border-t" style={{background:"var(--void)",borderColor:"rgba(200,80,255,0.04)"}}>
-        <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <footer className="py-10 mt-auto border-t" style={{background:"var(--void)",borderColor:"rgba(200,80,255,0.04)"}}>
+        <div className="section-container flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>&copy; 2026 Guerreiras do K-Pop</span>
           </div>

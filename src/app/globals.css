@@ -198,6 +198,24 @@ html { scroll-behavior: smooth; }
   opacity:0.15;
 }
 
+/* ═══ SECTION CONTAINER - padrão da indústria para conteúdo centrado com distância de segurança ═══
+   Usado por: Spotify, Apple, Netflix, Stripe, Airbnb
+   - max-width 1400px (limite máximo em ecrãs grandes)
+   - margin auto (centrado)
+   - padding lateral dinâmico: clamp(20px, 5vw, 80px)
+     * Mobile (375px): 20px de respiro
+     * Tablet (768px): 38px
+     * Desktop (1440px): 72px
+     * Ecrãs gigantes (1920px+): 80px (cap)
+   Garante que o conteúdo NUNCA toca as bordas do ecrã em qualquer tamanho. */
+.section-container {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(20px, 5vw, 80px);
+  padding-right: clamp(20px, 5vw, 80px);
+}
+
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ HONMOON DIVIDER - divisória visual com símbolo + brilho ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
