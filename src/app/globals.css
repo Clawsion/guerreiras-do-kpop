@@ -1814,7 +1814,7 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ HERO FLASH - transição premium "acender/apagar" ═══ */
+/* ═══ HERO FLASH - transição suave "acender/apagar" ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
 .hero-img-flash {
   position: absolute;
@@ -1824,43 +1824,43 @@ html { scroll-behavior: smooth; }
   opacity: 0;
   will-change: opacity, transform, filter;
 }
-/* Noite -> Dia: bloom branco/dourado que cresce do centro (acender a luz do dia) */
+/* Noite -> Dia: bloom branco/dourado suave (acender a luz do dia) */
 .hero-img-flash.to-light {
   background:
     radial-gradient(circle at 50% 45%,
-      rgba(255,250,235,0.98) 0%,
-      rgba(252,228,255,0.92) 25%,
-      rgba(220,180,240,0.65) 55%,
-      rgba(180,140,220,0.25) 80%,
+      rgba(255,250,235,0.85) 0%,
+      rgba(252,228,255,0.75) 30%,
+      rgba(220,180,240,0.45) 55%,
+      rgba(180,140,220,0.15) 80%,
       transparent 100%);
-  animation: heroFlashToLight 1.6s cubic-bezier(0.33, 0, 0.2, 1) forwards;
+  animation: heroFlashToLight 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-/* Dia -> Noite: vela roxa escura que se fecha a partir do centro (apagar a luz) */
+/* Dia -> Noite: vela roxa escura suave (apagar a luz) */
 .hero-img-flash.to-dark {
   background:
     radial-gradient(circle at 50% 45%,
-      rgba(11,8,19,0.98) 0%,
-      rgba(20,12,40,0.94) 25%,
-      rgba(35,18,60,0.7) 55%,
-      rgba(50,25,80,0.3) 80%,
+      rgba(11,8,19,0.92) 0%,
+      rgba(20,12,40,0.82) 30%,
+      rgba(35,18,60,0.55) 55%,
+      rgba(50,25,80,0.20) 80%,
       transparent 100%);
-  animation: heroFlashToDark 1.6s cubic-bezier(0.33, 0, 0.2, 1) forwards;
+  animation: heroFlashToDark 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 @keyframes heroFlashToLight {
-  0%   { opacity: 0; transform: scale(0.85); filter: blur(0px); }
-  25%  { opacity: 0.7; transform: scale(1.02); filter: blur(2px); }
-  45%  { opacity: 1; transform: scale(1.05); filter: blur(6px); }    /* pico: imagem escondida por bloom */
-  55%  { opacity: 1; transform: scale(1.05); filter: blur(6px); }    /* toggleTheme() acontece aqui */
-  75%  { opacity: 0.6; transform: scale(1.0); filter: blur(3px); }   /* revela nova imagem gradualmente */
-  100% { opacity: 0; transform: scale(0.98); filter: blur(0px); }    /* fim: nova imagem limpa */
+  0%   { opacity: 0; transform: scale(0.92); filter: blur(0px); }
+  20%  { opacity: 0.5; transform: scale(1.0); filter: blur(1px); }
+  45%  { opacity: 0.85; transform: scale(1.03); filter: blur(4px); }    /* pico suave: imagem parcialmente escondida */
+  55%  { opacity: 0.85; transform: scale(1.03); filter: blur(4px); }    /* toggleTheme() acontece aqui */
+  80%  { opacity: 0.4; transform: scale(1.0); filter: blur(2px); }      /* revela nova imagem gradualmente */
+  100% { opacity: 0; transform: scale(0.98); filter: blur(0px); }       /* fim: nova imagem limpa */
 }
 @keyframes heroFlashToDark {
-  0%   { opacity: 0; transform: scale(0.85); filter: blur(0px); }
-  25%  { opacity: 0.7; transform: scale(1.02); filter: blur(2px); }
-  45%  { opacity: 1; transform: scale(1.05); filter: blur(6px); }    /* pico: imagem escondida por vela escura */
-  55%  { opacity: 1; transform: scale(1.05); filter: blur(6px); }    /* toggleTheme() acontece aqui */
-  75%  { opacity: 0.6; transform: scale(1.0); filter: blur(3px); }   /* revela nova imagem gradualmente */
-  100% { opacity: 0; transform: scale(0.98); filter: blur(0px); }    /* fim: nova imagem limpa */
+  0%   { opacity: 0; transform: scale(0.92); filter: blur(0px); }
+  20%  { opacity: 0.5; transform: scale(1.0); filter: blur(1px); }
+  45%  { opacity: 0.85; transform: scale(1.03); filter: blur(4px); }    /* pico suave: imagem parcialmente escondida */
+  55%  { opacity: 0.85; transform: scale(1.03); filter: blur(4px); }    /* toggleTheme() acontece aqui */
+  80%  { opacity: 0.4; transform: scale(1.0); filter: blur(2px); }      /* revela nova imagem gradualmente */
+  100% { opacity: 0; transform: scale(0.98); filter: blur(0px); }       /* fim: nova imagem limpa */
 }
 /* Enquanto o flash está ativo, a imagem recebe um blur subtíl progressivo.
    Sem zoom para pausar (zoom desativado neste momento). */

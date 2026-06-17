@@ -504,18 +504,17 @@ export default function HomePage() {
     setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
   }, []);
 
-  // ═══ Efeito "acender/apagar" premium da imagem do hero ao trocar de tema ═══
-  // Dispara um bloom/vela radial que cresce do centro, troca a imagem no pico,
+  // ═══ Efeito "acender/apagar" suave da imagem do hero ao trocar de tema ═══
+  // Dispara um bloom/vela radial suave que cresce do centro, troca a imagem no pico,
   // e fade-out revelando a nova imagem. Sincronizado com o ripple effect do orb.
-  // Duração: 1.6s. Pico (toggleTheme) aos ~50% = 800ms.
-  // (Zoom está desativado neste momento — não há necessidade de reiniciar animação.)
+  // Duração: 2.2s. Pico (toggleTheme) aos ~50% = 1.1s.
   const triggerHeroFlash = useCallback((toMode: 'light' | 'dark') => {
     const flashClass = toMode === 'light' ? 'to-light' : 'to-dark';
     setHeroFlash(flashClass as 'to-light' | 'to-dark');
-    // Limpa o estado depois da animação terminar (~1.6s)
+    // Limpa o estado depois da animação terminar (~2.2s)
     window.setTimeout(() => {
       setHeroFlash('none');
-    }, 1600);
+    }, 2200);
   }, []);
 
   const navLinks = useMemo(() => [
