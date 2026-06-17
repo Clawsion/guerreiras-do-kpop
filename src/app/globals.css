@@ -7396,3 +7396,68 @@ img { max-width: 100%; height: auto; }
     /* box-shadow removido em mobile — muito caro em GPU */
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ SHOWCASE SECTION — Parallax próprio (entre Mural e Cartazes) ═══ */
+/* ═══════════════════════════════════════════════════════════════ */
+.showcase-section {
+  position: relative;
+  height: 70vh;
+  min-height: 450px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--void);
+}
+
+/* Camada parallax — imagem de fundo que move mais devagar que o scroll */
+.showcase-parallax {
+  position: absolute;
+  inset: -20% 0;
+  background-image: url('/hero-bg.webp');
+  background-size: cover;
+  background-position: center 20%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  filter: brightness(0.5) saturate(0.85);
+  z-index: 1;
+}
+
+/* Overlay para legibilidade do texto */
+.showcase-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, var(--void) 0%, transparent 25%, transparent 75%, var(--void) 100%),
+    linear-gradient(90deg, rgba(11,8,19,0.7) 0%, transparent 60%);
+  z-index: 2;
+}
+
+/* Conteúdo (texto) */
+.showcase-content {
+  position: relative;
+  z-index: 3;
+}
+
+/* Modo dia */
+.light-mode .showcase-parallax {
+  background-image: url('/hero-bg-light.webp');
+  filter: brightness(1) saturate(1.1);
+}
+.light-mode .showcase-overlay {
+  background:
+    linear-gradient(180deg, var(--void) 0%, transparent 25%, transparent 75%, var(--void) 100%),
+    linear-gradient(90deg, rgba(237,224,245,0.6) 0%, transparent 60%);
+}
+
+/* Mobile: scroll em vez de fixed (iOS compatibility) */
+@media (max-width: 767px) {
+  .showcase-section {
+    height: 50vh;
+    min-height: 300px;
+  }
+  .showcase-parallax {
+    background-attachment: scroll;
+    inset: 0;
+  }
+}

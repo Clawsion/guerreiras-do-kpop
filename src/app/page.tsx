@@ -1111,7 +1111,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      <HonmoonDivider/>
+      {/* ═══ PARALLAX SHOWCASE — secção própria para efeito parallax ═══ */}
+      <section id="showcase" className="showcase-section">
+        <div className="showcase-parallax" aria-hidden="true"></div>
+        <div className="showcase-overlay"></div>
+        <div className="showcase-content hero-aligned-container">
+          <Rv>
+            <p className="sec-num mb-4"><span style={{color:"var(--pink-light)"}}>+</span> GUERREIRAS EM AÇÃO</p>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
+              O Universo <span className="neon-shimmer">Ganha Vida</span>
+            </h2>
+            <p className="text-base sm:text-lg font-light tracking-wide max-w-xl" style={{color:"var(--t2)"}}>
+              Três idolas. Duas identidades. Uma noite inesquecível.
+            </p>
+          </Rv>
+        </div>
+      </section>
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
