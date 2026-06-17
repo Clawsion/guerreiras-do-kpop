@@ -922,9 +922,11 @@ export default function HomePage() {
                 </p>
               </Rv>
               <Rv delay={450}>
-                <p className="text-[16px] leading-[1.8] mb-6" style={{color:"#FFFFFF", fontWeight: 500, textShadow: "0 1px 8px rgba(11,8,19,0.7)"}}>
-                  Traga a fam&iacute;lia e os amigos e embarquem juntos numa viagem emocionante, guiada pela m&uacute;sica, pela magia do palco e por uma energia verdadeiramente envolvente.
-                </p>
+                <div className="esp-pitch">
+                  <p className="esp-pitch-text" style={{color:"#FFFFFF", fontWeight: 500, textShadow: "0 1px 8px rgba(11,8,19,0.7)"}}>
+                    Traga a fam&iacute;lia e os amigos e embarquem juntos numa viagem emocionante, guiada pela m&uacute;sica, pela magia do palco e por uma energia verdadeiramente envolvente.
+                  </p>
+                </div>
               </Rv>
               <Rv delay={500}>
                 <a href={TL} target="_blank" rel="noopener noreferrer" className="esp-cta">
