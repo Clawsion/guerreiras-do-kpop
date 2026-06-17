@@ -3416,45 +3416,81 @@ html { scroll-behavior: smooth; }
 
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ CARTAZES - Posters + Ticketline CTA ═══ */
-/* ═══════════════════════════════════════════════════════════════ */
+/* Estratégia profissional (inspirada em guerreirasdokpop.pt):
+   - Fundo SÓLIDO com gradiente subtil (não imagem)
+   - Shape dividers SVG (montanhas) no topo e fundo para transição suave
+   - Cartazes são os protagonistas visuais — sem filtro/overlay por cima */
 
 .cartazes-section {
   position: relative;
-  padding: 6rem 0 5rem;
-  background: var(--deep);
-  background-image: url('/cartazes-bg-night.webp');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  padding: 7rem 0 6rem;
+  /* Gradiente vertical subtil — roxo escuro premium (dark mode) */
+  background: linear-gradient(180deg,
+    #0a0612 0%,
+    #110a1f 30%,
+    #150d28 60%,
+    #0a0612 100%
+  );
   overflow: hidden;
+  isolation: isolate;
 }
-/* Overlay REMOVIDO — cartazes têm de se notar (sem filtro claro/escuro) */
-.cartazes-section::before {
-  content: none;
-  display: none;
+
+/* Shape divider — monta­nhas SVG (igual ao site de referência) */
+.cartazes-shape {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  pointer-events: none;
+  z-index: 1;
+  line-height: 0;
 }
-/* Modo dia: imagem clara sem overlay */
+.cartazes-shape-top {
+  top: -1px;
+  transform: scaleY(-1); /* inverter para "montanha a descer" no topo */
+}
+.cartazes-shape-bottom {
+  bottom: -1px;
+}
+.cartazes-shape svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* Cor das montanhas (dark mode) — roxo escuro que faz a ponte com a secção vizinha */
+.cartazes-shape-fill {
+  fill: #1a0d2e;
+  transition: fill 0.6s ease;
+}
+
+/* Modo dia: fundo branco lavanda premium com gradiente subtil */
 .light-mode .cartazes-section {
-  background-color: var(--void);
-  background-image: url('/cartazes-bg-day.webp') !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  background-attachment: fixed !important;
+  background: linear-gradient(180deg,
+    #f7effa 0%,
+    #faf5fc 30%,
+    #fdfbff 60%,
+    #f7effa 100%
+  ) !important;
 }
+/* Shape dividers em modo dia — lavanda mais escuro para contrastar com o branco */
+.light-mode .cartazes-shape-fill {
+  fill: #e8d8f2 !important;
+}
+
+/* Overlay REMOVIDO — cartazes têm de se notar */
+.cartazes-section::before,
 .light-mode .cartazes-section::before {
   content: none !important;
   display: none !important;
-  background: transparent !important;
 }
-/* Mobile: scroll */
+
+/* Mobile: shape dividers mais baixos para não roubar espaço */
 @media (max-width: 767px) {
   .cartazes-section {
-    background-attachment: scroll;
+    padding: 5.5rem 0 5rem;
   }
-  .light-mode .cartazes-section {
-    background-attachment: scroll;
+  .cartazes-shape {
+    height: 60px;
   }
 }
 
