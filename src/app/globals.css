@@ -3754,10 +3754,10 @@ html { scroll-behavior: smooth; }
 }
 
 .light-mode .cartaz-img {
-  filter: brightness(1.02) saturate(1.05);
+  filter: none;
 }
 .light-mode .cartaz-card:hover .cartaz-img {
-  filter: brightness(1.06) saturate(1.12);
+  filter: none;
 }
 
 /* Light: molduras mais definidas contra o fundo branco lavanda */
