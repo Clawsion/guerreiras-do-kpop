@@ -6972,12 +6972,13 @@ img { max-width: 100%; height: auto; }
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ HERO RESPONSIVO — SMARTPHONE & TABLET (edição 2026-06) ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
-/* NOTA: As novas imagens do hero (substituídas em 2026-06) são RETRATO:
-   - hero-bg.webp (noite) = 941×1672 (proporção 0.56:1)
-   - hero-bg-light.webp (dia) = 853×1844 (proporção 0.46:1)
-   Isto é ideal para mobile portrait — preenche o ecrã todo sem zoom excessivo. */
+/* NOTA: O hero agora usa <picture> para servir imagens diferentes:
+   - Smartphone (<768px): hero-bg-mobile*.webp (retrato, 941×1672 / 853×1844)
+   - Tablet+ (≥768px): hero-bg*.webp (paisagem original, 1419×752)
+   Em mobile usamos cover+center porque a imagem já é retrato (preenche o ecrã).
+   Em desktop mantemos o comportamento original (cover com center 40% em portrait). */
 
-/* ─── SMARTPHONE (<768px) — Hero 100% compatível ─── */
+/* ─── SMARTPHONE (<768px) — Hero com imagem retrato própria ─── */
 @media (max-width: 767px) {
   /* Altura total do viewport dinâmico — evita que a barra de URL do mobile
      esconda o CTA quando aparece/desaparece. */
@@ -6986,8 +6987,8 @@ img { max-width: 100%; height: auto; }
     min-height: 100svh !important;
   }
 
-  /* A nova imagem é RETRATO (941×1672) — em mobile portrait (9:16) a proporção
-     é quase perfeita. Usamos cover para preencher o ecrã todo. */
+  /* A imagem mobile é RETRATO (941×1672) — em mobile portrait (9:16) a proporção
+     é quase perfeita. Cover + center preenche o ecrã todo sem zoom excessivo. */
   .hero-bg-img {
     object-fit: cover !important;
     object-position: center center !important;
@@ -7022,30 +7023,16 @@ img { max-width: 100%; height: auto; }
     justify-content: space-between !important;
   }
 
-  /* ─── TICKETLINE PARA A ESQUERDA EM SMARTPHONE ───
-     Em desktop o Ticketline fica à direita com os outros (justify-end).
-     Em mobile, o utilizador quer o Ticketline à esquerda. Usamos
-     margin-right: auto para empurrar o Ticketline para a esquerda
-     e os restantes (theme toggle + hamburger) ficam à direita. */
+  /* ─── TICKETLINE PARA A ESQUERDA EM SMARTPHONE ─── */
   .hero-nav-ticket {
     margin-right: auto !important;
-    /* Padding mais compacto em mobile para não roubar espaço */
     padding: 8px 14px !important;
     gap: 6px !important;
   }
 
-  /* ─── HAMBURGER — igual ao desktop visualmente, com touch target 44px ───
-     O hamburger visual é o mesmo em todas as resoluções (28×20px com 3 spans).
-     Em mobile, aumentamos só a área de toque (44×44px) usando padding
-     transparente, sem mexer no visual dos spans.
-     Importante: NÃO mudar display/flex-direction porque isso quebra a animação
-     do X (que usa translateY(9.25px) com flex-direction:column). */
+  /* ─── HAMBURGER — igual ao desktop visualmente, com touch target 44px ─── */
   .hamburger {
-    /* box-sizing: content-box garante que o visual 28×20px se mantém
-       e o padding 12px adiciona-se À VOLTA (em vez de comer do visual). */
     box-sizing: content-box !important;
-    /* Visual dos 28×20px mantém-se (do CSS original), padding transparente
-       aumenta a área de toque para 52×44px sem mexer no visual. */
     padding: 12px !important;
     margin: -12px !important;
   }
@@ -7069,21 +7056,18 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* ─── TABLET (768–1023px) — Hero 100% compatível ─── */
+/* ─── TABLET (768–1023px) — Hero com imagem paisagem original ─── */
 @media (min-width: 768px) and (max-width: 1023px) {
   .hero-section {
     height: 100svh !important;
     min-height: 100svh !important;
   }
 
-  /* Tablet em PORTRAIT (768×1024, proporção 0.75:1): imagem retrato (0.56:1)
-     ainda é mais alta que o ecrã — cover com center funciona bem. */
-  /* Tablet em LANDSCAPE (1024×768, proporção 1.33:1): imagem retrato vai
-     cortar muito nos lados. Usamos cover com center top para mostrar o
-     topo da imagem (geralmente a parte mais importante). */
+  /* Tablet usa a imagem paisagem original (1419×752) — cover com center 40%
+     (igual ao comportamento original para viewports portrait/tall) */
   .hero-bg-img {
     object-fit: cover !important;
-    object-position: center center !important;
+    object-position: center 40% !important;
     width: 100% !important;
     height: 100% !important;
   }
@@ -7127,16 +7111,10 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* ─── DESKTOP (≥1024px) — ajustar para a nova imagem retrato ───
-   A imagem retrato (941×1672) em desktop (1440×900 por ex.) com
-   object-fit: cover ia cortar muito dos lados. Usamos cover com
-   object-position: center top para priorizar o topo da imagem. */
-@media (min-width: 1024px) {
-  .hero-bg-img {
-    object-fit: cover !important;
-    object-position: center top !important;
-  }
-}
+/* ─── DESKTOP (≥1024px) — comportamento original intocado ───
+   A imagem paisagem original (1419×752) usa o object-position definido
+   no CSS base (.hero-bg-img), que já tem a regra para portrait/tall viewports
+   (object-position: center 40% em @media max-aspect-ratio: 16/10). */
 
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ FLUIDEZ & PERFORMANCE — MOBILE & TABLET ═════════════════ */

@@ -640,14 +640,32 @@ export default function HomePage() {
 
       {/* ═══ HERO - FULL SCREEN ═══ */}
       <section className="hero-section" style={{background:"var(--void)"}}>
-        {/* Background image - full bleed (imagem clara em modo dia, escura em modo noite) */}
-        <img
-          src={themeMode === 'light' ? "/hero-bg-light.webp" : "/hero-bg.webp"}
-          alt=""
-          className={`hero-bg-img ${heroFlash !== 'none' ? 'flashing' : ''}`}
-          fetchPriority="high"
-          decoding="async"
-        />
+        {/* Background image - full bleed (imagem clara em modo dia, escura em modo noite)
+            Usa <picture> para servir imagens diferentes conforme o dispositivo:
+            - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — preenchem o ecrã todo
+            - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp) */}
+        <picture>
+          {/* Smartphone (<768px) — imagens retrato */}
+          <source
+            media="(max-width: 767px)"
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp" : "/hero-bg-mobile.webp"}
+            type="image/webp"
+          />
+          {/* Tablet+ (≥768px) — imagens paisagem originais */}
+          <source
+            media="(min-width: 768px)"
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp" : "/hero-bg.webp"}
+            type="image/webp"
+          />
+          {/* Fallback para browsers sem suporte <picture> */}
+          <img
+            src={themeMode === 'light' ? "/hero-bg-light.webp" : "/hero-bg.webp"}
+            alt=""
+            className={`hero-bg-img ${heroFlash !== 'none' ? 'flashing' : ''}`}
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
         {/* Flash layer - efeito 'acender/apagar' sincronizado com a troca de tema */}
         {heroFlash !== 'none' && (
           <div className={`hero-img-flash ${heroFlash}`} aria-hidden="true"/>
