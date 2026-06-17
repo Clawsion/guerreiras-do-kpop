@@ -2509,6 +2509,21 @@ html { scroll-behavior: smooth; }
   border-radius: 0 4px 4px 0;
   overflow: hidden;
 }
+/* Versão compacta: menor, mais transparente */
+.esp-pitch-compact {
+  padding: 1.2rem 1.4rem 1.2rem 1.6rem;
+  margin: 0 0 1.4rem;
+  max-width: 540px;
+  background: linear-gradient(135deg, rgba(255,45,120,0.03) 0%, rgba(200,80,255,0.02) 100%);
+  border-left-width: 2px;
+}
+.esp-pitch-text-compact {
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  font-style: normal;
+}
 .esp-pitch::before {
   content: "";
   position: absolute;
