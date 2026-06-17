@@ -322,23 +322,7 @@ html { scroll-behavior: smooth; }
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ GLOBAL WATERMARK - marca de água FIXA no ecrã (não faz scroll) ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
-.section-watermark {
-  position: fixed;
-  inset: 0;
-  background-image: url('/watermark.png');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 80vw; /* Full size: ocupa 80% da largura do ecrã */
-  opacity: 0.12;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  z-index: 1; /* Fica atrás do conteúdo (z-10) mas à frente do fundo */
-}
 /* Modo dia: opacity + multiply */
-.light-mode .section-watermark {
-  opacity: 0.10;
-  mix-blend-mode: multiply;
-}
 
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ MEMORIES SECTION - Slideshow cénico (sem legendas) ═══ */
@@ -7416,82 +7400,15 @@ img { max-width: 100%; height: auto; }
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ MARCA DE ÁGUA - dentro de secções específicas ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
-.section-watermark-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  overflow: hidden;
-}
 
 /* Padrão de logos Honmoon repetidos (tile) */
-.section-watermark-bg::before {
-  content: "";
-  position: absolute;
-  inset: -5%;
-  background-image: url('/logo-honmoon.svg');
-  background-repeat: repeat;
-  background-size: 220px 220px;
-  opacity: 0.06;
-  mix-blend-mode: screen;
-  animation: watermark-drift 60s linear infinite;
-}
 
 /* Logo grande centralizado */
-.section-watermark-bg::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40vw;
-  max-width: 500px;
-  height: 40vh;
-  background-image: url('/logo-honmoon.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  opacity: 0.08;
-  mix-blend-mode: screen;
-}
 
-@keyframes watermark-drift {
-  0%   { transform: translate(0, 0); }
-  50%  { transform: translate(-15px, -10px); }
-  100% { transform: translate(0, 0); }
-}
 
 /* Modo dia: multiply para escurecer subtílmente sobre lavanda */
-.light-mode .section-watermark-bg::before {
-  opacity: 0.07;
-  mix-blend-mode: multiply;
-}
-.light-mode .section-watermark-bg::after {
-  opacity: 0.10;
-  mix-blend-mode: multiply;
-}
 
 /* Honmoon Divider: marca de água mais compacta */
-.honmoon-divider .section-watermark-bg {
-  position: absolute;
-  inset: 0;
-}
-.honmoon-divider .section-watermark-bg::before {
-  background-size: 120px 120px;
-  opacity: 0.04;
-}
-.honmoon-divider .section-watermark-bg::after {
-  display: none;
-}
 
 /* Mobile: manter mas reduzir intensidade */
 @media (max-width: 767px) {
-  .section-watermark-bg::before {
-    background-size: 150px 150px;
-    opacity: 0.04;
-  }
-  .section-watermark-bg::after {
-    width: 70vw;
-    opacity: 0.05;
-  }
-}
