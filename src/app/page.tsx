@@ -1414,8 +1414,8 @@ export default function HomePage() {
                 <div className="cartaz-info">
                   <p className="cartaz-city" style={{color:"var(--pink-kpop)"}}>Cascais &middot; Estoril</p>
                   <p className="cartaz-date">08 AGO 2026 &middot; 18:30h</p>
-                  <p className="cartaz-status cartaz-status-soon">
-                    <span className="cartaz-status-dot cartaz-status-dot-soon"/> Bilhetes &agrave; venda a partir de 20 de Junho
+                  <p className="cartaz-status cartaz-status-live">
+                    <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
                   </p>
                   <p className="cartaz-venue">Academia das Artes do Estoril</p>
                   <a href={TICKETLINE_URL} target="_blank" rel="noopener noreferrer" className="cartaz-buy-btn cursor-pointer">
