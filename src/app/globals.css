@@ -7681,10 +7681,20 @@ img { max-width: 100%; height: auto; }
   z-index: 2;
 }
 
+/* Secção parallax individual (uma só, usada nos 2 wrappers: antes e depois do Mural) */
+.parallax-solo-section {
+  position: relative;
+  height: 60vh;
+  min-height: 420px;
+  background: transparent;
+  z-index: 2;
+}
+
 /* Mobile: alturas mais pequenas + mesma imagem mobile */
 @media (max-width: 767px) {
   .showcase-section,
-  .parallax-mural-section {
+  .parallax-mural-section,
+  .parallax-solo-section {
     height: 50vh;
     min-height: 320px;
   }

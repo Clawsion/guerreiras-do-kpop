@@ -510,9 +510,11 @@ export default function HomePage() {
     const [privacyOpen, setPrivacyOpen] = useState(false);
   const orbRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<HTMLElement[] | null>(null);
-  // ═══ PARALLAX CONTÍNUO — ref do wrapper + state do offset Y ═══
-  const parallaxWrapperRef = useRef<HTMLDivElement>(null);
+  // ═══ PARALLAX CONTÍNUO — refs dos 2 wrappers + states dos offsets Y ═══
+  const parallaxWrapperRef = useRef<HTMLDivElement>(null);   // depois do Mural
+  const parallaxBeforeRef = useRef<HTMLDivElement>(null);    // antes do Mural
   const [parallaxY, setParallaxY] = useState(0);
+  const [parallaxBeforeY, setParallaxBeforeY] = useState(0);
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 1200);
@@ -535,11 +537,11 @@ export default function HomePage() {
   }, []);
 
   // ═══ PARALLAX CONTÍNUO — scroll listener com requestAnimationFrame ═══
-  // Move a imagem de fundo a 25% da velocidade do scroll (lento).
-  // Isto cria uma imagem contínua entre as 2 secções (showcase + parallax-mural):
-  // - Quando o scroll está no topo do wrapper, a imagem está na posição 0
-  // - Quando o scroll chega ao fundo do wrapper, a imagem moveu-se -X px (lento)
-  // - Resultado: a imagem "desliza" devagar, parecendo uma só imagem contínua
+  // Move a imagem de fundo a 30% da velocidade do scroll (lento) em CADA wrapper.
+  // Há 2 wrappers:
+  //   1. parallaxBeforeRef — antes do Mural (entre HonmoonDivider e Mural)
+  //   2. parallaxWrapperRef — depois do Mural (entre Mural e Cartazes)
+  // Cada wrapper tem a sua própria imagem de fundo que se move independentemente.
   useEffect(() => {
     if (typeof window === 'undefined') return;
     // Respeita prefers-reduced-motion
@@ -548,23 +550,22 @@ export default function HomePage() {
     let rafId: number | null = null;
     let ticking = false;
 
-    const update = () => {
-      ticking = false;
-      const el = parallaxWrapperRef.current;
-      if (!el) return;
+    const computeOffset = (el: HTMLDivElement | null): number => {
+      if (!el) return 0;
       const rect = el.getBoundingClientRect();
       const viewportH = window.innerHeight;
       const wrapperH = rect.height;
-      // Distância total que o wrapper percorre na viewport (entra + sai)
       const totalScroll = viewportH + wrapperH;
-      // Posição actual: 0 quando o wrapper está a entrar (topo no fundo da viewport)
-      //                 1 quando o wrapper está a sair (fundo no topo da viewport)
       const progress = Math.max(0, Math.min(1, (viewportH - rect.top) / totalScroll));
-      // Mover a imagem a 30% da velocidade (parallax lento)
-      // A imagem tem altura extra (130% do wrapper) para permitir o movimento
       const extraH = wrapperH * 0.3; // 30% de espaço extra para mover
-      const offset = -progress * extraH;
-      setParallaxY(offset);
+      return -progress * extraH;
+    };
+
+    const update = () => {
+      ticking = false;
+      // Actualiza ambos os wrappers
+      setParallaxBeforeY(computeOffset(parallaxBeforeRef.current));
+      setParallaxY(computeOffset(parallaxWrapperRef.current));
     };
 
     const onScroll = () => {
@@ -1201,6 +1202,17 @@ export default function HomePage() {
 
       <HonmoonDivider/>
 
+      {/* ═══ PARALLAX 1 — ANTES do Mural (60vh com parallax contínuo) ═══ */}
+      <div ref={parallaxBeforeRef} className="parallax-wrapper parallax-before-mural">
+        <div
+          className="parallax-bg"
+          style={{ transform: `translate3d(0, ${parallaxBeforeY}px, 0)` }}
+          aria-hidden="true"
+        />
+        <div className="parallax-overlay" aria-hidden="true"/>
+        <section className="parallax-solo-section" aria-hidden="true"></section>
+      </div>
+
       {/* ═══ GALERIA - Momentos ao Vivo com Legenda + Lightbox ═══ */}
       <section id="galeria" className="galeria-section">
         <div className="hero-aligned-container">
@@ -1248,12 +1260,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ PARALLAX SHOWCASE + PARALLAX MURAL — 2 secções com UMA imagem contínua ═══ */}
-      {/* As 2 secções partilham a mesma imagem de fundo que se move DEVAGAR com o scroll.
-          Usa transform-based parallax (em vez de background-attachment: fixed) para
-          ter controlo total da velocidade e criar uma imagem contínua entre as 2 secções. */}
-      <div ref={parallaxWrapperRef} className="parallax-wrapper">
-        {/* Camada de fundo que cobre as 2 secções (120vh total) e move-se devagar */}
+      {/* ═══ PARALLAX 2 — DEPOIS do Mural (60vh com parallax contínuo, imagem igual à de antes) ═══ */}
+      <div ref={parallaxWrapperRef} className="parallax-wrapper parallax-after-mural">
+        {/* Camada de fundo que se move devagar com o scroll */}
         <div
           className="parallax-bg"
           style={{ transform: `translate3d(0, ${parallaxY}px, 0)` }}
@@ -1261,14 +1270,9 @@ export default function HomePage() {
         />
         {/* Overlay gradual para integrar com a secção anterior e a próxima */}
         <div className="parallax-overlay" aria-hidden="true"/>
-
-        {/* SECÇÃO 1: SHOWCASE (parte de cima da imagem) */}
         <section id="showcase" className="showcase-section">
           <div className="showcase-overlay" aria-hidden="true"></div>
         </section>
-
-        {/* SECÇÃO 2: PARALLAX MURAL (parte de baixo da imagem, continua) */}
-        <section className="parallax-mural-section" aria-hidden="true"></section>
       </div>
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
