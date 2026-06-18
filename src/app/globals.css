@@ -1836,13 +1836,10 @@ html { scroll-behavior: smooth; }
        mas o ecrã é 19.5:9), esse espaço aparece como "traço branco".
        A solução é meter o fundo do hero com a MESMA cor das bordas da
        imagem, assim o espaço fica invisível (camuflado).
-       
-       Modo noite: bordas da imagem ~#0B0429 (azul-roxo muito escuro).
-       O var(--void) = #0B0813 é parecido mas não igual, daí o traço.
-       
-       Modo dia: bordas da imagem ~#98A1CB (azul-acinzentado claro).
-       O var(--void) em light-mode = #EDE0F5 (lavanda) é diferente. */
-    background: #0B0429 !important;
+
+       Modo noite: bordas da imagem ~#171155 (azul-roxo escuro).
+       Modo dia: bordas da imagem ~#98A1CB (azul-acinzentado claro). */
+    background: #171155 !important;
   }
   /* Modo dia (.light-mode) — fundo do hero com a cor das bordas da imagem de dia */
   .light-mode .hero-section {
