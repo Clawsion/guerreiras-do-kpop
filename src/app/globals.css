@@ -7587,12 +7587,15 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Camada de fundo — default (parallax 1, modo noite) */
+/* background-size: 100% auto = usa a largura total do viewport sem crop lateral.
+   Menos zoom que 'cover' — mostra mais da imagem verticalmente.
+   Ambos os parallax usam o MESMO tamanho para zoom consistente. */
 .parallax-bg {
   position: absolute;
   inset: 0;
-  background-image: url('/parallax-1-night.webp?v=1');
-  background-size: cover;
-  background-position: center;
+  background-image: url('/parallax-1-night.webp?v=2');
+  background-size: 100% auto;
+  background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   z-index: 0;
@@ -7600,18 +7603,18 @@ img { max-width: 100%; height: auto; }
 
 /* Parallax 1 (ANTES do Mural) — imagem 1 */
 .parallax-before-mural .parallax-bg {
-  background-image: url('/parallax-1-night.webp?v=1');
+  background-image: url('/parallax-1-night.webp?v=2');
 }
 .light-mode .parallax-before-mural .parallax-bg {
-  background-image: url('/parallax-1-day.webp?v=1');
+  background-image: url('/parallax-1-day.webp?v=2');
 }
 
 /* Parallax 2 (DEPOIS do Mural) — imagem 2 (diferente) */
 .parallax-after-mural .parallax-bg {
-  background-image: url('/parallax-2-night.webp?v=1');
+  background-image: url('/parallax-2-night.webp?v=2');
 }
 .light-mode .parallax-after-mural .parallax-bg {
-  background-image: url('/parallax-2-day.webp?v=1');
+  background-image: url('/parallax-2-day.webp?v=2');
 }
 
 /* Overlay gradual (vinheta escura para legibilidade) */
@@ -7688,19 +7691,21 @@ img { max-width: 100%; height: auto; }
   }
   .parallax-bg {
     background-attachment: scroll;
+    /* Mobile: cover para preencher ecrã todo (retrato 800x1400) */
+    background-size: cover;
   }
   .parallax-before-mural .parallax-bg {
-    background-image: url('/parallax-1-night-mobile.webp?v=1');
+    background-image: url('/parallax-1-night-mobile.webp?v=2');
     background-position: center top;
   }
   .light-mode .parallax-before-mural .parallax-bg {
-    background-image: url('/parallax-1-day-mobile.webp?v=1');
+    background-image: url('/parallax-1-day-mobile.webp?v=2');
   }
   .parallax-after-mural .parallax-bg {
-    background-image: url('/parallax-2-night-mobile.webp?v=1');
+    background-image: url('/parallax-2-night-mobile.webp?v=2');
     background-position: center top;
   }
   .light-mode .parallax-after-mural .parallax-bg {
-    background-image: url('/parallax-2-day-mobile.webp?v=1');
+    background-image: url('/parallax-2-day-mobile.webp?v=2');
   }
 }
