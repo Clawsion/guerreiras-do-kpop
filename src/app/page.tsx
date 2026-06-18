@@ -13,8 +13,11 @@ import { Input } from "@/components/ui/input";
 /* ═══ DATA ══════════════════════════════ */
 /* ════════════════════════════════════════ */
 
-// Ticketline — link oficial do evento (ativo em todos os botões)
-const TICKETLINE_URL = "https://www.ticketline.pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105657";
+// Ticketline — links oficiais por cidade (ativo em todos os botões)
+const TICKETLINE_URL = "https://www.ticketline.pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105657"; // Cascais (default)
+const TICKETLINE_URL_CASCAIS  = "https://www.ticketline.pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105657";
+const TICKETLINE_URL_CAPARICA = "https://www.ticketline.pt/pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105855";
+const TICKETLINE_URL_SESIMBRA = "https://www.ticketline.pt/pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105856";
 const EVENT = new Date("2026-08-08T18:30:00");
 
 /* ── Device detection for adaptive performance ── */
@@ -1418,7 +1421,7 @@ export default function HomePage() {
                     <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
                   </p>
                   <p className="cartaz-venue">Academia das Artes do Estoril</p>
-                  <a href={TICKETLINE_URL} target="_blank" rel="noopener noreferrer" className="cartaz-buy-btn cursor-pointer">
+                  <a href={TICKETLINE_URL_CASCAIS} target="_blank" rel="noopener noreferrer" className="cartaz-buy-btn cursor-pointer">
                     <Ticket className="w-4 h-4"/> Ticketline
                   </a>
                 </div>
@@ -1431,15 +1434,18 @@ export default function HomePage() {
                   <div className="cartaz-img-wrap">
                     <img src="/poster-caparica.webp" alt="Cartaz Costa da Caparica - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
                     <div className="cartaz-overlay"/>
-                    <div className="cartaz-tag cartaz-tag-soon">Em breve</div>
+                    <div className="cartaz-tag">Costa da Caparica</div>
                   </div>
                   <div className="cartaz-info">
                     <p className="cartaz-city" style={{color:"var(--gold)"}}>Costa da Caparica</p>
                     <p className="cartaz-date">09 AGO 2026 &middot; 18:00h</p>
-                    <p className="cartaz-status cartaz-status-soon">
-                      <span className="cartaz-status-dot cartaz-status-dot-soon"/> Bilhetes &agrave; venda a partir de 20 de Junho
+                    <p className="cartaz-status cartaz-status-live">
+                      <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
                     </p>
                     <p className="cartaz-venue">Pavilhão Municipal da Costa da Caparica</p>
+                    <a href={TICKETLINE_URL_CAPARICA} target="_blank" rel="noopener noreferrer" className="cartaz-buy-btn cursor-pointer">
+                      <Ticket className="w-4 h-4"/> Ticketline
+                    </a>
                   </div>
                 </article>
               </Rv>
@@ -1450,15 +1456,18 @@ export default function HomePage() {
                 <div className="cartaz-img-wrap">
                   <img src="/poster-sesimbra.webp" alt="Cartaz Sesimbra - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
                   <div className="cartaz-overlay"/>
-                  <div className="cartaz-tag cartaz-tag-soon">Em breve</div>
+                  <div className="cartaz-tag">Sesimbra</div>
                 </div>
                 <div className="cartaz-info">
                   <p className="cartaz-city" style={{color:"var(--blue-accent)"}}>Sesimbra</p>
                   <p className="cartaz-date">15 AGO 2026 &middot; 18:30h</p>
-                  <p className="cartaz-status cartaz-status-soon">
-                    <span className="cartaz-status-dot cartaz-status-dot-soon"/> Bilhetes &agrave; venda a partir de 20 de Junho
+                  <p className="cartaz-status cartaz-status-live">
+                    <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
                   </p>
                   <p className="cartaz-venue">Pavilh&atilde;o Desportivo de Sesimbra</p>
+                  <a href={TICKETLINE_URL_SESIMBRA} target="_blank" rel="noopener noreferrer" className="cartaz-buy-btn cursor-pointer">
+                    <Ticket className="w-4 h-4"/> Ticketline
+                  </a>
                 </div>
               </article>
             </Rv>
