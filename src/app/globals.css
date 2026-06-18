@@ -621,19 +621,26 @@ html { scroll-behavior: smooth; }
 /* Mobile: secção mais pequena, pilares mais estreitos */
 @media (max-width: 767px) {
   .memories-section {
-    height: 60vh;
-    min-height: 400px;
+    /* Altura ajustada para ser mais proporcional (parecido com desktop).
+       Antes: 60vh (muito grande). Agora: 45vh (mais próximo do desktop). */
+    height: 45vh !important;
+    min-height: 320px !important;
   }
   .memories-pillar { width: 18vw; }
   .memories-curtain-top { height: 12vh; }
   .memories-curtain-bottom { height: 14vh; }
   .memories-dots { bottom: 3vh; }
-  /* ═══ MENOS ZOOM no slideshow em smartphone ═══
-     Mudar de cover (preenche ecrã, corta) para contain (foto completa, sem cortes).
-     Isto reduz o zoom e mostra a foto inteira. */
+  /* ═══ SLIDESHOW em smartphone — cover com center (sem barras pretas) ═══
+     Voltar a cover para preencher o ecrã (sem barras pretas do contain).
+     Manter center center para mostrar a parte central da foto. */
   .memories-slide {
-    background-size: contain !important;
+    background-size: cover !important;
     background-position: center center !important;
+  }
+  /* ═══ REDUZIR O REFLEXO (memories-glow) em smartphone ═══
+     O brilho roxo/rosa estava muito forte em mobile. Reduzir para metade. */
+  .memories-glow {
+    opacity: 0.5 !important;
   }
 }
 
