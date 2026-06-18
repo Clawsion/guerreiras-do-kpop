@@ -7440,12 +7440,11 @@ img { max-width: 100%; height: auto; }
     font-size: 11px !important;
   }
 
-  /* Nav panel — padding superior MÍNIMO para os ícones ficarem mesmo em cima.
-     Respeita apenas o notch/status bar (env(safe-area-inset-top)).
-     Antes: padding-top: max(env(safe-area-inset-top, 0px), 8px) — deixava 8px mínimo.
-     Agora: padding-top: env(safe-area-inset-top, 0px) — só o necessário do notch. */
+  /* Nav panel — padding superior para os ícones ficarem ligeiramente abaixo do topo.
+     Respeita o notch/status bar (env(safe-area-inset-top)) e adiciona 12px extra
+     para os ícones não ficarem colados ao limite do ecrã. */
   .hero-nav-panel {
-    padding-top: env(safe-area-inset-top, 0px) !important;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 12px) !important;
     /* Em mobile, mudar de justify-end para space-between para que o Ticketline
        vá para a esquerda e o theme toggle + hamburger fiquem à direita. */
     justify-content: space-between !important;
