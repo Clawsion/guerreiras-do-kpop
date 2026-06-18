@@ -7587,7 +7587,7 @@ img { max-width: 100%; height: auto; }
   min-height: 420px;
   overflow: hidden;
   background: var(--void);
-  background-image: url('/showcase-night.webp?v=3');
+  background-image: url('/showcase-night.webp?v=4');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -7615,7 +7615,7 @@ img { max-width: 100%; height: auto; }
 
 /* Modo dia — overlay lavanda mais saturado para reduzir brilho branco */
 .light-mode .showcase-section {
-  background-image: url('/showcase-day.webp?v=3');
+  background-image: url('/showcase-day.webp?v=4');
 }
 .light-mode .showcase-overlay {
   background:
@@ -7638,10 +7638,10 @@ img { max-width: 100%; height: auto; }
     height: 50vh;
     min-height: 320px;
     background-attachment: scroll;
-    background-image: url('/showcase-night-mobile.webp?v=3');
+    background-image: url('/showcase-night-mobile.webp?v=4');
   }
   .light-mode .showcase-section {
-    background-image: url('/showcase-day-mobile.webp?v=3');
+    background-image: url('/showcase-day-mobile.webp?v=4');
   }
 }
 
@@ -7663,7 +7663,7 @@ img { max-width: 100%; height: auto; }
   position: absolute;
   inset: 0;
   /* MESMA imagem e MESMA posição que o showcase — efeito de continuidade */
-  background-image: url('/showcase-night.webp?v=3');
+  background-image: url('/showcase-night.webp?v=4');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -7685,7 +7685,7 @@ img { max-width: 100%; height: auto; }
 
 /* Modo dia — MESMA imagem do showcase modo dia */
 .light-mode .parallax-mural-bg {
-  background-image: url('/showcase-day.webp?v=3');
+  background-image: url('/showcase-day.webp?v=4');
 }
 
 /* Mobile: scroll + mesma imagem mobile do showcase */
@@ -7698,9 +7698,9 @@ img { max-width: 100%; height: auto; }
     background-attachment: scroll;
     background-size: cover;
     background-position: center top;
-    background-image: url('/showcase-night-mobile.webp?v=3');
+    background-image: url('/showcase-night-mobile.webp?v=4');
   }
   .light-mode .parallax-mural-bg {
-    background-image: url('/showcase-day-mobile.webp?v=3');
+    background-image: url('/showcase-day-mobile.webp?v=4');
   }
 }
