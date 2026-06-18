@@ -1874,12 +1874,12 @@ html { scroll-behavior: smooth; }
     height: 100% !important;
   }
   /* ═══ ZOOM SUBTIL DIFERENCIADO POR MODO ═══
-     Modo noite: scale(1.04) — um pouquito quase nada de zoom
+     Modo noite: scale(1.05) — um pouquito quase nada de zoom
      Modo dia:   scale(1.08) — um pouquinho mais que o noite
      Ambos mantêm object-fit: contain (sem cortes). */
   :not(.light-mode) .hero-bg-img {
     object-position: center center !important;
-    transform: scale(1.04) !important;
+    transform: scale(1.05) !important;
     transform-origin: center center !important;
   }
   .light-mode .hero-bg-img {
@@ -7551,11 +7551,11 @@ img { max-width: 100%; height: auto; }
     height: 100% !important;
   }
   /* ═══ ZOOM SUBTIL DIFERENCIADO POR MODO (segunda regra mobile) ═══
-     Modo noite: scale(1.04) — um pouquito quase nada
+     Modo noite: scale(1.05) — um pouquito quase nada
      Modo dia:   scale(1.08) — um pouquinho mais */
   :not(.light-mode) .hero-bg-img {
     object-position: center center !important;
-    transform: scale(1.04) !important;
+    transform: scale(1.05) !important;
     transform-origin: center center !important;
   }
   .light-mode .hero-bg-img {
