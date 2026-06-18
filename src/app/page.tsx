@@ -852,18 +852,13 @@ export default function HomePage() {
       const cy = clickY ?? 50;
 
       if (isMobileViewport) {
-        // Mobile: flash expande/suga do ponto de clique (sem ripple)
-        triggerHeroFlash(toMode, cx, cy);
-        // to-light: toggle aos 110ms (50% de 220ms — novo flash mobile é ultra rápido)
-        // to-dark: toggle aos 30ms (quase imediato)
-        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, toMode === 'light' ? 110 : 30));
-        // Cleanup mais cedo em mobile (200ms em vez de 350ms) — quanto antes
-        // o isTransitioningRef passar a false, menos camadas extras o browser tem
-        // de compor, e o scroll volta a ser fluído imediatamente.
-        transitionRef.current.push(setTimeout(() => {
-          setRipple(null);
-          isTransitioningRef.current = false;
-        }, 200));
+        // ═══ MOBILE: troca de tema INSTANTÂNEA (sem flash) ═══
+        // O flash anterior criava 2 divs position:fixed (hero-img-flash +
+        // hero-orb-burst) que sobrecarregavam a GPU e causavam lag.
+        // Agora a troca é instantânea — o themeMode muda imediatamente
+        // e o browser só precisa de recalcular CSS (sem animações pesadas).
+        toggleTheme();
+        isTransitioningRef.current = false;
       } else {
         // Desktop via botão do topo: ripple do Honmoon + toggle
         triggerHeroFlash(toMode, cx, cy);
@@ -1030,23 +1025,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=46 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=47 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=46" : "/hero-bg-mobile.webp?v=46"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=47" : "/hero-bg-mobile.webp?v=47"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=46" : "/hero-bg.webp?v=46"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=47" : "/hero-bg.webp?v=47"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=46" : "/hero-bg.webp?v=46"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=47" : "/hero-bg.webp?v=47"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
@@ -1189,6 +1184,19 @@ export default function HomePage() {
 
       {/* ═══ HONMOON SHIELD - Theme Toggle (like the anime) ═══ */}
       <section className="honmoon-shield-section">
+        {/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
+            Versão adaptativa:
+            - Desktop: nebulosa/nuvens completa com partículas
+            - Mobile: versão simplificada (1 gradiente, menos partículas) */}
+        <div className={`hm-atmosphere ${themeMode}`}>
+          <div className="hm-atmosphere-layer hm-atmosphere-1"/>
+          <div className="hm-atmosphere-layer hm-atmosphere-2"/>
+          {/* Partículas de energia — 8 em desktop, 4 em mobile (via CSS) */}
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className={`hm-sparkle hm-sparkle-${i} ${themeMode}`}/>
+          ))}
+        </div>
+
         {/* Marca de água */}
         {/* Background glow */}
         <div className={`hm-bg-glow ${themeMode}`}/>
