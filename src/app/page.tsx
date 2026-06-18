@@ -1026,23 +1026,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=44 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=45 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=44" : "/hero-bg-mobile.webp?v=44"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=45" : "/hero-bg-mobile.webp?v=45"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=44" : "/hero-bg.webp?v=44"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=45" : "/hero-bg.webp?v=45"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=44" : "/hero-bg.webp?v=44"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=45" : "/hero-bg.webp?v=45"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
@@ -1305,13 +1305,13 @@ export default function HomePage() {
                 </p>
               </Rv>
               <Rv delay={350}>
-                <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)", maxWidth: "760px"}}>
-                  <span style={{color:"var(--neon-purple)"}}>Coreografias</span> envolventes, momentos teatrais e efeitos visuais impactantes transformam o palco num universo de emo&ccedil;&otilde;es. A ilumina&ccedil;&atilde;o din&acirc;mica amplifica a experi&ecirc;ncia, transportando o p&uacute;blico para as cenas mais ic&oacute;nicas atrav&eacute;s de imagens memor&aacute;veis e envolventes.
+                <p className="text-xl sm:text-2xl font-light tracking-wide mb-8 max-w-xl" style={{color:"var(--t1)"}}>
+                  &iexcl;Um Espet&aacute;culo Musical Imperd&iacute;vel!
                 </p>
               </Rv>
               <Rv delay={400}>
-                <p className="text-xl sm:text-2xl font-light tracking-wide mb-8 max-w-xl" style={{color:"var(--t1)"}}>
-                  &iexcl;Um Espet&aacute;culo Musical Imperd&iacute;vel!
+                <p className="text-[16px] leading-[1.8] mb-6" style={{color:"var(--t2)", maxWidth: "760px"}}>
+                  <span style={{color:"var(--neon-purple)"}}>Coreografias</span> envolventes, momentos teatrais e efeitos visuais impactantes transformam o palco num universo de emo&ccedil;&otilde;es. A ilumina&ccedil;&atilde;o din&acirc;mica amplifica a experi&ecirc;ncia, transportando o p&uacute;blico para as cenas mais ic&oacute;nicas atrav&eacute;s de imagens memor&aacute;veis e envolventes.
                 </p>
               </Rv>
               <Rv delay={450}>
