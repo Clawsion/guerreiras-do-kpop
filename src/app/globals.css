@@ -3957,31 +3957,31 @@ html { scroll-behavior: smooth; }
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: transform 0.7s cubic-bezier(0.16,1,0.3,1),
-              filter 0.7s ease;
-  filter: saturate(0.9) brightness(0.9);
+  transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  /* SEM filter — fotos aparecem com as cores originais, sem escurecimento
+     nem alteração de saturação. Antes: saturate(0.9) brightness(0.9). */
+  filter: none;
 }
 
 .galeria-card:hover .galeria-img {
   transform: scale(1.08);
-  filter: saturate(1.1) brightness(0.9);
+  /* SEM filter no hover — só o zoom, sem alterar brilho/saturação. */
+  filter: none;
 }
 
 .galeria-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(11,8,19,0.9) 0%,
-    rgba(11,8,19,0.3) 40%,
-    transparent 70%
-  );
+  /* Overlay DESATIVADO — antes tinha um gradient escuro (rgba(11,8,19,0.9) no fundo)
+     que escurecia a parte de baixo das fotos. Agora as fotos ficam limpas.
+     Mantemos a div para não quebrar a estrutura, mas transparente. */
+  background: transparent;
   pointer-events: none;
   transition: opacity 0.5s ease;
 }
 
 .galeria-card:hover .galeria-overlay {
-  opacity: 0.6;
+  opacity: 0;
 }
 
 .galeria-zoom-icon {
@@ -4798,12 +4798,10 @@ html { scroll-behavior: smooth; }
   border-color: rgba(200,80,255,0.4);
 }
 .light-mode .galeria-overlay {
-  background: linear-gradient(
-    to top,
-    rgba(30,16,64,0.88) 0%,
-    rgba(60,35,110,0.45) 40%,
-    transparent 70%
-  );
+  /* Overlay DESATIVADO em modo dia também — antes tinha um gradient
+     roxo escuro (rgba(30,16,64,0.88) no fundo). Agora transparente
+     para as fotos aparecerem com as cores originais. */
+  background: transparent;
 }
 .light-mode .galeria-caption {
   border-top-color: rgba(147,51,234,0.2);
@@ -4813,16 +4811,17 @@ html { scroll-behavior: smooth; }
   border-color: rgba(147,51,234,0.3);
 }
 
-/* Fotos vibrantes no modo dia - sem escurecimento, como galeria de museu */
+/* Fotos com cores originais no modo dia — sem clareamento/saturação.
+   Antes: saturate(1.05) brightness(1.02). Agora: filter: none. */
 .light-mode .galeria-img {
-  filter: saturate(1.05) brightness(1.02);
+  filter: none;
 }
 .light-mode .galeria-card:hover .galeria-img {
-  filter: saturate(1.15) brightness(1.08);
+  filter: none;
 }
-/* Overlay mais leve no modo dia - só para a caption, não escurece a foto */
+/* Overlay invisível no hover em modo dia (já transparente por defeito) */
 .light-mode .galeria-card:hover .galeria-overlay {
-  opacity: 0.85;
+  opacity: 0;
 }
 
 /* ═══ Tributo Ao Vivo - lavanda puro (estado anterior, sem rosado) ═══ */
