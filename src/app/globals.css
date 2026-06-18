@@ -1832,6 +1832,19 @@ html { scroll-behavior: smooth; }
        é scrollável (e bloquear o scroll da página em iOS Safari). */
     overflow: clip !important;
   }
+  /* ═══ IMAGEM DO HERO EM MOBILE — mostrar a foto COMPLETA sem cortes ═══
+     As imagens novas (modo dia/noite) são 800x1200 (retrato 2:3).
+     Antes: object-fit: cover cortava a imagem para preencher o ecrã.
+     Agora: object-fit: contain mostra a imagem completa, proporcional,
+     sem cortes. Pode haver pequenas barras (letterbox) em ecrãs com
+     proporção muito diferente de 2:3, mas a imagem fica sempre inteira. */
+  .hero-bg-img {
+    object-fit: contain !important;
+    object-position: center center !important;
+    /* Garantir que a imagem ocupa toda a largura disponível */
+    width: 100% !important;
+    height: 100% !important;
+  }
   /* ═══ GARANTIA EXTRA: todos os elementos fixed com inset:0 que NÃO são
      menu/lightbox/privacy devem ter pointer-events: none em mobile.
      Isto previne que qualquer camada visual (preloader, flash, particles,
