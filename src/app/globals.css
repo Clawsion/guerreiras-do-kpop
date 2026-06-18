@@ -7377,10 +7377,13 @@ img { max-width: 100%; height: auto; }
     min-height: 100svh !important;
   }
 
-  /* A imagem mobile é RETRATO (941×1672) — em mobile portrait (9:16) a proporção
-     é quase perfeita. Cover + center preenche o ecrã todo sem zoom excessivo. */
+  /* A imagem mobile é RETRATO (800×1200, proporção 2:3).
+     object-fit: contain mostra a foto COMPLETA sem cortes, proporcional.
+     Pode haver pequenas barras (letterbox) em ecrãs com proporção muito
+     diferente de 2:3, mas a imagem fica sempre inteira e os ícones laterais
+     não ficam cortados. */
   .hero-bg-img {
-    object-fit: cover !important;
+    object-fit: contain !important;
     object-position: center center !important;
     width: 100% !important;
     height: 100% !important;
