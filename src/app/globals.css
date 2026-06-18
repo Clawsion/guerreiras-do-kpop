@@ -1831,36 +1831,34 @@ html { scroll-behavior: smooth; }
        de scroll, enquanto hidden pode fazer o browser achar que o elemento
        é scrollável (e bloquear o scroll da página em iOS Safari). */
     overflow: clip !important;
-    /* ═══ COR DE FUNDO = COR DAS BORDAS DA IMAGEM ═══
-       Como object-fit: contain deixa espaço nas laterais (a imagem é 2:3
-       mas o ecrã é 19.5:9), esse espaço aparece como "traço branco".
-       A solução é meter o fundo do hero com a MESMA cor das bordas da
-       imagem, assim o espaço fica invisível (camuflado).
+    /* ═══ COR DE FUNDO = GRADIENT DAS BORDAS DA IMAGEM ═══
+       Como object-fit: contain deixa espaço nas laterais (a imagem é 9:16.6
+       mas o ecrã é 19.5:9), esse espaço aparece como "traço".
+       A solução é meter o fundo do hero com um GRADIENT que faz a transição
+       suave entre as cores das bordas da imagem:
+       - Borda esquerda da imagem: #0D0136 (roxo muito escuro)
+       - Borda direita da imagem:  #2B0886 (roxo escuro)
+       Assim o espaço nas laterais fica invisível (camuflado com gradient).
 
-       Modo noite: bordas da imagem ~#171155 (azul-roxo escuro).
-       Modo dia: bordas da imagem ~#98A1CB (azul-acinzentado claro). */
-    background: #171155 !important;
+       Modo noite: gradient #0D0136 → #2B0886
+       Modo dia:   bordas ~#98A1CB (azul-acinzentado claro) */
+    background: linear-gradient(to right, #0D0136 0%, #1A0460 50%, #2B0886 100%) !important;
   }
   /* Modo dia (.light-mode) — fundo do hero com a cor das bordas da imagem de dia */
   .light-mode .hero-section {
     background: #98A1CB !important;
   }
-  /* ═══ IMAGEM DO HERO EM MOBILE — mostrar a foto COMPLETA sem cortes ═══
-     As imagens novas (modo dia/noite) são 800x1200 (retrato 2:3).
-     Antes: object-fit: cover cortava a imagem para preencher o ecrã.
-     Agora: object-fit: contain mostra a imagem completa, proporcional,
-     sem cortes. Pode haver pequenas barras (letterbox) em ecrãs com
-     proporção muito diferente de 2:3, mas a imagem fica sempre inteira. */
+  /* ═══ IMAGEM DO HERO EM MOBILE — contain com center ═══
+     object-fit: contain mostra a foto COMPLETA sem cortes.
+     O espaço nas laterais é camuflado pelo gradient do fundo do hero
+     (que combina com as cores das bordas da imagem). */
   .hero-bg-img {
     object-fit: contain !important;
     object-position: center center !important;
-    /* Garantir que a imagem ocupa toda a largura disponível */
     width: 100% !important;
     height: 100% !important;
   }
-  /* ═══ MODO NOITE (dark) — voltar a center center.
-     Como o fundo do hero agora tem a MESMA cor das bordas da imagem,
-     o "traço" laterais fica invisível (camuflado). Não é preciso deslocar. ═══ */
+  /* ═══ MODO NOITE (dark) — center center (igual ao modo dia). ═══ */
   :not(.light-mode) .hero-bg-img {
     object-position: center center !important;
   }
@@ -7394,13 +7392,18 @@ img { max-width: 100%; height: auto; }
   .hero-section {
     height: 100svh !important;
     min-height: 100svh !important;
+    /* GRADIENT de fundo = cores das bordas da imagem de noite.
+       Camufla o espaço nas laterais (object-fit: contain). */
+    background: linear-gradient(to right, #0D0136 0%, #1A0460 50%, #2B0886 100%) !important;
+  }
+  /* Modo dia (.light-mode) — fundo do hero com a cor das bordas da imagem de dia */
+  .light-mode .hero-section {
+    background: #98A1CB !important;
   }
 
-  /* A imagem mobile é RETRATO (800×1200, proporção 2:3).
+  /* A imagem mobile é RETRATO (922×1706, proporção ~9:16.6).
      object-fit: contain mostra a foto COMPLETA sem cortes, proporcional.
-     Pode haver pequenas barras (letterbox) em ecrãs com proporção muito
-     diferente de 2:3, mas a imagem fica sempre inteira e os ícones laterais
-     não ficam cortados. */
+     O espaço nas laterais é camuflado pelo gradient do fundo do hero. */
   .hero-bg-img {
     object-fit: contain !important;
     object-position: center center !important;
