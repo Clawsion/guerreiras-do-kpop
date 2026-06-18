@@ -1807,6 +1807,11 @@ html { scroll-behavior: smooth; }
   align-items: flex-end;
   justify-content: center;
   contain: layout style;
+  /* CRÍTICO: touch-action: pan-y garante que toques verticais dentro do hero
+     são tratados como scroll da PÁGINA, não do hero. Sem isto, em iOS Safari,
+     o overflow: hidden do hero faz o browser bloquear o scroll da página
+     quando o utilizador toca dentro do hero. */
+  touch-action: pan-y;
 }
 
 /* ═══ MOBILE HERO — remover contain (pode bloquear scroll em alguns browsers) ═══ */
@@ -1817,6 +1822,15 @@ html { scroll-behavior: smooth; }
        problemas com a barra de endereço dinâmica do iOS Safari. */
     height: 100svh !important;
     min-height: 600px !important;
+    /* CRÍTICO: touch-action: pan-y garante que toques verticais dentro do hero
+       são tratados como scroll da PÁGINA. Sem isto, em iOS Safari, o
+       overflow: hidden do hero faz o browser bloquear o scroll da página
+       quando o utilizador toca dentro do hero. */
+    touch-action: pan-y !important;
+    /* overflow: clip em vez de overflow: hidden — clip não cria um contexto
+       de scroll, enquanto hidden pode fazer o browser achar que o elemento
+       é scrollável (e bloquear o scroll da página em iOS Safari). */
+    overflow: clip !important;
   }
   /* ═══ GARANTIA EXTRA: todos os elementos fixed com inset:0 que NÃO são
      menu/lightbox/privacy devem ter pointer-events: none em mobile.
@@ -1833,6 +1847,17 @@ html { scroll-behavior: smooth; }
   .hm-ripple-shimmer-layer,
   .hm-shimmer-ring {
     pointer-events: none !important;
+  }
+  /* Todos os overlays dentro do hero também devem permitir scroll-through */
+  .hero-bg-img,
+  .hero-bg-overlay,
+  .hero-grid,
+  .hero-vignette,
+  .hero-glow-orb,
+  .hero-nav-panel,
+  .hero-bottom-panel,
+  .hero-circle {
+    touch-action: pan-y !important;
   }
 }
 
