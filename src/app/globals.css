@@ -1875,7 +1875,7 @@ html { scroll-behavior: smooth; }
   }
   /* ═══ ZOOM SUBTIL DIFERENCIADO POR MODO ═══
      Modo noite: scale(1.02) — quase nada de zoom (subtil)
-     Modo dia:   scale(1.05) — um pouquinho mais que o noite
+     Modo dia:   scale(1.08) — um pouquinho mais que o noite
      Ambos mantêm object-fit: contain (sem cortes). */
   :not(.light-mode) .hero-bg-img {
     object-position: center center !important;
@@ -1884,7 +1884,7 @@ html { scroll-behavior: smooth; }
   }
   .light-mode .hero-bg-img {
     object-position: center center !important;
-    transform: scale(1.05) !important;
+    transform: scale(1.08) !important;
     transform-origin: center center !important;
   }
   /* ═══ GARANTIA EXTRA: todos os elementos fixed com inset:0 que NÃO são
@@ -7354,8 +7354,10 @@ section#concertos {
      NÃO usar animation-duration: 0.5s !important aqui — isso fazia com que
      TODAS as animações infinitas (partículas, honmoon rings, neon circles,
      strands) rodassem 10-40x mais rápido do que o planeado.
-     Em vez disso, tratamos cada animação individualmente abaixo. */
-  * { transition-duration: 0.3s !important; }
+     Em vez disso, tratamos cada animação individualmente abaixo.
+     EXCEÇÃO: .memories-slide NÃO é afetado (precisa das transições longas
+     de 1200ms para o efeito de fade cinematográfico). */
+  *:not(.memories-slide):not(.memories-glow) { transition-duration: 0.3s !important; }
   
   /* ─── Honmoon shield — abrandar/desativar animações decorativas ───
      Prioridade: animações infinitas pesadas (rotações, partículas)
@@ -7550,7 +7552,7 @@ img { max-width: 100%; height: auto; }
   }
   /* ═══ ZOOM SUBTIL DIFERENCIADO POR MODO (segunda regra mobile) ═══
      Modo noite: scale(1.02) — quase nada
-     Modo dia:   scale(1.05) — um pouquinho mais */
+     Modo dia:   scale(1.08) — um pouquinho mais */
   :not(.light-mode) .hero-bg-img {
     object-position: center center !important;
     transform: scale(1.02) !important;
@@ -7558,7 +7560,7 @@ img { max-width: 100%; height: auto; }
   }
   .light-mode .hero-bg-img {
     object-position: center center !important;
-    transform: scale(1.05) !important;
+    transform: scale(1.08) !important;
     transform-origin: center center !important;
   }
 
