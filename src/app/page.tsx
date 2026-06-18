@@ -186,7 +186,9 @@ const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
     function setGlow(phase: 'visible' | 'fading-out' | 'pause' | 'fading-in', duration: number) {
       const glow = glowRef.current;
       if (!glow) return;
-      glow.style.transition = `opacity ${duration}ms ease-in-out`;
+      // Usar setProperty com !important para sobrepor a regra global
+      // transition-duration: 0.3s !important em mobile.
+      glow.style.setProperty('transition', `opacity ${duration}ms ease-in-out`, 'important');
       if (phase === 'visible' || phase === 'fading-in') {
         glow.style.opacity = '1';
       } else {
@@ -203,7 +205,9 @@ const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
       const next = slidesArr[nextIdx];
 
       // 1) Fade-out do slide actual + brilho também desaparece (sincronizado)
-      current.style.transition = `opacity ${FADE_OUT}ms ease-in-out, filter ${FADE_OUT}ms ease-in-out`;
+      // Usar setProperty com !important para sobrepor a regra global
+      // transition-duration: 0.3s !important que cortava o fade em mobile.
+      current.style.setProperty('transition', `opacity ${FADE_OUT}ms ease-in-out, filter ${FADE_OUT}ms ease-in-out`, 'important');
       current.style.opacity = '0';
       current.style.filter = 'brightness(0.6) blur(6px)';
       setGlow('fading-out', FADE_OUT);
@@ -216,7 +220,7 @@ const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
 
         cycleTimer = setTimeout(() => {
           // 3) Fade-in do próximo slide + brilho reactiva (sincronizado)
-          next.style.transition = `opacity ${FADE_IN}ms ease-in-out, filter ${FADE_IN}ms ease-in-out, transform ${FADE_IN}ms ease-out`;
+          next.style.setProperty('transition', `opacity ${FADE_IN}ms ease-in-out, filter ${FADE_IN}ms ease-in-out, transform ${FADE_IN}ms ease-out`, 'important');
           next.style.opacity = '1';
           next.style.filter = 'brightness(1) blur(0px)';
           next.classList.add('active');
@@ -1026,23 +1030,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=45 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=46 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=45" : "/hero-bg-mobile.webp?v=45"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=46" : "/hero-bg-mobile.webp?v=46"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=45" : "/hero-bg.webp?v=45"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=46" : "/hero-bg.webp?v=46"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=45" : "/hero-bg.webp?v=45"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=46" : "/hero-bg.webp?v=46"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"

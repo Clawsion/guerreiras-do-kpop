@@ -2623,16 +2623,22 @@ html { scroll-behavior: smooth; }
     background-position: right top;
   }
 }
-/* ═══ SMARTPHONE (<768px) — fundo do palco LED wall com menos zoom e à direita ═══
-   Em smartphone, o palco estava com demasiado zoom (cover preenche tudo).
-   Ajustar para:
-   - background-size: 120% auto (menos zoom — mostra mais do palco)
-   - background-position: 80% top (mais para o lado direito) */
+/* ═══ SMARTPHONE (<768px) — fundo do palco LED wall centrado com menos zoom ═══
+   A imagem de fundo é 1702×924 (paisagem, ratio 1.84:1) com o LED wall
+   no centro. A secção em mobile é retrato (390×~1538), pelo que:
+   - background-size: cover preenche tudo mas corta dos lados
+   - background-size: 100% auto mostra a largura toda mas deixa barras
+   - background-size: auto 100% mostra a altura toda mas corta dos lados
+
+   Solução: usar 100% auto (mostra a largura toda = menos zoom) com
+   background-position: center top (centra horizontalmente, mostra o topo).
+   Isto mostra o LED wall centrado sem demasiado zoom. */
 @media (max-width: 767px) {
   .espetaculo-section {
-    background-size: 120% auto !important;
-    background-position: 80% top !important;
+    background-size: 100% auto !important;
+    background-position: center top !important;
     background-attachment: scroll !important;
+    background-repeat: no-repeat !important;
   }
 }
 
@@ -7364,9 +7370,11 @@ section#concertos {
      TODAS as animações infinitas (partículas, honmoon rings, neon circles,
      strands) rodassem 10-40x mais rápido do que o planeado.
      Em vez disso, tratamos cada animação individualmente abaixo.
-     EXCEÇÃO: .memories-slide NÃO é afetado (precisa das transições longas
-     de 1200ms para o efeito de fade cinematográfico). */
-  *:not(.memories-slide):not(.memories-glow) { transition-duration: 0.3s !important; }
+     EXCEÇÃO: .memories-slide e .memories-glow NÃO são afetados (o JavaScript
+     usa setProperty com !important para sobrepor esta regra). */
+  *:not(.memories-slide):not(.memories-glow) {
+    transition-duration: 0.3s !important;
+  }
   
   /* ─── Honmoon shield — abrandar/desativar animações decorativas ───
      Prioridade: animações infinitas pesadas (rotações, partículas)
