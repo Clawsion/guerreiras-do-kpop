@@ -628,6 +628,13 @@ html { scroll-behavior: smooth; }
   .memories-curtain-top { height: 12vh; }
   .memories-curtain-bottom { height: 14vh; }
   .memories-dots { bottom: 3vh; }
+  /* ═══ MENOS ZOOM no slideshow em smartphone ═══
+     Mudar de cover (preenche ecrã, corta) para contain (foto completa, sem cortes).
+     Isto reduz o zoom e mostra a foto inteira. */
+  .memories-slide {
+    background-size: contain !important;
+    background-position: center center !important;
+  }
 }
 
 /* ═══ CINEMATIC IMAGE ═══ */
@@ -1859,16 +1866,16 @@ html { scroll-behavior: smooth; }
     width: 100% !important;
     height: 100% !important;
   }
-  /* ═══ MODO DIA (light-mode) — zoom de 8% (um pouco mais que o noite).
-     O modo noite tem zoom de 5% (regra abaixo). ═══ */
-  .light-mode .hero-bg-img {
+  /* ═══ ZOOM SUBTIL DIFERENCIADO POR MODO ═══
+     Modo noite: scale(1.02) — quase nada de zoom (subtil)
+     Modo dia:   scale(1.05) — um pouquinho mais que o noite
+     Ambos mantêm object-fit: contain (sem cortes). */
+  :not(.light-mode) .hero-bg-img {
     object-position: center center !important;
-    transform: scale(1.08) !important;
+    transform: scale(1.02) !important;
     transform-origin: center center !important;
   }
-  /* ═══ MODO NOITE (dark/default) — zoom subtil de 5% (como estava no penúltimo deploy).
-     Confirmado via commit ca681dc4: scale(1.05) no seletor :not(.light-mode). ═══ */
-  :not(.light-mode) .hero-bg-img {
+  .light-mode .hero-bg-img {
     object-position: center center !important;
     transform: scale(1.05) !important;
     transform-origin: center center !important;
@@ -7534,14 +7541,15 @@ img { max-width: 100%; height: auto; }
     width: 100% !important;
     height: 100% !important;
   }
-  /* ═══ MODO DIA (light-mode) — zoom de 8% (segunda regra mobile). ═══ */
-  .light-mode .hero-bg-img {
+  /* ═══ ZOOM SUBTIL DIFERENCIADO POR MODO (segunda regra mobile) ═══
+     Modo noite: scale(1.02) — quase nada
+     Modo dia:   scale(1.05) — um pouquinho mais */
+  :not(.light-mode) .hero-bg-img {
     object-position: center center !important;
-    transform: scale(1.08) !important;
+    transform: scale(1.02) !important;
     transform-origin: center center !important;
   }
-  /* ═══ MODO NOITE (dark/default) — zoom de 5% (segunda regra mobile). ═══ */
-  :not(.light-mode) .hero-bg-img {
+  .light-mode .hero-bg-img {
     object-position: center center !important;
     transform: scale(1.05) !important;
     transform-origin: center center !important;
