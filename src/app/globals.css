@@ -7575,13 +7575,10 @@ img { max-width: 100%; height: auto; }
 
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ PARALLAX — 2 secções LIGADAS entre si (uma só imagem prolongada) ═══ */
-/* A imagem foi esticada para 2x a altura. Cada parallax mostra uma metade */
-/* diferente da mesma imagem: */
-/*   - Parallax 1 (antes do Mural): background-position: center top    → metade de CIMA */
-/*   - Parallax 2 (depois do Mural): background-position: center bottom → metade de BAIXO */
-/* Isto cria a ilusão de uma só imagem contínua que "aparece um pouco", */
-/* depois o Mural "interrompe", e a imagem "continua" no parallax de baixo. */
+/* ═══ PARALLAX — 2 secções com IMAGENS DIFERENTES (uma em cada) ═══ */
+/* Cada parallax tem a sua própria imagem de fundo: */
+/*   - Parallax 1 (antes do Mural): parallax-1 (roxo/vermelho/preto) */
+/*   - Parallax 2 (depois do Mural): parallax-2 (vermelho/roxo/azul) */
 /* ═══════════════════════════════════════════════════════════════ */
 .parallax-wrapper {
   position: relative;
@@ -7589,29 +7586,32 @@ img { max-width: 100%; height: auto; }
   background: var(--void);
 }
 
-/* Camada de fundo — imagem PROLONGADA (2x altura) com background-attachment: fixed */
+/* Camada de fundo — default (parallax 1, modo noite) */
 .parallax-bg {
   position: absolute;
   inset: 0;
-  background-image: url('/showcase-night.webp?v=9');
+  background-image: url('/parallax-1-night.webp?v=1');
   background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   z-index: 0;
 }
 
-/* Parallax 1 (ANTES do Mural) — mostra a metade de CIMA da imagem prolongada */
+/* Parallax 1 (ANTES do Mural) — imagem 1 */
 .parallax-before-mural .parallax-bg {
-  background-position: center top;
+  background-image: url('/parallax-1-night.webp?v=1');
+}
+.light-mode .parallax-before-mural .parallax-bg {
+  background-image: url('/parallax-1-day.webp?v=1');
 }
 
-/* Parallax 2 (DEPOIS do Mural) — mostra a metade de BAIXO da imagem prolongada */
+/* Parallax 2 (DEPOIS do Mural) — imagem 2 (diferente) */
 .parallax-after-mural .parallax-bg {
-  background-position: center bottom;
+  background-image: url('/parallax-2-night.webp?v=1');
 }
-
-.light-mode .parallax-bg {
-  background-image: url('/showcase-day.webp?v=9');
+.light-mode .parallax-after-mural .parallax-bg {
+  background-image: url('/parallax-2-day.webp?v=1');
 }
 
 /* Overlay gradual (vinheta escura para legibilidade) */
@@ -7688,15 +7688,19 @@ img { max-width: 100%; height: auto; }
   }
   .parallax-bg {
     background-attachment: scroll;
-    background-image: url('/showcase-night-mobile.webp?v=9');
   }
   .parallax-before-mural .parallax-bg {
+    background-image: url('/parallax-1-night-mobile.webp?v=1');
     background-position: center top;
   }
-  .parallax-after-mural .parallax-bg {
-    background-position: center bottom;
+  .light-mode .parallax-before-mural .parallax-bg {
+    background-image: url('/parallax-1-day-mobile.webp?v=1');
   }
-  .light-mode .parallax-bg {
-    background-image: url('/showcase-day-mobile.webp?v=9');
+  .parallax-after-mural .parallax-bg {
+    background-image: url('/parallax-2-night-mobile.webp?v=1');
+    background-position: center top;
+  }
+  .light-mode .parallax-after-mural .parallax-bg {
+    background-image: url('/parallax-2-day-mobile.webp?v=1');
   }
 }
