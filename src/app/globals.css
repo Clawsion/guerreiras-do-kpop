@@ -2599,6 +2599,19 @@ html { scroll-behavior: smooth; }
     background-position: right top;
   }
 }
+/* ═══ SMARTPHONE (<768px) — fundo do palco LED wall mais proporcional ═══
+   Em smartphone, o palco LED wall estava cortado na parte inferior.
+   Ajustar para que o palco fique mais visível e centrado:
+   - background-size: cover (preenche o ecrã)
+   - background-position: center top (palco centrado horizontalmente)
+   - background-attachment: scroll (evita problemas em iOS) */
+@media (max-width: 767px) {
+  .espetaculo-section {
+    background-size: cover !important;
+    background-position: center top !important;
+    background-attachment: scroll !important;
+  }
+}
 
 /* ═══ Stage Spotlights - 3 cones of pink/magenta light from above ═══ */
 .esp-spotlight {
