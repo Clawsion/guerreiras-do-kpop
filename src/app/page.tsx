@@ -155,6 +155,7 @@ const MEMORIES_IMAGES = [
 
 const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
   const slidesRef = React.useRef<HTMLElement[] | null>(null);
+  const glowRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -172,6 +173,24 @@ const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
     const PAUSE = 500;           // pausa preta entre slides
     const FADE_IN = 1200;        // duração do fade-in
 
+    // ═══ Função para controlar o brilho sincronizado com a foto ═══
+    // Fases:
+    //   - 'visible': foto totalmente visível → brilho activo (opacity 1)
+    //   - 'fading-out': foto a desaparecer → brilho também desaparece (opacity 0)
+    //   - 'pause': ecrã preto total → brilho invisível (opacity 0)
+    //   - 'fading-in': foto a surgir → brilho reactiva sincronizado (opacity 1)
+    function setGlow(phase: 'visible' | 'fading-out' | 'pause' | 'fading-in', duration: number) {
+      const glow = glowRef.current;
+      if (!glow) return;
+      glow.style.transition = `opacity ${duration}ms ease-in-out`;
+      if (phase === 'visible' || phase === 'fading-in') {
+        glow.style.opacity = '1';
+      } else {
+        // fading-out ou pause → brilho desaparece
+        glow.style.opacity = '0';
+      }
+    }
+
     function nextSlide() {
       const slidesArr = slidesRef.current;
       if (!slidesArr || slidesArr.length === 0) return;
@@ -179,21 +198,25 @@ const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
       const nextIdx = (currentIdx + 1) % slidesArr.length;
       const next = slidesArr[nextIdx];
 
-      // 1) Fade-out do slide actual
+      // 1) Fade-out do slide actual + brilho também desaparece (sincronizado)
       current.style.transition = `opacity ${FADE_OUT}ms ease-in-out, filter ${FADE_OUT}ms ease-in-out`;
       current.style.opacity = '0';
       current.style.filter = 'brightness(0.6) blur(6px)';
+      setGlow('fading-out', FADE_OUT);
 
       cycleTimer = setTimeout(() => {
         // 2) Pausa preta (slide actual já invisível, próximo ainda invisível)
+        // Ecrã totalmente preto — brilho também invisível
         current.classList.remove('active');
+        setGlow('pause', PAUSE);
 
         cycleTimer = setTimeout(() => {
-          // 3) Fade-in do próximo slide
+          // 3) Fade-in do próximo slide + brilho reactiva (sincronizado)
           next.style.transition = `opacity ${FADE_IN}ms ease-in-out, filter ${FADE_IN}ms ease-in-out, transform ${FADE_IN}ms ease-out`;
           next.style.opacity = '1';
           next.style.filter = 'brightness(1) blur(0px)';
           next.classList.add('active');
+          setGlow('fading-in', FADE_IN);
           currentIdx = nextIdx;
 
           // 4) Agendar próximo ciclo
@@ -201,6 +224,9 @@ const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
         }, PAUSE);
       }, FADE_OUT);
     }
+
+    // Inicializar brilho visível (primeira foto)
+    setGlow('visible', 0);
 
     cycleTimer = setTimeout(nextSlide, INTERVAL);
     return () => clearTimeout(cycleTimer);
@@ -216,6 +242,11 @@ const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
           aria-hidden={i !== 0}
         />
       ))}
+      {/* ═══ Camada de brilho sincronizada com o slideshow ═══
+          - Visível quando a foto está visível
+          - Desaparece durante o fade-out (até preto total)
+          - Reactiva durante o fade-in (sincronizado com a foto) */}
+      <div ref={glowRef} className="memories-glow" aria-hidden="true"/>
     </div>
   );
 });
