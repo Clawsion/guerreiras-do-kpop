@@ -7625,38 +7625,64 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Camada de fundo — default (parallax 1, modo noite) */
-/* background-size: 88% auto = imagem a 88% da largura do viewport.
-   MENOS zoom — imagem mais pequena, centrada, com fundo preto à volta (moldura).
-   Ambos os parallax usam o MESMO tamanho para zoom idêntico. */
+/* background-size: 100% auto = imagem a 100% da largura do viewport (sem fundo dos lados).
+   mask-image com gradiente lateral faz a imagem 'fundir-se' suavemente com o fundo
+   nas bordas esquerda/direita — sem corte brusco, sem moldura visível.
+   Efeito: a imagem parece 'prolongar-se' para o cenario. */
 .parallax-bg {
   position: absolute;
   inset: 0;
-  background-image: url('/parallax-1-night.webp?v=5');
-  background-size: 88% auto;
+  background-image: url('/parallax-1-night.webp?v=6');
+  background-size: 100% auto;
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   z-index: 0;
+  /* Mask: fade suave nas bordas laterais (12% de cada lado) + bordas superior/inferior */
+  -webkit-mask-image:
+    linear-gradient(90deg,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%),
+    linear-gradient(180deg,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%),
+    linear-gradient(180deg,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%);
+  mask-composite: intersect;
 }
 
 /* Parallax 1 (ANTES do Mural) — imagem 1 */
 .parallax-before-mural .parallax-bg {
-  background-image: url('/parallax-1-night.webp?v=5');
-  background-size: 88% auto;
+  background-image: url('/parallax-1-night.webp?v=6');
+  background-size: 100% auto;
   background-position: center center;
 }
 .light-mode .parallax-before-mural .parallax-bg {
-  background-image: url('/parallax-1-day.webp?v=5');
+  background-image: url('/parallax-1-day.webp?v=6');
 }
 
 /* Parallax 2 (DEPOIS do Mural) — imagem 2 (diferente) — MESMO zoom do parallax 1 */
 .parallax-after-mural .parallax-bg {
-  background-image: url('/parallax-2-night.webp?v=5');
-  background-size: 88% auto;
+  background-image: url('/parallax-2-night.webp?v=6');
+  background-size: 100% auto;
   background-position: center center;
 }
 .light-mode .parallax-after-mural .parallax-bg {
-  background-image: url('/parallax-2-day.webp?v=5');
+  background-image: url('/parallax-2-day.webp?v=6');
 }
 
 /* Overlay gradual (vinheta escura para legibilidade) */
@@ -7737,17 +7763,17 @@ img { max-width: 100%; height: auto; }
     background-size: cover;
   }
   .parallax-before-mural .parallax-bg {
-    background-image: url('/parallax-1-night-mobile.webp?v=5');
+    background-image: url('/parallax-1-night-mobile.webp?v=6');
     background-position: center top;
   }
   .light-mode .parallax-before-mural .parallax-bg {
-    background-image: url('/parallax-1-day-mobile.webp?v=5');
+    background-image: url('/parallax-1-day-mobile.webp?v=6');
   }
   .parallax-after-mural .parallax-bg {
-    background-image: url('/parallax-2-night-mobile.webp?v=5');
+    background-image: url('/parallax-2-night-mobile.webp?v=6');
     background-position: center top;
   }
   .light-mode .parallax-after-mural .parallax-bg {
-    background-image: url('/parallax-2-day-mobile.webp?v=5');
+    background-image: url('/parallax-2-day-mobile.webp?v=6');
   }
 }
