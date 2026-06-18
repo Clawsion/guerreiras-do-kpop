@@ -1026,23 +1026,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=35 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=36 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=35" : "/hero-bg-mobile.webp?v=35"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=36" : "/hero-bg-mobile.webp?v=36"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=35" : "/hero-bg.webp?v=35"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=36" : "/hero-bg.webp?v=36"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=35" : "/hero-bg.webp?v=35"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=36" : "/hero-bg.webp?v=36"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
@@ -1119,8 +1119,23 @@ export default function HomePage() {
           </div>
           {/* Menu CTA */}
           <div style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
-            <a href={TICKETLINE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold cursor-pointer" style={{background:"var(--neon-purple)",color:"#fff"}}>
-              <Ticket className="w-4 h-4"/> Ticketline
+            <a
+              href="#cartazes"
+              onClick={e => {
+                e.preventDefault();
+                setMenuOpen(false);
+                const el = document.getElementById('cartazes');
+                if (el) {
+                  const isMobile = window.innerWidth < 768;
+                  const offset = isMobile ? 400 : 300;
+                  const top = el.getBoundingClientRect().top + window.scrollY + offset;
+                  window.scrollTo({ top, behavior: 'smooth' });
+                }
+              }}
+              className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold cursor-pointer"
+              style={{background:"var(--neon-purple)",color:"#fff"}}
+            >
+              <Ticket className="w-4 h-4"/> Garante o Teu Lugar
             </a>
           </div>
           {/* ═══ FORMATO ORIGINAL DAS REDES SOCIAIS (desativado a pedido — guardar para reativar) ═══
@@ -1143,8 +1158,9 @@ export default function HomePage() {
           <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
         </div>
 
-        {/* ═══ HERO CTA - em baixo de 'Épico' (alinhado a ~19% X da imagem) ═══ */}
-        <div className="hero-bottom-panel absolute z-10 flex flex-col items-start" style={{left: "19%", bottom: "22%", transform: "translateX(-25%)"}}>
+        {/* ═══ HERO CTA - em baixo de 'Épico' (alinhado a ~19% X da imagem) ═══
+            Só em desktop/tablet (≥640px). Em smartphone é escondido. */}
+        <div className="hero-bottom-panel absolute z-10 hidden sm:flex flex-col items-start" style={{left: "19%", bottom: "22%", transform: "translateX(-25%)"}}>
           <a
             href="#cartazes"
             className="hero-cta"
@@ -1307,8 +1323,21 @@ export default function HomePage() {
                 </div>
               </Rv>
               <Rv delay={500}>
-                <a href={TICKETLINE_URL} target="_blank" rel="noopener noreferrer" className="esp-cta cursor-pointer">
-                  <Ticket className="w-3.5 h-3.5"/> Ticketline
+                <a
+                  href="#cartazes"
+                  onClick={e => {
+                    e.preventDefault();
+                    const el = document.getElementById('cartazes');
+                    if (el) {
+                      const isMobile = window.innerWidth < 768;
+                      const offset = isMobile ? 400 : 300;
+                      const top = el.getBoundingClientRect().top + window.scrollY + offset;
+                      window.scrollTo({ top, behavior: 'smooth' });
+                    }
+                  }}
+                  className="esp-cta cursor-pointer"
+                >
+                  <Ticket className="w-3.5 h-3.5"/> Garante o Teu Lugar
                 </a>
               </Rv>
             </div>
