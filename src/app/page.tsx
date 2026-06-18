@@ -597,6 +597,58 @@ export default function HomePage() {
     return () => clearInterval(id);
   }, [menuOpen, lightbox]);
 
+  // ═══ ULTRA SAFETY NET: em mobile, garantir que qualquer touchstart liberta
+  // o body overflow se não houver menu/lightbox aberto. Isto é a última
+  // linha de defesa contra o bug do scroll bloqueado. ═══
+  useEffect(() => {
+    if (typeof window === "undefined" || window.innerWidth >= 768) return;
+    const unlock = () => {
+      if (!menuOpen && lightbox === null) {
+        if (document.body.style.overflow === "hidden") {
+          document.body.style.overflow = "";
+        }
+        if (document.documentElement.style.overflow === "hidden") {
+          document.documentElement.style.overflow = "";
+        }
+      }
+    };
+    // touchstart: quando o utilizador toca no ecrã, garante que o scroll está desbloqueado
+    window.addEventListener("touchstart", unlock, { passive: true });
+    // touchmove: se o utilizador está a tentar arrastar, garante que o scroll está desbloqueado
+    window.addEventListener("touchmove", unlock, { passive: true });
+    // wheel: para teste em DevTools com rato
+    window.addEventListener("wheel", unlock, { passive: true });
+    return () => {
+      window.removeEventListener("touchstart", unlock);
+      window.removeEventListener("touchmove", unlock);
+      window.removeEventListener("wheel", unlock);
+    };
+  }, [menuOpen, lightbox]);
+
+  // ═══ WHEEL-TO-SCROLL FALLBACK (mobile DevTools com rato) ═══
+  // Em DevTools do Chrome/Edge em modo mobile, o scroll com rato usa eventos
+  // wheel. Se o body tiver overflow:hidden (por bug ou race condition), o
+  // browser ignora o wheel. Este fallback força o scroll manualmente.
+  // Só ativa em viewport < 768px e quando menu/lightbox estão fechados.
+  useEffect(() => {
+    if (typeof window === "undefined" || window.innerWidth >= 768) return;
+    const onWheel = (e: WheelEvent) => {
+      if (menuOpen || lightbox !== null) return;
+      // Se o body ou html estiver bloqueado, força scroll manual
+      const bodyLocked = document.body.style.overflow === "hidden"
+        || document.documentElement.style.overflow === "hidden";
+      if (bodyLocked) {
+        // Desbloqueia imediatamente
+        document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
+        // E força o scroll na direção do wheel
+        window.scrollBy({ top: e.deltaY, left: e.deltaX, behavior: 'auto' });
+      }
+    };
+    window.addEventListener("wheel", onWheel, { passive: true });
+    return () => window.removeEventListener("wheel", onWheel);
+  }, [menuOpen, lightbox]);
+
   /* Pause ALL CSS animations when tab is hidden - massive CPU/GPU savings */
   useEffect(() => {
     const onVis = () => {
@@ -711,9 +763,9 @@ export default function HomePage() {
     setHeroFlash({type: flashClass as 'to-light' | 'to-dark', x, y});
 
     const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
-    // Mobile: 400ms (sincronizado com a nova animação heroFlashMobileLight/Dark de 400ms)
+    // Mobile: 220ms (ultra rápido — quase instantâneo)
     // Desktop: 1000ms
-    const flashDuration = isMobileViewport ? 400 : 1000;
+    const flashDuration = isMobileViewport ? 220 : 1000;
     flashTimeoutRef.current = setTimeout(() => {
       setHeroFlash({type: 'none', x: 50, y: 50});
       flashTimeoutRef.current = null;
@@ -794,16 +846,16 @@ export default function HomePage() {
       if (isMobileViewport) {
         // Mobile: flash expande/suga do ponto de clique (sem ripple)
         triggerHeroFlash(toMode, cx, cy);
-        // to-light: toggle aos 200ms (50% de 400ms — novo flash mobile é mais rápido)
-        // to-dark: toggle aos 50ms (quase imediato)
-        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, toMode === 'light' ? 200 : 50));
-        // Cleanup mais cedo em mobile (350ms em vez de 500ms) — quanto antes
+        // to-light: toggle aos 110ms (50% de 220ms — novo flash mobile é ultra rápido)
+        // to-dark: toggle aos 30ms (quase imediato)
+        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, toMode === 'light' ? 110 : 30));
+        // Cleanup mais cedo em mobile (200ms em vez de 350ms) — quanto antes
         // o isTransitioningRef passar a false, menos camadas extras o browser tem
         // de compor, e o scroll volta a ser fluído imediatamente.
         transitionRef.current.push(setTimeout(() => {
           setRipple(null);
           isTransitioningRef.current = false;
-        }, 350));
+        }, 200));
       } else {
         // Desktop via botão do topo: ripple do Honmoon + toggle
         triggerHeroFlash(toMode, cx, cy);

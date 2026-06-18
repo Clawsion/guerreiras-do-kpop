@@ -144,9 +144,11 @@ html { scroll-behavior: smooth; }
     -webkit-overflow-scrolling: touch;
     /* Explicit: garantir que o scroll vertical está sempre ativo.
        !important para sobrepor a qualquer style inline que possa ter sido
-       aplicado por JavaScript (ex: body.style.overflow = 'hidden'). */
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
+       aplicado por JavaScript (ex: body.style.overflow = 'hidden').
+       Em mobile, NÃO usamos overflow-x: hidden porque pode interferir com
+       o scroll vertical em alguns browsers antigos. Em vez disso, usamos
+       overflow: auto para garantir que ambos os eixos funcionam. */
+    overflow: auto !important;
     /* Garantir que html/body não estão固定 — se algum estilo os pusesse fixed,
        o scroll vertical seria impossível. */
     position: static !important;
@@ -154,6 +156,10 @@ html { scroll-behavior: smooth; }
        limitado a 100vh, o que bloquearia o scroll). */
     height: auto !important;
     max-height: none !important;
+    /* min-height: 100% para garantir que o body ocupa pelo menos o viewport. */
+    min-height: 100% !important;
+    /* touch-action: pan-y permite scroll vertical e bloqueia horizontal. */
+    touch-action: pan-y !important;
   }
 }
 
@@ -1795,6 +1801,17 @@ html { scroll-behavior: smooth; }
   contain: layout style;
 }
 
+/* ═══ MOBILE HERO — remover contain (pode bloquear scroll em alguns browsers) ═══ */
+@media (max-width: 767px) {
+  .hero-section {
+    contain: none !important;
+    /* Usar 100svh (small viewport height) em vez de 100vh para evitar
+       problemas com a barra de endereço dinâmica do iOS Safari. */
+    height: 100svh !important;
+    min-height: 600px !important;
+  }
+}
+
 .hero-bg-img {
   position: absolute;
   inset: 0;
@@ -1990,7 +2007,7 @@ html { scroll-behavior: smooth; }
       rgba(220, 180, 240, 0.6) 40%,
       rgba(180, 140, 220, 0.25) 60%,
       transparent 80%) !important;
-    animation: heroFlashMobileLight 0.4s cubic-bezier(0.32, 0.72, 0.4, 1) forwards !important;
+    animation: heroFlashMobileLight 0.22s cubic-bezier(0.32, 0.72, 0.4, 1) forwards !important;
   }
   .hero-img-flash.to-dark {
     /* Radial wipe escuro — vela roxa que se expande */
@@ -2000,7 +2017,7 @@ html { scroll-behavior: smooth; }
       rgba(35, 18, 60, 0.6) 40%,
       rgba(50, 25, 80, 0.25) 60%,
       transparent 80%) !important;
-    animation: heroFlashMobileDark 0.4s cubic-bezier(0.32, 0.72, 0.4, 1) forwards !important;
+    animation: heroFlashMobileDark 0.22s cubic-bezier(0.32, 0.72, 0.4, 1) forwards !important;
   }
   /* Radial wipe: scale(0.3) -> scale(1.4) + opacity(0 -> 1 -> 0)
      O scale cria o efeito de círculo a expandir; o opacity fade-out no fim.
