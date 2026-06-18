@@ -132,22 +132,14 @@ html { scroll-behavior: smooth; }
 
 /* ═══ MOBILE SCROLL — Garantir scroll fluído desde o primeiro frame ═══
    Em iOS Safari e Chrome Android, sem estas regras, o scroll pode ficar
-   "preso" durante o preloader ou após troca de tema.
-   NOTA: NÃO usar touch-action: manipulation aqui porque entra em conflito
-   com a regra global `touch-action: pan-y` já existente em `html, body`
-   (linha ~7215). pan-y é mais permissivo e permite scroll vertical fluído. */
+   "preso" durante o preloader ou após troca de tema. */
 @media (max-width: 767px) {
   html, body {
-    /* overscroll-behavior-y: contain evita scroll chaining com elementos fixed */
-    overscroll-behavior-y: contain;
     /* -webkit-overflow-scrolling: touch ativa scroll momentum em iOS antigo */
     -webkit-overflow-scrolling: touch;
     /* Explicit: garantir que o scroll vertical está sempre ativo.
        !important para sobrepor a qualquer style inline que possa ter sido
-       aplicado por JavaScript (ex: body.style.overflow = 'hidden').
-       Em mobile, NÃO usamos overflow-x: hidden porque pode interferir com
-       o scroll vertical em alguns browsers antigos. Em vez disso, usamos
-       overflow: auto para garantir que ambos os eixos funcionam. */
+       aplicado por JavaScript (ex: body.style.overflow = 'hidden'). */
     overflow: auto !important;
     /* Garantir que html/body não estão固定 — se algum estilo os pusesse fixed,
        o scroll vertical seria impossível. */
@@ -160,6 +152,14 @@ html { scroll-behavior: smooth; }
     min-height: 100% !important;
     /* touch-action: pan-y permite scroll vertical e bloqueia horizontal. */
     touch-action: pan-y !important;
+    /* NÃO usar overscroll-behavior: contain no html/body — em alguns browsers
+       pode impedir o scroll nativo. Usar auto (default) para permitir scroll
+       chaining normal. */
+    overscroll-behavior: auto !important;
+    overscroll-behavior-y: auto !important;
+    /* scroll-behavior: auto em mobile — smooth pode causar bugs em alguns
+       browsers onde o scroll "preso" não anima. */
+    scroll-behavior: auto !important;
   }
 }
 
