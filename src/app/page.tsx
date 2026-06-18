@@ -13,7 +13,8 @@ import { Input } from "@/components/ui/input";
 /* ═══ DATA ══════════════════════════════ */
 /* ════════════════════════════════════════ */
 
-// Ticketline: link removido a pedido do utilizador — botões são apenas visuais (não funcionais)
+// Ticketline — link oficial do evento (ativo em todos os botões)
+const TICKETLINE_URL = "https://www.ticketline.pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105657";
 const EVENT = new Date("2026-08-08T18:30:00");
 
 /* ── Device detection for adaptive performance ── */
@@ -961,13 +962,15 @@ export default function HomePage() {
         {/* ═══ HAMBURGER NAV - pinned at top of hero ═══ */}
         <nav className="absolute top-0 inset-x-0 z-[95] py-4" style={{background:"transparent"}}>
           <div className="hero-nav-panel w-full px-5 sm:px-8 flex items-center justify-end gap-5 sm:gap-8">
-            {/* Ticketline - direciona para a zona dos cartazes (#cartazes) */}
+            {/* Ticketline - botão funcional para a página oficial do evento */}
             <a
-              href="#cartazes"
-              onClick={e => { e.preventDefault(); setMenuOpen(false); document.getElementById('cartazes')?.scrollIntoView({ behavior: 'smooth' }); }}
+              href={TICKETLINE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
               className="hero-nav-ticket group"
               style={{cursor: "pointer", textDecoration: "none"}}
-              aria-label="Ir para a zona dos cartazes"
+              aria-label="Comprar bilhetes na Ticketline"
             >
               <Ticket className="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300" style={{color:"#fff"}}/>
               <span className="hidden sm:inline text-[11px] tracking-[0.2em] uppercase font-bold" style={{color:"#fff"}}>Ticketline</span>
@@ -1023,9 +1026,9 @@ export default function HomePage() {
           </div>
           {/* Menu CTA */}
           <div style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
-            <button type="button" disabled aria-disabled="true" className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold cursor-not-allowed" style={{background:"var(--neon-purple)",color:"#fff",opacity:0.85}}>
+            <a href={TICKETLINE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold cursor-pointer" style={{background:"var(--neon-purple)",color:"#fff"}}>
               <Ticket className="w-4 h-4"/> Ticketline
-            </button>
+            </a>
           </div>
           {/* ═══ FORMATO ORIGINAL DAS REDES SOCIAIS (desativado a pedido — guardar para reativar) ═══
           <div className="absolute bottom-8 right-8 sm:right-12 flex gap-7" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 350}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
@@ -1199,9 +1202,9 @@ export default function HomePage() {
                 </div>
               </Rv>
               <Rv delay={500}>
-                <button type="button" disabled aria-disabled="true" className="esp-cta cursor-not-allowed" style={{opacity:0.85}}>
+                <a href={TICKETLINE_URL} target="_blank" rel="noopener noreferrer" className="esp-cta cursor-pointer">
                   <Ticket className="w-3.5 h-3.5"/> Ticketline
-                </button>
+                </a>
               </Rv>
             </div>
 
@@ -1312,9 +1315,9 @@ export default function HomePage() {
                     <span className="cartaz-status-dot cartaz-status-dot-soon"/> Bilhetes &agrave; venda a partir de 20 de Junho
                   </p>
                   <p className="cartaz-venue">Academia das Artes do Estoril</p>
-                  <button type="button" disabled aria-disabled="true" className="cartaz-buy-btn cursor-not-allowed" style={{opacity:0.85}}>
+                  <a href={TICKETLINE_URL} target="_blank" rel="noopener noreferrer" className="cartaz-buy-btn cursor-pointer">
                     <Ticket className="w-4 h-4"/> Ticketline
-                  </button>
+                  </a>
                 </div>
               </article>
             </Rv>
@@ -1547,7 +1550,7 @@ export default function HomePage() {
             <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>&copy; 2026 Guerreiras do K-Pop</span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-6">
-            <button type="button" disabled aria-disabled="true" className="text-[10px] tracking-[0.1em] cursor-not-allowed bg-transparent border-0 p-0" style={{color:"var(--neon-purple)",opacity:0.85}}>Ticketline</button>
+            <a href={TICKETLINE_URL} target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer bg-transparent border-0 p-0" style={{color:"var(--neon-purple)"}}>Ticketline</a>
             <a href="https://guerreirasdokpop.pt" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--t3)"}}>guerreirasdokpop.pt</a>
             <button onClick={()=>setPrivacyOpen(true)} className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer bg-transparent border-0 p-0" style={{color:"var(--t3)"}}>Política de Privacidade</button>
             <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--t3)"}}>Livro de Reclamações</a>
@@ -1557,9 +1560,9 @@ export default function HomePage() {
 
       {/* ═══ MOBILE STICKY CTA ═══ */}
       <div className={`fixed bottom-0 inset-x-0 z-40 sm:hidden p-3 backdrop-blur-2xl border-t transition-opacity duration-300 ${loaded?"":"opacity-0 pointer-events-none"}`} style={{background:"rgba(11,8,19,0.92)",borderColor:"rgba(200,80,255,0.08)"}}>
-        <button type="button" disabled aria-disabled="true" className="flex items-center justify-center gap-2 w-full py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase cursor-not-allowed" style={{background:"var(--neon-purple)",color:"#fff",opacity:0.85}}>
+        <a href={TICKETLINE_URL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase cursor-pointer" style={{background:"var(--neon-purple)",color:"#fff"}}>
           <Ticket className="w-4 h-4"/> Ticketline
-        </button>
+        </a>
       </div>
 
       {/* ═══ NEON LIGHTBOX ═══ */}
