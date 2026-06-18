@@ -1859,13 +1859,13 @@ html { scroll-behavior: smooth; }
     width: 100% !important;
     height: 100% !important;
   }
-  /* ═══ ZOOM SUBTIL DE 5% EM AMBOS OS MODOS (dia e noite) ═══
-     transform: scale(1.05) aumenta a imagem 5% mantendo o contain
-     (sem cortes visíveis porque o fundo/gradient camufla as bordas).
-     Aplicado a ambos os modos para consistência. */
-  .hero-bg-img {
+  /* ═══ MODO DIA (light-mode) — zoom subtil de 8% para dar mais presença.
+     transform: scale(1.08) aumenta a imagem 8% mantendo o contain
+     (sem cortes visíveis porque o fundo camufla as bordas).
+     O modo noite NÃO tem zoom (fica como estava originalmente). ═══ */
+  .light-mode .hero-bg-img {
     object-position: center center !important;
-    transform: scale(1.05) !important;
+    transform: scale(1.08) !important;
     transform-origin: center center !important;
   }
   /* ═══ GARANTIA EXTRA: todos os elementos fixed com inset:0 que NÃO são
@@ -7516,11 +7516,11 @@ img { max-width: 100%; height: auto; }
     width: 100% !important;
     height: 100% !important;
   }
-  /* ═══ ZOOM SUBTIL DE 5% EM AMBOS OS MODOS (segunda regra mobile) ═══
-     Igual à primeira regra (linha 1862) — aplicar zoom a dia e noite. */
-  .hero-bg-img {
+  /* ═══ MODO DIA (light-mode) — zoom subtil de 8% (segunda regra mobile).
+     Igual à primeira regra (linha 1862). O modo noite não tem zoom. ═══ */
+  .light-mode .hero-bg-img {
     object-position: center center !important;
-    transform: scale(1.05) !important;
+    transform: scale(1.08) !important;
     transform-origin: center center !important;
   }
 
