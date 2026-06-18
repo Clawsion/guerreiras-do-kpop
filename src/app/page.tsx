@@ -548,9 +548,10 @@ export default function HomePage() {
   useEffect(() => {
     // Em mobile, reduzir o delay do preloader para o scroll desbloquear mais cedo.
     // Antes: 1200ms em todos os dispositivos.
-    // Agora: 400ms em mobile (< 768px), 1200ms em desktop/tablet.
+    // Agora: 200ms em mobile (< 768px), 1200ms em desktop/tablet.
+    // 200ms é o tempo mínimo para o curtain aparecer visualmente antes de abrir.
     const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-    const t = setTimeout(() => setLoaded(true), isMobile ? 400 : 1200);
+    const t = setTimeout(() => setLoaded(true), isMobile ? 200 : 1200);
     return () => clearTimeout(t);
   }, []);
 
@@ -928,6 +929,12 @@ export default function HomePage() {
       )}
 
       {/* ═══ PRELOADER - Curtain Reveal ═══ */}
+      {/* Estratégia anti-scroll-bloqueado:
+          - O preloader TEM pointer-events: none desde o início (via CSS).
+          - Isto garante que NUNCA captura toques, mesmo durante a animação.
+          - O curtain anima normalmente (transform transition), mas deixa os
+            toques passar para o conteúdo abaixo.
+          - Em mobile, o setLoaded(true) aos 400ms faz o curtain abrir rápido. */}
       {themeMode === 'dark' ? (
         <div className={`preloader-honmoon ${loaded?"preloader-done":""}`}>
           <div className="preloader-curtain-left"/>
@@ -936,9 +943,6 @@ export default function HomePage() {
       ) : (
         (() => {
           // ═══ Em mobile, reduzir durações do preloader light (igual ao dark) ═══
-          // Antes: opacity delay 2.3s + curtain 2.5s (igual ao desktop)
-          // Agora: opacity delay 0.9s + curtain 1.0s em mobile
-          // Isto resolve o bug do scroll "preso" no início em modo dia no smartphone.
           const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
           const opacityDelay = isMobileViewport ? 0.9 : 2.3;
           const opacityDur = isMobileViewport ? 0.3 : 0.6;
@@ -952,10 +956,11 @@ export default function HomePage() {
                 display: 'flex',
                 transition: `opacity ${opacityDur}s ease ${opacityDelay}s`,
                 opacity: loaded ? 0 : 1,
-                // ═══ CRÍTICO: pointer-events: none quando loaded ═══
-                // Antes, este preloader light capturava toques durante ~3s em mobile
-                // mesmo depois do curtain abrir. Agora liberta imediatamente.
-                pointerEvents: loaded ? 'none' : 'auto',
+                // ═══ CRÍTICO: pointer-events: none SEMPRE ═══
+                // Mesmo durante o carregamento, o preloader NÃO captura toques.
+                // Isto permite que o utilizador faça scroll imediatamente, mesmo
+                // antes do curtain abrir. O curtain é puramente visual.
+                pointerEvents: 'none',
               }}
             >
               <div
@@ -971,6 +976,7 @@ export default function HomePage() {
                   transform: loaded ? 'translateX(-105%)' : 'translateX(0)',
                   transition: `transform ${curtainDur}s cubic-bezier(0.22, 0.61, 0.36, 1)`,
                   willChange: 'transform',
+                  pointerEvents: 'none',
                 }}
               />
               <div
@@ -986,6 +992,7 @@ export default function HomePage() {
                   transform: loaded ? 'translateX(105%)' : 'translateX(0)',
                   transition: `transform ${curtainDur}s cubic-bezier(0.22, 0.61, 0.36, 1)`,
                   willChange: 'transform',
+                  pointerEvents: 'none',
                 }}
               />
             </div>

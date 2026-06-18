@@ -660,11 +660,17 @@ html { scroll-behavior: smooth; }
 .tk:hover { transform:translateY(-6px); box-shadow: 0 24px 60px rgba(11,8,19,0.5), 0 0 50px rgba(200,80,255,0.08); }
 
 /* ═══ PRELOADER - Curtain Reveal ═══ */
+/* CRÍTICO: pointer-events: none SEMPRE no preloader.
+   Antes, só tinha pointer-events: none quando .preloader-done era aplicado.
+   Isto significava que durante os primeiros 400ms-1.2s (antes de loaded=true),
+   o preloader capturava todos os toques em mobile, bloqueando o scroll.
+   Agora, o preloader NUNCA captura toques — é puramente visual. */
 .preloader-honmoon {
   position: fixed;
   inset: 0;
   z-index: 100;
   display: flex;
+  pointer-events: none;
   transition: opacity 0.6s ease 2.3s;
 }
 .preloader-honmoon.preloader-done {
@@ -675,6 +681,7 @@ html { scroll-behavior: smooth; }
   position: absolute;
   inset: 0;
   background: transparent;
+  pointer-events: none;
 }
 .preloader-curtain-left,
 .preloader-curtain-right {
@@ -683,6 +690,7 @@ html { scroll-behavior: smooth; }
   bottom: 0;
   width: 52%;
   background: var(--void);
+  pointer-events: none;
   /* ONLY transform transition - no background/color transitions on curtains */
   transition: transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
   will-change: transform;
@@ -1809,6 +1817,22 @@ html { scroll-behavior: smooth; }
        problemas com a barra de endereço dinâmica do iOS Safari. */
     height: 100svh !important;
     min-height: 600px !important;
+  }
+  /* ═══ GARANTIA EXTRA: todos os elementos fixed com inset:0 que NÃO são
+     menu/lightbox/privacy devem ter pointer-events: none em mobile.
+     Isto previne que qualquer camada visual (preloader, flash, particles,
+     ripple) capture toques e bloqueie o scroll. ═══ */
+  .preloader-honmoon,
+  .preloader-curtain-left,
+  .preloader-curtain-right,
+  .preloader-bg,
+  .soul-particles-site,
+  .hero-img-flash,
+  .hero-orb-burst,
+  .hm-ripple-bg-layer,
+  .hm-ripple-shimmer-layer,
+  .hm-shimmer-ring {
+    pointer-events: none !important;
   }
 }
 
