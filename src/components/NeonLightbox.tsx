@@ -47,10 +47,12 @@ export default function NeonLightbox({ images, index, onClose, onPrev, onNext }:
 
   useEffect(() => {
     document.addEventListener("keydown", handleKey);
-    document.body.style.overflow = "hidden";
+    // NOTA: O body.overflow agora é gerido centralmente no page.tsx com base
+    // no estado `lightbox`. Aqui só adicionamos o listener de teclado.
+    // Antes, este componente fazia document.body.style.overflow = "hidden",
+    // o que podia interferir com a gestão do menu (que também bloqueia o scroll).
     return () => {
       document.removeEventListener("keydown", handleKey);
-      document.body.style.overflow = "";
     };
   }, [handleKey]);
 

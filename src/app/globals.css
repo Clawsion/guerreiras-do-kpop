@@ -132,16 +132,18 @@ html { scroll-behavior: smooth; }
 
 /* ═══ MOBILE SCROLL — Garantir scroll fluído desde o primeiro frame ═══
    Em iOS Safari e Chrome Android, sem estas regras, o scroll pode ficar
-   "preso" durante o preloader ou após troca de tema. */
+   "preso" durante o preloader ou após troca de tema.
+   NOTA: NÃO usar touch-action: manipulation aqui porque entra em conflito
+   com a regra global `touch-action: pan-y` já existente em `html, body`
+   (linha ~7215). pan-y é mais permissivo e permite scroll vertical fluído. */
 @media (max-width: 767px) {
   html, body {
     /* overscroll-behavior-y: contain evita scroll chaining com elementos fixed */
     overscroll-behavior-y: contain;
     /* -webkit-overflow-scrolling: touch ativa scroll momentum em iOS antigo */
     -webkit-overflow-scrolling: touch;
-    /* touch-action: manipulation remove o delay de 300ms em toques antigos,
-       e não interfere com scroll/pan */
-    touch-action: manipulation;
+    /* Explicit: garantir que o scroll vertical está sempre ativo */
+    overflow-y: auto !important;
   }
 }
 
@@ -797,6 +799,13 @@ html { scroll-behavior: smooth; }
   justify-content: center;
   align-items: flex-end;
   padding: 6rem 3rem 3rem;
+  /* Scrollable: se o conteúdo do menu exceder a altura do ecrã (em telemóveis
+     pequenos ou com barra de endereço visível), permite scroll vertical.
+     Antes não tinha overflow definido, o que fazia com que itens do menu
+     ficassem cortados e não fosse possível vê-los. */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   opacity: 0;
   pointer-events: none;
   /* visibility: hidden quando fechado garante que NÃO captura touch events.
@@ -6652,6 +6661,12 @@ section#concertos {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   animation: lbFadeIn 0.3s ease-out;
+  /* Scrollable: se a imagem + caption + nav buttons exceder a altura do ecrã
+     (em telemóveis pequenos ou em landscape), permite scroll vertical. */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 1rem;
 }
 
 @keyframes lbFadeIn {
@@ -6981,6 +6996,10 @@ section#concertos {
     align-items: center;
     justify-content: center;
     padding: 1.5rem;
+    /* Scrollable: se o modal exceder a altura do ecrã, permite scroll vertical. */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   .privacy-modal {
     position: relative;

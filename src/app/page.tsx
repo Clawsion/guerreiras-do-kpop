@@ -555,18 +555,22 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    // Garantir que o body NUNCA fica com overflow:hidden quando o menu fecha.
-    // Em mobile, este era um dos motivos do scroll "preso": se o menu abrisse
-    // e fechasse rapidamente, o overflow podia não ser limpo corretamente.
-    document.body.style.overflow = menuOpen ? "hidden" : "";
+    // ═══ GESTÃO CENTRALIZADA do body.overflow ═══
+    // Garantir que o body NUNCA fica com overflow:hidden quando nem o menu
+    // nem a lightbox estão abertos. Em mobile, este era um dos motivos do
+    // scroll "preso": se o menu abrisse e fechasse rapidamente, o overflow
+    // podia não ser limpo corretamente. Combina menuOpen + lightbox para
+    // decidir se o scroll do body deve ser bloqueado.
+    const shouldLockScroll = menuOpen || lightbox !== null;
+    document.body.style.overflow = shouldLockScroll ? "hidden" : "";
     // Forçar reflow para garantir que o browser aplica o overflow imediatamente
-    if (!menuOpen) {
+    if (!shouldLockScroll) {
       // Pequeno hack: forçar o browser a reprocessar o estilo do body
       // Isto resolve o bug do scroll preso em iOS Safari após fechar o menu
       void document.body.offsetHeight;
     }
     return () => { document.body.style.overflow = ""; };
-  }, [menuOpen]);
+  }, [menuOpen, lightbox]);
 
   /* Pause ALL CSS animations when tab is hidden - massive CPU/GPU savings */
   useEffect(() => {
