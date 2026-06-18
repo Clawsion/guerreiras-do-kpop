@@ -1831,6 +1831,22 @@ html { scroll-behavior: smooth; }
        de scroll, enquanto hidden pode fazer o browser achar que o elemento
        é scrollável (e bloquear o scroll da página em iOS Safari). */
     overflow: clip !important;
+    /* ═══ COR DE FUNDO = COR DAS BORDAS DA IMAGEM ═══
+       Como object-fit: contain deixa espaço nas laterais (a imagem é 2:3
+       mas o ecrã é 19.5:9), esse espaço aparece como "traço branco".
+       A solução é meter o fundo do hero com a MESMA cor das bordas da
+       imagem, assim o espaço fica invisível (camuflado).
+       
+       Modo noite: bordas da imagem ~#0B0429 (azul-roxo muito escuro).
+       O var(--void) = #0B0813 é parecido mas não igual, daí o traço.
+       
+       Modo dia: bordas da imagem ~#98A1CB (azul-acinzentado claro).
+       O var(--void) em light-mode = #EDE0F5 (lavanda) é diferente. */
+    background: #0B0429 !important;
+  }
+  /* Modo dia (.light-mode) — fundo do hero com a cor das bordas da imagem de dia */
+  .light-mode .hero-section {
+    background: #98A1CB !important;
   }
   /* ═══ IMAGEM DO HERO EM MOBILE — mostrar a foto COMPLETA sem cortes ═══
      As imagens novas (modo dia/noite) são 800x1200 (retrato 2:3).
@@ -1845,14 +1861,11 @@ html { scroll-behavior: smooth; }
     width: 100% !important;
     height: 100% !important;
   }
-  /* ═══ MODO NOITE (dark) — ajuste fino para esconder traço branco fino
-     que aparecia à ESQUERDA da imagem.
-     Como object-position define QUAL parte da imagem é mostrada, valores
-     MAIORES que 50% mostram mais do lado ESQUERDO da imagem (escondendo o
-     traço à esquerda). Movemos para 65% center.
-     O modo dia (.light-mode) mantém center center porque não tem este bug. ═══ */
+  /* ═══ MODO NOITE (dark) — voltar a center center.
+     Como o fundo do hero agora tem a MESMA cor das bordas da imagem,
+     o "traço" laterais fica invisível (camuflado). Não é preciso deslocar. ═══ */
   :not(.light-mode) .hero-bg-img {
-    object-position: 65% center !important;
+    object-position: center center !important;
   }
   /* ═══ GARANTIA EXTRA: todos os elementos fixed com inset:0 que NÃO são
      menu/lightbox/privacy devem ter pointer-events: none em mobile.
@@ -7397,13 +7410,11 @@ img { max-width: 100%; height: auto; }
     width: 100% !important;
     height: 100% !important;
   }
-  /* ═══ MODO NOITE (dark) — ajuste fino para esconder traço branco fino
-     que aparecia à DIREITA da imagem (em cima).
-     Movemos a imagem para a direita (65% em vez de 50%) para reduzir o
-     espaço visível à direita e esconder o traço.
-     O modo dia (.light-mode) mantém center center porque não tem este bug. ═══ */
+  /* ═══ MODO NOITE (dark) — voltar a center center.
+     Como o fundo do hero agora tem a MESMA cor das bordas da imagem,
+     o "traço" laterais fica invisível (camuflado). Não é preciso deslocar. ═══ */
   :not(.light-mode) .hero-bg-img {
-    object-position: 65% center !important;
+    object-position: center center !important;
   }
 
   /* O hero-bottom-panel estava em % absolutas que não funcionavam.
