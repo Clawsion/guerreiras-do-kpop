@@ -563,13 +563,38 @@ export default function HomePage() {
     // decidir se o scroll do body deve ser bloqueado.
     const shouldLockScroll = menuOpen || lightbox !== null;
     document.body.style.overflow = shouldLockScroll ? "hidden" : "";
+    // Também garantir que html não está bloqueado (algumas situações em iOS
+    // Safari deixam o html com overflow hidden).
+    document.documentElement.style.overflow = shouldLockScroll ? "hidden" : "";
     // Forçar reflow para garantir que o browser aplica o overflow imediatamente
     if (!shouldLockScroll) {
       // Pequeno hack: forçar o browser a reprocessar o estilo do body
       // Isto resolve o bug do scroll preso em iOS Safari após fechar o menu
       void document.body.offsetHeight;
     }
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [menuOpen, lightbox]);
+
+  // ═══ SAFETY NET: verificar a cada 500ms se o body está bloqueado sem razão ═══
+  // Se menuOpen=false E lightbox=null MAS body.overflow==='hidden', corrigir.
+  // Isto é uma rede de segurança contra race conditions ou outros efeitos que
+  // possam deixar o scroll bloqueado. Corre só em mobile para poupar bateria.
+  useEffect(() => {
+    if (typeof window === "undefined" || window.innerWidth >= 768) return;
+    const id = setInterval(() => {
+      if (!menuOpen && lightbox === null) {
+        if (document.body.style.overflow === "hidden") {
+          document.body.style.overflow = "";
+        }
+        if (document.documentElement.style.overflow === "hidden") {
+          document.documentElement.style.overflow = "";
+        }
+      }
+    }, 500);
+    return () => clearInterval(id);
   }, [menuOpen, lightbox]);
 
   /* Pause ALL CSS animations when tab is hidden - massive CPU/GPU savings */
@@ -857,48 +882,63 @@ export default function HomePage() {
           <div className="preloader-curtain-right"/>
         </div>
       ) : (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 100,
-            display: 'flex',
-            transition: 'opacity 0.6s ease 2.3s',
-            opacity: loaded ? 0 : 1,
-            pointerEvents: loaded ? 'none' : 'auto',
-          }}
-        >
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              bottom: 0,
-              left: 0,
-              width: '52%',
-              background: '#E0CCF2',
-              borderRight: '1px solid rgba(147,51,234,0.25)',
-              boxShadow: 'inset -20px 0 40px rgba(147,51,234,0.06)',
-              transform: loaded ? 'translateX(-105%)' : 'translateX(0)',
-              transition: 'transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1)',
-              willChange: 'transform',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              bottom: 0,
-              right: 0,
-              width: '52%',
-              background: '#E0CCF2',
-              borderLeft: '1px solid rgba(147,51,234,0.25)',
-              boxShadow: 'inset 20px 0 40px rgba(147,51,234,0.06)',
-              transform: loaded ? 'translateX(105%)' : 'translateX(0)',
-              transition: 'transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1)',
-              willChange: 'transform',
-            }}
-          />
-        </div>
+        (() => {
+          // ═══ Em mobile, reduzir durações do preloader light (igual ao dark) ═══
+          // Antes: opacity delay 2.3s + curtain 2.5s (igual ao desktop)
+          // Agora: opacity delay 0.9s + curtain 1.0s em mobile
+          // Isto resolve o bug do scroll "preso" no início em modo dia no smartphone.
+          const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
+          const opacityDelay = isMobileViewport ? 0.9 : 2.3;
+          const opacityDur = isMobileViewport ? 0.3 : 0.6;
+          const curtainDur = isMobileViewport ? 1.0 : 2.5;
+          return (
+            <div
+              style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 100,
+                display: 'flex',
+                transition: `opacity ${opacityDur}s ease ${opacityDelay}s`,
+                opacity: loaded ? 0 : 1,
+                // ═══ CRÍTICO: pointer-events: none quando loaded ═══
+                // Antes, este preloader light capturava toques durante ~3s em mobile
+                // mesmo depois do curtain abrir. Agora liberta imediatamente.
+                pointerEvents: loaded ? 'none' : 'auto',
+              }}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  width: '52%',
+                  background: '#E0CCF2',
+                  borderRight: '1px solid rgba(147,51,234,0.25)',
+                  boxShadow: 'inset -20px 0 40px rgba(147,51,234,0.06)',
+                  transform: loaded ? 'translateX(-105%)' : 'translateX(0)',
+                  transition: `transform ${curtainDur}s cubic-bezier(0.22, 0.61, 0.36, 1)`,
+                  willChange: 'transform',
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  bottom: 0,
+                  right: 0,
+                  width: '52%',
+                  background: '#E0CCF2',
+                  borderLeft: '1px solid rgba(147,51,234,0.25)',
+                  boxShadow: 'inset 20px 0 40px rgba(147,51,234,0.06)',
+                  transform: loaded ? 'translateX(105%)' : 'translateX(0)',
+                  transition: `transform ${curtainDur}s cubic-bezier(0.22, 0.61, 0.36, 1)`,
+                  willChange: 'transform',
+                }}
+              />
+            </div>
+          );
+        })()
       )}
 
       {/* ═══ SOUL PARTICLES - fixed overlay across entire site ═══ */}

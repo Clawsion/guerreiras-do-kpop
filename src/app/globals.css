@@ -142,8 +142,18 @@ html { scroll-behavior: smooth; }
     overscroll-behavior-y: contain;
     /* -webkit-overflow-scrolling: touch ativa scroll momentum em iOS antigo */
     -webkit-overflow-scrolling: touch;
-    /* Explicit: garantir que o scroll vertical está sempre ativo */
+    /* Explicit: garantir que o scroll vertical está sempre ativo.
+       !important para sobrepor a qualquer style inline que possa ter sido
+       aplicado por JavaScript (ex: body.style.overflow = 'hidden'). */
     overflow-y: auto !important;
+    overflow-x: hidden !important;
+    /* Garantir que html/body não estão固定 — se algum estilo os pusesse fixed,
+       o scroll vertical seria impossível. */
+    position: static !important;
+    /* height: auto para garantir que o body cresce com o conteúdo (não fica
+       limitado a 100vh, o que bloquearia o scroll). */
+    height: auto !important;
+    max-height: none !important;
   }
 }
 
