@@ -562,17 +562,22 @@ html { scroll-behavior: smooth; }
   filter: brightness(0.68) saturate(0.88) contrast(1.10) blur(0px);
   will-change: opacity, filter;
 }
+/* .active: SEM filter forçado — deixa o JavaScript controlar o filter
+   durante as transições (fade-out/fade-in com brightness/blur). */
 .memories-slide.active {
   opacity: 1;
-  filter: brightness(0.88) saturate(0.95) contrast(1.05) blur(0px);
+  /* filter é controlado pelo JavaScript inline */
 }
 
-/* Modo dia: ainda menos brilho para combater o "lavanda pálido" anterior */
-.light-mode .memories-slide {
+/* Modo dia: filter inicial aplicado apenas quando NÃO há estilo inline do JavaScript.
+   O JavaScript controla o filter durante as transições (fade-out/fade-in).
+   Usar !important apenas no estado base, não no .active (que é controlado por JS). */
+.light-mode .memories-slide:not(.active) {
   filter: brightness(0.72) saturate(0.88) contrast(1.08) blur(0px);
 }
+/* .active em modo dia: SEM filter forçado — deixa o JavaScript controlar */
 .light-mode .memories-slide.active {
-  filter: brightness(0.90) saturate(0.95) contrast(1.05) blur(0px);
+  /* Sem filter aqui — o JavaScript aplica brightness(1) blur(0px) no fade-in */
 }
 
 /* Indicadores (pontos) - mantidos mas mais discretos */
@@ -2613,16 +2618,15 @@ html { scroll-behavior: smooth; }
     background-position: right top;
   }
 }
-/* ═══ SMARTPHONE (<768px) — fundo do palco LED wall mais proporcional ═══
-   Em smartphone, o palco LED wall estava cortado na parte inferior.
-   Ajustar para que o palco fique mais visível e centrado:
-   - background-size: cover (preenche o ecrã)
-   - background-position: center top (palco centrado horizontalmente)
-   - background-attachment: scroll (evita problemas em iOS) */
+/* ═══ SMARTPHONE (<768px) — fundo do palco LED wall com menos zoom e à direita ═══
+   Em smartphone, o palco estava com demasiado zoom (cover preenche tudo).
+   Ajustar para:
+   - background-size: 120% auto (menos zoom — mostra mais do palco)
+   - background-position: 80% top (mais para o lado direito) */
 @media (max-width: 767px) {
   .espetaculo-section {
-    background-size: cover !important;
-    background-position: center top !important;
+    background-size: 120% auto !important;
+    background-position: 80% top !important;
     background-attachment: scroll !important;
   }
 }
