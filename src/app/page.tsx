@@ -557,8 +557,22 @@ export default function HomePage() {
     }
   }, [themeMode]);
 
+  // ═══ Ref que marca QUAL modo queremos no final da transição ═══
+  // Previne bug em cliques rápidos: mesmo que toggleTheme seja chamado 2x,
+  // o segundo é no-op porque pendingToModeRef já está definido.
+  const pendingToModeRef = useRef<'dark' | 'light' | null>(null);
+
   const toggleTheme = useCallback(() => {
-    setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
+    // Se pendingToModeRef estiver definido, usamos esse valor (já decidido no startThemeTransition)
+    // Isto garante que mesmo múltiplas chamadas a toggleTheme (race condition) produzem o mesmo resultado.
+    if (pendingToModeRef.current) {
+      const target = pendingToModeRef.current;
+      pendingToModeRef.current = null; // consome para próxima transição
+      setThemeMode(target);
+    } else {
+      // Fallback: usar o valor actual do ref (sem race condition)
+      setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
+    }
   }, []);
 
   // ═══ SISTEMA DE TROCA DE TEMA — REFEITO 2026-06 ═══
@@ -624,6 +638,11 @@ export default function HomePage() {
     // Com themeModeRef.current, lemos sempre o valor MAIS RECENTE.
     const currentMode = themeModeRef.current;
     const toMode = currentMode === 'dark' ? 'light' as const : 'dark' as const;
+    // ═══ Marca o modo destino ANTES de agendar toggleTheme ═══
+    // Quando toggleTheme for executado (300-500ms depois), ele lê pendingToModeRef
+    // e usa ESSE valor (em vez de toggle baseado em prev state, que pode falhar
+    // se houver múltiplas chamadas acumuladas).
+    pendingToModeRef.current = toMode;
     const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
 
     if (origin === 'orb' && !isMobileViewport) {
