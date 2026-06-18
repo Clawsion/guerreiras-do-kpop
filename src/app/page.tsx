@@ -1026,23 +1026,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=37 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=38 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=37" : "/hero-bg-mobile.webp?v=37"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=38" : "/hero-bg-mobile.webp?v=38"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=37" : "/hero-bg.webp?v=37"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=38" : "/hero-bg.webp?v=38"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=37" : "/hero-bg.webp?v=37"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=38" : "/hero-bg.webp?v=38"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
@@ -1715,8 +1715,22 @@ export default function HomePage() {
 
       {/* ═══ MOBILE STICKY CTA ═══ */}
       <div className={`fixed bottom-0 inset-x-0 z-40 sm:hidden p-3 backdrop-blur-2xl border-t transition-opacity duration-300 ${loaded?"":"opacity-0 pointer-events-none"}`} style={{background:"rgba(11,8,19,0.92)",borderColor:"rgba(200,80,255,0.08)"}}>
-        <a href={TICKETLINE_URL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase cursor-pointer" style={{background:"var(--neon-purple)",color:"#fff"}}>
-          <Ticket className="w-4 h-4"/> Ticketline
+        <a
+          href="#cartazes"
+          onClick={e => {
+            e.preventDefault();
+            const el = document.getElementById('cartazes');
+            if (el) {
+              const isMobile = window.innerWidth < 768;
+              const offset = isMobile ? 400 : 300;
+              const top = el.getBoundingClientRect().top + window.scrollY + offset;
+              window.scrollTo({ top, behavior: 'smooth' });
+            }
+          }}
+          className="flex items-center justify-center gap-2 w-full py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase cursor-pointer"
+          style={{background:"var(--neon-purple)",color:"#fff"}}
+        >
+          <Ticket className="w-4 h-4"/> Garante o Teu Lugar
         </a>
       </div>
 
