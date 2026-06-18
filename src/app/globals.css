@@ -2450,38 +2450,43 @@ html { scroll-behavior: smooth; }
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  margin-top: 0.6rem;
-  padding: 0.3rem 0.6rem;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+  padding: 0.4rem 0.8rem;
   text-decoration: none;
-  opacity: 0.85;
-  transition: opacity 0.3s ease;
+  opacity: 1;
+  transition: opacity 0.3s ease, transform 0.3s ease;
   /* Centralizar em relação ao botão acima */
   align-self: center;
 }
 .hero-via-ticketline:hover {
   opacity: 1;
+  transform: scale(1.05);
 }
 .hero-via-text {
-  font-size: 9px;
-  letter-spacing: 0.18em;
+  font-size: 13px;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  font-weight: 500;
-  color: var(--t3);
+  font-weight: 600;
+  color: var(--t2);
 }
 .hero-via-logo {
-  height: 14px;
+  height: 28px;
   width: auto;
   /* Logo da Ticketline tem verde+vermelho — funciona bem em fundo escuro.
      Em modo dia, adicionamos um filtro para aumentar o contraste. */
-  filter: drop-shadow(0 0 2px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 0 3px rgba(0,0,0,0.5));
+  transition: filter 0.3s ease;
+}
+.hero-via-ticketline:hover .hero-via-logo {
+  filter: drop-shadow(0 0 5px rgba(186,206,10,0.4));
 }
 /* Em modo dia, o fundo é claro — garantir que o logo se vê bem */
 .light-mode .hero-via-logo {
-  filter: drop-shadow(0 0 1px rgba(0,0,0,0.2));
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
 }
 .light-mode .hero-via-text {
-  color: var(--t3);
+  color: var(--t2);
 }
 
 .hero-circle {
