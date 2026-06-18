@@ -1845,11 +1845,14 @@ html { scroll-behavior: smooth; }
     width: 100% !important;
     height: 100% !important;
   }
-  /* ═══ MODO NOITE (dark) — ajuste fino para esconder traço branco fino.
-     Movemos a imagem ligeiramente para a esquerda (3% do centro).
-     O modo dia (.light-mode) mantém center center. ═══ */
+  /* ═══ MODO NOITE (dark) — ajuste fino para esconder traço branco fino
+     que aparecia à ESQUERDA da imagem.
+     Como object-position define QUAL parte da imagem é mostrada, valores
+     MAIORES que 50% mostram mais do lado ESQUERDO da imagem (escondendo o
+     traço à esquerda). Movemos para 65% center.
+     O modo dia (.light-mode) mantém center center porque não tem este bug. ═══ */
   :not(.light-mode) .hero-bg-img {
-    object-position: 47% center !important;
+    object-position: 65% center !important;
   }
   /* ═══ GARANTIA EXTRA: todos os elementos fixed com inset:0 que NÃO são
      menu/lightbox/privacy devem ter pointer-events: none em mobile.
@@ -7395,11 +7398,12 @@ img { max-width: 100%; height: auto; }
     height: 100% !important;
   }
   /* ═══ MODO NOITE (dark) — ajuste fino para esconder traço branco fino
-     que aparecia num dos lados da imagem. Movemos a imagem ligeiramente
-     para a esquerda (3% para a esquerda do centro).
+     que aparecia à DIREITA da imagem (em cima).
+     Movemos a imagem para a direita (65% em vez de 50%) para reduzir o
+     espaço visível à direita e esconder o traço.
      O modo dia (.light-mode) mantém center center porque não tem este bug. ═══ */
   :not(.light-mode) .hero-bg-img {
-    object-position: 47% center !important;
+    object-position: 65% center !important;
   }
 
   /* O hero-bottom-panel estava em % absolutas que não funcionavam.
