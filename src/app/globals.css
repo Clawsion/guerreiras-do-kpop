@@ -1858,9 +1858,13 @@ html { scroll-behavior: smooth; }
     width: 100% !important;
     height: 100% !important;
   }
-  /* ═══ MODO NOITE (dark) — center center (igual ao modo dia). ═══ */
+  /* ═══ MODO NOITE (dark) — zoom subtil de 5% para dar mais presença.
+     transform: scale(1.05) aumenta a imagem 5% mantendo o contain
+     (sem cortes visíveis porque o gradient camufla as bordas). ═══ */
   :not(.light-mode) .hero-bg-img {
     object-position: center center !important;
+    transform: scale(1.05) !important;
+    transform-origin: center center !important;
   }
   /* ═══ GARANTIA EXTRA: todos os elementos fixed com inset:0 que NÃO são
      menu/lightbox/privacy devem ter pointer-events: none em mobile.
