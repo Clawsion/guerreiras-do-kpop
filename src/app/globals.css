@@ -1845,6 +1845,12 @@ html { scroll-behavior: smooth; }
     width: 100% !important;
     height: 100% !important;
   }
+  /* ═══ MODO NOITE (dark) — ajuste fino para esconder traço branco fino.
+     Movemos a imagem ligeiramente para a esquerda (3% do centro).
+     O modo dia (.light-mode) mantém center center. ═══ */
+  :not(.light-mode) .hero-bg-img {
+    object-position: 47% center !important;
+  }
   /* ═══ GARANTIA EXTRA: todos os elementos fixed com inset:0 que NÃO são
      menu/lightbox/privacy devem ter pointer-events: none em mobile.
      Isto previne que qualquer camada visual (preloader, flash, particles,
@@ -7387,6 +7393,13 @@ img { max-width: 100%; height: auto; }
     object-position: center center !important;
     width: 100% !important;
     height: 100% !important;
+  }
+  /* ═══ MODO NOITE (dark) — ajuste fino para esconder traço branco fino
+     que aparecia num dos lados da imagem. Movemos a imagem ligeiramente
+     para a esquerda (3% para a esquerda do centro).
+     O modo dia (.light-mode) mantém center center porque não tem este bug. ═══ */
+  :not(.light-mode) .hero-bg-img {
+    object-position: 47% center !important;
   }
 
   /* O hero-bottom-panel estava em % absolutas que não funcionavam.
