@@ -7456,21 +7456,11 @@ img { max-width: 100%; height: auto; }
     padding-top: 0 !important;
     padding-bottom: 0 !important;
   }
-  /* ═══ Theme toggle + Hamburger EMPILHADOS em mobile (theme em cima do hamburger) ═══
-     Em desktop (sm+) continuam lado a lado (flex-row via classes Tailwind).
-     Em mobile, este grupo muda para flex-col (vertical) com gap pequeno. */
-  .hero-nav-right-group {
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 4px !important;
-    /* Empurrar o grupo para o topo do ecrã */
-    margin-top: 4px !important;
-  }
-  /* Theme toggle em mobile — sem texto "Tema: Noite/Dia" (já é hidden sm:inline),
-     só mostra o orb. Centralizado no grupo. */
+  /* ═══ Theme toggle À ESQUERDA em mobile (no lugar do Ticketline, agora removido).
+     margin-right: auto empurra o hamburger para a direita. ═══ */
   .hero-nav-theme {
-    margin: 0 auto !important;
-    padding: 4px !important;
+    margin-right: auto !important;
+    padding: 8px !important;
   }
 
   /* ─── TICKETLINE PARA A ESQUERDA EM SMARTPHONE ─── */
