@@ -333,8 +333,13 @@ html { scroll-behavior: smooth; }
   height: 75vh;
   min-height: 500px;
   overflow: hidden;
-  background: #050309; /* fundo preto puro para a pausa entre slides */
+  background: #050309; /* fundo preto puro para a pausa entre slides (modo noite) */
   isolation: isolate;
+}
+
+/* Modo dia: fundo lavanda escuro (em vez de preto) para a pausa entre slides */
+.light-mode .memories-section {
+  background: #4a2d7a;
 }
 
 /* ═══ Shape dividers SVG — MONTANHAS (IGUAIS às cartazes) ═══ */
@@ -499,14 +504,16 @@ html { scroll-behavior: smooth; }
   will-change: opacity;
 }
 
-/* Modo dia: brilho mais claro (lavanda/rosa) com mix-blend-mode multiply */
+/* Modo dia: MESMO efeito do modo noite — mix-blend-mode: screen com cores saturadas */
+/* Sobre fundo lavanda claro, 'screen' com roxo/rosa saturado cria um brilho vibrante */
+/* igual ao efeito do modo noite (que usa screen com roxo/rosa sobre fundo escuro) */
 .light-mode .memories-glow {
   background:
     radial-gradient(ellipse at 50% 50%,
-      rgba(255, 220, 245, 0.25) 0%,
-      rgba(200, 160, 230, 0.15) 30%,
+      rgba(200, 80, 255, 0.22) 0%,
+      rgba(255, 45, 120, 0.14) 30%,
       transparent 70%);
-  mix-blend-mode: multiply;
+  mix-blend-mode: screen;
 }
 
 /* ═══ Slides — transição cinematográfica fade-out → pausa preta → fade-in ═══ */
