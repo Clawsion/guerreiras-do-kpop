@@ -7632,12 +7632,15 @@ img { max-width: 100%; height: auto; }
 .parallax-bg {
   position: absolute;
   inset: 0;
-  background-image: url('/parallax-1-night.webp?v=6');
+  background-image: url('/parallax-1-night.webp?v=7');
   background-size: 100% auto;
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   z-index: 0;
+  /* Alta qualidade de renderização (importante para imagens upscaled) */
+  image-rendering: high-quality;
+  -webkit-font-smoothing: antialiased;
   /* Mask: fade suave nas bordas laterais (12% de cada lado) + bordas superior/inferior */
   -webkit-mask-image:
     linear-gradient(90deg,
@@ -7667,22 +7670,22 @@ img { max-width: 100%; height: auto; }
 
 /* Parallax 1 (ANTES do Mural) — imagem 1 */
 .parallax-before-mural .parallax-bg {
-  background-image: url('/parallax-1-night.webp?v=6');
+  background-image: url('/parallax-1-night.webp?v=7');
   background-size: 100% auto;
   background-position: center center;
 }
 .light-mode .parallax-before-mural .parallax-bg {
-  background-image: url('/parallax-1-day.webp?v=6');
+  background-image: url('/parallax-1-day.webp?v=7');
 }
 
 /* Parallax 2 (DEPOIS do Mural) — imagem 2 (diferente) — MESMO zoom do parallax 1 */
 .parallax-after-mural .parallax-bg {
-  background-image: url('/parallax-2-night.webp?v=6');
+  background-image: url('/parallax-2-night.webp?v=7');
   background-size: 100% auto;
   background-position: center center;
 }
 .light-mode .parallax-after-mural .parallax-bg {
-  background-image: url('/parallax-2-day.webp?v=6');
+  background-image: url('/parallax-2-day.webp?v=7');
 }
 
 /* Overlay gradual (vinheta escura para legibilidade) */
@@ -7763,17 +7766,17 @@ img { max-width: 100%; height: auto; }
     background-size: cover;
   }
   .parallax-before-mural .parallax-bg {
-    background-image: url('/parallax-1-night-mobile.webp?v=6');
+    background-image: url('/parallax-1-night-mobile.webp?v=7');
     background-position: center top;
   }
   .light-mode .parallax-before-mural .parallax-bg {
-    background-image: url('/parallax-1-day-mobile.webp?v=6');
+    background-image: url('/parallax-1-day-mobile.webp?v=7');
   }
   .parallax-after-mural .parallax-bg {
-    background-image: url('/parallax-2-night-mobile.webp?v=6');
+    background-image: url('/parallax-2-night-mobile.webp?v=7');
     background-position: center top;
   }
   .light-mode .parallax-after-mural .parallax-bg {
-    background-image: url('/parallax-2-day-mobile.webp?v=6');
+    background-image: url('/parallax-2-day-mobile.webp?v=7');
   }
 }
