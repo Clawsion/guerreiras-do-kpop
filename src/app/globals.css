@@ -130,6 +130,21 @@
 
 html { scroll-behavior: smooth; }
 
+/* ═══ MOBILE SCROLL — Garantir scroll fluído desde o primeiro frame ═══
+   Em iOS Safari e Chrome Android, sem estas regras, o scroll pode ficar
+   "preso" durante o preloader ou após troca de tema. */
+@media (max-width: 767px) {
+  html, body {
+    /* overscroll-behavior-y: contain evita scroll chaining com elementos fixed */
+    overscroll-behavior-y: contain;
+    /* -webkit-overflow-scrolling: touch ativa scroll momentum em iOS antigo */
+    -webkit-overflow-scrolling: touch;
+    /* touch-action: manipulation remove o delay de 300ms em toques antigos,
+       e não interfere com scroll/pan */
+    touch-action: manipulation;
+  }
+}
+
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--void); }
 ::-webkit-scrollbar-thumb { background: var(--purple-mid); }
@@ -669,6 +684,28 @@ html { scroll-behavior: smooth; }
 }
 .preloader-honmoon.preloader-done .preloader-curtain-right {
   transform: translateX(105%);
+}
+
+/* ═══ MOBILE PRELOADER — Curtains mais rápidos para destravar o scroll cedo ═══
+   Em smartphone, o curtain de 2.5s + opacity delay de 2.3s deixava o scroll
+   "preso" visualmente por ~3s. Reduzimos para 1.0s de abertura + 0.3s de fade,
+   e o opacity já começa a baixar imediatamente (sem delay de 2.3s).
+   Resultado: scroll totalmente desbloqueado em ~1.3s em mobile (vs ~3s antes). */
+@media (max-width: 767px) {
+  .preloader-honmoon {
+    transition: opacity 0.3s ease 0.9s !important;
+  }
+  .preloader-curtain-left,
+  .preloader-curtain-right {
+    transition: transform 1.0s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+  }
+  /* ═══ MOBILE THEME TOGGLE — Esconde o orb-burst (é só para desktop via orb) ═══
+     Em mobile, o hero-orb-burst anima 1s mesmo após o flash mobile acabar aos
+     600ms. Isto criava uma camada de composição extra em mobile, desnecessária.
+     Aqui escondemos o orb-burst em mobile (display: none) — poupa composição. */
+  .hero-orb-burst {
+    display: none !important;
+  }
 }
 
 
@@ -1934,7 +1971,7 @@ html { scroll-behavior: smooth; }
       rgba(220, 180, 240, 0.6) 40%,
       rgba(180, 140, 220, 0.25) 60%,
       transparent 80%) !important;
-    animation: heroFlashMobileLight 0.6s cubic-bezier(0.32, 0.72, 0.4, 1) forwards !important;
+    animation: heroFlashMobileLight 0.4s cubic-bezier(0.32, 0.72, 0.4, 1) forwards !important;
   }
   .hero-img-flash.to-dark {
     /* Radial wipe escuro — vela roxa que se expande */
@@ -1944,17 +1981,19 @@ html { scroll-behavior: smooth; }
       rgba(35, 18, 60, 0.6) 40%,
       rgba(50, 25, 80, 0.25) 60%,
       transparent 80%) !important;
-    animation: heroFlashMobileDark 0.6s cubic-bezier(0.32, 0.72, 0.4, 1) forwards !important;
+    animation: heroFlashMobileDark 0.4s cubic-bezier(0.32, 0.72, 0.4, 1) forwards !important;
   }
   /* Radial wipe: scale(0.3) -> scale(1.4) + opacity(0 -> 1 -> 0)
      O scale cria o efeito de círculo a expandir; o opacity fade-out no fim.
-     Sem blur nem filter — só transform + opacity, muito GPU-friendly. */
+     Sem blur nem filter — só transform + opacity, muito GPU-friendly.
+     Duração reduzida de 600ms para 400ms para a troca parecer mais instantânea
+     e o scroll voltar a ser fluído mais cedo. */
   @keyframes heroFlashMobileLight {
     0%   { opacity: 0; transform: scale(0.3); }
-    30%  { opacity: 1; transform: scale(0.8); }   /* círculo cresce rápido */
-    50%  { opacity: 1; transform: scale(1.1); }   /* pico: cobre viewport, toggleTheme() aqui */
-    70%  { opacity: 0.8; transform: scale(1.2); }  /* começa fade-out */
-    100% { opacity: 0; transform: scale(1.4); }    /* fim: nova imagem revelada */
+    30%  { opacity: 1; transform: scale(0.8); }
+    50%  { opacity: 1; transform: scale(1.1); }
+    70%  { opacity: 0.8; transform: scale(1.2); }
+    100% { opacity: 0; transform: scale(1.4); }
   }
   @keyframes heroFlashMobileDark {
     0%   { opacity: 0; transform: scale(0.3); }
@@ -1966,7 +2005,7 @@ html { scroll-behavior: smooth; }
   /* Imagem do hero — sem blur durante o flash em mobile (só opacity transition) */
   .hero-bg-img.flashing {
     filter: none !important;
-    transition: opacity 0.3s ease-out !important;
+    transition: opacity 0.2s ease-out !important;
   }
 }
 

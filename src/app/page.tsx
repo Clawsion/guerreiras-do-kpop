@@ -545,12 +545,25 @@ export default function HomePage() {
   // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
 
   useEffect(() => {
-    const t = setTimeout(() => setLoaded(true), 1200);
+    // Em mobile, reduzir o delay do preloader para o scroll desbloquear mais cedo.
+    // Antes: 1200ms em todos os dispositivos.
+    // Agora: 400ms em mobile (< 768px), 1200ms em desktop/tablet.
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const t = setTimeout(() => setLoaded(true), isMobile ? 400 : 1200);
     return () => clearTimeout(t);
   }, []);
 
   useEffect(() => {
+    // Garantir que o body NUNCA fica com overflow:hidden quando o menu fecha.
+    // Em mobile, este era um dos motivos do scroll "preso": se o menu abrisse
+    // e fechasse rapidamente, o overflow podia não ser limpo corretamente.
     document.body.style.overflow = menuOpen ? "hidden" : "";
+    // Forçar reflow para garantir que o browser aplica o overflow imediatamente
+    if (!menuOpen) {
+      // Pequeno hack: forçar o browser a reprocessar o estilo do body
+      // Isto resolve o bug do scroll preso em iOS Safari após fechar o menu
+      void document.body.offsetHeight;
+    }
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
@@ -668,7 +681,9 @@ export default function HomePage() {
     setHeroFlash({type: flashClass as 'to-light' | 'to-dark', x, y});
 
     const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
-    const flashDuration = isMobileViewport ? 600 : 1000;
+    // Mobile: 400ms (sincronizado com a nova animação heroFlashMobileLight/Dark de 400ms)
+    // Desktop: 1000ms
+    const flashDuration = isMobileViewport ? 400 : 1000;
     flashTimeoutRef.current = setTimeout(() => {
       setHeroFlash({type: 'none', x: 50, y: 50});
       flashTimeoutRef.current = null;
@@ -749,16 +764,16 @@ export default function HomePage() {
       if (isMobileViewport) {
         // Mobile: flash expande/suga do ponto de clique (sem ripple)
         triggerHeroFlash(toMode, cx, cy);
-        // to-light: toggle aos 300ms (50% de 600ms)
+        // to-light: toggle aos 200ms (50% de 400ms — novo flash mobile é mais rápido)
         // to-dark: toggle aos 50ms (quase imediato)
-        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, toMode === 'light' ? 300 : 50));
-        // Cleanup mais cedo em mobile (500ms em vez de 600ms) — quanto antes
-        // o ripple.active passar a false, menos camadas extras o browser tem
+        transitionRef.current.push(setTimeout(() => { toggleTheme(); }, toMode === 'light' ? 200 : 50));
+        // Cleanup mais cedo em mobile (350ms em vez de 500ms) — quanto antes
+        // o isTransitioningRef passar a false, menos camadas extras o browser tem
         // de compor, e o scroll volta a ser fluído imediatamente.
         transitionRef.current.push(setTimeout(() => {
           setRipple(null);
           isTransitioningRef.current = false;
-        }, 500));
+        }, 350));
       } else {
         // Desktop via botão do topo: ripple do Honmoon + toggle
         triggerHeroFlash(toMode, cx, cy);
@@ -902,25 +917,25 @@ export default function HomePage() {
       <section className="hero-section" style={{background:"var(--void)"}}>
         {/* Background image - full bleed (imagem clara em modo dia, escura em modo noite)
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
-            - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — 450x800 originais do user
+            - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=6 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=7 para cache-busting (força reload das imagens novas). */}
         <picture>
-          {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (450x800) */}
+          {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=6" : "/hero-bg-mobile.webp?v=6"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=7" : "/hero-bg-mobile.webp?v=7"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=6" : "/hero-bg.webp?v=6"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=7" : "/hero-bg.webp?v=7"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=6" : "/hero-bg.webp?v=6"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=7" : "/hero-bg.webp?v=7"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
