@@ -1026,23 +1026,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=20 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=21 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=20" : "/hero-bg-mobile.webp?v=20"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=21" : "/hero-bg-mobile.webp?v=21"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=20" : "/hero-bg.webp?v=20"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=21" : "/hero-bg.webp?v=21"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=20" : "/hero-bg.webp?v=20"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=21" : "/hero-bg.webp?v=21"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
@@ -1146,11 +1146,29 @@ export default function HomePage() {
         {/* ═══ HERO CTA - em baixo de 'Épico' (alinhado a ~19% X da imagem) ═══ */}
         <div className="hero-bottom-panel absolute z-10 flex flex-col items-start" style={{left: "19%", bottom: "22%", transform: "translateX(-25%)"}}>
           <a
-            href="#cartazes"
+            href={TICKETLINE_URL_CASCAIS}
+            target="_blank"
+            rel="noopener noreferrer"
             className="hero-cta"
-            onClick={e => { e.preventDefault(); document.getElementById('cartazes')?.scrollIntoView({ behavior: 'smooth' }); }}
           >
             Garante o Teu Lugar <ChevronRight className="w-3 h-3"/>
+          </a>
+          {/* ═══ "via Ticketline" — texto + logo da Ticketline, centrado em baixo do botão ═══ */}
+          <a
+            href={TICKETLINE_URL_CASCAIS}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hero-via-ticketline"
+            aria-label="Bilhetes via Ticketline"
+          >
+            <span className="hero-via-text">via</span>
+            <img
+              src="/ticketline-logo.png"
+              alt="Ticketline"
+              className="hero-via-logo"
+              loading="lazy"
+              decoding="async"
+            />
           </a>
         </div>
       </section>

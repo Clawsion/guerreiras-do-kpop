@@ -2445,6 +2445,45 @@ html { scroll-behavior: smooth; }
   border-color: rgba(255,255,255,0.2);
 }
 
+/* ═══ "via Ticketline" — em baixo do botão CTA, centrado ═══ */
+.hero-via-ticketline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+  padding: 0.3rem 0.6rem;
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+  /* Centralizar em relação ao botão acima */
+  align-self: center;
+}
+.hero-via-ticketline:hover {
+  opacity: 1;
+}
+.hero-via-text {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--t3);
+}
+.hero-via-logo {
+  height: 14px;
+  width: auto;
+  /* Logo da Ticketline tem verde+vermelho — funciona bem em fundo escuro.
+     Em modo dia, adicionamos um filtro para aumentar o contraste. */
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.3));
+}
+/* Em modo dia, o fundo é claro — garantir que o logo se vê bem */
+.light-mode .hero-via-logo {
+  filter: drop-shadow(0 0 1px rgba(0,0,0,0.2));
+}
+.light-mode .hero-via-text {
+  color: var(--t3);
+}
+
 .hero-circle {
   position: absolute;
   border-radius: 50%;
