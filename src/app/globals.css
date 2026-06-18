@@ -526,12 +526,15 @@ html { scroll-behavior: smooth; }
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  opacity: 1;
+  /* ═══ MENOS INTENSIDADE (todos os dispositivos) ═══
+     opacity 1 -> 0.6 (reduz o brilho global para 60%)
+     Os valores do gradient também foram reduzidos. */
+  opacity: 0.6;
   /* Brilho subtil — gradiente radial roxo/rosa no centro, fade nas bordas */
   background:
     radial-gradient(ellipse at 50% 50%,
-      rgba(200, 80, 255, 0.18) 0%,
-      rgba(255, 45, 120, 0.10) 30%,
+      rgba(200, 80, 255, 0.12) 0%,
+      rgba(255, 45, 120, 0.07) 30%,
       transparent 70%);
   mix-blend-mode: screen;
   will-change: opacity;
@@ -541,10 +544,12 @@ html { scroll-behavior: smooth; }
 /* Sobre fundo lavanda claro, 'screen' com roxo/rosa saturado cria um brilho vibrante */
 /* igual ao efeito do modo noite (que usa screen com roxo/rosa sobre fundo escuro) */
 .light-mode .memories-glow {
+  /* ═══ MENOS INTENSIDADE (todos os dispositivos) ═══
+     Valores do gradient reduzidos (era 0.22/0.14, agora 0.15/0.09). */
   background:
     radial-gradient(ellipse at 50% 50%,
-      rgba(200, 80, 255, 0.22) 0%,
-      rgba(255, 45, 120, 0.14) 30%,
+      rgba(200, 80, 255, 0.15) 0%,
+      rgba(255, 45, 120, 0.09) 30%,
       transparent 70%);
   mix-blend-mode: screen;
 }
