@@ -7583,14 +7583,14 @@ img { max-width: 100%; height: auto; }
   min-height: 380px;
   overflow: hidden;
   background: var(--void);
-  background-image: url('/showcase-night.webp');
+  background-image: url('/showcase-night.webp?v=2');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
 
-/* Overlay com profundidade — fade nas bordas + vinheta central mais escura */
+/* Overlay mais leve — imagem visível na totalidade, com destaque para os de vestido preto */
 .showcase-overlay {
   position: absolute;
   inset: 0;
@@ -7598,33 +7598,33 @@ img { max-width: 100%; height: auto; }
   background:
     linear-gradient(180deg,
       var(--void) 0%,
-      transparent 15%,
-      transparent 85%,
+      transparent 12%,
+      transparent 88%,
       var(--void) 100%
     ),
     radial-gradient(ellipse at center,
-      transparent 20%,
-      rgba(11,8,19,0.55) 70%,
-      rgba(11,8,19,0.85) 100%
+      transparent 40%,
+      rgba(11,8,19,0.30) 75%,
+      rgba(11,8,19,0.55) 100%
     );
 }
 
 /* Modo dia — overlay lavanda mais saturado para reduzir brilho branco */
 .light-mode .showcase-section {
-  background-image: url('/showcase-day.webp');
+  background-image: url('/showcase-day.webp?v=2');
 }
 .light-mode .showcase-overlay {
   background:
     linear-gradient(180deg,
       var(--void) 0%,
-      transparent 15%,
-      transparent 85%,
+      transparent 12%,
+      transparent 88%,
       var(--void) 100%
     ),
     radial-gradient(ellipse at center,
-      transparent 25%,
-      rgba(170,140,200,0.45) 70%,
-      rgba(120,90,160,0.75) 100%
+      transparent 40%,
+      rgba(170,140,200,0.30) 75%,
+      rgba(120,90,160,0.55) 100%
     );
 }
 
@@ -7634,9 +7634,65 @@ img { max-width: 100%; height: auto; }
     height: 45vh;
     min-height: 280px;
     background-attachment: scroll;
-    background-image: url('/showcase-night-mobile.webp');
+    background-image: url('/showcase-night-mobile.webp?v=2');
   }
   .light-mode .showcase-section {
-    background-image: url('/showcase-day-mobile.webp');
+    background-image: url('/showcase-day-mobile.webp?v=2');
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ PARALLAX MURAL — Nova secção acima do Mural (continuação do parallax showcase) ═══ */
+/* A velocidade do parallax é igual à showcase (background-attachment: fixed) */
+/* para criar continuidade visual — a imagem "continua" a deslizar quando */
+/* o scroll passa do showcase para esta nova secção e depois para o mural. */
+/* ═══════════════════════════════════════════════════════════════ */
+.parallax-mural-section {
+  position: relative;
+  height: 45vh;
+  min-height: 320px;
+  overflow: hidden;
+  background: var(--void);
+}
+
+.parallax-mural-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/parallax-mural.webp?v=2');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  /* Overlay subtil para integrar com a secção vizinha */
+  mask-image: linear-gradient(180deg,
+    transparent 0%,
+    black 18%,
+    black 82%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(180deg,
+    transparent 0%,
+    black 18%,
+    black 82%,
+    transparent 100%
+  );
+}
+
+/* Modo dia — versão mais clara da imagem */
+.light-mode .parallax-mural-bg {
+  background-image: url('/parallax-mural-light.webp?v=2');
+}
+
+/* Mobile: scroll (parallax fixed não funciona bem em mobile) */
+@media (max-width: 767px) {
+  .parallax-mural-section {
+    height: 40vh;
+    min-height: 240px;
+  }
+  .parallax-mural-bg {
+    background-attachment: scroll;
+    background-size: cover;
+    background-position: center top;
   }
 }

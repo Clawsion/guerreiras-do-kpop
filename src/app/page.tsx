@@ -1124,6 +1124,11 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ═══ PARALLAX ACIMA DO MURAL — continuação visual do parallax anterior ═══ */}
+      <section className="parallax-mural-section" aria-hidden="true">
+        <div className="parallax-mural-bg"></div>
+      </section>
+
       <HonmoonDivider/>
 
       {/* ═══ GALERIA - Momentos ao Vivo com Legenda + Lightbox ═══ */}
