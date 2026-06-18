@@ -510,6 +510,9 @@ export default function HomePage() {
     const [privacyOpen, setPrivacyOpen] = useState(false);
   const orbRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<HTMLElement[] | null>(null);
+  // ═══ PARALLAX CONTÍNUO — ref do wrapper + state do offset Y ═══
+  const parallaxWrapperRef = useRef<HTMLDivElement>(null);
+  const [parallaxY, setParallaxY] = useState(0);
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 1200);
@@ -529,6 +532,58 @@ export default function HomePage() {
     document.addEventListener("visibilitychange", onVis);
     onVis();
     return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
+
+  // ═══ PARALLAX CONTÍNUO — scroll listener com requestAnimationFrame ═══
+  // Move a imagem de fundo a 25% da velocidade do scroll (lento).
+  // Isto cria uma imagem contínua entre as 2 secções (showcase + parallax-mural):
+  // - Quando o scroll está no topo do wrapper, a imagem está na posição 0
+  // - Quando o scroll chega ao fundo do wrapper, a imagem moveu-se -X px (lento)
+  // - Resultado: a imagem "desliza" devagar, parecendo uma só imagem contínua
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    // Respeita prefers-reduced-motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let rafId: number | null = null;
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      const el = parallaxWrapperRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const viewportH = window.innerHeight;
+      const wrapperH = rect.height;
+      // Distância total que o wrapper percorre na viewport (entra + sai)
+      const totalScroll = viewportH + wrapperH;
+      // Posição actual: 0 quando o wrapper está a entrar (topo no fundo da viewport)
+      //                 1 quando o wrapper está a sair (fundo no topo da viewport)
+      const progress = Math.max(0, Math.min(1, (viewportH - rect.top) / totalScroll));
+      // Mover a imagem a 30% da velocidade (parallax lento)
+      // A imagem tem altura extra (130% do wrapper) para permitir o movimento
+      const extraH = wrapperH * 0.3; // 30% de espaço extra para mover
+      const offset = -progress * extraH;
+      setParallaxY(offset);
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        rafId = requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    // Update inicial
+    update();
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   // Sync light-mode class to <html> on mount (theme already read from localStorage via useState initializer)
@@ -915,11 +970,12 @@ export default function HomePage() {
                 const cy = ((rect.top + rect.height / 2) / window.innerHeight) * 100;
                 startThemeTransition('button', cx, cy);
               }}
-              aria-label={themeMode === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
+              aria-label={themeMode === 'dark' ? 'Ativar modo claro (dia)' : 'Ativar modo escuro (noite)'}
+              title={themeMode === 'dark' ? 'Atual: Noite (escuro). Clique para Dia (claro)' : 'Atual: Dia (claro). Clique para Noite (escuro)'}
             >
               <span className={`hero-nav-orb ${themeMode}`}/>
-              <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"var(--neon-purple)", minWidth:"38px", textAlign:"center"}}>
-                {themeMode === 'dark' ? 'Noite' : 'Dia'}
+              <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"var(--neon-purple)", minWidth:"62px", textAlign:"center"}}>
+                {themeMode === 'dark' ? 'Tema: Noite' : 'Tema: Dia'}
               </span>
             </button>
             {/* Hamburger - encostado à direita (último elemento do flex) */}
@@ -1143,11 +1199,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ PARALLAX ACIMA DO MURAL — continuação visual do parallax anterior ═══ */}
-      <section className="parallax-mural-section" aria-hidden="true">
-        <div className="parallax-mural-bg"></div>
-      </section>
-
       <HonmoonDivider/>
 
       {/* ═══ GALERIA - Momentos ao Vivo com Legenda + Lightbox ═══ */}
@@ -1197,11 +1248,28 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ PARALLAX SHOWCASE — secção própria para efeito parallax ═══ */}
-      <section id="showcase" className="showcase-section">
-        <div className="showcase-parallax" aria-hidden="true"></div>
-        <div className="showcase-overlay" aria-hidden="true"></div>
-      </section>
+      {/* ═══ PARALLAX SHOWCASE + PARALLAX MURAL — 2 secções com UMA imagem contínua ═══ */}
+      {/* As 2 secções partilham a mesma imagem de fundo que se move DEVAGAR com o scroll.
+          Usa transform-based parallax (em vez de background-attachment: fixed) para
+          ter controlo total da velocidade e criar uma imagem contínua entre as 2 secções. */}
+      <div ref={parallaxWrapperRef} className="parallax-wrapper">
+        {/* Camada de fundo que cobre as 2 secções (120vh total) e move-se devagar */}
+        <div
+          className="parallax-bg"
+          style={{ transform: `translate3d(0, ${parallaxY}px, 0)` }}
+          aria-hidden="true"
+        />
+        {/* Overlay gradual para integrar com a secção anterior e a próxima */}
+        <div className="parallax-overlay" aria-hidden="true"/>
+
+        {/* SECÇÃO 1: SHOWCASE (parte de cima da imagem) */}
+        <section id="showcase" className="showcase-section">
+          <div className="showcase-overlay" aria-hidden="true"></div>
+        </section>
+
+        {/* SECÇÃO 2: PARALLAX MURAL (parte de baixo da imagem, continua) */}
+        <section className="parallax-mural-section" aria-hidden="true"></section>
+      </div>
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
