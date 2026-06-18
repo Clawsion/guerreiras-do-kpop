@@ -510,11 +510,8 @@ export default function HomePage() {
     const [privacyOpen, setPrivacyOpen] = useState(false);
   const orbRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<HTMLElement[] | null>(null);
-  // ═══ PARALLAX CONTÍNUO — refs dos 2 wrappers + states dos offsets Y ═══
-  const parallaxWrapperRef = useRef<HTMLDivElement>(null);   // depois do Mural
-  const parallaxBeforeRef = useRef<HTMLDivElement>(null);    // antes do Mural
-  const [parallaxY, setParallaxY] = useState(0);
-  const [parallaxBeforeY, setParallaxBeforeY] = useState(0);
+  // ═══ PARALLAX — agora usa background-attachment: fixed (nativo do browser) ═══
+  // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 1200);
@@ -536,56 +533,7 @@ export default function HomePage() {
     return () => document.removeEventListener("visibilitychange", onVis);
   }, []);
 
-  // ═══ PARALLAX CONTÍNUO — scroll listener com requestAnimationFrame ═══
-  // Move a imagem de fundo a 30% da velocidade do scroll (lento) em CADA wrapper.
-  // Há 2 wrappers:
-  //   1. parallaxBeforeRef — antes do Mural (entre HonmoonDivider e Mural)
-  //   2. parallaxWrapperRef — depois do Mural (entre Mural e Cartazes)
-  // Cada wrapper tem a sua própria imagem de fundo que se move independentemente.
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    // Respeita prefers-reduced-motion
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    let rafId: number | null = null;
-    let ticking = false;
-
-    const computeOffset = (el: HTMLDivElement | null): number => {
-      if (!el) return 0;
-      const rect = el.getBoundingClientRect();
-      const viewportH = window.innerHeight;
-      const wrapperH = rect.height;
-      const totalScroll = viewportH + wrapperH;
-      const progress = Math.max(0, Math.min(1, (viewportH - rect.top) / totalScroll));
-      const extraH = wrapperH * 0.3; // 30% de espaço extra para mover
-      return -progress * extraH;
-    };
-
-    const update = () => {
-      ticking = false;
-      // Actualiza ambos os wrappers
-      setParallaxBeforeY(computeOffset(parallaxBeforeRef.current));
-      setParallaxY(computeOffset(parallaxWrapperRef.current));
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        rafId = requestAnimationFrame(update);
-      }
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    // Update inicial
-    update();
-
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-      if (rafId !== null) cancelAnimationFrame(rafId);
-    };
-  }, []);
+  // (Parallax agora é CSS-only com background-attachment: fixed — sem JavaScript)
 
   // Sync light-mode class to <html> on mount (theme already read from localStorage via useState initializer)
   useEffect(() => {
@@ -619,16 +567,29 @@ export default function HomePage() {
   const pendingToModeRef = useRef<'dark' | 'light' | null>(null);
 
   const toggleTheme = useCallback(() => {
-    // Se pendingToModeRef estiver definido, usamos esse valor (já decidido no startThemeTransition)
-    // Isto garante que mesmo múltiplas chamadas a toggleTheme (race condition) produzem o mesmo resultado.
-    if (pendingToModeRef.current) {
-      const target = pendingToModeRef.current;
-      pendingToModeRef.current = null; // consome para próxima transição
-      setThemeMode(target);
+    // ═══ Versão BULLETPROOF — sempre usa themeModeRef.current ═══
+    // Nunca usa o fallback com prev => toggle (que pode falhar em race conditions).
+    // Se pendingToModeRef estiver definido, usa esse valor (decidido no startThemeTransition).
+    // Caso contrário, calcula o oposto do valor actual do ref.
+    const target = pendingToModeRef.current
+      ? (pendingToModeRef.current as 'dark' | 'light')
+      : (themeModeRef.current === 'dark' ? 'light' : 'dark');
+    pendingToModeRef.current = null;
+
+    // ═══ Aplicar a class light-mode IMEDIATAMENTE (síncrono) ═══
+    // Isto garante que o resto da página muda AO MESMO TEMPO que o hero.
+    // Antes, a class era aplicada via useEffect (depois do render), o que causava
+    // um gap onde o hero já mostrava a nova imagem mas o resto ainda estava no modo antigo.
+    if (target === 'light') {
+      document.documentElement.classList.add('light-mode');
     } else {
-      // Fallback: usar o valor actual do ref (sem race condition)
-      setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
+      document.documentElement.classList.remove('light-mode');
     }
+    // Actualizar o ref IMEDIATAMENTE (antes do setThemeMode) para que
+    // chamadas subsequentes a toggleTheme vejam o valor correcto.
+    themeModeRef.current = target;
+    // Finalmente, actualizar o estado React (para o hero <img src> mudar)
+    setThemeMode(target);
   }, []);
 
   // ═══ SISTEMA DE TROCA DE TEMA — REFEITO 2026-06 ═══
@@ -654,6 +615,10 @@ export default function HomePage() {
       flashTimeoutRef.current = null;
     }
     isTransitioningRef.current = false;
+    // ═══ Resetar pendingToModeRef para evitar stale values ═══
+    // Se uma transição foi cancelada antes do toggleTheme correr,
+    // o pendingToModeRef podia ter um valor stale da transição anterior.
+    pendingToModeRef.current = null;
     setHeroFlash('none');
     setRipple(null);
     setWaveActive(false);
@@ -1202,13 +1167,9 @@ export default function HomePage() {
 
       <HonmoonDivider/>
 
-      {/* ═══ PARALLAX 1 — ANTES do Mural (60vh com parallax contínuo) ═══ */}
-      <div ref={parallaxBeforeRef} className="parallax-wrapper parallax-before-mural">
-        <div
-          className="parallax-bg"
-          style={{ transform: `translate3d(0, ${parallaxBeforeY}px, 0)` }}
-          aria-hidden="true"
-        />
+      {/* ═══ PARALLAX 1 — ANTES do Mural (background-attachment: fixed, CSS-only) ═══ */}
+      <div className="parallax-wrapper parallax-before-mural">
+        <div className="parallax-bg" aria-hidden="true"/>
         <div className="parallax-overlay" aria-hidden="true"/>
         <section className="parallax-solo-section" aria-hidden="true"></section>
       </div>
@@ -1260,15 +1221,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ PARALLAX 2 — DEPOIS do Mural (60vh com parallax contínuo, imagem igual à de antes) ═══ */}
-      <div ref={parallaxWrapperRef} className="parallax-wrapper parallax-after-mural">
-        {/* Camada de fundo que se move devagar com o scroll */}
-        <div
-          className="parallax-bg"
-          style={{ transform: `translate3d(0, ${parallaxY}px, 0)` }}
-          aria-hidden="true"
-        />
-        {/* Overlay gradual para integrar com a secção anterior e a próxima */}
+      {/* ═══ PARALLAX 2 — DEPOIS do Mural (background-attachment: fixed, CSS-only) ═══ */}
+      <div className="parallax-wrapper parallax-after-mural">
+        <div className="parallax-bg" aria-hidden="true"/>
         <div className="parallax-overlay" aria-hidden="true"/>
         <section id="showcase" className="showcase-section">
           <div className="showcase-overlay" aria-hidden="true"></div>

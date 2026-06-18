@@ -7575,40 +7575,34 @@ img { max-width: 100%; height: auto; }
 
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ PARALLAX WRAPPER — 2 secções com UMA imagem contínua a deslizar ═══ */
-/* Em vez de background-attachment: fixed (que mostra sempre a mesma parte), */
-/* usamos uma div de fundo absoluta que cobre as 2 secções (130% da altura) */
-/* e movemo-la com transform: translate3d() baseado no scroll. */
-/* Velocidade: 30% da velocidade do scroll (lento, contínuo, sem saltos). */
+/* ═══ PARALLAX — 2 secções (antes e depois do Mural) com background-attachment: fixed ═══ */
+/* Método simples e robusto: cada secção tem a sua própria imagem de fundo */
+/* com background-attachment: fixed. O efeito parallax é nativo do browser, */
+/* funciona em todos os sistemas, e não precisa de JavaScript. */
 /* ═══════════════════════════════════════════════════════════════ */
 .parallax-wrapper {
   position: relative;
   overflow: hidden;
   background: var(--void);
-  isolation: isolate;
 }
 
-/* Camada de fundo que cobre as 2 secções + extra para movimento */
+/* Camada de fundo — agora é uma secção com background-attachment: fixed */
 .parallax-bg {
   position: absolute;
-  top: -15%;
-  left: 0;
-  right: 0;
-  height: 130%; /* 30% extra para permitir o movimento do parallax */
-  background-image: url('/showcase-night.webp?v=5');
+  inset: 0;
+  background-image: url('/showcase-night.webp?v=6');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
   z-index: 0;
-  will-change: transform;
 }
 
-/* Modo dia — imagem mais clara */
 .light-mode .parallax-bg {
-  background-image: url('/showcase-day.webp?v=5');
+  background-image: url('/showcase-day.webp?v=6');
 }
 
-/* Overlay gradual no wrapper inteiro (vinheta escura para legibilidade) */
+/* Overlay gradual (vinheta escura para legibilidade) */
 .parallax-overlay {
   position: absolute;
   inset: 0;
@@ -7622,9 +7616,9 @@ img { max-width: 100%; height: auto; }
       var(--void) 100%
     ),
     radial-gradient(ellipse at center,
-      transparent 35%,
-      rgba(11,8,19,0.45) 70%,
-      rgba(11,8,19,0.80) 100%
+      transparent 30%,
+      rgba(11,8,19,0.55) 70%,
+      rgba(11,8,19,0.85) 100%
     );
 }
 .light-mode .parallax-overlay {
@@ -7637,20 +7631,21 @@ img { max-width: 100%; height: auto; }
     ),
     radial-gradient(ellipse at center,
       transparent 40%,
-      rgba(170,140,200,0.35) 70%,
-      rgba(120,90,160,0.70) 100%
+      rgba(170,140,200,0.45) 70%,
+      rgba(120,90,160,0.75) 100%
     );
 }
 
-/* ═══ SECÇÕES internas — transparentes, deixam o fundo do wrapper aparecer ═══ */
-.showcase-section {
+/* ═══ SECÇÕES internas — transparentes, deixam o fundo aparecer ═══ */
+.showcase-section,
+.parallax-solo-section {
   position: relative;
   height: 60vh;
   min-height: 420px;
   background: transparent;
   z-index: 2;
 }
-/* Overlay local do showcase (mantém profundidade local) */
+
 .showcase-overlay {
   position: absolute;
   inset: 0;
@@ -7672,37 +7667,19 @@ img { max-width: 100%; height: auto; }
     );
 }
 
-/* Segunda secção (continuação do parallax, em cima do Mural) */
-.parallax-mural-section {
-  position: relative;
-  height: 60vh;
-  min-height: 420px;
-  background: transparent;
-  z-index: 2;
-}
-
-/* Secção parallax individual (uma só, usada nos 2 wrappers: antes e depois do Mural) */
-.parallax-solo-section {
-  position: relative;
-  height: 60vh;
-  min-height: 420px;
-  background: transparent;
-  z-index: 2;
-}
-
-/* Mobile: alturas mais pequenas + mesma imagem mobile */
+/* Mobile: scroll (fixed não funciona bem em mobile) + alturas menores */
 @media (max-width: 767px) {
   .showcase-section,
-  .parallax-mural-section,
   .parallax-solo-section {
     height: 50vh;
     min-height: 320px;
   }
   .parallax-bg {
-    background-image: url('/showcase-night-mobile.webp?v=5');
+    background-attachment: scroll;
+    background-image: url('/showcase-night-mobile.webp?v=6');
     background-position: center top;
   }
   .light-mode .parallax-bg {
-    background-image: url('/showcase-day-mobile.webp?v=5');
+    background-image: url('/showcase-day-mobile.webp?v=6');
   }
 }
