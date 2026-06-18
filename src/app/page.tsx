@@ -1026,23 +1026,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=17 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=18 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=17" : "/hero-bg-mobile.webp?v=17"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=18" : "/hero-bg-mobile.webp?v=18"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=17" : "/hero-bg.webp?v=17"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=18" : "/hero-bg.webp?v=18"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=17" : "/hero-bg.webp?v=17"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=18" : "/hero-bg.webp?v=18"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
@@ -1081,34 +1081,37 @@ export default function HomePage() {
               <Ticket className="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300" style={{color:"#fff"}}/>
               <span className="hidden sm:inline text-[11px] tracking-[0.2em] uppercase font-bold" style={{color:"#fff"}}>Ticketline</span>
             </a>
-            {/* Theme toggle - ao lado do Ticketline */}
-            <button
-              className="hero-nav-theme"
-              onClick={(e) => {
-                // Nova arquitetura: ponto único de entrada, cancela transições anteriores
-                const rect = e.currentTarget.getBoundingClientRect();
-                const cx = ((rect.left + rect.width / 2) / window.innerWidth) * 100;
-                const cy = ((rect.top + rect.height / 2) / window.innerHeight) * 100;
-                startThemeTransition('button', cx, cy);
-              }}
-              aria-label={themeMode === 'dark' ? 'Ativar modo claro (dia)' : 'Ativar modo escuro (noite)'}
-              title={themeMode === 'dark' ? 'Atual: Noite (escuro). Clique para Dia (claro)' : 'Atual: Dia (claro). Clique para Noite (escuro)'}
-            >
-              <span className={`hero-nav-orb ${themeMode}`}/>
-              <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"var(--neon-purple)", minWidth:"62px", textAlign:"center"}}>
-                {themeMode === 'dark' ? 'Tema: Noite' : 'Tema: Dia'}
-              </span>
-            </button>
-            {/* Hamburger - encostado à direita (último elemento do flex) */}
-            <button
-              onClick={()=>setMenuOpen(!menuOpen)}
-              className={`hamburger ${menuOpen?"open":""}`}
-              aria-label="Menu"
-            >
-              <span />
-              <span />
-              <span />
-            </button>
+            {/* ═══ Theme toggle + Hamburger EMPILHADOS em mobile (theme em cima do hamburger) ═══
+                Em desktop (sm+) continuam lado a lado (flex-row). */}
+            <div className="hero-nav-right-group flex items-center justify-end gap-5 sm:gap-8">
+              <button
+                className="hero-nav-theme"
+                onClick={(e) => {
+                  // Nova arquitetura: ponto único de entrada, cancela transições anteriores
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const cx = ((rect.left + rect.width / 2) / window.innerWidth) * 100;
+                  const cy = ((rect.top + rect.height / 2) / window.innerHeight) * 100;
+                  startThemeTransition('button', cx, cy);
+                }}
+                aria-label={themeMode === 'dark' ? 'Ativar modo claro (dia)' : 'Ativar modo escuro (noite)'}
+                title={themeMode === 'dark' ? 'Atual: Noite (escuro). Clique para Dia (claro)' : 'Atual: Dia (claro). Clique para Noite (escuro)'}
+              >
+                <span className={`hero-nav-orb ${themeMode}`}/>
+                <span className="hidden sm:inline text-[10px] tracking-[0.18em] uppercase font-semibold" style={{color:"var(--neon-purple)", minWidth:"62px", textAlign:"center"}}>
+                  {themeMode === 'dark' ? 'Tema: Noite' : 'Tema: Dia'}
+                </span>
+              </button>
+              {/* Hamburger - encostado à direita (último elemento do flex) */}
+              <button
+                onClick={()=>setMenuOpen(!menuOpen)}
+                className={`hamburger ${menuOpen?"open":""}`}
+                aria-label="Menu"
+              >
+                <span />
+                <span />
+                <span />
+              </button>
+            </div>
           </div>
         </nav>
 

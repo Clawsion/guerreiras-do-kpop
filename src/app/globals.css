@@ -7440,12 +7440,37 @@ img { max-width: 100%; height: auto; }
     font-size: 11px !important;
   }
 
-  /* Nav panel — padding superior para respeitar notch/status bar */
+  /* Nav panel — padding superior MÍNIMO para os ícones ficarem mesmo em cima.
+     Respeita apenas o notch/status bar (env(safe-area-inset-top)).
+     Antes: padding-top: max(env(safe-area-inset-top, 0px), 8px) — deixava 8px mínimo.
+     Agora: padding-top: env(safe-area-inset-top, 0px) — só o necessário do notch. */
   .hero-nav-panel {
-    padding-top: max(env(safe-area-inset-top, 0px), 8px);
+    padding-top: env(safe-area-inset-top, 0px) !important;
     /* Em mobile, mudar de justify-end para space-between para que o Ticketline
        vá para a esquerda e o theme toggle + hamburger fiquem à direita. */
     justify-content: space-between !important;
+  }
+  /* ═══ NAV pai — py-4 (16px) era demasiado em mobile. Reduzir para 0.
+     Os ícones ficam colados ao topo do ecrã (com safe-area do notch). ═══ */
+  .hero-section > nav.absolute.top-0 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  /* ═══ Theme toggle + Hamburger EMPILHADOS em mobile (theme em cima do hamburger) ═══
+     Em desktop (sm+) continuam lado a lado (flex-row via classes Tailwind).
+     Em mobile, este grupo muda para flex-col (vertical) com gap pequeno. */
+  .hero-nav-right-group {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 4px !important;
+    /* Empurrar o grupo para o topo do ecrã */
+    margin-top: 4px !important;
+  }
+  /* Theme toggle em mobile — sem texto "Tema: Noite/Dia" (já é hidden sm:inline),
+     só mostra o orb. Centralizado no grupo. */
+  .hero-nav-theme {
+    margin: 0 auto !important;
+    padding: 4px !important;
   }
 
   /* ─── TICKETLINE PARA A ESQUERDA EM SMARTPHONE ─── */
