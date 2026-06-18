@@ -2489,6 +2489,46 @@ html { scroll-behavior: smooth; }
   color: var(--t2);
 }
 
+/* ═══ "via Ticketline" nos CARTAZES — junto à data ═══ */
+.cartaz-via-ticketline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.4rem 0 0.2rem;
+  padding: 0.2rem 0.5rem;
+  text-decoration: none;
+  opacity: 0.95;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  border-radius: 4px;
+}
+.cartaz-via-ticketline:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+.cartaz-via-text {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--t2);
+}
+.cartaz-via-logo {
+  height: 20px;
+  width: auto;
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.4));
+  transition: filter 0.3s ease;
+}
+.cartaz-via-ticketline:hover .cartaz-via-logo {
+  filter: drop-shadow(0 0 4px rgba(186,206,10,0.5));
+}
+/* Em modo dia, o fundo é claro — garantir que o logo se vê bem */
+.light-mode .cartaz-via-logo {
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.25));
+}
+.light-mode .cartaz-via-text {
+  color: var(--t2);
+}
+
 .hero-circle {
   position: absolute;
   border-radius: 50%;

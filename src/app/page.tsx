@@ -1026,23 +1026,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=22 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=23 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=22" : "/hero-bg-mobile.webp?v=22"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=23" : "/hero-bg-mobile.webp?v=23"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=22" : "/hero-bg.webp?v=22"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=23" : "/hero-bg.webp?v=23"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=22" : "/hero-bg.webp?v=22"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=23" : "/hero-bg.webp?v=23"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
@@ -1152,23 +1152,6 @@ export default function HomePage() {
             className="hero-cta"
           >
             Garante o Teu Lugar <ChevronRight className="w-3 h-3"/>
-          </a>
-          {/* ═══ "via Ticketline" — texto + logo da Ticketline, centrado em baixo do botão ═══ */}
-          <a
-            href={TICKETLINE_URL_CASCAIS}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hero-via-ticketline"
-            aria-label="Bilhetes via Ticketline"
-          >
-            <span className="hero-via-text">via</span>
-            <img
-              src="/ticketline-logo.png"
-              alt="Ticketline"
-              className="hero-via-logo"
-              loading="lazy"
-              decoding="async"
-            />
           </a>
         </div>
       </section>
@@ -1422,6 +1405,11 @@ export default function HomePage() {
                 <div className="cartaz-info">
                   <p className="cartaz-city" style={{color:"var(--pink-kpop)"}}>Cascais &middot; Estoril</p>
                   <p className="cartaz-date">08 AGO 2026 &middot; 18:30h</p>
+                  {/* ═══ "via Ticketline" junto à data — associação clara ═══ */}
+                  <a href={TICKETLINE_URL_CASCAIS} target="_blank" rel="noopener noreferrer" className="cartaz-via-ticketline" aria-label="Bilhetes via Ticketline">
+                    <span className="cartaz-via-text">via</span>
+                    <img src="/ticketline-logo.png" alt="Ticketline" className="cartaz-via-logo" loading="lazy" decoding="async"/>
+                  </a>
                   <p className="cartaz-status cartaz-status-live">
                     <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
                   </p>
@@ -1444,6 +1432,11 @@ export default function HomePage() {
                   <div className="cartaz-info">
                     <p className="cartaz-city" style={{color:"var(--gold)"}}>Costa da Caparica</p>
                     <p className="cartaz-date">09 AGO 2026 &middot; 18:00h</p>
+                    {/* ═══ "via Ticketline" junto à data — associação clara ═══ */}
+                    <a href={TICKETLINE_URL_CAPARICA} target="_blank" rel="noopener noreferrer" className="cartaz-via-ticketline" aria-label="Bilhetes via Ticketline">
+                      <span className="cartaz-via-text">via</span>
+                      <img src="/ticketline-logo.png" alt="Ticketline" className="cartaz-via-logo" loading="lazy" decoding="async"/>
+                    </a>
                     <p className="cartaz-status cartaz-status-live">
                       <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
                     </p>
@@ -1466,6 +1459,11 @@ export default function HomePage() {
                 <div className="cartaz-info">
                   <p className="cartaz-city" style={{color:"var(--blue-accent)"}}>Sesimbra</p>
                   <p className="cartaz-date">15 AGO 2026 &middot; 18:30h</p>
+                  {/* ═══ "via Ticketline" junto à data — associação clara ═══ */}
+                  <a href={TICKETLINE_URL_SESIMBRA} target="_blank" rel="noopener noreferrer" className="cartaz-via-ticketline" aria-label="Bilhetes via Ticketline">
+                    <span className="cartaz-via-text">via</span>
+                    <img src="/ticketline-logo.png" alt="Ticketline" className="cartaz-via-logo" loading="lazy" decoding="async"/>
+                  </a>
                   <p className="cartaz-status cartaz-status-live">
                     <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
                   </p>
