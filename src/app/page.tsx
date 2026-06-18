@@ -496,6 +496,12 @@ export default function HomePage() {
     }
     return 'dark';
   });
+  // ═══ REF para rastrear themeMode SEMPRE actualizado ═══
+  // Isto evita race conditions no startThemeTransition: o closure do useCallback
+  // pode ter themeMode desactualizado quando há cliques rápidos, causando
+  // bugs onde o flash "vai para light" mas o tema acaba em dark (ou vice-versa).
+  const themeModeRef = useRef<'dark' | 'light'>(themeMode);
+  useEffect(() => { themeModeRef.current = themeMode; }, [themeMode]);
   const [burstKey, setBurstKey] = useState(0);
   const [ripple, setRipple] = useState<{active:boolean; x:number; y:number; toMode:'dark'|'light'}|null>(null);
   const [waveActive, setWaveActive] = useState(false);
@@ -610,7 +616,14 @@ export default function HomePage() {
     // (bug antigo: cliques rápidos falhavam porque o guard retornava)
     cleanupTransition();
 
-    const toMode = themeMode === 'dark' ? 'light' as const : 'dark' as const;
+    // ═══ Usar themeModeRef.current (SEMPRE actualizado) em vez de themeMode do closure ═══
+    // Isto previne o bug onde cliques rápidos causavam trocas erradas:
+    //   - Clique 1: themeMode=dark -> toMode=light, agenda toggleTheme
+    //   - Clique 2 antes do toggle: closure antigo ainda tem themeMode=dark -> toMode=light outra vez
+    //   - Resultado: flash vai para light mas tema acaba em dark
+    // Com themeModeRef.current, lemos sempre o valor MAIS RECENTE.
+    const currentMode = themeModeRef.current;
+    const toMode = currentMode === 'dark' ? 'light' as const : 'dark' as const;
     const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
 
     if (origin === 'orb' && !isMobileViewport) {
@@ -685,7 +698,7 @@ export default function HomePage() {
         }, 2200));
       }
     }
-  }, [themeMode, cleanupTransition, triggerHeroFlash, toggleTheme]);
+  }, [cleanupTransition, triggerHeroFlash, toggleTheme]);
 
   const navLinks = useMemo(() => [
     { l: "Espetáculo", h: "#espetaculo" },
@@ -820,23 +833,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — preenchem o ecrã todo
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=2 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=3 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=2" : "/hero-bg-mobile.webp?v=2"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=3" : "/hero-bg-mobile.webp?v=3"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp" : "/hero-bg.webp"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=3" : "/hero-bg.webp?v=3"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp" : "/hero-bg.webp"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=3" : "/hero-bg.webp?v=3"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
