@@ -753,39 +753,27 @@ export default function HomePage() {
       const cy = clickY ?? 50;
 
       if (isMobileViewport) {
-        // ═══ MOBILE: troca de tema OTIMIZADA para não bloquear scroll ═══
-        // PROBLEMA: adicionar/remover .light-mode no <html> força o browser
-        // a recalcular 273 regras CSS em 467 elementos DOM. Isto pode demorar
-        // 200-500ms em smartphone real, bloqueando o thread principal.
+        // ═══ MOBILE: troca de tema BÁSICA — só troca, sem animação ═══
+        // O utilizador pediu: "deixa apenas o efeito hamburger e o modo
+        // noite ligar desligar basico 'so troca'".
         //
-        // SOLUÇÃO: usar requestAnimationFrame para:
-        // 1. NÃO bloquear o event handler síncrono (scroll touch pode continuar)
-        // 2. Aplicar a classe no próximo frame (browser tem tempo de respirar)
-        // 3. Usar requestIdleCallback para o setThemeMode (re-render React só
-        //    quando o browser está idle)
+        // Aqui fazemos EXATAMENTE isso:
+        // 1. Trocar a classe .light-mode no <html> (instantâneo)
+        // 2. Atualizar o themeModeRef (síncrono)
+        // 3. Atualizar o React state (síncrono)
         //
-        // Resultado: o utilizador pode continuar a fazer scroll imediatamente
-        // após o clique, sem bloqueios. A troca visual acontece no próximo frame.
-        const tid = requestAnimationFrame(() => {
-          if (toMode === 'light') {
-            document.documentElement.classList.add('light-mode');
-          } else {
-            document.documentElement.classList.remove('light-mode');
-          }
-          themeModeRef.current = toMode;
-          pendingToModeRef.current = null;
-          isTransitioningRef.current = false;
-          // setThemeMode via requestIdleCallback (re-render só quando browser está idle)
-          // Fallback para setTimeout(0) em browsers sem requestIdleCallback (iOS Safari < 17)
-          if ('requestIdleCallback' in window) {
-            (window as Window & { requestIdleCallback: (cb: () => void) => number }).requestIdleCallback(() => {
-              setThemeMode(toMode);
-            });
-          } else {
-            setTimeout(() => setThemeMode(toMode), 0);
-          }
-        });
-        transitionRef.current.push(tid as unknown as ReturnType<typeof setTimeout>);
+        // SEM requestAnimationFrame, SEM requestIdleCallback, SEM flash,
+        // SEM ripple, SEM shimmer, SEM preloader, SEM soul-particles.
+        // A troca é IMEDIATA — o browser mostra a nova imagem no próximo frame.
+        if (toMode === 'light') {
+          document.documentElement.classList.add('light-mode');
+        } else {
+          document.documentElement.classList.remove('light-mode');
+        }
+        themeModeRef.current = toMode;
+        pendingToModeRef.current = null;
+        isTransitioningRef.current = false;
+        setThemeMode(toMode);
       } else {
         // Desktop via botão do topo: ripple do Honmoon + toggle
         triggerHeroFlash(toMode, cx, cy);
@@ -807,31 +795,140 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ═══ FLASH LAYER — expande/suga luz do Honmoon (position fixed, cobre tudo) ═══ */}
-      {heroFlash.type !== 'none' && (
-        <>
-          <div
-            className={`hero-img-flash ${heroFlash.type}`}
-            style={{'--tx': `${heroFlash.x}%`, '--ty': `${heroFlash.y}%`} as React.CSSProperties}
-            aria-hidden="true"
-          />
-          <div
-            className={`hero-orb-burst ${heroFlash.type}`}
-            style={{'--tx': `${heroFlash.x}%`, '--ty': `${heroFlash.y}%`} as React.CSSProperties}
-            aria-hidden="true"
-          />
-        </>
-      )}
+      {/* ═══ MOBILE: ZERO EFEITOS no hero ═══
+          Em mobile (<768px), NÃO renderizar NENHUM efeito visual:
+          - hero-img-flash (radial wipe ao trocar tema)
+          - hero-orb-burst
+          - hm-ripple-bg-layer
+          - hm-ripple-shimmer-layer (3 shimmer rings)
+          - preloader (curtain reveal)
+          - soul-particles (12 partículas animadas)
+          A troca de tema é INSTANTÂNEA — só troca a classe .light-mode
+          no <html>, sem qualquer animação ou flash. */}
+      {(() => {
+        // MOBILE: return null para TODOS os efeitos
+        if (typeof window !== "undefined" && window.innerWidth < 768) {
+          return null;
+        }
+        // DESKTOP: renderizar todos os efeitos normais
+        return (
+          <>
+            {/* FLASH LAYER — expande/suga luz do Honmoon */}
+            {heroFlash.type !== 'none' && (
+              <>
+                <div
+                  className={`hero-img-flash ${heroFlash.type}`}
+                  style={{'--tx': `${heroFlash.x}%`, '--ty': `${heroFlash.y}%`} as React.CSSProperties}
+                  aria-hidden="true"
+                />
+                <div
+                  className={`hero-orb-burst ${heroFlash.type}`}
+                  style={{'--tx': `${heroFlash.x}%`, '--ty': `${heroFlash.y}%`} as React.CSSProperties}
+                  aria-hidden="true"
+                />
+              </>
+            )}
 
-      {/* ═══ RIPPLE BG LAYER - new theme background spreads from orb via clip-path ═══ */}
-      {ripple?.active && (
-        <div className="hm-ripple-bg-layer">
-          <div
-            className={`hm-ripple-bg ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
-            style={{'--rx': `${ripple.x}%`, '--ry': `${ripple.y}%`} as React.CSSProperties}
-          />
-        </div>
-      )}
+            {/* RIPPLE BG LAYER */}
+            {ripple?.active && (
+              <div className="hm-ripple-bg-layer">
+                <div
+                  className={`hm-ripple-bg ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
+                  style={{'--rx': `${ripple.x}%`, '--ry': `${ripple.y}%`} as React.CSSProperties}
+                />
+              </div>
+            )}
+
+            {/* RIPPLE SHIMMER */}
+            {ripple?.active && (
+              <div className="hm-ripple-shimmer-layer">
+                <div
+                  className={`hm-shimmer-ring hm-shimmer-ring-1 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
+                  style={{left:`${ripple.x}%`, top:`${ripple.y}%`}}
+                />
+                <div
+                  className={`hm-shimmer-ring hm-shimmer-ring-2 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
+                  style={{left:`${ripple.x}%`, top:`${ripple.y}%`}}
+                />
+                <div
+                  className={`hm-shimmer-ring hm-shimmer-ring-3 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
+                  style={{left:`${ripple.x}%`, top:`${ripple.y}%`}}
+                />
+              </div>
+            )}
+
+            {/* PRELOADER - Curtain Reveal */}
+            {themeMode === 'dark' ? (
+              <div className={`preloader-honmoon ${loaded?"preloader-done":""}`}>
+                <div className="preloader-curtain-left"/>
+                <div className="preloader-curtain-right"/>
+              </div>
+            ) : (
+              <div
+                style={{
+                  position: 'fixed',
+                  inset: 0,
+                  zIndex: 100,
+                  display: 'flex',
+                  transition: `opacity 0.6s ease 2.3s`,
+                  opacity: loaded ? 0 : 1,
+                  pointerEvents: 'none',
+                }}
+              >
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    width: '52%',
+                    background: '#E0CCF2',
+                    borderRight: '1px solid rgba(147,51,234,0.25)',
+                    boxShadow: 'inset -20px 0 40px rgba(147,51,234,0.06)',
+                    transform: loaded ? 'translateX(-105%)' : 'translateX(0)',
+                    transition: `transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1)`,
+                    willChange: 'transform',
+                    pointerEvents: 'none',
+                  }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    bottom: 0,
+                    right: 0,
+                    width: '52%',
+                    background: '#E0CCF2',
+                    borderLeft: '1px solid rgba(147,51,234,0.25)',
+                    boxShadow: 'inset 20px 0 40px rgba(147,51,234,0.06)',
+                    transform: loaded ? 'translateX(105%)' : 'translateX(0)',
+                    transition: `transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1)`,
+                    willChange: 'transform',
+                    pointerEvents: 'none',
+                  }}
+                />
+              </div>
+            )}
+
+            {/* SOUL PARTICLES - fixed overlay */}
+            <div className="soul-particles-site">
+              {Array.from({length: 12}, (_, i) => (
+                <div
+                  key={i}
+                  className="soul-particle-site"
+                  style={{
+                    left: `${5 + (i * 7.5) % 90}%`,
+                    animationDelay: `${(i * 1.1) % 8}s`,
+                    animationDuration: `${8 + (i % 4) * 2}s`,
+                    width: `${3 + (i % 4) * 2}px`,
+                    height: `${3 + (i % 4) * 2}px`,
+                  }}
+                />
+              ))}
+            </div>
+          </>
+        );
+      })()}
 
       {/* ═══ MAIN CONTENT - always visible, transparent bg during transition ═══ */}
       <div
@@ -839,114 +936,9 @@ export default function HomePage() {
         style={{background: ripple?.active ? 'transparent' : 'var(--deep)'}}
       >
 
-      {/* ═══ RIPPLE SHIMMER - subtle wave glow that passes over content ═══ */}
-      {ripple?.active && (
-        <div className="hm-ripple-shimmer-layer">
-          <div
-            className={`hm-shimmer-ring hm-shimmer-ring-1 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
-            style={{left:`${ripple.x}%`, top:`${ripple.y}%`}}
-          />
-          <div
-            className={`hm-shimmer-ring hm-shimmer-ring-2 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
-            style={{left:`${ripple.x}%`, top:`${ripple.y}%`}}
-          />
-          <div
-            className={`hm-shimmer-ring hm-shimmer-ring-3 ${ripple.toMode === 'light' ? 'awaken' : 'dormant'}`}
-            style={{left:`${ripple.x}%`, top:`${ripple.y}%`}}
-          />
-        </div>
-      )}
-
-      {/* ═══ PRELOADER - Curtain Reveal ═══
-          MOBILE: REMOVIDO COMPLETAMENTE do render tree.
-          O preloader era uma das causas do lag residual no scroll do hero
-          em mobile — mesmo com display:none, o JSX ainda avaliava os
-          estilos inline e os children com will-change:transform.
-          Agora em mobile NÃO É RENDERIZADO (zero cost).
-          DESKTOP: mantém o curtain reveal cinematico. */}
-      {(() => {
-        if (typeof window !== "undefined" && window.innerWidth < 768) {
-          // MOBILE: sem preloader, sem delay. loaded=true imediatamente.
-          return null;
-        }
-        // DESKTOP: preloader normal
-        return themeMode === 'dark' ? (
-          <div className={`preloader-honmoon ${loaded?"preloader-done":""}`}>
-            <div className="preloader-curtain-left"/>
-            <div className="preloader-curtain-right"/>
-          </div>
-        ) : (
-          <div
-            style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: 100,
-              display: 'flex',
-              transition: `opacity 0.6s ease 2.3s`,
-              opacity: loaded ? 0 : 1,
-              pointerEvents: 'none',
-            }}
-          >
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                bottom: 0,
-                left: 0,
-                width: '52%',
-                background: '#E0CCF2',
-                borderRight: '1px solid rgba(147,51,234,0.25)',
-                boxShadow: 'inset -20px 0 40px rgba(147,51,234,0.06)',
-                transform: loaded ? 'translateX(-105%)' : 'translateX(0)',
-                transition: `transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1)`,
-                willChange: 'transform',
-                pointerEvents: 'none',
-              }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                bottom: 0,
-                right: 0,
-                width: '52%',
-                background: '#E0CCF2',
-                borderLeft: '1px solid rgba(147,51,234,0.25)',
-                boxShadow: 'inset 20px 0 40px rgba(147,51,234,0.06)',
-                transform: loaded ? 'translateX(105%)' : 'translateX(0)',
-                transition: `transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1)`,
-                willChange: 'transform',
-                pointerEvents: 'none',
-              }}
-            />
-          </div>
-        );
-      })()}
-
-      {/* ═══ SOUL PARTICLES - fixed overlay across entire site ═══
-          MOBILE: REMOVIDO do JSX (zero cost). Em mobile as 12 partículas com
-          box-shadow pesado e animação infinita consumiam GPU mesmo com
-          display:none no parent. DESKTOP: mantém-se. */}
-      {(() => {
-        if (typeof window !== "undefined" && window.innerWidth < 768) return null;
-        return (
-          <div className="soul-particles-site">
-            {Array.from({length: 12}, (_, i) => (
-              <div
-                key={i}
-                className="soul-particle-site"
-                style={{
-                  left: `${5 + (i * 7.5) % 90}%`,
-                  animationDelay: `${(i * 1.1) % 8}s`,
-                  animationDuration: `${8 + (i % 4) * 2}s`,
-                  width: `${3 + (i % 4) * 2}px`,
-                  height: `${3 + (i % 4) * 2}px`,
-                }}
-              />
-            ))}
-          </div>
-        );
-      })()}
+      {/* ═══ MOBILE: SEM preloader, SEM soul-particles (zero cost) ═══
+          Em mobile, preloader e soul-particles foram REMOVIDOS do render tree.
+          Só desktop os renderiza (já estão no bloco {(() => { if mobile return null })()} acima). */}
 
       {/* ═══ HERO - FULL SCREEN ═══ */}
       <section className="hero-section" style={{background:"var(--void)"}}>

@@ -8476,9 +8476,9 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* ═══ SMARTPHONE — remover TODOS os overlays do hero ═══
-   Em mobile, os overlays escurecem a imagem e escondem os ícones
-   "ao vivo" na parte de baixo. Remover completamente em mobile. */
+/* ═══ SMARTPHONE — remover TODOS os overlays e decorativos do hero ═══
+   Em mobile, o utilizador quer ZERO efeitos no hero. Só a imagem + hamburger
+   + botão dia/noite básico. Remover todos os overlays decorativos. */
 @media (max-width: 767px) {
   .hero-bg-overlay {
     display: none !important;
@@ -8488,6 +8488,32 @@ img { max-width: 100%; height: auto; }
   }
   .hero-grid {
     display: none !important;
+  }
+  .hero-glow-orb {
+    display: none !important;
+  }
+  .hero-circle {
+    display: none !important;
+  }
+  .hero-side-line {
+    display: none !important;
+  }
+  .hero-cta-arc {
+    display: none !important;
+  }
+  .hero-img-flash {
+    display: none !important;
+  }
+  .hero-orb-burst {
+    display: none !important;
+  }
+  /* hero-nav-orb: sem box-shadow (era o orb do theme toggle) */
+  .hero-nav-orb {
+    box-shadow: none !important;
+  }
+  /* hero-cta: sem box-shadow */
+  .hero-cta {
+    box-shadow: none !important;
   }
 }
 
