@@ -654,9 +654,12 @@ html { scroll-behavior: smooth; }
     background-position: center center !important;
     background-repeat: no-repeat !important;
   }
-  /* ═══ DESATIVAR o reflexo (memories-glow) em smartphone ═══ */
+  /* ═══ MANTER o reflexo (memories-glow) em smartphone ═══
+     Repor o glow para ter o mesmo efeito de transição do desktop.
+     O JavaScript controla a opacity durante o fade (sincronizado com a foto). */
   .memories-glow {
-    display: none !important;
+    display: block !important;
+    opacity: 0.6 !important;
   }
 }
 
