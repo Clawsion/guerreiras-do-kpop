@@ -654,12 +654,12 @@ html { scroll-behavior: smooth; }
     background-position: center center !important;
     background-repeat: no-repeat !important;
   }
-  /* ═══ MANTER o reflexo (memories-glow) em smartphone ═══
-     Repor o glow para ter o mesmo efeito de transição do desktop.
-     O JavaScript controla a opacity durante o fade (sincronizado com a foto). */
+  /* ═══ GLOW (reflexo) em smartphone ═══
+     Com 1 só foto (sem transição), o glow fica estático.
+     Desativado para manter a foto limpa.
+     Quando houver mais fotos (transição ativa), o glow volta. */
   .memories-glow {
-    display: block !important;
-    opacity: 0.6 !important;
+    display: none !important;
   }
 }
 
