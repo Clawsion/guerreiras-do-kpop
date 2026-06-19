@@ -8781,5 +8781,32 @@ img { max-width: 100%; height: auto; }
   .light-mode .hm-particle.light {
     box-shadow: none !important;
   }
+  /* ═══ REMOVER FILTERS extras em modo dia (6 filters extra vs modo noite) ═══
+     Em modo dia há 9 filters vs 3 em modo noite — 6 filters EXTRA:
+     - 3× cartaz-via-logo (drop-shadow DUPLA cada)
+     - 1× neon-shimmer (drop-shadow DUPLA)
+     - 5× svgs (drop-shadow)
+     Filters (especialmente drop-shadow) são EXTREMAMENTE pesados em GPU mobile.
+     Remover TODOS em mobile para igualar a performance com modo noite. */
+  .light-mode .cartaz-via-logo,
+  .light-mode .contacto-section .neon-shimmer,
+  .light-mode .contacto-section svg,
+  .light-mode .hero-via-logo,
+  .light-mode .esp-title-accent,
+  .light-mode .esp-weapon-img,
+  .light-mode .quiz-char-img {
+    filter: none !important;
+  }
+  /* ═══ REMOVER BACKDROP-FILTERS extras em modo dia ═══
+     - 3× cartaz-info (blur(16px) saturate(1.25) — MUITO pesado)
+     - 1× cartaz-tag-soon (blur(10px))
+     - 1× cartaz-buy-btn-soon (blur(8px))
+     backdrop-filter é a operação MAIS cara do GPU mobile. */
+  .light-mode .cartaz-info,
+  .light-mode .cartaz-tag-soon,
+  .light-mode .cartaz-buy-btn-soon {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
 }
 
