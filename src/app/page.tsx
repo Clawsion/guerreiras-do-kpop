@@ -1364,10 +1364,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ PARALLAX 1 — ANTES do Mural (background-attachment: fixed, CSS-only) ═══ */}
+      {/* ═══ PORTAL PAN — 1 imagem fixa contínua nas 3 secções ═══
+          A imagem fica fixa (background-attachment: fixed) no wrapper.
+          Começa por baixo (chão) e acaba em cima (céu).
+          Efeito câmara: ao fazer scroll, a imagem parece subir. */}
+      <div className="portal-pan-wrapper">
+        <div className="portal-pan-bg" aria-hidden="true"></div>
+
+      {/* ═══ PARALLAX 1 — ANTES do Mural ═══ */}
       <div className="parallax-wrapper parallax-before-mural">
-        <div className="parallax-bg" aria-hidden="true"/>
-        <div className="parallax-overlay" aria-hidden="true"/>
         <section className="parallax-solo-section" aria-hidden="true"></section>
       </div>
 
@@ -1418,14 +1423,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ PARALLAX 2 — DEPOIS do Mural (background-attachment: fixed, CSS-only) ═══ */}
+      {/* ═══ PARALLAX 2 — DEPOIS do Mural ═══ */}
       <div className="parallax-wrapper parallax-after-mural">
-        <div className="parallax-bg" aria-hidden="true"/>
-        <div className="parallax-overlay" aria-hidden="true"/>
-        <section id="showcase" className="showcase-section">
-          <div className="showcase-overlay" aria-hidden="true"></div>
-        </section>
+        <section id="showcase" className="showcase-section"></section>
       </div>
+
+      </div> {/* FIM PORTAL PAN */}
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">

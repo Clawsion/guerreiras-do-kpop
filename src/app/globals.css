@@ -8311,3 +8311,86 @@ img { max-width: 100%; height: auto; }
     margin-top: 0 !important;
   }
 }
+
+/* ═══ PORTAL PAN — 1 imagem fixa contínua (câmara bottom→top) ═══
+   A imagem fica fixa no ECRÃ (background-attachment: fixed) dentro
+   do portal-pan-wrapper. Como o wrapper contém as 3 secções, a imagem
+   é UMA SÓ contínua. Ao fazer scroll, o conteúdo passa por cima da
+   imagem fixa, criando a ilusão que a imagem se move de baixo para cima. */
+
+.portal-pan-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+/* 1 SÓ imagem fixa ao fundo */
+.portal-pan-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/portal-honmoon.webp?v=92');
+  background-size: 100% auto;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* As 3 secções transparentes para deixar ver a imagem */
+.portal-pan-wrapper .parallax-wrapper {
+  background: transparent !important;
+  background-image: none !important;
+}
+.portal-pan-wrapper .parallax-bg,
+.portal-pan-wrapper .parallax-overlay,
+.portal-pan-wrapper .showcase-overlay {
+  display: none !important;
+}
+.portal-pan-wrapper .galeria-section {
+  background: transparent !important;
+  background-image: none !important;
+  overflow: visible !important;
+}
+.portal-pan-wrapper .galeria-section::before,
+.portal-pan-wrapper .galeria-section::after {
+  display: none !important;
+}
+
+/* Overlay subtil sobre o mural para legibilidade */
+.portal-pan-wrapper .galeria-section > .hero-aligned-container {
+  position: relative;
+  z-index: 10;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .portal-pan-bg {
+    background-size: 100% auto;
+    background-attachment: scroll;
+    opacity: 0.4;
+    position: absolute;
+    height: 100%;
+  }
+  .portal-pan-wrapper .parallax-solo-section,
+  .portal-pan-wrapper .showcase-section {
+    height: 40vh !important;
+    min-height: 250px !important;
+  }
+}
+
+/* Modo dia: sem portal */
+.light-mode .portal-pan-bg {
+  display: none;
+}
+.light-mode .portal-pan-wrapper .parallax-wrapper {
+  background: var(--void) !important;
+}
+.light-mode .portal-pan-wrapper .parallax-bg {
+  display: block !important;
+}
+.light-mode .portal-pan-wrapper .galeria-section {
+  background: var(--deep) !important;
+}
