@@ -4179,16 +4179,27 @@ html { scroll-behavior: smooth; }
   background: transparent;
   overflow: hidden;
 }
-/* Portal Honmoon atrás da galeria (transparência) — modo noite */
+/* Portal Honmoon atrás da galeria — MESMA imagem, MESMO background-attachment: fixed
+   Isto faz a imagem parecer contínua entre parallax 1 → galeria → parallax 2 */
 .galeria-section::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('/portal-honmoon.webp?v=88');
-  background-size: cover;
+  background-image: url('/portal-honmoon.webp?v=89');
+  background-size: 100% auto;
   background-position: center center;
   background-attachment: fixed;
-  opacity: 0.2;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  z-index: 0;
+  pointer-events: none;
+}
+/* Overlay subtil sobre a galeria para legibilidade */
+.galeria-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(11,8,19,0.4);
   z-index: 0;
   pointer-events: none;
 }
@@ -8124,47 +8135,20 @@ img { max-width: 100%; height: auto; }
 .parallax-bg {
   position: absolute;
   inset: 0;
-  background-image: url('/portal-honmoon.webp?v=88');
+  background-image: url('/portal-honmoon.webp?v=89');
   background-size: 100% auto;
-  background-position: center bottom;
+  background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   z-index: 0;
-  /* Alta qualidade de renderização (importante para imagens upscaled) */
-  image-rendering: high-quality;
-  -webkit-font-smoothing: antialiased;
-  /* Mask: fade suave nas bordas laterais (12% de cada lado) + bordas superior/inferior */
-  -webkit-mask-image:
-    linear-gradient(90deg,
-      transparent 0%,
-      black 12%,
-      black 88%,
-      transparent 100%),
-    linear-gradient(180deg,
-      transparent 0%,
-      black 8%,
-      black 92%,
-      transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(90deg,
-      transparent 0%,
-      black 12%,
-      black 88%,
-      transparent 100%),
-    linear-gradient(180deg,
-      transparent 0%,
-      black 8%,
-      black 92%,
-      transparent 100%);
-  mask-composite: intersect;
+  opacity: 0.5;
 }
 
 /* Parallax 1 (ANTES do Mural) — imagem 1 */
 .parallax-before-mural .parallax-bg {
-  background-image: url('/portal-honmoon.webp?v=88');
+  background-image: url('/portal-honmoon.webp?v=89');
   background-size: 100% auto;
-  background-position: center bottom;
+  background-position: center center;
   opacity: 0.5;
 }
 .light-mode .parallax-before-mural .parallax-bg {
@@ -8173,8 +8157,8 @@ img { max-width: 100%; height: auto; }
 
 /* Parallax 2 (DEPOIS do Mural) — imagem 2 (diferente) — MESMO zoom do parallax 1 */
 .parallax-after-mural .parallax-bg {
-  background-image: url('/portal-honmoon.webp?v=88');
-  background-size: cover;
+  background-image: url('/portal-honmoon.webp?v=89');
+  background-size: 100% auto;
   background-position: center center;
   opacity: 0.5;
 }
@@ -8184,22 +8168,7 @@ img { max-width: 100%; height: auto; }
 
 /* Overlay gradual (vinheta escura para legibilidade) */
 .parallax-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    linear-gradient(180deg,
-      var(--void) 0%,
-      transparent 12%,
-      transparent 88%,
-      var(--void) 100%
-    ),
-    radial-gradient(ellipse at center,
-      transparent 30%,
-      rgba(11,8,19,0.55) 70%,
-      rgba(11,8,19,0.85) 100%
-    );
+  display: none;
 }
 .light-mode .parallax-overlay {
   background:
@@ -8259,7 +8228,7 @@ img { max-width: 100%; height: auto; }
     background-size: 100% auto;
   }
   .parallax-before-mural .parallax-bg {
-    background-image: url('/portal-honmoon.webp?v=88');
+    background-image: url('/portal-honmoon.webp?v=89');
     background-position: center bottom;
     background-size: 100% auto;
     opacity: 0.4;
@@ -8268,7 +8237,7 @@ img { max-width: 100%; height: auto; }
     background-image: url('/parallax-1-day-mobile.webp?v=7');
   }
   .parallax-after-mural .parallax-bg {
-    background-image: url('/portal-honmoon.webp?v=88');
+    background-image: url('/portal-honmoon.webp?v=89');
     background-position: center top;
     background-size: 100% auto;
     opacity: 0.4;
@@ -8355,81 +8324,4 @@ img { max-width: 100%; height: auto; }
   .parallax-after-mural {
     margin-top: 0 !important;
   }
-}
-
-/* ═══ PORTAL CONTÍNUO — 3 secções com 1 imagem fixa (modo noite) ═══
-   A imagem do portal fica fixa (position: fixed) e cobre as 3 secções:
-   parallax 1 + mural + parallax 2. Sem cortes, sem barras pretas.
-   O efeito é natural: ao fazer scroll, a imagem parece ficar parada
-   enquanto o conteúdo passa por cima. */
-
-.portal-section-wrapper {
-  position: relative;
-  z-index: 1;
-}
-
-/* Imagem fixa ao fundo — uma só, contínua */
-.portal-fixed-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url('/portal-honmoon.webp?v=88');
-  background-size: 100% auto;
-  background-position: center center;
-  background-repeat: no-repeat;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.5;
-  will-change: opacity;
-}
-
-/* As 3 secções dentro do wrapper ficam transparentes */
-.portal-section-wrapper .parallax-wrapper {
-  background: transparent !important;
-}
-.portal-section-wrapper .parallax-bg,
-.portal-section-wrapper .parallax-overlay,
-.portal-section-wrapper .showcase-overlay {
-  display: none !important;
-}
-.portal-section-wrapper .galeria-section {
-  background: transparent !important;
-  background-image: none !important;
-}
-.portal-section-wrapper .galeria-section::before {
-  display: none !important;
-}
-
-/* Overlay subtil sobre o portal para legibilidade do mural */
-.portal-section-wrapper .galeria-section::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, rgba(11,8,19,0.4) 0%, rgba(11,8,19,0.6) 100%);
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Mobile */
-@media (max-width: 767px) {
-  .portal-fixed-bg {
-    background-size: 100% auto;
-    background-attachment: scroll;
-    opacity: 0.35;
-  }
-  .portal-section-wrapper .parallax-solo-section,
-  .portal-section-wrapper .showcase-section {
-    height: 40vh !important;
-    min-height: 250px !important;
-  }
-}
-
-/* Modo dia: sem portal */
-.light-mode .portal-fixed-bg {
-  display: none;
-}
-.light-mode .portal-section-wrapper .galeria-section {
-  background: var(--deep) !important;
 }
