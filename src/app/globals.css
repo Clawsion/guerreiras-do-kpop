@@ -4190,21 +4190,12 @@ html { scroll-behavior: smooth; }
 .galeria-section {
   position: relative;
   padding: 6rem 0 4rem;
-  background: transparent;
+  background: var(--deep);
   overflow: hidden;
 }
 /* Portal Honmoon atrás da galeria (transparência) — modo noite */
 .galeria-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url('/portal-honmoon.webp?v=85');
-  background-size: cover;
-  background-position: center center;
-  background-attachment: fixed;
-  opacity: 0.2;
-  z-index: 0;
-  pointer-events: none;
+  display: none;
 }
 
 .galeria-grid {
@@ -8138,7 +8129,7 @@ img { max-width: 100%; height: auto; }
 .parallax-bg {
   position: absolute;
   inset: 0;
-  background-image: url('/portal-honmoon.webp?v=85');
+  background-image: none;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -8176,10 +8167,7 @@ img { max-width: 100%; height: auto; }
 
 /* Parallax 1 (ANTES do Mural) — imagem 1 */
 .parallax-before-mural .parallax-bg {
-  background-image: url('/portal-honmoon.webp?v=85');
-  background-size: cover;
-  background-position: center center;
-  opacity: 0.5;
+  background-image: none;
 }
 .light-mode .parallax-before-mural .parallax-bg {
   background-image: url('/parallax-1-day.webp?v=7');
@@ -8187,10 +8175,7 @@ img { max-width: 100%; height: auto; }
 
 /* Parallax 2 (DEPOIS do Mural) — imagem 2 (diferente) — MESMO zoom do parallax 1 */
 .parallax-after-mural .parallax-bg {
-  background-image: url('/portal-honmoon.webp?v=85');
-  background-size: cover;
-  background-position: center center;
-  opacity: 0.5;
+  background-image: none;
 }
 .light-mode .parallax-after-mural .parallax-bg {
   background-image: url('/parallax-2-day.webp?v=7');
