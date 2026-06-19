@@ -631,26 +631,25 @@ html { scroll-behavior: smooth; }
 /* Mobile: secção mais pequena, pilares mais estreitos */
 @media (max-width: 767px) {
   .memories-section {
-    /* Altura ajustada para ser mais proporcional (parecido com desktop).
-       Antes: 60vh (muito grande). Agora: 45vh (mais próximo do desktop). */
-    height: 45vh !important;
-    min-height: 320px !important;
+    /* Altura igual ao desktop para mostrar a foto completa */
+    height: 75vh !important;
+    min-height: 500px !important;
   }
   .memories-pillar { width: 18vw; }
-  .memories-curtain-top { height: 12vh; }
-  .memories-curtain-bottom { height: 14vh; }
+  /* DESATIVAR cortinas em mobile (as "tiras" em cima/baixo) */
+  .memories-curtain-top { display: none !important; }
+  .memories-curtain-bottom { display: none !important; }
   .memories-dots { bottom: 3vh; }
-  /* ═══ SLIDESHOW em smartphone — cover com center (sem barras pretas) ═══
-     Voltar a cover para preencher o ecrã (sem barras pretas do contain).
-     Manter center center para mostrar a parte central da foto. */
+  /* ═══ SLIDESHOW em smartphone — cover igual ao desktop ═══
+     Usar cover (igual ao desktop) para preencher o ecrã.
+     Mostra a foto completa sem cortes nas laterais. */
   .memories-slide {
-    background-size: 100% auto !important;
+    background-size: cover !important;
     background-position: center center !important;
   }
-  /* ═══ REDUZIR O REFLEXO (memories-glow) em smartphone ═══
-     O brilho roxo/rosa estava muito forte em mobile. Reduzir para metade. */
+  /* ═══ DESATIVAR o reflexo (memories-glow) em smartphone ═══ */
   .memories-glow {
-    opacity: 0.5 !important;
+    display: none !important;
   }
 }
 
