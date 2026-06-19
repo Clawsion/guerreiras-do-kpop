@@ -8417,3 +8417,18 @@ img { max-width: 100%; height: auto; }
     display: none !important;
   }
 }
+
+/* ═══ SMARTPHONE — remover TODOS os overlays do hero ═══
+   Em mobile, os overlays escurecem a imagem e escondem os ícones
+   "ao vivo" na parte de baixo. Remover completamente em mobile. */
+@media (max-width: 767px) {
+  .hero-bg-overlay {
+    display: none !important;
+  }
+  .hero-vignette {
+    display: none !important;
+  }
+  .hero-grid {
+    display: none !important;
+  }
+}
