@@ -5693,35 +5693,19 @@ html.light-mode .hero-bg-img-dark {
    Performance: usa gradientes CSS (leves) + poucas partículas. */
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ FUNDO ANIMADO DE ENERGIA HONMOON (CSS puro, sem imagens) ═══ */
+/* ═══ BARREIRA HONMOON — linhas curvas fluidas com brilho neon ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
-/* Fundo CSS puro que flui como energia do Honmoon.
-   Mesma animação em ambos os modos — só muda a COR.
+/* Padrão do filme: linhas curvas fluidas que preenchem a secção
+   como uma barreira de energia. Estático (sem animação).
    
-   TÉCNICA CHAVE: variáveis CSS (--hm-energy-*) definem as cores.
-   - Modo noite (default): pink/magenta neon
-   - Modo dia (.light-mode): azul/cyan neon
-   Todas as camadas animadas usam var(--hm-energy-*).
-   Quando se troca de tema, SÓ as variáveis mudam — a animação
-   continua exatamente igual. Transição SEAMLESS. */
+   - Modo noite: rosa/vermelho pink neon (rgba(var(--hm-e*)))
+   - Modo dia: azul neon
+   - Mesmo padrão em ambos os modos — só muda a cor
+   - Linhas nítidas com brilho neon intenso
+   - SEM mix-blend-mode em modo dia (visibilidade máxima) */
 
-/* ═══ Variáveis de cor da energia Honmoon ═══ */
-/* Modo noite (default) — PINK neon */
-.honmoon-shield-section {
-  --hm-e1: 255, 45, 120;    /* rosa pink neon */
-  --hm-e2: 255, 20, 100;    /* vermelho pink */
-  --hm-e3: 200, 30, 100;    /* rosa escuro */
-  --hm-e4: 180, 40, 120;    /* magenta escuro */
-}
-/* Modo dia — AZUL neon */
-.light-mode .honmoon-shield-section {
-  --hm-e1: 0, 220, 255;     /* cyan neon */
-  --hm-e2: 0, 180, 255;     /* azul */
-  --hm-e3: 50, 150, 255;    /* azul escuro */
-  --hm-e4: 80, 130, 220;    /* azul profundo */
-}
+/* Variáveis de cor (já definidas acima) */
 
-/* ═══ Container do campo de energia ═══ */
 .hm-energy-field {
   position: absolute;
   inset: 0;
@@ -5730,265 +5714,59 @@ html.light-mode .hero-bg-img-dark {
   overflow: hidden;
 }
 
-/* ═══ Energy flows — correntes de energia que fluem ═══
-   3 camadas de radial gradient que se movem em direções diferentes.
-   Criam um efeito de "nuvens de energia" a fluir pela secção. */
-.hm-energy-flow {
+/* SVG com as linhas curvas */
+.hm-barrier-pattern {
   position: absolute;
-  width: 120%;
-  height: 120%;
-  top: -10%;
-  left: -10%;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   mix-blend-mode: screen;
   will-change: transform;
+  animation: hmBarrierDrift 60s linear infinite;
 }
 
-/* Flow 1 — grande, move-se para a direita (30s) */
-.hm-energy-flow-1 {
-  background:
-    radial-gradient(ellipse 40% 30% at 20% 30%, rgba(var(--hm-e1), 0.18) 0%, transparent 60%),
-    radial-gradient(ellipse 35% 25% at 70% 60%, rgba(var(--hm-e2), 0.15) 0%, transparent 60%),
-    radial-gradient(ellipse 30% 20% at 40% 80%, rgba(var(--hm-e3), 0.12) 0%, transparent 60%);
-  filter: blur(20px);
-  animation: hmFlow1 30s ease-in-out infinite alternate;
+/* Linhas base — curvas fluidas nítidas com brilho neon INTENSO */
+.hm-bl {
+  fill: none;
+  stroke: rgba(var(--hm-e1), 0.9);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 4px rgba(var(--hm-e1), 1))
+          drop-shadow(0 0 8px rgba(var(--hm-e1), 0.7))
+          drop-shadow(0 0 16px rgba(var(--hm-e1), 0.4))
+          drop-shadow(0 0 30px rgba(var(--hm-e1), 0.2));
 }
 
-/* Flow 2 — médio, move-se para a esquerda (25s) */
-.hm-energy-flow-2 {
-  background:
-    radial-gradient(ellipse 30% 25% at 80% 20%, rgba(var(--hm-e2), 0.16) 0%, transparent 55%),
-    radial-gradient(ellipse 25% 20% at 30% 50%, rgba(var(--hm-e1), 0.14) 0%, transparent 55%),
-    radial-gradient(ellipse 35% 30% at 60% 75%, rgba(var(--hm-e4), 0.1) 0%, transparent 55%);
-  filter: blur(25px);
-  animation: hmFlow2 25s ease-in-out infinite alternate-reverse;
-}
-
-/* Flow 3 — pequeno, move-se para baixo (35s) */
-.hm-energy-flow-3 {
-  background:
-    radial-gradient(ellipse 50% 20% at 50% 40%, rgba(var(--hm-e1), 0.1) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 15% at 30% 70%, rgba(var(--hm-e3), 0.08) 0%, transparent 70%);
-  filter: blur(30px);
-  animation: hmFlow3 35s ease-in-out infinite alternate;
-}
-
-@keyframes hmFlow1 {
-  0%   { transform: translate(0, 0) scale(1); }
-  33%  { transform: translate(8%, -3%) scale(1.1); }
-  66%  { transform: translate(-5%, 4%) scale(0.95); }
-  100% { transform: translate(6%, -2%) scale(1.05); }
-}
-@keyframes hmFlow2 {
-  0%   { transform: translate(0, 0) scale(1); }
-  50%  { transform: translate(-7%, 5%) scale(1.1); }
-  100% { transform: translate(4%, -4%) scale(0.9); }
-}
-@keyframes hmFlow3 {
-  0%   { transform: translate(0, -5%) scale(1); }
-  100% { transform: translate(0, 5%) scale(1.1); }
-}
-
-/* ═══ Energy veins — veias de energia finas que fluem ═══
-   Padrão de linhas finas com gradient que se move horizontalmente.
-   Cria um efeito de "correntes de energia" a atravessar a secção. */
-.hm-energy-veins {
-  position: absolute;
-  inset: 0;
-  background:
-    repeating-linear-gradient(115deg,
-      transparent 0px,
-      transparent 80px,
-      rgba(var(--hm-e1), 0.06) 80px,
-      rgba(var(--hm-e1), 0.1) 81px,
-      rgba(var(--hm-e2), 0.06) 82px,
-      transparent 83px,
-      transparent 160px,
-      rgba(var(--hm-e3), 0.04) 160px,
-      rgba(var(--hm-e3), 0.08) 161px,
-      transparent 162px,
-      transparent 240px);
-  mix-blend-mode: screen;
-  filter: blur(1px);
-  will-change: background-position;
-  animation: hmVeinsFlow 20s linear infinite;
-}
-@keyframes hmVeinsFlow {
-  0%   { background-position: 0 0; }
-  100% { background-position: 240px 0; }
-}
-
-/* ═══ Energy pulse — pulso de energia do centro (orb) ═══
-   O orb é a FONTE de energia. Este pulso amplifica o brilho do orb
-   e cria uma sensação de que a energia EMANA do botão. */
-.hm-energy-pulse {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 500px;
-  height: 500px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(circle,
-    rgba(var(--hm-e1), 0.25) 0%,
-    rgba(var(--hm-e2), 0.15) 25%,
-    rgba(var(--hm-e3), 0.08) 50%,
-    transparent 75%);
-  filter: blur(30px);
-  mix-blend-mode: screen;
-  will-change: transform, opacity;
-  animation: hmEnergyPulse 6s ease-in-out infinite alternate;
-}
-@keyframes hmEnergyPulse {
-  0%   { transform: translate(-50%, -50%) scale(0.9); opacity: 0.5; }
-  100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
-}
-
-/* ═══ BARREIRA RETANGULAR INVISÍVEL (envolve a secção inteira) ═══
-   A barreira Honmoon que PROTEGE a secção. É "invisível" (translúcida)
-   mas tem bordas neon fortes no topo e na base que a tornam visível.
-   
-   - Modo noite: rosa/vermelho pink neon (rgba(var(--hm-e*)))
-   - Modo dia: azul neon
-   
-   Importante: SEM mix-blend-mode em modo dia para máxima visibilidade.
-   Em modo dia usamos opacity normal com cor sólida vibrante. */
-
-/* Camada translúcida da barreira — preenche a secção inteira */
-.hm-barrier-rect {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg,
-    rgba(var(--hm-e1), 0.08) 0%,
-    rgba(var(--hm-e2), 0.04) 20%,
-    transparent 50%,
-    rgba(var(--hm-e2), 0.04) 80%,
-    rgba(var(--hm-e1), 0.08) 100%);
-  mix-blend-mode: screen;
-  will-change: opacity;
-  animation: hmBarrierRectPulse 8s ease-in-out infinite alternate;
-}
-/* Modo dia — visibilidade MÁXIMA, sem mix-blend-mode */
-.light-mode .hm-barrier-rect {
+/* Modo dia — visibilidade MÁXIMA (sem mix-blend-mode, cores full) */
+.light-mode .hm-barrier-pattern {
   mix-blend-mode: normal;
-  background: linear-gradient(180deg,
-    rgba(var(--hm-e1), 0.18) 0%,
-    rgba(var(--hm-e2), 0.1) 20%,
-    transparent 50%,
-    rgba(var(--hm-e2), 0.1) 80%,
-    rgba(var(--hm-e1), 0.18) 100%);
 }
-@keyframes hmBarrierRectPulse {
-  0%   { opacity: 0.7; }
-  100% { opacity: 1; }
+.light-mode .hm-bl {
+  stroke: rgba(var(--hm-e1), 1);
+  filter: drop-shadow(0 0 5px rgba(var(--hm-e1), 1))
+          drop-shadow(0 0 10px rgba(var(--hm-e1), 0.8))
+          drop-shadow(0 0 20px rgba(var(--hm-e1), 0.5))
+          drop-shadow(0 0 40px rgba(var(--hm-e1), 0.3));
 }
 
-/* ═══ Bordas neon da barreira — linhas fortes no topo e na base ═══
-   Isto é o que torna a barreira visível. Linhas neon brilhantes
-   que contornam a parte de cima e de baixo da secção. */
-.hm-barrier-rect-edge {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: rgba(var(--hm-e1), 0.9);
-  box-shadow:
-    0 0 12px rgba(var(--hm-e1), 0.7),
-    0 0 30px rgba(var(--hm-e1), 0.5),
-    0 0 60px rgba(var(--hm-e1), 0.3);
-  mix-blend-mode: screen;
-  will-change: opacity;
-  animation: hmBarrierEdgePulse 5s ease-in-out infinite alternate;
-}
-/* Modo dia — bordas MAIS visíveis (sem mix-blend-mode, cores full opacity) */
-.light-mode .hm-barrier-rect-edge {
-  mix-blend-mode: normal;
-  background: rgba(var(--hm-e1), 1);
-  box-shadow:
-    0 0 15px rgba(var(--hm-e1), 0.8),
-    0 0 40px rgba(var(--hm-e1), 0.6),
-    0 0 80px rgba(var(--hm-e1), 0.4);
-}
-.hm-barrier-rect-edge-top { top: 0; }
-.hm-barrier-rect-edge-bottom { bottom: 0; }
-@keyframes hmBarrierEdgePulse {
-  0%   { opacity: 0.6; }
-  100% { opacity: 1; }
-}
-
-/* ═══ MODO DIA — visibilidade MÁXIMA de todos os elementos ═══
-   Em modo dia, mix-blend-mode: screen torna as cores invisíveis sobre
-   fundo claro. Usar mix-blend-mode: normal (sem blend) com cores fortes. */
-.light-mode .hm-energy-flow-1,
-.light-mode .hm-energy-flow-2,
-.light-mode .hm-energy-flow-3 {
-  mix-blend-mode: normal;
-  opacity: 0.9;
-}
-.light-mode .hm-energy-flow-1 {
-  background:
-    radial-gradient(ellipse 40% 30% at 20% 30%, rgba(var(--hm-e1), 0.35) 0%, transparent 60%),
-    radial-gradient(ellipse 35% 25% at 70% 60%, rgba(var(--hm-e2), 0.3) 0%, transparent 60%),
-    radial-gradient(ellipse 30% 20% at 40% 80%, rgba(var(--hm-e3), 0.22) 0%, transparent 60%);
-}
-.light-mode .hm-energy-flow-2 {
-  background:
-    radial-gradient(ellipse 30% 25% at 80% 20%, rgba(var(--hm-e2), 0.32) 0%, transparent 55%),
-    radial-gradient(ellipse 25% 20% at 30% 50%, rgba(var(--hm-e1), 0.28) 0%, transparent 55%),
-    radial-gradient(ellipse 35% 30% at 60% 75%, rgba(var(--hm-e4), 0.2) 0%, transparent 55%);
-}
-.light-mode .hm-energy-flow-3 {
-  background:
-    radial-gradient(ellipse 50% 20% at 50% 40%, rgba(var(--hm-e1), 0.2) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 15% at 30% 70%, rgba(var(--hm-e3), 0.16) 0%, transparent 70%);
-}
-.light-mode .hm-energy-veins {
-  mix-blend-mode: normal;
-  opacity: 0.7;
-  background:
-    repeating-linear-gradient(115deg,
-      transparent 0px,
-      transparent 80px,
-      rgba(var(--hm-e1), 0.18) 80px,
-      rgba(var(--hm-e1), 0.3) 81px,
-      rgba(var(--hm-e2), 0.18) 82px,
-      transparent 83px,
-      transparent 160px,
-      rgba(var(--hm-e3), 0.14) 160px,
-      rgba(var(--hm-e3), 0.24) 161px,
-      transparent 162px,
-      transparent 240px);
-}
-.light-mode .hm-energy-pulse {
-  mix-blend-mode: normal;
-  background: radial-gradient(circle,
-    rgba(var(--hm-e1), 0.45) 0%,
-    rgba(var(--hm-e2), 0.3) 25%,
-    rgba(var(--hm-e3), 0.18) 50%,
-    transparent 75%);
+/* Animação MUITO lenta — onda infinita sem se perceber alterações.
+   translateX de 0 a -400px (padrão repete a cada 400px).
+   Como as curvas usam T (smooth quadratic) com 400px de espaçamento,
+   o loop é perfeito — não se nota a repetição. */
+@keyframes hmBarrierDrift {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-400px); }
 }
 
 /* ═══ MOBILE: simplificado ═══ */
 @media (max-width: 767px) {
-  .hm-energy-flow-3 {
-    display: none !important;
+  .hm-barrier-pattern {
+    animation-duration: 90s !important;
   }
-  .hm-energy-flow-1,
-  .hm-energy-flow-2 {
-    filter: blur(15px) !important;
-    animation-duration: 40s !important;
-  }
-  .hm-energy-veins {
-    opacity: 0.5 !important;
-    animation-duration: 30s !important;
-  }
-  .hm-energy-pulse {
-    width: 300px !important;
-    height: 300px !important;
-    filter: blur(20px) !important;
-    opacity: 0.4 !important;
-  }
-  .hm-barrier-rect-edge {
-    height: 1.5px !important;
+  .hm-bl {
+    stroke-width: 1.5 !important;
+    filter: drop-shadow(0 0 2px rgba(var(--hm-e1), 0.8))
+            drop-shadow(0 0 4px rgba(var(--hm-e1), 0.5)) !important;
   }
 }
 
