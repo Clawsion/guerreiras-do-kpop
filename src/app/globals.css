@@ -5128,11 +5128,14 @@ html.light-mode .hero-bg-img-dark {
    Esta é a regra MAIS IMPORTANTE para a fluidez em mobile.
    Garante que QUALQUER mudança de tema (classe .light-mode) é INSTANTÂNEA.
    O seletor * abrange todos os 467 elementos — mas como a propriedade
-   é simples (transition: none), o browser avalia rapidamente. */
+   é simples (transition: none), o browser avalia rapidamente.
+   
+   IMPORTANTE: NÃO mexer em animation-duration aqui! Isto causava o bug
+   do marquee (letras a passar rapidíssimo e desaparecer). As animações
+   decorativas já são desativadas individualmente nas regras abaixo. */
 @media (max-width: 767px) {
   *, *::before, *::after {
     transition: none !important;
-    animation-duration: 0.001s !important;
   }
 }
 
