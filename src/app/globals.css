@@ -8433,12 +8433,23 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* ═══ SMARTPHONE — fade escuro suave em baixo do hero (só modo noite) ═══
+/* ═══ SMARTPHONE — fade escuro suave em baixo do hero (SÓ modo noite) ═══
    A imagem do hero termina com um corte visível em baixo. Este fade
    cria um gradiente que prolonga a imagem suavemente para a secção
-   seguinte, sem se perceber o corte. */
+   seguinte, sem se perceber o corte.
+
+   ⚠️ IMPORTANTE: O seletor usa `html:not(.light-mode)` para garantir que
+   o fade SÓ aplica em modo NOITE. Antes era `:not(.light-mode)` que
+   correspondia a QUALQUER ancestor sem .light-mode (incluindo body),
+   fazendo o fade aplicar também em modo DIA — como em modo dia
+   var(--void) = #EDE0F5 (lilás claro), o fade clareava o fundo natural
+   escuro da imagem, criando um "brilho" artificial indesejado.
+
+   Em modo DIA: NENHUM fade, NENHUM filtro, NENHUM overlay no hero.
+   A imagem aparece limpa, exatamente como foi entregue pelo utilizador. */
 @media (max-width: 767px) {
-  :not(.light-mode) .hero-section::after {
+  /* SÓ modo noite — fade escuro no fundo do hero */
+  html:not(.light-mode) .hero-section::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -8448,5 +8459,14 @@ img { max-width: 100%; height: auto; }
     background: linear-gradient(to bottom, transparent 0%, var(--void) 100%);
     z-index: 5;
     pointer-events: none;
+  }
+  /* MODO DIA — GARANTIR que NÃO há fade/overlay nenhum no fundo do hero.
+     Isto sobrescreve qualquer regra residual e assegura que o ::after
+     nunca é renderizado em modo dia, deixando a imagem 100% limpa. */
+  html.light-mode .hero-section::after,
+  .light-mode .hero-section::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
   }
 }
