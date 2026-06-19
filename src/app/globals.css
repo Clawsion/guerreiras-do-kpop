@@ -631,18 +631,18 @@ html { scroll-behavior: smooth; }
 /* Mobile: secção mais pequena, pilares mais estreitos */
 @media (max-width: 767px) {
   .memories-section {
-    /* Altura igual ao desktop para mostrar a foto completa */
-    height: 75vh !important;
-    min-height: 500px !important;
+    /* Altura automática para a foto preencher sem espaços */
+    height: auto !important;
+    min-height: 0 !important;
+    /* Sem padding para encostar às secções adjacentes */
+    padding: 0 !important;
   }
   .memories-pillar { width: 18vw; }
   /* DESATIVAR cortinas em mobile (as "tiras" em cima/baixo) */
   .memories-curtain-top { display: none !important; }
   .memories-curtain-bottom { display: none !important; }
-  .memories-dots { bottom: 3vh; }
-  /* ═══ SLIDESHOW em smartphone — contain (sem zoom, foto completa) ═══
-     Usar contain para mostrar a foto COMPLETA sem cortes nem zoom.
-     A foto aparece proporcional ao ecrã do smartphone. */
+  .memories-dots { display: none !important; }
+  /* ═══ SLIDESHOW em smartphone — contain (sem zoom, foto completa) ═══ */
   .memories-slide {
     background-size: contain !important;
     background-position: center center !important;
@@ -651,6 +651,10 @@ html { scroll-behavior: smooth; }
   /* ═══ DESATIVAR o reflexo (memories-glow) em smartphone ═══ */
   .memories-glow {
     display: none !important;
+  }
+  /* ═══ STAGE FRAME — sem padding/margem em mobile ═══ */
+  .memories-stage-frame {
+    inset: 0 !important;
   }
 }
 
