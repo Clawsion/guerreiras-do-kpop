@@ -128,7 +128,17 @@
 .font-body    { font-family: var(--font-body), 'Sora', sans-serif; }
 .font-label   { font-family: var(--font-geist-mono), monospace; }
 
-html { scroll-behavior: smooth; }
+/* ═══ SCROLL BEHAVIOR ═══
+   smooth SÓ em desktop (≥1024px). Em mobile/touch, smooth no <html>
+   interfere com o momentum scrolling nativo do iOS/Android e causa
+   lag severo no swipe. Esta era a causa #1 do "hero demora muito a descer". */
+@media (min-width: 1024px) {
+  html { scroll-behavior: smooth; }
+}
+/* Mobile/touch: scroll nativo do browser (instantâneo, com momentum) */
+@media (max-width: 1023px) {
+  html { scroll-behavior: auto !important; }
+}
 
 /* ═══ MOBILE SCROLL — Garantir scroll fluído desde o primeiro frame ═══
    Em iOS Safari e Chrome Android, sem estas regras, o scroll pode ficar
@@ -1955,6 +1965,34 @@ html { scroll-behavior: smooth; }
 .light-mode .hero-bg-img {
   animation: none;
 }
+
+/* ═══ HERO IMAGE — CSS-DRIVEN THEME SWITCH ═══
+   DUAS <img> tags no DOM (uma dark, uma light). O CSS controla qual é
+   visível via classe .light-mode no <html>. Isto evita re-render do
+   React quando se troca de tema — a troca é 100% CSS, instantânea. */
+.hero-bg-picture,
+.hero-bg-picture-light {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+}
+.hero-bg-img-dark,
+.hero-bg-img-light {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  pointer-events: none;
+}
+/* Modo noite (default) — mostrar dark, esconder light */
+html:not(.light-mode) .hero-bg-img-dark { display: block; }
+html:not(.light-mode) .hero-bg-img-light { display: none; }
+/* Modo dia — mostrar light, esconder dark */
+html.light-mode .hero-bg-img-dark { display: none; }
+html.light-mode .hero-bg-img-light { display: block; }
 /* Em viewports portrait/tall (mobile), levanta o sujeito para a cara ficar visível. */
 @media (max-aspect-ratio: 16/10) {
   .hero-bg-img {
@@ -7936,11 +7974,7 @@ img { max-width: 100%; height: auto; }
 /* (Esta regra é informational — o preconnect real deve ser via <link>
    no <head>, mas como otimização de CSS marcamos a intenção.) */
 
-/* ─── Scroll suave apenas em dispositivos que não causam jank ─── */
-@media (min-width: 1024px) {
-  html { scroll-behavior: smooth; }
-}
-/* Em mobile, deixar o browser gerir o scroll para evitar jank */
+/* (regra movida para o topo do ficheiro — ver bloco SCROLL BEHAVIOR) */
 
 /* ─── Reduce layout shift em imagens da galeria ─── */
 .galeria-img-wrap {
@@ -8379,6 +8413,10 @@ img { max-width: 100%; height: auto; }
    Solução: em mobile, qualquer elemento com .light-mode ou .wave-transition
    tem transition: none. A troca é INSTANTÂNEA. */
 @media (max-width: 767px) {
+  /* Override também para o próprio html (a regra original .light-mode
+     aplica-se ao html mas o override .light-mode * não o cobria). */
+  html.light-mode,
+  html,
   .light-mode *,
   :not(.light-mode).wave-transition * {
     transition: none !important;
@@ -8468,5 +8506,72 @@ img { max-width: 100%; height: auto; }
     content: none !important;
     display: none !important;
     background: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ MOBILE PERFORMANCE — DESATIVAR animações pesadas fora do hero ═══ */
+/* ═══════════════════════════════════════════════════════════════ */
+/* Em mobile, as animações infinitas do manifesto (temple power-on,
+   LED wall, monitor glow, pillar shimmer, etc.) e do Honmoon Shield
+   (neon circles, arcs, strands, nodes, sparkles, atmosphere drift)
+   continuam a correr mesmo quando o utilizador está no hero. Isto
+   consome CPU/GPU e causa lag no scroll.
+   
+   Solução: em mobile, DESATIVAR todas as animações fora do hero.
+   O manifesto continua a aparecer mas sem animações (só estático).
+   O Honmoon Shield perde as animações das circles/arcs/strands. */
+@media (max-width: 767px) {
+  /* Manifesto: desativar TODAS as animações (temple power-on, glow, etc.) */
+  .manifesto-section *,
+  .manifesto-section *::before,
+  .manifesto-section *::after {
+    animation: none !important;
+    will-change: auto !important;
+  }
+  /* Honmoon Shield: desativar animações dos elementos decorativos */
+  .honmoon-shield-section .hm-atmosphere-layer,
+  .honmoon-shield-section .hm-sparkle,
+  .honmoon-shield-section .hm-particle,
+  .honmoon-shield-section .hm-ring,
+  .honmoon-shield-section .hm-neon-circle,
+  .honmoon-shield-section .hm-neon-arc,
+  .honmoon-shield-section .hm-node,
+  .honmoon-shield-section .hm-strand,
+  .honmoon-shield-section .hm-burst-ring {
+    animation: none !important;
+    will-change: auto !important;
+  }
+  /* Honmoon divider: desativar pulse */
+  .honmoon-divider,
+  .honmoon-divider::before,
+  .honmoon-divider::after,
+  .honmoon-divider-symbol,
+  .honmoon-divider-symbol::after {
+    animation: none !important;
+  }
+  /* Cartazes / outras secções: desativar animações infinitas */
+  .cartazes-section *,
+  .galeria-section *,
+  .contacto-section * {
+    animation: none !important;
+  }
+  /* Manter animações do hero (countdown seals, CTA arcs) e do sticky CTA */
+  /* Garantir que will-change é removido para libertar camadas de composição */
+  .manifesto-section *,
+  .honmoon-shield-section .hm-atmosphere-layer,
+  .honmoon-shield-section .hm-sparkle,
+  .honmoon-shield-section .hm-particle,
+  .honmoon-shield-section .hm-ring,
+  .honmoon-shield-section .hm-neon-circle,
+  .honmoon-shield-section .hm-neon-arc {
+    will-change: auto !important;
+  }
+  /* Remover drop-shadow filters pesados do Honmoon Shield em mobile */
+  .honmoon-shield-section .hm-neon-circle,
+  .honmoon-shield-section .hm-neon-arc,
+  .honmoon-shield-section .hm-strand,
+  .honmoon-shield-section .hm-node {
+    filter: none !important;
   }
 }

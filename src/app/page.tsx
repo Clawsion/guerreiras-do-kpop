@@ -872,11 +872,15 @@ export default function HomePage() {
         themeModeRef.current = toMode;
         pendingToModeRef.current = null;
         isTransitioningRef.current = false;
-        // ÚNICO setThemeMode — adiado para requestAnimationFrame para não
-        // bloquear o scroll touch. Zero re-renders extras.
-        requestAnimationFrame(() => {
+        // ═══ MOBILE: NÃO chamar setThemeMode imediatamente ═══
+        // A troca visual já foi feita (class .light-mode no <html>) e o
+        // CSS mostra a imagem certa (ver .hero-bg-img-dark/.hero-bg-img-light).
+        // O React state só precisa de atualizar para aria-labels e textos
+        // pequenos — podemos adiar 300ms para o scroll touch não ser bloqueado.
+        // Isto elimina o re-render pesado do HomePage durante o toque.
+        setTimeout(() => {
           setThemeMode(toMode);
-        });
+        }, 300);
       } else {
         // Desktop via botão do topo: ripple do Honmoon + toggle
         triggerHeroFlash(toMode, cx, cy);
@@ -1044,24 +1048,56 @@ export default function HomePage() {
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
             Query parameter ?v=87 para cache-busting (força reload das imagens novas). */}
-        <picture>
-          {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
+        {/* ═══ HERO IMAGE — CSS-DRIVEN THEME SWITCH (zero re-renders) ═══
+            Em vez de usar themeMode state para escolher a src (que força
+            re-render do HomePage inteiro a cada troca de tema), usamos
+            DUAS <img> tags e controlamos qual é visível via CSS:
+              - html:not(.light-mode) .hero-bg-img-dark  → display:block
+              - html.light-mode .hero-bg-img-dark        → display:none
+              - html:not(.light-mode) .hero-bg-img-light → display:none
+              - html.light-mode .hero-bg-img-light       → display:block
+            A troca de classe .light-mode no <html> é instantânea (síncrona),
+            e o browser mostra a imagem certa SEM re-render do React. */}
+        <picture className="hero-bg-picture">
+          {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=87" : "/hero-bg-mobile.webp?v=87"}
+            srcSet="/hero-bg-mobile.webp?v=87"
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=87" : "/hero-bg.webp?v=87"}
+            srcSet="/hero-bg.webp?v=87"
             type="image/webp"
           />
-          {/* Fallback para browsers sem suporte <picture> */}
+          {/* Modo noite — sempre carregado (default visível) */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=87" : "/hero-bg.webp?v=87"}
+            src="/hero-bg.webp?v=87"
             alt=""
-            className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
+            className={`hero-bg-img hero-bg-img-dark ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
+        <picture className="hero-bg-picture hero-bg-picture-light">
+          {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (modo dia) */}
+          <source
+            media="(max-width: 767px)"
+            srcSet="/hero-bg-mobile-light.webp?v=87"
+            type="image/webp"
+          />
+          {/* Tablet+ (≥768px) — imagens paisagem (modo dia) */}
+          <source
+            media="(min-width: 768px)"
+            srcSet="/hero-bg-light.webp?v=87"
+            type="image/webp"
+          />
+          {/* Modo dia — só visível quando html tem .light-mode */}
+          <img
+            src="/hero-bg-light.webp?v=87"
+            alt=""
+            className={`hero-bg-img hero-bg-img-light ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
             decoding="async"
           />
