@@ -854,12 +854,22 @@ export default function HomePage() {
       const cy = clickY ?? 50;
 
       if (isMobileViewport) {
-        // ═══ MOBILE: troca de tema INSTANTÂNEA (sem flash) ═══
-        // O flash anterior criava 2 divs position:fixed (hero-img-flash +
-        // hero-orb-burst) que sobrecarregavam a GPU e causavam lag.
-        // Agora a troca é instantânea — o themeMode muda imediatamente
-        // e o browser só precisa de recalcular CSS (sem animações pesadas).
-        toggleTheme();
+        // ═══ MOBILE: troca de tema INSTANTÂNEA (sem flash, sem bloquear scroll) ═══
+        // Usar requestAnimationFrame para garantir que o browser processa
+        // a troca sem bloquear o scroll touch.
+        // A class light-mode é aplicada SÍNCRONAMENTE (imediato),
+        // mas o setThemeMode (re-render React) é adiado para o próximo frame.
+        if (toMode === 'light') {
+          document.documentElement.classList.add('light-mode');
+        } else {
+          document.documentElement.classList.remove('light-mode');
+        }
+        themeModeRef.current = toMode;
+        pendingToModeRef.current = null;
+        // Adiar o setThemeMode para o próximo frame — não bloqueia o scroll
+        requestAnimationFrame(() => {
+          setThemeMode(toMode);
+        });
         isTransitioningRef.current = false;
       } else {
         // Desktop via botão do topo: ripple do Honmoon + toggle
