@@ -640,12 +640,13 @@ html { scroll-behavior: smooth; }
   .memories-curtain-top { display: none !important; }
   .memories-curtain-bottom { display: none !important; }
   .memories-dots { bottom: 3vh; }
-  /* ═══ SLIDESHOW em smartphone — cover igual ao desktop ═══
-     Usar cover (igual ao desktop) para preencher o ecrã.
-     Mostra a foto completa sem cortes nas laterais. */
+  /* ═══ SLIDESHOW em smartphone — contain (sem zoom, foto completa) ═══
+     Usar contain para mostrar a foto COMPLETA sem cortes nem zoom.
+     A foto aparece proporcional ao ecrã do smartphone. */
   .memories-slide {
-    background-size: cover !important;
+    background-size: contain !important;
     background-position: center center !important;
+    background-repeat: no-repeat !important;
   }
   /* ═══ DESATIVAR o reflexo (memories-glow) em smartphone ═══ */
   .memories-glow {
