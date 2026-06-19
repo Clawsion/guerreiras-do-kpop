@@ -18,7 +18,7 @@ const TICKETLINE_URL = "https://www.ticketline.pt/evento/guerreiras-do-k-pop-em-
 const TICKETLINE_URL_CASCAIS  = "https://www.ticketline.pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105657";
 const TICKETLINE_URL_CAPARICA = "https://www.ticketline.pt/pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105855";
 const TICKETLINE_URL_SESIMBRA = "https://www.ticketline.pt/pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105856";
-const EVENT = new Date("2026-08-08T18:30:00");
+// const EVENT = new Date("2026-08-08T18:30:00"); // REMOVIDO — countdown desativado
 
 /* ── Device detection for adaptive performance ── */
 const IS_MOBILE = typeof window !== "undefined" && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -59,73 +59,11 @@ const Rv = React.memo(function Rv({ children, delay = 0, className = "" }: { chi
   );
 });
 
-/* ═══ COUNTDOWN ═══ */
+/* ═══ COUNTDOWN — REMOVIDO a pedido do utilizador (não há evento para contar) ═══
+   As funções Countdown() e HeroCountdown() foram removidas. Se forem necessárias
+   no futuro, recuperar do git history. */
 
-function Countdown() {
-  const [t, setT] = useState({ d: 0, h: 0, m: 0, s: 0 });
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    const tick = () => {
-      const diff = EVENT.getTime() - Date.now();
-      if (diff <= 0) return;
-      setT({ d: Math.floor(diff/864e5), h: Math.floor((diff/36e5)%24), m: Math.floor((diff/6e4)%60), s: Math.floor((diff/1e3)%60) });
-    };
-    tick();
-    setMounted(true);
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, []);
-  return (
-    <div className="flex gap-5 sm:gap-8 justify-center">
-      {[{v:t.d,l:"Dias"},{v:t.h,l:"Horas"},{v:t.m,l:"Min"},{v:t.s,l:"Seg"}].map(u=>(
-        <div key={u.l} className="flex flex-col items-center">
-          <span className="text-3xl sm:text-5xl font-extralight tabular-nums tracking-tight" style={{color:"var(--t1)"}} suppressHydrationWarning>
-            {mounted ? String(u.v).padStart(2,"0") : "\u2013\u2013"}
-          </span>
-          <span className="sec-num mt-1.5">{u.l}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ═══ HERO COUNTDOWN - Neon Boxes ═══ */
-
-function HeroCountdown() {
-  const [t, setT] = useState({ d: 0, h: 0, m: 0, s: 0 });
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    const tick = () => {
-      const diff = EVENT.getTime() - Date.now();
-      if (diff <= 0) return;
-      setT({ d: Math.floor(diff/864e5), h: Math.floor((diff/36e5)%24), m: Math.floor((diff/6e4)%60), s: Math.floor((diff/1e3)%60) });
-    };
-    tick();
-    setMounted(true);
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, []);
-  const units = [{v:t.d,l:"Dias"},{v:t.h,l:"Horas"},{v:t.m,l:"Min"},{v:t.s,l:"Seg"}];
-  return (
-    <div className="hero-countdown-seals">
-      {units.map((u, i) => (
-        <React.Fragment key={u.l}>
-          <div className="hero-seal">
-            <div className="hero-seal-ring">
-              <div className="hero-seal-arc hero-seal-arc-1"/>
-              <div className="hero-seal-arc hero-seal-arc-2"/>
-            </div>
-            <span className="hero-seal-num" suppressHydrationWarning>
-              {mounted ? String(u.v).padStart(2, "0") : "\u2013\u2013"}
-            </span>
-            <span className="hero-seal-label">{u.l}</span>
-          </div>
-          {i < units.length - 1 && <span className="hero-seal-sep">&#x2726;</span>}
-        </React.Fragment>
-      ))}
-    </div>
-  );
-}
+/* (bloco anterior de Countdown e HeroCountdown apagado) */
 
 /* ═══ MARQUEE ═══ */
 
@@ -564,99 +502,26 @@ export default function HomePage() {
     return () => clearTimeout(t);
   }, []);
 
+  // ═══ GESTÃO CENTRALIZADA do body.overflow ═══
+  // VERSÃO SIMPLIFICADA — sem reflow, sem setInterval, sem touchmove listeners.
+  // Os listeners touchmove/touchstart/wheel anteriores causavam LAG GRAVE em
+  // mobile porque corriam a cada frame de cada swipe.
+  // A solução: só mexer no overflow quando menuOpen/lightbox MUDA — e NUNCA
+  // forçar reflow (void offsetHeight é muitíssimo caro).
   useEffect(() => {
-    // ═══ GESTÃO CENTRALIZADA do body.overflow ═══
-    // Garantir que o body NUNCA fica com overflow:hidden quando nem o menu
-    // nem a lightbox estão abertos. Em mobile, este era um dos motivos do
-    // scroll "preso": se o menu abrisse e fechasse rapidamente, o overflow
-    // podia não ser limpo corretamente. Combina menuOpen + lightbox para
-    // decidir se o scroll do body deve ser bloqueado.
     const shouldLockScroll = menuOpen || lightbox !== null;
-    document.body.style.overflow = shouldLockScroll ? "hidden" : "";
-    // Também garantir que html não está bloqueado (algumas situações em iOS
-    // Safari deixam o html com overflow hidden).
-    document.documentElement.style.overflow = shouldLockScroll ? "hidden" : "";
-    // Forçar reflow para garantir que o browser aplica o overflow imediatamente
-    if (!shouldLockScroll) {
-      // Pequeno hack: forçar o browser a reprocessar o estilo do body
-      // Isto resolve o bug do scroll preso em iOS Safari após fechar o menu
-      void document.body.offsetHeight;
-    }
-    return () => {
+    // Usar style.setProperty com string vazia em vez de "" para remover
+    // a propriedade — é mais limpo e não deixa resíduos.
+    if (shouldLockScroll) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
-    };
-  }, [menuOpen, lightbox]);
-
-  // ═══ SAFETY NET: verificar a cada 500ms se o body está bloqueado sem razão ═══
-  // Se menuOpen=false E lightbox=null MAS body.overflow==='hidden', corrigir.
-  // Isto é uma rede de segurança contra race conditions ou outros efeitos que
-  // possam deixar o scroll bloqueado. Corre só em mobile para poupar bateria.
-  useEffect(() => {
-    if (typeof window === "undefined" || window.innerWidth >= 768) return;
-    const id = setInterval(() => {
-      if (!menuOpen && lightbox === null) {
-        if (document.body.style.overflow === "hidden") {
-          document.body.style.overflow = "";
-        }
-        if (document.documentElement.style.overflow === "hidden") {
-          document.documentElement.style.overflow = "";
-        }
-      }
-    }, 500);
-    return () => clearInterval(id);
-  }, [menuOpen, lightbox]);
-
-  // ═══ ULTRA SAFETY NET: em mobile, garantir que qualquer touchstart liberta
-  // o body overflow se não houver menu/lightbox aberto. Isto é a última
-  // linha de defesa contra o bug do scroll bloqueado. ═══
-  useEffect(() => {
-    if (typeof window === "undefined" || window.innerWidth >= 768) return;
-    const unlock = () => {
-      if (!menuOpen && lightbox === null) {
-        if (document.body.style.overflow === "hidden") {
-          document.body.style.overflow = "";
-        }
-        if (document.documentElement.style.overflow === "hidden") {
-          document.documentElement.style.overflow = "";
-        }
-      }
-    };
-    // touchstart: quando o utilizador toca no ecrã, garante que o scroll está desbloqueado
-    window.addEventListener("touchstart", unlock, { passive: true });
-    // touchmove: se o utilizador está a tentar arrastar, garante que o scroll está desbloqueado
-    window.addEventListener("touchmove", unlock, { passive: true });
-    // wheel: para teste em DevTools com rato
-    window.addEventListener("wheel", unlock, { passive: true });
-    return () => {
-      window.removeEventListener("touchstart", unlock);
-      window.removeEventListener("touchmove", unlock);
-      window.removeEventListener("wheel", unlock);
-    };
-  }, [menuOpen, lightbox]);
-
-  // ═══ WHEEL-TO-SCROLL FALLBACK (mobile DevTools com rato) ═══
-  // Em DevTools do Chrome/Edge em modo mobile, o scroll com rato usa eventos
-  // wheel. Se o body tiver overflow:hidden (por bug ou race condition), o
-  // browser ignora o wheel. Este fallback força o scroll manualmente.
-  // Só ativa em viewport < 768px e quando menu/lightbox estão fechados.
-  useEffect(() => {
-    if (typeof window === "undefined" || window.innerWidth >= 768) return;
-    const onWheel = (e: WheelEvent) => {
-      if (menuOpen || lightbox !== null) return;
-      // Se o body ou html estiver bloqueado, força scroll manual
-      const bodyLocked = document.body.style.overflow === "hidden"
-        || document.documentElement.style.overflow === "hidden";
-      if (bodyLocked) {
-        // Desbloqueia imediatamente
-        document.body.style.overflow = "";
-        document.documentElement.style.overflow = "";
-        // E força o scroll na direção do wheel
-        window.scrollBy({ top: e.deltaY, left: e.deltaX, behavior: 'auto' });
-      }
-    };
-    window.addEventListener("wheel", onWheel, { passive: true });
-    return () => window.removeEventListener("wheel", onWheel);
+    }
+    // NÃO chamar void document.body.offsetHeight — força reflow do body
+    // inteiro, o que é MUITO caro (especialmente em mobile com milhares
+    // de elementos). O browser aplica o overflow naturalmente no próximo frame.
   }, [menuOpen, lightbox]);
 
   /* Pause ALL CSS animations when tab is hidden - massive CPU/GPU savings */
@@ -787,10 +652,22 @@ export default function HomePage() {
   const startThemeTransition = useCallback((origin: 'button' | 'orb', clickX?: number, clickY?: number) => {
     // Se já em transição, CANCELA a anterior e começa nova
     // (bug antigo: cliques rápidos falhavam porque o guard retornava)
-    // Em mobile, NÃO chamar cleanupTransition — causa 3 re-renders que
-    // bloqueiam o scroll touch. Em mobile não há flash/ripple para limpar.
+    // Em mobile, NÃO chamar cleanupTransition completo — causa 3 re-renders
+    // (setHeroFlash, setRipple, setWaveActive) que bloqueiam o scroll touch.
+    // MAS precisamos de cancelar os timeouts anteriores (do setThemeMode adiado)
+    // para não acumular. Fazemos isso manualmente sem chamar setState.
     const isMobileStart = typeof window !== "undefined" && window.innerWidth < 768;
-    if (!isMobileStart) {
+    if (isMobileStart) {
+      // Cancelar só os timeouts (sem setState — zero re-renders)
+      transitionRef.current.forEach(t => clearTimeout(t));
+      transitionRef.current = [];
+      if (flashTimeoutRef.current) {
+        clearTimeout(flashTimeoutRef.current);
+        flashTimeoutRef.current = null;
+      }
+      isTransitioningRef.current = false;
+      pendingToModeRef.current = null;
+    } else {
       cleanupTransition();
     }
 
@@ -872,15 +749,18 @@ export default function HomePage() {
         themeModeRef.current = toMode;
         pendingToModeRef.current = null;
         isTransitioningRef.current = false;
-        // ═══ MOBILE: NÃO chamar setThemeMode imediatamente ═══
+        // ═══ MOBILE: setThemeMode ADIADO 1000ms (idle callback) ═══
         // A troca visual já foi feita (class .light-mode no <html>) e o
         // CSS mostra a imagem certa (ver .hero-bg-img-dark/.hero-bg-img-light).
-        // O React state só precisa de atualizar para aria-labels e textos
-        // pequenos — podemos adiar 300ms para o scroll touch não ser bloqueado.
-        // Isto elimina o re-render pesado do HomePage durante o toque.
-        setTimeout(() => {
+        // O React state só precisa de atualizar para aria-labels e textos.
+        // Adiar 1000ms garante que qualquer swipe/scroll em curso não é
+        // interrompido pelo re-render do HomePage.
+        // Se o utilizador tocar de novo antes dos 1000ms, o setTimeout
+        // anterior é cancelado pelo cleanup no início do startThemeTransition.
+        const tid = setTimeout(() => {
           setThemeMode(toMode);
-        }, 300);
+        }, 1000);
+        transitionRef.current.push(tid);
       } else {
         // Desktop via botão do topo: ripple do Honmoon + toggle
         triggerHeroFlash(toMode, cx, cy);

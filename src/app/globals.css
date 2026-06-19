@@ -2257,99 +2257,11 @@ html.light-mode .hero-bg-img-light { display: block; }
   margin-bottom: 2.5rem;
   line-height: 1.6;
 }
-.hero-countdown-wrap {
-  margin-bottom: 2.5rem;
-}
-.hero-countdown-label {
-  font-size: 9px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--neon-purple);
-  margin-bottom: 1rem;
-  text-shadow: 0 0 14px rgba(200,80,255,0.5), 0 1px 4px rgba(11,8,19,0.6);
-  font-weight: 700;
-}
-
-/* ═══ Hero Countdown - Honmoon Seals (demon hunter magic rings) ═══ */
-.hero-countdown-seals {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.hero-seal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  width: 90px;
-  height: 100px;
-}
-.hero-seal-ring {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.hero-seal-arc {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 1.5px solid transparent;
-}
-.hero-seal-arc-1 {
-  border-top-color: var(--neon-purple);
-  border-right-color: rgba(200,80,255,0.3);
-  animation: seal-spin-1 6s linear infinite;
-  filter: drop-shadow(0 0 4px rgba(200,80,255,0.4));
-}
-.hero-seal-arc-2 {
-  inset: 6px;
-  border-bottom-color: var(--pink-kpop);
-  border-left-color: rgba(236,72,153,0.2);
-  animation: seal-spin-2 8s linear infinite;
-  filter: drop-shadow(0 0 3px rgba(236,72,153,0.3));
-}
-@keyframes seal-spin-1 {
-  to { transform: rotate(360deg); }
-}
-@keyframes seal-spin-2 {
-  to { transform: rotate(-360deg); }
-}
-.hero-seal-num {
-  font-family: var(--font-geist-mono);
-  font-size: 34px;
-  font-weight: 200;
-  color: #ffffff;
-  letter-spacing: -0.03em;
-  line-height: 1;
-  text-shadow: 0 0 24px rgba(200,80,255,0.6), 0 0 60px rgba(200,80,255,0.2);
-  margin-top: 22px;
-  position: relative;
-  z-index: 2;
-}
-.hero-seal-label {
-  font-family: var(--font-geist-mono);
-  font-size: 8px;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: #DA98FF;
-  margin-top: 6px;
-  font-weight: 700;
-  text-shadow: 0 0 14px rgba(200,80,255,0.5), 0 1px 4px rgba(11,8,19,0.7);
-  position: relative;
-  z-index: 2;
-}
-.hero-seal-sep {
-  font-size: 18px;
-  color: var(--neon-purple);
-  opacity: 0.6;
-  animation: seal-pulse 1.5s ease-in-out infinite;
-  margin-top: -8px;
-  text-shadow: 0 0 10px rgba(200,80,255,0.3);
-}
-@keyframes seal-pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 0.15; }
-}
+/* ═══ COUNTDOWN — REMOVIDO ═══
+   As regras .hero-countdown-*, .hero-seal-* foram removidas porque o
+   componente HeroCountdown foi apagado do page.tsx. Isto também remove
+   4 animações infinitas (seal-spin-1, seal-spin-2, seal-pulse) que
+   contribuíam para o lag em mobile. */
 
 /* Date line below CTA */
 .hero-date-line {
@@ -5317,38 +5229,7 @@ html.light-mode .hero-bg-img-light { display: block; }
   box-shadow: 0 0 30px rgba(245,158,11,0.15), 0 0 60px rgba(236,72,153,0.08);
 }
 
-/* ═══ Hero Countdown - Light mode ═══ */
-.light-mode .hero-seal-num {
-  color: #ffffff;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.35), 0 0 28px rgba(147,51,234,0.45), 0 0 60px rgba(236,72,153,0.25);
-  font-weight: 300;
-}
-.light-mode .hero-seal-label {
-  color: #4C1D95;
-  text-shadow: 0 1px 3px rgba(255,255,255,0.85), 0 0 12px rgba(255,255,255,0.45);
-  font-weight: 800;
-  font-size: 8px;
-  letter-spacing: 0.35em;
-}
-.light-mode .hero-seal-sep {
-  color: #9333EA;
-  text-shadow: 0 1px 2px rgba(255,255,255,0.6);
-}
-.light-mode .hero-seal-arc-1 {
-  border-top-color: #9333EA;
-  border-right-color: rgba(147,51,234,0.25);
-  filter: drop-shadow(0 0 4px rgba(147,51,234,0.4));
-}
-.light-mode .hero-seal-arc-2 {
-  border-bottom-color: #C026D3;
-  border-left-color: rgba(192,38,211,0.15);
-  filter: drop-shadow(0 0 3px rgba(192,38,211,0.3));
-}
-.light-mode .hero-countdown-label {
-  color: #5B21B6;
-  text-shadow: 0 1px 3px rgba(255,255,255,0.85), 0 0 14px rgba(255,255,255,0.4);
-  font-weight: 800;
-}
+/* ═══ Hero Countdown - Light mode — REMOVIDO (countdown desativado) ═══ */
 .light-mode .hero-date-line {
   color: #2A0E5E;
   text-shadow: 0 1px 3px rgba(255,255,255,0.95), 0 0 14px rgba(255,255,255,0.5), 0 2px 6px rgba(11,8,19,0.4);
@@ -6806,29 +6687,7 @@ section#concertos {
     font-size: clamp(1.8rem, 4vw, 3rem);
   }
 
-  /* Countdown - Honmoon Seals compact */
-  .hero-countdown-seals {
-    gap: 8px;
-  }
-  .hero-seal {
-    width: 68px;
-    height: 76px;
-  }
-  .hero-seal-arc-2 {
-    inset: 4px;
-  }
-  .hero-seal-num {
-    font-size: 22px;
-    margin-top: 16px;
-  }
-  .hero-seal-label {
-    font-size: 6px;
-    letter-spacing: 0.25em;
-    margin-top: 4px;
-  }
-  .hero-seal-sep {
-    font-size: 12px;
-  }
+  /* Countdown - REMOVIDO (countdown desativado) */
   .hero-date-line {
     font-size: 9px;
     letter-spacing: 0.15em;
@@ -7541,7 +7400,10 @@ section#concertos {
   
   /* Reduce backdrop-filter (heavy on mobile GPUs) */
   .galeria-card { backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; }
-  .menu-overlay { backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important; }
+  /* Menu overlay: SEM backdrop-filter em mobile — blur(12px) é pesadíssimo
+     e faz o hamburger parecer lento a abrir. Usamos só background opaco. */
+  .menu-overlay { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: rgba(11, 8, 19, 0.92) !important; }
+  .light-mode .menu-overlay { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: rgba(237, 224, 245, 0.92) !important; }
   .contacto-form { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
   
   /* ─── PERFORMANCE: SEM regra global de transition-duration ───
@@ -8517,17 +8379,19 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ MOBILE PERFORMANCE — DESATIVAR animações pesadas fora do hero ═══ */
+/* ═══ MOBILE PERFORMANCE — Otimizar animações fora do hero ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
-/* Em mobile, as animações infinitas do manifesto (temple power-on,
-   LED wall, monitor glow, pillar shimmer, etc.) e do Honmoon Shield
-   (neon circles, arcs, strands, nodes, sparkles, atmosphere drift)
-   continuam a correr mesmo quando o utilizador está no hero. Isto
-   consome CPU/GPU e causa lag no scroll.
-   
-   Solução: em mobile, DESATIVAR todas as animações fora do hero.
-   O manifesto continua a aparecer mas sem animações (só estático).
-   O Honmoon Shield perde as animações das circles/arcs/strands. */
+/* Estratégia REVISADA:
+   - Manifesto (temple power-on, LED wall, monitor glow, pillar shimmer):
+     DESATIVAR todas as animações — é a secção mais pesada e o utilizador
+     não pediu para mexer nesta.
+   - Honmoon Shield (orb central + neon circles + arcs + strands + nodes):
+     MANTER os efeitos — o utilizador disse explicitamente "queria que o
+     efeito do botão honmoon em versão smartphone estivesse como estava".
+     Só vamos remover os drop-shadow filters pesados que causam lag no GPU.
+   - Cartazes / Galeria / Contacto: desativar animações (são estáticas
+     visualmente, as animações não são percetíveis).
+   - Honmoon divider: desativar pulse (não é percetível e poupa CPU). */
 @media (max-width: 767px) {
   /* Manifesto: desativar TODAS as animações (temple power-on, glow, etc.) */
   .manifesto-section *,
@@ -8536,7 +8400,26 @@ img { max-width: 100%; height: auto; }
     animation: none !important;
     will-change: auto !important;
   }
-  /* Honmoon Shield: desativar animações dos elementos decorativos */
+  /* Honmoon divider: desativar pulse (não é percetível, poupa CPU) */
+  .honmoon-divider,
+  .honmoon-divider::before,
+  .honmoon-divider::after,
+  .honmoon-divider-symbol,
+  .honmoon-divider-symbol::after {
+    animation: none !important;
+  }
+  /* Cartazes / Galeria / Contacto: desativar animações (não são percetíveis) */
+  .cartazes-section *,
+  .galeria-section *,
+  .contacto-section * {
+    animation: none !important;
+  }
+  /* ═══ HONMOON SHIELD — MANTER animações mas OTIMIZAR ═══
+     O utilizador quer os efeitos do botão Honmoon a funcionar em mobile.
+     Em vez de desativar as animações, vamos:
+     1. Remover will-change (liberta camadas de composição quando não
+        estão a animar ativamente)
+     2. Remover drop-shadow filters (são muito pesados no GPU mobile) */
   .honmoon-shield-section .hm-atmosphere-layer,
   .honmoon-shield-section .hm-sparkle,
   .honmoon-shield-section .hm-particle,
@@ -8546,35 +8429,9 @@ img { max-width: 100%; height: auto; }
   .honmoon-shield-section .hm-node,
   .honmoon-shield-section .hm-strand,
   .honmoon-shield-section .hm-burst-ring {
-    animation: none !important;
     will-change: auto !important;
   }
-  /* Honmoon divider: desativar pulse */
-  .honmoon-divider,
-  .honmoon-divider::before,
-  .honmoon-divider::after,
-  .honmoon-divider-symbol,
-  .honmoon-divider-symbol::after {
-    animation: none !important;
-  }
-  /* Cartazes / outras secções: desativar animações infinitas */
-  .cartazes-section *,
-  .galeria-section *,
-  .contacto-section * {
-    animation: none !important;
-  }
-  /* Manter animações do hero (countdown seals, CTA arcs) e do sticky CTA */
-  /* Garantir que will-change é removido para libertar camadas de composição */
-  .manifesto-section *,
-  .honmoon-shield-section .hm-atmosphere-layer,
-  .honmoon-shield-section .hm-sparkle,
-  .honmoon-shield-section .hm-particle,
-  .honmoon-shield-section .hm-ring,
-  .honmoon-shield-section .hm-neon-circle,
-  .honmoon-shield-section .hm-neon-arc {
-    will-change: auto !important;
-  }
-  /* Remover drop-shadow filters pesados do Honmoon Shield em mobile */
+  /* Remover drop-shadow filters pesados — usar box-shadow inline em vez disso */
   .honmoon-shield-section .hm-neon-circle,
   .honmoon-shield-section .hm-neon-arc,
   .honmoon-shield-section .hm-strand,
@@ -8582,3 +8439,4 @@ img { max-width: 100%; height: auto; }
     filter: none !important;
   }
 }
+
