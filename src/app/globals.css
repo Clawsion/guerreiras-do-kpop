@@ -8363,4 +8363,12 @@ img { max-width: 100%; height: auto; }
 .light-mode .fixed.bottom-0.inset-x-0.z-40 {
   background: transparent !important;
   border-color: rgba(147,51,234,0.15) !important;
+  /* Reduzir altura do container: padding superior 0, inferior minimo */
+  padding-top: 0 !important;
+  padding-bottom: 0.25rem !important;
+  /* Só borda no topo (sem laterais nem fundo) */
+  border-top: 1px solid rgba(147,51,234,0.15) !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
 }
