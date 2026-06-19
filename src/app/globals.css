@@ -8257,15 +8257,21 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* ═══ SMARTPHONE — reduzir espaço entre botão e neon divider ═══ */
+/* ═══ SMARTPHONE — eliminar TODO o espaço entre botão e neon divider ═══ */
 @media (max-width: 767px) {
   .esp-pitch-compact {
-    margin-bottom: 0.5rem !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0.5rem !important;
   }
   .esp-cta {
     margin-bottom: 0 !important;
   }
   .espetaculo-section {
-    padding-bottom: 1rem !important;
+    padding-bottom: 0 !important;
+  }
+  /* Neon divider logo a seguir ao botão, sem margem */
+  .espetaculo-section + .honmoon-divider {
+    margin-top: 0 !important;
+    margin-bottom: 1.5rem !important;
   }
 }
