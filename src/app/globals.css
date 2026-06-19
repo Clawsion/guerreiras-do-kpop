@@ -8099,12 +8099,10 @@ img { max-width: 100%; height: auto; }
      Solução: reduzir para 300ms em mobile e remover box-shadow da transição. */
   .light-mode,
   .light-mode *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right),
+  /* wave-transition DESATIVADO em mobile — causa lag no scroll */
   :not(.light-mode).wave-transition,
   :not(.light-mode).wave-transition *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right) {
-    transition: background-color 0.3s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
-                color 0.3s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
-                border-color 0.3s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms) !important;
-    /* box-shadow removido em mobile — muito caro em GPU */
+    transition: none !important;
   }
 }
 
@@ -8371,4 +8369,18 @@ img { max-width: 100%; height: auto; }
   border-left: none !important;
   border-right: none !important;
   border-bottom: none !important;
+}
+
+/* ═══ MOBILE — desativar TODAS as transitions durante troca de tema ═══
+   Quando light-mode é adicionada/removida, o browser tenta animar
+   TODAS as transitions (background-color, color, border-color, etc.)
+   de TODOS os elementos. Isto causa lag grave em mobile.
+   
+   Solução: em mobile, qualquer elemento com .light-mode ou .wave-transition
+   tem transition: none. A troca é INSTANTÂNEA. */
+@media (max-width: 767px) {
+  .light-mode *,
+  :not(.light-mode).wave-transition * {
+    transition: none !important;
+  }
 }
