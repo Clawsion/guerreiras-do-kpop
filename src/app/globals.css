@@ -2619,14 +2619,7 @@ html.light-mode .hero-bg-img-dark {
   transform: scale(1.06);
 }
 .cartaz-via-text {
-  font-size: 22px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  font-weight: 800;
-  color: #fff;
-  line-height: 1;
-  /* Sombra forte para ser legível sobre qualquer fundo */
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95), 0 0 12px rgba(0, 0, 0, 0.7);
+  display: none !important;
 }
 .cartaz-via-logo {
   height: 88px;
