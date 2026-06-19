@@ -1185,6 +1185,9 @@ export default function HomePage() {
           <div className="hm-energy-flow hm-energy-flow-2"/>
           <div className="hm-energy-flow hm-energy-flow-3"/>
           <div className="hm-energy-veins"/>
+          {/* Cúpula de barreira protetora — contorno visível da barreira */}
+          <div className="hm-energy-dome"/>
+          <div className="hm-energy-dome-ring"/>
           <div className="hm-energy-pulse"/>
         </div>
 

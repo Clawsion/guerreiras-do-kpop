@@ -5843,6 +5843,100 @@ html.light-mode .hero-bg-img-dark {
   100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
 }
 
+/* ═══ CÚPULA DE BARREIRA PROTETORA ═══
+   A barreira Honmoon que PROTEGE o orb. Visível como uma cúpula
+   translúcida que envolve o botão central.
+   
+   - Modo noite: mix-blend-mode: screen (luz sobre escuro)
+   - Modo dia: mix-blend-mode: multiply (cor sobre claro) + opacity maior
+   Isto resolve o problema de não se ver no modo dia. */
+.hm-energy-dome {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 700px;
+  height: 550px;
+  transform: translate(-50%, -50%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: radial-gradient(ellipse 70% 60% at 50% 45%,
+    rgba(var(--hm-e1), 0.12) 0%,
+    rgba(var(--hm-e2), 0.08) 35%,
+    rgba(var(--hm-e3), 0.04) 65%,
+    transparent 85%);
+  filter: blur(15px);
+  mix-blend-mode: screen;
+  will-change: opacity;
+  animation: hmDomePulse 8s ease-in-out infinite alternate;
+}
+/* Modo dia — cúpula MAIS visível (multiply funciona sobre fundo claro) */
+.light-mode .hm-energy-dome {
+  mix-blend-mode: multiply;
+  background: radial-gradient(ellipse 70% 60% at 50% 45%,
+    rgba(var(--hm-e1), 0.2) 0%,
+    rgba(var(--hm-e2), 0.14) 35%,
+    rgba(var(--hm-e3), 0.08) 65%,
+    transparent 85%);
+  filter: blur(12px);
+}
+@keyframes hmDomePulse {
+  0%   { transform: translate(-50%, -50%) scale(0.97); opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(1.03); opacity: 1; }
+}
+
+/* ═══ Anel da barreira — contorno neon visível da cúpula ═══
+   O "edge" da barreira. Linha neon brilhante que contorna a cúpula.
+   Isto é o que faz parecer uma barreira de proteção real. */
+.hm-energy-dome-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 650px;
+  height: 500px;
+  transform: translate(-50%, -50%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  border: 2px solid rgba(var(--hm-e1), 0.5);
+  box-shadow:
+    0 0 20px rgba(var(--hm-e1), 0.3),
+    inset 0 0 30px rgba(var(--hm-e1), 0.15);
+  mix-blend-mode: screen;
+  will-change: opacity, transform;
+  animation: hmDomeRingPulse 5s ease-in-out infinite alternate;
+}
+/* Modo dia — anel mais visível com cor mais forte */
+.light-mode .hm-energy-dome-ring {
+  border-color: rgba(var(--hm-e1), 0.7);
+  box-shadow:
+    0 0 25px rgba(var(--hm-e1), 0.4),
+    inset 0 0 35px rgba(var(--hm-e1), 0.2);
+  mix-blend-mode: multiply;
+}
+@keyframes hmDomeRingPulse {
+  0%   { transform: translate(-50%, -50%) scale(0.98); opacity: 0.6; }
+  100% { transform: translate(-50%, -50%) scale(1.02); opacity: 0.9; }
+}
+
+/* ═══ MODO DIA — aumentar visibilidade de todos os elementos ═══
+   Em modo dia, mix-blend-mode: screen torna as cores invisíveis sobre
+   fundo claro. Mudar para multiply e aumentar opacity. */
+.light-mode .hm-energy-flow-1,
+.light-mode .hm-energy-flow-2,
+.light-mode .hm-energy-flow-3 {
+  mix-blend-mode: multiply;
+  opacity: 1.4;
+}
+.light-mode .hm-energy-veins {
+  mix-blend-mode: multiply;
+  opacity: 1.5;
+}
+.light-mode .hm-energy-pulse {
+  mix-blend-mode: multiply;
+  background: radial-gradient(circle,
+    rgba(var(--hm-e1), 0.35) 0%,
+    rgba(var(--hm-e2), 0.22) 25%,
+    rgba(var(--hm-e3), 0.12) 50%,
+    transparent 75%);
+}
+
 /* ═══ MOBILE: simplificado ═══ */
 @media (max-width: 767px) {
   .hm-energy-flow-3 {
@@ -5862,6 +5956,15 @@ html.light-mode .hero-bg-img-dark {
     height: 300px !important;
     filter: blur(20px) !important;
     opacity: 0.4 !important;
+  }
+  .hm-energy-dome {
+    width: 400px !important;
+    height: 320px !important;
+    filter: blur(10px) !important;
+  }
+  .hm-energy-dome-ring {
+    width: 370px !important;
+    height: 290px !important;
   }
 }
 
