@@ -2688,6 +2688,11 @@ html.light-mode .hero-bg-img-light { display: block; }
     background-repeat: no-repeat !important;
     background-color: #0C0527 !important;
     padding-bottom: 3rem !important;
+    /* ═══ SUBIR O TEXTO em mobile ═══
+       Reduzir padding-top para o conteúdo (+ TRIBUTO AO VIVO, título, etc.)
+       começar mais acima. A imagem de fundo mantém-se ancorada no topo
+       (top center) — só o texto sobe. */
+    padding-top: 3.5rem !important;
     /* Reduzir margens do pitch e do botão para encostar ao neon divider */
     --esp-pitch-margin: 0.5rem;
   }
@@ -2698,12 +2703,14 @@ html.light-mode .hero-bg-img-light { display: block; }
      - background-position: top center
      - background-color: #8771B9 (combina com as bordas) */
   .light-mode .espetaculo-section {
-    background-image: url('/espetaculo-bg-light-mobile.webp?v=93') !important;
+    background-image: url('/espetaculo-bg-light-mobile.webp?v=94') !important;
     background-size: 100% auto !important;
     background-position: top center !important;
     background-attachment: scroll !important;
     background-repeat: no-repeat !important;
     background-color: #8771B9 !important;
+    /* Mesmo padding-top reduzido do modo noite — texto sobe igual */
+    padding-top: 3.5rem !important;
   }
 }
 
