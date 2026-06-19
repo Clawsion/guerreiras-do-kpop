@@ -8393,6 +8393,26 @@ img { max-width: 100%; height: auto; }
   }
 }
 
+/* ═══ SMARTPHONE — modo noite um pouco menos escuro a partir do Tributo ═══
+   A partir da secção Espetáculo (Tributo ao Vivo) em diante, o fundo
+   escuro é um pouquinho mais claro para não ser tão pesado.
+   Só em mobile, só em modo noite (não afeta modo dia). */
+@media (max-width: 767px) {
+  /* Override das variáveis de cor nas secções a partir do Tributo */
+  .espetaculo-section,
+  .galeria-section,
+  .cartazes-section,
+  .contacto-section,
+  .memories-section,
+  .honmoon-section,
+  section#bilhetes {
+    /* void: #0B0813 -> #12101F (um pouquinho mais claro) */
+    --void: #12101F;
+    /* deep: #100B1A -> #181226 (um pouquinho mais claro) */
+    --deep: #181226;
+  }
+}
+
 /* ═══ SMARTPHONE — centrar botão Garante o Teu Lugar ═══ */
 @media (max-width: 767px) {
   /* Centrar o botão na secção do Tributo ao Vivo */
