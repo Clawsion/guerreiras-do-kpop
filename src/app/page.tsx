@@ -1025,23 +1025,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=60 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=61 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=60" : "/hero-bg-mobile.webp?v=60"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=61" : "/hero-bg-mobile.webp?v=61"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=60" : "/hero-bg.webp?v=60"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=61" : "/hero-bg.webp?v=61"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=60" : "/hero-bg.webp?v=60"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=61" : "/hero-bg.webp?v=61"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
