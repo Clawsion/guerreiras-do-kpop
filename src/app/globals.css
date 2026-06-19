@@ -1989,7 +1989,7 @@ html { scroll-behavior: smooth; }
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(11,8,19,0.35) 0%, rgba(11,8,19,0.0) 25%, rgba(11,8,19,0.0) 40%, rgba(11,8,19,0.4) 75%, rgba(11,8,19,0.78) 100%);
+    linear-gradient(180deg, rgba(11,8,19,0.15) 0%, rgba(11,8,19,0.0) 25%, rgba(11,8,19,0.0) 40%, rgba(11,8,19,0.15) 75%, rgba(11,8,19,0.3) 100%);
   pointer-events: none;
 }
 
@@ -1997,7 +1997,7 @@ html { scroll-behavior: smooth; }
 .hero-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 30% 40%, transparent 50%, rgba(11,8,19,0.55) 100%);
+  background: radial-gradient(ellipse at 30% 40%, transparent 60%, rgba(11,8,19,0.25) 100%);
   pointer-events: none;
 }
 
