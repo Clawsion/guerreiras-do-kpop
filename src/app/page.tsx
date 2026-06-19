@@ -1025,23 +1025,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=47 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=48 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=47" : "/hero-bg-mobile.webp?v=47"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=48" : "/hero-bg-mobile.webp?v=48"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=47" : "/hero-bg.webp?v=47"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=48" : "/hero-bg.webp?v=48"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=47" : "/hero-bg.webp?v=47"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=48" : "/hero-bg.webp?v=48"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
@@ -1568,24 +1568,7 @@ export default function HomePage() {
                   Contacte-nos e n&atilde;o perca a oportunidade de oferecer um espet&aacute;culo &uacute;nico. Reserve j&aacute; a sua data.
                 </p>
               </Rv>
-              <Rv delay={280}>
-                <div className="space-y-4 mb-10">
-                  <a href="tel:+351960191005" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
-                    <Phone className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
-                    <div>
-                      <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Telefone direto</p>
-                      <p className="text-[15px]" style={{color:"var(--t1)"}}>+351 960 191 005</p>
-                    </div>
-                  </a>
-                  <a href="mailto:geral@guerreirasdokpop.com" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
-                    <Mail className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
-                    <div>
-                      <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>E-mail de produ&ccedil;&atilde;o</p>
-                      <p className="text-[15px]" style={{color:"var(--t1)"}}>geral@guerreirasdokpop.com</p>
-                    </div>
-                  </a>
-                </div>
-              </Rv>
+              {/* Telefone e email movidos para baixo do formulário (coluna direita) */}
             </div>
 
             {/* ── Coluna direita: formulário ── */}
@@ -1701,6 +1684,28 @@ export default function HomePage() {
                     Resposta t&iacute;pica em 24-48h em dias &uacute;teis. Para reservas urgentes, ligue diretamente.
                   </p>
                 </form>
+              </Rv>
+
+              {/* ═══ Telefone e Email — em baixo do formulário ═══
+                  Movidos da coluna esquerda para aqui (abaixo do formulário).
+                  Em mobile aparecem em baixo do formulário; em desktop também. */}
+              <Rv delay={300}>
+                <div className="space-y-4 mt-8 pt-6" style={{borderTop: "1px solid rgba(200,80,255,0.08)"}}>
+                  <a href="tel:+351960191005" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
+                    <Phone className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
+                    <div>
+                      <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Telefone direto</p>
+                      <p className="text-[15px]" style={{color:"var(--t1)"}}>+351 960 191 005</p>
+                    </div>
+                  </a>
+                  <a href="mailto:geral@guerreirasdokpop.com" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
+                    <Mail className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
+                    <div>
+                      <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>E-mail de produ&ccedil;&atilde;o</p>
+                      <p className="text-[15px]" style={{color:"var(--t1)"}}>geral@guerreirasdokpop.com</p>
+                    </div>
+                  </a>
+                </div>
               </Rv>
             </div>
           </div>
