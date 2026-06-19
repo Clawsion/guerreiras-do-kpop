@@ -5693,122 +5693,169 @@ html.light-mode .hero-bg-img-dark {
    Performance: usa gradientes CSS (leves) + poucas partículas. */
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ AURORA RIBBON — fita de aurora boreal cinematográfica ═══ */
+/* ═══ LIGHT BEAMS AWARDS — cones de luz cinematográficos ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
-/* 3 layers de gradient animadas que cruzam a secção horizontalmente
-   como uma onda de energia mística (tipo aurora boreal).
-   - Leve: 3 elementos CSS, sem box-shadow, sem filter, sem imagens
-   - Cinematográfica: movimento de onda lento (15-25s)
-   - Adaptativa: roxo-verde-rosa em noite, dourado-rosa-branco em dia
-   - Opacidade baixa (0.3) para não competir com o orb central
+/* 3 cones de luz translúcidos vindos do topo, cruzando-se no orb central.
+   Como os spotlights de um gala/Óscares.
+   - Leve: 3 cones CSS (gradients) + 6 partículas de pó, sem box-shadow
+   - Cinematográfico: movimento de sway lento (12-18s) como holofotes reais
+   - Adaptativa: roxo/rosa em noite, dourado/branco em dia
+   - mix-blend-mode: screen para integrar com fundo escuro
+   - Partículas de pó a flutuar dentro dos cones (efeito "pó no holofote")
    - Posicionada ATRÁS das orbs/aureolas (z-index: 0) */
 
-.hm-aurora-ribbon {
+.hm-light-beams {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
 }
-.hm-aurora-ribbon-layer {
+
+/* Cone de luz base — triângulo com gradient do topo para baixo */
+.hm-light-beam {
   position: absolute;
-  left: -20%;
-  right: -20%;
-  height: 60%;
-  border-radius: 50%;
-  filter: blur(40px);
-  opacity: 0.3;
+  top: -10%;
+  width: 40%;
+  height: 130%;
+  background: linear-gradient(to bottom,
+    rgba(147, 51, 234, 0.25) 0%,
+    rgba(236, 72, 153, 0.15) 40%,
+    rgba(124, 58, 237, 0.08) 70%,
+    transparent 100%);
+  clip-path: polygon(45% 0%, 55% 0%, 100% 100%, 0% 100%);
+  filter: blur(8px);
   mix-blend-mode: screen;
+  opacity: 0.7;
   will-change: transform;
+  transform-origin: top center;
 }
 
-/* Layer 1 — banda superior (mais larga, movimento lento) */
-.hm-aurora-ribbon-1 {
-  top: 5%;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(147, 51, 234, 0.5) 20%,
-    rgba(236, 72, 153, 0.4) 50%,
-    rgba(124, 58, 237, 0.5) 80%,
-    transparent 100%);
-  animation: hmAuroraWave1 25s ease-in-out infinite alternate;
-}
-/* Layer 2 — banda central (mais focada, movimento médio) */
-.hm-aurora-ribbon-2 {
-  top: 25%;
-  height: 50%;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(236, 72, 153, 0.45) 30%,
-    rgba(255, 45, 120, 0.35) 50%,
-    rgba(147, 51, 234, 0.45) 70%,
-    transparent 100%);
-  animation: hmAuroraWave2 18s ease-in-out infinite alternate-reverse;
-}
-/* Layer 3 — banda inferior (mais subtil, movimento rápido) */
-.hm-aurora-ribbon-3 {
-  top: 45%;
-  height: 45%;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(124, 58, 237, 0.4) 25%,
-    rgba(236, 72, 153, 0.3) 50%,
-    rgba(147, 51, 234, 0.4) 75%,
-    transparent 100%);
-  animation: hmAuroraWave3 20s ease-in-out infinite alternate;
+/* Cone 1 — esquerda, cruza para a direita (vai até ao orb) */
+.hm-light-beam-1 {
+  left: 5%;
+  animation: hmBeamSway1 14s ease-in-out infinite alternate;
 }
 
-/* Modo dia — aurora dourada/rosa/branca */
-.light-mode .hm-aurora-ribbon-1 {
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(255, 215, 0, 0.4) 20%,
-    rgba(255, 182, 193, 0.35) 50%,
-    rgba(255, 245, 164, 0.4) 80%,
+/* Cone 2 — centro, direito (vai direito ao orb) */
+.hm-light-beam-2 {
+  left: 30%;
+  background: linear-gradient(to bottom,
+    rgba(236, 72, 153, 0.3) 0%,
+    rgba(255, 45, 120, 0.18) 40%,
+    rgba(147, 51, 234, 0.1) 70%,
+    transparent 100%);
+  animation: hmBeamSway2 18s ease-in-out infinite alternate;
+}
+
+/* Cone 3 — direita, cruza para a esquerda (vai até ao orb) */
+.hm-light-beam-3 {
+  right: 5%;
+  left: auto;
+  background: linear-gradient(to bottom,
+    rgba(124, 58, 237, 0.25) 0%,
+    rgba(147, 51, 234, 0.15) 40%,
+    rgba(236, 72, 153, 0.08) 70%,
+    transparent 100%);
+  animation: hmBeamSway3 16s ease-in-out infinite alternate;
+}
+
+/* Modo dia — cones dourados/brancos */
+.light-mode .hm-light-beam-1 {
+  background: linear-gradient(to bottom,
+    rgba(255, 215, 0, 0.22) 0%,
+    rgba(255, 182, 193, 0.14) 40%,
+    rgba(255, 245, 164, 0.08) 70%,
     transparent 100%);
 }
-.light-mode .hm-aurora-ribbon-2 {
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(255, 182, 193, 0.4) 30%,
-    rgba(255, 215, 0, 0.3) 50%,
-    rgba(255, 245, 164, 0.4) 70%,
+.light-mode .hm-light-beam-2 {
+  background: linear-gradient(to bottom,
+    rgba(255, 182, 193, 0.26) 0%,
+    rgba(255, 215, 0, 0.16) 40%,
+    rgba(255, 245, 164, 0.1) 70%,
     transparent 100%);
 }
-.light-mode .hm-aurora-ribbon-3 {
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(255, 245, 164, 0.35) 25%,
-    rgba(255, 182, 193, 0.25) 50%,
-    rgba(255, 215, 0, 0.35) 75%,
+.light-mode .hm-light-beam-3 {
+  background: linear-gradient(to bottom,
+    rgba(255, 245, 164, 0.22) 0%,
+    rgba(255, 215, 0, 0.14) 40%,
+    rgba(255, 182, 193, 0.08) 70%,
     transparent 100%);
 }
 
-@keyframes hmAuroraWave1 {
-  0%   { transform: translateX(-5%) translateY(0) skewY(-2deg) scale(1); }
-  100% { transform: translateX(5%) translateY(10px) skewY(2deg) scale(1.05); }
+/* Animações de sway — holofotes a mexer subtilmente */
+@keyframes hmBeamSway1 {
+  0%   { transform: rotate(-3deg) translateX(0); opacity: 0.5; }
+  50%  { transform: rotate(1deg) translateX(20px); opacity: 0.8; }
+  100% { transform: rotate(4deg) translateX(40px); opacity: 0.6; }
 }
-@keyframes hmAuroraWave2 {
-  0%   { transform: translateX(5%) translateY(0) skewY(2deg) scale(1); }
-  100% { transform: translateX(-5%) translateY(-10px) skewY(-2deg) scale(1.05); }
+@keyframes hmBeamSway2 {
+  0%   { transform: rotate(2deg) translateX(0); opacity: 0.6; }
+  50%  { transform: rotate(-1deg) translateX(-15px); opacity: 0.9; }
+  100% { transform: rotate(-3deg) translateX(-30px); opacity: 0.7; }
 }
-@keyframes hmAuroraWave3 {
-  0%   { transform: translateX(-3%) translateY(5px) skewY(-1deg) scale(1); }
-  100% { transform: translateX(3%) translateY(-5px) skewY(1deg) scale(1.05); }
+@keyframes hmBeamSway3 {
+  0%   { transform: rotate(3deg) translateX(0); opacity: 0.5; }
+  50%  { transform: rotate(-1deg) translateX(-20px); opacity: 0.8; }
+  100% { transform: rotate(-4deg) translateX(-40px); opacity: 0.6; }
 }
 
-/* ═══ MOBILE: aurora simplificada ═══
-   Em mobile, usar só 1 layer (a central) e reduzir opacidade
+/* Partículas de pó/pólen dentro dos cones de luz */
+.hm-beam-dust {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.hm-beam-dust.dark {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(200, 80, 255, 0.4) 50%, transparent 80%);
+}
+.hm-beam-dust.light {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 215, 0, 0.5) 50%, transparent 80%);
+}
+.hm-beam-dust-0 { left: 30%; top: 20%; animation: hmDustFloat1 8s ease-in-out infinite; animation-delay: 0s; }
+.hm-beam-dust-1 { left: 45%; top: 30%; animation: hmDustFloat2 10s ease-in-out infinite; animation-delay: 1.5s; }
+.hm-beam-dust-2 { left: 60%; top: 25%; animation: hmDustFloat1 12s ease-in-out infinite; animation-delay: 3s; }
+.hm-beam-dust-3 { left: 35%; top: 50%; animation: hmDustFloat2 9s ease-in-out infinite; animation-delay: 0.8s; }
+.hm-beam-dust-4 { left: 55%; top: 45%; animation: hmDustFloat1 11s ease-in-out infinite; animation-delay: 2.2s; }
+.hm-beam-dust-5 { left: 65%; top: 60%; animation: hmDustFloat2 13s ease-in-out infinite; animation-delay: 4s; }
+
+@keyframes hmDustFloat1 {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  20%  { opacity: 1; transform: translate(15px, -20px) scale(1); }
+  50%  { opacity: 0.8; transform: translate(30px, -40px) scale(1.2); }
+  80%  { opacity: 0.5; transform: translate(45px, -60px) scale(1); }
+  100% { opacity: 0; transform: translate(60px, -80px) scale(0.5); }
+}
+@keyframes hmDustFloat2 {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  20%  { opacity: 1; transform: translate(-15px, -20px) scale(1); }
+  50%  { opacity: 0.8; transform: translate(-30px, -40px) scale(1.2); }
+  80%  { opacity: 0.5; transform: translate(-45px, -60px) scale(1); }
+  100% { opacity: 0; transform: translate(-60px, -80px) scale(0.5); }
+}
+
+/* ═══ MOBILE: light beams simplificados ═══
+   Em mobile, usar só 1 cone (o central) e reduzir partículas
    para não pesar no GPU. */
 @media (max-width: 767px) {
-  .hm-aurora-ribbon-1,
-  .hm-aurora-ribbon-3 {
+  .hm-light-beam-1,
+  .hm-light-beam-3 {
     display: none !important;
   }
-  .hm-aurora-ribbon-2 {
-    opacity: 0.2 !important;
-    filter: blur(30px) !important;
-    animation-duration: 20s !important;
+  .hm-light-beam-2 {
+    opacity: 0.5 !important;
+    filter: blur(6px) !important;
+    animation-duration: 18s !important;
+  }
+  /* Menos partículas em mobile (só 3) */
+  .hm-beam-dust-3,
+  .hm-beam-dust-4,
+  .hm-beam-dust-5 {
+    display: none !important;
   }
 }
 

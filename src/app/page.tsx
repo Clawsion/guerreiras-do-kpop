@@ -1169,18 +1169,22 @@ export default function HomePage() {
 
       {/* ═══ HONMOON SHIELD - Theme Toggle (like the anime) ═══ */}
       <section className="honmoon-shield-section">
-        {/* ═══ AURORA RIBBON — fita de aurora boreal subtil ═══
-            Cinematográfica, leve (1 elemento CSS com gradient animado).
-            Cruza a secção horizontalmente como uma onda de energia mística.
-            - Modo noite: verde-roxo-rosa (aurora boreal)
-            - Modo dia: dourado-rosa-branco (aurora diurna)
-            - Movimento de onda muito lento (15s)
-            - Opacidade baixa (0.3) para não competir com o orb
+        {/* ═══ LIGHT BEAMS AWARDS — cones de luz cinematográficos ═══
+            3 cones de luz translúcidos vindos do topo, cruzando-se no orb central.
+            Como os spotlights de um gala/Óscares.
+            - Modo noite: cones roxos/rosa translúcidos (mix-blend: screen)
+            - Modo dia: cones dourados/brancos translúcidos
+            - Movimento subtil (sway de 12s) como holofotes reais
+            - Partículas de pó a flutuar dentro dos cones
             NÃO substitui nada — adiciona por cima das orbs/aureolas existentes. */}
-        <div className={`hm-aurora-ribbon ${themeMode}`}>
-          <div className="hm-aurora-ribbon-layer hm-aurora-ribbon-1"/>
-          <div className="hm-aurora-ribbon-layer hm-aurora-ribbon-2"/>
-          <div className="hm-aurora-ribbon-layer hm-aurora-ribbon-3"/>
+        <div className={`hm-light-beams ${themeMode}`}>
+          <div className="hm-light-beam hm-light-beam-1"/>
+          <div className="hm-light-beam hm-light-beam-2"/>
+          <div className="hm-light-beam hm-light-beam-3"/>
+          {/* Partículas de pó/pólen dentro dos cones de luz */}
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className={`hm-beam-dust hm-beam-dust-${i} ${themeMode}`}/>
+          ))}
         </div>
 
         {/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
