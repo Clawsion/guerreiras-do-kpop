@@ -5704,7 +5704,21 @@ html.light-mode .hero-bg-img-dark {
    - Linhas nítidas com brilho neon intenso
    - SEM mix-blend-mode em modo dia (visibilidade máxima) */
 
-/* Variáveis de cor (já definidas acima) */
+/* Variáveis de cor da energia Honmoon */
+/* Modo noite (default) — PINK neon */
+.honmoon-shield-section {
+  --hm-e1: 255, 45, 120;
+  --hm-e2: 255, 20, 100;
+  --hm-e3: 200, 30, 100;
+  --hm-e4: 180, 40, 120;
+}
+/* Modo dia — AZUL neon */
+.light-mode .honmoon-shield-section {
+  --hm-e1: 0, 220, 255;
+  --hm-e2: 0, 180, 255;
+  --hm-e3: 50, 150, 255;
+  --hm-e4: 80, 130, 220;
+}
 
 .hm-energy-field {
   position: absolute;
