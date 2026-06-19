@@ -2653,6 +2653,20 @@ html { scroll-behavior: smooth; }
     /* Reduzir margens do pitch e do botão para encostar ao neon divider */
     --esp-pitch-margin: 0.5rem;
   }
+  /* ═══ MODO DIA (light-mode) — smartphone: imagem própria (941x1672) ═══
+     Igual ao modo noite mas com a imagem de dia.
+     - background-image: espetaculo-bg-light-mobile.webp (941x1672)
+     - background-size: 100% auto (sem zoom, largura toda)
+     - background-position: top center
+     - background-color: #8771B9 (combina com as bordas) */
+  .light-mode .espetaculo-section {
+    background-image: url('/espetaculo-bg-light-mobile.webp?v=93') !important;
+    background-size: 100% auto !important;
+    background-position: top center !important;
+    background-attachment: scroll !important;
+    background-repeat: no-repeat !important;
+    background-color: #8771B9 !important;
+  }
 }
 
 /* ═══ Stage Spotlights - 3 cones of pink/magenta light from above ═══ */
@@ -4177,19 +4191,18 @@ html { scroll-behavior: smooth; }
   position: relative;
   padding: 6rem 0 4rem;
   background: transparent;
-  overflow: visible;
+  overflow: hidden;
 }
-/* Portal Honmoon atrás da galeria — MESMA imagem, MESMO background-attachment: fixed
-   Isto faz a imagem parecer contínua entre parallax 1 → galeria → parallax 2 */
+/* Portal Honmoon atrás da galeria (transparência) — modo noite */
 .galeria-section::before {
-  display: none;
-}
-/* Overlay subtil sobre a galeria para legibilidade */
-.galeria-section::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(11,8,19,0.5);
+  background-image: url('/portal-honmoon.webp?v=85');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  opacity: 0.2;
   z-index: 0;
   pointer-events: none;
 }
@@ -8115,14 +8128,6 @@ img { max-width: 100%; height: auto; }
   position: relative;
   overflow: hidden;
   background: transparent;
-  /* 1 SÓ IMAGEM fixa ao fundo — move-se de baixo para cima */
-  background-image: url('/portal-honmoon.webp?v=92');
-  background-size: 100% auto;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  z-index: 0;
-  opacity: 0.5;
 }
 
 /* Camada de fundo — default (parallax 1, modo noite) */
@@ -8131,15 +8136,50 @@ img { max-width: 100%; height: auto; }
    nas bordas esquerda/direita — sem corte brusco, sem moldura visível.
    Efeito: a imagem parece 'prolongar-se' para o cenario. */
 .parallax-bg {
-  display: none;
+  position: absolute;
+  inset: 0;
+  background-image: url('/portal-honmoon.webp?v=85');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  z-index: 0;
+  /* Alta qualidade de renderização (importante para imagens upscaled) */
+  image-rendering: high-quality;
+  -webkit-font-smoothing: antialiased;
+  /* Mask: fade suave nas bordas laterais (12% de cada lado) + bordas superior/inferior */
+  -webkit-mask-image:
+    linear-gradient(90deg,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%),
+    linear-gradient(180deg,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%),
+    linear-gradient(180deg,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%);
+  mask-composite: intersect;
 }
 
 /* Parallax 1 (ANTES do Mural) — imagem 1 */
 .parallax-before-mural .parallax-bg {
-  display: none;
-}
-.light-mode .parallax-wrapper {
-  background-image: none;
+  background-image: url('/portal-honmoon.webp?v=85');
+  background-size: cover;
+  background-position: center center;
+  opacity: 0.5;
 }
 .light-mode .parallax-before-mural .parallax-bg {
   background-image: url('/parallax-1-day.webp?v=7');
@@ -8147,18 +8187,33 @@ img { max-width: 100%; height: auto; }
 
 /* Parallax 2 (DEPOIS do Mural) — imagem 2 (diferente) — MESMO zoom do parallax 1 */
 .parallax-after-mural .parallax-bg {
-  display: none;
+  background-image: url('/portal-honmoon.webp?v=85');
+  background-size: cover;
+  background-position: center center;
+  opacity: 0.5;
 }
 .light-mode .parallax-after-mural .parallax-bg {
   background-image: url('/parallax-2-day.webp?v=7');
 }
-.light-mode .parallax-bg {
-  display: block;
-}
 
 /* Overlay gradual (vinheta escura para legibilidade) */
 .parallax-overlay {
-  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg,
+      var(--void) 0%,
+      transparent 12%,
+      transparent 88%,
+      var(--void) 100%
+    ),
+    radial-gradient(ellipse at center,
+      transparent 30%,
+      rgba(11,8,19,0.55) 70%,
+      rgba(11,8,19,0.85) 100%
+    );
 }
 .light-mode .parallax-overlay {
   background:
@@ -8214,19 +8269,20 @@ img { max-width: 100%; height: auto; }
     min-height: 320px;
   }
   .parallax-bg {
-    display: none;
+    background-attachment: scroll;
+    /* Mobile: cover para preencher ecrã todo (retrato 800x1400) */
+    background-size: cover;
   }
-  .parallax-wrapper {
-    background-attachment: scroll !important;
-    background-position: center bottom !important;
-    background-size: 100% auto !important;
-    opacity: 0.5;
+  .parallax-before-mural .parallax-bg {
+    background-image: none;
+    background-position: center top;
   }
   .light-mode .parallax-before-mural .parallax-bg {
     background-image: url('/parallax-1-day-mobile.webp?v=7');
   }
-  .parallax-after-mural {
-    background: transparent !important;
+  .parallax-after-mural .parallax-bg {
+    background-image: none;
+    background-position: center top;
   }
   .light-mode .parallax-after-mural .parallax-bg {
     background-image: url('/parallax-2-day-mobile.webp?v=7');
@@ -8310,87 +8366,4 @@ img { max-width: 100%; height: auto; }
   .parallax-after-mural {
     margin-top: 0 !important;
   }
-}
-
-/* ═══ PORTAL PAN — 1 imagem fixa contínua (câmara bottom→top) ═══
-   A imagem fica fixa no ECRÃ (background-attachment: fixed) dentro
-   do portal-pan-wrapper. Como o wrapper contém as 3 secções, a imagem
-   é UMA SÓ contínua. Ao fazer scroll, o conteúdo passa por cima da
-   imagem fixa, criando a ilusão que a imagem se move de baixo para cima. */
-
-.portal-pan-wrapper {
-  position: relative;
-  z-index: 1;
-}
-
-/* 1 SÓ imagem fixa ao fundo */
-.portal-pan-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url('/portal-honmoon.webp?v=92');
-  background-size: 100% auto;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.5;
-}
-
-/* As 3 secções transparentes para deixar ver a imagem */
-.portal-pan-wrapper .parallax-wrapper {
-  background: transparent !important;
-  background-image: none !important;
-}
-.portal-pan-wrapper .parallax-bg,
-.portal-pan-wrapper .parallax-overlay,
-.portal-pan-wrapper .showcase-overlay {
-  display: none !important;
-}
-.portal-pan-wrapper .galeria-section {
-  background: transparent !important;
-  background-image: none !important;
-  overflow: visible !important;
-}
-.portal-pan-wrapper .galeria-section::before,
-.portal-pan-wrapper .galeria-section::after {
-  display: none !important;
-}
-
-/* Overlay subtil sobre o mural para legibilidade */
-.portal-pan-wrapper .galeria-section > .hero-aligned-container {
-  position: relative;
-  z-index: 10;
-}
-
-/* Mobile */
-@media (max-width: 767px) {
-  .portal-pan-bg {
-    background-size: 100% auto;
-    background-attachment: scroll;
-    opacity: 0.4;
-    position: absolute;
-    height: 100%;
-  }
-  .portal-pan-wrapper .parallax-solo-section,
-  .portal-pan-wrapper .showcase-section {
-    height: 40vh !important;
-    min-height: 250px !important;
-  }
-}
-
-/* Modo dia: sem portal */
-.light-mode .portal-pan-bg {
-  display: none;
-}
-.light-mode .portal-pan-wrapper .parallax-wrapper {
-  background: var(--void) !important;
-}
-.light-mode .portal-pan-wrapper .parallax-bg {
-  display: block !important;
-}
-.light-mode .portal-pan-wrapper .galeria-section {
-  background: var(--deep) !important;
 }
