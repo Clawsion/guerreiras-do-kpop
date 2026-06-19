@@ -8116,12 +8116,13 @@ img { max-width: 100%; height: auto; }
   overflow: hidden;
   background: transparent;
   /* 1 SÓ IMAGEM fixa ao fundo — move-se de baixo para cima */
-  background-image: url('/portal-honmoon.webp?v=91');
+  background-image: url('/portal-honmoon.webp?v=92');
   background-size: 100% auto;
   background-position: center bottom;
   background-repeat: no-repeat;
   background-attachment: fixed;
   z-index: 0;
+  opacity: 0.5;
 }
 
 /* Camada de fundo — default (parallax 1, modo noite) */
@@ -8218,7 +8219,8 @@ img { max-width: 100%; height: auto; }
   .parallax-wrapper {
     background-attachment: scroll !important;
     background-position: center bottom !important;
-    opacity: 0.6;
+    background-size: 100% auto !important;
+    opacity: 0.5;
   }
   .light-mode .parallax-before-mural .parallax-bg {
     background-image: url('/parallax-1-day-mobile.webp?v=7');
