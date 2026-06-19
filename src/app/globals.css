@@ -644,7 +644,7 @@ html { scroll-behavior: smooth; }
      Voltar a cover para preencher o ecrã (sem barras pretas do contain).
      Manter center center para mostrar a parte central da foto. */
   .memories-slide {
-    background-size: cover !important;
+    background-size: 100% auto !important;
     background-position: center center !important;
   }
   /* ═══ REDUZIR O REFLEXO (memories-glow) em smartphone ═══
@@ -2629,7 +2629,7 @@ html { scroll-behavior: smooth; }
    - background-image: espetaculo-bg-dark-mobile.webp (447x600, retrato cortado)
    - background-size: 100% auto (mostra largura toda, não estica altura)
    - background-position: top center (começa no topo)
-   - background-color: #030318 (combina com a borda inferior da imagem)
+   - background-color: #0C0527 (combina com a borda inferior da imagem)
    A parte de baixo da secção (botão + neon divider) tem a cor de fundo. */
 @media (max-width: 767px) {
   .espetaculo-section {
@@ -2638,7 +2638,7 @@ html { scroll-behavior: smooth; }
     background-position: top center !important;
     background-attachment: scroll !important;
     background-repeat: no-repeat !important;
-    background-color: #030318 !important;
+    background-color: #0C0527 !important;
   }
 }
 
