@@ -2684,6 +2684,13 @@ html.light-mode .hero-bg-img-light { display: block; }
     background: rgba(255, 250, 255, 0.62) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    /* ═══ PUXAR RETÂNGULO BRANCO PARA CIMA (modo dia mobile) ═══
+       margin-top negativo sobe o backdrop do texto sem mexer:
+       - Na imagem de fundo (mantém-se ancorada no topo)
+       - No botão "Garante o Teu Lugar" (mantém-se onde está)
+       - No padding-top da secção (mantém-se em 2.5rem)
+       -1.5rem = ~24px para cima */
+    margin-top: -1.5rem !important;
   }
   /* Texto mais legível: aumentar peso e adicionar text-shadow subtil */
   .espetaculo-section .esp-left p:not(.sec-num):not(.esp-pitch-text) {
