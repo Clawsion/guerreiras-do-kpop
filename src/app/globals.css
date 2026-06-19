@@ -5695,23 +5695,23 @@ html.light-mode .hero-bg-img-dark {
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ BARREIRA HONMOON — cúpula de energia translúcida (estilo filme) ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
-/* Inspirada na barreira Honmoon do filme de animação.
-   - Modo noite (PINK): tons rosa/roxo vibrantes com brilho neon,
-     padrões ondulados fluidos, translúcida
-   - Modo dia (RAINBOW): tons azul/verde/arco-íris suave,
-     camadas sobrepostas, etéreo e translúcido
+/* Inspirada na barreira Honmoon do filme + escudo do parallax dia.
+   - Modo noite (PINK): tons rosa/roxo vibrantes com brilho neon
+   - Modo dia (RAINBOW/AZUL): tons azul/verde/rosa (como escudo parallax)
    
-   A barreira tem "um pouco de invisibilidade" — mostra os tons
-   mas deixa ver o que está atrás. Padrões neon fluidos.
+   Características (como imagem de referência):
+   - Preenche a secção COMPLETA (width/height 100%)
+   - Linhas NÍTIDAS (sem blur excessivo)
+   - Padrões de ondas fluidas + linhas retas geométricas
+   - Brilho neon nas linhas
+   - Translúcida mas com contornos claros
    
    Componentes:
-   - Cúpula/domo translúcido (semi-esfera com gradient radial)
-   - 3 camadas de padrões ondulados animados (linhas fluidas SVG-like)
-   - Glow neon nas bordas
-   - Transparência (opacity 0.4-0.6)
+   - Cúpula/domo translúcido (preenche secção)
+   - 3 camadas de padrões neon nítidos (ondas + linhas + concêntricos)
+   - Glow neon nas bordas (nítido)
    
-   Performance: 5 elementos CSS, sem box-shadow, sem imagens,
-   will-change apenas no dome e patterns. */
+   Performance: 5 elementos CSS, sem box-shadow, sem imagens. */
 
 .hm-barrier {
   position: absolute;
@@ -5719,188 +5719,197 @@ html.light-mode .hero-bg-img-dark {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-/* ═══ Cúpula/domo translúcido ═══
-   Semi-esfera com gradient radial — o "campo de energia" principal.
+/* ═══ Cúpula/domo translúcido — PREENCHE SECÇÃO COMPLETA ═══
+   Semi-esfera grande com gradient radial.
    Modo noite (PINK): rosa/roxo vibrante
-   Modo dia (RAINBOW): arco-íris suave (azul→verde→amarelo→rosa) */
+   Modo dia (AZUL): azul nítido vibrante (como escudo do parallax) */
 .hm-barrier-dome {
   position: absolute;
-  width: 90%;
-  max-width: 800px;
-  height: 90%;
-  max-height: 600px;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
   border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  opacity: 0.45;
+  opacity: 0.55;
   mix-blend-mode: screen;
-  filter: blur(20px);
+  filter: blur(15px);
   will-change: transform, opacity;
-  animation: hmBarrierPulse 6s ease-in-out infinite alternate;
+  animation: hmBarrierPulse 8s ease-in-out infinite alternate;
 }
 /* Modo noite — PINK (rosa/roxo vibrante neon) */
-.hm-barrier-dome.dark,
 .hm-barrier.dark .hm-barrier-dome {
   background:
-    radial-gradient(ellipse at 50% 40%,
-      rgba(255, 45, 120, 0.4) 0%,
-      rgba(236, 72, 153, 0.35) 25%,
-      rgba(200, 80, 255, 0.3) 50%,
-      rgba(147, 51, 234, 0.2) 75%,
+    radial-gradient(ellipse 70% 60% at 50% 45%,
+      rgba(255, 45, 120, 0.55) 0%,
+      rgba(236, 72, 153, 0.45) 30%,
+      rgba(200, 80, 255, 0.35) 60%,
+      rgba(147, 51, 234, 0.2) 85%,
       transparent 100%);
 }
-/* Modo dia — RAINBOW (arco-íris suave) */
+/* Modo dia — AZUL vibrante (como escudo do parallax) */
 .hm-barrier.light .hm-barrier-dome {
   background:
-    radial-gradient(ellipse at 50% 40%,
-      rgba(100, 200, 255, 0.35) 0%,
-      rgba(100, 255, 150, 0.3) 25%,
-      rgba(255, 245, 100, 0.28) 50%,
-      rgba(255, 150, 200, 0.22) 75%,
+    radial-gradient(ellipse 70% 60% at 50% 45%,
+      rgba(80, 180, 255, 0.5) 0%,
+      rgba(100, 200, 255, 0.4) 30%,
+      rgba(60, 140, 220, 0.32) 60%,
+      rgba(150, 200, 255, 0.2) 85%,
       transparent 100%);
 }
 
-/* ═══ Padrões ondulados animados ═══
-   3 camadas de linhas fluidas que se movem como ondas de energia.
-   Usam gradient + mask para criar padrões fluidos. */
+/* ═══ Padrões neon NÍTIDOS ═══
+   3 camadas de linhas fluidas com brilho neon.
+   SEM blur (linhas nítidas como na imagem de referência). */
 .hm-barrier-pattern {
   position: absolute;
-  width: 90%;
-  max-width: 800px;
-  height: 90%;
-  max-height: 600px;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
   border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  opacity: 0.35;
   mix-blend-mode: screen;
   will-change: transform;
 }
 
-/* Pattern 1 — ondas horizontais (movimento lento) */
+/* Pattern 1 — linhas verticais NÍTIDAS (sem blur, cores vibrantes) */
 .hm-barrier-pattern-1 {
   background:
     repeating-linear-gradient(90deg,
       transparent 0px,
-      transparent 30px,
-      rgba(255, 45, 120, 0.15) 30px,
-      rgba(255, 45, 120, 0.15) 32px,
-      transparent 32px,
-      transparent 60px,
-      rgba(200, 80, 255, 0.12) 60px,
-      rgba(200, 80, 255, 0.12) 62px,
-      transparent 62px,
-      transparent 90px);
-  filter: blur(2px);
-  animation: hmPatternFlow1 12s linear infinite;
+      transparent 50px,
+      rgba(255, 45, 120, 0.4) 50px,
+      rgba(255, 150, 200, 0.6) 51px,
+      rgba(255, 45, 120, 0.4) 52px,
+      transparent 52px,
+      transparent 100px,
+      rgba(200, 80, 255, 0.35) 100px,
+      rgba(230, 150, 255, 0.55) 101px,
+      rgba(200, 80, 255, 0.35) 102px,
+      transparent 102px,
+      transparent 150px);
+  opacity: 0.75;
+  animation: hmPatternFlow1 14s linear infinite;
 }
 .light-mode .hm-barrier-pattern-1 {
   background:
     repeating-linear-gradient(90deg,
       transparent 0px,
-      transparent 30px,
-      rgba(100, 200, 255, 0.14) 30px,
-      rgba(100, 200, 255, 0.14) 32px,
-      transparent 32px,
-      transparent 60px,
-      rgba(100, 255, 150, 0.12) 60px,
-      rgba(100, 255, 150, 0.12) 62px,
-      transparent 62px,
-      transparent 90px);
+      transparent 50px,
+      rgba(80, 180, 255, 0.45) 50px,
+      rgba(150, 220, 255, 0.65) 51px,
+      rgba(80, 180, 255, 0.45) 52px,
+      transparent 52px,
+      transparent 100px,
+      rgba(100, 200, 255, 0.4) 100px,
+      rgba(160, 230, 255, 0.6) 101px,
+      rgba(100, 200, 255, 0.4) 102px,
+      transparent 102px,
+      transparent 150px);
 }
 
-/* Pattern 2 — ondas diagonais (movimento médio) */
+/* Pattern 2 — linhas diagonais NÍTIDAS */
 .hm-barrier-pattern-2 {
   background:
     repeating-linear-gradient(45deg,
       transparent 0px,
-      transparent 25px,
-      rgba(236, 72, 153, 0.13) 25px,
-      rgba(236, 72, 153, 0.13) 27px,
-      transparent 27px,
-      transparent 50px);
-  filter: blur(3px);
-  animation: hmPatternFlow2 15s linear infinite reverse;
+      transparent 45px,
+      rgba(236, 72, 153, 0.38) 45px,
+      rgba(255, 150, 200, 0.58) 46px,
+      rgba(236, 72, 153, 0.38) 47px,
+      transparent 47px,
+      transparent 90px);
+  opacity: 0.65;
+  animation: hmPatternFlow2 16s linear infinite reverse;
 }
 .light-mode .hm-barrier-pattern-2 {
   background:
     repeating-linear-gradient(45deg,
       transparent 0px,
-      transparent 25px,
-      rgba(255, 245, 100, 0.12) 25px,
-      rgba(255, 245, 100, 0.12) 27px,
-      transparent 27px,
-      transparent 50px);
+      transparent 45px,
+      rgba(100, 200, 255, 0.42) 45px,
+      rgba(170, 230, 255, 0.62) 46px,
+      rgba(100, 200, 255, 0.42) 47px,
+      transparent 47px,
+      transparent 90px);
 }
 
-/* Pattern 3 — ondas concêntricas (movimento rápido) */
+/* Pattern 3 — anéis concêntricos NÍTIDOS */
 .hm-barrier-pattern-3 {
   background:
     repeating-radial-gradient(circle at 50% 50%,
       transparent 0px,
-      transparent 40px,
-      rgba(200, 80, 255, 0.1) 40px,
-      rgba(200, 80, 255, 0.1) 42px,
-      transparent 42px,
-      transparent 80px);
-  filter: blur(2px);
-  animation: hmPatternFlow3 18s linear infinite;
+      transparent 60px,
+      rgba(200, 80, 255, 0.35) 60px,
+      rgba(230, 150, 255, 0.55) 61px,
+      rgba(200, 80, 255, 0.35) 62px,
+      transparent 62px,
+      transparent 120px);
+  opacity: 0.6;
+  animation: hmPatternFlow3 20s linear infinite;
 }
 .light-mode .hm-barrier-pattern-3 {
   background:
     repeating-radial-gradient(circle at 50% 50%,
       transparent 0px,
-      transparent 40px,
-      rgba(255, 150, 200, 0.1) 40px,
-      rgba(255, 150, 200, 0.1) 42px,
-      transparent 42px,
-      transparent 80px);
+      transparent 60px,
+      rgba(255, 150, 200, 0.38) 60px,
+      rgba(255, 200, 230, 0.58) 61px,
+      rgba(255, 150, 200, 0.38) 62px,
+      transparent 62px,
+      transparent 120px);
 }
 
-/* ═══ Glow neon nas bordas ═══
-   Anel de brilho que contorna a cúpula */
+/* ═══ Glow neon nas bordas — NÍTIDO E VIBRANTE ═══
+   Anel de brilho que contorna a cúpula.
+   Borda nítida com glow forte (como imagem de referência). */
 .hm-barrier-glow {
   position: absolute;
+  top: 50%;
+  left: 50%;
   width: 90%;
-  max-width: 800px;
+  max-width: 900px;
   height: 90%;
-  max-height: 600px;
+  max-height: 700px;
+  transform: translate(-50%, -50%);
   border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  border: 2px solid;
-  opacity: 0.5;
+  border: 3px solid;
+  opacity: 0.85;
   mix-blend-mode: screen;
-  filter: blur(8px);
+  filter: blur(2px);
   will-change: opacity;
-  animation: hmBarrierGlow 4s ease-in-out infinite alternate;
+  animation: hmBarrierGlow 5s ease-in-out infinite alternate;
 }
 .hm-barrier.dark .hm-barrier-glow {
-  border-color: rgba(255, 45, 120, 0.6);
+  border-color: rgba(255, 45, 120, 1);
 }
 .hm-barrier.light .hm-barrier-glow {
-  border-color: rgba(100, 200, 255, 0.5);
+  border-color: rgba(80, 180, 255, 1);
 }
 
 /* ═══ Animações ═══ */
 @keyframes hmBarrierPulse {
-  0%   { transform: scale(0.98); opacity: 0.4; }
-  100% { transform: scale(1.02); opacity: 0.55; }
+  0%   { transform: translate(-50%, -50%) scale(0.98); opacity: 0.45; }
+  100% { transform: translate(-50%, -50%) scale(1.02); opacity: 0.6; }
 }
 @keyframes hmPatternFlow1 {
-  0%   { transform: translateX(0) scale(1); }
-  100% { transform: translateX(90px) scale(1); }
+  0%   { transform: translate(-50%, -50%) translateX(0); }
+  100% { transform: translate(-50%, -50%) translateX(120px); }
 }
 @keyframes hmPatternFlow2 {
-  0%   { transform: translateX(0) translateY(0) scale(1); }
-  100% { transform: translateX(50px) translateY(50px) scale(1); }
+  0%   { transform: translate(-50%, -50%) translate(0, 0); }
+  100% { transform: translate(-50%, -50%) translate(70px, 70px); }
 }
 @keyframes hmPatternFlow3 {
-  0%   { transform: scale(0.95); opacity: 0.3; }
-  100% { transform: scale(1.05); opacity: 0.4; }
+  0%   { transform: translate(-50%, -50%) scale(0.95); opacity: 0.4; }
+  100% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.55; }
 }
 @keyframes hmBarrierGlow {
-  0%   { opacity: 0.4; }
-  100% { opacity: 0.6; }
+  0%   { opacity: 0.55; }
+  100% { opacity: 0.8; }
 }
 
 /* ═══ MOBILE: barreira simplificada ═══
@@ -5912,17 +5921,17 @@ html.light-mode .hero-bg-img-dark {
     display: none !important;
   }
   .hm-barrier-pattern-1 {
-    opacity: 0.25 !important;
+    opacity: 0.4 !important;
     animation-duration: 18s !important;
   }
   .hm-barrier-dome {
-    opacity: 0.4 !important;
-    filter: blur(15px) !important;
-    animation-duration: 8s !important;
+    opacity: 0.45 !important;
+    filter: blur(20px) !important;
+    animation-duration: 10s !important;
   }
   .hm-barrier-glow {
-    opacity: 0.4 !important;
-    filter: blur(6px) !important;
+    opacity: 0.5 !important;
+    filter: blur(3px) !important;
   }
 }
 
