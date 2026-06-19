@@ -5063,16 +5063,38 @@ html.light-mode .hero-bg-img-dark {
 
 /* ═══ LIGHT MODE OVERRIDES ═══ */
 
-/* Smooth transition on themed elements - wave-delay creates ripple effect */
-/* Applied to BOTH directions so wave-delay works dark→light AND light→dark */
-.light-mode,
-.light-mode *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right),
-:not(.light-mode).wave-transition,
-:not(.light-mode).wave-transition *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right) {
-  transition: background-color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
-              color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
-              border-color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
-              box-shadow 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms);
+/* ═══ MOBILE: ZERO transitions em TODOS os elementos ═══
+   Esta é a regra MAIS IMPORTANTE para a fluidez em mobile.
+   Garante que QUALQUER mudança de tema (classe .light-mode) é INSTANTÂNEA.
+   O seletor * abrange todos os 467 elementos — mas como a propriedade
+   é simples (transition: none), o browser avalia rapidamente. */
+@media (max-width: 767px) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation-duration: 0.001s !important;
+  }
+}
+
+/* ═══ Smooth transition on themed elements (DESKTOP ONLY) ═══
+   Em mobile, esta regra era a principal causa de lag na troca de tema:
+   o seletor .light-mode * força o browser a avaliar 4 propriedades de
+   transition em TODOS os 467 elementos DOM. Mesmo com o override
+   `transition: none !important` em mobile, o browser ainda tem de
+   AVALIAR a regra — o que demora 100-300ms em smartphone real.
+
+   Solução: envolver a regra numa media query desktop-only (>=768px).
+   Em mobile, esta regra NÃO EXISTE no CSS — o browser não tem nada
+   para avaliar. A troca fica instantânea. */
+@media (min-width: 768px) {
+  .light-mode,
+  .light-mode *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right),
+  :not(.light-mode).wave-transition,
+  :not(.light-mode).wave-transition *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right) {
+    transition: background-color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
+                color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
+                border-color 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms),
+                box-shadow 0.7s cubic-bezier(0.16,1,0.3,1) var(--wave-delay, 0ms);
+  }
 }
 
 /* Glass becomes white translucent in light mode */
