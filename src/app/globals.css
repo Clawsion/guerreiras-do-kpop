@@ -628,20 +628,18 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 0 8px rgba(124,58,237,0.5);
 }
 
-/* Mobile: secção mais pequena, pilares mais estreitos */
+/* Mobile: secção do slideshow sem cortinas, com efeito de transição */
 @media (max-width: 767px) {
   .memories-section {
-    /* Altura automática para a foto preencher sem espaços */
-    height: auto !important;
-    min-height: 0 !important;
-    /* Sem padding para encostar às secções adjacentes */
-    padding: 0 !important;
+    /* Altura para mostrar a foto completa (igual ao desktop) */
+    height: 60vh !important;
+    min-height: 400px !important;
   }
   .memories-pillar { width: 18vw; }
   /* DESATIVAR cortinas em mobile (as "tiras" em cima/baixo) */
   .memories-curtain-top { display: none !important; }
   .memories-curtain-bottom { display: none !important; }
-  .memories-dots { display: none !important; }
+  .memories-dots { bottom: 3vh; }
   /* ═══ SLIDESHOW em smartphone — contain (sem zoom, foto completa) ═══ */
   .memories-slide {
     background-size: contain !important;
@@ -651,10 +649,6 @@ html { scroll-behavior: smooth; }
   /* ═══ DESATIVAR o reflexo (memories-glow) em smartphone ═══ */
   .memories-glow {
     display: none !important;
-  }
-  /* ═══ STAGE FRAME — sem padding/margem em mobile ═══ */
-  .memories-stage-frame {
-    inset: 0 !important;
   }
 }
 
@@ -2645,6 +2639,8 @@ html { scroll-behavior: smooth; }
     background-repeat: no-repeat !important;
     background-color: #0C0527 !important;
     padding-bottom: 3rem !important;
+    /* Reduzir margens do pitch e do botão para encostar ao neon divider */
+    --esp-pitch-margin: 0.5rem;
   }
 }
 
@@ -8250,5 +8246,18 @@ img { max-width: 100%; height: auto; }
   }
   .light-mode .parallax-after-mural .parallax-bg {
     background-image: url('/parallax-2-day-mobile.webp?v=7');
+  }
+}
+
+/* ═══ SMARTPHONE — reduzir espaço entre botão e neon divider ═══ */
+@media (max-width: 767px) {
+  .esp-pitch-compact {
+    margin-bottom: 0.5rem !important;
+  }
+  .esp-cta {
+    margin-bottom: 0 !important;
+  }
+  .espetaculo-section {
+    padding-bottom: 1rem !important;
   }
 }
