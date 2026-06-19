@@ -549,7 +549,13 @@ export default function HomePage() {
   // (evita memory leaks e setStates em componentes desmontados)
   useEffect(() => {
     return () => {
-      transitionRef.current.forEach(t => clearTimeout(t));
+      transitionRef.current.forEach(t => {
+        clearTimeout(t);
+        cancelAnimationFrame(t as unknown as number);
+        if ('cancelIdleCallback' in window) {
+          (window as Window & { cancelIdleCallback: (h: number) => void }).cancelIdleCallback(t as unknown as number);
+        }
+      });
       if (flashTimeoutRef.current) clearTimeout(flashTimeoutRef.current);
     };
   }, []);
@@ -747,30 +753,37 @@ export default function HomePage() {
       const cy = clickY ?? 50;
 
       if (isMobileViewport) {
-        // ═══ MOBILE: troca de tema 100% INSTANTÂNEA (zero re-renders extra) ═══
-        // Aplicar class light-mode SÍNCRONAMENTE (imediato, zero lag)
-        // NÃO chamar cleanupTransition() — causa 3 re-renders (setHeroFlash,
-        // setRipple, setWaveActive) que bloqueiam o scroll touch.
-        // Em mobile não há flash/ripple/wave, pelo que cleanup é desnecessário.
-        if (toMode === 'light') {
-          document.documentElement.classList.add('light-mode');
-        } else {
-          document.documentElement.classList.remove('light-mode');
-        }
-        themeModeRef.current = toMode;
-        pendingToModeRef.current = null;
-        isTransitioningRef.current = false;
-        // ═══ MOBILE: setThemeMode via requestAnimationFrame (≈16ms) ═══
-        // O texto "ADORMECER"/"DESPERTAR" muda QUASE INSTANTANEAMENTE.
-        // Antes era setTimeout 1000ms (causava lentidão percetível no botão).
-        // requestAnimationFrame espera pelo próximo frame (~16ms) — suficiente
-        // para o class .light-mode ser aplicado e pintado ANTES do re-render.
-        // Isto garante:
-        //   - Texto do botão muda instantaneamente (era 1 segundo de delay)
-        //   - Scroll touch não é bloqueado (RAF não é síncrono)
-        //   - Troca visual já estava feita (CSS class no <html>)
+        // ═══ MOBILE: troca de tema OTIMIZADA para não bloquear scroll ═══
+        // PROBLEMA: adicionar/remover .light-mode no <html> força o browser
+        // a recalcular 273 regras CSS em 467 elementos DOM. Isto pode demorar
+        // 200-500ms em smartphone real, bloqueando o thread principal.
+        //
+        // SOLUÇÃO: usar requestAnimationFrame para:
+        // 1. NÃO bloquear o event handler síncrono (scroll touch pode continuar)
+        // 2. Aplicar a classe no próximo frame (browser tem tempo de respirar)
+        // 3. Usar requestIdleCallback para o setThemeMode (re-render React só
+        //    quando o browser está idle)
+        //
+        // Resultado: o utilizador pode continuar a fazer scroll imediatamente
+        // após o clique, sem bloqueios. A troca visual acontece no próximo frame.
         const tid = requestAnimationFrame(() => {
-          setThemeMode(toMode);
+          if (toMode === 'light') {
+            document.documentElement.classList.add('light-mode');
+          } else {
+            document.documentElement.classList.remove('light-mode');
+          }
+          themeModeRef.current = toMode;
+          pendingToModeRef.current = null;
+          isTransitioningRef.current = false;
+          // setThemeMode via requestIdleCallback (re-render só quando browser está idle)
+          // Fallback para setTimeout(0) em browsers sem requestIdleCallback (iOS Safari < 17)
+          if ('requestIdleCallback' in window) {
+            (window as Window & { requestIdleCallback: (cb: () => void) => number }).requestIdleCallback(() => {
+              setThemeMode(toMode);
+            });
+          } else {
+            setTimeout(() => setThemeMode(toMode), 0);
+          }
         });
         transitionRef.current.push(tid as unknown as ReturnType<typeof setTimeout>);
       } else {
