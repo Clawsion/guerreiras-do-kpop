@@ -8285,14 +8285,21 @@ img { max-width: 100%; height: auto; }
     align-items: center !important;
   }
   .espetaculo-section .esp-cta {
-    display: inline-flex !important;
+    display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     text-align: center !important;
+    /* Padding simétrico para centrar perfeitamente */
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    /* Margem para baixo (puxar para o neon) */
+    margin-bottom: 1rem !important;
   }
+  /* Container do botão (Rv) centrado */
   .espetaculo-section .rv:last-of-type {
     display: flex !important;
     justify-content: center !important;
+    width: 100% !important;
   }
 }
 
