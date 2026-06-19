@@ -1027,23 +1027,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=85 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=86 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=85" : "/hero-bg-mobile.webp?v=85"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=86" : "/hero-bg-mobile.webp?v=86"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=85" : "/hero-bg.webp?v=85"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=86" : "/hero-bg.webp?v=86"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=85" : "/hero-bg.webp?v=85"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=86" : "/hero-bg.webp?v=86"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
@@ -1363,8 +1363,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      <HonmoonDivider/>
 
       {/* ═══ PARALLAX 1 — ANTES do Mural (background-attachment: fixed, CSS-only) ═══ */}
       <div className="parallax-wrapper parallax-before-mural">

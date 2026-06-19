@@ -4184,7 +4184,7 @@ html { scroll-behavior: smooth; }
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('/portal-honmoon.webp?v=81');
+  background-image: url('/portal-honmoon.webp?v=85');
   background-size: cover;
   background-position: center center;
   background-attachment: fixed;
@@ -8124,7 +8124,7 @@ img { max-width: 100%; height: auto; }
 .parallax-bg {
   position: absolute;
   inset: 0;
-  background-image: url('/portal-honmoon.webp?v=81');
+  background-image: url('/portal-honmoon.webp?v=85');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -8162,7 +8162,7 @@ img { max-width: 100%; height: auto; }
 
 /* Parallax 1 (ANTES do Mural) — imagem 1 */
 .parallax-before-mural .parallax-bg {
-  background-image: url('/portal-honmoon.webp?v=81');
+  background-image: url('/portal-honmoon.webp?v=85');
   background-size: cover;
   background-position: center center;
   opacity: 0.5;
@@ -8173,7 +8173,7 @@ img { max-width: 100%; height: auto; }
 
 /* Parallax 2 (DEPOIS do Mural) — imagem 2 (diferente) — MESMO zoom do parallax 1 */
 .parallax-after-mural .parallax-bg {
-  background-image: url('/portal-honmoon.webp?v=81');
+  background-image: url('/portal-honmoon.webp?v=85');
   background-size: cover;
   background-position: center center;
   opacity: 0.5;
@@ -8331,5 +8331,25 @@ img { max-width: 100%; height: auto; }
   .espetaculo-section + .honmoon-divider {
     margin-top: 0 !important;
     margin-bottom: 1.5rem !important;
+  }
+}
+
+
+/* ═══ MODO NOITE — Tributo + Parallax 1 + Parallax 2 = secção contínua ═══
+   As 3 secções partilham o mesmo fundo (portal-honmoon.webp) sem separadores.
+   O HonmoonDivider entre Tributo e Parallax 1 foi removido do JSX.
+   A galeria (mural) continua com o seu próprio fundo entre os 2 parallax. */
+@media (max-width: 767px) {
+  /* Secção do Tributo sem padding inferior extra (continua direto no parallax) */
+  .espetaculo-section {
+    padding-bottom: 0 !important;
+  }
+  /* Parallax 1 sem margem superior (continua do tributo) */
+  .parallax-before-mural {
+    margin-top: 0 !important;
+  }
+  /* Parallax 2 sem margem (continua do mural) */
+  .parallax-after-mural {
+    margin-top: 0 !important;
   }
 }
