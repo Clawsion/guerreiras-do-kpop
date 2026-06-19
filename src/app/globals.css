@@ -1840,7 +1840,10 @@
 @media (max-width: 767px) {
   .soul-particles-mobile {
     /* contain: strict já está no .soul-particles-site — mantém */
-    z-index: 10 !important; /* abaixo do hero (z-95) e do menu (z-90) */
+    /* z-index: 20 — à frente do mainContent (z-10) mas atrás do
+       hero-nav (z-95) e menu (z-90). Assim as partículas são visíveis
+       sobre o conteúdo mas não bloqueiam toques nos botões. */
+    z-index: 20 !important;
   }
   .soul-particle-mobile {
     box-shadow: none !important;
@@ -2075,6 +2078,11 @@
   object-fit: cover;
   object-position: center center;
   pointer-events: none;
+  /* Manter o mesmo transform que a dark para que a transição seja suave */
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 /* Modo noite (default) — mostrar dark, esconder light */
 html:not(.light-mode) .hero-bg-img-dark { display: block; }
@@ -2084,13 +2092,16 @@ html.light-mode .hero-bg-img-dark { display: none; }
 html.light-mode .hero-bg-img-light { display: block; }
 /* ═══ OTIMIZAÇÃO: remover GPU layer da imagem ESCONDIDA ═══
    Quando uma imagem está com display:none, o browser ainda mantém a
-   camada GPU alocada se tiver will-change/transform. Isto consome
-   memória GPU. Aqui removemos explicitamente will-change e transform
-   da imagem escondida, libertando a camada GPU. */
+   camada GPU alocada se tiver will-change. Aqui removemos explicitamente
+   will-change da imagem escondida, libertando a camada GPU.
+   
+   IMPORTANTE: NÃO remover o transform (scale) — a imagem precisa de
+   manter o scale para quando fica visível. Se removermos o transform,
+   o browser tem de o recalcular quando a imagem passa de display:none
+   para display:block, causando um slow frame. */
 html:not(.light-mode) .hero-bg-img-light,
 html.light-mode .hero-bg-img-dark {
   will-change: auto !important;
-  transform: none !important;
   backface-visibility: visible !important;
   -webkit-backface-visibility: visible !important;
 }
