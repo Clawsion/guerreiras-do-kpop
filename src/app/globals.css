@@ -1865,13 +1865,13 @@ html { scroll-behavior: smooth; }
        Assim o espaço nas laterais fica invisível (camuflado com gradient).
 
        Modo noite: gradient #0D0136 → #2B0886
-       Modo dia:   bordas ~#C0D6FC (azul-claro) */
-    background: linear-gradient(to right, #0D0136 0%, #1A0460 50%, #2B0886 100%) !important;
+       Modo dia:   bordas ~#C2D7FC (azul-claro) */
+    background: linear-gradient(to right, #0B072C 0%, #0A0629 50%, #0A0627 100%) !important;
   }
   /* Modo dia (.light-mode) — fundo do hero com a cor das bordas da imagem de dia
-     Borda esquerda: #BFD5FC, Borda direita: #C0D7FD — média #C0D6FC */
+     Borda esquerda: #BFD5FC, Borda direita: #C0D7FD — média #C2D7FC */
   .light-mode .hero-section {
-    background: #C0D6FC !important;
+    background: #C2D7FC !important;
   }
   /* ═══ IMAGEM DO HERO EM MOBILE — contain com center ═══
      object-fit: contain mostra a foto COMPLETA sem cortes.
@@ -7661,12 +7661,12 @@ img { max-width: 100%; height: auto; }
     min-height: 100svh !important;
     /* GRADIENT de fundo = cores das bordas da imagem de noite.
        Camufla o espaço nas laterais (object-fit: contain). */
-    background: linear-gradient(to right, #0D0136 0%, #1A0460 50%, #2B0886 100%) !important;
+    background: linear-gradient(to right, #0B072C 0%, #0A0629 50%, #0A0627 100%) !important;
   }
   /* Modo dia (.light-mode) — fundo do hero com a cor das bordas da imagem de dia
-     Borda esquerda: #BFD5FC, Borda direita: #C0D7FD — média #C0D6FC */
+     Borda esquerda: #BFD5FC, Borda direita: #C0D7FD — média #C2D7FC */
   .light-mode .hero-section {
-    background: #C0D6FC !important;
+    background: #C2D7FC !important;
   }
 
   /* A imagem mobile é RETRATO (922×1706, proporção ~9:16.6).
