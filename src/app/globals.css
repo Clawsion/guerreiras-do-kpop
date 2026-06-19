@@ -8712,13 +8712,39 @@ img { max-width: 100%; height: auto; }
      - As cores e estilos (só animações desativadas)
      
      Isto reduz ~15 animações infinitas em mobile. */
-  .honmoon-shield-section .hm-atmosphere-layer,
+  /* ═══ MOBILE: reativar efeitos LEVES do Honmoon Shield ═══
+     Reativar as animações mais importantes mas de forma LEVE:
+     - Animações mais lentas (3x a duração do desktop)
+     - Menos box-shadows (só 1 por elemento em vez de 2-3)
+     - will-change: auto (não criar camadas GPU extra)
+     Isto dá o efeito visual do Honmoon Shield sem pesar no performance. */
+  .honmoon-shield-section .hm-atmosphere-layer {
+    will-change: auto !important;
+    animation: hmNebulaDrift 40s ease-in-out infinite alternate !important;
+    animation-duration: 60s !important;
+  }
+  .honmoon-shield-section .hm-ring {
+    will-change: auto !important;
+    animation: hmRingRotate 30s linear infinite !important;
+  }
+  .honmoon-shield-section .hm-neon-circle {
+    will-change: auto !important;
+    animation: hmNeonCircleRotate 40s linear infinite !important;
+    box-shadow: 0 0 8px currentColor !important;
+  }
+  .honmoon-shield-section .hm-neon-arc {
+    will-change: auto !important;
+    animation: hmNeonArcRotate 30s linear infinite !important;
+    box-shadow: 0 0 6px currentColor !important;
+  }
+  .honmoon-shield-section .hm-node {
+    will-change: auto !important;
+    animation: hmNodePulse 8s ease-in-out infinite !important;
+    box-shadow: 0 0 6px currentColor !important;
+  }
+  /* Manter desativados os elementos mais pesados */
   .honmoon-shield-section .hm-sparkle,
   .honmoon-shield-section .hm-particle,
-  .honmoon-shield-section .hm-ring,
-  .honmoon-shield-section .hm-neon-circle,
-  .honmoon-shield-section .hm-neon-arc,
-  .honmoon-shield-section .hm-node,
   .honmoon-shield-section .hm-strand,
   .honmoon-shield-section .hm-burst-ring,
   .honmoon-shield-section .hm-bg-glow,
@@ -8727,13 +8753,10 @@ img { max-width: 100%; height: auto; }
     will-change: auto !important;
     animation: none !important;
   }
-  /* ═══ ORB central — simplificar animação em mobile ═══
-     O orb (botão) tem 2 animações infinitas: hmOrbActive (3s) + hmOrbLightHint (5s).
-     hmOrbLightHint anima 6 box-shadows — MUITO pesado em mobile.
-     Em mobile, manter só hmOrbActive (anima opacity/subtle, mais leve). */
+  /* ═══ ORB central — manter animação leve ═══ */
   .hm-orb.light,
   .hm-orb.dark {
-    animation: hmOrbActive 3s ease-in-out infinite !important;
+    animation: hmOrbActive 4s ease-in-out infinite !important;
   }
   /* Remover drop-shadow filters pesados — usar box-shadow inline em vez disso */
   .honmoon-shield-section .hm-neon-circle,
@@ -8751,13 +8774,14 @@ img { max-width: 100%; height: auto; }
      
      IMPORTANTE: incluir também honmoon-node-1..6 e honmoon-strand-left/right
      que têm box-shadow DUPLICADO em modo dia (causa principal do lag extra
-     em modo dia vs modo noite). */
+     em modo dia vs modo noite).
+     
+     NOTA: hm-neon-circle, hm-neon-arc e hm-node JÁ TÊM box-shadow leve
+     definido acima (1 sombra cada). Os elementos abaixo continuam sem
+     box-shadow (sparkles, particles, rings, strands, burst-rings). */
   .honmoon-shield-section .hm-sparkle,
   .honmoon-shield-section .hm-particle,
   .honmoon-shield-section .hm-ring,
-  .honmoon-shield-section .hm-neon-circle,
-  .honmoon-shield-section .hm-neon-arc,
-  .honmoon-shield-section .hm-node,
   .honmoon-shield-section .hm-strand,
   .honmoon-shield-section .hm-burst-ring,
   .honmoon-shield-section .hm-atmosphere-layer,
