@@ -1923,10 +1923,12 @@
   .light-mode .hero-section {
     background: #BDD3FD !important;
   }
-  /* ═══ IMAGEM DO HERO EM MOBILE — contain com center ═══
+  /* ═══ IMAGEM DO HERO EM MOBILE — contain com center + zoom subtil ═══
      object-fit: contain mostra a foto COMPLETA sem cortes.
      O espaço nas laterais é camuflado pelo gradient do fundo do hero
-     (que combina com as cores das bordas da imagem). */
+     (que combina com as cores das bordas da imagem).
+     scale + translateZ(0) juntos: o GPU pré-renderiza a imagem escalada
+     uma única vez como textura (cached), depois é só movida no scroll. */
   .hero-bg-img {
     object-fit: contain !important;
     object-position: center center !important;
@@ -1936,27 +1938,26 @@
        transform: translateZ(0) força o browser a colocar a imagem numa
        camada de composição própria. Isto significa que durante o scroll,
        a imagem NÃO É REPINTADA — é apenas movida como textura GPU.
-       Isto é a técnica #1 de performance mobile para imagens grandes. */
+       O scale é PRÉ-RENDERIZADO uma vez na textura — não recomputa por frame. */
     transform: translateZ(0) !important;
     will-change: transform !important;
-    /* backface-visibility: hidden é outra forma de forçar camada GPU
-       em browsers que ignoram translateZ(0) */
     backface-visibility: hidden !important;
     -webkit-backface-visibility: hidden !important;
   }
-  /* ═══ SEM TRANSFORM: SCALE() em mobile ═══
-     Antes: transform: scale(1.05) (noite) / scale(1.08) (dia)
-     Problema: o scale obriga o browser a recomputar todos os pixels
-     da imagem (941×1672) em cada frame de scroll. Mesmo com translateZ(0),
-     o scale adiciona trabalho ao GPU.
-     Solução: REMOVER o scale. A imagem fica ao tamanho natural com
-     object-fit: contain. Visualmente é quase igual (zoom era mínimo).
-     Performance: MUITO superior. */
-  :not(.light-mode) .hero-bg-img,
+  /* ═══ ZOOM SUBTIL DIFERENCIADO POR MODO (reposto) ═══
+     Modo noite: scale(1.05)
+     Modo dia:   scale(1.08)
+     IMPORTANTE: o scale é combinado com translateZ(0) para que a imagem
+     escalada seja pré-renderizada como textura GPU (cached). Isto evita
+     recomputar pixels em cada frame de scroll. */
+  :not(.light-mode) .hero-bg-img {
+    object-position: center center !important;
+    transform: translateZ(0) scale(1.05) !important;
+    transform-origin: center center !important;
+  }
   .light-mode .hero-bg-img {
     object-position: center center !important;
-    /* SEM transform: scale() — só translateZ(0) para GPU layer */
-    transform: translateZ(0) !important;
+    transform: translateZ(0) scale(1.08) !important;
     transform-origin: center center !important;
   }
   /* ═══ GARANTIA EXTRA: todos os elementos fixed com inset:0 que NÃO são
@@ -4594,7 +4595,13 @@ html.light-mode .hero-bg-img-light { display: block; }
   padding: 2.5rem;
   background: var(--surface);
   border: 1px solid rgba(200, 80, 255, 0.12);
-  backdrop-filter: blur(10px);
+  /* backdrop-filter só em desktop (>=768px) — pesado em mobile GPU */
+}
+@media (min-width: 768px) {
+  .contacto-form {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
 }
 .contacto-field {
   display: flex;
@@ -7499,6 +7506,8 @@ section#concertos {
   .esp-spotlight { 
     opacity: 0.3 !important; 
     animation: none !important;
+    /* mix-blend-mode: screen é pesado em mobile GPU — desativar */
+    mix-blend-mode: normal !important;
   }
   
   /* Reduce backdrop-filter (heavy on mobile GPUs) */
@@ -7719,17 +7728,21 @@ img { max-width: 100%; height: auto; }
     width: 100% !important;
     height: 100% !important;
   }
-  /* ═══ SEM SCALE em mobile (segunda regra mobile) ═══
-     REMOVIDO: transform: scale(1.05) (noite) / scale(1.08) (dia)
-     O scale obriga o browser a recomputar todos os pixels da imagem
-     (941×1672) em cada frame de scroll. Mesmo com translateZ(0), o
-     scale adiciona trabalho ao GPU.
-     A regra principal (mais acima) já aplica translateZ(0) para forçar
-     camada GPU própria sem scale. */
-  :not(.light-mode) .hero-bg-img,
+  /* ═══ ZOOM SUBTIL DIFERENCIADO POR MODO (segunda regra mobile — reposto) ═══
+     Modo noite: scale(1.05)
+     Modo dia:   scale(1.08)
+     IMPORTANTE: combinado com translateZ(0) para GPU layer cached. */
+  :not(.light-mode) .hero-bg-img {
+    object-position: center center !important;
+    transform: translateZ(0) scale(1.05) !important;
+    transform-origin: center center !important;
+    will-change: transform !important;
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
+  }
   .light-mode .hero-bg-img {
     object-position: center center !important;
-    transform: translateZ(0) !important;
+    transform: translateZ(0) scale(1.08) !important;
     transform-origin: center center !important;
     will-change: transform !important;
     backface-visibility: hidden !important;
@@ -8555,6 +8568,35 @@ img { max-width: 100%; height: auto; }
   .honmoon-shield-section .hm-strand,
   .honmoon-shield-section .hm-node {
     filter: none !important;
+  }
+  /* ═══ REMOVER BOX-SHADOWS dos elementos decorativos do Honmoon Shield ═══
+     Cada box-shadow obriga o GPU a recalcular a sombra em cada frame.
+     Havia ~25 box-shadows só no Honmoon Shield (sparkles, particles, rings,
+     neon circles, arcs, nodes, strands). Em mobile, removê-las melhora
+     MUITO a performance do scroll. O orb central (botão) MANTÉM o seu
+     box-shadow porque é o elemento principal. */
+  .honmoon-shield-section .hm-sparkle,
+  .honmoon-shield-section .hm-particle,
+  .honmoon-shield-section .hm-ring,
+  .honmoon-shield-section .hm-neon-circle,
+  .honmoon-shield-section .hm-neon-arc,
+  .honmoon-shield-section .hm-node,
+  .honmoon-shield-section .hm-strand,
+  .honmoon-shield-section .hm-burst-ring,
+  .honmoon-shield-section .hm-atmosphere-layer {
+    box-shadow: none !important;
+  }
+  /* ═══ REMOVER BOX-SHADOWS dos cartazes em mobile ═══
+     6 galeria-cards + 3 cartaz-cards + 3 cartaz-img-wraps + 3 cartaz-tags +
+     3 cartaz-status-dots + 3 cartaz-buy-btns = ~21 box-shadows.
+     Em mobile, remover para reduzir trabalho do GPU durante scroll. */
+  .cartazes-section .cartaz-card,
+  .cartazes-section .cartaz-img-wrap,
+  .cartazes-section .cartaz-tag,
+  .cartazes-section .cartaz-status-dot,
+  .cartazes-section .cartaz-buy-btn,
+  .galeria-section .galeria-card {
+    box-shadow: none !important;
   }
 }
 

@@ -900,22 +900,30 @@ export default function HomePage() {
         );
       })()}
 
-      {/* ═══ SOUL PARTICLES - fixed overlay across entire site ═══ */}
-      <div className="soul-particles-site">
-        {Array.from({length: 12}, (_, i) => (
-          <div
-            key={i}
-            className="soul-particle-site"
-            style={{
-              left: `${5 + (i * 7.5) % 90}%`,
-              animationDelay: `${(i * 1.1) % 8}s`,
-              animationDuration: `${8 + (i % 4) * 2}s`,
-              width: `${3 + (i % 4) * 2}px`,
-              height: `${3 + (i % 4) * 2}px`,
-            }}
-          />
-        ))}
-      </div>
+      {/* ═══ SOUL PARTICLES - fixed overlay across entire site ═══
+          MOBILE: REMOVIDO do JSX (zero cost). Em mobile as 12 partículas com
+          box-shadow pesado e animação infinita consumiam GPU mesmo com
+          display:none no parent. DESKTOP: mantém-se. */}
+      {(() => {
+        if (typeof window !== "undefined" && window.innerWidth < 768) return null;
+        return (
+          <div className="soul-particles-site">
+            {Array.from({length: 12}, (_, i) => (
+              <div
+                key={i}
+                className="soul-particle-site"
+                style={{
+                  left: `${5 + (i * 7.5) % 90}%`,
+                  animationDelay: `${(i * 1.1) % 8}s`,
+                  animationDuration: `${8 + (i % 4) * 2}s`,
+                  width: `${3 + (i % 4) * 2}px`,
+                  height: `${3 + (i % 4) * 2}px`,
+                }}
+              />
+            ))}
+          </div>
+        );
+      })()}
 
       {/* ═══ HERO - FULL SCREEN ═══ */}
       <section className="hero-section" style={{background:"var(--void)"}}>
