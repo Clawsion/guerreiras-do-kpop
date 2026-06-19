@@ -1136,7 +1136,7 @@ export default function HomePage() {
               className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold cursor-pointer"
               style={{background:"var(--neon-purple)",color:"#fff"}}
             >
-              <Ticket className="w-4 h-4"/> Garante o Teu Lugar
+              <Ticket className="w-3.5 h-3.5"/> Garante o Teu Lugar
             </a>
           </div>
           {/* ═══ FORMATO ORIGINAL DAS REDES SOCIAIS (desativado a pedido — guardar para reativar) ═══
@@ -1756,7 +1756,7 @@ export default function HomePage() {
       </footer>
 
       {/* ═══ MOBILE STICKY CTA ═══ */}
-      <div className={`fixed bottom-0 inset-x-0 z-40 sm:hidden p-3 backdrop-blur-2xl border-t transition-opacity duration-300 ${loaded?"":"opacity-0 pointer-events-none"}`} style={{background:"rgba(11,8,19,0.92)",borderColor:"rgba(200,80,255,0.08)"}}>
+      <div className={`fixed bottom-0 inset-x-0 z-40 sm:hidden p-1.5 backdrop-blur-2xl border-t transition-opacity duration-300 ${loaded?"":"opacity-0 pointer-events-none"}`} style={{background:"rgba(11,8,19,0.92)",borderColor:"rgba(200,80,255,0.08)"}}>
         <a
           href="#cartazes"
           onClick={e => {
@@ -1769,10 +1769,10 @@ export default function HomePage() {
               window.scrollTo({ top, behavior: 'smooth' });
             }
           }}
-          className="flex items-center justify-center gap-2 w-full py-3.5 text-[10px] tracking-[0.22em] font-semibold uppercase cursor-pointer"
+          className="flex items-center justify-center gap-2 w-full py-2 text-[9px] tracking-[0.2em] font-semibold uppercase cursor-pointer"
           style={{background:"var(--neon-purple)",color:"#fff"}}
         >
-          <Ticket className="w-4 h-4"/> Garante o Teu Lugar
+          <Ticket className="w-3.5 h-3.5"/> Garante o Teu Lugar
         </a>
       </div>
 

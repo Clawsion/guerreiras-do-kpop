@@ -1902,9 +1902,9 @@ html { scroll-behavior: smooth; }
     transform-origin: center center !important;
   }
   .light-mode .hero-bg-img {
-    object-position: center center !important;
-    transform: scale(1.08) !important;
-    transform-origin: center center !important;
+    object-position: center bottom !important;
+    transform: scale(1.05) !important;
+    transform-origin: center bottom !important;
   }
   /* ═══ GARANTIA EXTRA: todos os elementos fixed com inset:0 que NÃO são
      menu/lightbox/privacy devem ter pointer-events: none em mobile.
@@ -7718,9 +7718,9 @@ img { max-width: 100%; height: auto; }
     transform-origin: center center !important;
   }
   .light-mode .hero-bg-img {
-    object-position: center center !important;
-    transform: scale(1.08) !important;
-    transform-origin: center center !important;
+    object-position: center bottom !important;
+    transform: scale(1.05) !important;
+    transform-origin: center bottom !important;
   }
 
   /* O hero-bottom-panel estava em % absolutas que não funcionavam.
