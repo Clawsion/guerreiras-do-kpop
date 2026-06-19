@@ -8383,4 +8383,37 @@ img { max-width: 100%; height: auto; }
   :not(.light-mode).wave-transition * {
     transition: none !important;
   }
+  /* DESATIVAR soul-particles em mobile — 12 partículas com animações
+     infinitas causam lag no scroll do hero */
+  .soul-particles-site {
+    display: none !important;
+  }
+  /* REDUZIR backdrop-filter do sticky CTA — blur pesado em GPU */
+  .fixed.bottom-0.inset-x-0.z-40 {
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+  }
+  /* REMOVER content-visibility de secções — causa layout shift em mobile */
+  .espetaculo-section,
+  .identidade-section,
+  .tributo-section,
+  .galeria-section,
+  .honmoon-section,
+  section#bilhetes {
+    content-visibility: visible !important;
+    contain-intrinsic-size: auto !important;
+  }
+}
+
+/* Mobile: desativar animações mais pesadas do Honmoon durante scroll */
+@media (max-width: 767px) {
+  .hm-neon-circle-3, .hm-neon-circle-4 {
+    display: none !important;
+  }
+  .hm-neon-arc-3 {
+    display: none !important;
+  }
+  .hm-strand-3 {
+    display: none !important;
+  }
 }

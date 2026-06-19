@@ -1755,7 +1755,7 @@ export default function HomePage() {
       </footer>
 
       {/* ═══ MOBILE STICKY CTA ═══ */}
-      <div className={`fixed bottom-0 inset-x-0 z-40 sm:hidden p-1.5 backdrop-blur-2xl border-t transition-opacity duration-300 ${loaded?"":"opacity-0 pointer-events-none"}`} style={{background:"rgba(11,8,19,0.92)",borderColor:"rgba(200,80,255,0.08)"}}>
+      <div className={`fixed bottom-0 inset-x-0 z-40 sm:hidden p-1.5 backdrop-blur-sm border-t transition-opacity duration-300 ${loaded?"":"opacity-0 pointer-events-none"}`} style={{background:"rgba(11,8,19,0.92)",borderColor:"rgba(200,80,255,0.08)"}}>
         <a
           href="#cartazes"
           onClick={e => {
