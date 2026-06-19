@@ -8268,9 +8268,18 @@ img { max-width: 100%; height: auto; }
   }
   .esp-cta {
     margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
   }
   .espetaculo-section {
     padding-bottom: 0 !important;
+  }
+  /* ESCONDER esp-right (espaço reservado para armas) — ocupa 260px em mobile! */
+  .esp-right {
+    display: none !important;
+  }
+  /* Rv (reveal) sem margem extra em baixo */
+  .espetaculo-section .rv {
+    margin-bottom: 0 !important;
   }
   /* Neon divider logo a seguir ao botão, sem margem */
   .espetaculo-section + .honmoon-divider {
