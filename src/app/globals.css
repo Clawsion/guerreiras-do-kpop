@@ -1822,7 +1822,10 @@
   pointer-events: none;
   z-index: 15;
   overflow: hidden;
-  contain: strict;
+  /* contain: layout style paint (sem size) — em iOS Safari, contain: strict
+     em position:fixed pode causar jank no scroll momentum. layout style paint
+     isola a renderização sem afetar o scroll. */
+  contain: layout style paint;
 }
 .soul-particle-site {
   position: absolute;
@@ -1944,11 +1947,13 @@
        problemas com a barra de endereço dinâmica do iOS Safari. */
     height: 100svh !important;
     min-height: 600px !important;
-    /* CRÍTICO: touch-action: pan-y garante que toques verticais dentro do hero
-       são tratados como scroll da PÁGINA. Sem isto, em iOS Safari, o
-       overflow: hidden do hero faz o browser bloquear o scroll da página
-       quando o utilizador toca dentro do hero. */
-    touch-action: pan-y !important;
+    /* CRÍTICO: touch-action: pan-y manipulation garante que toques verticais
+       dentro do hero são tratados como scroll da PÁGINA com resposta IMEDIATA.
+       - pan-y: permite scroll vertical
+       - manipulation: remove delay de 300ms em iOS para taps
+       Sem isto, em iOS Safari, o overflow: hidden do hero faz o browser
+       bloquear o scroll da página quando o utilizador toca dentro do hero. */
+    touch-action: pan-y manipulation !important;
     /* overflow: clip em vez de overflow: hidden — clip não cria um contexto
        de scroll, enquanto hidden pode fazer o browser achar que o elemento
        é scrollável (e bloquear o scroll da página em iOS Safari). */
@@ -2033,7 +2038,7 @@
   .hero-nav-panel,
   .hero-bottom-panel,
   .hero-circle {
-    touch-action: pan-y !important;
+    touch-action: pan-y manipulation !important;
   }
 }
 
@@ -8504,11 +8509,15 @@ img { max-width: 100%; height: auto; }
      viewport < 768px. A regra .soul-particle-mobile (acima, linha 1824)
      cuida da otimização (sem box-shadow, etc). */
   /* REMOVER backdrop-filter do sticky CTA em mobile — blur é pesadíssimo no GPU.
-     Usar background opaco (rgba 0.95) em vez de blur. */
+     Usar background opaco (rgba 0.95) em vez de blur.
+     Adicionar transform: translateZ(0) + will-change para colocar o sticky CTA
+     numa camada GPU própria — evita repaint a cada frame de scroll. */
   .fixed.bottom-0.inset-x-0.z-40 {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background: rgba(11, 8, 19, 0.95) !important;
+    transform: translateZ(0) !important;
+    will-change: transform !important;
   }
   .light-mode .fixed.bottom-0.inset-x-0.z-40 {
     backdrop-filter: none !important;
