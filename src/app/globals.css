@@ -628,13 +628,16 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 0 8px rgba(124,58,237,0.5);
 }
 
-/* Mobile: secção do slideshow — SÓ o slide, sem moldura */
+/* Mobile: secção do slideshow — SÓ o slide, sem moldura, sem fundo */
 @media (max-width: 767px) {
   .memories-section {
-    /* Altura para mostrar a foto completa */
-    height: 60vh !important;
-    min-height: 400px !important;
-    /* Fundo transparente para usar a cor do site (--void) */
+    /* Altura automática baseada na proporção da foto (3:2)
+       Isto faz a secção ter exatamente a altura da foto,
+       sem espaço vazio em cima/baixo */
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 3 / 2 !important;
+    /* Fundo transparente */
     background: transparent !important;
   }
   /* ESCONDER TODA A MOLDURA CÉNICA em mobile — só o slide fica visível */
@@ -644,9 +647,10 @@ html { scroll-behavior: smooth; }
   .memories-curtain-top { display: none !important; }
   .memories-curtain-bottom { display: none !important; }
   .memories-dots { display: none !important; }
-  /* ═══ SLIDESHOW em smartphone — contain (sem zoom, foto completa) ═══ */
+  /* ═══ SLIDESHOW em smartphone — cover para preencher totalmente ═══
+     Como a secção tem aspect-ratio 3/2 (igual à foto), cover não corta nada. */
   .memories-slide {
-    background-size: contain !important;
+    background-size: cover !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
   }
