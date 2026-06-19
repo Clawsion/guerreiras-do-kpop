@@ -8260,6 +8260,27 @@ img { max-width: 100%; height: auto; }
   }
 }
 
+/* ═══ SMARTPHONE — centrar botão Garante o Teu Lugar ═══ */
+@media (max-width: 767px) {
+  /* Centrar o botão na secção do Tributo ao Vivo */
+  .espetaculo-section .esp-left {
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .espetaculo-section .esp-cta {
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .espetaculo-section .rv:last-of-type {
+    display: flex !important;
+    justify-content: center !important;
+  }
+}
+
 /* ═══ SMARTPHONE — espaço entre pitch → botão → neon divider ═══ */
 @media (max-width: 767px) {
   /* Pitch: espaço antes do botão */
