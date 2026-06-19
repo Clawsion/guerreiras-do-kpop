@@ -2623,13 +2623,13 @@ html { scroll-behavior: smooth; }
     background-position: right top;
   }
 }
-/* ═══ SMARTPHONE (<768px) — usar imagem de fundo própria (retrato 447x520, cortada) ═══
-   A imagem foi cortada para remover o excesso inferior (reflexo no chão).
-   Agora termina perto do botão "Garante o Teu Lugar", com pouca margem.
-   - background-image: espetaculo-bg-dark-mobile.webp (447x520, retrato cortado)
+/* ═══ SMARTPHONE (<768px) — usar imagem de fundo própria (retrato 447x640, cortada 80%) ═══
+   A imagem foi cortada para remover o excesso inferior (reflexo no chão)
+   mas mantendo 80% da altura (menos zoom — mostra mais do palco).
+   - background-image: espetaculo-bg-dark-mobile.webp (447x600, retrato cortado)
    - background-size: 100% auto (mostra largura toda, não estica altura)
-   - background-position: top (começa no topo)
-   - background-color: #2C31A4 (combina com a borda inferior da imagem)
+   - background-position: top center (começa no topo)
+   - background-color: #2A0834 (combina com a borda inferior da imagem)
    A parte de baixo da secção (botão + neon divider) tem a cor de fundo. */
 @media (max-width: 767px) {
   .espetaculo-section {
@@ -2638,7 +2638,7 @@ html { scroll-behavior: smooth; }
     background-position: top center !important;
     background-attachment: scroll !important;
     background-repeat: no-repeat !important;
-    background-color: #2C31A4 !important;
+    background-color: #2A0834 !important;
   }
 }
 
