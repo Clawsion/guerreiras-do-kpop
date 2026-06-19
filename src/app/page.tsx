@@ -1027,23 +1027,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=78 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=79 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=78" : "/hero-bg-mobile.webp?v=78"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=79" : "/hero-bg-mobile.webp?v=79"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=78" : "/hero-bg.webp?v=78"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=79" : "/hero-bg.webp?v=79"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=78" : "/hero-bg.webp?v=78"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=79" : "/hero-bg.webp?v=79"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
@@ -1336,6 +1336,7 @@ export default function HomePage() {
                   </p>
                 </div>
               </Rv>
+              {/* ═══ Botão Garante o Teu Lugar — entre o pitch e o neon divider ═══ */}
               <Rv delay={500}>
                 <a
                   href="#cartazes"
@@ -1350,6 +1351,7 @@ export default function HomePage() {
                     }
                   }}
                   className="esp-cta cursor-pointer"
+                  style={{ marginBottom: '0.5rem' }}
                 >
                   <Ticket className="w-3.5 h-3.5"/> Garante o Teu Lugar
                 </a>
