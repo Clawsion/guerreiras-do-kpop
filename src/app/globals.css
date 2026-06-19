@@ -8333,3 +8333,97 @@ img { max-width: 100%; height: auto; }
     margin-bottom: 1.5rem !important;
   }
 }
+
+/* ═══ PORTAL HONMOON CONTÍNUO — parallax gigante (3 secções) ═══ */
+/* Container que envolve slideshow + tributo + mural + parallax 2.
+   A imagem do portal fica fixa ao fundo, sem zoom, cobrindo todo o ecrã.
+   À medida que se faz scroll, o conteúdo passa por cima da imagem. */
+.portal-continuous-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+/* Imagem fixa ao fundo — cover (sem zoom, preenche ecrã) */
+.portal-continuous-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/portal-honmoon.webp?v=83');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  pointer-events: none;
+  /* Opacity subtil para não interferir com a leitura */
+  opacity: 0.35;
+  will-change: opacity;
+}
+
+/* Fade no topo — fundir com a secção anterior (Honmoon) */
+.portal-continuous-fade-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to bottom, var(--deep) 0%, transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Fade no fundo — fundir com a secção seguinte */
+.portal-continuous-fade-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to top, var(--deep) 0%, transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Tornar as secções dentro do wrapper transparentes para deixar ver o portal */
+.portal-continuous-wrapper .memories-section,
+.portal-continuous-wrapper .espetaculo-section,
+.portal-continuous-wrapper .parallax-wrapper,
+.portal-continuous-wrapper .galeria-section {
+  background: transparent !important;
+  background-image: none !important;
+}
+
+/* As camadas internas (spotlights, overlays) continuam visíveis */
+.portal-continuous-wrapper .espetaculo-section .esp-readability-overlay,
+.portal-continuous-wrapper .espetaculo-section .esp-vignette {
+  opacity: 0.3;
+}
+
+/* Mobile: portal mais subtil */
+@media (max-width: 767px) {
+  .portal-continuous-bg {
+    opacity: 0.25;
+    background-attachment: scroll;
+  }
+  /* Fade menor em mobile */
+  .portal-continuous-fade-top,
+  .portal-continuous-fade-bottom {
+    height: 120px;
+  }
+}
+
+/* Modo dia: não mostrar o portal (só modo noite) */
+.light-mode .portal-continuous-bg {
+  display: none;
+}
+.light-mode .portal-continuous-fade-top,
+.light-mode .portal-continuous-fade-bottom {
+  display: none;
+}
+.light-mode .portal-continuous-wrapper .espetaculo-section {
+  background: var(--surface) !important;
+}
+.light-mode .portal-continuous-wrapper .galeria-section {
+  background: var(--deep) !important;
+}

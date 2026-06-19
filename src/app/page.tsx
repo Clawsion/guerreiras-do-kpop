@@ -1027,23 +1027,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=83 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=84 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=83" : "/hero-bg-mobile.webp?v=83"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=84" : "/hero-bg-mobile.webp?v=84"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=83" : "/hero-bg.webp?v=83"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=84" : "/hero-bg.webp?v=84"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=83" : "/hero-bg.webp?v=83"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=84" : "/hero-bg.webp?v=84"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
@@ -1276,6 +1276,16 @@ export default function HomePage() {
 
       </section>
 
+      {/* ═══ PORTAL HONMOON CONTÍNUO — container gigante com parallax do portal ═══
+          A imagem do portal fica fixa ao fundo (background-attachment: fixed).
+          Por cima passam: slideshow, tributo e galeria. Sem zoom, sem cortes. */}
+      <div className="portal-continuous-wrapper">
+        {/* Imagem do portal fixa ao fundo */}
+        <div className="portal-continuous-bg" aria-hidden="true"></div>
+        {/* Gradiente para fundir no início e no fim */}
+        <div className="portal-continuous-fade-top" aria-hidden="true"></div>
+        <div className="portal-continuous-fade-bottom" aria-hidden="true"></div>
+
       {/* ═══ MEMÓRIAS - Slideshow cénico (sem molduras ondas) + transição cinematográfica ═══ */}
       <section id="memorias" className="memories-section">
         {/* Moldura cénica - pilares + vinheta + spotlight */}
@@ -1428,6 +1438,8 @@ export default function HomePage() {
           <div className="showcase-overlay" aria-hidden="true"></div>
         </section>
       </div>
+
+      </div> {/* FIM PORTAL HONMOON CONTÍNUO */}
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
