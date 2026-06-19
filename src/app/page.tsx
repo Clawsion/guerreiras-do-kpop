@@ -795,20 +795,43 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ═══ MOBILE: ZERO EFEITOS no hero ═══
-          Em mobile (<768px), NÃO renderizar NENHUM efeito visual:
+      {/* ═══ MOBILE: ZERO EFEITOS no hero — exceto soul-particles LEVE ═══
+          Em mobile (<768px), NÃO renderizar:
           - hero-img-flash (radial wipe ao trocar tema)
           - hero-orb-burst
           - hm-ripple-bg-layer
           - hm-ripple-shimmer-layer (3 shimmer rings)
           - preloader (curtain reveal)
-          - soul-particles (12 partículas animadas)
+          
+          MANTER (versão leve):
+          - soul-particles com apenas 6 partículas (vs 12 em desktop)
+            e sem box-shadow (era o que pesava mais no GPU mobile)
+          
           A troca de tema é INSTANTÂNEA — só troca a classe .light-mode
           no <html>, sem qualquer animação ou flash. */}
       {(() => {
-        // MOBILE: return null para TODOS os efeitos
+        // MOBILE: return null para os efeitos pesados, mas renderizar soul-particles leve
         if (typeof window !== "undefined" && window.innerWidth < 768) {
-          return null;
+          return (
+            <>
+              {/* SOUL PARTICLES — versão LEVE em mobile (6 partículas, sem box-shadow) */}
+              <div className="soul-particles-site soul-particles-mobile">
+                {Array.from({length: 6}, (_, i) => (
+                  <div
+                    key={i}
+                    className="soul-particle-site soul-particle-mobile"
+                    style={{
+                      left: `${10 + (i * 16) % 80}%`,
+                      animationDelay: `${(i * 1.3) % 6}s`,
+                      animationDuration: `${10 + (i % 3) * 2}s`,
+                      width: `${3 + (i % 3) * 1.5}px`,
+                      height: `${3 + (i % 3) * 1.5}px`,
+                    }}
+                  />
+                ))}
+              </div>
+            </>
+          );
         }
         // DESKTOP: renderizar todos os efeitos normais
         return (

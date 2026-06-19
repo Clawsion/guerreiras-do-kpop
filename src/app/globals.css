@@ -160,8 +160,13 @@
     max-height: none !important;
     /* min-height: 100% para garantir que o body ocupa pelo menos o viewport. */
     min-height: 100% !important;
-    /* touch-action: pan-y permite scroll vertical e bloqueia horizontal. */
-    touch-action: pan-y !important;
+    /* ═══ touch-action: manipulation ═══
+       - pan-y permite scroll vertical
+       - manipulation remove o delay de 300ms em iOS para taps (clicks)
+       - Isto faz com que o botão dia/noite responda INSTANTANEAMENTE
+         ao toque, sem o delay de 300ms que o iOS adiciona para detetar
+         double-tap (zoom) */
+    touch-action: pan-y manipulation !important;
     /* NÃO usar overscroll-behavior: contain no html/body — em alguns browsers
        pode impedir o scroll nativo. Usar auto (default) para permitir scroll
        chaining normal. */
@@ -170,6 +175,22 @@
     /* scroll-behavior: auto em mobile — smooth pode causar bugs em alguns
        browsers onde o scroll "preso" não anima. */
     scroll-behavior: auto !important;
+  }
+}
+
+/* ═══ MOBILE: resposta IMEDIATA ao toque (sem delay de 300ms) ═══
+   -webkit-tap-highlight-color: transparent remove o highlight cinza
+   que aparece ao tocar em iOS/Android (dá sensação de lag).
+   touch-action: manipulation nos botões remove o delay de 300ms. */
+@media (max-width: 767px) {
+  html {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+  }
+  /* Todos os botões e links: resposta IMEDIATA ao toque */
+  button, a, [role="button"], .hero-nav-theme, .hamburger, .hm-orb {
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
   }
 }
 
@@ -1809,6 +1830,30 @@
   border-radius: 50%;
   opacity: 0;
   animation: soulRiseSite 10s ease-in-out infinite;
+}
+/* ═══ MOBILE: versão LEVE das soul-particles ═══
+   Em mobile, as soul-particles têm:
+   - SEM box-shadow (era o que mais pesava no GPU mobile — 6 sombras × 6 partículas = 36 sombras)
+   - background sólido via gradient (substitui o brilho do box-shadow)
+   - opacity mais baixa (0.5 vs 0.8) para ser mais subtil
+   - Animação mantida mas sem will-change (liberta camada GPU) */
+@media (max-width: 767px) {
+  .soul-particles-mobile {
+    /* contain: strict já está no .soul-particles-site — mantém */
+    z-index: 10 !important; /* abaixo do hero (z-95) e do menu (z-90) */
+  }
+  .soul-particle-mobile {
+    box-shadow: none !important;
+    will-change: auto !important;
+    /* Background: gradient radial para simular brilho sem box-shadow */
+    background: radial-gradient(circle, rgba(200, 80, 255, 0.6) 0%, rgba(200, 80, 255, 0.2) 50%, transparent 100%) !important;
+    opacity: 0.5 !important;
+    /* Animação mais lenta = menos CPU */
+    animation-duration: 12s !important;
+  }
+  .light-mode .soul-particle-mobile {
+    background: radial-gradient(circle, rgba(255, 215, 100, 0.6) 0%, rgba(255, 215, 100, 0.2) 50%, transparent 100%) !important;
+  }
 }
 /* ═══ CRITICAL PERF: Pause ALL animations when tab hidden - saves massive CPU/GPU ═══ */
 *, *::before, *::after {
@@ -8443,11 +8488,10 @@ img { max-width: 100%; height: auto; }
   :not(.light-mode).wave-transition * {
     transition: none !important;
   }
-  /* DESATIVAR soul-particles em mobile — 12 partículas com animações
-     infinitas causam lag no scroll do hero */
-  .soul-particles-site {
-    display: none !important;
-  }
+  /* soul-particles-site NÃO é escondido em mobile — a versão mobile
+     leve (6 partículas sem box-shadow) é renderizada via JSX quando
+     viewport < 768px. A regra .soul-particle-mobile (acima, linha 1824)
+     cuida da otimização (sem box-shadow, etc). */
   /* REMOVER backdrop-filter do sticky CTA em mobile — blur é pesadíssimo no GPU.
      Usar background opaco (rgba 0.95) em vez de blur. */
   .fixed.bottom-0.inset-x-0.z-40 {
