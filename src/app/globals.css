@@ -4184,7 +4184,7 @@ html { scroll-behavior: smooth; }
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('/portal-honmoon.webp?v=85');
+  background-image: url('/portal-honmoon.webp?v=88');
   background-size: cover;
   background-position: center center;
   background-attachment: fixed;
@@ -8124,7 +8124,7 @@ img { max-width: 100%; height: auto; }
 .parallax-bg {
   position: absolute;
   inset: 0;
-  background-image: url('/portal-honmoon.webp?v=87');
+  background-image: url('/portal-honmoon.webp?v=88');
   background-size: 100% auto;
   background-position: center bottom;
   background-repeat: no-repeat;
@@ -8162,7 +8162,7 @@ img { max-width: 100%; height: auto; }
 
 /* Parallax 1 (ANTES do Mural) — imagem 1 */
 .parallax-before-mural .parallax-bg {
-  background-image: url('/portal-honmoon.webp?v=87');
+  background-image: url('/portal-honmoon.webp?v=88');
   background-size: 100% auto;
   background-position: center bottom;
   opacity: 0.5;
@@ -8173,7 +8173,7 @@ img { max-width: 100%; height: auto; }
 
 /* Parallax 2 (DEPOIS do Mural) — imagem 2 (diferente) — MESMO zoom do parallax 1 */
 .parallax-after-mural .parallax-bg {
-  background-image: url('/portal-honmoon.webp?v=85');
+  background-image: url('/portal-honmoon.webp?v=88');
   background-size: cover;
   background-position: center center;
   opacity: 0.5;
@@ -8259,7 +8259,7 @@ img { max-width: 100%; height: auto; }
     background-size: 100% auto;
   }
   .parallax-before-mural .parallax-bg {
-    background-image: url('/portal-honmoon.webp?v=87');
+    background-image: url('/portal-honmoon.webp?v=88');
     background-position: center bottom;
     background-size: 100% auto;
     opacity: 0.4;
@@ -8268,7 +8268,7 @@ img { max-width: 100%; height: auto; }
     background-image: url('/parallax-1-day-mobile.webp?v=7');
   }
   .parallax-after-mural .parallax-bg {
-    background-image: url('/portal-honmoon.webp?v=87');
+    background-image: url('/portal-honmoon.webp?v=88');
     background-position: center top;
     background-size: 100% auto;
     opacity: 0.4;
