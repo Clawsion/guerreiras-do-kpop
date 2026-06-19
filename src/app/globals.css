@@ -1866,7 +1866,7 @@ html { scroll-behavior: smooth; }
 
        Modo noite: gradient #0D0136 → #2B0886
        Modo dia:   bordas ~#C0D6FC (azul-claro) */
-    background: linear-gradient(to right, #070E33 0%, #080F31 50%, #090E2F 100%) !important;
+    background: linear-gradient(to right, #0D0136 0%, #1A0460 50%, #2B0886 100%) !important;
   }
   /* Modo dia (.light-mode) — fundo do hero com a cor das bordas da imagem de dia
      Borda esquerda: #BFD5FC, Borda direita: #C0D7FD — média #C0D6FC */
@@ -2623,19 +2623,17 @@ html { scroll-behavior: smooth; }
     background-position: right top;
   }
 }
-/* ═══ SMARTPHONE (<768px) — fundo do palco LED wall centrado com menos zoom ═══
-   A imagem de fundo é 1702×924 (paisagem, ratio 1.84:1) com o LED wall
-   no centro. A secção em mobile é retrato (390×~1538), pelo que:
-   - background-size: cover preenche tudo mas corta dos lados
-   - background-size: 100% auto mostra a largura toda mas deixa barras
-   - background-size: auto 100% mostra a altura toda mas corta dos lados
-
-   Solução: usar 100% auto (mostra a largura toda = menos zoom) com
-   background-position: center top (centra horizontalmente, mostra o topo).
-   Isto mostra o LED wall centrado sem demasiado zoom. */
+/* ═══ SMARTPHONE (<768px) — usar imagem de fundo própria (retrato 447x800) ═══
+   A imagem padrão (espetaculo-bg-dark.png) é 1702x924 (paisagem) — não fica
+   bem em smartphone. Em mobile usamos uma imagem própria (retrato 447x800)
+   que é mais proporcional ao ecrã do telemóvel.
+   - background-image: espetaculo-bg-dark-mobile.webp (447x800, retrato)
+   - background-size: cover (preenche o ecrã)
+   - background-position: center top (centra horizontalmente) */
 @media (max-width: 767px) {
   .espetaculo-section {
-    background-size: 100% auto !important;
+    background-image: url('/espetaculo-bg-dark-mobile.webp') !important;
+    background-size: cover !important;
     background-position: center top !important;
     background-attachment: scroll !important;
     background-repeat: no-repeat !important;
@@ -7661,7 +7659,7 @@ img { max-width: 100%; height: auto; }
     min-height: 100svh !important;
     /* GRADIENT de fundo = cores das bordas da imagem de noite.
        Camufla o espaço nas laterais (object-fit: contain). */
-    background: linear-gradient(to right, #070E33 0%, #080F31 50%, #090E2F 100%) !important;
+    background: linear-gradient(to right, #0D0136 0%, #1A0460 50%, #2B0886 100%) !important;
   }
   /* Modo dia (.light-mode) — fundo do hero com a cor das bordas da imagem de dia
      Borda esquerda: #BFD5FC, Borda direita: #C0D7FD — média #C0D6FC */
