@@ -1169,22 +1169,29 @@ export default function HomePage() {
 
       {/* ═══ HONMOON SHIELD - Theme Toggle (like the anime) ═══ */}
       <section className="honmoon-shield-section">
-        {/* ═══ LIGHT BEAMS AWARDS — cones de luz cinematográficos ═══
-            3 cones de luz translúcidos vindos do topo, cruzando-se no orb central.
-            Como os spotlights de um gala/Óscares.
-            - Modo noite: cones roxos/rosa translúcidos (mix-blend: screen)
-            - Modo dia: cones dourados/brancos translúcidos
-            - Movimento subtil (sway de 12s) como holofotes reais
-            - Partículas de pó a flutuar dentro dos cones
-            NÃO substitui nada — adiciona por cima das orbs/aureolas existentes. */}
-        <div className={`hm-light-beams ${themeMode}`}>
-          <div className="hm-light-beam hm-light-beam-1"/>
-          <div className="hm-light-beam hm-light-beam-2"/>
-          <div className="hm-light-beam hm-light-beam-3"/>
-          {/* Partículas de pó/pólen dentro dos cones de luz */}
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className={`hm-beam-dust hm-beam-dust-${i} ${themeMode}`}/>
-          ))}
+        {/* ═══ BARREIRA HONMOON — cúpula de energia translúcida (estilo filme) ═══
+            Inspirada na barreira Honmoon do filme de animação:
+            - Modo noite (PINK): tons rosa/roxo vibrantes com brilho neon,
+              padrões ondulados fluidos, translúcida
+            - Modo dia (RAINBOW): tons azul/verde/arco-íris suave,
+              camadas sobrepostas, etéreo e translúcido
+            
+            A barreira tem "um pouco de invisibilidade" — mostra os tons
+            mas deixa ver o que está atrás. Padrões neon fluidos.
+            
+            Componentes:
+            - Cúpula/domo translúcido (semi-esfera)
+            - Padrões ondulados animados (linhas fluidas)
+            - Glow neon nas bordas
+            - Sutil transparência (opacity 0.4-0.6)
+            NÃO substitui as orbs/aureolas — adiciona por cima. */}
+        <div className={`hm-barrier ${themeMode}`}>
+          {/* Camadas da barreira — cúpula translúcida com padrões */}
+          <div className="hm-barrier-dome"/>
+          <div className="hm-barrier-pattern hm-barrier-pattern-1"/>
+          <div className="hm-barrier-pattern hm-barrier-pattern-2"/>
+          <div className="hm-barrier-pattern hm-barrier-pattern-3"/>
+          <div className="hm-barrier-glow"/>
         </div>
 
         {/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
