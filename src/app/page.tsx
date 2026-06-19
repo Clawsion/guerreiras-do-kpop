@@ -757,14 +757,18 @@ export default function HomePage() {
         // O utilizador pediu: "deixa apenas o efeito hamburger e o modo
         // noite ligar desligar basico 'so troca'".
         //
-        // Aqui fazemos EXATAMENTE isso:
-        // 1. Trocar a classe .light-mode no <html> (instantâneo)
+        // OTIMIZAÇÃO CRÍTICA para resposta IMEDIATA ao scroll touch:
+        // 1. Trocar a classe .light-mode no <html> (instantâneo, síncrono)
+        //    — isto faz a imagem trocar IMEDIATAMENTE (CSS-driven)
         // 2. Atualizar o themeModeRef (síncrono)
-        // 3. Atualizar o React state (síncrono)
+        // 3. ADIAR o setThemeMode (re-render do React) para queueMicrotask
+        //    — isto permite que o browser processe o scroll touch PRIMEIRO
+        //    — o re-render do React só corre depois, sem bloquear o touch
         //
-        // SEM requestAnimationFrame, SEM requestIdleCallback, SEM flash,
-        // SEM ripple, SEM shimmer, SEM preloader, SEM soul-particles.
-        // A troca é IMEDIATA — o browser mostra a nova imagem no próximo frame.
+        // Sem isto, o setThemeMode síncrono obriga o React a re-renderizar
+        // o HomePage inteiro (dezenas de elementos com themeMode ternaries),
+        // bloqueando o thread por 30-50ms. Se tocares no scroll durante
+        // esse tempo, o browser não responde — daí a "pequena paragem".
         if (toMode === 'light') {
           document.documentElement.classList.add('light-mode');
         } else {
@@ -773,7 +777,12 @@ export default function HomePage() {
         themeModeRef.current = toMode;
         pendingToModeRef.current = null;
         isTransitioningRef.current = false;
-        setThemeMode(toMode);
+        // ADIAR setThemeMode para queueMicrotask — corre depois do event
+        // handler terminar, mas antes do próximo paint. O browser pode
+        // assim processar o scroll touch PRIMEIRO (sem bloqueio).
+        queueMicrotask(() => {
+          setThemeMode(toMode);
+        });
       } else {
         // Desktop via botão do topo: ripple do Honmoon + toggle
         triggerHeroFlash(toMode, cx, cy);
