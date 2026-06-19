@@ -8356,3 +8356,11 @@ img { max-width: 100%; height: auto; }
     margin-top: 0 !important;
   }
 }
+
+/* ═══ MODO DIA — Mobile Sticky CTA sem barra visível ═══
+   Em modo dia, a barra preta/roxa do sticky CTA destoa do fundo claro.
+   Torná-la transparente com o backdrop-blur basta para legibilidade. */
+.light-mode .fixed.bottom-0.inset-x-0.z-40 {
+  background: transparent !important;
+  border-color: rgba(147,51,234,0.15) !important;
+}
