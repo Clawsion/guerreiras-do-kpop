@@ -1169,83 +1169,63 @@ export default function HomePage() {
 
       {/* ═══ HONMOON SHIELD - Theme Toggle (like the anime) ═══ */}
       <section className="honmoon-shield-section">
-        {/* ═══ CONSTELAÇÃO HONMOON — substitui nebulosa/nuvens ═══
-            Nova abordagem cinematográfica (desktop):
-            - Estrelas dispersas pelos lados (sem box-shadow, só gradient)
-            - Linhas SVG finas a conectar algumas estrelas (constelação)
-            - Nebula gradient subtil de fundo (opacidade 0.3)
-            - Vignette nos cantos para focar no orb central
-            - Twinkle animation lenta (8-15s)
-            - Cores adaptativas: roxo em modo noite, dourado em modo dia
-            
-            Em mobile: versão simplificada (menos estrelas, sem linhas)
-            para não pesar. */}
+        {/* ═══ AURORA RIBBON — fita de aurora boreal subtil ═══
+            Cinematográfica, leve (1 elemento CSS com gradient animado).
+            Cruza a secção horizontalmente como uma onda de energia mística.
+            - Modo noite: verde-roxo-rosa (aurora boreal)
+            - Modo dia: dourado-rosa-branco (aurora diurna)
+            - Movimento de onda muito lento (15s)
+            - Opacidade baixa (0.3) para não competir com o orb
+            NÃO substitui nada — adiciona por cima das orbs/aureolas existentes. */}
+        <div className={`hm-aurora-ribbon ${themeMode}`}>
+          <div className="hm-aurora-ribbon-layer hm-aurora-ribbon-1"/>
+          <div className="hm-aurora-ribbon-layer hm-aurora-ribbon-2"/>
+          <div className="hm-aurora-ribbon-layer hm-aurora-ribbon-3"/>
+        </div>
 
-        {/* Nebula gradient de fundo (substitui hm-atmosphere + hm-bg-glow) */}
-        <div className={`hm-constellation-bg ${themeMode}`}/>
+        {/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
+            Versão adaptativa:
+            - Desktop: nebulosa/nuvens completa com partículas
+            - Mobile: versão simplificada (1 gradiente, menos partículas) */}
+        <div className={`hm-atmosphere ${themeMode}`}>
+          <div className="hm-atmosphere-layer hm-atmosphere-1"/>
+          <div className="hm-atmosphere-layer hm-atmosphere-2"/>
+          {/* Partículas de energia — 8 em desktop, 4 em mobile (via CSS) */}
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className={`hm-sparkle hm-sparkle-${i} ${themeMode}`}/>
+          ))}
+        </div>
 
-        {/* Linhas da constelação (só desktop) */}
-        <svg className="hm-constellation-lines" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          {/* Linhas a conectar estrelas — desenham uma constelação Honmoon */}
-          <line x1="180" y1="120" x2="320" y2="200" />
-          <line x1="320" y1="200" x2="450" y2="180" />
-          <line x1="450" y1="180" x2="580" y2="250" />
-          <line x1="860" y1="250" x2="990" y2="180" />
-          <line x1="990" y1="180" x2="1120" y2="200" />
-          <line x1="1120" y1="200" x2="1260" y2="120" />
-          <line x1="580" y1="250" x2="720" y2="300" />
-          <line x1="720" y1="300" x2="860" y2="250" />
-          <line x1="180" y1="480" x2="320" y2="400" />
-          <line x1="320" y1="400" x2="450" y2="420" />
-          <line x1="450" y1="420" x2="580" y2="350" />
-          <line x1="860" y1="350" x2="990" y2="420" />
-          <line x1="990" y1="420" x2="1120" y2="400" />
-          <line x1="1120" y1="400" x2="1260" y2="480" />
-        </svg>
+        {/* Marca de água */}
+        {/* Background glow */}
+        <div className={`hm-bg-glow ${themeMode}`}/>
 
-        {/* Estrelas da constelação (desktop: 24, mobile: 10 via CSS) */}
-        {[
-          { x: 12, y: 20, size: 3, delay: 0 },
-          { x: 22, y: 33, size: 4, delay: 1.5 },
-          { x: 31, y: 30, size: 2, delay: 3 },
-          { x: 40, y: 42, size: 3, delay: 0.8 },
-          { x: 8, y: 80, size: 4, delay: 2.2 },
-          { x: 22, y: 67, size: 2, delay: 4 },
-          { x: 31, y: 70, size: 3, delay: 1.2 },
-          { x: 40, y: 58, size: 3, delay: 3.5 },
-          { x: 60, y: 42, size: 3, delay: 2.8 },
-          { x: 69, y: 30, size: 2, delay: 0.5 },
-          { x: 78, y: 33, size: 4, delay: 2 },
-          { x: 88, y: 20, size: 3, delay: 4.5 },
-          { x: 60, y: 58, size: 3, delay: 1.8 },
-          { x: 69, y: 70, size: 3, delay: 3.2 },
-          { x: 78, y: 67, size: 2, delay: 0.3 },
-          { x: 88, y: 80, size: 4, delay: 2.5 },
-          { x: 18, y: 50, size: 2, delay: 1 },
-          { x: 50, y: 15, size: 3, delay: 3.8 },
-          { x: 50, y: 85, size: 3, delay: 0.7 },
-          { x: 82, y: 50, size: 2, delay: 2.7 },
-          { x: 5, y: 35, size: 2, delay: 4.2 },
-          { x: 95, y: 35, size: 2, delay: 1.3 },
-          { x: 5, y: 65, size: 2, delay: 3.6 },
-          { x: 95, y: 65, size: 2, delay: 0.9 },
-        ].map((star, i) => (
-          <div
-            key={i}
-            className={`hm-star hm-star-${i} ${themeMode}`}
-            style={{
-              left: `${star.x}%`,
-              top: `${star.y}%`,
-              width: `${star.size}px`,
-              height: `${star.size}px`,
-              animationDelay: `${star.delay}s`,
-              animationDuration: `${8 + (i % 4) * 2}s`,
-            }}
-          />
+        {/* Floating ambient particles */}
+        {[...Array(SHIELD_PARTICLES)].map((_, i) => (
+          <div key={i} className={`hm-particle hm-particle-${i} ${themeMode}`}/>
         ))}
 
-        {/* Vignette nos cantos para focar no orb central */}
-        <div className={`hm-vignette ${themeMode}`}/>
+        {/* Outer energy rings */}
+        <div className={`hm-ring hm-ring-1 ${themeMode}`}/>
+        <div className={`hm-ring hm-ring-2 ${themeMode}`}/>
+        <div className={`hm-ring hm-ring-3 ${themeMode}`}/>
+
+        {/* ═══ Neon rose circles - anime Honmoon aesthetic, dark mode only ═══ */}
+        <div className={`hm-neon-circle hm-neon-circle-1 ${themeMode}`}/>
+        <div className={`hm-neon-circle hm-neon-circle-2 ${themeMode}`}/>
+        <div className={`hm-neon-circle hm-neon-circle-3 ${themeMode}`}/>
+        <div className={`hm-neon-circle hm-neon-circle-4 ${themeMode}`}/>
+        <div className={`hm-neon-arc hm-neon-arc-1 ${themeMode}`}/>
+        <div className={`hm-neon-arc hm-neon-arc-2 ${themeMode}`}/>
+        <div className={`hm-neon-arc hm-neon-arc-3 ${themeMode}`}/>
+
+        {/* Orbiting energy nodes */}
+        <div className={`hm-node hm-node-a ${themeMode}`}/>
+        <div className={`hm-node hm-node-b ${themeMode}`}/>
+        <div className={`hm-node hm-node-c ${themeMode}`}/>
+        <div className={`hm-node hm-node-d ${themeMode}`}/>
+        <div className={`hm-node hm-node-e ${themeMode}`}/>
+        <div className={`hm-node hm-node-f ${themeMode}`}/>
 
         {/* Central shield orb - clickable */}
         <div
