@@ -8260,21 +8260,21 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* ═══ SMARTPHONE — pouco espaço entre pitch → botão → neon divider ═══ */
+/* ═══ SMARTPHONE — espaço entre pitch → botão → neon divider ═══ */
 @media (max-width: 767px) {
-  /* Pitch: pouco espaço antes do botão */
+  /* Pitch: espaço antes do botão */
   .esp-pitch-compact {
     margin-bottom: 0.5rem !important;
     padding-bottom: 0.5rem !important;
   }
-  /* Botão: pouco espaço antes do neon */
+  /* Botão: espaço suficiente antes do neon para não ficar cortado */
   .esp-cta {
-    margin-bottom: 0.5rem !important;
+    margin-bottom: 1.5rem !important;
     padding-bottom: 0 !important;
   }
-  /* Secção: sem padding inferior */
+  /* Secção: padding inferior suficiente para o botão respirar */
   .espetaculo-section {
-    padding-bottom: 0.5rem !important;
+    padding-bottom: 1rem !important;
   }
   /* ESCONDER esp-right (espaço reservado para armas) */
   .esp-right {
@@ -8284,9 +8284,9 @@ img { max-width: 100%; height: auto; }
   .espetaculo-section .rv {
     margin-bottom: 0 !important;
   }
-  /* Neon divider: pouco espaço acima */
+  /* Neon divider: espaço acima para não sobrepor o botão */
   .espetaculo-section + .honmoon-divider {
-    margin-top: 0.5rem !important;
+    margin-top: 0 !important;
     margin-bottom: 1.5rem !important;
   }
 }
