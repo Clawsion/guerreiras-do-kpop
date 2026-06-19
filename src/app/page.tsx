@@ -787,7 +787,12 @@ export default function HomePage() {
   const startThemeTransition = useCallback((origin: 'button' | 'orb', clickX?: number, clickY?: number) => {
     // Se já em transição, CANCELA a anterior e começa nova
     // (bug antigo: cliques rápidos falhavam porque o guard retornava)
-    cleanupTransition();
+    // Em mobile, NÃO chamar cleanupTransition — causa 3 re-renders que
+    // bloqueiam o scroll touch. Em mobile não há flash/ripple para limpar.
+    const isMobileStart = typeof window !== "undefined" && window.innerWidth < 768;
+    if (!isMobileStart) {
+      cleanupTransition();
+    }
 
     // ═══ Usar themeModeRef.current (SEMPRE actualizado) em vez de themeMode do closure ═══
     // Isto previne o bug onde cliques rápidos causavam trocas erradas:
@@ -854,11 +859,11 @@ export default function HomePage() {
       const cy = clickY ?? 50;
 
       if (isMobileViewport) {
-        // ═══ MOBILE: troca de tema INSTANTÂNEA (sem flash, sem bloquear scroll) ═══
-        // Usar requestAnimationFrame para garantir que o browser processa
-        // a troca sem bloquear o scroll touch.
-        // A class light-mode é aplicada SÍNCRONAMENTE (imediato),
-        // mas o setThemeMode (re-render React) é adiado para o próximo frame.
+        // ═══ MOBILE: troca de tema 100% INSTANTÂNEA (zero re-renders extra) ═══
+        // Aplicar class light-mode SÍNCRONAMENTE (imediato, zero lag)
+        // NÃO chamar cleanupTransition() — causa 3 re-renders (setHeroFlash,
+        // setRipple, setWaveActive) que bloqueiam o scroll touch.
+        // Em mobile não há flash/ripple/wave, pelo que cleanup é desnecessário.
         if (toMode === 'light') {
           document.documentElement.classList.add('light-mode');
         } else {
@@ -866,11 +871,12 @@ export default function HomePage() {
         }
         themeModeRef.current = toMode;
         pendingToModeRef.current = null;
-        // Adiar o setThemeMode para o próximo frame — não bloqueia o scroll
+        isTransitioningRef.current = false;
+        // ÚNICO setThemeMode — adiado para requestAnimationFrame para não
+        // bloquear o scroll touch. Zero re-renders extras.
         requestAnimationFrame(() => {
           setThemeMode(toMode);
         });
-        isTransitioningRef.current = false;
       } else {
         // Desktop via botão do topo: ripple do Honmoon + toggle
         triggerHeroFlash(toMode, cx, cy);
