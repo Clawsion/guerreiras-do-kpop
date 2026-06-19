@@ -8356,3 +8356,80 @@ img { max-width: 100%; height: auto; }
     margin-top: 0 !important;
   }
 }
+
+/* ═══ PORTAL CONTÍNUO — 3 secções com 1 imagem fixa (modo noite) ═══
+   A imagem do portal fica fixa (position: fixed) e cobre as 3 secções:
+   parallax 1 + mural + parallax 2. Sem cortes, sem barras pretas.
+   O efeito é natural: ao fazer scroll, a imagem parece ficar parada
+   enquanto o conteúdo passa por cima. */
+
+.portal-section-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+/* Imagem fixa ao fundo — uma só, contínua */
+.portal-fixed-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/portal-honmoon.webp?v=88');
+  background-size: 100% auto;
+  background-position: center center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  will-change: opacity;
+}
+
+/* As 3 secções dentro do wrapper ficam transparentes */
+.portal-section-wrapper .parallax-wrapper {
+  background: transparent !important;
+}
+.portal-section-wrapper .parallax-bg,
+.portal-section-wrapper .parallax-overlay,
+.portal-section-wrapper .showcase-overlay {
+  display: none !important;
+}
+.portal-section-wrapper .galeria-section {
+  background: transparent !important;
+  background-image: none !important;
+}
+.portal-section-wrapper .galeria-section::before {
+  display: none !important;
+}
+
+/* Overlay subtil sobre o portal para legibilidade do mural */
+.portal-section-wrapper .galeria-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(11,8,19,0.4) 0%, rgba(11,8,19,0.6) 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .portal-fixed-bg {
+    background-size: 100% auto;
+    background-attachment: scroll;
+    opacity: 0.35;
+  }
+  .portal-section-wrapper .parallax-solo-section,
+  .portal-section-wrapper .showcase-section {
+    height: 40vh !important;
+    min-height: 250px !important;
+  }
+}
+
+/* Modo dia: sem portal */
+.light-mode .portal-fixed-bg {
+  display: none;
+}
+.light-mode .portal-section-wrapper .galeria-section {
+  background: var(--deep) !important;
+}

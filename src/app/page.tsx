@@ -1027,23 +1027,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=88 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=89 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=88" : "/hero-bg-mobile.webp?v=88"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=89" : "/hero-bg-mobile.webp?v=89"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=88" : "/hero-bg.webp?v=88"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=89" : "/hero-bg.webp?v=89"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=88" : "/hero-bg.webp?v=88"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=89" : "/hero-bg.webp?v=89"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
@@ -1364,10 +1364,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ PARALLAX 1 — ANTES do Mural (background-attachment: fixed, CSS-only) ═══ */}
+      {/* ═══ PORTAL CONTÍNUO — 3 secções partilham a mesma imagem fixa ═══
+          Parallax 1 + Mural + Parallax 2 = uma só secção visual contínua.
+          A imagem começa por baixo e acaba em cima (efeito parallax natural
+          do background-attachment: fixed). Sem cortes, sem barras pretas. */}
+      <div className="portal-section-wrapper">
+        {/* Imagem fixa ao fundo — uma só, contínua */}
+        <div className="portal-fixed-bg" aria-hidden="true"></div>
+
+      {/* ═══ PARALLAX 1 — espaço antes do mural (vazio, deixa ver o portal) ═══ */}
       <div className="parallax-wrapper parallax-before-mural">
-        <div className="parallax-bg" aria-hidden="true"/>
-        <div className="parallax-overlay" aria-hidden="true"/>
         <section className="parallax-solo-section" aria-hidden="true"></section>
       </div>
 
@@ -1418,14 +1424,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ PARALLAX 2 — DEPOIS do Mural (background-attachment: fixed, CSS-only) ═══ */}
+      {/* ═══ PARALLAX 2 — espaço depois do mural (vazio, deixa ver o portal) ═══ */}
       <div className="parallax-wrapper parallax-after-mural">
-        <div className="parallax-bg" aria-hidden="true"/>
-        <div className="parallax-overlay" aria-hidden="true"/>
-        <section id="showcase" className="showcase-section">
-          <div className="showcase-overlay" aria-hidden="true"></div>
-        </section>
+        <section id="showcase" className="showcase-section"></section>
       </div>
+
+      </div> {/* FIM PORTAL CONTÍNUO */}
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
