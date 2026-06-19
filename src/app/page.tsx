@@ -1169,15 +1169,6 @@ export default function HomePage() {
 
       {/* ═══ HONMOON SHIELD - Theme Toggle (like the anime) ═══ */}
       <section className="honmoon-shield-section">
-        {/* ═══ PARALLAX CINEMATOGRÁFICO HONMOON ═══
-            Imagem de fundo de alta qualidade (estádio K-Pop).
-            Mesma cena em ambos os modos — só muda a cor da iluminação.
-            - Modo noite: parallax-honmoon-night.png (pink neon)
-            - Modo dia: parallax-honmoon-day.png (azul neon)
-            O orb (botão Honmoon) pertence ao cenário — parece fazer
-            parte do palco/iluminação do estádio. */}
-        <div className="hm-parallax-bg"/>
-
         {/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
             Versão adaptativa:
             - Desktop: nebulosa/nuvens completa com partículas

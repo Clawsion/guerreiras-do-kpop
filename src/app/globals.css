@@ -5692,35 +5692,6 @@ html.light-mode .hero-bg-img-dark {
    - Modo dia: nuvens suaves com partículas douradas (céu mágico)
    Performance: usa gradientes CSS (leves) + poucas partículas. */
 
-/* ═══════════════════════════════════════════════════════════════ */
-/* ═══ PARALLAX CINEMATOGRÁFICO HONMOON ═══ */
-/* ═══════════════════════════════════════════════════════════════ */
-/* Imagem de fundo de alta qualidade (estádio K-Pop).
-   Mesma cena em ambos os modos — só muda a cor da iluminação.
-   - Modo noite: parallax-honmoon-night.png (pink neon)
-   - Modo dia: parallax-honmoon-day.png (azul neon)
-   O orb (botão Honmoon) pertence ao cenário. */
-
-.hm-parallax-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  opacity: 0.5;
-}
-/* Modo noite — estádio com pink neon */
-.hm-parallax-bg,
-.honmoon-shield-section .hm-parallax-bg {
-  background-image: url('/parallax-honmoon-night.png?v=1');
-}
-/* Modo dia — estádio com azul neon */
-.light-mode .hm-parallax-bg {
-  background-image: url('/parallax-honmoon-day.png?v=1');
-}
-
 .hm-atmosphere {
   position: absolute;
   inset: 0;
