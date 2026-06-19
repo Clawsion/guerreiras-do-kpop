@@ -1185,9 +1185,13 @@ export default function HomePage() {
           <div className="hm-energy-flow hm-energy-flow-2"/>
           <div className="hm-energy-flow hm-energy-flow-3"/>
           <div className="hm-energy-veins"/>
-          {/* Cúpula de barreira protetora — contorno visível da barreira */}
-          <div className="hm-energy-dome"/>
-          <div className="hm-energy-dome-ring"/>
+          {/* Barreira RETANGULAR invisível que envolve a secção inteira.
+              Tem bordas neon fortes (topo + base) que realçam a barreira.
+              Modo noite: rosa/vermelho pink neon
+              Modo dia: azul neon */}
+          <div className="hm-barrier-rect"/>
+          <div className="hm-barrier-rect-edge hm-barrier-rect-edge-top"/>
+          <div className="hm-barrier-rect-edge hm-barrier-rect-edge-bottom"/>
           <div className="hm-energy-pulse"/>
         </div>
 

@@ -5843,97 +5843,127 @@ html.light-mode .hero-bg-img-dark {
   100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
 }
 
-/* ═══ CÚPULA DE BARREIRA PROTETORA ═══
-   A barreira Honmoon que PROTEGE o orb. Visível como uma cúpula
-   translúcida que envolve o botão central.
+/* ═══ BARREIRA RETANGULAR INVISÍVEL (envolve a secção inteira) ═══
+   A barreira Honmoon que PROTEGE a secção. É "invisível" (translúcida)
+   mas tem bordas neon fortes no topo e na base que a tornam visível.
    
-   - Modo noite: mix-blend-mode: screen (luz sobre escuro)
-   - Modo dia: mix-blend-mode: multiply (cor sobre claro) + opacity maior
-   Isto resolve o problema de não se ver no modo dia. */
-.hm-energy-dome {
+   - Modo noite: rosa/vermelho pink neon (rgba(var(--hm-e*)))
+   - Modo dia: azul neon
+   
+   Importante: SEM mix-blend-mode em modo dia para máxima visibilidade.
+   Em modo dia usamos opacity normal com cor sólida vibrante. */
+
+/* Camada translúcida da barreira — preenche a secção inteira */
+.hm-barrier-rect {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 700px;
-  height: 550px;
-  transform: translate(-50%, -50%);
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  background: radial-gradient(ellipse 70% 60% at 50% 45%,
-    rgba(var(--hm-e1), 0.12) 0%,
-    rgba(var(--hm-e2), 0.08) 35%,
-    rgba(var(--hm-e3), 0.04) 65%,
-    transparent 85%);
-  filter: blur(15px);
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(var(--hm-e1), 0.08) 0%,
+    rgba(var(--hm-e2), 0.04) 20%,
+    transparent 50%,
+    rgba(var(--hm-e2), 0.04) 80%,
+    rgba(var(--hm-e1), 0.08) 100%);
   mix-blend-mode: screen;
   will-change: opacity;
-  animation: hmDomePulse 8s ease-in-out infinite alternate;
+  animation: hmBarrierRectPulse 8s ease-in-out infinite alternate;
 }
-/* Modo dia — cúpula MAIS visível (multiply funciona sobre fundo claro) */
-.light-mode .hm-energy-dome {
-  mix-blend-mode: multiply;
-  background: radial-gradient(ellipse 70% 60% at 50% 45%,
-    rgba(var(--hm-e1), 0.2) 0%,
-    rgba(var(--hm-e2), 0.14) 35%,
-    rgba(var(--hm-e3), 0.08) 65%,
-    transparent 85%);
-  filter: blur(12px);
+/* Modo dia — visibilidade MÁXIMA, sem mix-blend-mode */
+.light-mode .hm-barrier-rect {
+  mix-blend-mode: normal;
+  background: linear-gradient(180deg,
+    rgba(var(--hm-e1), 0.18) 0%,
+    rgba(var(--hm-e2), 0.1) 20%,
+    transparent 50%,
+    rgba(var(--hm-e2), 0.1) 80%,
+    rgba(var(--hm-e1), 0.18) 100%);
 }
-@keyframes hmDomePulse {
-  0%   { transform: translate(-50%, -50%) scale(0.97); opacity: 0.7; }
-  100% { transform: translate(-50%, -50%) scale(1.03); opacity: 1; }
+@keyframes hmBarrierRectPulse {
+  0%   { opacity: 0.7; }
+  100% { opacity: 1; }
 }
 
-/* ═══ Anel da barreira — contorno neon visível da cúpula ═══
-   O "edge" da barreira. Linha neon brilhante que contorna a cúpula.
-   Isto é o que faz parecer uma barreira de proteção real. */
-.hm-energy-dome-ring {
+/* ═══ Bordas neon da barreira — linhas fortes no topo e na base ═══
+   Isto é o que torna a barreira visível. Linhas neon brilhantes
+   que contornam a parte de cima e de baixo da secção. */
+.hm-barrier-rect-edge {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 650px;
-  height: 500px;
-  transform: translate(-50%, -50%);
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  border: 2px solid rgba(var(--hm-e1), 0.5);
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(var(--hm-e1), 0.9);
   box-shadow:
-    0 0 20px rgba(var(--hm-e1), 0.3),
-    inset 0 0 30px rgba(var(--hm-e1), 0.15);
+    0 0 12px rgba(var(--hm-e1), 0.7),
+    0 0 30px rgba(var(--hm-e1), 0.5),
+    0 0 60px rgba(var(--hm-e1), 0.3);
   mix-blend-mode: screen;
-  will-change: opacity, transform;
-  animation: hmDomeRingPulse 5s ease-in-out infinite alternate;
+  will-change: opacity;
+  animation: hmBarrierEdgePulse 5s ease-in-out infinite alternate;
 }
-/* Modo dia — anel mais visível com cor mais forte */
-.light-mode .hm-energy-dome-ring {
-  border-color: rgba(var(--hm-e1), 0.7);
+/* Modo dia — bordas MAIS visíveis (sem mix-blend-mode, cores full opacity) */
+.light-mode .hm-barrier-rect-edge {
+  mix-blend-mode: normal;
+  background: rgba(var(--hm-e1), 1);
   box-shadow:
-    0 0 25px rgba(var(--hm-e1), 0.4),
-    inset 0 0 35px rgba(var(--hm-e1), 0.2);
-  mix-blend-mode: multiply;
+    0 0 15px rgba(var(--hm-e1), 0.8),
+    0 0 40px rgba(var(--hm-e1), 0.6),
+    0 0 80px rgba(var(--hm-e1), 0.4);
 }
-@keyframes hmDomeRingPulse {
-  0%   { transform: translate(-50%, -50%) scale(0.98); opacity: 0.6; }
-  100% { transform: translate(-50%, -50%) scale(1.02); opacity: 0.9; }
+.hm-barrier-rect-edge-top { top: 0; }
+.hm-barrier-rect-edge-bottom { bottom: 0; }
+@keyframes hmBarrierEdgePulse {
+  0%   { opacity: 0.6; }
+  100% { opacity: 1; }
 }
 
-/* ═══ MODO DIA — aumentar visibilidade de todos os elementos ═══
+/* ═══ MODO DIA — visibilidade MÁXIMA de todos os elementos ═══
    Em modo dia, mix-blend-mode: screen torna as cores invisíveis sobre
-   fundo claro. Mudar para multiply e aumentar opacity. */
+   fundo claro. Usar mix-blend-mode: normal (sem blend) com cores fortes. */
 .light-mode .hm-energy-flow-1,
 .light-mode .hm-energy-flow-2,
 .light-mode .hm-energy-flow-3 {
-  mix-blend-mode: multiply;
-  opacity: 1.4;
+  mix-blend-mode: normal;
+  opacity: 0.9;
+}
+.light-mode .hm-energy-flow-1 {
+  background:
+    radial-gradient(ellipse 40% 30% at 20% 30%, rgba(var(--hm-e1), 0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 35% 25% at 70% 60%, rgba(var(--hm-e2), 0.3) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 20% at 40% 80%, rgba(var(--hm-e3), 0.22) 0%, transparent 60%);
+}
+.light-mode .hm-energy-flow-2 {
+  background:
+    radial-gradient(ellipse 30% 25% at 80% 20%, rgba(var(--hm-e2), 0.32) 0%, transparent 55%),
+    radial-gradient(ellipse 25% 20% at 30% 50%, rgba(var(--hm-e1), 0.28) 0%, transparent 55%),
+    radial-gradient(ellipse 35% 30% at 60% 75%, rgba(var(--hm-e4), 0.2) 0%, transparent 55%);
+}
+.light-mode .hm-energy-flow-3 {
+  background:
+    radial-gradient(ellipse 50% 20% at 50% 40%, rgba(var(--hm-e1), 0.2) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 15% at 30% 70%, rgba(var(--hm-e3), 0.16) 0%, transparent 70%);
 }
 .light-mode .hm-energy-veins {
-  mix-blend-mode: multiply;
-  opacity: 1.5;
+  mix-blend-mode: normal;
+  opacity: 0.7;
+  background:
+    repeating-linear-gradient(115deg,
+      transparent 0px,
+      transparent 80px,
+      rgba(var(--hm-e1), 0.18) 80px,
+      rgba(var(--hm-e1), 0.3) 81px,
+      rgba(var(--hm-e2), 0.18) 82px,
+      transparent 83px,
+      transparent 160px,
+      rgba(var(--hm-e3), 0.14) 160px,
+      rgba(var(--hm-e3), 0.24) 161px,
+      transparent 162px,
+      transparent 240px);
 }
 .light-mode .hm-energy-pulse {
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
   background: radial-gradient(circle,
-    rgba(var(--hm-e1), 0.35) 0%,
-    rgba(var(--hm-e2), 0.22) 25%,
-    rgba(var(--hm-e3), 0.12) 50%,
+    rgba(var(--hm-e1), 0.45) 0%,
+    rgba(var(--hm-e2), 0.3) 25%,
+    rgba(var(--hm-e3), 0.18) 50%,
     transparent 75%);
 }
 
@@ -5957,14 +5987,8 @@ html.light-mode .hero-bg-img-dark {
     filter: blur(20px) !important;
     opacity: 0.4 !important;
   }
-  .hm-energy-dome {
-    width: 400px !important;
-    height: 320px !important;
-    filter: blur(10px) !important;
-  }
-  .hm-energy-dome-ring {
-    width: 370px !important;
-    height: 290px !important;
+  .hm-barrier-rect-edge {
+    height: 1.5px !important;
   }
 }
 
