@@ -152,9 +152,7 @@ const HonmoonDivider = React.memo(function HonmoonDivider() {
 
 /* ═══ MEMORIES - Slideshow crossfade + Ken Burns zoom ═══ */
 const MEMORIES_IMAGES = [
-  { src: "/memories/memory-3.webp", alt: "Lembrança do espetáculo ao vivo" },
-  { src: "/memories/memory-4.webp", alt: "Lembrança do universo K-Pop" },
-  { src: "/memories/memory-5.webp", alt: "Lembrança das Guerreiras em palco" },
+  { src: "/memories/memory-single.webp", alt: "Lembrança do espetáculo ao vivo" },
 ];
 
 const MemoriesSlideshow = React.memo(function MemoriesSlideshow() {
@@ -1025,23 +1023,23 @@ export default function HomePage() {
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
             - Tablet+ (≥768px): imagens paisagem originais (hero-bg*.webp)
-            Query parameter ?v=65 para cache-busting (força reload das imagens novas). */}
+            Query parameter ?v=66 para cache-busting (força reload das imagens novas). */}
         <picture>
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (substituídas v7) */}
           <source
             media="(max-width: 767px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=65" : "/hero-bg-mobile.webp?v=65"}
+            srcSet={themeMode === 'light' ? "/hero-bg-mobile-light.webp?v=66" : "/hero-bg-mobile.webp?v=66"}
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=65" : "/hero-bg.webp?v=65"}
+            srcSet={themeMode === 'light' ? "/hero-bg-light.webp?v=66" : "/hero-bg.webp?v=66"}
             type="image/webp"
           />
           {/* Fallback para browsers sem suporte <picture> */}
           <img
-            src={themeMode === 'light' ? "/hero-bg-light.webp?v=65" : "/hero-bg.webp?v=65"}
+            src={themeMode === 'light' ? "/hero-bg-light.webp?v=66" : "/hero-bg.webp?v=66"}
             alt=""
             className={`hero-bg-img ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
