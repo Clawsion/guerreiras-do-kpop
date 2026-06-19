@@ -1866,7 +1866,7 @@ html { scroll-behavior: smooth; }
 
        Modo noite: gradient #0D0136 → #2B0886
        Modo dia:   bordas ~#C0D6FC (azul-claro) */
-    background: linear-gradient(to right, #0D0136 0%, #1A0460 50%, #2B0886 100%) !important;
+    background: linear-gradient(to right, #070E33 0%, #080F31 50%, #090E2F 100%) !important;
   }
   /* Modo dia (.light-mode) — fundo do hero com a cor das bordas da imagem de dia
      Borda esquerda: #BFD5FC, Borda direita: #C0D7FD — média #C0D6FC */
@@ -7661,7 +7661,7 @@ img { max-width: 100%; height: auto; }
     min-height: 100svh !important;
     /* GRADIENT de fundo = cores das bordas da imagem de noite.
        Camufla o espaço nas laterais (object-fit: contain). */
-    background: linear-gradient(to right, #0D0136 0%, #1A0460 50%, #2B0886 100%) !important;
+    background: linear-gradient(to right, #070E33 0%, #080F31 50%, #090E2F 100%) !important;
   }
   /* Modo dia (.light-mode) — fundo do hero com a cor das bordas da imagem de dia
      Borda esquerda: #BFD5FC, Borda direita: #C0D7FD — média #C0D6FC */
