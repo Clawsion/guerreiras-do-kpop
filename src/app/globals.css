@@ -584,6 +584,22 @@
   /* filter é controlado pelo JavaScript inline */
 }
 
+/* ═══ MOBILE: memories-slide sem filter/will-change ═══
+   Em mobile, o filter: brightness + saturate + contrast e will-change: opacity, filter
+   consomem GPU mesmo quando a secção não está visível. Como em mobile o slideshow
+   é estático (1 foto fixa), removemos estes custos. */
+@media (max-width: 767px) {
+  .memories-slide,
+  .memories-slide.active {
+    filter: none !important;
+    will-change: auto !important;
+  }
+  .light-mode .memories-slide:not(.active),
+  .light-mode .memories-slide.active {
+    filter: none !important;
+  }
+}
+
 /* Modo dia: filter inicial aplicado apenas quando NÃO há estilo inline do JavaScript.
    O JavaScript controla o filter durante as transições (fade-out/fade-in).
    Usar !important apenas no estado base, não no .active (que é controlado por JS). */
@@ -757,16 +773,27 @@
 
 /* ═══ MOBILE PRELOADER — Curtains mais rápidos para destravar o scroll cedo ═══
    Em smartphone, o curtain de 2.5s + opacity delay de 2.3s deixava o scroll
-   "preso" visualmente por ~3s. Reduzimos para 1.0s de abertura + 0.3s de fade,
+   "preso" visualmente por ~3s. Reduzimos para 0.4s de abertura + 0.2s de fade,
    e o opacity já começa a baixar imediatamente (sem delay de 2.3s).
-   Resultado: scroll totalmente desbloqueado em ~1.3s em mobile (vs ~3s antes). */
+   Resultado: scroll totalmente desbloqueado em ~0.6s em mobile (vs ~3s antes).
+   Para além disso, depois de .preloader-done, aplicar display: none para
+   remover completamente do render tree (os will-change: transform dos
+   curtains continuavam a consumir GPU mesmo invisíveis). */
 @media (max-width: 767px) {
   .preloader-honmoon {
-    transition: opacity 0.3s ease 0.9s !important;
+    transition: opacity 0.2s ease 0.4s !important;
   }
   .preloader-curtain-left,
   .preloader-curtain-right {
-    transition: transform 1.0s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+    transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+    will-change: auto !important;
+  }
+  /* DEPOIS de done: display:none remove completamente do render tree.
+     Os will-change: transform dos curtains continuavam a consumir GPU
+     mesmo invisíveis (opacity:0). Isto era uma das causas do lag residual
+     no scroll inicial do hero em mobile. */
+  .preloader-honmoon.preloader-done {
+    display: none !important;
   }
   /* ═══ MOBILE THEME TOGGLE — Esconde o orb-burst (é só para desktop via orb) ═══
      Em mobile, o hero-orb-burst anima 1s mesmo após o flash mobile acabar aos
@@ -2603,8 +2630,8 @@ html.light-mode .hero-bg-img-light { display: block; }
     /* ═══ SUBIR O TEXTO em mobile ═══
        Reduzir padding-top para o conteúdo (+ TRIBUTO AO VIVO, título, etc.)
        começar mais acima. A imagem de fundo mantém-se ancorada no topo
-       (top center) — só o texto sobe. */
-    padding-top: 3.5rem !important;
+       (top center) — só o texto sobe. 2.5rem = ~40px (era 3.5rem). */
+    padding-top: 2.5rem !important;
     /* Reduzir margens do pitch e do botão para encostar ao neon divider */
     --esp-pitch-margin: 0.5rem;
   }
@@ -2615,14 +2642,58 @@ html.light-mode .hero-bg-img-light { display: block; }
      - background-position: top center
      - background-color: #8771B9 (combina com as bordas) */
   .light-mode .espetaculo-section {
-    background-image: url('/espetaculo-bg-light-mobile.webp?v=94') !important;
+    background-image: url('/espetaculo-bg-light-mobile.webp?v=95') !important;
     background-size: 100% auto !important;
     background-position: top center !important;
     background-attachment: scroll !important;
     background-repeat: no-repeat !important;
     background-color: #8771B9 !important;
     /* Mesmo padding-top reduzido do modo noite — texto sobe igual */
-    padding-top: 3.5rem !important;
+    padding-top: 2.5rem !important;
+  }
+  /* ═══ LEGIBILIDADE DO TEXTO em mobile ═══
+     Adicionar um backdrop semi-transparente atrás do conteúdo do Tributo
+     para garantir que o texto é legível sobre qualquer parte da imagem
+     de fundo (que tem zonas claras e escuras). Isto NÃO afeta a imagem
+     de fundo — só o container do texto. */
+  .espetaculo-section .esp-left {
+    background: rgba(11, 8, 19, 0.55) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-radius: 8px !important;
+    padding: 1.25rem 1rem !important;
+    margin: 0 -0.5rem !important;
+  }
+  .light-mode .espetaculo-section .esp-left {
+    background: rgba(255, 250, 255, 0.62) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  /* Texto mais legível: aumentar peso e adicionar text-shadow subtil */
+  .espetaculo-section .esp-left p:not(.sec-num):not(.esp-pitch-text) {
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
+    font-weight: 400 !important;
+  }
+  .light-mode .espetaculo-section .esp-left p:not(.sec-num):not(.esp-pitch-text) {
+    text-shadow: 0 1px 2px rgba(255,255,255,0.5) !important;
+    color: #1A0F3A !important;
+  }
+  /* Título H2 mais visível */
+  .espetaculo-section .esp-left h2 {
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6) !important;
+  }
+  .light-mode .espetaculo-section .esp-left h2 {
+    text-shadow: 0 2px 6px rgba(255,255,255,0.7) !important;
+    color: #0F0524 !important;
+  }
+  /* Subtítulo (mb-8) mais visível */
+  .espetaculo-section .esp-left p.text-base,
+  .espetaculo-section .esp-left p.text-xl {
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
+  }
+  .light-mode .espetaculo-section .esp-left p.text-base,
+  .light-mode .espetaculo-section .esp-left p.text-xl {
+    text-shadow: 0 1px 2px rgba(255,255,255,0.6) !important;
   }
 }
 
@@ -2784,14 +2855,15 @@ html.light-mode .hero-bg-img-light { display: block; }
 .esp-readability-light { display: none; }
 @media (max-width: 1023px) {
   /* On mobile, the layout stacks — darkening comes from top so the
-     stacked text stays readable while the pavilion bleeds through below */
+     stacked text stays readable while the pavilion bleeds through below.
+     Aumentado para 0.96 no topo (era 0.92) para melhor legibilidade. */
   .esp-readability-overlay {
     background:
       linear-gradient(180deg,
-        rgba(11,8,19,0.92) 0%,
-        rgba(11,8,19,0.78) 35%,
-        rgba(11,8,19,0.40) 65%,
-        rgba(11,8,19,0.30) 100%
+        rgba(11,8,19,0.96) 0%,
+        rgba(11,8,19,0.85) 35%,
+        rgba(11,8,19,0.55) 65%,
+        rgba(11,8,19,0.45) 100%
       );
   }
 }
@@ -5144,13 +5216,15 @@ html.light-mode .hero-bg-img-light { display: block; }
     );
 }
 @media (max-width: 1023px) {
+  /* Mobile light mode: readability overlay mais forte no topo para
+     garantir que o texto escuro é legível sobre a imagem clara. */
   .light-mode .espetaculo-section .esp-readability-light {
     background:
       linear-gradient(180deg,
-        rgba(200,165,220,0.30) 0%,
-        rgba(216,184,232,0.18) 35%,
-        rgba(216,184,232,0.05) 65%,
-        rgba(216,184,232,0.00) 100%
+        rgba(255, 250, 255, 0.65) 0%,
+        rgba(245, 235, 252, 0.50) 35%,
+        rgba(216,184,232,0.18) 65%,
+        rgba(216,184,232,0.05) 100%
       );
   }
 }
@@ -7396,7 +7470,13 @@ section#concertos {
   .memories-spotlight { opacity: 0.5 !important; }
   .hero-glow-orb { display: none !important; }
   .esp-glow-orb { display: none !important; }
-  .esp-spotlight { opacity: 0.3 !important; }
+  /* Esp-spotlights: desativar animação em mobile (3 animações infinitas
+     pesadas) e reduzir opacidade. As spotlights continuam visíveis mas
+     estáticas — sem sway animation. */
+  .esp-spotlight { 
+    opacity: 0.3 !important; 
+    animation: none !important;
+  }
   
   /* Reduce backdrop-filter (heavy on mobile GPUs) */
   .galeria-card { backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; }
@@ -8295,10 +8375,22 @@ img { max-width: 100%; height: auto; }
   .soul-particles-site {
     display: none !important;
   }
-  /* REDUZIR backdrop-filter do sticky CTA — blur pesado em GPU */
+  /* REMOVER backdrop-filter do sticky CTA em mobile — blur é pesadíssimo no GPU.
+     Usar background opaco (rgba 0.95) em vez de blur. */
   .fixed.bottom-0.inset-x-0.z-40 {
-    backdrop-filter: blur(4px) !important;
-    -webkit-backdrop-filter: blur(4px) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(11, 8, 19, 0.95) !important;
+  }
+  .light-mode .fixed.bottom-0.inset-x-0.z-40 {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(237, 224, 245, 0.95) !important;
+  }
+  /* REMOVER backdrop-filter do contacto-form em mobile */
+  .contacto-form {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
   /* REMOVER content-visibility de secções — causa layout shift em mobile */
   .espetaculo-section,

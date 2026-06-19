@@ -493,12 +493,12 @@ export default function HomePage() {
   // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
 
   useEffect(() => {
-    // Em mobile, reduzir o delay do preloader para o scroll desbloquear mais cedo.
-    // Antes: 1200ms em todos os dispositivos.
-    // Agora: 200ms em mobile (< 768px), 1200ms em desktop/tablet.
-    // 200ms é o tempo mínimo para o curtain aparecer visualmente antes de abrir.
+    // Em mobile, o preloader TEM que abrir o mais rápido possível para o
+    // scroll desbloquear. Reduzido de 200ms para 100ms (tempo mínimo para
+    // o curtain aparecer visualmente antes de abrir).
+    // Desktop mantém 1200ms ( curtain animation cinematica).
     const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-    const t = setTimeout(() => setLoaded(true), isMobile ? 200 : 1200);
+    const t = setTimeout(() => setLoaded(true), isMobile ? 100 : 1200);
     return () => clearTimeout(t);
   }, []);
 
@@ -1686,8 +1686,10 @@ export default function HomePage() {
         </div>
       </footer>
 
-      {/* ═══ MOBILE STICKY CTA ═══ */}
-      <div className={`fixed bottom-0 inset-x-0 z-40 sm:hidden p-1.5 backdrop-blur-sm border-t transition-opacity duration-300 ${loaded?"":"opacity-0 pointer-events-none"}`} style={{background:"rgba(11,8,19,0.92)",borderColor:"rgba(200,80,255,0.08)"}}>
+      {/* ═══ MOBILE STICKY CTA ═══
+          SEM backdrop-blur (pesadíssimo em mobile) e SEM transition-opacity
+          (causa re-render). Background opaco via CSS mobile override. */}
+      <div className={`fixed bottom-0 inset-x-0 z-40 sm:hidden p-1.5 border-t ${loaded?"":"opacity-0 pointer-events-none"}`} style={{background:"rgba(11,8,19,0.95)",borderColor:"rgba(200,80,255,0.08)"}}>
         <a
           href="#cartazes"
           onClick={e => {
