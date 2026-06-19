@@ -1169,6 +1169,16 @@ export default function HomePage() {
 
       {/* ═══ HONMOON SHIELD - Theme Toggle (like the anime) ═══ */}
       <section className="honmoon-shield-section">
+        {/* ═══ LED WALL HONMOON — padrões de energia compatíveis com o botão ═══
+            Grelha de LEDs que cria padrões de energiaHonmoon.
+            Mesma paleta de cores do botão (pink noite / azul dia).
+            Padrões: ondas concêntricas que emanam do centro (orb).
+            Leve: CSS puro, sem imagens, sem JavaScript. */}
+        <div className={`hm-led-wall ${themeMode}`}>
+          <div className="hm-led-grid"/>
+          <div className="hm-led-waves"/>
+        </div>
+
         {/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
             Versão adaptativa:
             - Desktop: nebulosa/nuvens completa com partículas

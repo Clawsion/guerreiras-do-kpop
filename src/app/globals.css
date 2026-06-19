@@ -5685,6 +5685,105 @@ html.light-mode .hero-bg-img-dark {
    - Modo dia: nuvens suaves com partículas douradas (céu mágico)
    Performance: usa gradientes CSS (leves) + poucas partículas. */
 
+/* ═══════════════════════════════════════════════════════════════ */
+/* ═══ LED WALL HONMOON — padrões de energia compatíveis com o botão ═══ */
+/* ═══════════════════════════════════════════════════════════════ */
+/* Grelha de LEDs com ondas concêntricas que emanam do centro (orb).
+   Mesma paleta de cores do botão Honmoon:
+   - Modo noite: pink/magenta neon
+   - Modo dia: azul/cyan neon
+   Leve: CSS puro (2 elementos), sem imagens, sem JavaScript. */
+
+.hm-led-wall {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* ═══ Grelha de LEDs ═══
+   Padrão de pontos (grid) que simula um ecrã LED.
+   Modo noite: pontos pink/rosa subtil
+   Modo dia: pontos azuis subtil */
+.hm-led-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255, 45, 120, 0.15) 1px, transparent 1.5px);
+  background-size: 20px 20px;
+  background-position: 0 0;
+  opacity: 0.6;
+  mix-blend-mode: screen;
+  will-change: background-position;
+  animation: hmLedScroll 30s linear infinite;
+}
+.light-mode .hm-led-grid {
+  background-image:
+    radial-gradient(circle, rgba(0, 220, 255, 0.18) 1px, transparent 1.5px);
+  mix-blend-mode: normal;
+  opacity: 0.5;
+}
+@keyframes hmLedScroll {
+  0%   { background-position: 0 0; }
+  100% { background-position: 20px 20px; }
+}
+
+/* ═══ Ondas concêntricas ═══
+   Anéis que emanam do centro (onde o orb está) — como ondas de energia
+   que se espalham a partir do botão Honmoon.
+   Modo noite: anéis pink neon
+   Modo dia: anéis azul neon */
+.hm-led-waves {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  transform: translate(-50%, -50%);
+  background:
+    repeating-radial-gradient(circle at 50% 50%,
+      transparent 0px,
+      transparent 80px,
+      rgba(255, 45, 120, 0.08) 80px,
+      rgba(255, 45, 120, 0.08) 82px,
+      transparent 82px,
+      transparent 160px);
+  opacity: 0.5;
+  mix-blend-mode: screen;
+  will-change: transform;
+  animation: hmLedWaves 12s ease-in-out infinite alternate;
+}
+.light-mode .hm-led-waves {
+  background:
+    repeating-radial-gradient(circle at 50% 50%,
+      transparent 0px,
+      transparent 80px,
+      rgba(0, 220, 255, 0.1) 80px,
+      rgba(0, 220, 255, 0.1) 82px,
+      transparent 82px,
+      transparent 160px);
+  mix-blend-mode: normal;
+  opacity: 0.4;
+}
+@keyframes hmLedWaves {
+  0%   { transform: translate(-50%, -50%) scale(0.95); opacity: 0.3; }
+  100% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.6; }
+}
+
+/* ═══ MOBILE: LED wall simplificado ═══ */
+@media (max-width: 767px) {
+  .hm-led-grid {
+    background-size: 30px 30px !important;
+    opacity: 0.4 !important;
+    animation-duration: 45s !important;
+  }
+  .hm-led-waves {
+    opacity: 0.3 !important;
+    animation-duration: 16s !important;
+  }
+}
+
 .hm-atmosphere {
   position: absolute;
   inset: 0;
