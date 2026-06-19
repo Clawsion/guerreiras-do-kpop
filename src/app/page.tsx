@@ -1169,57 +1169,14 @@ export default function HomePage() {
 
       {/* ═══ HONMOON SHIELD - Theme Toggle (like the anime) ═══ */}
       <section className="honmoon-shield-section">
-        {/* ═══ FUNDO ANIMADO DE ENERGIA HONMOON ═══
-            Fundo CSS puro (sem imagens) que flui como energia.
-            Mesma animação em ambos os modos — só muda a COR.
-            Usa variáveis CSS (--hm-energy-*) que mudam com .light-mode.
-            
-            Modo noite: tons pink/magenta (vermelho rosa neon)
-            Modo dia: tons azul/cyan (azul neon)
-            
-            Transição SEAMLESS: quando se troca de tema, só as variáveis
-            mudam — a animação continua exatamente igual, só a cor é
-            diferente. Nem se nota que mudou de fundo. */}
-        <div className="hm-energy-field">
-          {/* Barreira Honmoon — linhas curvas fluidas com brilho neon.
-              Padrão do filme: ondas de energia que preenchem a secção.
-              Estático (não está sobre o orb, é o fundo da secção).
-              Mesmo padrão em ambos os modos — só muda a cor. */}
-          <svg className="hm-barrier-pattern" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            {/* Linhas curvas fluidas — preenchem toda a secção como barreira */}
-            <path className="hm-bl" d="M-100,100 Q200,50 400,100 T800,100 T1200,100 T1540,100"/>
-            <path className="hm-bl" d="M-100,130 Q200,80 400,130 T800,130 T1200,130 T1540,130"/>
-            <path className="hm-bl" d="M-100,160 Q220,110 400,160 T800,160 T1200,160 T1540,160"/>
-            <path className="hm-bl" d="M-100,190 Q180,140 400,190 T800,190 T1200,190 T1540,190"/>
-            <path className="hm-bl" d="M-100,220 Q220,170 400,220 T800,220 T1200,220 T1540,220"/>
-            <path className="hm-bl" d="M-100,250 Q200,200 400,250 T800,250 T1200,250 T1540,250"/>
-            <path className="hm-bl" d="M-100,280 Q220,230 400,280 T800,280 T1200,280 T1540,280"/>
-            <path className="hm-bl" d="M-100,310 Q180,260 400,310 T800,310 T1200,310 T1540,310"/>
-            <path className="hm-bl" d="M-100,340 Q220,290 400,340 T800,340 T1200,340 T1540,340"/>
-            <path className="hm-bl" d="M-100,370 Q200,320 400,370 T800,370 T1200,370 T1540,370"/>
-            <path className="hm-bl" d="M-100,400 Q220,350 400,400 T800,400 T1200,400 T1540,400"/>
-            <path className="hm-bl" d="M-100,430 Q180,380 400,430 T800,430 T1200,430 T1540,430"/>
-            <path className="hm-bl" d="M-100,460 Q220,410 400,460 T800,460 T1200,460 T1540,460"/>
-            <path className="hm-bl" d="M-100,490 Q200,440 400,490 T800,490 T1200,490 T1540,490"/>
-            <path className="hm-bl" d="M-100,520 Q220,470 400,520 T800,520 T1200,520 T1540,520"/>
-            <path className="hm-bl" d="M-100,550 Q180,500 400,550 T800,550 T1200,550 T1540,550"/>
-            <path className="hm-bl" d="M-100,580 Q220,530 400,580 T800,580 T1200,580 T1540,580"/>
-            <path className="hm-bl" d="M-100,610 Q200,560 400,610 T800,610 T1200,610 T1540,610"/>
-            <path className="hm-bl" d="M-100,640 Q220,590 400,640 T800,640 T1200,640 T1540,640"/>
-            <path className="hm-bl" d="M-100,670 Q180,620 400,670 T800,670 T1200,670 T1540,670"/>
-            <path className="hm-bl" d="M-100,700 Q220,650 400,700 T800,700 T1200,700 T1540,700"/>
-            <path className="hm-bl" d="M-100,730 Q200,680 400,730 T800,730 T1200,730 T1540,730"/>
-            <path className="hm-bl" d="M-100,760 Q220,710 400,760 T800,760 T1200,760 T1540,760"/>
-            <path className="hm-bl" d="M-100,790 Q180,740 400,790 T800,790 T1200,790 T1540,790"/>
-            <path className="hm-bl" d="M-100,820 Q220,770 400,820 T800,820 T1200,820 T1540,820"/>
-            {/* Linhas com curvas mais pronunciadas (variação) */}
-            <path className="hm-bl" d="M-100,115 Q150,180 300,115 Q450,50 600,115 Q750,180 900,115 Q1050,50 1200,115 Q1350,180 1540,115"/>
-            <path className="hm-bl" d="M-100,265 Q150,330 300,265 Q450,200 600,265 Q750,330 900,265 Q1050,200 1200,265 Q1350,330 1540,265"/>
-            <path className="hm-bl" d="M-100,415 Q150,480 300,415 Q450,350 600,415 Q750,480 900,415 Q1050,350 1200,415 Q1350,480 1540,415"/>
-            <path className="hm-bl" d="M-100,565 Q150,630 300,565 Q450,500 600,565 Q750,630 900,565 Q1050,500 1200,565 Q1350,630 1540,565"/>
-            <path className="hm-bl" d="M-100,715 Q150,780 300,715 Q450,650 600,715 Q750,780 900,715 Q1050,650 1200,715 Q1350,780 1540,715"/>
-          </svg>
-        </div>
+        {/* ═══ PARALLAX CINEMATOGRÁFICO HONMOON ═══
+            Imagem de fundo de alta qualidade (estádio K-Pop).
+            Mesma cena em ambos os modos — só muda a cor da iluminação.
+            - Modo noite: parallax-honmoon-night.png (pink neon)
+            - Modo dia: parallax-honmoon-day.png (azul neon)
+            O orb (botão Honmoon) pertence ao cenário — parece fazer
+            parte do palco/iluminação do estádio. */}
+        <div className="hm-parallax-bg"/>
 
         {/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
             Versão adaptativa:
