@@ -493,12 +493,14 @@ export default function HomePage() {
   // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
 
   useEffect(() => {
-    // Em mobile, o preloader TEM que abrir o mais rápido possível para o
-    // scroll desbloquear. Reduzido de 200ms para 100ms (tempo mínimo para
-    // o curtain aparecer visualmente antes de abrir).
-    // Desktop mantém 1200ms ( curtain animation cinematica).
+    // MOBILE: loaded=true IMEDIATAMENTE (sem preloader, sem delay nenhum).
+    // DESKTOP: 1200ms (curtain reveal cinematico).
     const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-    const t = setTimeout(() => setLoaded(true), isMobile ? 100 : 1200);
+    if (isMobile) {
+      setLoaded(true);
+      return;
+    }
+    const t = setTimeout(() => setLoaded(true), 1200);
     return () => clearTimeout(t);
   }, []);
 
@@ -832,77 +834,71 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* ═══ PRELOADER - Curtain Reveal ═══ */}
-      {/* Estratégia anti-scroll-bloqueado:
-          - O preloader TEM pointer-events: none desde o início (via CSS).
-          - Isto garante que NUNCA captura toques, mesmo durante a animação.
-          - O curtain anima normalmente (transform transition), mas deixa os
-            toques passar para o conteúdo abaixo.
-          - Em mobile, o setLoaded(true) aos 400ms faz o curtain abrir rápido. */}
-      {themeMode === 'dark' ? (
-        <div className={`preloader-honmoon ${loaded?"preloader-done":""}`}>
-          <div className="preloader-curtain-left"/>
-          <div className="preloader-curtain-right"/>
-        </div>
-      ) : (
-        (() => {
-          // ═══ Em mobile, reduzir durações do preloader light (igual ao dark) ═══
-          const isMobileViewport = typeof window !== "undefined" && window.innerWidth < 768;
-          const opacityDelay = isMobileViewport ? 0.9 : 2.3;
-          const opacityDur = isMobileViewport ? 0.3 : 0.6;
-          const curtainDur = isMobileViewport ? 1.0 : 2.5;
-          return (
+      {/* ═══ PRELOADER - Curtain Reveal ═══
+          MOBILE: REMOVIDO COMPLETAMENTE do render tree.
+          O preloader era uma das causas do lag residual no scroll do hero
+          em mobile — mesmo com display:none, o JSX ainda avaliava os
+          estilos inline e os children com will-change:transform.
+          Agora em mobile NÃO É RENDERIZADO (zero cost).
+          DESKTOP: mantém o curtain reveal cinematico. */}
+      {(() => {
+        if (typeof window !== "undefined" && window.innerWidth < 768) {
+          // MOBILE: sem preloader, sem delay. loaded=true imediatamente.
+          return null;
+        }
+        // DESKTOP: preloader normal
+        return themeMode === 'dark' ? (
+          <div className={`preloader-honmoon ${loaded?"preloader-done":""}`}>
+            <div className="preloader-curtain-left"/>
+            <div className="preloader-curtain-right"/>
+          </div>
+        ) : (
+          <div
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 100,
+              display: 'flex',
+              transition: `opacity 0.6s ease 2.3s`,
+              opacity: loaded ? 0 : 1,
+              pointerEvents: 'none',
+            }}
+          >
             <div
               style={{
-                position: 'fixed',
-                inset: 0,
-                zIndex: 100,
-                display: 'flex',
-                transition: `opacity ${opacityDur}s ease ${opacityDelay}s`,
-                opacity: loaded ? 0 : 1,
-                // ═══ CRÍTICO: pointer-events: none SEMPRE ═══
-                // Mesmo durante o carregamento, o preloader NÃO captura toques.
-                // Isto permite que o utilizador faça scroll imediatamente, mesmo
-                // antes do curtain abrir. O curtain é puramente visual.
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                width: '52%',
+                background: '#E0CCF2',
+                borderRight: '1px solid rgba(147,51,234,0.25)',
+                boxShadow: 'inset -20px 0 40px rgba(147,51,234,0.06)',
+                transform: loaded ? 'translateX(-105%)' : 'translateX(0)',
+                transition: `transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1)`,
+                willChange: 'transform',
                 pointerEvents: 'none',
               }}
-            >
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  width: '52%',
-                  background: '#E0CCF2',
-                  borderRight: '1px solid rgba(147,51,234,0.25)',
-                  boxShadow: 'inset -20px 0 40px rgba(147,51,234,0.06)',
-                  transform: loaded ? 'translateX(-105%)' : 'translateX(0)',
-                  transition: `transform ${curtainDur}s cubic-bezier(0.22, 0.61, 0.36, 1)`,
-                  willChange: 'transform',
-                  pointerEvents: 'none',
-                }}
-              />
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  bottom: 0,
-                  right: 0,
-                  width: '52%',
-                  background: '#E0CCF2',
-                  borderLeft: '1px solid rgba(147,51,234,0.25)',
-                  boxShadow: 'inset 20px 0 40px rgba(147,51,234,0.06)',
-                  transform: loaded ? 'translateX(105%)' : 'translateX(0)',
-                  transition: `transform ${curtainDur}s cubic-bezier(0.22, 0.61, 0.36, 1)`,
-                  willChange: 'transform',
-                  pointerEvents: 'none',
-                }}
-              />
-            </div>
-          );
-        })()
-      )}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                right: 0,
+                width: '52%',
+                background: '#E0CCF2',
+                borderLeft: '1px solid rgba(147,51,234,0.25)',
+                boxShadow: 'inset 20px 0 40px rgba(147,51,234,0.06)',
+                transform: loaded ? 'translateX(105%)' : 'translateX(0)',
+                transition: `transform 2.5s cubic-bezier(0.22, 0.61, 0.36, 1)`,
+                willChange: 'transform',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+        );
+      })()}
 
       {/* ═══ SOUL PARTICLES - fixed overlay across entire site ═══ */}
       <div className="soul-particles-site">

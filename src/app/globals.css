@@ -1884,10 +1884,14 @@
   touch-action: pan-y;
 }
 
-/* ═══ MOBILE HERO — remover contain (pode bloquear scroll em alguns browsers) ═══ */
+/* ═══ MOBILE HERO — contain: layout style paint para isolar renderização ═══
+   Antes era `contain: none` porque `strict` bloqueava scroll em alguns browsers.
+   Mas `layout style paint` (sem `size`) NÃO bloqueia scroll e ISOLA a renderização
+   do hero do resto da página. Isto significa que mudanças fora do hero não
+   forçam repaint do hero, e vice-versa. */
 @media (max-width: 767px) {
   .hero-section {
-    contain: none !important;
+    contain: layout style paint !important;
     /* Usar 100svh (small viewport height) em vez de 100vh para evitar
        problemas com a barra de endereço dinâmica do iOS Safari. */
     height: 100svh !important;
@@ -1928,19 +1932,31 @@
     object-position: center center !important;
     width: 100% !important;
     height: 100% !important;
+    /* ═══ FORÇAR CAMADA GPU PRÓPRIA ═══
+       transform: translateZ(0) força o browser a colocar a imagem numa
+       camada de composição própria. Isto significa que durante o scroll,
+       a imagem NÃO É REPINTADA — é apenas movida como textura GPU.
+       Isto é a técnica #1 de performance mobile para imagens grandes. */
+    transform: translateZ(0) !important;
+    will-change: transform !important;
+    /* backface-visibility: hidden é outra forma de forçar camada GPU
+       em browsers que ignoram translateZ(0) */
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
   }
-  /* ═══ ZOOM SUBTIL DIFERENCIADO POR MODO ═══
-     Modo noite: scale(1.05) — um pouquito quase nada de zoom
-     Modo dia:   scale(1.08) — um pouquinho mais que o noite
-     Ambos mantêm object-fit: contain (sem cortes). */
-  :not(.light-mode) .hero-bg-img {
-    object-position: center center !important;
-    transform: scale(1.05) !important;
-    transform-origin: center center !important;
-  }
+  /* ═══ SEM TRANSFORM: SCALE() em mobile ═══
+     Antes: transform: scale(1.05) (noite) / scale(1.08) (dia)
+     Problema: o scale obriga o browser a recomputar todos os pixels
+     da imagem (941×1672) em cada frame de scroll. Mesmo com translateZ(0),
+     o scale adiciona trabalho ao GPU.
+     Solução: REMOVER o scale. A imagem fica ao tamanho natural com
+     object-fit: contain. Visualmente é quase igual (zoom era mínimo).
+     Performance: MUITO superior. */
+  :not(.light-mode) .hero-bg-img,
   .light-mode .hero-bg-img {
     object-position: center center !important;
-    transform: scale(1.08) !important;
+    /* SEM transform: scale() — só translateZ(0) para GPU layer */
+    transform: translateZ(0) !important;
     transform-origin: center center !important;
   }
   /* ═══ GARANTIA EXTRA: todos os elementos fixed com inset:0 que NÃO são
@@ -7696,18 +7712,21 @@ img { max-width: 100%; height: auto; }
     width: 100% !important;
     height: 100% !important;
   }
-  /* ═══ ZOOM SUBTIL DIFERENCIADO POR MODO (segunda regra mobile) ═══
-     Modo noite: scale(1.05) — um pouquito quase nada
-     Modo dia:   scale(1.08) — um pouquinho mais */
-  :not(.light-mode) .hero-bg-img {
-    object-position: center center !important;
-    transform: scale(1.05) !important;
-    transform-origin: center center !important;
-  }
+  /* ═══ SEM SCALE em mobile (segunda regra mobile) ═══
+     REMOVIDO: transform: scale(1.05) (noite) / scale(1.08) (dia)
+     O scale obriga o browser a recomputar todos os pixels da imagem
+     (941×1672) em cada frame de scroll. Mesmo com translateZ(0), o
+     scale adiciona trabalho ao GPU.
+     A regra principal (mais acima) já aplica translateZ(0) para forçar
+     camada GPU própria sem scale. */
+  :not(.light-mode) .hero-bg-img,
   .light-mode .hero-bg-img {
     object-position: center center !important;
-    transform: scale(1.08) !important;
+    transform: translateZ(0) !important;
     transform-origin: center center !important;
+    will-change: transform !important;
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
   }
 
   /* O hero-bottom-panel estava em % absolutas que não funcionavam.
