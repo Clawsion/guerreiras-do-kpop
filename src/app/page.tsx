@@ -1169,35 +1169,21 @@ export default function HomePage() {
 
       {/* ═══ HONMOON SHIELD - Theme Toggle (like the anime) ═══ */}
       <section className="honmoon-shield-section">
-        {/* ═══ BARREIRA HONMOON — ondas VERTICAIS espalhadas e infinitas ═══
-            Só ondas verticais (sem horizontais), espalhadas pela secção.
-            Cada onda flui de uma posição DIFERENTE e move-se para baixo
-            continuamente (efeito infinito — nunca volta atrás).
+        {/* ═══ FUNDO CINEMATOGRÁFICO + ESPIRAL DE LUZ ═══
+            O botão Honmoon (orb) é a FONTE DE LUZ.
+            A espiral de luz roda devagar a partir do centro (orb).
             
-            - Modo noite: vermelho pink neon predominante (como no filme)
-            - Modo dia: azul neon vibrante
-            - Parte invisível da barreira mais colorida (glow de fundo forte) */}
-        <div className={`hm-barrier ${themeMode}`}>
-          {/* SVG com ondas VERTICAIS — cada uma numa posição X diferente */}
-          <svg className="hm-barrier-waves" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            {/* 12 ondas verticais espalhadas, cada uma com curva diferente */}
-            {/* Cada path vai de y=-200 a y=1100 (maior que viewport) para que
-                a animação translateY crie loop infinito sem se notar a repetição */}
-            <path className="hm-vwave hm-vwave-1" d="M100,-200 Q160,0 100,200 Q40,400 100,600 Q160,800 100,1000 Q40,1200 100,1400" />
-            <path className="hm-vwave hm-vwave-2" d="M220,-200 Q170,50 220,300 Q270,550 220,800 Q170,1050 220,1300" />
-            <path className="hm-vwave hm-vwave-3" d="M340,-200 Q400,100 340,400 Q280,700 340,1000 Q400,1300 340,1600" />
-            <path className="hm-vwave hm-vwave-4" d="M460,-200 Q410,0 460,200 Q510,400 460,600 Q410,800 460,1000 Q510,1200 460,1400" />
-            <path className="hm-vwave hm-vwave-5" d="M580,-200 Q640,80 580,360 Q520,640 580,920 Q640,1200 580,1480" />
-            <path className="hm-vwave hm-vwave-6" d="M700,-200 Q660,100 700,400 Q740,700 700,1000 Q660,1300 700,1600" />
-            <path className="hm-vwave hm-vwave-7" d="M820,-200 Q880,50 820,300 Q760,550 820,800 Q880,1050 820,1300" />
-            <path className="hm-vwave hm-vwave-8" d="M940,-200 Q900,0 940,200 Q980,400 940,600 Q900,800 940,1000 Q980,1200 940,1400" />
-            <path className="hm-vwave hm-vwave-9" d="M1060,-200 Q1120,80 1060,360 Q1000,640 1060,920 Q1120,1200 1060,1480" />
-            <path className="hm-vwave hm-vwave-10" d="M1180,-200 Q1140,100 1180,400 Q1220,700 1180,1000 Q1140,1300 1180,1600" />
-            <path className="hm-vwave hm-vwave-11" d="M1300,-200 Q1360,50 1300,300 Q1240,550 1300,800 Q1360,1050 1300,1300" />
-            <path className="hm-vwave hm-vwave-12" d="M1420,-200 Q1380,0 1420,200 Q1460,400 1420,600 Q1380,800 1420,1000 Q1460,1200 1420,1400" />
-          </svg>
-          {/* Glow de fundo translúcido — cor predominante forte */}
-          <div className="hm-barrier-glow"/>
+            - Fundo: imagem cinematográfica (noite=pink, dia=azul)
+            - Espiral: conic gradient que roda lentamente (40s)
+            - O orb brilha como fonte de energia
+            
+            Modo noite: honmoon-bg-night.png + espiral pink neon
+            Modo dia: honmoon-bg-day.png + espiral azul neon */}
+        <div className={`hm-cinematic-bg ${themeMode}`}/>
+        <div className={`hm-light-spiral ${themeMode}`}>
+          <div className="hm-spiral-layer hm-spiral-1"/>
+          <div className="hm-spiral-layer hm-spiral-2"/>
+          <div className={`hm-spiral-core ${themeMode}`}/>
         </div>
 
         {/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
