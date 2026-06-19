@@ -8712,7 +8712,11 @@ img { max-width: 100%; height: auto; }
      Havia ~25 box-shadows só no Honmoon Shield (sparkles, particles, rings,
      neon circles, arcs, nodes, strands). Em mobile, removê-las melhora
      MUITO a performance do scroll. O orb central (botão) MANTÉM o seu
-     box-shadow porque é o elemento principal. */
+     box-shadow porque é o elemento principal.
+     
+     IMPORTANTE: incluir também honmoon-node-1..6 e honmoon-strand-left/right
+     que têm box-shadow DUPLICADO em modo dia (causa principal do lag extra
+     em modo dia vs modo noite). */
   .honmoon-shield-section .hm-sparkle,
   .honmoon-shield-section .hm-particle,
   .honmoon-shield-section .hm-ring,
@@ -8721,7 +8725,16 @@ img { max-width: 100%; height: auto; }
   .honmoon-shield-section .hm-node,
   .honmoon-shield-section .hm-strand,
   .honmoon-shield-section .hm-burst-ring,
-  .honmoon-shield-section .hm-atmosphere-layer {
+  .honmoon-shield-section .hm-atmosphere-layer,
+  .light-mode .honmoon-node-1,
+  .light-mode .honmoon-node-2,
+  .light-mode .honmoon-node-3,
+  .light-mode .honmoon-node-4,
+  .light-mode .honmoon-node-5,
+  .light-mode .honmoon-node-6,
+  .light-mode .honmoon-strand-left,
+  .light-mode .honmoon-strand-right,
+  .light-mode .hm-particle.light {
     box-shadow: none !important;
   }
   /* ═══ REMOVER BOX-SHADOWS dos cartazes em mobile ═══
@@ -8734,6 +8747,24 @@ img { max-width: 100%; height: auto; }
   .cartazes-section .cartaz-status-dot,
   .cartazes-section .cartaz-buy-btn,
   .galeria-section .galeria-card {
+    box-shadow: none !important;
+  }
+  /* ═══ REMOVER BOX-SHADOWS extras em modo dia (causa principal do lag) ═══
+     Em modo dia há 8 box-shadows EXTRA vs modo noite:
+     - 3× cartaz-info (box-shadow DUPLA)
+     - 1× esp-pitch
+     - 1× esp-cta (box-shadow TRIPLA)
+     - 1× contacto-form (box-shadow DUPLA)
+     - 2× honmoon-divider-symbol
+     Isto causa o modo dia ser 3x mais lento que modo noite na troca de tema.
+     Remover TODOS em mobile para igualar a performance. */
+  .light-mode .cartaz-info,
+  .light-mode .esp-pitch,
+  .light-mode .esp-cta,
+  .light-mode .contacto-form,
+  .light-mode .honmoon-divider-symbol,
+  .light-mode .esp-pitch-neon,
+  .light-mode .hm-particle.light {
     box-shadow: none !important;
   }
 }
