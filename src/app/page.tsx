@@ -610,8 +610,14 @@ export default function HomePage() {
   const flashTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const cleanupTransition = useCallback(() => {
-    // Cancela todos os timeouts pendentes
-    transitionRef.current.forEach(t => clearTimeout(t));
+    // Cancela todos os timeouts/RAFs pendentes.
+    // setTimeout e requestAnimationFrame retornam tipos diferentes mas ambos
+    // numéricos em browsers — podemos tentar clearTimeout E cancelAnimationFrame
+    // em segurança (um deles funciona, o outro é no-op).
+    transitionRef.current.forEach(t => {
+      clearTimeout(t as unknown as ReturnType<typeof setTimeout>);
+      cancelAnimationFrame(t as unknown as number);
+    });
     transitionRef.current = [];
     if (flashTimeoutRef.current) {
       clearTimeout(flashTimeoutRef.current);
@@ -660,8 +666,11 @@ export default function HomePage() {
     // para não acumular. Fazemos isso manualmente sem chamar setState.
     const isMobileStart = typeof window !== "undefined" && window.innerWidth < 768;
     if (isMobileStart) {
-      // Cancelar só os timeouts (sem setState — zero re-renders)
-      transitionRef.current.forEach(t => clearTimeout(t));
+      // Cancelar só os timeouts/RAFs (sem setState — zero re-renders)
+      transitionRef.current.forEach(t => {
+        clearTimeout(t);
+        cancelAnimationFrame(t as unknown as number);
+      });
       transitionRef.current = [];
       if (flashTimeoutRef.current) {
         clearTimeout(flashTimeoutRef.current);
@@ -751,18 +760,19 @@ export default function HomePage() {
         themeModeRef.current = toMode;
         pendingToModeRef.current = null;
         isTransitioningRef.current = false;
-        // ═══ MOBILE: setThemeMode ADIADO 1000ms (idle callback) ═══
-        // A troca visual já foi feita (class .light-mode no <html>) e o
-        // CSS mostra a imagem certa (ver .hero-bg-img-dark/.hero-bg-img-light).
-        // O React state só precisa de atualizar para aria-labels e textos.
-        // Adiar 1000ms garante que qualquer swipe/scroll em curso não é
-        // interrompido pelo re-render do HomePage.
-        // Se o utilizador tocar de novo antes dos 1000ms, o setTimeout
-        // anterior é cancelado pelo cleanup no início do startThemeTransition.
-        const tid = setTimeout(() => {
+        // ═══ MOBILE: setThemeMode via requestAnimationFrame (≈16ms) ═══
+        // O texto "ADORMECER"/"DESPERTAR" muda QUASE INSTANTANEAMENTE.
+        // Antes era setTimeout 1000ms (causava lentidão percetível no botão).
+        // requestAnimationFrame espera pelo próximo frame (~16ms) — suficiente
+        // para o class .light-mode ser aplicado e pintado ANTES do re-render.
+        // Isto garante:
+        //   - Texto do botão muda instantaneamente (era 1 segundo de delay)
+        //   - Scroll touch não é bloqueado (RAF não é síncrono)
+        //   - Troca visual já estava feita (CSS class no <html>)
+        const tid = requestAnimationFrame(() => {
           setThemeMode(toMode);
-        }, 1000);
-        transitionRef.current.push(tid);
+        });
+        transitionRef.current.push(tid as unknown as ReturnType<typeof setTimeout>);
       } else {
         // Desktop via botão do topo: ripple do Honmoon + toggle
         triggerHeroFlash(toMode, cx, cy);

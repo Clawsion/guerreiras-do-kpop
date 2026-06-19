@@ -2037,6 +2037,18 @@ html:not(.light-mode) .hero-bg-img-light { display: none; }
 /* Modo dia — mostrar light, esconder dark */
 html.light-mode .hero-bg-img-dark { display: none; }
 html.light-mode .hero-bg-img-light { display: block; }
+/* ═══ OTIMIZAÇÃO: remover GPU layer da imagem ESCONDIDA ═══
+   Quando uma imagem está com display:none, o browser ainda mantém a
+   camada GPU alocada se tiver will-change/transform. Isto consome
+   memória GPU. Aqui removemos explicitamente will-change e transform
+   da imagem escondida, libertando a camada GPU. */
+html:not(.light-mode) .hero-bg-img-light,
+html.light-mode .hero-bg-img-dark {
+  will-change: auto !important;
+  transform: none !important;
+  backface-visibility: visible !important;
+  -webkit-backface-visibility: visible !important;
+}
 /* Em viewports portrait/tall (mobile), levanta o sujeito para a cara ficar visível. */
 @media (max-aspect-ratio: 16/10) {
   .hero-bg-img {
@@ -8545,12 +8557,17 @@ img { max-width: 100%; height: auto; }
   .contacto-section * {
     animation: none !important;
   }
-  /* ═══ HONMOON SHIELD — MANTER animações mas OTIMIZAR ═══
-     O utilizador quer os efeitos do botão Honmoon a funcionar em mobile.
-     Em vez de desativar as animações, vamos:
-     1. Remover will-change (liberta camadas de composição quando não
-        estão a animar ativamente)
-     2. Remover drop-shadow filters (são muito pesados no GPU mobile) */
+  /* ═══ HONMOON SHIELD — DESATIVAR animações decorativas em mobile ═══
+     O utilizador quer o botão Honmoon RÁPIDO e RESPONSIVO em mobile.
+     As animações decorativas (sparkles, particles, rings, neon circles,
+     arcs, nodes, strands) consomem CPU/GPU e causam lag no scroll.
+     
+     Decisão: desativar animações dos elementos decorativos mas MANTER:
+     - O orb central (botão) com a sua animação
+     - O label "ADORMECER"/"DESPERTAR" 
+     - As cores e estilos (só animações desativadas)
+     
+     Isto reduz ~15 animações infinitas em mobile. */
   .honmoon-shield-section .hm-atmosphere-layer,
   .honmoon-shield-section .hm-sparkle,
   .honmoon-shield-section .hm-particle,
@@ -8561,6 +8578,7 @@ img { max-width: 100%; height: auto; }
   .honmoon-shield-section .hm-strand,
   .honmoon-shield-section .hm-burst-ring {
     will-change: auto !important;
+    animation: none !important;
   }
   /* Remover drop-shadow filters pesados — usar box-shadow inline em vez disso */
   .honmoon-shield-section .hm-neon-circle,
