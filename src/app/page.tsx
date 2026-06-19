@@ -1169,41 +1169,34 @@ export default function HomePage() {
 
       {/* ═══ HONMOON SHIELD - Theme Toggle (like the anime) ═══ */}
       <section className="honmoon-shield-section">
-        {/* ═══ BARREIRA HONMOON — ondas de energia curvas e fluidas ═══
-            Inspirada nas imagens de referência do filme:
-            - Linhas curvas, paralelas e sinuosas (não geométricas retas)
-            - Azul neon vibrante com toques de roxo (modo dia)
-            - Rosa/roxo neon vibrante (modo noite)
-            - Linhas nítidas com brilho neon
-            - Translúcida — "luz dentro de luz"
-            - Contorno suave e difuso
-            - Textura fluida como ondas de energia
+        {/* ═══ BARREIRA HONMOON — ondas VERTICAIS espalhadas e infinitas ═══
+            Só ondas verticais (sem horizontais), espalhadas pela secção.
+            Cada onda flui de uma posição DIFERENTE e move-se para baixo
+            continuamente (efeito infinito — nunca volta atrás).
             
-            Implementação: SVG com paths curvos (waves) animados.
-            Cada layer tem um path ondulado diferente que flui horizontalmente. */}
+            - Modo noite: vermelho pink neon predominante (como no filme)
+            - Modo dia: azul neon vibrante
+            - Parte invisível da barreira mais colorida (glow de fundo forte) */}
         <div className={`hm-barrier ${themeMode}`}>
-          {/* SVG com ondas curvas fluidas — preenche toda a secção */}
-          <svg className="hm-barrier-waves" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            {/* Onda 1 — curvas largas e suaves */}
-            <path className="hm-wave hm-wave-1" d="M-100,300 Q180,150 360,300 T720,300 T1080,300 T1540,300" />
-            <path className="hm-wave hm-wave-1" d="M-100,330 Q180,180 360,330 T720,330 T1080,330 T1540,330" />
-            <path className="hm-wave hm-wave-1" d="M-100,270 Q180,120 360,270 T720,270 T1080,270 T1540,270" />
-            {/* Onda 2 — curvas mais pronunciadas (mais variação) */}
-            <path className="hm-wave hm-wave-2" d="M-100,280 Q150,420 300,280 Q450,140 600,280 Q750,420 900,280 Q1050,140 1200,280 Q1350,420 1540,280" />
-            <path className="hm-wave hm-wave-2" d="M-100,250 Q150,390 300,250 Q450,110 600,250 Q750,390 900,250 Q1050,110 1200,250 Q1350,390 1540,250" />
-            {/* Onda 3 — ondulações múltiplas */}
-            <path className="hm-wave hm-wave-3" d="M-100,340 Q120,240 240,340 Q360,440 480,340 Q600,240 720,340 Q840,440 960,340 Q1080,240 1200,340 Q1320,440 1440,340 Q1500,390 1540,340" />
-            <path className="hm-wave hm-wave-3" d="M-100,360 Q120,260 240,360 Q360,460 480,360 Q600,260 720,360 Q840,460 960,360 Q1080,260 1200,360 Q1320,460 1540,360" />
-            {/* Onda 4 — curvas finas e rápidas */}
-            <path className="hm-wave hm-wave-4" d="M-100,200 Q80,140 160,200 Q240,260 320,200 Q400,140 480,200 Q560,260 640,200 Q720,140 800,200 Q880,260 960,200 Q1040,140 1120,200 Q1200,260 1280,200 Q1360,140 1440,200 Q1500,240 1540,200" />
-            <path className="hm-wave hm-wave-4" d="M-100,400 Q80,460 160,400 Q240,340 320,400 Q400,460 480,400 Q560,340 640,400 Q720,460 800,400 Q880,340 960,400 Q1040,460 1120,400 Q1200,340 1280,400 Q1360,460 1540,400" />
-            {/* Ondas verticais (perpendiculares) para textura cruzada */}
-            <path className="hm-wave hm-wave-5" d="M200,-50 Q280,150 200,300 Q120,450 200,650" />
-            <path className="hm-wave hm-wave-5" d="M500,-50 Q580,150 500,300 Q420,450 500,650" />
-            <path className="hm-wave hm-wave-5" d="M800,-50 Q880,150 800,300 Q720,450 800,650" />
-            <path className="hm-wave hm-wave-5" d="M1100,-50 Q1180,150 1100,300 Q1020,450 1100,650" />
+          {/* SVG com ondas VERTICAIS — cada uma numa posição X diferente */}
+          <svg className="hm-barrier-waves" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            {/* 12 ondas verticais espalhadas, cada uma com curva diferente */}
+            {/* Cada path vai de y=-200 a y=1100 (maior que viewport) para que
+                a animação translateY crie loop infinito sem se notar a repetição */}
+            <path className="hm-vwave hm-vwave-1" d="M100,-200 Q160,0 100,200 Q40,400 100,600 Q160,800 100,1000 Q40,1200 100,1400" />
+            <path className="hm-vwave hm-vwave-2" d="M220,-200 Q170,50 220,300 Q270,550 220,800 Q170,1050 220,1300" />
+            <path className="hm-vwave hm-vwave-3" d="M340,-200 Q400,100 340,400 Q280,700 340,1000 Q400,1300 340,1600" />
+            <path className="hm-vwave hm-vwave-4" d="M460,-200 Q410,0 460,200 Q510,400 460,600 Q410,800 460,1000 Q510,1200 460,1400" />
+            <path className="hm-vwave hm-vwave-5" d="M580,-200 Q640,80 580,360 Q520,640 580,920 Q640,1200 580,1480" />
+            <path className="hm-vwave hm-vwave-6" d="M700,-200 Q660,100 700,400 Q740,700 700,1000 Q660,1300 700,1600" />
+            <path className="hm-vwave hm-vwave-7" d="M820,-200 Q880,50 820,300 Q760,550 820,800 Q880,1050 820,1300" />
+            <path className="hm-vwave hm-vwave-8" d="M940,-200 Q900,0 940,200 Q980,400 940,600 Q900,800 940,1000 Q980,1200 940,1400" />
+            <path className="hm-vwave hm-vwave-9" d="M1060,-200 Q1120,80 1060,360 Q1000,640 1060,920 Q1120,1200 1060,1480" />
+            <path className="hm-vwave hm-vwave-10" d="M1180,-200 Q1140,100 1180,400 Q1220,700 1180,1000 Q1140,1300 1180,1600" />
+            <path className="hm-vwave hm-vwave-11" d="M1300,-200 Q1360,50 1300,300 Q1240,550 1300,800 Q1360,1050 1300,1300" />
+            <path className="hm-vwave hm-vwave-12" d="M1420,-200 Q1380,0 1420,200 Q1460,400 1420,600 Q1380,800 1420,1000 Q1460,1200 1420,1400" />
           </svg>
-          {/* Glow de fundo translúcido */}
+          {/* Glow de fundo translúcido — cor predominante forte */}
           <div className="hm-barrier-glow"/>
         </div>
 

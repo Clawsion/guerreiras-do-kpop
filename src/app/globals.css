@@ -5693,18 +5693,21 @@ html.light-mode .hero-bg-img-dark {
    Performance: usa gradientes CSS (leves) + poucas partículas. */
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ BARREIRA HONMOON — ondas de energia curvas e fluidas (estilo filme) ═══ */
+/* ═══ BARREIRA HONMOON — ondas VERTICAIS espalhadas e infinitas ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
-/* Inspirada nas imagens de referência do filme:
-   - Linhas curvas, paralelas e sinuosas (não geométricas retas)
-   - Azul neon vibrante com toques de roxo (modo dia)
-   - Rosa/roxo neon vibrante (modo noite)
-   - Linhas nítidas com brilho neon
-   - Translúcida — "luz dentro de luz"
-   - Contorno suave e difuso
-   - Textura fluida como ondas de energia
+/* Só ondas verticais (sem horizontais), espalhadas pela secção.
+   Cada onda flui de uma posição X DIFERENTE e move-se para baixo
+   continuamente (efeito infinito — nunca volta atrás).
    
-   Implementação: SVG com paths curvos (waves) animados.
+   - Modo noite: vermelho pink neon PREDOMINANTE (como no filme)
+   - Modo dia: azul neon vibrante
+   - Parte invisível da barreira mais colorida (glow de fundo FORTE)
+   
+   Implementação: SVG com 12 paths verticais, cada um animado com
+   translateY. O path é maior que o viewport (vai de -200 a 1400)
+   e anima por 400px (a distância do padrão de repetição) criando
+   loop infinito perfeito que nunca parece voltar atrás.
+   
    Performance: 1 SVG + 1 div, sem box-shadow, sem imagens. */
 
 .hm-barrier {
@@ -5715,10 +5718,9 @@ html.light-mode .hero-bg-img-dark {
   overflow: hidden;
 }
 
-/* ═══ SVG com ondas curvas fluidas ═══
-   Preenche toda a secção. Paths curvos com gradient stroke.
-   Modo noite: rosa/roxo neon
-   Modo dia: azul neon com toques de roxo */
+/* ═══ SVG com ondas VERTICAIS ═══
+   Preenche toda a secção. Cada path é uma linha vertical curva
+   numa posição X diferente. */
 .hm-barrier-waves {
   position: absolute;
   inset: 0;
@@ -5728,8 +5730,8 @@ html.light-mode .hero-bg-img-dark {
   will-change: transform;
 }
 
-/* Paths base — linhas curvas nítidas com brilho neon INTENSO */
-.hm-wave {
+/* Paths base — linhas verticais curvas nítidas com brilho neon INTENSO */
+.hm-vwave {
   fill: none;
   stroke-width: 2.5;
   stroke-linecap: round;
@@ -5737,92 +5739,77 @@ html.light-mode .hero-bg-img-dark {
   will-change: transform;
 }
 
-/* Modo noite (PINK) — rosa/roxo neon vibrante INTENSO */
-.hm-barrier.dark .hm-wave {
+/* ═══ Modo noite (PINK) — vermelho pink neon PREDOMINANTE ═══
+   Como no filme, a cor principal é o rosa/pink neon vibrante.
+   Todas as ondas usam tons de rosa/vermelho pink. */
+.hm-barrier.dark .hm-vwave {
   stroke: rgba(255, 45, 120, 1);
   color: rgba(255, 45, 120, 1);
 }
-.hm-barrier.dark .hm-wave-2 {
-  stroke: rgba(236, 72, 153, 0.95);
-  color: rgba(236, 72, 153, 0.95);
-}
-.hm-barrier.dark .hm-wave-3 {
-  stroke: rgba(200, 80, 255, 0.9);
-  color: rgba(200, 80, 255, 0.9);
-}
-.hm-barrier.dark .hm-wave-4 {
-  stroke: rgba(255, 100, 180, 0.85);
-  color: rgba(255, 100, 180, 0.85);
-}
-.hm-barrier.dark .hm-wave-5 {
-  stroke: rgba(180, 60, 220, 0.8);
-  color: rgba(180, 60, 220, 0.8);
-}
+.hm-barrier.dark .hm-vwave-2 { stroke: rgba(255, 20, 100, 0.95); color: rgba(255, 20, 100, 0.95); }
+.hm-barrier.dark .hm-vwave-3 { stroke: rgba(255, 45, 120, 0.9); color: rgba(255, 45, 120, 0.9); }
+.hm-barrier.dark .hm-vwave-4 { stroke: rgba(255, 60, 140, 0.85); color: rgba(255, 60, 140, 0.85); }
+.hm-barrier.dark .hm-vwave-5 { stroke: rgba(255, 30, 110, 0.9); color: rgba(255, 30, 110, 0.9); }
+.hm-barrier.dark .hm-vwave-6 { stroke: rgba(255, 45, 120, 0.95); color: rgba(255, 45, 120, 0.95); }
+.hm-barrier.dark .hm-vwave-7 { stroke: rgba(255, 50, 130, 0.85); color: rgba(255, 50, 130, 0.85); }
+.hm-barrier.dark .hm-vwave-8 { stroke: rgba(255, 20, 100, 0.9); color: rgba(255, 20, 100, 0.9); }
+.hm-barrier.dark .hm-vwave-9 { stroke: rgba(255, 45, 120, 0.95); color: rgba(255, 45, 120, 0.95); }
+.hm-barrier.dark .hm-vwave-10 { stroke: rgba(255, 60, 140, 0.85); color: rgba(255, 60, 140, 0.85); }
+.hm-barrier.dark .hm-vwave-11 { stroke: rgba(255, 30, 110, 0.9); color: rgba(255, 30, 110, 0.9); }
+.hm-barrier.dark .hm-vwave-12 { stroke: rgba(255, 45, 120, 0.95); color: rgba(255, 45, 120, 0.95); }
 
-/* Modo dia (AZUL) — azul neon vibrante INTENSO com toques de roxo */
-.hm-barrier.light .hm-wave {
+/* ═══ Modo dia (AZUL) — azul neon vibrante ═══ */
+.hm-barrier.light .hm-vwave {
   stroke: rgba(0, 220, 255, 1);
   color: rgba(0, 220, 255, 1);
 }
-.hm-barrier.light .hm-wave-2 {
-  stroke: rgba(50, 180, 255, 0.95);
-  color: rgba(50, 180, 255, 0.95);
-}
-.hm-barrier.light .hm-wave-3 {
-  stroke: rgba(0, 180, 255, 0.9);
-  color: rgba(0, 180, 255, 0.9);
-}
-.hm-barrier.light .hm-wave-4 {
-  stroke: rgba(150, 120, 255, 0.85);
-  color: rgba(150, 120, 255, 0.85);
-}
-.hm-barrier.light .hm-wave-5 {
-  stroke: rgba(120, 200, 255, 0.8);
-  color: rgba(120, 200, 255, 0.8);
-}
+.hm-barrier.light .hm-vwave-2 { stroke: rgba(0, 200, 255, 0.95); color: rgba(0, 200, 255, 0.95); }
+.hm-barrier.light .hm-vwave-3 { stroke: rgba(50, 180, 255, 0.9); color: rgba(50, 180, 255, 0.9); }
+.hm-barrier.light .hm-vwave-4 { stroke: rgba(0, 220, 255, 0.85); color: rgba(0, 220, 255, 0.85); }
+.hm-barrier.light .hm-vwave-5 { stroke: rgba(80, 200, 255, 0.9); color: rgba(80, 200, 255, 0.9); }
+.hm-barrier.light .hm-vwave-6 { stroke: rgba(0, 200, 255, 0.95); color: rgba(0, 200, 255, 0.95); }
+.hm-barrier.light .hm-vwave-7 { stroke: rgba(50, 180, 255, 0.85); color: rgba(50, 180, 255, 0.85); }
+.hm-barrier.light .hm-vwave-8 { stroke: rgba(0, 220, 255, 0.9); color: rgba(0, 220, 255, 0.9); }
+.hm-barrier.light .hm-vwave-9 { stroke: rgba(80, 200, 255, 0.95); color: rgba(80, 200, 255, 0.95); }
+.hm-barrier.light .hm-vwave-10 { stroke: rgba(0, 200, 255, 0.85); color: rgba(0, 200, 255, 0.85); }
+.hm-barrier.light .hm-vwave-11 { stroke: rgba(50, 180, 255, 0.9); color: rgba(50, 180, 255, 0.9); }
+.hm-barrier.light .hm-vwave-12 { stroke: rgba(0, 220, 255, 0.95); color: rgba(0, 220, 255, 0.95); }
 
-/* ═══ Animações de fluxo ═══
-   As ondas movem-se horizontalmente em loop, criando o efeito de
-   energia fluida. Cada layer tem velocidade diferente. */
-.hm-wave-1 {
-  animation: hmWaveFlow1 12s linear infinite;
-}
-.hm-wave-2 {
-  animation: hmWaveFlow2 15s linear infinite reverse;
-}
-.hm-wave-3 {
-  animation: hmWaveFlow3 18s linear infinite;
-}
-.hm-wave-4 {
-  animation: hmWaveFlow4 10s linear infinite reverse;
-}
-.hm-wave-5 {
-  animation: hmWaveFlow5 20s linear infinite;
-}
+/* ═══ Animações de fluxo INFINITO ═══
+   Cada onda move-se para baixo (translateY) continuamente.
+   A distância de animação (400px) corresponde à repetição do padrão
+   da curva — quando a animação completa, a onda está exatamente na
+   mesma posição visual, criando loop infinito perfeito.
+   
+   Cada onda tem velocidade DIFERENTE para criar movimento orgânico
+   (umas mais rápidas, outras mais lentas) — nunca parece voltar atrás. */
+.hm-vwave-1 { animation: hmVWaveFlow 14s linear infinite; }
+.hm-vwave-2 { animation: hmVWaveFlow 18s linear infinite; }
+.hm-vwave-3 { animation: hmVWaveFlow 12s linear infinite; }
+.hm-vwave-4 { animation: hmVWaveFlow 20s linear infinite; }
+.hm-vwave-5 { animation: hmVWaveFlow 16s linear infinite; }
+.hm-vwave-6 { animation: hmVWaveFlow 22s linear infinite; }
+.hm-vwave-7 { animation: hmVWaveFlow 13s linear infinite; }
+.hm-vwave-8 { animation: hmVWaveFlow 19s linear infinite; }
+.hm-vwave-9 { animation: hmVWaveFlow 15s linear infinite; }
+.hm-vwave-10 { animation: hmVWaveFlow 21s linear infinite; }
+.hm-vwave-11 { animation: hmVWaveFlow 17s linear infinite; }
+.hm-vwave-12 { animation: hmVWaveFlow 11s linear infinite; }
 
-@keyframes hmWaveFlow1 {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-360px); }
-}
-@keyframes hmWaveFlow2 {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-360px); }
-}
-@keyframes hmWaveFlow3 {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-360px); }
-}
-@keyframes hmWaveFlow4 {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-240px); }
-}
-@keyframes hmWaveFlow5 {
+/* Animação: translateY de 0 a 400px (padrão repete a cada 400px)
+   Como o path vai de -200 a 1400 (1600px total) e o viewport é 900px,
+   há sempre path suficiente para preencher o ecrã durante a animação.
+   O loop é perfeito — a onda nunca parece voltar atrás. */
+@keyframes hmVWaveFlow {
   0%   { transform: translateY(0); }
-  100% { transform: translateY(-100px); }
+  100% { transform: translateY(400px); }
 }
 
-/* ═══ Glow de fundo translúcido ═══
-   Gradient radial subtil que dá profundidade à barreira. */
+/* ═══ Glow de fundo translúcido — COR PREDOMINANTE FORTE ═══
+   A "parte invisível" da barreira é mais colorida:
+   - Modo noite: vermelho pink neon predominante (como no filme)
+   - Modo dia: azul neon predominante
+   Opacity MAIOR (0.5-0.7 vs 0.3-0.5 antes) para cor mais forte. */
 .hm-barrier-glow {
   position: absolute;
   top: 50%;
@@ -5831,47 +5818,56 @@ html.light-mode .hero-bg-img-dark {
   height: 100%;
   transform: translate(-50%, -50%);
   border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  opacity: 0.4;
+  opacity: 0.6;
   mix-blend-mode: screen;
-  filter: blur(40px);
+  filter: blur(35px);
   will-change: opacity;
   animation: hmBarrierGlow 6s ease-in-out infinite alternate;
 }
+/* Modo noite — PINK neon PREDOMINANTE (vermelho/rosa forte) */
 .hm-barrier.dark .hm-barrier-glow {
-  background: radial-gradient(ellipse 60% 50% at 50% 50%,
-    rgba(255, 45, 120, 0.35) 0%,
-    rgba(200, 80, 255, 0.25) 40%,
-    transparent 80%);
+  background: radial-gradient(ellipse 70% 60% at 50% 50%,
+    rgba(255, 20, 100, 0.5) 0%,
+    rgba(255, 45, 120, 0.4) 30%,
+    rgba(200, 30, 100, 0.3) 60%,
+    transparent 90%);
 }
+/* Modo dia — AZUL neon PREDOMINANTE */
 .hm-barrier.light .hm-barrier-glow {
-  background: radial-gradient(ellipse 60% 50% at 50% 50%,
-    rgba(0, 200, 255, 0.35) 0%,
-    rgba(100, 150, 255, 0.25) 40%,
-    transparent 80%);
+  background: radial-gradient(ellipse 70% 60% at 50% 50%,
+    rgba(0, 200, 255, 0.5) 0%,
+    rgba(0, 180, 255, 0.4) 30%,
+    rgba(50, 150, 255, 0.3) 60%,
+    transparent 90%);
 }
 
 @keyframes hmBarrierGlow {
-  0%   { opacity: 0.3; }
-  100% { opacity: 0.5; }
+  0%   { opacity: 0.5; }
+  100% { opacity: 0.7; }
 }
 
 /* ═══ MOBILE: barreira simplificada ═══
-   Em mobile, reduzir o número de ondas (esconder wave-4 e wave-5)
-   e reduzir brilho para não pesar no GPU. */
+   Em mobile, reduzir para 6 ondas (esconder metade) e reduzir
+   brilho para não pesar no GPU. */
 @media (max-width: 767px) {
-  .hm-wave-4,
-  .hm-wave-5 {
+  .hm-vwave-2,
+  .hm-vwave-4,
+  .hm-vwave-6,
+  .hm-vwave-8,
+  .hm-vwave-10,
+  .hm-vwave-12 {
     display: none !important;
   }
-  .hm-wave {
+  .hm-vwave {
     stroke-width: 1.5 !important;
-    filter: drop-shadow(0 0 3px currentColor) !important;
+    filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 6px currentColor) !important;
   }
   .hm-barrier-glow {
-    opacity: 0.3 !important;
-    filter: blur(25px) !important;
+    opacity: 0.4 !important;
+    filter: blur(20px) !important;
   }
 }
+
 
 
 .hm-atmosphere {
