@@ -1169,21 +1169,23 @@ export default function HomePage() {
 
       {/* ═══ HONMOON SHIELD - Theme Toggle (like the anime) ═══ */}
       <section className="honmoon-shield-section">
-        {/* ═══ FUNDO CINEMATOGRÁFICO + ESPIRAL DE LUZ ═══
-            O botão Honmoon (orb) é a FONTE DE LUZ.
-            A espiral de luz roda devagar a partir do centro (orb).
+        {/* ═══ FUNDO ANIMADO DE ENERGIA HONMOON ═══
+            Fundo CSS puro (sem imagens) que flui como energia.
+            Mesma animação em ambos os modos — só muda a COR.
+            Usa variáveis CSS (--hm-energy-*) que mudam com .light-mode.
             
-            - Fundo: imagem cinematográfica (noite=pink, dia=azul)
-            - Espiral: conic gradient que roda lentamente (40s)
-            - O orb brilha como fonte de energia
+            Modo noite: tons pink/magenta (vermelho rosa neon)
+            Modo dia: tons azul/cyan (azul neon)
             
-            Modo noite: honmoon-bg-night.png + espiral pink neon
-            Modo dia: honmoon-bg-day.png + espiral azul neon */}
-        <div className={`hm-cinematic-bg ${themeMode}`}/>
-        <div className={`hm-light-spiral ${themeMode}`}>
-          <div className="hm-spiral-layer hm-spiral-1"/>
-          <div className="hm-spiral-layer hm-spiral-2"/>
-          <div className={`hm-spiral-core ${themeMode}`}/>
+            Transição SEAMLESS: quando se troca de tema, só as variáveis
+            mudam — a animação continua exatamente igual, só a cor é
+            diferente. Nem se nota que mudou de fundo. */}
+        <div className="hm-energy-field">
+          <div className="hm-energy-flow hm-energy-flow-1"/>
+          <div className="hm-energy-flow hm-energy-flow-2"/>
+          <div className="hm-energy-flow hm-energy-flow-3"/>
+          <div className="hm-energy-veins"/>
+          <div className="hm-energy-pulse"/>
         </div>
 
         {/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
