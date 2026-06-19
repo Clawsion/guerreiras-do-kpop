@@ -2629,6 +2629,7 @@ html { scroll-behavior: smooth; }
    - background-size: 100% auto (mostra largura toda, não estica altura)
    - background-position: top center (começa no topo)
    - background-color: #0C0527 (combina com a borda inferior da imagem)
+   - padding-bottom reduzido (3rem em vez de 8rem) para encurtar o espaço vazio
    A parte de baixo da secção (botão + neon divider) tem a cor de fundo. */
 @media (max-width: 767px) {
   .espetaculo-section {
@@ -2638,6 +2639,7 @@ html { scroll-behavior: smooth; }
     background-attachment: scroll !important;
     background-repeat: no-repeat !important;
     background-color: #0C0527 !important;
+    padding-bottom: 3rem !important;
   }
 }
 
