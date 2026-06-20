@@ -1669,26 +1669,18 @@ export default function HomePage() {
                     </label>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-                    <label className="contacto-field">
-                      <span>Local pretendido</span>
-                      <input type="text" name="local" placeholder="Cidade ou sala"/>
-                    </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <label className="contacto-field">
                       <span>Data prevista</span>
                       <input type="text" name="data" placeholder="Ex.: 12 Dez 2026"/>
                     </label>
                     <label className="contacto-field">
-                      <span>P&uacute;blico estimado</span>
-                      <input type="text" name="publico" placeholder="Ex.: 400 pessoas"/>
+                      <span>E-mail *</span>
+                      <input type="email" name="email" required placeholder="email@exemplo.pt"/>
                     </label>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                    <label className="contacto-field">
-                      <span>E-mail *</span>
-                      <input type="email" name="email" required placeholder="email@exemplo.pt"/>
-                    </label>
                     <label className="contacto-field">
                       <span>Telefone</span>
                       <input type="tel" name="tel" placeholder="+351 …"/>

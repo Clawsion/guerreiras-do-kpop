@@ -4658,10 +4658,11 @@ html.light-mode .hero-bg-img-dark {
   }
 }
 .contacto-form {
-  padding: 2.5rem;
+  padding: 1.75rem;
   background: var(--surface);
   border: 1px solid rgba(200, 80, 255, 0.12);
-  /* backdrop-filter só em desktop (>=768px) — pesado em mobile GPU */
+  max-width: 640px;
+  margin: 0 auto;
 }
 @media (min-width: 768px) {
   .contacto-form {
