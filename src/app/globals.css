@@ -5686,16 +5686,24 @@ html.light-mode .hero-bg-img-dark {
    Performance: usa gradientes CSS (leves) + poucas partículas. */
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ VJ-STYLE HONMOON — curvas de luz + texto LED (desktop) ═══ */
+/* ═══ LED WALL HONMOON — pontos que acendem em onda (desktop) ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
-/* 4 layers:
-   1. Grid de pontos LED (scroll subtil)
-   2. Pulse concêntrico (energia do orb)
-   3. Curvas de luz que circulam (substitui beams + orbit)
-   4. Texto LED — frases que aparecem/iluminam ciclicamente
+/* LED wall profissional: grid de pontos que se iluminam em ondas.
+   
+   4 layers:
+   1. Dim grid — pontos sempre visíveis (baixa intensidade)
+   2. Sweep 1 — pontos BRILHANTES mascarados, onda horizontal (8s)
+   3. Sweep 2 — pontos BRILHANTES mascarados, onda vertical (10s)
+   4. Sweep 3 — pontos BRILHANTES mascarados, do centro/orb (6s)
+   
+   O mask cria um "spotlight" circular — só os pontos dentro do
+   círculo são visíveis. Ao mover o spotlight, os pontos parecem
+   acender-se em sequência como um LED wall de concerto.
+   
+   SEM linhas a rodar. SEM texto. Só pontos que acendem.
    
    Modo noite: pink/red neon
-   Modo dia: azul/cyan + dourado neon */
+   Modo dia: azul/cyan neon */
 
 .hm-led-wall {
   position: absolute;
@@ -5705,200 +5713,84 @@ html.light-mode .hero-bg-img-dark {
   overflow: hidden;
 }
 
-/* ═══ 1. Grid de pontos LED ═══ */
-.hm-vj-grid {
+/* ═══ 1. Dim grid — pontos sempre visíveis ═══ */
+.hm-led-dim {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(255, 45, 120, 0.2) 1px, transparent 1.5px);
+  background-image: radial-gradient(circle, rgba(255, 45, 120, 0.12) 1px, transparent 1.5px);
   background-size: 18px 18px;
-  opacity: 0.5;
-  mix-blend-mode: screen;
-  will-change: background-position;
-  animation: hmVjGridScroll 25s linear infinite;
-}
-.light-mode .hm-vj-grid {
-  background-image: radial-gradient(circle, rgba(0, 200, 255, 0.22) 1px, transparent 1.5px);
-  mix-blend-mode: normal;
-  opacity: 0.45;
-}
-@keyframes hmVjGridScroll {
-  0%   { background-position: 0 0; }
-  100% { background-position: 18px 18px; }
-}
-
-/* ═══ 2. Pulse concêntrico ═══ */
-.hm-vj-pulse {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200%;
-  height: 200%;
-  transform: translate(-50%, -50%);
-  background: repeating-radial-gradient(circle at 50% 50%,
-    transparent 0px, transparent 60px,
-    rgba(255, 45, 120, 0.1) 60px, rgba(255, 45, 120, 0.1) 62px,
-    transparent 62px, transparent 120px);
-  opacity: 0.5;
-  mix-blend-mode: screen;
-  will-change: transform, opacity;
-  animation: hmVjPulse 10s ease-in-out infinite alternate;
-}
-.light-mode .hm-vj-pulse {
-  background: repeating-radial-gradient(circle at 50% 50%,
-    transparent 0px, transparent 60px,
-    rgba(0, 200, 255, 0.12) 60px, rgba(0, 200, 255, 0.12) 62px,
-    transparent 62px, transparent 120px);
-  mix-blend-mode: normal;
-  opacity: 0.4;
-}
-@keyframes hmVjPulse {
-  0%   { transform: translate(-50%, -50%) scale(0.92); opacity: 0.3; }
-  100% { transform: translate(-50%, -50%) scale(1.08); opacity: 0.6; }
-}
-
-/* ═══ 3. Curvas de luz que circulam ═══
-   SVG-like com repeating-radial-gradient + conic gradient que cria
-   arcos de luz curvos a circular pelo espaço. */
-.hm-vj-curves {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 250%;
-  height: 250%;
-  transform: translate(-50%, -50%);
-  background:
-    conic-gradient(from 0deg at 50% 50%,
-      transparent 0deg,
-      rgba(255, 45, 120, 0.12) 10deg,
-      rgba(255, 20, 100, 0.08) 20deg,
-      transparent 30deg,
-      transparent 80deg,
-      rgba(255, 45, 120, 0.1) 90deg,
-      rgba(255, 20, 100, 0.06) 100deg,
-      transparent 110deg,
-      transparent 170deg,
-      rgba(255, 45, 120, 0.12) 180deg,
-      rgba(255, 20, 100, 0.08) 190deg,
-      transparent 200deg,
-      transparent 260deg,
-      rgba(255, 45, 120, 0.1) 270deg,
-      rgba(255, 20, 100, 0.06) 280deg,
-      transparent 290deg,
-      transparent 360deg);
   opacity: 0.6;
   mix-blend-mode: screen;
-  filter: blur(15px);
-  mask: radial-gradient(circle at 50% 50%, transparent 10%, black 25%, transparent 60%);
-  -webkit-mask: radial-gradient(circle at 50% 50%, transparent 10%, black 25%, transparent 60%);
-  will-change: transform;
-  animation: hmVjCurves 35s linear infinite;
 }
-.light-mode .hm-vj-curves {
-  background:
-    conic-gradient(from 0deg at 50% 50%,
-      transparent 0deg,
-      rgba(0, 200, 255, 0.14) 10deg,
-      rgba(255, 200, 100, 0.08) 20deg,
-      transparent 30deg,
-      transparent 80deg,
-      rgba(0, 200, 255, 0.12) 90deg,
-      rgba(255, 200, 100, 0.06) 100deg,
-      transparent 110deg,
-      transparent 170deg,
-      rgba(0, 200, 255, 0.14) 180deg,
-      rgba(255, 200, 100, 0.08) 190deg,
-      transparent 200deg,
-      transparent 260deg,
-      rgba(0, 200, 255, 0.12) 270deg,
-      rgba(255, 200, 100, 0.06) 280deg,
-      transparent 290deg,
-      transparent 360deg);
+.light-mode .hm-led-dim {
+  background-image: radial-gradient(circle, rgba(0, 200, 255, 0.14) 1px, transparent 1.5px);
   mix-blend-mode: normal;
   opacity: 0.5;
 }
-@keyframes hmVjCurves {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(360deg); }
-}
 
-/* ═══ 4. Texto LED — frases que aparecem/iluminam ciclicamente ═══
-   As palavras aparecem uma de cada vez, como se fossem formadas
-   pelos pontos do LED wall que se iluminam.
-   
-   Efeito: cada palavra tem opacity 0 (invisível) e vai para opacity 1
-   (totalmente visível) numa sequência ciclo. A transição usa
-   steps() para parecer que os LEDs se acendem um a um. */
-.hm-led-text {
+/* ═══ 2-4. Sweeps — pontos brilhantes mascarados ═══
+   Cada sweep é uma grid de pontos BRILHANTES, mas só visível dentro
+   de um círculo (mask). O círculo move-se, fazendo os pontos
+   parecerem acender-se em sequência. */
+.hm-led-sweep {
   position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  z-index: 1;
-}
-.hm-led-word {
-  position: absolute;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: clamp(2rem, 6vw, 5rem);
-  font-weight: 900;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  opacity: 0;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background-image: radial-gradient(circle, rgba(255, 45, 120, 1) 1.5px, transparent 2px);
+  background-size: 18px 18px;
   mix-blend-mode: screen;
-  /* text-shadow simula o brilho dos LEDs */
-  text-shadow:
-    0 0 10px currentColor,
-    0 0 20px currentColor,
-    0 0 40px currentColor,
-    0 0 80px currentColor;
-  will-change: opacity;
+  -webkit-mask: radial-gradient(circle at 50% 50%, black 0%, black 12%, transparent 18%);
+  mask: radial-gradient(circle at 50% 50%, black 0%, black 12%, transparent 18%);
+  will-change: transform;
 }
-
-/* Modo noite — pink/red neon */
-.hm-led-wall.dark .hm-led-word {
-  color: rgba(255, 45, 120, 0.9);
-}
-/* Modo dia — azul neon */
-.hm-led-wall.light .hm-led-word {
-  color: rgba(0, 220, 255, 1);
+.light-mode .hm-led-sweep {
+  background-image: radial-gradient(circle, rgba(0, 220, 255, 1) 1.5px, transparent 2px);
   mix-blend-mode: normal;
 }
 
-/* Sequência: cada palavra aparece numa janela de 5s
-   Ciclo total: 25s (5 palavras × 5s cada)
-   steps(1) = aparece instantaneamente (como LEDs a acender)
-   fade out suave no final da janela */
-.hm-led-word-1 { animation: hmLedWordShow 25s steps(1, end) infinite;          animation-delay: 0s; }
-.hm-led-word-2 { animation: hmLedWordShow 25s steps(1, end) infinite;          animation-delay: 5s; }
-.hm-led-word-3 { animation: hmLedWordShow 25s steps(1, end) infinite;          animation-delay: 10s; }
-.hm-led-word-4 { animation: hmLedWordShow 25s steps(1, end) infinite;          animation-delay: 15s; }
-.hm-led-word-5 { animation: hmLedWordShow 25s steps(1, end) infinite;          animation-delay: 20s; }
+/* Sweep 1 — onda horizontal esquerda→direita (8s) */
+.hm-led-sweep-1 {
+  animation: hmSweep1 8s ease-in-out infinite alternate;
+}
+@keyframes hmSweep1 {
+  0%   { transform: translate(-80%, -50%); }
+  100% { transform: translate(-20%, -50%); }
+}
 
-@keyframes hmLedWordShow {
-  0%   { opacity: 0; }
-  2%   { opacity: 1; }
-  16%  { opacity: 1; }
-  19%  { opacity: 0; }
-  100% { opacity: 0; }
+/* Sweep 2 — onda vertical cima→baixo (10s) */
+.hm-led-sweep-2 {
+  animation: hmSweep2 10s ease-in-out infinite alternate;
+}
+@keyframes hmSweep2 {
+  0%   { transform: translate(-50%, -80%); }
+  100% { transform: translate(-50%, -20%); }
+}
+
+/* Sweep 3 — expande do centro/orb (6s) */
+.hm-led-sweep-3 {
+  -webkit-mask: radial-gradient(circle at 50% 50%, black 0%, black 5%, transparent 8%);
+  mask: radial-gradient(circle at 50% 50%, black 0%, black 5%, transparent 8%);
+  animation: hmSweep3 6s ease-in-out infinite alternate;
+}
+@keyframes hmSweep3 {
+  0%   { transform: translate(-50%, -50%) scale(0.5); opacity: 0.3; }
+  100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.8; }
 }
 
 /* ═══ MOBILE: simplificado ═══ */
 @media (max-width: 767px) {
-  .hm-vj-curves {
+  .hm-led-sweep-2,
+  .hm-led-sweep-3 {
     display: none !important;
   }
-  .hm-vj-grid {
+  .hm-led-dim {
     background-size: 28px 28px !important;
-    opacity: 0.35 !important;
-    animation-duration: 40s !important;
+    opacity: 0.4 !important;
   }
-  .hm-vj-pulse {
-    opacity: 0.3 !important;
-    animation-duration: 14s !important;
-  }
-  .hm-led-word {
-    font-size: clamp(1.5rem, 10vw, 3rem) !important;
+  .hm-led-sweep-1 {
+    animation-duration: 12s !important;
   }
 }
 

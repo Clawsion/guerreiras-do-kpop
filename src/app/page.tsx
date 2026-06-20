@@ -1175,20 +1175,14 @@ export default function HomePage() {
             Padrões: ondas concêntricas que emanam do centro (orb).
             Leve: CSS puro, sem imagens, sem JavaScript. */}
         <div className={`hm-led-wall ${themeMode}`}>
-          {/* Grid de pontos LED */}
-          <div className="hm-vj-grid"/>
-          {/* Pulse concêntrico do centro */}
-          <div className="hm-vj-pulse"/>
-          {/* Curvas de luz que circulam (substitui beams + orbit) */}
-          <div className="hm-vj-curves"/>
-          {/* LED text — frases que aparecem formadas pelos pontos */}
-          <div className="hm-led-text">
-            <span className="hm-led-word hm-led-word-1">GUERREIRAS</span>
-            <span className="hm-led-word hm-led-word-2">HONMOON</span>
-            <span className="hm-led-word hm-led-word-3">K-POP</span>
-            <span className="hm-led-word hm-led-word-4">AO VIVO</span>
-            <span className="hm-led-word hm-led-word-5">TRIBUTO</span>
-          </div>
+          {/* Dim grid — pontos sempre visíveis (baixa intensidade) */}
+          <div className="hm-led-dim"/>
+          {/* Sweep 1 — pontos que acendem em onda horizontal */}
+          <div className="hm-led-sweep hm-led-sweep-1"/>
+          {/* Sweep 2 — pontos que acendem em onda vertical */}
+          <div className="hm-led-sweep hm-led-sweep-2"/>
+          {/* Sweep 3 — pontos que acendem do centro (orb) */}
+          <div className="hm-led-sweep hm-led-sweep-3"/>
         </div>
 
         {/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
