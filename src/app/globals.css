@@ -5721,7 +5721,7 @@ html.light-mode .hero-bg-img-dark {
     rgba(3, 0, 8, 1) 100%);
 }
 .hm-nebula.light {
-  background: linear-gradient(160deg, #98A8E0 0%, #A898D8 25%, #B898D0 50%, #A098DC 75%, #98A8E0 100%);
+  background: linear-gradient(160deg, #7898D0 0%, #8888C8 25%, #9888C0 50%, #8088D4 75%, #7898D0 100%);
 }
 
 /* ═══ 2-4. Rios de gás — filamentos sinuosos orgânicos ═══
@@ -5948,41 +5948,41 @@ html.light-mode .hero-bg-img-dark {
   background:
     conic-gradient(from 0deg at 50% 50%,
       transparent 0deg,
-      rgba(100, 130, 255, 0.65) 6deg,
-      rgba(100, 130, 255, 0.4) 18deg,
-      rgba(180, 150, 255, 0.35) 30deg,
+      rgba(100, 130, 255, 0.85) 6deg,
+      rgba(100, 130, 255, 0.55) 18deg,
+      rgba(180, 150, 255, 0.5) 30deg,
       rgba(100, 130, 255, 0.06) 40deg,
       transparent 50deg,
       transparent 65deg,
-      rgba(180, 150, 255, 0.6) 73deg,
+      rgba(180, 150, 255, 0.8) 73deg,
       rgba(100, 130, 255, 0.18) 85deg,
       rgba(180, 150, 255, 0.08) 97deg,
       transparent 107deg,
       transparent 122deg,
-      rgba(100, 130, 255, 0.55) 130deg,
-      rgba(180, 150, 255, 0.4) 142deg,
+      rgba(100, 130, 255, 0.75) 130deg,
+      rgba(180, 150, 255, 0.55) 142deg,
       rgba(100, 130, 255, 0.06) 154deg,
       transparent 164deg,
       transparent 179deg,
-      rgba(100, 130, 255, 0.65) 185deg,
+      rgba(100, 130, 255, 0.85) 185deg,
       rgba(100, 130, 255, 0.2) 197deg,
       rgba(180, 150, 255, 0.15) 209deg,
       rgba(100, 130, 255, 0.06) 219deg,
       transparent 229deg,
       transparent 244deg,
-      rgba(180, 150, 255, 0.6) 252deg,
+      rgba(180, 150, 255, 0.8) 252deg,
       rgba(100, 130, 255, 0.18) 264deg,
       rgba(180, 150, 255, 0.08) 276deg,
       transparent 286deg,
       transparent 301deg,
-      rgba(100, 130, 255, 0.55) 309deg,
+      rgba(100, 130, 255, 0.75) 309deg,
       rgba(180, 150, 255, 0.2) 321deg,
       rgba(100, 130, 255, 0.06) 333deg,
       transparent 343deg,
       transparent 360deg);
   mix-blend-mode: normal;
-  opacity: 0.95;
-  filter: blur(3px);
+  opacity: 1;
+  filter: blur(2px);
 }
 @keyframes hmNebFocos {
   from { transform: translate(-50%, -50%) rotate(0deg); }
