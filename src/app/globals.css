@@ -4330,8 +4330,8 @@ html.light-mode .hero-bg-img-dark {
    - Cache global em edge servers (entrega rápida mundialmente)
    - CORS habilitado (Access-Control-Allow-Origin: *)
    
-   background-size: 100% auto — SEM ZOOM (a foto é mostrada ao seu
-              tamanho natural, ocupando 100% da largura do container).
+   background-size: 85% auto — pouco menos zoom que 100% (a foto fica
+              ligeiramente mais pequena mas ainda grande, nítida).
    inset: -50% — área extra grande para a foto deslizar bastante sem
               mostrar as bordas.
    background-position: center bottom — âncora em baixo (vê-se parte
@@ -4342,7 +4342,7 @@ html.light-mode .hero-bg-img-dark {
   position: absolute;
   inset: -50%;
   background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon.webp');
-  background-size: 100% auto;
+  background-size: 85% auto;
   background-position: center bottom;
   background-repeat: no-repeat;
   opacity: 0.22;
@@ -4361,11 +4361,11 @@ html.light-mode .hero-bg-img-dark {
   opacity: 0.1;
   filter: hue-rotate(180deg) brightness(1.2);
 }
-/* Mobile — sem parallax JS, só estática. Sem zoom também. */
+/* Mobile — sem parallax JS, só estática. Pouco menos zoom também. */
 @media (max-width: 767px) {
   .galeria-parallax-bg {
     inset: 0;
-    background-size: 100% auto;
+    background-size: 90% auto;
     background-position: center bottom;
     opacity: 0.18;
     will-change: auto;
