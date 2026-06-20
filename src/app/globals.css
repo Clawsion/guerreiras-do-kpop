@@ -3912,13 +3912,14 @@ html.light-mode .hero-bg-img-dark {
 .cartazes-section {
   position: relative;
   padding: 7rem 0 6rem;
-  /* Modo noite: gradient roxo escuro premium (como estava antes — sem parallax) */
-  background: linear-gradient(180deg,
-    #0a0612 0%,
-    #110a1f 30%,
-    #150d28 60%,
-    #0a0612 100%
-  );
+  /* Modo noite: imagem escura da multidão com parallax + marca de água */
+  background: var(--void);
+  background-image: url('/cartazes-bg-night.webp'),
+    linear-gradient(180deg, rgba(11,8,19,0.85) 0%, rgba(16,11,26,0.88) 50%, rgba(11,8,19,0.85) 100%);
+  background-size: 100% auto, cover;
+  background-position: center top, center;
+  background-attachment: fixed, fixed;
+  background-repeat: no-repeat, no-repeat;
   overflow: hidden;
   isolation: isolate;
 }
