@@ -2679,12 +2679,24 @@ html.light-mode .hero-bg-img-dark {
     position: relative;
     padding: 3rem 0 3rem;
     background: var(--void);
-    background-image: url('/espetaculo-bg-dark.png');
-    background-size: 100% 100%;
+    background-image: url('/espetaculo-bg-dark.webp');
+    background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+    background-attachment: fixed; /* Parallax como os contactos */
     overflow: hidden;
   }
+/* Overlay marca de água para desktop — imagem visível a ~25% */
+@media (min-width: 1024px) {
+  .espetaculo-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(11, 8, 19, 0.75);
+    z-index: 0;
+    pointer-events: none;
+  }
+}
 /* Mobile: layout stacks vertically, so go back to full cover for impact */
 @media (max-width: 1023px) {
   .espetaculo-section {
@@ -5779,10 +5791,25 @@ html.light-mode .hero-bg-img-dark {
 /* ═══ Tributo Ao Vivo - lavanda puro (estado anterior, sem rosado) ═══ */
 .light-mode .espetaculo-section {
   background-color: #D8B8E8;
-  background-image: url('/espetaculo-bg-light.png');
-  background-size: 100% 100%;
+  background-image: url('/espetaculo-bg-light.webp');
+  background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
+  background-attachment: fixed; /* Parallax como os contactos */
+}
+/* Overlay marca de água para desktop modo dia — imagem visível a ~25% */
+@media (min-width: 1024px) {
+  .light-mode .espetaculo-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(216, 184, 232, 0.75) 0%,
+      rgba(200, 165, 220, 0.78) 50%,
+      rgba(216, 184, 232, 0.75) 100%);
+    z-index: 0;
+    pointer-events: none;
+  }
 }
 @media (max-width: 1023px) {
   .light-mode .espetaculo-section {
