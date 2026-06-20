@@ -1175,14 +1175,12 @@ export default function HomePage() {
             Padrões: ondas concêntricas que emanam do centro (orb).
             Leve: CSS puro, sem imagens, sem JavaScript. */}
         <div className={`hm-led-wall ${themeMode}`}>
-          {/* Dim grid — pontos sempre visíveis (baixa intensidade) */}
-          <div className="hm-led-dim"/>
-          {/* Sweep 1 — pontos que acendem em onda horizontal */}
-          <div className="hm-led-sweep hm-led-sweep-1"/>
-          {/* Sweep 2 — pontos que acendem em onda vertical */}
-          <div className="hm-led-sweep hm-led-sweep-2"/>
-          {/* Sweep 3 — pontos que acendem do centro (orb) */}
-          <div className="hm-led-sweep hm-led-sweep-3"/>
+          {/* Grid de pontos LED (sempre visível, baixa intensidade) */}
+          <div className="hm-vj-grid"/>
+          {/* Pulse concêntrico do centro (orb) */}
+          <div className="hm-vj-pulse"/>
+          {/* Curvas de luz que circulam (focos de luz a rodar) */}
+          <div className="hm-vj-curves"/>
         </div>
 
         {/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══

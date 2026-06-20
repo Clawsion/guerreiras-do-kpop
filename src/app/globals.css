@@ -5686,24 +5686,15 @@ html.light-mode .hero-bg-img-dark {
    Performance: usa gradientes CSS (leves) + poucas partículas. */
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ LED WALL HONMOON — pontos que acendem em onda (desktop) ═══ */
+/* ═══ HONMOON LED WALL — grid + pulse + curvas de luz (desktop) ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
-/* LED wall profissional: grid de pontos que se iluminam em ondas.
+/* 3 layers (SEM linhas a rodar, SEM sweeps):
+   1. Grid de pontos LED (sempre visível)
+   2. Pulse concêntrico (energia do orb)
+   3. Curvas de luz (focos que rodam — MUITA intensidade)
    
-   4 layers:
-   1. Dim grid — pontos sempre visíveis (baixa intensidade)
-   2. Sweep 1 — pontos BRILHANTES mascarados, onda horizontal (8s)
-   3. Sweep 2 — pontos BRILHANTES mascarados, onda vertical (10s)
-   4. Sweep 3 — pontos BRILHANTES mascarados, do centro/orb (6s)
-   
-   O mask cria um "spotlight" circular — só os pontos dentro do
-   círculo são visíveis. Ao mover o spotlight, os pontos parecem
-   acender-se em sequência como um LED wall de concerto.
-   
-   SEM linhas a rodar. SEM texto. Só pontos que acendem.
-   
-   Modo noite: pink/red neon
-   Modo dia: azul/cyan neon */
+   Modo noite: pink/red neon — INTENSO
+   Modo dia: azul/cyan neon — INTENSO (visível!) */
 
 .hm-led-wall {
   position: absolute;
@@ -5713,84 +5704,155 @@ html.light-mode .hero-bg-img-dark {
   overflow: hidden;
 }
 
-/* ═══ 1. Dim grid — pontos sempre visíveis ═══ */
-.hm-led-dim {
+/* ═══ 1. Grid de pontos LED ═══ */
+.hm-vj-grid {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(255, 45, 120, 0.12) 1px, transparent 1.5px);
+  background-image: radial-gradient(circle, rgba(255, 45, 120, 0.25) 1.5px, transparent 2px);
   background-size: 18px 18px;
-  opacity: 0.6;
+  opacity: 0.7;
   mix-blend-mode: screen;
+  will-change: background-position;
+  animation: hmVjGridScroll 25s linear infinite;
 }
-.light-mode .hm-led-dim {
-  background-image: radial-gradient(circle, rgba(0, 200, 255, 0.14) 1px, transparent 1.5px);
+.light-mode .hm-vj-grid {
+  background-image: radial-gradient(circle, rgba(0, 200, 255, 0.3) 1.5px, transparent 2px);
   mix-blend-mode: normal;
-  opacity: 0.5;
+  opacity: 0.6;
+}
+@keyframes hmVjGridScroll {
+  0%   { background-position: 0 0; }
+  100% { background-position: 18px 18px; }
 }
 
-/* ═══ 2-4. Sweeps — pontos brilhantes mascarados ═══
-   Cada sweep é uma grid de pontos BRILHANTES, mas só visível dentro
-   de um círculo (mask). O círculo move-se, fazendo os pontos
-   parecerem acender-se em sequência. */
-.hm-led-sweep {
+/* ═══ 2. Pulse concêntrico ═══ */
+.hm-vj-pulse {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 300%;
-  height: 300%;
-  background-image: radial-gradient(circle, rgba(255, 45, 120, 1) 1.5px, transparent 2px);
-  background-size: 18px 18px;
+  width: 200%;
+  height: 200%;
+  transform: translate(-50%, -50%);
+  background: repeating-radial-gradient(circle at 50% 50%,
+    transparent 0px, transparent 60px,
+    rgba(255, 45, 120, 0.15) 60px, rgba(255, 45, 120, 0.15) 62px,
+    transparent 62px, transparent 120px);
+  opacity: 0.6;
   mix-blend-mode: screen;
-  -webkit-mask: radial-gradient(circle at 50% 50%, black 0%, black 12%, transparent 18%);
-  mask: radial-gradient(circle at 50% 50%, black 0%, black 12%, transparent 18%);
-  will-change: transform;
+  will-change: transform, opacity;
+  animation: hmVjPulse 10s ease-in-out infinite alternate;
 }
-.light-mode .hm-led-sweep {
-  background-image: radial-gradient(circle, rgba(0, 220, 255, 1) 1.5px, transparent 2px);
+.light-mode .hm-vj-pulse {
+  background: repeating-radial-gradient(circle at 50% 50%,
+    transparent 0px, transparent 60px,
+    rgba(0, 200, 255, 0.2) 60px, rgba(0, 200, 255, 0.2) 62px,
+    transparent 62px, transparent 120px);
   mix-blend-mode: normal;
+  opacity: 0.5;
+}
+@keyframes hmVjPulse {
+  0%   { transform: translate(-50%, -50%) scale(0.92); opacity: 0.4; }
+  100% { transform: translate(-50%, -50%) scale(1.08); opacity: 0.7; }
 }
 
-/* Sweep 1 — onda horizontal esquerda→direita (8s) */
-.hm-led-sweep-1 {
-  animation: hmSweep1 8s ease-in-out infinite alternate;
+/* ═══ 3. Curvas de luz — focos que rodam (MUITA intensidade) ═══
+   Conic gradient com arcos de luz que rodam.
+   INTENSIDADE AUMENTADA:
+   - Cores 3x mais fortes (0.25-0.35 vs 0.08-0.12)
+   - mask radius maior (30% vs 18%) — focos mais largos
+   - blur menor (10px vs 15px) — mais nítidos
+   - opacity maior (0.8 vs 0.6) */
+.hm-vj-curves {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400%;
+  height: 400%;
+  transform: translate(-50%, -50%);
+  background:
+    conic-gradient(from 0deg at 50% 50%,
+      transparent 0deg,
+      rgba(255, 45, 120, 0.4) 8deg,
+      rgba(255, 20, 100, 0.3) 20deg,
+      rgba(255, 45, 120, 0.15) 35deg,
+      transparent 45deg,
+      transparent 70deg,
+      rgba(255, 45, 120, 0.35) 78deg,
+      rgba(255, 20, 100, 0.22) 92deg,
+      rgba(255, 45, 120, 0.1) 105deg,
+      transparent 115deg,
+      transparent 155deg,
+      rgba(255, 45, 120, 0.4) 168deg,
+      rgba(255, 20, 100, 0.3) 180deg,
+      rgba(255, 45, 120, 0.15) 195deg,
+      transparent 205deg,
+      transparent 245deg,
+      rgba(255, 45, 120, 0.35) 258deg,
+      rgba(255, 20, 100, 0.22) 272deg,
+      rgba(255, 45, 120, 0.1) 285deg,
+      transparent 295deg,
+      transparent 335deg,
+      rgba(255, 45, 120, 0.3) 348deg,
+      transparent 360deg);
+  opacity: 0.9;
+  mix-blend-mode: screen;
+  filter: blur(6px);
+  -webkit-mask: radial-gradient(circle at 50% 50%, black 0%, black 5%, black 45%, transparent 70%);
+  mask: radial-gradient(circle at 50% 50%, black 0%, black 5%, black 45%, transparent 70%);
+  will-change: transform;
+  animation: hmVjCurves 35s linear infinite;
 }
-@keyframes hmSweep1 {
-  0%   { transform: translate(-80%, -50%); }
-  100% { transform: translate(-20%, -50%); }
+/* Modo dia — MUITA intensidade (visível!) */
+.light-mode .hm-vj-curves {
+  background:
+    conic-gradient(from 0deg at 50% 50%,
+      transparent 0deg,
+      rgba(0, 200, 255, 0.45) 8deg,
+      rgba(255, 200, 100, 0.3) 20deg,
+      rgba(0, 200, 255, 0.2) 35deg,
+      transparent 45deg,
+      transparent 70deg,
+      rgba(0, 200, 255, 0.4) 78deg,
+      rgba(255, 200, 100, 0.22) 92deg,
+      rgba(0, 200, 255, 0.15) 105deg,
+      transparent 115deg,
+      transparent 155deg,
+      rgba(0, 200, 255, 0.45) 168deg,
+      rgba(255, 200, 100, 0.3) 180deg,
+      rgba(0, 200, 255, 0.2) 195deg,
+      transparent 205deg,
+      transparent 245deg,
+      rgba(0, 200, 255, 0.4) 258deg,
+      rgba(255, 200, 100, 0.22) 272deg,
+      rgba(0, 200, 255, 0.15) 285deg,
+      transparent 295deg,
+      transparent 335deg,
+      rgba(0, 200, 255, 0.35) 348deg,
+      transparent 360deg);
+  mix-blend-mode: normal;
+  opacity: 0.8;
+  filter: blur(5px);
 }
-
-/* Sweep 2 — onda vertical cima→baixo (10s) */
-.hm-led-sweep-2 {
-  animation: hmSweep2 10s ease-in-out infinite alternate;
-}
-@keyframes hmSweep2 {
-  0%   { transform: translate(-50%, -80%); }
-  100% { transform: translate(-50%, -20%); }
-}
-
-/* Sweep 3 — expande do centro/orb (6s) */
-.hm-led-sweep-3 {
-  -webkit-mask: radial-gradient(circle at 50% 50%, black 0%, black 5%, transparent 8%);
-  mask: radial-gradient(circle at 50% 50%, black 0%, black 5%, transparent 8%);
-  animation: hmSweep3 6s ease-in-out infinite alternate;
-}
-@keyframes hmSweep3 {
-  0%   { transform: translate(-50%, -50%) scale(0.5); opacity: 0.3; }
-  100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.8; }
+@keyframes hmVjCurves {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 /* ═══ MOBILE: simplificado ═══ */
 @media (max-width: 767px) {
-  .hm-led-sweep-2,
-  .hm-led-sweep-3 {
-    display: none !important;
+  .hm-vj-curves {
+    opacity: 0.4 !important;
+    filter: blur(15px) !important;
+    animation-duration: 50s !important;
   }
-  .hm-led-dim {
+  .hm-vj-grid {
     background-size: 28px 28px !important;
     opacity: 0.4 !important;
+    animation-duration: 40s !important;
   }
-  .hm-led-sweep-1 {
-    animation-duration: 12s !important;
+  .hm-vj-pulse {
+    opacity: 0.3 !important;
+    animation-duration: 14s !important;
   }
 }
 
