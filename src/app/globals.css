@@ -4504,7 +4504,7 @@ html.light-mode .hero-bg-img-dark {
         transparent 100%);
   }
   .light-mode .galeria-parallax-bg {
-    opacity: 0.12;
+    opacity: 0.07; /* Reduzido de 0.12 para 0.07 — menos intensidade branca no parallax 2 */
   }
   /* ═══ MODO NOITE MOBILE — Fundo SIMÉTRICO SOFT (menos intensidade roxo) ═══
      Análise da cor média do topo (0-40%) da imagem do Portal Honmoon:
