@@ -2718,7 +2718,7 @@ html.light-mode .hero-bg-img-dark {
     background-size: 100% auto;
     background-position: top center;
     background-repeat: no-repeat;
-    filter: brightness(1.4);
+    filter: brightness(1.8);
     z-index: 0;
     pointer-events: none;
   }
@@ -2733,8 +2733,8 @@ html.light-mode .hero-bg-img-dark {
     padding-top: 2.5rem !important;
   }
   .light-mode .espetaculo-section::before {
-    background-image: url('/espetaculo-bg-light-mobile.webp?v=96');
-    filter: brightness(1.2);
+    background-image: url('/espetaculo-bg-light-mobile.webp?v=97');
+    filter: brightness(1.4);
   }
   /* ═══ LEGIBILIDADE DO TEXTO em mobile ═══
      Adicionar um backdrop semi-transparente atrás do conteúdo do Tributo
@@ -9067,9 +9067,12 @@ img { max-width: 100%; height: auto; }
     top: 0;
     left: 0;
     right: 0;
-    height: 80px;
-    background: linear-gradient(to bottom, rgba(11, 8, 19, 0.4) 0%, transparent 100%);
-    z-index: 5;
+    height: 100px;
+    background: linear-gradient(to bottom,
+      rgba(11, 8, 19, 0.6) 0%,
+      rgba(11, 8, 19, 0.3) 40%,
+      transparent 100%);
+    z-index: 90;
     pointer-events: none;
   }
   /* MODO DIA — GARANTIR que NÃO há fade/overlay nenhum no fundo do hero.
