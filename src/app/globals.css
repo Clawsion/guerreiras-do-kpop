@@ -5975,6 +5975,56 @@ html.light-mode .hero-bg-img-dark {
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
+/* ═══ MOBILE: orbs escondidos + orb simplificado + nebulosa + focos realçados ═══ */
+/* Esconder TODOS os orbs decorativos em volta do botão em mobile */
+@media (max-width: 767px) {
+  .hm-ring,
+  .hm-neon-circle,
+  .hm-neon-arc,
+  .hm-node,
+  .hm-strand,
+  .hm-burst-ring,
+  .hm-bg-glow,
+  .hm-tap-hint,
+  .hm-kid-hint {
+    display: none !important;
+  }
+  /* Orb — só o círculo que respira, sem ponto luminoso central */
+  .hm-orb {
+    width: 110px !important;
+    height: 110px !important;
+  }
+  .hm-orb.dark {
+    background: radial-gradient(circle at 50% 50%,
+      rgba(200, 80, 255, 0.08) 0%,
+      rgba(44, 21, 80, 0.2) 50%,
+      rgba(11, 8, 19, 0.35) 100%) !important;
+    border: 1.5px solid rgba(200, 80, 255, 0.25) !important;
+    box-shadow: 0 0 20px rgba(200, 80, 255, 0.12), inset 0 0 15px rgba(200, 80, 255, 0.06) !important;
+    animation: hmOrbDormant 5s ease-in-out infinite !important;
+  }
+  .hm-orb.light {
+    background: radial-gradient(circle at 50% 50%,
+      rgba(255, 220, 130, 0.1) 0%,
+      rgba(245, 158, 11, 0.08) 40%,
+      rgba(236, 72, 153, 0.05) 70%,
+      rgba(200, 80, 255, 0.03) 100%) !important;
+    border: 1.5px solid rgba(245, 158, 11, 0.25) !important;
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.12), inset 0 0 15px rgba(245, 158, 11, 0.06) !important;
+    animation: hmOrbActive 5s ease-in-out infinite !important;
+  }
+  /* Label central mantém-se */
+  .hm-label {
+    font-size: 9px !important;
+  }
+  /* Focos de luz MAIS intensos em mobile */
+  .hm-neb-focos {
+    opacity: 0.7 !important;
+    filter: blur(5px) !important;
+    animation-duration: 35s !important;
+  }
+}
+
 /* ═══ MOBILE: nebulosa proporcional e leve (smartphone + iPhone) ═══ */
 @media (max-width: 767px) {
   /* Neb-1 e Neb-2 visíveis mas mais subtils */
