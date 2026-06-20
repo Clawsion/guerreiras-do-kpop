@@ -2709,8 +2709,11 @@ html.light-mode .hero-bg-img-dark {
     padding-top: 2.5rem !important;
     --esp-pitch-margin: 0.5rem;
   }
-  /* ::before com a imagem + brightness — realça o palco sem mexer no zoom.
-     Aumentado de 1.8 para 2.4 para destacar mais o fundo no modo noite mobile. */
+  /* ::before com a imagem + mask para fade suave no fundo.
+     Voltar a brightness(1.8) (original) — o problema de "corte mais acima"
+     vinha do brightness(2.4) que tornou a transição imagem→fundo visível.
+     Agora usamos mask-image para fazer a imagem desaparecer gradualmente
+     nos últimos 25% da altura, sem corte duro. */
   .espetaculo-section::before {
     content: '';
     position: absolute;
@@ -2719,9 +2722,13 @@ html.light-mode .hero-bg-img-dark {
     background-size: 100% auto;
     background-position: top center;
     background-repeat: no-repeat;
-    filter: brightness(2.4) contrast(1.05);
+    filter: brightness(1.8);
     z-index: 0;
     pointer-events: none;
+    /* Fade suave no fundo: imagem visível até 70%, depois desaparece gradualmente.
+       Resolve o corte duro onde a imagem termina (abaixo de "memoráveis e envolvente"). */
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 65%, rgba(0,0,0,0.6) 80%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 65%, rgba(0,0,0,0.6) 80%, transparent 100%);
   }
   /* ═══ MODO DIA (light-mode) — smartphone: imagem própria (941x1672) ═══
      Igual ao modo noite mas com a imagem de dia.
@@ -8116,10 +8123,9 @@ section#concertos {
   .esp-glow-orb { display: none !important; }
   /* Esp-spotlights: desativar animação em mobile (3 animações infinitas
      pesadas) e reduzir opacidade. As spotlights continuam visíveis mas
-     estáticas — sem sway animation.
-     Opacidade aumentada de 0.3 para 0.5 para destacar mais o fundo. */
+     estáticas — sem sway animation. */
   .esp-spotlight { 
-    opacity: 0.5 !important; 
+    opacity: 0.3 !important; 
     animation: none !important;
     /* mix-blend-mode: screen é pesado em mobile GPU — desativar */
     mix-blend-mode: normal !important;
