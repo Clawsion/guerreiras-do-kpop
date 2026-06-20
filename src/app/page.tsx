@@ -1408,6 +1408,34 @@ export default function HomePage() {
         <div className="esp-spotlight esp-spotlight-left" aria-hidden="true"/>
         <div className="esp-spotlight esp-spotlight-center" aria-hidden="true"/>
         <div className="esp-spotlight esp-spotlight-right" aria-hidden="true"/>
+        {/* ═══ CORTINAS DE PALCO — pendem dos 2 lados com reflexo dos spotlights ═══
+            - Cortina esquerda + direita com ondulação vertical (tecido real)
+            - Reflexo dos spotlights ao longo de toda a cortina (gradiente de luz)
+            - Semi-círculo no topo (curvadas como cortinas de teatro)
+            - Sombras suaves na base
+            - Visíveis em todos os modos (dia + noite) e dispositivos */}
+        <div className="esp-curtain esp-curtain-left" aria-hidden="true">
+          <div className="esp-curtain-rod"/>
+          <div className="esp-curtain-fabric">
+            <div className="esp-curtain-fold esp-curtain-fold-1"/>
+            <div className="esp-curtain-fold esp-curtain-fold-2"/>
+            <div className="esp-curtain-fold esp-curtain-fold-3"/>
+            <div className="esp-curtain-fold esp-curtain-fold-4"/>
+            <div className="esp-curtain-fold esp-curtain-fold-5"/>
+            <div className="esp-curtain-light"/>
+          </div>
+        </div>
+        <div className="esp-curtain esp-curtain-right" aria-hidden="true">
+          <div className="esp-curtain-rod"/>
+          <div className="esp-curtain-fabric">
+            <div className="esp-curtain-fold esp-curtain-fold-1"/>
+            <div className="esp-curtain-fold esp-curtain-fold-2"/>
+            <div className="esp-curtain-fold esp-curtain-fold-3"/>
+            <div className="esp-curtain-fold esp-curtain-fold-4"/>
+            <div className="esp-curtain-fold esp-curtain-fold-5"/>
+            <div className="esp-curtain-light"/>
+          </div>
+        </div>
         <div className="esp-glow-orb esp-glow-pink" aria-hidden="true"/>
         <div className="esp-glow-orb esp-glow-purple" aria-hidden="true"/>
         <div className="esp-readability-overlay" aria-hidden="true"/>
