@@ -4324,26 +4324,27 @@ html.light-mode .hero-bg-img-dark {
    - Quando se SAI: foto subiu (translateY -25%)
    - Movimento contínuo e fluido — a foto está sempre a subir
    
-   background-size: 35% auto — MUITO menos zoom (foto pequena = nítida).
+   background-size: 45% auto — pouquinho mais zoom que 35%.
    inset: -50% — área extra grande para a foto deslizar bastante sem
               mostrar as bordas.
    background-position: center bottom — âncora em baixo (vê-se parte
               inferior primeiro, depois sobe).
-   image-rendering: optimize-contrast — renderização nítida, máx qualidade. */
+   image-rendering: high-quality — interpolação bicubic (correto para
+              fotos, sem perda de qualidade em downscale). */
 .galeria-parallax-bg {
   position: absolute;
   inset: -50%;
   background-image: url('/portal-honmoon.webp');
-  background-size: 35% auto;
+  background-size: 45% auto;
   background-position: center bottom;
   background-repeat: no-repeat;
   opacity: 0.22;
   z-index: 0;
   pointer-events: none;
   will-change: transform;
-  /* Máxima qualidade de renderização — nítido, sem desfocar */
+  /* Qualidade máxima para FOTOS — bicubic interpolation */
   image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+  image-rendering: high-quality;
   -webkit-font-smoothing: antialiased;
   backface-visibility: hidden;
   transform: translateZ(0);
@@ -4353,17 +4354,17 @@ html.light-mode .hero-bg-img-dark {
   opacity: 0.1;
   filter: hue-rotate(180deg) brightness(1.2);
 }
-/* Mobile — sem parallax JS, só estática. Mesmo menos zoom. */
+/* Mobile — sem parallax JS, só estática. Mesmo pouco mais de zoom. */
 @media (max-width: 767px) {
   .galeria-parallax-bg {
     inset: 0;
-    background-size: 60% auto;
+    background-size: 70% auto;
     background-position: center bottom;
     opacity: 0.18;
     will-change: auto;
-    /* Qualidade máxima em mobile */
+    /* Qualidade máxima para fotos em mobile */
     image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
+    image-rendering: high-quality;
   }
   .light-mode .galeria-parallax-bg {
     opacity: 0.12;
