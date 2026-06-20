@@ -1645,9 +1645,9 @@ export default function HomePage() {
                     submitBtn.disabled = false;
                   }
                 }}>
-                  {/* Campos especiais Formspree (escondidos) */}
-                  <input type="hidden" name="_captcha" value="false"/>
-                  <input type="hidden" name="_template" value="table"/>
+                  {/* Campos do formulário — sem hidden inputs do Formspree
+                      (_captcha, _template, _subject são adicionados via JavaScript
+                      para não aparecerem no email) */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <label className="contacto-field">
                       <span>Nome *</span>
