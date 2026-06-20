@@ -4433,10 +4433,12 @@ html.light-mode .hero-bg-img-dark {
    causava perda de qualidade e cores não naturais. Agora usamos uma imagem
    light dedicada servida via jsDelivr CDN.
    background-size: 65% auto — pouco mais zoom (50% era pequeno demais).
-   opacity 0.20 -> 0.35 — imagem mais visível/nítida (teste de "perda"). */
+   opacity 0.20 -> 0.35 — imagem mais visível/nítida (teste de "perda").
+   background-position: center 70% — imagem subida ligeiramente (default era bottom). */
 .light-mode .galeria-parallax-bg {
   background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon-light.webp');
   background-size: 65% auto;
+  background-position: center 70%;
   opacity: 0.35;
   filter: none;
 }
