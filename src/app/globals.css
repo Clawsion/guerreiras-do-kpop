@@ -4571,47 +4571,49 @@ html.light-mode .hero-bg-img-dark {
   .galeria-section::after {
     opacity: 0.2;
   }
-  /* ═══ MODO DIA MOBILE — Fundo SIMÉTRICO com transição de cores ═══
+  /* ═══ MODO DIA MOBILE — Fundo SIMÉTRICO SOFT (lavanda ↔ azul, sem azul nos extremos) ═══
      Análise das cores do céu (topo 0-30%) da imagem HD Restoration:
        - Topo escuro:    #010E82 (azul muito escuro)
        - Céu médio:      #1249C7 (azul vivo)
        - Céu médio-alto: #3E9AFA / #76C5FF (azul claro brilhante)
        - Portal inferior: #793BBB, #816AD8 (roxo/púrpura do portal)
      
-     ESTRATÉGIA SIMÉTRICA com transição de cores (fusão lilás ↔ azul):
-     - TOPO (parallax 1): azul → lavanda → azul (transição/fusão)
-       * Começa com azul (tom do parallax 1)
-       * Transita para lavanda (fusão)
-       * Volta a azul (preparação para o meio)
+     ESTRATÉGIA SIMÉTRICA SOFT (sem azul nos extremos):
+     - TOPO (parallax 1): lavanda → azul → lavanda (mais suave)
+       * Começa com LAVANDA clara (soft, não azul)
+       * Transita para azul no meio do parallax 1
+       * Volta a lavanda antes do meio da secção
      - MEIO: azul mais profundo
-     - FUNDO (parallax 2): azul → lavanda → azul (ESPELHO do topo)
+     - FUNDO (parallax 2): lavanda → azul → lavanda (ESPELHO soft)
        * Inverso do topo — mesmas cores mas em ordem reversa
-       * Parallax 2 fica com os mesmos tons do parallax 1
+       * Parallax 2 fica com LAVANDA nos extremos (igual ao parallax 1)
      
-     Estrutura: azul → lavanda → azul → meio → azul → lavanda → azul */
+     Estrutura: lavanda → azul → lavanda → meio → lavanda → azul → lavanda
+     
+     Halo neon ::after DESATIVADO em modo dia mobile (sem brilho sobre fotos). */
   .light-mode .galeria-section {
     background:
       linear-gradient(to bottom,
-        /* TOPO — parallax 1 (azul → lavanda → azul) */
-        #2E6DC8 0%,
-        #4A78D8 6%,
-        #6F7AB5 12%,
-        #9C8ACB 18%,
-        #C0A8DD 24%,
-        #9C8ACB 30%,
-        #6F7AB5 36%,
-        #4A78D8 42%,
+        /* TOPO — parallax 1 (lavanda → azul → lavanda) — SOFT */
+        #E8DAF2 0%,
+        #D8C8EC 6%,
+        #C0A8DD 12%,
+        #9C8ACB 20%,
+        #6F7AB5 30%,
+        #4A78D8 38%,
+        #6F7AB5 44%,
+        #9C8ACB 48%,
         /* MEIO — azul mais profundo */
         #2E6DC8 50%,
-        /* FUNDO — ESPELHO (azul → lavanda → azul) */
-        #4A78D8 58%,
-        #6F7AB5 64%,
-        #9C8ACB 70%,
-        #C0A8DD 76%,
-        #9C8ACB 82%,
-        #6F7AB5 88%,
-        #4A78D8 94%,
-        #2E6DC8 100%) !important;
+        /* FUNDO — ESPELHO SOFT (lavanda → azul → lavanda) */
+        #9C8ACB 52%,
+        #6F7AB5 56%,
+        #4A78D8 62%,
+        #6F7AB5 70%,
+        #9C8ACB 80%,
+        #C0A8DD 88%,
+        #D8C8EC 94%,
+        #E8DAF2 100%) !important;
   }
   /* ═══ DESVANESCIMENTO no topo das fotos (mobile modo dia) ═══
      Igual ao modo noite — fade suave para disfarçar o corte onde
@@ -4628,9 +4630,9 @@ html.light-mode .hero-bg-img-dark {
       rgba(0,0,0,0.85) 14%,
       #000 22%);
   }
-  /* Halo neon mais subtil em modo dia mobile */
+  /* Halo neon DESATIVADO em modo dia mobile — sem brilho sobre as fotos */
   .light-mode .galeria-section::after {
-    opacity: 0.3;
+    display: none;
   }
 }
 /* Portal Honmoon atrás da galeria (transparência) — modo noite */
