@@ -5686,22 +5686,22 @@ html.light-mode .hero-bg-img-dark {
    Performance: usa gradientes CSS (leves) + poucas partículas. */
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ NEBULOSA CÓSMICA HONMOON — fullsize, realista (desktop) ═══ */
+/* ═══ NEBULOSA CÓSMICA HONMOON — rios de gás roxo (desktop) ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
-/* Inspirada na imagem de referência e em espetaculo-bg-dark/light.
+/* Inspirada na imagem de referência do utilizador.
    
-   Modo noite: gases nebulosos roxos VIVOS e VISÍVEIS desenhados no céu
-   + estrelas esparsas + focos violeta+azul (sem vermelho)
+   Modo noite: rios/filamentos sinuosos de gás roxo+magenta desenhados
+   no céu escuro. 60% escuridão, 40% gás. Orgânico, assimétrico.
    
-   Modo dia: mesma qualidade mas mais DESTAQUE — nebulosa lilás/rosa
-   VIVA + estrelas + focos azul+rosa brilhantes
+   Modo dia: mesma estrutura mas em azul-céu+lavanda, MAIS DESTAQUE.
    
    6 layers:
-   1. Fundo escuro cósmico
-   2-3. Gases nebulosos (violeta VIVO, como pintados no céu)
-   4. Estrelas esparsas (tamanhos variados)
-   5. Brilho difuso extra (gás ionizado mais intenso)
-   6. Focos de luz que rodam */
+   1. Fundo escuro cósmico (60%)
+   2. Rio de gás principal (roxo profundo, diagonal esquerda-baixo→direita-cima)
+   3. Rio de gás brilhante (magenta vibrante, entrelaçado)
+   4. Filamentos de gás (azul subtil, sobreposto)
+   5. Estrelas esparsas (junto aos filamentos)
+   6. Focos de luz que rodam (violeta+azul) */
 
 .hm-nebula {
   position: absolute;
@@ -5711,102 +5711,136 @@ html.light-mode .hero-bg-img-dark {
   overflow: hidden;
 }
 
-/* ═══ 1. Fundo escuro cósmico ═══ */
+/* ═══ 1. Fundo escuro cósmico (60% predominante) ═══ */
 .hm-nebula.dark {
-  background: radial-gradient(ellipse 80% 70% at 50% 50%,
-    rgba(15, 0, 30, 0.85) 0%,
-    rgba(10, 0, 20, 0.92) 60%,
-    rgba(5, 0, 10, 1) 100%);
+  background: radial-gradient(ellipse 90% 80% at 50% 50%,
+    rgba(12, 0, 25, 0.85) 0%,
+    rgba(8, 0, 18, 0.92) 50%,
+    rgba(3, 0, 8, 1) 100%);
 }
 .hm-nebula.light {
-  background: linear-gradient(180deg, #B0C4F0 0%, #C4B0E8 40%, #D0B8E0 60%, #B8C8F0 100%);
+  background: linear-gradient(160deg, #A8C0F0 0%, #B8B0E8 30%, #C8B0E0 50%, #B0C0EC 70%, #A8C0F0 100%);
 }
 
-/* ═══ 2-3. Gases nebulosos — VIVOS e VISÍVEIS como pintados no céu ═══
-   Modo noite: roxo VIVO (rgba(138,43,226,0.5) era 0.4) + violeta
-   profundo (rgba(75,0,130,0.6) era 0.5) — MUITO mais intenso.
-   O gás nebuloso parece desenhado no céu escuro. */
+/* ═══ 2-4. Rios de gás — filamentos sinuosos orgânicos ═══
+   Como na imagem: rios que se entrelaçam, com bordas difusas,
+   sobreposição de roxo+magenta+azul.
+   
+   Múltiplos radial-gradient posicionados para criar rios que fluem
+   diagonalmente (esquerda-baixo → direita-cima). */
 .hm-neb-layer {
   position: absolute;
-  inset: -10%;
+  inset: -15%;
   mix-blend-mode: screen;
   will-change: transform;
 }
-/* Camada 1 — gás violeta profundo (esquerda-baixo) — MAIS INTENSO */
+
+/* Rio 1 — gás roxo profundo (128,0,128) — rio principal diagonal */
 .hm-neb-1 {
-  background: radial-gradient(ellipse 55% 45% at 30% 70%,
-    rgba(75, 0, 130, 0.65) 0%,
-    rgba(75, 0, 130, 0.4) 25%,
-    rgba(75, 0, 130, 0.15) 50%,
-    rgba(75, 0, 130, 0.04) 65%,
-    transparent 75%);
-  filter: blur(20px);
-  animation: hmNebDrift1 30s ease-in-out infinite alternate;
-}
-/* Camada 2 — gás violeta brilhante (direita-cima) — MAIS INTENSO */
-.hm-neb-2 {
-  background: radial-gradient(ellipse 50% 40% at 70% 30%,
-    rgba(138, 43, 226, 0.55) 0%,
-    rgba(138, 43, 226, 0.3) 30%,
-    rgba(138, 43, 226, 0.1) 55%,
-    rgba(138, 43, 226, 0.03) 70%,
-    transparent 80%);
-  filter: blur(18px);
-  animation: hmNebDrift2 35s ease-in-out infinite alternate-reverse;
-}
-/* Camada 3 — gás azul (centro) subtil */
-.hm-neb-3 {
-  background: radial-gradient(ellipse 40% 35% at 50% 50%,
-    rgba(50, 100, 255, 0.2) 0%,
-    rgba(50, 100, 255, 0.1) 40%,
-    transparent 65%);
-  filter: blur(25px);
-  animation: hmNebDrift3 40s ease-in-out infinite alternate;
+  background:
+    radial-gradient(ellipse 45% 25% at 25% 65%,
+      rgba(128, 0, 128, 0.6) 0%,
+      rgba(128, 0, 128, 0.35) 25%,
+      rgba(128, 0, 128, 0.12) 50%,
+      rgba(128, 0, 128, 0.03) 70%,
+      transparent 80%),
+    radial-gradient(ellipse 35% 20% at 45% 45%,
+      rgba(128, 0, 128, 0.4) 0%,
+      rgba(128, 0, 128, 0.2) 30%,
+      rgba(128, 0, 128, 0.05) 55%,
+      transparent 70%);
+  filter: blur(15px);
+  animation: hmNebDrift1 35s ease-in-out infinite alternate;
 }
 
-/* Modo dia — MESMA qualidade mas MAIS DESTAQUE
-   Nebulosa lilás/rosa VIVA, claramente visível sobre o fundo lavanda */
+/* Rio 2 — gás magenta vibrante (255,0,255) — entrelaçado */
+.hm-neb-2 {
+  background:
+    radial-gradient(ellipse 40% 22% at 55% 35%,
+      rgba(255, 0, 255, 0.35) 0%,
+      rgba(255, 0, 255, 0.18) 30%,
+      rgba(255, 0, 255, 0.05) 55%,
+      transparent 70%),
+    radial-gradient(ellipse 30% 18% at 70% 55%,
+      rgba(255, 0, 255, 0.25) 0%,
+      rgba(255, 0, 255, 0.12) 35%,
+      rgba(255, 0, 255, 0.03) 60%,
+      transparent 75%);
+  filter: blur(12px);
+  animation: hmNebDrift2 40s ease-in-out infinite alternate-reverse;
+}
+
+/* Rio 3 — filamentos azul subtil (50,100,255) — sobreposto */
+.hm-neb-3 {
+  background:
+    radial-gradient(ellipse 35% 20% at 35% 55%,
+      rgba(50, 100, 255, 0.2) 0%,
+      rgba(50, 100, 255, 0.08) 40%,
+      transparent 65%),
+    radial-gradient(ellipse 25% 15% at 60% 40%,
+      rgba(80, 120, 255, 0.15) 0%,
+      rgba(80, 120, 255, 0.05) 45%,
+      transparent 65%);
+  filter: blur(18px);
+  animation: hmNebDrift3 45s ease-in-out infinite alternate;
+}
+
+/* Modo dia — rios de gás azul-céu+lavanda, MAIS DESTAQUE */
 .light-mode .hm-neb-1 {
-  background: radial-gradient(ellipse 55% 45% at 30% 70%,
-    rgba(180, 100, 255, 0.5) 0%,
-    rgba(180, 100, 255, 0.3) 25%,
-    rgba(180, 100, 255, 0.1) 50%,
-    transparent 75%);
+  background:
+    radial-gradient(ellipse 45% 25% at 25% 65%,
+      rgba(100, 130, 255, 0.5) 0%,
+      rgba(100, 130, 255, 0.3) 25%,
+      rgba(100, 130, 255, 0.1) 50%,
+      transparent 80%),
+    radial-gradient(ellipse 35% 20% at 45% 45%,
+      rgba(130, 100, 255, 0.35) 0%,
+      rgba(130, 100, 255, 0.15) 30%,
+      transparent 70%);
   mix-blend-mode: normal;
-  filter: blur(15px);
+  filter: blur(10px);
 }
 .light-mode .hm-neb-2 {
-  background: radial-gradient(ellipse 50% 40% at 70% 30%,
-    rgba(255, 100, 180, 0.45) 0%,
-    rgba(255, 100, 180, 0.25) 30%,
-    rgba(255, 100, 180, 0.08) 55%,
-    transparent 80%);
+  background:
+    radial-gradient(ellipse 40% 22% at 55% 35%,
+      rgba(150, 180, 255, 0.4) 0%,
+      rgba(150, 180, 255, 0.2) 30%,
+      transparent 70%),
+    radial-gradient(ellipse 30% 18% at 70% 55%,
+      rgba(180, 150, 255, 0.3) 0%,
+      rgba(180, 150, 255, 0.12) 35%,
+      transparent 75%);
   mix-blend-mode: normal;
-  filter: blur(13px);
+  filter: blur(8px);
 }
 .light-mode .hm-neb-3 {
-  background: radial-gradient(ellipse 40% 35% at 50% 50%,
-    rgba(100, 150, 255, 0.25) 0%,
-    rgba(100, 150, 255, 0.12) 40%,
-    transparent 65%);
+  background:
+    radial-gradient(ellipse 35% 20% at 35% 55%,
+      rgba(80, 150, 255, 0.25) 0%,
+      rgba(80, 150, 255, 0.1) 40%,
+      transparent 65%),
+    radial-gradient(ellipse 25% 15% at 60% 40%,
+      rgba(120, 160, 255, 0.2) 0%,
+      rgba(120, 160, 255, 0.06) 45%,
+      transparent 65%);
   mix-blend-mode: normal;
-  filter: blur(20px);
+  filter: blur(12px);
 }
 
 @keyframes hmNebDrift1 {
   0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(4%, -2%) scale(1.06); }
+  100% { transform: translate(3%, -2%) scale(1.05); }
 }
 @keyframes hmNebDrift2 {
   0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(-3%, 3%) scale(1.05); }
+  100% { transform: translate(-2%, 2%) scale(1.04); }
 }
 @keyframes hmNebDrift3 {
-  0%   { transform: translate(0, 0) scale(0.95); opacity: 0.7; }
-  100% { transform: translate(2%, -2%) scale(1.05); opacity: 1; }
+  0%   { transform: translate(0, 0) scale(0.96); opacity: 0.7; }
+  100% { transform: translate(2%, -1%) scale(1.04); opacity: 1; }
 }
 
-/* ═══ 4. Estrelas esparsas — fullsize, tamanhos variados ═══ */
+/* ═══ 5. Estrelas esparsas — junto aos filamentos ═══ */
 .hm-stars {
   position: absolute;
   inset: 0;
@@ -5847,7 +5881,7 @@ html.light-mode .hero-bg-img-dark {
   animation: hmStarsTwinkle 8s ease-in-out infinite alternate;
 }
 .light-mode .hm-stars {
-  opacity: 0.5;
+  opacity: 0.45;
   mix-blend-mode: normal;
 }
 @keyframes hmStarsTwinkle {
@@ -5855,9 +5889,9 @@ html.light-mode .hero-bg-img-dark {
   100% { opacity: 0.95; }
 }
 
-/* ═══ 5. Focos de luz que rodam ═══
-   Noite: VIOLETA + AZUL (sem vermelho) — mais intensos
-   Dia: AZUL + ROSA — mais intensos, MAIS DESTAQUE */
+/* ═══ 6. Focos de luz que rodam ═══
+   Noite: VIOLETA + AZUL (sem vermelho)
+   Dia: AZUL + LAVANDA */
 .hm-neb-focos {
   position: absolute;
   top: 50%;
@@ -5868,39 +5902,39 @@ html.light-mode .hero-bg-img-dark {
   background:
     conic-gradient(from 0deg at 50% 50%,
       transparent 0deg,
-      rgba(138, 43, 226, 0.4) 6deg,
-      rgba(138, 43, 226, 0.25) 18deg,
-      rgba(50, 100, 255, 0.2) 30deg,
-      rgba(138, 43, 226, 0.1) 40deg,
+      rgba(138, 43, 226, 0.35) 6deg,
+      rgba(138, 43, 226, 0.2) 18deg,
+      rgba(50, 100, 255, 0.18) 30deg,
+      rgba(138, 43, 226, 0.08) 40deg,
       transparent 50deg,
       transparent 65deg,
-      rgba(50, 100, 255, 0.35) 73deg,
-      rgba(138, 43, 226, 0.2) 85deg,
-      rgba(50, 100, 255, 0.12) 97deg,
+      rgba(50, 100, 255, 0.3) 73deg,
+      rgba(138, 43, 226, 0.18) 85deg,
+      rgba(50, 100, 255, 0.1) 97deg,
       transparent 107deg,
       transparent 122deg,
-      rgba(138, 43, 226, 0.3) 130deg,
-      rgba(50, 100, 255, 0.22) 142deg,
-      rgba(138, 43, 226, 0.1) 154deg,
+      rgba(138, 43, 226, 0.28) 130deg,
+      rgba(50, 100, 255, 0.2) 142deg,
+      rgba(138, 43, 226, 0.08) 154deg,
       transparent 164deg,
       transparent 179deg,
-      rgba(138, 43, 226, 0.4) 185deg,
-      rgba(138, 43, 226, 0.25) 197deg,
-      rgba(50, 100, 255, 0.2) 209deg,
-      rgba(138, 43, 226, 0.1) 219deg,
+      rgba(138, 43, 226, 0.35) 185deg,
+      rgba(138, 43, 226, 0.2) 197deg,
+      rgba(50, 100, 255, 0.18) 209deg,
+      rgba(138, 43, 226, 0.08) 219deg,
       transparent 229deg,
       transparent 244deg,
-      rgba(50, 100, 255, 0.35) 252deg,
-      rgba(138, 43, 226, 0.2) 264deg,
-      rgba(50, 100, 255, 0.12) 276deg,
+      rgba(50, 100, 255, 0.3) 252deg,
+      rgba(138, 43, 226, 0.18) 264deg,
+      rgba(50, 100, 255, 0.1) 276deg,
       transparent 286deg,
       transparent 301deg,
-      rgba(138, 43, 226, 0.3) 309deg,
-      rgba(50, 100, 255, 0.22) 321deg,
-      rgba(138, 43, 226, 0.1) 333deg,
+      rgba(138, 43, 226, 0.28) 309deg,
+      rgba(50, 100, 255, 0.2) 321deg,
+      rgba(138, 43, 226, 0.08) 333deg,
       transparent 343deg,
       transparent 360deg);
-  opacity: 0.85;
+  opacity: 0.8;
   mix-blend-mode: screen;
   filter: blur(6px);
   -webkit-mask: radial-gradient(circle at 50% 50%, black 0%, black 5%, black 50%, transparent 80%);
@@ -5912,40 +5946,40 @@ html.light-mode .hero-bg-img-dark {
   background:
     conic-gradient(from 0deg at 50% 50%,
       transparent 0deg,
-      rgba(0, 100, 255, 0.4) 6deg,
-      rgba(0, 100, 255, 0.25) 18deg,
-      rgba(255, 0, 150, 0.2) 30deg,
-      rgba(0, 100, 255, 0.08) 40deg,
+      rgba(100, 130, 255, 0.35) 6deg,
+      rgba(100, 130, 255, 0.2) 18deg,
+      rgba(180, 150, 255, 0.15) 30deg,
+      rgba(100, 130, 255, 0.06) 40deg,
       transparent 50deg,
       transparent 65deg,
-      rgba(255, 0, 150, 0.35) 73deg,
-      rgba(0, 100, 255, 0.22) 85deg,
-      rgba(255, 0, 150, 0.1) 97deg,
+      rgba(180, 150, 255, 0.3) 73deg,
+      rgba(100, 130, 255, 0.18) 85deg,
+      rgba(180, 150, 255, 0.08) 97deg,
       transparent 107deg,
       transparent 122deg,
-      rgba(0, 100, 255, 0.32) 130deg,
-      rgba(255, 0, 150, 0.25) 142deg,
-      rgba(0, 100, 255, 0.08) 154deg,
+      rgba(100, 130, 255, 0.28) 130deg,
+      rgba(180, 150, 255, 0.2) 142deg,
+      rgba(100, 130, 255, 0.06) 154deg,
       transparent 164deg,
       transparent 179deg,
-      rgba(0, 100, 255, 0.4) 185deg,
-      rgba(0, 100, 255, 0.25) 197deg,
-      rgba(255, 0, 150, 0.2) 209deg,
-      rgba(0, 100, 255, 0.08) 219deg,
+      rgba(100, 130, 255, 0.35) 185deg,
+      rgba(100, 130, 255, 0.2) 197deg,
+      rgba(180, 150, 255, 0.15) 209deg,
+      rgba(100, 130, 255, 0.06) 219deg,
       transparent 229deg,
       transparent 244deg,
-      rgba(255, 0, 150, 0.35) 252deg,
-      rgba(0, 100, 255, 0.22) 264deg,
-      rgba(255, 0, 150, 0.1) 276deg,
+      rgba(180, 150, 255, 0.3) 252deg,
+      rgba(100, 130, 255, 0.18) 264deg,
+      rgba(180, 150, 255, 0.08) 276deg,
       transparent 286deg,
       transparent 301deg,
-      rgba(0, 100, 255, 0.32) 309deg,
-      rgba(255, 0, 150, 0.25) 321deg,
-      rgba(0, 100, 255, 0.08) 333deg,
+      rgba(100, 130, 255, 0.28) 309deg,
+      rgba(180, 150, 255, 0.2) 321deg,
+      rgba(100, 130, 255, 0.06) 333deg,
       transparent 343deg,
       transparent 360deg);
   mix-blend-mode: normal;
-  opacity: 0.75;
+  opacity: 0.7;
   filter: blur(5px);
 }
 @keyframes hmNebFocos {
@@ -5962,7 +5996,7 @@ html.light-mode .hero-bg-img-dark {
   }
   .hm-neb-1,
   .hm-neb-2 {
-    filter: blur(15px) !important;
+    filter: blur(12px) !important;
     animation-duration: 50s !important;
   }
   .hm-stars {
