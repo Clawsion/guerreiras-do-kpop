@@ -2529,10 +2529,10 @@ html.light-mode .hero-bg-img-dark {
   z-index: 10;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  /* Botão mais pequeno com texto proporcional */
-  padding: 0.6rem 1.4rem;
-  font-size: 9px;
+  gap: 0.6rem;
+  /* Botão maior com texto proporcional */
+  padding: 0.8rem 1.8rem;
+  font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   font-weight: 600;

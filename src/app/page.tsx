@@ -797,8 +797,8 @@ export default function HomePage() {
 
   const navLinks = useMemo(() => [
     { l: "Espetáculo", h: "#espetaculo" },
-    { l: "Mural", h: "#galeria" },
-    { l: "Cartazes", h: "#cartazes" },
+    { l: "Galeria", h: "#galeria" },
+    { l: "Próximos Concertos", h: "#cartazes" },
     { l: "Contacto", h: "#contacto" },
   ], []);
 
@@ -1101,8 +1101,8 @@ export default function HomePage() {
               </a>
             ))}
           </div>
-          {/* Menu CTA */}
-          <div style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
+          {/* Menu CTA — escondido em smartphone (sm:hidden), visível em desktop */}
+          <div className="hidden sm:block" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
             <a
               href="#cartazes"
               onClick={e => {
