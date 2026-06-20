@@ -2680,7 +2680,7 @@ html.light-mode .hero-bg-img-dark {
     padding: 3rem 0 3rem;
     background: var(--void);
     background-image: url('/espetaculo-bg-dark.png');
-    background-size: 110% 110%; /* +10% zoom (era 100% 100%) — foto mais próxima */
+    background-size: 120% 120%; /* +20% zoom (era 110%) — foto mais próxima */
     background-position: center center;
     background-repeat: no-repeat;
     overflow: hidden;
@@ -5606,8 +5606,8 @@ html.light-mode .hero-bg-img-dark {
 .light-mode .espetaculo-section {
   background-color: #D8B8E8;
   background-image: url('/espetaculo-bg-light.png');
-  background-size: 100% 100%;
-  background-position: center center;
+  background-size: 100% auto; /* Encostada aos lados (100% largura, sem esticar) */
+  background-position: center top;
   background-repeat: no-repeat;
 }
 @media (max-width: 1023px) {
