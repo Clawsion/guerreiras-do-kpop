@@ -3922,7 +3922,12 @@ html.light-mode .hero-bg-img-dark {
   overflow: hidden;
   isolation: isolate;
 }
-/* Overlay marca de água — imagem visível a ~40% (destacada, como estava antes) */
+/* Overlay marca de água — cor da ÚLTIMA ONDA (roxo transparente #C1B4C9) — SÓ DESKTOP
+   Cor extraída da última onda (roxo transparente) da imagem enviada pelo user:
+   - Cor média roxo: #C1B4C9 (roxo transparente)
+   - Tons principais: #C0B0C0, #B0B0C0, #C0A0C0
+   Aplicado POR CIMA do parallax das bolas, POR DETRÁS dos cartazes (z-index 0).
+   Em mobile mantém o overlay escuro original (rgba(11,8,19,0.55-0.65)). */
 .cartazes-section::after {
   content: "";
   position: absolute;
@@ -3934,6 +3939,16 @@ html.light-mode .hero-bg-img-dark {
   );
   z-index: 0;
   pointer-events: none;
+}
+/* Desktop (≥1024px) — overlay com cor da última onda (roxo transparente) */
+@media (min-width: 1024px) {
+  .cartazes-section::after {
+    background: linear-gradient(180deg,
+      rgba(193, 180, 201, 0.78) 0%,
+      rgba(192, 176, 192, 0.82) 50%,
+      rgba(193, 180, 201, 0.78) 100%
+    );
+  }
 }
 
 /* Shape divider — monta­nhas SVG (igual ao site de referência) */
