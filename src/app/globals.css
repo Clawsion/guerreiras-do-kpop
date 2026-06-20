@@ -4324,7 +4324,8 @@ html.light-mode .hero-bg-img-dark {
    - Quando se SAI: foto subiu (translateY -25%)
    - Movimento contínuo e fluido — a foto está sempre a subir
    
-   background-size: 45% auto — pouquinho mais zoom que 35%.
+   background-size: 65% auto — mais zoom (a foto agora é 4092×6148 q=100,
+              muita resolução para gastar, sem perda de nitidez).
    inset: -50% — área extra grande para a foto deslizar bastante sem
               mostrar as bordas.
    background-position: center bottom — âncora em baixo (vê-se parte
@@ -4335,7 +4336,7 @@ html.light-mode .hero-bg-img-dark {
   position: absolute;
   inset: -50%;
   background-image: url('/portal-honmoon.webp');
-  background-size: 45% auto;
+  background-size: 65% auto;
   background-position: center bottom;
   background-repeat: no-repeat;
   opacity: 0.22;
@@ -4354,11 +4355,11 @@ html.light-mode .hero-bg-img-dark {
   opacity: 0.1;
   filter: hue-rotate(180deg) brightness(1.2);
 }
-/* Mobile — sem parallax JS, só estática. Mesmo pouco mais de zoom. */
+/* Mobile — sem parallax JS, só estática. Mais zoom também. */
 @media (max-width: 767px) {
   .galeria-parallax-bg {
     inset: 0;
-    background-size: 70% auto;
+    background-size: 85% auto;
     background-position: center bottom;
     opacity: 0.18;
     will-change: auto;
