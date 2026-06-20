@@ -4514,6 +4514,47 @@ html.light-mode .hero-bg-img-dark {
   .galeria-section::after {
     opacity: 0.2;
   }
+  /* ═══ MODO DIA MOBILE — Fundo da secção recria o CÉU do portal LIGHT ═══
+     Análise das cores do céu (topo 0-30%) da imagem HD Restoration:
+       - Topo escuro:    #010E82 (azul muito escuro)
+       - Céu médio:      #1249C7 (azul vivo)
+       - Céu médio-alto: #3E9AFA / #76C5FF (azul claro brilhante)
+       - Portal inferior: #793BBB, #816AD8 (roxo/púrpura do portal)
+     Gradient vertical azul→roxo, complementar ao céu do portal light.
+     Quando a foto do parallax está em baixo, o espaço acima dela tem o
+     "céu" do portal light em vez do fundo --deep claro. */
+  .light-mode .galeria-section {
+    background:
+      linear-gradient(to bottom,
+        #010E82 0%,
+        #0220A0 8%,
+        #0330B8 18%,
+        #0742C7 30%,
+        #0D55D8 45%,
+        #1F6FE8 60%,
+        #2E8AE8 75%,
+        #4A78D8 88%,
+        #6B5BCC 100%) !important;
+  }
+  /* ═══ DESVANESCIMENTO no topo das fotos (mobile modo dia) ═══
+     Igual ao modo noite — fade suave para disfarçar o corte onde
+     as fotos começam, fundindo-as com o céu azul acima. */
+  .light-mode .galeria-section .galeria-grid {
+    -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0,0,0,0.4) 6%,
+      rgba(0,0,0,0.85) 14%,
+      #000 22%);
+    mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0,0,0,0.4) 6%,
+      rgba(0,0,0,0.85) 14%,
+      #000 22%);
+  }
+  /* Halo neon mais subtil em modo dia mobile */
+  .light-mode .galeria-section::after {
+    opacity: 0.3;
+  }
 }
 /* Portal Honmoon atrás da galeria (transparência) — modo noite */
 .galeria-section::before {
