@@ -1128,12 +1128,12 @@ export default function HomePage() {
           {/* Tablet+ (≥768px) — imagens paisagem (modo dia) */}
           <source
             media="(min-width: 768px)"
-            srcSet="/hero-bg-light.webp?v=87"
+            srcSet="/hero-bg-light.webp?v=88"
             type="image/webp"
           />
           {/* Modo dia — só visível quando html tem .light-mode */}
           <img
-            src="/hero-bg-light.webp?v=87"
+            src="/hero-bg-light.webp?v=88"
             alt=""
             className={`hero-bg-img hero-bg-img-light ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
