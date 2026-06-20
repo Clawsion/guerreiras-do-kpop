@@ -2703,20 +2703,24 @@ html.light-mode .hero-bg-img-dark {
    A parte de baixo da secção (botão + neon divider) tem a cor de fundo. */
 @media (max-width: 767px) {
   .espetaculo-section {
-    background-image: url('/espetaculo-bg-dark-mobile.webp') !important;
-    background-size: 100% auto !important;
-    background-position: top center !important;
-    background-attachment: scroll !important;
-    background-repeat: no-repeat !important;
+    background-image: none !important;
     background-color: #14082E !important;
     padding-bottom: 3rem !important;
-    /* ═══ SUBIR O TEXTO em mobile ═══
-       Reduzir padding-top para o conteúdo (+ TRIBUTO AO VIVO, título, etc.)
-       começar mais acima. A imagem de fundo mantém-se ancorada no topo
-       (top center) — só o texto sobe. 2.5rem = ~40px (era 3.5rem). */
     padding-top: 2.5rem !important;
-    /* Reduzir margens do pitch e do botão para encostar ao neon divider */
     --esp-pitch-margin: 0.5rem;
+  }
+  /* ::before com a imagem + brightness — realça o palco sem mexer no zoom */
+  .espetaculo-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/espetaculo-bg-dark-mobile.webp');
+    background-size: 100% auto;
+    background-position: top center;
+    background-repeat: no-repeat;
+    filter: brightness(1.4);
+    z-index: 0;
+    pointer-events: none;
   }
   /* ═══ MODO DIA (light-mode) — smartphone: imagem própria (941x1672) ═══
      Igual ao modo noite mas com a imagem de dia.
@@ -2725,14 +2729,12 @@ html.light-mode .hero-bg-img-dark {
      - background-position: top center
      - background-color: #8771B9 (combina com as bordas) */
   .light-mode .espetaculo-section {
-    background-image: url('/espetaculo-bg-light-mobile.webp?v=95') !important;
-    background-size: 100% auto !important;
-    background-position: top center !important;
-    background-attachment: scroll !important;
-    background-repeat: no-repeat !important;
     background-color: #8771B9 !important;
-    /* Mesmo padding-top reduzido do modo noite — texto sobe igual */
     padding-top: 2.5rem !important;
+  }
+  .light-mode .espetaculo-section::before {
+    background-image: url('/espetaculo-bg-light-mobile.webp?v=96');
+    filter: brightness(1.2);
   }
   /* ═══ LEGIBILIDADE DO TEXTO em mobile ═══
      Adicionar um backdrop semi-transparente atrás do conteúdo do Tributo
