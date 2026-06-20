@@ -3964,30 +3964,32 @@ html.light-mode .hero-bg-img-dark {
   transition: fill 0.6s ease;
 }
 
-/* ═══ Modo dia: imagem da multidão com parallax + overlay lavanda escuro neutro ═══
-   - Imagem clara servida via background-image
-   - background-size: 100% auto -> largura preenche 100% (encostada nos 2 lados)
-   - Overlay lavanda escuro translúcido (0.72-0.78) — sem tons rosa/magenta
-   - Tons neutros que combinam com o site (lavanda escuro #6B4A8E, #5A3D7A)
-   - Texto 100% legível (z-index 10 no conteúdo) */
+/* ═══ Modo dia — overlay com cor das ONDAS (verde-amarelado #A0A070) ═══
+   Cor extraída da imagem das ondas que o user enviou:
+   - Cor média: #A1AA72 (verde-amarelado sage/oliva claro)
+   - Tons principais: #A0A070, #90A070, #A0B070
+   
+   Overlay translúcido com esta cor, aplicado POR CIMA do parallax das bolas
+   mas POR DETRÁS dos cartazes (z-index 0).
+   Similar ao efeito das ondas que estão abaixo da secção. */
 .light-mode .cartazes-section {
-  background: linear-gradient(180deg, rgba(107,74,142,0.78) 0%, rgba(90,61,122,0.82) 50%, rgba(107,74,142,0.78) 100%);
+  background: linear-gradient(180deg, rgba(160,160,112,0.78) 0%, rgba(144,160,112,0.82) 50%, rgba(160,160,112,0.78) 100%);
   background-image: url('/cartazes-bg-day.webp'),
-    linear-gradient(180deg, rgba(107,74,142,0.78) 0%, rgba(90,61,122,0.82) 50%, rgba(107,74,142,0.78) 100%);
+    linear-gradient(180deg, rgba(160,160,112,0.78) 0%, rgba(144,160,112,0.82) 50%, rgba(160,160,112,0.78) 100%);
   background-size: 100% auto, cover;
   background-position: center top, center;
   background-repeat: no-repeat, no-repeat;
   background-attachment: fixed, fixed;
 }
-/* Overlay extra no modo dia para realçar a imagem (como no modo noite) */
+/* Overlay extra no modo dia — cor das ondas (verde-amarelado) para destaque */
 .light-mode .cartazes-section::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(107, 74, 142, 0.35) 0%,
-    rgba(90, 61, 122, 0.25) 50%,
-    rgba(107, 74, 142, 0.35) 100%
+    rgba(160, 160, 112, 0.35) 0%,
+    rgba(144, 160, 112, 0.25) 50%,
+    rgba(160, 160, 112, 0.35) 100%
   );
   z-index: 0;
   pointer-events: none;
