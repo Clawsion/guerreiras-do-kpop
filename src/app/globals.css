@@ -4553,12 +4553,11 @@ html.light-mode .hero-bg-img-dark {
       rgba(0,0,0,0.85) 14%,
       #000 22%);
   }
-  /* ═══ Halo neon DESATIVADO em mobile — sem brilho branco sobre as fotos ═══
-     Antes: opacity 0.2 + mix-blend-mode: screen criava brilho branco
-     em cima da primeira foto do mural.
-     Agora: display: none (sem brilho sobre as fotos) */
+  /* ═══ Halo neon em modo NOITE mobile (mantém) ═══
+     Em modo noite o halo cria o ambiente místico do portal.
+     Em modo dia é desativado abaixo (display: none) para evitar brilho. */
   .galeria-section::after {
-    display: none;
+    opacity: 0.2;
   }
   /* ═══ MODO DIA MOBILE — Fundo SIMÉTRICO SOFT (lavanda ↔ azul, sem azul nos extremos) ═══
      Análise das cores do céu (topo 0-30%) da imagem HD Restoration:
