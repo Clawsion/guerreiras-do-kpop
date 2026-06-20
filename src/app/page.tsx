@@ -1603,7 +1603,7 @@ export default function HomePage() {
             </div>
 
             {/* ── Coluna direita: formulário ── */}
-            <div className="lg:col-span-7">
+            <div className="lg:col-span-6 lg:col-start-4">
               <Rv delay={150}>
                 <form className="contacto-form" onSubmit={async (e)=>{
                   e.preventDefault();
@@ -1671,25 +1671,25 @@ export default function HomePage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <label className="contacto-field">
-                      <span>Data prevista</span>
-                      <input type="text" name="data" placeholder="Ex.: 12 Dez 2026"/>
-                    </label>
-                    <label className="contacto-field">
                       <span>E-mail *</span>
                       <input type="email" name="email" required placeholder="email@exemplo.pt"/>
                     </label>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <label className="contacto-field">
                       <span>Telefone</span>
                       <input type="tel" name="tel" placeholder="+351 …"/>
                     </label>
                   </div>
 
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <label className="contacto-field">
+                      <span>Data prevista</span>
+                      <input type="text" name="data" placeholder="Ex.: 12 Dez 2026"/>
+                    </label>
+                  </div>
+
                   <label className="contacto-field mb-6">
                     <span>Mensagem</span>
-                    <textarea name="msg" rows={4} placeholder="Diga-nos o que precisa - formato, duração, orçamento aproximado, perguntas…"/>
+                    <textarea name="msg" rows={5} placeholder="Diga-nos o que precisa - formato, duração, orçamento aproximado, perguntas…"/>
                   </label>
 
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4">

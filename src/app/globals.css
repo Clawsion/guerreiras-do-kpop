@@ -4658,12 +4658,11 @@ html.light-mode .hero-bg-img-dark {
   }
 }
 .contacto-form {
-  padding: 2rem;
+  padding: 2.5rem 2rem;
   background: var(--surface);
   border: 1px solid rgba(200, 80, 255, 0.12);
-  max-width: none;
-  margin: 0;
-  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
 }
 @media (min-width: 768px) {
   .contacto-form {
@@ -5976,20 +5975,33 @@ html.light-mode .hero-bg-img-dark {
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* ═══ MOBILE: simplificado ═══ */
+/* ═══ MOBILE: nebulosa proporcional e leve (smartphone + iPhone) ═══ */
 @media (max-width: 767px) {
-  .hm-neb-3,
-  .hm-neb-focos {
-    opacity: 0.3 !important;
-    filter: blur(20px) !important;
-  }
-  .hm-neb-1,
-  .hm-neb-2 {
-    filter: blur(12px) !important;
+  /* Neb-1 e Neb-2 visíveis mas mais subtils */
+  .hm-neb-1 {
+    filter: blur(10px) !important;
     animation-duration: 50s !important;
+    opacity: 0.7 !important;
   }
+  .hm-neb-2 {
+    filter: blur(8px) !important;
+    animation-duration: 55s !important;
+    opacity: 0.6 !important;
+  }
+  /* Neb-3 mais subtil */
+  .hm-neb-3 {
+    opacity: 0.4 !important;
+    filter: blur(15px) !important;
+  }
+  /* Estrelas visíveis */
   .hm-stars {
+    opacity: 0.6 !important;
+  }
+  /* Focos de luz visíveis mas proporcionais */
+  .hm-neb-focos {
     opacity: 0.5 !important;
+    filter: blur(8px) !important;
+    animation-duration: 45s !important;
   }
 }
 
