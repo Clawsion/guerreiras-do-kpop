@@ -4658,11 +4658,12 @@ html.light-mode .hero-bg-img-dark {
   }
 }
 .contacto-form {
-  padding: 1.75rem;
+  padding: 2rem;
   background: var(--surface);
   border: 1px solid rgba(200, 80, 255, 0.12);
-  max-width: 640px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
+  width: 100%;
 }
 @media (min-width: 768px) {
   .contacto-form {
