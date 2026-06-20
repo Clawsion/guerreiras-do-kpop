@@ -5547,15 +5547,16 @@ html.light-mode .hero-bg-img-dark {
       );
   }
 }
-/* Spotlights - purple curtains swaying in light mode */
-.light-mode .esp-spotlight { opacity: 0.45; mix-blend-mode: normal; }
+/* Spotlights - purple curtains swaying in light mode.
+   Intensidade aumentada: opacity 0.45 -> 0.75 e cores mais saturadas. */
+.light-mode .esp-spotlight { opacity: 0.75; mix-blend-mode: normal; }
 .light-mode .esp-spotlight-left {
   background: conic-gradient(
     from 170deg at 50% 0%,
     transparent 0deg,
-    rgba(200,80,255,0.10) 15deg,
-    rgba(200,80,255,0.22) 30deg,
-    rgba(180,60,240,0.10) 45deg,
+    rgba(200,80,255,0.20) 15deg,
+    rgba(200,80,255,0.40) 30deg,
+    rgba(180,60,240,0.20) 45deg,
     transparent 60deg
   );
 }
@@ -5563,9 +5564,9 @@ html.light-mode .hero-bg-img-dark {
   background: conic-gradient(
     from 175deg at 50% 0%,
     transparent 0deg,
-    rgba(200,80,255,0.14) 12deg,
-    rgba(210,100,255,0.25) 25deg,
-    rgba(200,80,255,0.12) 40deg,
+    rgba(200,80,255,0.25) 12deg,
+    rgba(210,100,255,0.45) 25deg,
+    rgba(200,80,255,0.22) 40deg,
     transparent 55deg
   );
 }
@@ -5573,14 +5574,24 @@ html.light-mode .hero-bg-img-dark {
   background: conic-gradient(
     from 190deg at 50% 0%,
     transparent 0deg,
-    rgba(180,60,240,0.10) 15deg,
-    rgba(180,60,240,0.18) 30deg,
-    rgba(200,80,255,0.08) 45deg,
+    rgba(180,60,240,0.20) 15deg,
+    rgba(180,60,240,0.35) 30deg,
+    rgba(200,80,255,0.18) 45deg,
     transparent 60deg
   );
 }
-/* Glow orbs softer */
-.light-mode .esp-glow-orb { opacity: 0.3; }
+/* Glow orbs mais intensos em modo dia (opacity 0.3 -> 0.6) */
+.light-mode .esp-glow-orb { opacity: 0.6; }
+/* Cores dos orbs mais saturadas em modo dia */
+.light-mode .esp-glow-pink {
+  background: radial-gradient(circle, rgba(255,45,120,0.22) 0%, rgba(255,45,120,0.08) 40%, transparent 70%);
+}
+.light-mode .esp-glow-purple {
+  background: radial-gradient(circle, rgba(200,80,255,0.20) 0%, rgba(200,80,255,0.06) 40%, transparent 70%);
+}
+.light-mode .esp-glow-blue {
+  background: radial-gradient(circle, rgba(177,213,240,0.14) 0%, transparent 60%);
+}
 /* Grid texture subtle */
 .light-mode .esp-grid-texture { opacity: 0.3; }
 /* Vignette softer */
@@ -5718,8 +5729,27 @@ html.light-mode .hero-bg-img-dark {
   border-color: rgba(245, 158, 11, 0.15);
   background: radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, transparent 70%);
 }
+/* Honmoon bg-glow mais intenso em modo dia (realçar orbs do portal).
+   opacity 0.3 -> 0.7 e cor mais saturada. */
 .light-mode .honmoon-bg-glow {
-  opacity: 0.3;
+  opacity: 0.7;
+  background: radial-gradient(circle, rgba(200,80,255,0.22) 0%, rgba(255,45,120,0.10) 35%, transparent 70%);
+}
+/* NOVO: segundo orb mais amplo, rosa K-pop, para realçar o halo do portal
+   em modo dia. Adiciona profundidade ao fundo do Honmoon. */
+.light-mode .honmoon-section::after {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,45,120,0.10) 0%, rgba(200,80,255,0.06) 40%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(20px);
 }
 
 /* LED wall area - keep it mostly dark since it's a video screen */
