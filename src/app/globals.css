@@ -4766,6 +4766,14 @@ html.light-mode .hero-bg-img-dark {
 .contacto-msg-success {
   animation: contacto-msg-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+/* Modo dia — mensagem de sucesso com texto branco sobre fundo roxo */
+.light-mode #contacto-ok {
+  color: #fff !important;
+  background: rgba(147, 51, 234, 0.85) !important;
+}
+.light-mode #contacto-err {
+  background: rgba(239, 68, 68, 0.15) !important;
+}
 @keyframes contacto-msg-pop {
   0%   { opacity: 0; transform: translateY(10px) scale(0.95); }
   100% { opacity: 1; transform: translateY(0) scale(1); }

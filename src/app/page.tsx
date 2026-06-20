@@ -1696,10 +1696,10 @@ export default function HomePage() {
                     <button type="submit" className="contacto-submit">
                       <Mail className="w-4 h-4"/> Enviar pedido de reserva
                     </button>
-                    <p id="contacto-ok" className="text-[13px] font-medium contacto-msg-success" style={{color:"var(--neon-purple)", display:"none"}}>
+                    <p id="contacto-ok" className="text-[13px] font-medium contacto-msg-success" style={{color:"var(--neon-purple)", display:"none", padding: "0.5rem 0.75rem", borderRadius: "4px", background: "rgba(255,255,255,0.15)"}}>
                       ✓ Pedido enviado com sucesso! Recebemos a sua mensagem e respondemos em breve.
                     </p>
-                    <p id="contacto-err" className="text-[13px] font-medium" style={{color:"#ef4444", display:"none"}}>
+                    <p id="contacto-err" className="text-[13px] font-medium" style={{color:"#ef4444", display:"none", padding: "0.5rem 0.75rem", borderRadius: "4px", background: "rgba(255,255,255,0.15)"}}>
                       ✗ Erro ao enviar. Tente novamente ou contacte-nos diretamente por email.
                     </p>
                   </div>
