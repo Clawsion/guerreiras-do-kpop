@@ -1175,8 +1175,12 @@ export default function HomePage() {
             Padrões: ondas concêntricas que emanam do centro (orb).
             Leve: CSS puro, sem imagens, sem JavaScript. */}
         <div className={`hm-led-wall ${themeMode}`}>
-          <div className="hm-led-grid"/>
-          <div className="hm-led-waves"/>
+          {/* VJ-style layers — cada uma cria um padrão abstracto diferente */}
+          <div className="hm-vj-grid"/>
+          <div className="hm-vj-pulse"/>
+          <div className="hm-vj-waves"/>
+          <div className="hm-vj-beams"/>
+          <div className="hm-vj-orbit"/>
         </div>
 
         {/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
