@@ -488,7 +488,6 @@ export default function HomePage() {
   const [lightbox, setLightbox] = useState<number | null>(null);
     const [privacyOpen, setPrivacyOpen] = useState(false);
   const orbRef = useRef<HTMLDivElement>(null);
-  const heroBgRef = useRef<HTMLImageElement>(null);
   const sectionRefs = useRef<HTMLElement[] | null>(null);
   const galeriaRef = useRef<HTMLElement>(null);
   const galeriaParallaxRef = useRef<HTMLDivElement>(null);
@@ -506,40 +505,6 @@ export default function HomePage() {
     }
     const t = setTimeout(() => setLoaded(true), 1200);
     return () => clearTimeout(t);
-  }, []);
-
-  // ═══ PARALLAX SUTIL DO HERO — imagem move-se 5% mais lentamente que o scroll ═══
-  // Efeito subtil de profundidade, igual ao estilo dos contactos.
-  // Aplica a ambas as imagens (dia e noite) — só a visível é que se move.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    let ticking = false;
-    const update = () => {
-      const heroBg = document.querySelector<HTMLElement>('.hero-bg-img');
-      if (!heroBg) { ticking = false; return; }
-      // Só aplicar parallax quando o hero está visível (topo da página)
-      const scrollY = window.scrollY;
-      if (scrollY > window.innerHeight) {
-        ticking = false;
-        return;
-      }
-      // Parallax subtil: 5% do scroll (imagem move-se 5% mais lentamente)
-      const offset = scrollY * 0.05;
-      heroBg.style.transform = `translate3d(0, ${offset}px, 0) scale(1.05)`;
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    update();
-    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   // ═══ GESTÃO CENTRALIZADA do body.overflow ═══
@@ -1135,18 +1100,18 @@ export default function HomePage() {
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user */}
           <source
             media="(max-width: 767px)"
-            srcSet="/hero-bg-mobile.webp?v=87"
+            srcSet="/hero-bg-mobile.webp?v=92"
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet="/hero-bg.webp?v=87"
+            srcSet="/hero-bg.webp?v=92"
             type="image/webp"
           />
           {/* Modo noite — sempre carregado (default visível) */}
           <img
-            src="/hero-bg.webp?v=87"
+            src="/hero-bg.webp?v=92"
             alt=""
             className={`hero-bg-img hero-bg-img-dark ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
@@ -1157,18 +1122,18 @@ export default function HomePage() {
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (modo dia) */}
           <source
             media="(max-width: 767px)"
-            srcSet="/hero-bg-mobile-light.webp?v=87"
+            srcSet="/hero-bg-mobile-light.webp?v=92"
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem (modo dia) */}
           <source
             media="(min-width: 768px)"
-            srcSet="/hero-bg-light.webp?v=90"
+            srcSet="/hero-bg-light.webp?v=92"
             type="image/webp"
           />
           {/* Modo dia — só visível quando html tem .light-mode */}
           <img
-            src="/hero-bg-light.webp?v=90"
+            src="/hero-bg-light.webp?v=92"
             alt=""
             className={`hero-bg-img hero-bg-img-light ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"

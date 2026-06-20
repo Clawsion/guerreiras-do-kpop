@@ -2055,13 +2055,6 @@
   /* Ambas as imagens (dia e noite) originais do usuário — dimensões idênticas (1419x752)
      e composição alinhada. Sem crops, sem scales, sem zoom. */
   object-position: center center;
-  /* ═══ EFEITO PARALLAX SUTIL + MARCA DE ÁGUA ═══
-     Parallax subtil: a imagem move-se 3% mais lentamente que o scroll,
-     criando profundidade sem distrair. Igual ao efeito dos contactos.
-     Transform 3d para aceleração GPU. */
-  transform: translate3d(0, 0, 0) scale(1.05);
-  will-change: transform;
-  transition: transform 0.1s linear;
   /* Sem animação de zoom */
   animation: none;
 }
