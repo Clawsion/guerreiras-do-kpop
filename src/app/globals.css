@@ -3921,15 +3921,15 @@ html.light-mode .hero-bg-img-dark {
   overflow: hidden;
   isolation: isolate;
 }
-/* Overlay marca de água — subtil (fundo já é harmonioso, só precisa de legibilidade) */
+/* Overlay marca de água — imagem da multidão visível a ~20% (estilo contactos) */
 .cartazes-section::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(11, 8, 19, 0.65) 0%,
-    rgba(16, 11, 26, 0.55) 50%,
-    rgba(11, 8, 19, 0.65) 100%
+    rgba(11, 8, 19, 0.82) 0%,
+    rgba(16, 11, 26, 0.80) 50%,
+    rgba(11, 8, 19, 0.82) 100%
   );
   z-index: 0;
   pointer-events: none;
@@ -3973,9 +3973,9 @@ html.light-mode .hero-bg-img-dark {
 }
 .light-mode .cartazes-section::after {
   background: linear-gradient(180deg,
-    rgba(237, 224, 245, 0.55) 0%,
-    rgba(245, 234, 248, 0.45) 50%,
-    rgba(237, 224, 245, 0.55) 100%
+    rgba(237, 224, 245, 0.78) 0%,
+    rgba(245, 234, 248, 0.75) 50%,
+    rgba(237, 224, 245, 0.78) 100%
   ) !important;
 }
 /* Shape dividers em modo dia — lavanda mais escuro para contrastar com o branco */
