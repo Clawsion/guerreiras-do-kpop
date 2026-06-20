@@ -4397,17 +4397,20 @@ html.light-mode .hero-bg-img-dark {
     radial-gradient(ellipse 70% 50% at center 30%, rgba(255, 45, 120, 0.06) 0%, transparent 60%),
     linear-gradient(to bottom, rgba(255,255,255,0.25) 0%, transparent 25%, transparent 75%, rgba(255,255,255,0.25) 100%);
 }
-/* Mobile — sem parallax JS, só estática. Pouco menos zoom também. */
+/* Mobile — parallax ATIVO (igual desktop mas com deslize reduzido).
+   inset: -30% dá área extra para a foto deslizar sem mostrar as bordas.
+   background-size: 90% — pouco menos zoom que desktop (100%). */
 @media (max-width: 767px) {
   .galeria-parallax-bg {
-    inset: 0;
+    inset: -30%;
     background-size: 90% auto;
     background-position: center bottom;
     opacity: 0.18;
-    will-change: auto;
+    will-change: transform;
     /* Qualidade máxima para fotos em mobile */
     image-rendering: -webkit-optimize-contrast;
     image-rendering: high-quality;
+    /* Mask radial mantém-se (herda do desktop) */
   }
   .light-mode .galeria-parallax-bg {
     opacity: 0.12;

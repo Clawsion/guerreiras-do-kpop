@@ -543,14 +543,17 @@ export default function HomePage() {
   // Quando se entra na secção: foto em baixo (vê-se parte inferior).
   // Quando se sai: foto subiu (vê-se parte superior/meio).
   // Movimento contínuo e fluido — a foto está sempre a deslizar.
+  // Em mobile: usa deslize reduzido (±15%) para evitar stutter em iOS.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    // Em mobile não aplicar (performance + fixed não funciona em iOS)
-    if (window.innerWidth < 768) return;
 
     const bg = galeriaParallaxRef.current;
     const section = galeriaRef.current;
     if (!bg || !section) return;
+
+    // Deslize reduzido em mobile (menor distância = mais fluido em touch)
+    const isMobile = window.innerWidth < 768;
+    const maxOffset = isMobile ? 15 : 25; // ±15% mobile, ±25% desktop
 
     let ticking = false;
     const update = () => {
@@ -565,11 +568,11 @@ export default function HomePage() {
       // - rect.top vai de winH (entrada) a -rect.height (saída)
       const totalDist = winH + rect.height;
       const progress = Math.max(0, Math.min(1, (winH - rect.top) / totalDist));
-      // Mover a foto de +25% (em baixo, parte inferior visível no topo da secção)
-      // a -25% (em cima) — deslize longo e visível de baixo→cima
+      // Mover a foto de +maxOffset% (em baixo, parte inferior visível no topo da secção)
+      // a -maxOffset% (em cima) — deslize de baixo→cima
       // = a foto está sempre a subir conforme o scroll desce
       // translate3d() preserva a aceleração GPU (qualidade máxima de renderização)
-      const offset = 25 - (progress * 50);
+      const offset = maxOffset - (progress * maxOffset * 2);
       bg.style.transform = `translate3d(0, ${offset}%, 0)`;
       ticking = false;
     };
@@ -581,9 +584,14 @@ export default function HomePage() {
       }
     };
 
+    // Usar scroll + touchmove para garantir resposta em mobile
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("touchmove", onScroll, { passive: true });
     update(); // posição inicial
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("touchmove", onScroll);
+    };
   }, []);
 
   // Sync light-mode class to <html> on mount (theme already read from localStorage via useState initializer)
