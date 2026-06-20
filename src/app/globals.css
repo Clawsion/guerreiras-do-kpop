@@ -4506,12 +4506,12 @@ html.light-mode .hero-bg-img-dark {
   .light-mode .galeria-parallax-bg {
     opacity: 0.12;
   }
-  /* ═══ MODO NOITE MOBILE — Fundo da secção com tons SIMILARES ao parallax 1 ═══
+  /* ═══ MODO NOITE MOBILE — Fundo SIMÉTRICO (espelho: início → meio → início) ═══
      Análise da cor média do topo (0-40%) da imagem do Portal Honmoon:
        Cor média: #3D0129 (roxo escuro com toque magenta)
        
      Tons extraídos da imagem (parte superior/céu):
-       - 5% altura:  #020017 (quase preto, roxo profundo)
+       - 5% altura:  #020017 (quase preto, roxo profundo) — COR 1
        - 10% altura: #0B001E (roxo muito escuro)
        - 15% altura: #280027 (roxo escuro)
        - 20% altura: #58003A (roxo-magenta)
@@ -4519,23 +4519,35 @@ html.light-mode .hero-bg-img-dark {
        - 30% altura: #6F0233 (rosa escuro)
        - 35% altura: #5F002B (magenta profundo)
      
-     Gradient atualizado para combinar com o parallax 1:
-     - Topo: #020017 (igual ao topo da imagem)
-     - Meio: #280027 → #58003A (transição roxo→magenta)
-     - Fundo: #6F0233 (igual ao 30% da imagem, "câmara/portal") */
+     ESTRATÉGIA SIMÉTRICA (espelho):
+     - TOPO (parallax 1): cor1 → meio
+       * Inicia com #020017 (cor 1 do parallax 1)
+       * Transita para #58003A (cor do meio)
+     - FUNDO (parallax 2): meio → cor1 (INVERSO)
+       * Volta de #58003A (meio) para #020017 (cor 1)
+       * Cria efeito espelho: parallax 2 tem a mesma cor 1 do parallax 1
+     
+     Estrutura: cor1 → meio → cor1 (simétrico) */
   .galeria-section {
     background:
       linear-gradient(to bottom,
+        /* TOPO — igual ao parallax 1 (cor 1 → meio) */
         #020017 0%,
-        #060019 8%,
-        #0B001E 18%,
-        #150022 28%,
-        #280027 40%,
-        #3D0129 52%,
-        #58003A 65%,
-        #6F0233 80%,
-        #5F002B 92%,
-        #4A0024 100%) !important;
+        #060019 5%,
+        #0B001E 10%,
+        #150022 15%,
+        #280027 22%,
+        #3D0129 30%,
+        #58003A 40%,
+        #6F0233 50%,
+        /* FUNDO — INVERSO (meio → cor 1) */
+        #58003A 60%,
+        #3D0129 70%,
+        #280027 78%,
+        #150022 85%,
+        #0B001E 90%,
+        #060019 95%,
+        #020017 100%) !important;
   }
   /* ═══ DESVANESCIMENTO no topo das fotos da galeria (mobile modo noite) ═══
      Mask linear vertical: a grid das fotos começa semi-transparente no topo
