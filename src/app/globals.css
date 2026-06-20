@@ -4463,7 +4463,7 @@ html.light-mode .hero-bg-img-dark {
     inset: -30%;
     background-size: 90% auto;
     background-position: center bottom;
-    opacity: 0.18;
+    opacity: 0.25; /* Aumentada de 0.18 para 0.25 — tons mais similares ao parallax 1 */
     will-change: transform;
     /* Qualidade máxima para fotos em mobile */
     image-rendering: -webkit-optimize-contrast;
@@ -4496,30 +4496,36 @@ html.light-mode .hero-bg-img-dark {
   .light-mode .galeria-parallax-bg {
     opacity: 0.12;
   }
-  /* ═══ MODO NOITE MOBILE — Fundo da secção recria o CÉU do portal ═══
-     Análise das cores do céu (topo 0-25%) da foto do Portal Honmoon:
-       - Topo escuro:    #030010 (quase preto com toque púrpura)
-       - Céu médio:      #120021 (roxo muito escuro)
-       - Horizonte:      #6B034F (magenta escuro) e #8F0030 (rosa K-pop)
-     Background da secção usa gradient vertical destas cores, de forma
-     que quando a foto do parallax está em baixo (topo da secção),
-     o espaço acima dela tenha o "céu" do portal em vez do fundo
-     --deep genérico.
+  /* ═══ MODO NOITE MOBILE — Fundo da secção com tons SIMILARES ao parallax 1 ═══
+     Análise da cor média do topo (0-40%) da imagem do Portal Honmoon:
+       Cor média: #3D0129 (roxo escuro com toque magenta)
+       
+     Tons extraídos da imagem (parte superior/céu):
+       - 5% altura:  #020017 (quase preto, roxo profundo)
+       - 10% altura: #0B001E (roxo muito escuro)
+       - 15% altura: #280027 (roxo escuro)
+       - 20% altura: #58003A (roxo-magenta)
+       - 25% altura: #830542 (magenta escuro)
+       - 30% altura: #6F0233 (rosa escuro)
+       - 35% altura: #5F002B (magenta profundo)
      
-     ATUALIZAÇÃO 2: tons rosa/magenta ainda MAIS REDUZIDOS. O gradient
-     inferior agora é púrpura-azulado escuro, sem qualquer tom pink. */
+     Gradient atualizado para combinar com o parallax 1:
+     - Topo: #020017 (igual ao topo da imagem)
+     - Meio: #280027 → #58003A (transição roxo→magenta)
+     - Fundo: #6F0233 (igual ao 30% da imagem, "câmara/portal") */
   .galeria-section {
     background:
       linear-gradient(to bottom,
-        #030010 0%,
+        #020017 0%,
         #060019 8%,
-        #0A0020 18%,
-        #120021 30%,
-        #180022 45%,
-        #1E0024 60%,
-        #220026 75%,
-        #260028 88%,
-        #2A002A 100%) !important;
+        #0B001E 18%,
+        #150022 28%,
+        #280027 40%,
+        #3D0129 52%,
+        #58003A 65%,
+        #6F0233 80%,
+        #5F002B 92%,
+        #4A0024 100%) !important;
   }
   /* ═══ DESVANESCIMENTO no topo das fotos da galeria (mobile modo noite) ═══
      Mask linear vertical: a grid das fotos começa semi-transparente no topo
