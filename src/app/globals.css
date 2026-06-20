@@ -4355,11 +4355,47 @@ html.light-mode .hero-bg-img-dark {
   -webkit-font-smoothing: antialiased;
   backface-visibility: hidden;
   transform: translateZ(0);
+  /* ═══ EFEITO 2: MASK RADIAL — bordas suaves sem "cut" duro ═══
+     A foto desaparece gradualmente nas bordas (vignette invertida),
+     semelhante a um "vapor/aura" místico. Resolve o problema das
+     bordas rígidas quando a foto desliza com o parallax. */
+  -webkit-mask-image: radial-gradient(ellipse 65% 70% at center 60%, #000 35%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.4) 75%, transparent 100%);
+  mask-image: radial-gradient(ellipse 65% 70% at center 60%, #000 35%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.4) 75%, transparent 100%);
+}
+/* ═══ EFEITO 1: GRADIENT RADIAL NEON — halo místico púrpura/rosa ═══
+   Camada SOBRE a foto (z-index: 1) e SOB as fotos da galeria (z-index: 10).
+   Cria um halo radial que emana do centro-baixo da secção, misturando
+   púrpura + rosa K-pop, como se a foto estivesse a ser "invocada"
+   por energia do portal Honmoon. */
+.galeria-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    /* Halo central púrpura → transparente (núcleo do portal) */
+    radial-gradient(ellipse 50% 45% at center 65%, rgba(200, 80, 255, 0.18) 0%, rgba(180, 74, 255, 0.10) 30%, transparent 70%),
+    /* Halo rosa K-pop mais amplo, em cima (aura envolvente) */
+    radial-gradient(ellipse 70% 50% at center 30%, rgba(255, 45, 120, 0.08) 0%, transparent 60%),
+    /* Vignette vertical subtil: escurece topo e fundo para focar no meio */
+    linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 25%, transparent 75%, rgba(0,0,0,0.35) 100%);
+  mix-blend-mode: screen;
+  opacity: 0.9;
 }
 /* Modo dia */
 .light-mode .galeria-parallax-bg {
   opacity: 0.1;
   filter: hue-rotate(180deg) brightness(1.2);
+}
+/* Modo dia — efeito neon mais subtil (não compete com fundo claro) */
+.light-mode .galeria-section::after {
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background:
+    radial-gradient(ellipse 50% 45% at center 65%, rgba(147, 51, 234, 0.12) 0%, rgba(180, 74, 255, 0.06) 30%, transparent 70%),
+    radial-gradient(ellipse 70% 50% at center 30%, rgba(255, 45, 120, 0.06) 0%, transparent 60%),
+    linear-gradient(to bottom, rgba(255,255,255,0.25) 0%, transparent 25%, transparent 75%, rgba(255,255,255,0.25) 100%);
 }
 /* Mobile — sem parallax JS, só estática. Pouco menos zoom também. */
 @media (max-width: 767px) {
