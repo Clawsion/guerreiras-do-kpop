@@ -2709,7 +2709,8 @@ html.light-mode .hero-bg-img-dark {
     padding-top: 2.5rem !important;
     --esp-pitch-margin: 0.5rem;
   }
-  /* ::before com a imagem + brightness — realça o palco sem mexer no zoom */
+  /* ::before com a imagem + brightness — realça o palco sem mexer no zoom.
+     Aumentado de 1.8 para 2.4 para destacar mais o fundo no modo noite mobile. */
   .espetaculo-section::before {
     content: '';
     position: absolute;
@@ -2718,7 +2719,7 @@ html.light-mode .hero-bg-img-dark {
     background-size: 100% auto;
     background-position: top center;
     background-repeat: no-repeat;
-    filter: brightness(1.8);
+    filter: brightness(2.4) contrast(1.05);
     z-index: 0;
     pointer-events: none;
   }
@@ -8115,9 +8116,10 @@ section#concertos {
   .esp-glow-orb { display: none !important; }
   /* Esp-spotlights: desativar animação em mobile (3 animações infinitas
      pesadas) e reduzir opacidade. As spotlights continuam visíveis mas
-     estáticas — sem sway animation. */
+     estáticas — sem sway animation.
+     Opacidade aumentada de 0.3 para 0.5 para destacar mais o fundo. */
   .esp-spotlight { 
-    opacity: 0.3 !important; 
+    opacity: 0.5 !important; 
     animation: none !important;
     /* mix-blend-mode: screen é pesado em mobile GPU — desativar */
     mix-blend-mode: normal !important;
