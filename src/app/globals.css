@@ -5686,15 +5686,19 @@ html.light-mode .hero-bg-img-dark {
    Performance: usa gradientes CSS (leves) + poucas partículas. */
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ HONMOON LED WALL — grid + pulse + curvas de luz (desktop) ═══ */
+/* ═══ HONMOON LED WALL — grid + pulse + focos de luz (desktop) ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
-/* 3 layers (SEM linhas a rodar, SEM sweeps):
+/* 3 layers:
    1. Grid de pontos LED (sempre visível)
    2. Pulse concêntrico (energia do orb)
-   3. Curvas de luz (focos que rodam — MUITA intensidade)
+   3. Focos de luz que rodam (prolongados até às pontas do site)
    
-   Modo noite: pink/red neon — INTENSO
-   Modo dia: azul/cyan neon — INTENSO (visível!) */
+   Modo noite: ROXO NEON predominante + pink vermelho (interliga com site)
+   Modo dia: DOURADO/ÂMBAR (combina com orb dourado, visível sobre lilás)
+   
+   Focos prolongados: width/height 500% + mask até 80% — os focos
+   estendem-se muito para além da secção, como faróis que chegam
+   às pontas do site. */
 
 .hm-led-wall {
   position: absolute;
@@ -5708,15 +5712,16 @@ html.light-mode .hero-bg-img-dark {
 .hm-vj-grid {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(255, 45, 120, 0.25) 1.5px, transparent 2px);
+  background-image: radial-gradient(circle, rgba(200, 80, 255, 0.25) 1.5px, transparent 2px);
   background-size: 18px 18px;
   opacity: 0.7;
   mix-blend-mode: screen;
   will-change: background-position;
   animation: hmVjGridScroll 25s linear infinite;
 }
+/* Modo dia — DOURADO (combina com orb dourado, visível sobre lilás) */
 .light-mode .hm-vj-grid {
-  background-image: radial-gradient(circle, rgba(0, 200, 255, 0.3) 1.5px, transparent 2px);
+  background-image: radial-gradient(circle, rgba(255, 200, 0, 0.3) 1.5px, transparent 2px);
   mix-blend-mode: normal;
   opacity: 0.6;
 }
@@ -5735,7 +5740,7 @@ html.light-mode .hero-bg-img-dark {
   transform: translate(-50%, -50%);
   background: repeating-radial-gradient(circle at 50% 50%,
     transparent 0px, transparent 60px,
-    rgba(255, 45, 120, 0.15) 60px, rgba(255, 45, 120, 0.15) 62px,
+    rgba(200, 80, 255, 0.15) 60px, rgba(200, 80, 255, 0.15) 62px,
     transparent 62px, transparent 120px);
   opacity: 0.6;
   mix-blend-mode: screen;
@@ -5745,7 +5750,7 @@ html.light-mode .hero-bg-img-dark {
 .light-mode .hm-vj-pulse {
   background: repeating-radial-gradient(circle at 50% 50%,
     transparent 0px, transparent 60px,
-    rgba(0, 200, 255, 0.2) 60px, rgba(0, 200, 255, 0.2) 62px,
+    rgba(255, 200, 0, 0.2) 60px, rgba(255, 200, 0, 0.2) 62px,
     transparent 62px, transparent 120px);
   mix-blend-mode: normal;
   opacity: 0.5;
@@ -5755,79 +5760,103 @@ html.light-mode .hero-bg-img-dark {
   100% { transform: translate(-50%, -50%) scale(1.08); opacity: 0.7; }
 }
 
-/* ═══ 3. Curvas de luz — focos que rodam (MUITA intensidade) ═══
-   Conic gradient com arcos de luz que rodam.
-   INTENSIDADE AUMENTADA:
-   - Cores 3x mais fortes (0.25-0.35 vs 0.08-0.12)
-   - mask radius maior (30% vs 18%) — focos mais largos
-   - blur menor (10px vs 15px) — mais nítidos
-   - opacity maior (0.8 vs 0.6) */
+/* ═══ 3. Focos de luz — prolongados até às pontas do site ═══
+   Conic gradient com 6 arcos de luz que rodam.
+   
+   PROLONGADOS: width/height 500% + mask até 80% — os focos
+   estendem-se muito para além dos limites da secção.
+   
+   Modo noite: ROXO NEON predominante (rgba(200,80,255)) + PINK
+   VERMELHO (rgba(255,45,120)) — interliga com as cores do site.
+   
+   Modo dia: DOURADO (rgba(255,200,0)) + ÂMBAR (rgba(255,180,50))
+   — combina com orb dourado, visível sobre lilás. */
 .hm-vj-curves {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 400%;
-  height: 400%;
+  width: 500%;
+  height: 500%;
   transform: translate(-50%, -50%);
   background:
     conic-gradient(from 0deg at 50% 50%,
       transparent 0deg,
-      rgba(255, 45, 120, 0.4) 8deg,
-      rgba(255, 20, 100, 0.3) 20deg,
-      rgba(255, 45, 120, 0.15) 35deg,
-      transparent 45deg,
-      transparent 70deg,
-      rgba(255, 45, 120, 0.35) 78deg,
-      rgba(255, 20, 100, 0.22) 92deg,
-      rgba(255, 45, 120, 0.1) 105deg,
-      transparent 115deg,
-      transparent 155deg,
-      rgba(255, 45, 120, 0.4) 168deg,
-      rgba(255, 20, 100, 0.3) 180deg,
-      rgba(255, 45, 120, 0.15) 195deg,
-      transparent 205deg,
-      transparent 245deg,
-      rgba(255, 45, 120, 0.35) 258deg,
-      rgba(255, 20, 100, 0.22) 272deg,
-      rgba(255, 45, 120, 0.1) 285deg,
-      transparent 295deg,
-      transparent 335deg,
-      rgba(255, 45, 120, 0.3) 348deg,
+      rgba(200, 80, 255, 0.45) 6deg,
+      rgba(200, 80, 255, 0.3) 18deg,
+      rgba(255, 45, 120, 0.2) 30deg,
+      rgba(200, 80, 255, 0.1) 40deg,
+      transparent 50deg,
+      transparent 65deg,
+      rgba(200, 80, 255, 0.4) 73deg,
+      rgba(255, 45, 120, 0.25) 85deg,
+      rgba(200, 80, 255, 0.12) 97deg,
+      transparent 107deg,
+      transparent 122deg,
+      rgba(255, 45, 120, 0.35) 130deg,
+      rgba(200, 80, 255, 0.25) 142deg,
+      rgba(255, 45, 120, 0.1) 154deg,
+      transparent 164deg,
+      transparent 179deg,
+      rgba(200, 80, 255, 0.45) 185deg,
+      rgba(200, 80, 255, 0.3) 197deg,
+      rgba(255, 45, 120, 0.2) 209deg,
+      rgba(200, 80, 255, 0.1) 219deg,
+      transparent 229deg,
+      transparent 244deg,
+      rgba(200, 80, 255, 0.4) 252deg,
+      rgba(255, 45, 120, 0.25) 264deg,
+      rgba(200, 80, 255, 0.12) 276deg,
+      transparent 286deg,
+      transparent 301deg,
+      rgba(255, 45, 120, 0.35) 309deg,
+      rgba(200, 80, 255, 0.25) 321deg,
+      rgba(255, 45, 120, 0.1) 333deg,
+      transparent 343deg,
       transparent 360deg);
   opacity: 0.9;
   mix-blend-mode: screen;
   filter: blur(6px);
-  -webkit-mask: radial-gradient(circle at 50% 50%, black 0%, black 5%, black 45%, transparent 70%);
-  mask: radial-gradient(circle at 50% 50%, black 0%, black 5%, black 45%, transparent 70%);
+  -webkit-mask: radial-gradient(circle at 50% 50%, black 0%, black 5%, black 50%, transparent 80%);
+  mask: radial-gradient(circle at 50% 50%, black 0%, black 5%, black 50%, transparent 80%);
   will-change: transform;
   animation: hmVjCurves 35s linear infinite;
 }
-/* Modo dia — MUITA intensidade (visível!) */
+/* Modo dia — DOURADO + ÂMBAR (visível sobre lilás, combina com orb) */
 .light-mode .hm-vj-curves {
   background:
     conic-gradient(from 0deg at 50% 50%,
       transparent 0deg,
-      rgba(0, 200, 255, 0.45) 8deg,
-      rgba(255, 200, 100, 0.3) 20deg,
-      rgba(0, 200, 255, 0.2) 35deg,
-      transparent 45deg,
-      transparent 70deg,
-      rgba(0, 200, 255, 0.4) 78deg,
-      rgba(255, 200, 100, 0.22) 92deg,
-      rgba(0, 200, 255, 0.15) 105deg,
-      transparent 115deg,
-      transparent 155deg,
-      rgba(0, 200, 255, 0.45) 168deg,
-      rgba(255, 200, 100, 0.3) 180deg,
-      rgba(0, 200, 255, 0.2) 195deg,
-      transparent 205deg,
-      transparent 245deg,
-      rgba(0, 200, 255, 0.4) 258deg,
-      rgba(255, 200, 100, 0.22) 272deg,
-      rgba(0, 200, 255, 0.15) 285deg,
-      transparent 295deg,
-      transparent 335deg,
-      rgba(0, 200, 255, 0.35) 348deg,
+      rgba(255, 200, 0, 0.5) 6deg,
+      rgba(255, 200, 0, 0.35) 18deg,
+      rgba(255, 180, 50, 0.25) 30deg,
+      rgba(255, 200, 0, 0.12) 40deg,
+      transparent 50deg,
+      transparent 65deg,
+      rgba(255, 200, 0, 0.45) 73deg,
+      rgba(255, 180, 50, 0.3) 85deg,
+      rgba(255, 200, 0, 0.15) 97deg,
+      transparent 107deg,
+      transparent 122deg,
+      rgba(255, 180, 50, 0.4) 130deg,
+      rgba(255, 200, 0, 0.3) 142deg,
+      rgba(255, 180, 50, 0.12) 154deg,
+      transparent 164deg,
+      transparent 179deg,
+      rgba(255, 200, 0, 0.5) 185deg,
+      rgba(255, 200, 0, 0.35) 197deg,
+      rgba(255, 180, 50, 0.25) 209deg,
+      rgba(255, 200, 0, 0.12) 219deg,
+      transparent 229deg,
+      transparent 244deg,
+      rgba(255, 200, 0, 0.45) 252deg,
+      rgba(255, 180, 50, 0.3) 264deg,
+      rgba(255, 200, 0, 0.15) 276deg,
+      transparent 286deg,
+      transparent 301deg,
+      rgba(255, 180, 50, 0.4) 309deg,
+      rgba(255, 200, 0, 0.3) 321deg,
+      rgba(255, 180, 50, 0.12) 333deg,
+      transparent 343deg,
       transparent 360deg);
   mix-blend-mode: normal;
   opacity: 0.8;
