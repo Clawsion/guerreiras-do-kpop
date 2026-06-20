@@ -9798,3 +9798,66 @@ img { max-width: 100%; height: auto; }
     transform: scale(0.95);  /* 0.93 + 0.02 do hover */
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+ * PARALLAX TOPO DA GALERIA (só mobile ≤767px)
+ * ═══════════════════════════════════════════════════════════════════
+ * Novo parallax no INÍCIO da secção mural, mostrando a parte de CIMA
+ * da foto do portal. Movimento OPOSTO ao parallax de baixo:
+ * - Início: foto shifted UP → mostra CIMA da foto
+ * - Fim: foto shifted DOWN → foto "desce" com o scroll
+ *
+ * Mesma imagem, mesma mask, mesma opacidade do parallax de baixo.
+ * Aparece DUAS vezes a foto na secção: topo (nova) + fundo (existente).
+ *
+ * Desktop e tablet: hidden (display: none) — não afeta.
+ */
+
+/* Wrapper — escondido por defeito, só visível em mobile */
+.galeria-parallax-top-wrap {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .galeria-parallax-top-wrap {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 50vh; /* Metade da altura do ecrã */
+    overflow: hidden;
+    z-index: 0;
+    /* Sem padding/margin para ficar colado ao topo da secção */
+    margin: 0;
+  }
+
+  /* Parallax image — mesmo estilo do parallax de baixo mas com position: top */
+  .galeria-parallax-top {
+    position: absolute;
+    inset: -30%;
+    background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon.webp');
+    background-size: 90% auto;
+    background-position: center top; /* Âncora no TOPO → mostra parte de CIMA */
+    background-repeat: no-repeat;
+    opacity: 0.18; /* Igual ao parallax de baixo em mobile */
+    z-index: 0;
+    pointer-events: none;
+    will-change: transform;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: high-quality;
+    -webkit-font-smoothing: antialiased;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    /* Mesma mask radial do parallax de baixo */
+    -webkit-mask-image: radial-gradient(ellipse 65% 70% at center 40%, #000 35%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.4) 75%, transparent 100%);
+    mask-image: radial-gradient(ellipse 65% 70% at center 40%, #000 35%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.4) 75%, transparent 100%);
+  }
+
+  /* Modo dia — usa imagem light própria (HD Restoration) */
+  .light-mode .galeria-parallax-top {
+    background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon-light.webp');
+    background-size: 65% auto;
+    background-position: center top;
+    opacity: 0.35;
+    filter: none;
+  }
+}

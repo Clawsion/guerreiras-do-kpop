@@ -491,6 +491,7 @@ export default function HomePage() {
   const sectionRefs = useRef<HTMLElement[] | null>(null);
   const galeriaRef = useRef<HTMLElement>(null);
   const galeriaParallaxRef = useRef<HTMLDivElement>(null);
+  const galeriaParallaxTopRef = useRef<HTMLDivElement>(null);
   // ═══ PARALLAX — agora usa background-attachment: fixed (nativo do browser) ═══
   // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
 
@@ -594,7 +595,55 @@ export default function HomePage() {
     };
   }, []);
 
-  // Sync light-mode class to <html> on mount (theme already read from localStorage via useState initializer)
+  // ═══ PARALLAX TOPO GALERIA — mostra parte de CIMA, desce com scroll ═══
+  // Só mobile (≤767px). Movimento OPOSTO ao parallax de baixo:
+  // - Início: foto shifted UP, mostra a parte de CIMA da foto
+  // - Fim: foto shifted DOWN, foto "desce" com o scroll
+  // Mesma imagem, mesma mask, mesma opacidade do parallax de baixo.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.innerWidth >= 768) return; // Só mobile
+
+    const bg = galeriaParallaxTopRef.current;
+    if (!bg) return;
+
+    const maxOffset = 15; // ±15% em mobile (igual ao parallax de baixo)
+
+    let ticking = false;
+    const update = () => {
+      const wrap = bg.parentElement;
+      if (!wrap) { ticking = false; return; }
+      const rect = wrap.getBoundingClientRect();
+      const winH = window.innerHeight;
+      if (rect.bottom < -200 || rect.top > winH + 200) {
+        ticking = false;
+        return;
+      }
+      const totalDist = winH + rect.height;
+      const progress = Math.max(0, Math.min(1, (winH - rect.top) / totalDist));
+      // DIREÇÃO OPOSTA ao parallax de baixo:
+      // - progress 0 (topo): offset = -maxOffset (foto UP, mostra CIMA)
+      // - progress 1 (fundo): offset = +maxOffset (foto DOWN, foto desceu)
+      const offset = -maxOffset + (progress * maxOffset * 2);
+      bg.style.transform = `translate3d(0, ${offset}%, 0)`;
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("touchmove", onScroll, { passive: true });
+    update();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("touchmove", onScroll);
+    };
+  }, []);
   useEffect(() => {
     if (themeMode === 'light') {
       document.documentElement.classList.add('light-mode');
@@ -1436,6 +1485,13 @@ export default function HomePage() {
 
       {/* ═══ GALERIA - Momentos ao Vivo com Legenda + Lightbox ═══ */}
       <section id="galeria" className="galeria-section" ref={galeriaRef}>
+        {/* NOVO: Parallax no TOPO da secção (só mobile).
+            Mostra a parte de CIMA da foto, desce com o scroll.
+            Direção oposta ao parallax de baixo.
+            Modo dia e modo noite usam imagens diferentes (via CSS). */}
+        <div className="galeria-parallax-top-wrap">
+          <div className="galeria-parallax-top" ref={galeriaParallaxTopRef}/>
+        </div>
         {/* Parallax com portal Honmoon — deslize real de baixo→cima com scroll */}
         <div className="galeria-parallax-bg" ref={galeriaParallaxRef}/>
         <div className="hero-aligned-container relative z-10">
