@@ -3940,13 +3940,17 @@ html.light-mode .hero-bg-img-dark {
   z-index: 0;
   pointer-events: none;
 }
-/* Desktop (≥1024px) — overlay com cor da última onda (roxo transparente) */
+/* Desktop (≥1024px) — overlay com ROXO MEIO TRANSPARENTE (#C0B5CA)
+   Tom roxo meio transparente extraído da imagem das ondas (zonas 3-4, y=22-44):
+   - Cor média: #C0B5CA (roxo meio transparente, abaixo da onda roxo sólido)
+   - Tons principais: #C0B0C0, #B0B0C0, #B0A0C0
+   - Saturação roxa: 5-15 (meio transparente, não sólido nem claro) */
 @media (min-width: 1024px) {
   .cartazes-section::after {
     background: linear-gradient(180deg,
-      rgba(193, 180, 201, 0.78) 0%,
+      rgba(192, 181, 202, 0.78) 0%,
       rgba(192, 176, 192, 0.82) 50%,
-      rgba(193, 180, 201, 0.78) 100%
+      rgba(192, 181, 202, 0.78) 100%
     );
   }
 }
@@ -3979,35 +3983,43 @@ html.light-mode .hero-bg-img-dark {
   transition: fill 0.6s ease;
 }
 
-/* ═══ Modo dia — overlay com cor da SEGUNDA ONDA (branco transparente lavanda #C7B7CB) ═══
-   Cor extraída da segunda onda (mais clara) da imagem enviada pelo user:
-   - Cor média clara: #C7B7CB (branco lavanda-transparente)
-   - Tons principais: #C0B0C0, #B0B0C0, #D0C0D0
+/* ═══ Modo dia — MESMO overlay do modo noite (branco transparente #C1B4C9) ═══
+   User pediu: "em relaçao ao modo dia eu quero o mesmo overlay que esta na imagem
+   por detras dos cartazes 'branco transparente igual'"
    
-   Overlay translúcido com esta cor, aplicado POR CIMA do parallax das bolas
-   mas POR DETRÁS dos cartazes (z-index 0).
-   Similar ao efeito da segunda onda que está abaixo da secção. */
+   Overlay translúcido BRANCO TRANSPARENTE (#C1B4C9 — mesma cor que estava no modo noite),
+   aplicado POR CIMA do parallax das bolas mas POR DETRÁS dos cartazes. */
 .light-mode .cartazes-section {
-  background: linear-gradient(180deg, rgba(199,183,203,0.78) 0%, rgba(192,176,192,0.82) 50%, rgba(199,183,203,0.78) 100%);
+  background: linear-gradient(180deg, rgba(193,180,201,0.78) 0%, rgba(192,176,192,0.82) 50%, rgba(193,180,201,0.78) 100%);
   background-image: url('/cartazes-bg-day.webp'),
-    linear-gradient(180deg, rgba(199,183,203,0.78) 0%, rgba(192,176,192,0.82) 50%, rgba(199,183,203,0.78) 100%);
+    linear-gradient(180deg, rgba(193,180,201,0.78) 0%, rgba(192,176,192,0.82) 50%, rgba(193,180,201,0.78) 100%);
   background-size: 100% auto, cover;
   background-position: center top, center;
   background-repeat: no-repeat, no-repeat;
   background-attachment: fixed, fixed;
 }
-/* Overlay extra no modo dia — cor da segunda onda (branco transparente lavanda) */
+/* Overlay extra no modo dia — branco transparente (mesma cor do modo noite) */
 .light-mode .cartazes-section::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(199, 183, 203, 0.35) 0%,
+    rgba(193, 180, 201, 0.35) 0%,
     rgba(192, 176, 192, 0.25) 50%,
-    rgba(199, 183, 203, 0.35) 100%
+    rgba(193, 180, 201, 0.35) 100%
   );
   z-index: 0;
   pointer-events: none;
+}
+/* Desktop (≥1024px) — MESMO overlay do modo noite (branco transparente #C1B4C9) */
+@media (min-width: 1024px) {
+  .light-mode .cartazes-section::after {
+    background: linear-gradient(180deg,
+      rgba(193, 180, 201, 0.78) 0%,
+      rgba(192, 176, 192, 0.82) 50%,
+      rgba(193, 180, 201, 0.78) 100%
+    );
+  }
 }
 /* Shape dividers em modo dia — lavanda mais escuro para contrastar com o branco */
 .light-mode .cartazes-shape-fill {
