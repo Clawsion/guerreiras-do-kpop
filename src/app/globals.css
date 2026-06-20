@@ -2725,7 +2725,7 @@ html.light-mode .hero-bg-img-dark {
     background-size: 100% auto;
     background-position: top center;
     background-repeat: no-repeat;
-    filter: brightness(1.8);
+    filter: brightness(2.4) contrast(1.05);
     z-index: 0;
     pointer-events: none;
     /* Fade prolongado: imagem visível 0-75%, depois fade-out 75-100%.
@@ -4732,11 +4732,12 @@ html.light-mode .hero-bg-img-dark {
       rgba(0,0,0,0.85) 14%,
       #000 22%);
   }
-  /* ═══ Halo neon em modo NOITE mobile (mantém) ═══
+  /* ═══ Halo neon em modo NOITE mobile (mantém mas mais subtil) ═══
      Em modo noite o halo cria o ambiente místico do portal.
+     Opacidade reduzida de 0.2 para 0.08 — menos brilho no topo da 1ª foto (Saja Boys).
      Em modo dia é desativado abaixo (display: none) para evitar brilho. */
   .galeria-section::after {
-    opacity: 0.2;
+    opacity: 0.08;
   }
   /* ═══ MODO DIA MOBILE — Fundo SIMÉTRICO SOFT (lavanda ↔ azul, sem azul nos extremos) ═══
      Análise das cores do céu (topo 0-30%) da imagem HD Restoration:
