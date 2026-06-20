@@ -488,6 +488,7 @@ export default function HomePage() {
   const [lightbox, setLightbox] = useState<number | null>(null);
     const [privacyOpen, setPrivacyOpen] = useState(false);
   const orbRef = useRef<HTMLDivElement>(null);
+  const heroBgRef = useRef<HTMLImageElement>(null);
   const sectionRefs = useRef<HTMLElement[] | null>(null);
   const galeriaRef = useRef<HTMLElement>(null);
   const galeriaParallaxRef = useRef<HTMLDivElement>(null);
@@ -505,6 +506,40 @@ export default function HomePage() {
     }
     const t = setTimeout(() => setLoaded(true), 1200);
     return () => clearTimeout(t);
+  }, []);
+
+  // ═══ PARALLAX SUTIL DO HERO — imagem move-se 5% mais lentamente que o scroll ═══
+  // Efeito subtil de profundidade, igual ao estilo dos contactos.
+  // Aplica a ambas as imagens (dia e noite) — só a visível é que se move.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    let ticking = false;
+    const update = () => {
+      const heroBg = document.querySelector<HTMLElement>('.hero-bg-img');
+      if (!heroBg) { ticking = false; return; }
+      // Só aplicar parallax quando o hero está visível (topo da página)
+      const scrollY = window.scrollY;
+      if (scrollY > window.innerHeight) {
+        ticking = false;
+        return;
+      }
+      // Parallax subtil: 5% do scroll (imagem move-se 5% mais lentamente)
+      const offset = scrollY * 0.05;
+      heroBg.style.transform = `translate3d(0, ${offset}px, 0) scale(1.05)`;
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   // ═══ GESTÃO CENTRALIZADA do body.overflow ═══
