@@ -3912,24 +3912,15 @@ html.light-mode .hero-bg-img-dark {
 .cartazes-section {
   position: relative;
   padding: 7rem 0 6rem;
-  /* Imagem de fundo com parallax (multidão do evento) — estilo contactos */
-  background: var(--void);
-  background-image: url('/cartazes-bg-night.webp');
-  background-size: cover;
-  background-position: center center;
-  background-attachment: fixed; /* Parallax como os contactos */
-  background-repeat: no-repeat;
+  /* Modo noite: gradient roxo escuro premium (como estava antes — sem parallax) */
+  background: linear-gradient(180deg,
+    #0a0612 0%,
+    #110a1f 30%,
+    #150d28 60%,
+    #0a0612 100%
+  );
   overflow: hidden;
   isolation: isolate;
-}
-/* Overlay marca de água — imagem visível a ~15% (estilo contactos: papel vegetal) */
-.cartazes-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(11, 8, 19, 0.85);
-  z-index: 1;
-  pointer-events: none;
 }
 
 /* Shape divider — monta­nhas SVG (igual ao site de referência) */
@@ -3960,29 +3951,29 @@ html.light-mode .hero-bg-img-dark {
   transition: fill 0.6s ease;
 }
 
-/* Modo dia: imagem clara + overlay lavanda OPACO (estilo contactos) */
+/* ═══ Modo dia: imagem da multidão com parallax + marca de água bem feita ═══
+   - Imagem clara servida via background-image
+   - Overlay lavanda translúcido (0.78-0.82) para legibilidade
+   - Parallax (background-attachment: fixed)
+   - Tons adaptados ao modo dia do site (lavanda #EDE0F5, #F5EAF8)
+   - Texto 100% legível (z-index 10 no conteúdo) */
 .light-mode .cartazes-section {
   background: linear-gradient(180deg, rgba(170,140,200,0.85) 0%, rgba(160,128,195,0.88) 30%, rgba(150,118,185,0.88) 60%, rgba(170,140,200,0.85) 100%);
-  background-image: url('/cartazes-bg-day.webp'), linear-gradient(180deg, rgba(170,140,200,0.85) 0%, rgba(160,128,195,0.88) 30%, rgba(150,118,185,0.88) 60%, rgba(170,140,200,0.85) 100%);
+  background-image: url('/cartazes-bg-day.webp'),
+    linear-gradient(180deg, rgba(170,140,200,0.85) 0%, rgba(160,128,195,0.88) 30%, rgba(150,118,185,0.88) 60%, rgba(170,140,200,0.85) 100%);
   background-size: cover, cover;
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
   background-attachment: fixed, fixed;
-}
-.light-mode .cartazes-section::before {
-  display: none; /* Overlay já está no gradient acima */
 }
 /* Shape dividers em modo dia — lavanda mais escuro para contrastar com o branco */
 .light-mode .cartazes-shape-fill {
   fill: #e8d8f2 !important;
 }
 
-/* Overlay REMOVIDO — cartazes têm de se notar */
-.cartazes-section::before,
-.light-mode .cartazes-section::before {
-  content: none !important;
-  display: none !important;
-}
+/* Overlay ::before removido — o efeito marca de água é feito via
+   background-image com gradient lavanda translúcido (modo dia)
+   e o gradient roxo escuro sólido (modo noite) */
 
 /* Mobile: shape dividers mais baixos para não roubar espaço */
 @media (max-width: 767px) {
