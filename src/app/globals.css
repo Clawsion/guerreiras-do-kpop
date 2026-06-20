@@ -2677,19 +2677,19 @@ html.light-mode .hero-bg-img-dark {
 
 .espetaculo-section {
     position: relative;
-    padding: 7rem 0 8rem;
+    padding: 3rem 0 3rem;
     background: var(--void);
     background-image: url('/espetaculo-bg-dark.png');
-    background-size: 78% auto;
-    background-position: 100% 25%;
+    background-size: 100% 100%;
+    background-position: center center;
     background-repeat: no-repeat;
     overflow: hidden;
   }
 /* Mobile: layout stacks vertically, so go back to full cover for impact */
 @media (max-width: 1023px) {
   .espetaculo-section {
-    background-size: cover;
-    background-position: right top;
+    background-size: 100% 100%;
+    background-position: center center;
   }
 }
 /* ═══ SMARTPHONE (<768px) — usar imagem de fundo própria (retrato 447x800, original sem corte) ═══
@@ -5277,23 +5277,10 @@ html.light-mode .hero-bg-img-dark {
 /* ═══ Tributo Ao Vivo - lavanda puro (estado anterior, sem rosado) ═══ */
 .light-mode .espetaculo-section {
   background-color: #D8B8E8;
-  background-image:
-    linear-gradient(90deg,
-      #C8A5DC 0%,
-      #D2B0E2 25%,
-      #DCBEEC 45%,
-      rgba(216,184,232,0.55) 60%,
-      rgba(216,184,232,0.00) 72%
-    ),
-    url('/espetaculo-bg-light.png');
-  background-size:
-    100% 100%,
-    78% auto;
-  background-position:
-    0 0,
-    100% 25%;
-  background-repeat: no-repeat, no-repeat;
-  background-blend-mode: normal, normal;
+  background-image: url('/espetaculo-bg-light.png');
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 @media (max-width: 1023px) {
   .light-mode .espetaculo-section {
