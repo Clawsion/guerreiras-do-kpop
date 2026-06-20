@@ -4683,7 +4683,7 @@ html.light-mode .hero-bg-img-dark {
         transparent 100%);
   }
   .light-mode .galeria-parallax-bg {
-    opacity: 0.07; /* Reduzido de 0.12 para 0.07 — menos intensidade branca no parallax 2 */
+    opacity: 0.20; /* Aumentado de 0.07 para 0.20 — realçar a foto do parallax 2 (era pouco visível) */
   }
   /* ═══ MODO NOITE MOBILE — Fundo SIMÉTRICO SOFT (menos intensidade roxo) ═══
      Análise da cor média do topo (0-40%) da imagem do Portal Honmoon:
@@ -10113,12 +10113,13 @@ img { max-width: 100%; height: auto; }
         transparent 100%);
   }
 
-  /* Modo dia — usa imagem light com mais zoom para só céu azul claro */
+  /* Modo dia — usa imagem light com mais zoom para só céu azul claro.
+     Opacidade aumentada de 0.40 para 0.60 — realçar a foto (era pouco visível). */
   .light-mode .galeria-parallax-top {
     background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon-light.webp');
     background-size: 110% auto;
     background-position: center 0%;
-    opacity: 0.40;
+    opacity: 0.60;
     filter: none;
   }
 }
