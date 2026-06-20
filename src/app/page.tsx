@@ -1603,7 +1603,7 @@ export default function HomePage() {
             </div>
 
             {/* ── Coluna direita: formulário ── */}
-            <div className="lg:col-span-6 lg:col-start-4">
+            <div className="lg:col-span-7">
               <Rv delay={150}>
                 <form className="contacto-form" onSubmit={async (e)=>{
                   e.preventDefault();

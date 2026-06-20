@@ -4662,7 +4662,7 @@ html.light-mode .hero-bg-img-dark {
   background: var(--surface);
   border: 1px solid rgba(200, 80, 255, 0.12);
   max-width: 580px;
-  margin: 0 auto;
+  margin: 0;
 }
 @media (min-width: 768px) {
   .contacto-form {
