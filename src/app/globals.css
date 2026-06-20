@@ -5719,7 +5719,7 @@ html.light-mode .hero-bg-img-dark {
     rgba(3, 0, 8, 1) 100%);
 }
 .hm-nebula.light {
-  background: linear-gradient(160deg, #A8C0F0 0%, #B8B0E8 30%, #C8B0E0 50%, #B0C0EC 70%, #A8C0F0 100%);
+  background: linear-gradient(160deg, #98A8E0 0%, #A898D8 25%, #B898D0 50%, #A098DC 75%, #98A8E0 100%);
 }
 
 /* ═══ 2-4. Rios de gás — filamentos sinuosos orgânicos ═══
@@ -5738,93 +5738,93 @@ html.light-mode .hero-bg-img-dark {
 /* Rio 1 — gás roxo profundo (128,0,128) — rio principal diagonal */
 .hm-neb-1 {
   background:
-    radial-gradient(ellipse 45% 25% at 25% 65%,
-      rgba(128, 0, 128, 0.6) 0%,
-      rgba(128, 0, 128, 0.35) 25%,
-      rgba(128, 0, 128, 0.12) 50%,
-      rgba(128, 0, 128, 0.03) 70%,
+    radial-gradient(ellipse 50% 28% at 25% 65%,
+      rgba(128, 0, 128, 0.8) 0%,
+      rgba(128, 0, 128, 0.5) 25%,
+      rgba(128, 0, 128, 0.2) 50%,
+      rgba(128, 0, 128, 0.05) 70%,
       transparent 80%),
-    radial-gradient(ellipse 35% 20% at 45% 45%,
-      rgba(128, 0, 128, 0.4) 0%,
-      rgba(128, 0, 128, 0.2) 30%,
-      rgba(128, 0, 128, 0.05) 55%,
+    radial-gradient(ellipse 38% 22% at 45% 45%,
+      rgba(128, 0, 128, 0.55) 0%,
+      rgba(128, 0, 128, 0.3) 30%,
+      rgba(128, 0, 128, 0.08) 55%,
       transparent 70%);
-  filter: blur(15px);
+  filter: blur(8px);
   animation: hmNebDrift1 35s ease-in-out infinite alternate;
 }
 
 /* Rio 2 — gás magenta vibrante (255,0,255) — entrelaçado */
 .hm-neb-2 {
   background:
-    radial-gradient(ellipse 40% 22% at 55% 35%,
-      rgba(255, 0, 255, 0.35) 0%,
-      rgba(255, 0, 255, 0.18) 30%,
-      rgba(255, 0, 255, 0.05) 55%,
+    radial-gradient(ellipse 42% 24% at 55% 35%,
+      rgba(255, 0, 255, 0.5) 0%,
+      rgba(255, 0, 255, 0.28) 30%,
+      rgba(255, 0, 255, 0.08) 55%,
       transparent 70%),
-    radial-gradient(ellipse 30% 18% at 70% 55%,
-      rgba(255, 0, 255, 0.25) 0%,
-      rgba(255, 0, 255, 0.12) 35%,
-      rgba(255, 0, 255, 0.03) 60%,
+    radial-gradient(ellipse 32% 20% at 70% 55%,
+      rgba(255, 0, 255, 0.35) 0%,
+      rgba(255, 0, 255, 0.18) 35%,
+      rgba(255, 0, 255, 0.04) 60%,
       transparent 75%);
-  filter: blur(12px);
+  filter: blur(6px);
   animation: hmNebDrift2 40s ease-in-out infinite alternate-reverse;
 }
 
 /* Rio 3 — filamentos azul subtil (50,100,255) — sobreposto */
 .hm-neb-3 {
   background:
-    radial-gradient(ellipse 35% 20% at 35% 55%,
-      rgba(50, 100, 255, 0.2) 0%,
-      rgba(50, 100, 255, 0.08) 40%,
+    radial-gradient(ellipse 38% 22% at 35% 55%,
+      rgba(50, 100, 255, 0.3) 0%,
+      rgba(50, 100, 255, 0.12) 40%,
       transparent 65%),
-    radial-gradient(ellipse 25% 15% at 60% 40%,
-      rgba(80, 120, 255, 0.15) 0%,
-      rgba(80, 120, 255, 0.05) 45%,
+    radial-gradient(ellipse 28% 17% at 60% 40%,
+      rgba(80, 120, 255, 0.22) 0%,
+      rgba(80, 120, 255, 0.07) 45%,
       transparent 65%);
-  filter: blur(18px);
+  filter: blur(10px);
   animation: hmNebDrift3 45s ease-in-out infinite alternate;
 }
 
 /* Modo dia — rios de gás azul-céu+lavanda, MAIS DESTAQUE */
 .light-mode .hm-neb-1 {
   background:
-    radial-gradient(ellipse 45% 25% at 25% 65%,
-      rgba(100, 130, 255, 0.5) 0%,
-      rgba(100, 130, 255, 0.3) 25%,
-      rgba(100, 130, 255, 0.1) 50%,
+    radial-gradient(ellipse 50% 28% at 25% 65%,
+      rgba(120, 80, 220, 0.55) 0%,
+      rgba(120, 80, 220, 0.35) 25%,
+      rgba(120, 80, 220, 0.12) 50%,
       transparent 80%),
-    radial-gradient(ellipse 35% 20% at 45% 45%,
-      rgba(130, 100, 255, 0.35) 0%,
-      rgba(130, 100, 255, 0.15) 30%,
+    radial-gradient(ellipse 38% 22% at 45% 45%,
+      rgba(100, 60, 200, 0.4) 0%,
+      rgba(100, 60, 200, 0.18) 30%,
       transparent 70%);
   mix-blend-mode: normal;
-  filter: blur(10px);
+  filter: blur(6px);
 }
 .light-mode .hm-neb-2 {
   background:
-    radial-gradient(ellipse 40% 22% at 55% 35%,
-      rgba(150, 180, 255, 0.4) 0%,
-      rgba(150, 180, 255, 0.2) 30%,
+    radial-gradient(ellipse 42% 24% at 55% 35%,
+      rgba(140, 100, 240, 0.45) 0%,
+      rgba(140, 100, 240, 0.25) 30%,
       transparent 70%),
-    radial-gradient(ellipse 30% 18% at 70% 55%,
-      rgba(180, 150, 255, 0.3) 0%,
-      rgba(180, 150, 255, 0.12) 35%,
+    radial-gradient(ellipse 32% 20% at 70% 55%,
+      rgba(160, 120, 255, 0.35) 0%,
+      rgba(160, 120, 255, 0.15) 35%,
       transparent 75%);
   mix-blend-mode: normal;
-  filter: blur(8px);
+  filter: blur(5px);
 }
 .light-mode .hm-neb-3 {
   background:
-    radial-gradient(ellipse 35% 20% at 35% 55%,
-      rgba(80, 150, 255, 0.25) 0%,
-      rgba(80, 150, 255, 0.1) 40%,
+    radial-gradient(ellipse 38% 22% at 35% 55%,
+      rgba(90, 60, 200, 0.3) 0%,
+      rgba(90, 60, 200, 0.12) 40%,
       transparent 65%),
-    radial-gradient(ellipse 25% 15% at 60% 40%,
-      rgba(120, 160, 255, 0.2) 0%,
-      rgba(120, 160, 255, 0.06) 45%,
+    radial-gradient(ellipse 28% 17% at 60% 40%,
+      rgba(110, 80, 220, 0.22) 0%,
+      rgba(110, 80, 220, 0.07) 45%,
       transparent 65%);
   mix-blend-mode: normal;
-  filter: blur(12px);
+  filter: blur(8px);
 }
 
 @keyframes hmNebDrift1 {
@@ -5946,41 +5946,41 @@ html.light-mode .hero-bg-img-dark {
   background:
     conic-gradient(from 0deg at 50% 50%,
       transparent 0deg,
-      rgba(100, 130, 255, 0.35) 6deg,
-      rgba(100, 130, 255, 0.2) 18deg,
-      rgba(180, 150, 255, 0.15) 30deg,
+      rgba(100, 130, 255, 0.5) 6deg,
+      rgba(100, 130, 255, 0.3) 18deg,
+      rgba(180, 150, 255, 0.25) 30deg,
       rgba(100, 130, 255, 0.06) 40deg,
       transparent 50deg,
       transparent 65deg,
-      rgba(180, 150, 255, 0.3) 73deg,
+      rgba(180, 150, 255, 0.45) 73deg,
       rgba(100, 130, 255, 0.18) 85deg,
       rgba(180, 150, 255, 0.08) 97deg,
       transparent 107deg,
       transparent 122deg,
-      rgba(100, 130, 255, 0.28) 130deg,
-      rgba(180, 150, 255, 0.2) 142deg,
+      rgba(100, 130, 255, 0.4) 130deg,
+      rgba(180, 150, 255, 0.3) 142deg,
       rgba(100, 130, 255, 0.06) 154deg,
       transparent 164deg,
       transparent 179deg,
-      rgba(100, 130, 255, 0.35) 185deg,
+      rgba(100, 130, 255, 0.5) 185deg,
       rgba(100, 130, 255, 0.2) 197deg,
       rgba(180, 150, 255, 0.15) 209deg,
       rgba(100, 130, 255, 0.06) 219deg,
       transparent 229deg,
       transparent 244deg,
-      rgba(180, 150, 255, 0.3) 252deg,
+      rgba(180, 150, 255, 0.45) 252deg,
       rgba(100, 130, 255, 0.18) 264deg,
       rgba(180, 150, 255, 0.08) 276deg,
       transparent 286deg,
       transparent 301deg,
-      rgba(100, 130, 255, 0.28) 309deg,
+      rgba(100, 130, 255, 0.4) 309deg,
       rgba(180, 150, 255, 0.2) 321deg,
       rgba(100, 130, 255, 0.06) 333deg,
       transparent 343deg,
       transparent 360deg);
   mix-blend-mode: normal;
-  opacity: 0.7;
-  filter: blur(5px);
+  opacity: 0.85;
+  filter: blur(4px);
 }
 @keyframes hmNebFocos {
   from { transform: translate(-50%, -50%) rotate(0deg); }
