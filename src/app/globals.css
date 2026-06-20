@@ -9823,7 +9823,7 @@ img { max-width: 100%; height: auto; }
     display: block;
     position: relative;
     width: 100%;
-    height: 35vh; /* Reduzido de 50vh para 35vh — menos foto visível, mais "distance" */
+    height: 17vh; /* Reduzido para metade (era 35vh) — menos distanciamento entre secções */
     overflow: hidden;
     z-index: 0;
     margin: 0;

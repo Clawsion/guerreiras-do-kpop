@@ -621,10 +621,11 @@ export default function HomePage() {
       }
       const totalDist = winH + rect.height;
       const progress = Math.max(0, Math.min(1, (winH - rect.top) / totalDist));
-      // DIREÇÃO OPOSTA ao parallax de baixo:
-      // - progress 0 (topo): offset = -maxOffset (foto UP, mostra CIMA)
-      // - progress 1 (fundo): offset = +maxOffset (foto DOWN, foto desceu)
-      const offset = -maxOffset + (progress * maxOffset * 2);
+      // MESMO SENTIDO que o parallax de baixo (corrigido):
+      // - progress 0 (topo): offset = +maxOffset (foto DOWN, mostra CIMA da foto)
+      // - progress 1 (fundo): offset = -maxOffset (foto UP, foto subiu)
+      // Movimento igual ao parallax de baixo: foto sobe conforme scroll desce
+      const offset = maxOffset - (progress * maxOffset * 2);
       bg.style.transform = `translate3d(0, ${offset}%, 0)`;
       ticking = false;
     };
