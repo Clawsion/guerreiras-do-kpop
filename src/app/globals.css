@@ -4432,10 +4432,10 @@ html.light-mode .hero-bg-img-dark {
    Antes era usada a imagem dark com hue-rotate(180deg) brightness(1.2) que
    causava perda de qualidade e cores não naturais. Agora usamos uma imagem
    light dedicada servida via jsDelivr CDN.
-   background-size: 40% auto — menos zoom (50% ainda era grande demais). */
+   background-size: 50% auto — voltar à última alteração. */
 .light-mode .galeria-parallax-bg {
   background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon-light.webp');
-  background-size: 40% auto;
+  background-size: 50% auto;
   opacity: 0.20;
   filter: none;
 }
