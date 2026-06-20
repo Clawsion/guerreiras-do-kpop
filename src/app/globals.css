@@ -2680,7 +2680,7 @@ html.light-mode .hero-bg-img-dark {
     padding: 3rem 0 3rem;
     background: var(--void);
     background-image: url('/espetaculo-bg-dark.png');
-    background-size: 100% 100%;
+    background-size: 110% 110%; /* +10% zoom (era 100% 100%) — foto mais próxima */
     background-position: center center;
     background-repeat: no-repeat;
     overflow: hidden;
@@ -3953,6 +3953,7 @@ html.light-mode .hero-bg-img-dark {
 
 /* ═══ Modo dia: imagem da multidão com parallax + marca de água bem feita ═══
    - Imagem clara servida via background-image
+   - background-size: 100% auto -> largura preenche 100% (encostada nos 2 lados)
    - Overlay lavanda translúcido (0.78-0.82) para legibilidade
    - Parallax (background-attachment: fixed)
    - Tons adaptados ao modo dia do site (lavanda #EDE0F5, #F5EAF8)
@@ -3961,8 +3962,8 @@ html.light-mode .hero-bg-img-dark {
   background: linear-gradient(180deg, rgba(170,140,200,0.85) 0%, rgba(160,128,195,0.88) 30%, rgba(150,118,185,0.88) 60%, rgba(170,140,200,0.85) 100%);
   background-image: url('/cartazes-bg-day.webp'),
     linear-gradient(180deg, rgba(170,140,200,0.85) 0%, rgba(160,128,195,0.88) 30%, rgba(150,118,185,0.88) 60%, rgba(170,140,200,0.85) 100%);
-  background-size: cover, cover;
-  background-position: center, center;
+  background-size: 100% auto, cover;
+  background-position: center top, center;
   background-repeat: no-repeat, no-repeat;
   background-attachment: fixed, fixed;
 }
