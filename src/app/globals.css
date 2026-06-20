@@ -9058,11 +9058,27 @@ img { max-width: 100%; height: auto; }
     z-index: 5;
     pointer-events: none;
   }
+  /* SÓ modo noite — fade subtil no TOPO do hero (zona dos ícones hamburger + dia/noite)
+     A imagem do hero é cortada no topo onde estão os ícones. Este fade cria
+     um gradiente muito subtil que suaviza esse corte. */
+  html:not(.light-mode) .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(11, 8, 19, 0.4) 0%, transparent 100%);
+    z-index: 5;
+    pointer-events: none;
+  }
   /* MODO DIA — GARANTIR que NÃO há fade/overlay nenhum no fundo do hero.
      Isto sobrescreve qualquer regra residual e assegura que o ::after
      nunca é renderizado em modo dia, deixando a imagem 100% limpa. */
   html.light-mode .hero-section::after,
-  .light-mode .hero-section::after {
+  .light-mode .hero-section::after,
+  html.light-mode .hero-section::before,
+  .light-mode .hero-section::before {
     content: none !important;
     display: none !important;
     background: none !important;
