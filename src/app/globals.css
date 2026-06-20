@@ -4618,9 +4618,13 @@ html.light-mode .hero-bg-img-dark {
       rgba(0,0,0,0.85) 14%,
       #000 22%);
   }
-  /* Halo neon DESATIVADO em modo dia mobile — sem brilho sobre as fotos */
+  /* Halo neon DESATIVADO em modo dia mobile — sem brilho branco sobre as fotos.
+     !important para sobrepor a regra desktop (linha 4446) que tem
+     rgba(255,255,255,0.25) no topo — causa brilho branco em cima da 1ª foto. */
   .light-mode .galeria-section::after {
-    display: none;
+    display: none !important;
+    background: none !important;
+    opacity: 0 !important;
   }
 }
 /* Portal Honmoon atrás da galeria (transparência) — modo noite */
