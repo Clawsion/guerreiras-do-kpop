@@ -4428,10 +4428,14 @@ html.light-mode .hero-bg-img-dark {
   mix-blend-mode: screen;
   opacity: 0.9;
 }
-/* Modo dia */
+/* Modo dia — usa imagem LIGHT própria (HD Restoration, lossless 4080x6144).
+   Antes era usada a imagem dark com hue-rotate(180deg) brightness(1.2) que
+   causava perda de qualidade e cores não naturais. Agora usamos uma imagem
+   light dedicada servida via jsDelivr CDN. */
 .light-mode .galeria-parallax-bg {
-  opacity: 0.1;
-  filter: hue-rotate(180deg) brightness(1.2);
+  background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon-light.webp');
+  opacity: 0.20;
+  filter: none;
 }
 /* Modo dia — efeito neon mais subtil (não compete com fundo claro) */
 .light-mode .galeria-section::after {
