@@ -4399,7 +4399,7 @@ html.light-mode .hero-bg-img-dark {
   position: absolute;
   inset: -50%;
   background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon.webp');
-  background-size: 85% auto;
+  background-size: 46% auto; /* LIMITE MÍNIMO (43.9% + 2% margem) — menos zoom sem bordas escuras */
   background-position: center bottom;
   background-repeat: no-repeat;
   opacity: 0.22;
@@ -4449,7 +4449,7 @@ html.light-mode .hero-bg-img-dark {
    background-position: center 95% — imagem descida 25% (era 70%, agora 95%). */
 .light-mode .galeria-parallax-bg {
   background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon-light.webp');
-  background-size: 65% auto;
+  background-size: 35% auto; /* LIMITE MÍNIMO (33.2% + 2% margem) — menos zoom sem bordas escuras */
   background-position: center 95%;
   opacity: 0.35;
   filter: none;
