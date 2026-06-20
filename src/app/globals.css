@@ -2708,7 +2708,7 @@ html.light-mode .hero-bg-img-dark {
     background-position: top center !important;
     background-attachment: scroll !important;
     background-repeat: no-repeat !important;
-    background-color: #0C0527 !important;
+    background-color: #14082E !important;
     padding-bottom: 3rem !important;
     /* ═══ SUBIR O TEXTO em mobile ═══
        Reduzir padding-top para o conteúdo (+ TRIBUTO AO VIVO, título, etc.)
@@ -5702,9 +5702,9 @@ html.light-mode .hero-bg-img-dark {
 /* ═══ 1. Fundo escuro cósmico (60% predominante) ═══ */
 .hm-nebula.dark {
   background: radial-gradient(ellipse 90% 80% at 50% 50%,
-    rgba(12, 0, 25, 0.85) 0%,
-    rgba(8, 0, 18, 0.92) 50%,
-    rgba(3, 0, 8, 1) 100%);
+    rgba(20, 8, 40, 0.85) 0%,
+    rgba(14, 5, 28, 0.92) 50%,
+    rgba(8, 3, 15, 1) 100%);
 }
 .hm-nebula.light {
   background: linear-gradient(160deg, #7898D0 0%, #8888C8 25%, #9888C0 50%, #8088D4 75%, #7898D0 100%);
@@ -5978,8 +5978,12 @@ html.light-mode .hero-bg-img-dark {
 /* ═══ MOBILE: orbs escondidos + orb simplificado + nebulosa + focos realçados ═══ */
 /* Esconder TODOS os orbs decorativos em volta do botão em mobile */
 @media (max-width: 767px) {
-  .hm-ring,
-  .hm-neon-circle,
+  /* Esconder orbs pesados, manter só 2 leves */
+  .hm-ring-2,
+  .hm-ring-3,
+  .hm-neon-circle-2,
+  .hm-neon-circle-3,
+  .hm-neon-circle-4,
   .hm-neon-arc,
   .hm-node,
   .hm-strand,
@@ -5988,6 +5992,36 @@ html.light-mode .hero-bg-img-dark {
   .hm-tap-hint,
   .hm-kid-hint {
     display: none !important;
+  }
+  /* Ring-1 — anel leve em volta do orb */
+  .hm-ring-1 {
+    display: block !important;
+    width: 150px !important;
+    height: 150px !important;
+    opacity: 0.5 !important;
+    animation: hmRingPulseDark1 40s ease-in-out infinite alternate !important;
+  }
+  .hm-ring-1.dark {
+    border: 1px solid rgba(200, 80, 255, 0.3) !important;
+    box-shadow: 0 0 8px rgba(200, 80, 255, 0.12) !important;
+  }
+  .hm-ring-1.light {
+    border: 1px solid rgba(245, 158, 11, 0.3) !important;
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.12) !important;
+  }
+  /* Neon-circle-1 — círculo leve maior */
+  .hm-neon-circle-1 {
+    display: block !important;
+    width: 180px !important;
+    height: 180px !important;
+    opacity: 0.4 !important;
+    animation: hmNeonCircleRotate1 50s linear infinite !important;
+    border: 1px dashed rgba(200, 80, 255, 0.2) !important;
+    box-shadow: 0 0 6px rgba(200, 80, 255, 0.08) !important;
+  }
+  .light-mode .hm-neon-circle-1 {
+    border: 1px dashed rgba(245, 158, 11, 0.2) !important;
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.08) !important;
   }
   /* Orb — só o círculo que respira, sem ponto luminoso central */
   .hm-orb {
@@ -6019,9 +6053,14 @@ html.light-mode .hero-bg-img-dark {
   }
   /* Focos de luz MAIS intensos em mobile */
   .hm-neb-focos {
-    opacity: 0.7 !important;
-    filter: blur(5px) !important;
+    opacity: 0.8 !important;
+    filter: blur(4px) !important;
     animation-duration: 35s !important;
+  }
+  /* Modo dia mobile — focos ainda mais fortes */
+  .light-mode .hm-neb-focos {
+    opacity: 0.9 !important;
+    filter: blur(3px) !important;
   }
 }
 
