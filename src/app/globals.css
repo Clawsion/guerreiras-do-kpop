@@ -4571,29 +4571,47 @@ html.light-mode .hero-bg-img-dark {
   .galeria-section::after {
     opacity: 0.2;
   }
-  /* ═══ MODO DIA MOBILE — Fundo: lavanda → céu azul → lavanda escuro ═══
+  /* ═══ MODO DIA MOBILE — Fundo SIMÉTRICO com transição de cores ═══
      Análise das cores do céu (topo 0-30%) da imagem HD Restoration:
        - Topo escuro:    #010E82 (azul muito escuro)
        - Céu médio:      #1249C7 (azul vivo)
        - Céu médio-alto: #3E9AFA / #76C5FF (azul claro brilhante)
        - Portal inferior: #793BBB, #816AD8 (roxo/púrpura do portal)
      
-     ATUALIZAÇÃO: lavanda clara no topo → transição para céu azul no meio
-     → lavanda mais escura (púrpura/lilás escuro) no fundo. Combina com
-     o fundo lavanda da secção Honmoon (#E8DAF2) e com o portal púrpura. */
+     ESTRATÉGIA SIMÉTRICA com transição de cores (fusão lilás ↔ azul):
+     - TOPO (parallax 1): azul → lavanda → azul (transição/fusão)
+       * Começa com azul (tom do parallax 1)
+       * Transita para lavanda (fusão)
+       * Volta a azul (preparação para o meio)
+     - MEIO: azul mais profundo
+     - FUNDO (parallax 2): azul → lavanda → azul (ESPELHO do topo)
+       * Inverso do topo — mesmas cores mas em ordem reversa
+       * Parallax 2 fica com os mesmos tons do parallax 1
+     
+     Estrutura: azul → lavanda → azul → meio → azul → lavanda → azul */
   .light-mode .galeria-section {
     background:
       linear-gradient(to bottom,
-        #E8DAF2 0%,
-        #D8C8EC 8%,
-        #C0A8DD 18%,
+        /* TOPO — parallax 1 (azul → lavanda → azul) */
+        #2E6DC8 0%,
+        #4A78D8 6%,
+        #6F7AB5 12%,
+        #9C8ACB 18%,
+        #C0A8DD 24%,
         #9C8ACB 30%,
-        #6F7AB5 45%,
-        #2E6DC8 55%,
-        #3868C0 65%,
-        #5A55B5 78%,
-        #7555A8 88%,
-        #8B4D9E 100%) !important;
+        #6F7AB5 36%,
+        #4A78D8 42%,
+        /* MEIO — azul mais profundo */
+        #2E6DC8 50%,
+        /* FUNDO — ESPELHO (azul → lavanda → azul) */
+        #4A78D8 58%,
+        #6F7AB5 64%,
+        #9C8ACB 70%,
+        #C0A8DD 76%,
+        #9C8ACB 82%,
+        #6F7AB5 88%,
+        #4A78D8 94%,
+        #2E6DC8 100%) !important;
   }
   /* ═══ DESVANESCIMENTO no topo das fotos (mobile modo dia) ═══
      Igual ao modo noite — fade suave para disfarçar o corte onde
@@ -9876,35 +9894,26 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 767px) {
   .galeria-parallax-top-wrap {
     display: block;
-    position: absolute; /* absolute para prolongar por trás do título + parágrafo */
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 32vh; /* Reduzido (40vh -> 32vh) — primeira foto mais para cima */
+    height: 32vh;
     overflow: hidden;
     z-index: 0;
     margin: 0;
     pointer-events: none;
   }
 
-  /* Parallax image — mostra SÓ o céu (parte superior antes das personagens)
-     Análise das imagens:
-     - Modo noite (4092x4664): personagens começam ~60% da altura
-     - Modo dia (4080x6144): personagens começam ~65% da altura
-     
-     Estratégia: zoom maior (130% em vez de 90%) para mostrar só o topo da imagem,
-     onde está o céu (azul escuro no modo noite, azul claro no modo dia).
-     
-     Mask reforçada no fundo: fade suave prolongado para parecer continuidade
-     sem corte abrupto (a foto 'continua' visualmente para o fundo da secção). */
+  /* Parallax image — mostra SÓ o céu (parte superior antes das personagens) */
   .galeria-parallax-top {
     position: absolute;
     inset: -30%;
     background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon.webp');
-    background-size: 130% auto; /* MAIS zoom — mostra só topo da imagem */
-    background-position: center 0%; /* Âncora ABSOLUTA no topo (0%) → só céu */
+    background-size: 130% auto;
+    background-position: center 0%;
     background-repeat: no-repeat;
-    opacity: 0.22; /* Ligeiramente maior para céu ser visível */
+    opacity: 0.22;
     z-index: 0;
     pointer-events: none;
     will-change: transform;
@@ -9913,8 +9922,6 @@ img { max-width: 100%; height: auto; }
     -webkit-font-smoothing: antialiased;
     backface-visibility: hidden;
     transform: translateZ(0);
-    /* Mask radial — fade suave reforçado no fundo para parecer continuidade.
-       A foto desaparece gradualmente nos últimos 50% da altura, sem corte. */
     -webkit-mask-image:
       linear-gradient(to bottom,
         #000 0%,
@@ -9933,12 +9940,11 @@ img { max-width: 100%; height: auto; }
         transparent 100%);
   }
 
-  /* Modo dia — usa imagem light, ainda MAIS zoom para mostrar só o céu azul
-     Análise: personagens começam ~65% da altura, céu azul claro ocupa 0-45% */
+  /* Modo dia — usa imagem light com mais zoom para só céu azul claro */
   .light-mode .galeria-parallax-top {
     background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon-light.webp');
-    background-size: 110% auto; /* MAIS zoom que o de baixo (65%) para só céu */
-    background-position: center 0%; /* Âncora no topo (0%) → só céu azul claro */
+    background-size: 110% auto;
+    background-position: center 0%;
     opacity: 0.40;
     filter: none;
   }

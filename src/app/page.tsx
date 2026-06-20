@@ -600,6 +600,7 @@ export default function HomePage() {
   // - Início: foto shifted UP, mostra a parte de CIMA da foto
   // - Fim: foto shifted DOWN, foto "desce" com o scroll
   // Mesma imagem, mesma mask, mesma opacidade do parallax de baixo.
+  // Só mobile (≤767px) — desktop e tablet não são afetados.
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.innerWidth >= 768) return; // Só mobile
