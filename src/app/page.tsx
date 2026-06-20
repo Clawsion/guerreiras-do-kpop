@@ -1175,12 +1175,20 @@ export default function HomePage() {
             Padrões: ondas concêntricas que emanam do centro (orb).
             Leve: CSS puro, sem imagens, sem JavaScript. */}
         <div className={`hm-led-wall ${themeMode}`}>
-          {/* VJ-style layers — cada uma cria um padrão abstracto diferente */}
+          {/* Grid de pontos LED */}
           <div className="hm-vj-grid"/>
+          {/* Pulse concêntrico do centro */}
           <div className="hm-vj-pulse"/>
-          <div className="hm-vj-waves"/>
-          <div className="hm-vj-beams"/>
-          <div className="hm-vj-orbit"/>
+          {/* Curvas de luz que circulam (substitui beams + orbit) */}
+          <div className="hm-vj-curves"/>
+          {/* LED text — frases que aparecem formadas pelos pontos */}
+          <div className="hm-led-text">
+            <span className="hm-led-word hm-led-word-1">GUERREIRAS</span>
+            <span className="hm-led-word hm-led-word-2">HONMOON</span>
+            <span className="hm-led-word hm-led-word-3">K-POP</span>
+            <span className="hm-led-word hm-led-word-4">AO VIVO</span>
+            <span className="hm-led-word hm-led-word-5">TRIBUTO</span>
+          </div>
         </div>
 
         {/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
