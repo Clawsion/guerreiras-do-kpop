@@ -1646,8 +1646,8 @@ export default function HomePage() {
                   }
                 }}>
                   {/* Campos especiais Formspree (escondidos) */}
-                  <input type="hidden" name="_subject" value="Nova reserva - Guerreiras do K-Pop"/>
                   <input type="hidden" name="_captcha" value="false"/>
+                  <input type="hidden" name="_template" value="table"/>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <label className="contacto-field">
                       <span>Nome *</span>
