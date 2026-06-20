@@ -4416,7 +4416,7 @@ html.light-mode .hero-bg-img-dark {
   position: absolute;
   inset: -50%;
   background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon.webp');
-  background-size: 51% auto; /* +5% zoom (era 46%) — user pediu mais zoom no parallax mural noite desktop */
+  background-size: 56% auto; /* +5% zoom (era 51%) — user pediu mais zoom parallax mural noite desktop */
   background-position: center bottom;
   background-repeat: no-repeat;
   opacity: 0.22;
