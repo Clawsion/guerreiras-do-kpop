@@ -4324,9 +4324,14 @@ html.light-mode .hero-bg-img-dark {
    - Quando se SAI: foto subiu (translateY -25%)
    - Movimento contínuo e fluido — a foto está sempre a subir
    
+   IMAGEM SERVIDA VIA jsDelivr CDN (NÃO pesa no site Cloudflare):
+     https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon.webp
+   - 12MB WebP LOSSLESS 4092x4664 RGBA (zero perda absoluta)
+   - Cache global em edge servers (entrega rápida mundialmente)
+   - CORS habilitado (Access-Control-Allow-Origin: *)
+   
    background-size: 100% auto — SEM ZOOM (a foto é mostrada ao seu
               tamanho natural, ocupando 100% da largura do container).
-              A imagem agora é LOSSLESS 4092x4664 (zero perda).
    inset: -50% — área extra grande para a foto deslizar bastante sem
               mostrar as bordas.
    background-position: center bottom — âncora em baixo (vê-se parte
@@ -4336,7 +4341,7 @@ html.light-mode .hero-bg-img-dark {
 .galeria-parallax-bg {
   position: absolute;
   inset: -50%;
-  background-image: url('/portal-honmoon.webp');
+  background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon.webp');
   background-size: 100% auto;
   background-position: center bottom;
   background-repeat: no-repeat;
