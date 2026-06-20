@@ -2713,7 +2713,10 @@ html.light-mode .hero-bg-img-dark {
      Voltar a brightness(1.8) (original) — o problema de "corte mais acima"
      vinha do brightness(2.4) que tornou a transição imagem→fundo visível.
      Agora usamos mask-image para fazer a imagem desaparecer gradualmente
-     nos últimos 25% da altura, sem corte duro. */
+     nos últimos 25% da altura, sem corte duro.
+     Fade prolongado: imagem visível 0-75%, fade 75-100% até desaparecer.
+     Isto faz a imagem chegar MAIS PARA BAIXO, até ao espaço antes do pitch
+     ("Traga a família e os amigos..."). */
   .espetaculo-section::before {
     content: '';
     position: absolute;
@@ -2725,10 +2728,39 @@ html.light-mode .hero-bg-img-dark {
     filter: brightness(1.8);
     z-index: 0;
     pointer-events: none;
-    /* Fade suave no fundo: imagem visível até 70%, depois desaparece gradualmente.
-       Resolve o corte duro onde a imagem termina (abaixo de "memoráveis e envolvente"). */
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 65%, rgba(0,0,0,0.6) 80%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 0%, #000 65%, rgba(0,0,0,0.6) 80%, transparent 100%);
+    /* Fade prolongado: imagem visível 0-75%, depois fade-out 75-100%.
+       A imagem estende-se mais para baixo, escondendo o corte no espaço
+       vazio antes de "Traga a família e os amigos...". */
+    -webkit-mask-image: linear-gradient(to bottom,
+      #000 0%, #000 55%,
+      rgba(0,0,0,0.95) 70%,
+      rgba(0,0,0,0.7) 82%,
+      rgba(0,0,0,0.35) 92%,
+      transparent 100%);
+    mask-image: linear-gradient(to bottom,
+      #000 0%, #000 55%,
+      rgba(0,0,0,0.95) 70%,
+      rgba(0,0,0,0.7) 82%,
+      rgba(0,0,0,0.35) 92%,
+      transparent 100%);
+  }
+  /* ═══ MODO NOITE MOBILE — ::after com gradient que continua o fundo ═══
+     Por baixo do pitch ("Traga a família e os amigos...") cria um gradient
+     suave que mistura a imagem (que está a fazer fade) com a cor de fundo
+     #14082E. Isto dá continuidade visual e disfarça completamente o corte. */
+  .espetaculo-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom,
+      transparent 0%,
+      transparent 65%,
+      rgba(20, 8, 46, 0.4) 78%,
+      rgba(20, 8, 46, 0.75) 88%,
+      rgba(20, 8, 46, 0.95) 95%,
+      #14082E 100%);
   }
   /* ═══ MODO DIA (light-mode) — smartphone: imagem própria (941x1672) ═══
      Igual ao modo noite mas com a imagem de dia.
@@ -2743,6 +2775,11 @@ html.light-mode .hero-bg-img-dark {
   .light-mode .espetaculo-section::before {
     background-image: url('/espetaculo-bg-light-mobile.webp?v=97');
     filter: brightness(1.4);
+  }
+  /* Modo dia: o ::after (gradient escuro para fundir com fundo roxo) não
+     se aplica — o fundo dia é claro (#8771B9), não precisa deste efeito. */
+  .light-mode .espetaculo-section::after {
+    display: none;
   }
   /* ═══ LEGIBILIDADE DO TEXTO em mobile ═══
      Adicionar um backdrop semi-transparente atrás do conteúdo do Tributo
