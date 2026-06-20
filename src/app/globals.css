@@ -4463,7 +4463,7 @@ html.light-mode .hero-bg-img-dark {
     inset: -30%;
     background-size: 90% auto;
     background-position: center bottom;
-    opacity: 0.25; /* Aumentada de 0.18 para 0.25 — tons mais similares ao parallax 1 */
+    opacity: 0.18; /* Reduzido de 0.25 para 0.18 — menos intensidade roxo */
     will-change: transform;
     /* Qualidade máxima para fotos em mobile */
     image-rendering: -webkit-optimize-contrast;
@@ -4506,48 +4506,36 @@ html.light-mode .hero-bg-img-dark {
   .light-mode .galeria-parallax-bg {
     opacity: 0.12;
   }
-  /* ═══ MODO NOITE MOBILE — Fundo SIMÉTRICO (espelho: início → meio → início) ═══
+  /* ═══ MODO NOITE MOBILE — Fundo SIMÉTRICO SOFT (menos intensidade roxo) ═══
      Análise da cor média do topo (0-40%) da imagem do Portal Honmoon:
        Cor média: #3D0129 (roxo escuro com toque magenta)
-       
-     Tons extraídos da imagem (parte superior/céu):
-       - 5% altura:  #020017 (quase preto, roxo profundo) — COR 1
-       - 10% altura: #0B001E (roxo muito escuro)
-       - 15% altura: #280027 (roxo escuro)
-       - 20% altura: #58003A (roxo-magenta)
-       - 25% altura: #830542 (magenta escuro)
-       - 30% altura: #6F0233 (rosa escuro)
-       - 35% altura: #5F002B (magenta profundo)
      
-     ESTRATÉGIA SIMÉTRICA (espelho):
-     - TOPO (parallax 1): cor1 → meio
-       * Inicia com #020017 (cor 1 do parallax 1)
-       * Transita para #58003A (cor do meio)
-     - FUNDO (parallax 2): meio → cor1 (INVERSO)
-       * Volta de #58003A (meio) para #020017 (cor 1)
-       * Cria efeito espelho: parallax 2 tem a mesma cor 1 do parallax 1
+     ESTRATÉGIA SIMÉTRICA SOFT (menos roxo):
+     - Tons MAIS ESCUROS e MENOS SATURADOS que a versão anterior
+     - Estrutura mantém espelho: cor1 → meio → cor1
+     - Cores mais próximas do preto puro (menos magenta)
      
-     Estrutura: cor1 → meio → cor1 (simétrico) */
+     Estrutura: cor1 → meio → cor1 (simétrico soft) */
   .galeria-section {
     background:
       linear-gradient(to bottom,
-        /* TOPO — igual ao parallax 1 (cor 1 → meio) */
-        #020017 0%,
-        #060019 5%,
-        #0B001E 10%,
-        #150022 15%,
-        #280027 22%,
-        #3D0129 30%,
-        #58003A 40%,
-        #6F0233 50%,
-        /* FUNDO — INVERSO (meio → cor 1) */
-        #58003A 60%,
-        #3D0129 70%,
-        #280027 78%,
-        #150022 85%,
-        #0B001E 90%,
-        #060019 95%,
-        #020017 100%) !important;
+        /* TOPO — igual ao parallax 1 (cor 1 → meio) — SOFT */
+        #020010 0%,
+        #040013 5%,
+        #080018 10%,
+        #0C001C 15%,
+        #140020 22%,
+        #1E0022 30%,
+        #280028 40%,
+        #2E0028 50%,
+        /* FUNDO — INVERSO (meio → cor 1) — SOFT */
+        #280028 60%,
+        #1E0022 70%,
+        #140020 78%,
+        #0C001C 85%,
+        #080018 90%,
+        #040013 95%,
+        #020010 100%) !important;
   }
   /* ═══ DESVANESCIMENTO no topo das fotos da galeria (mobile modo noite) ═══
      Mask linear vertical: a grid das fotos começa semi-transparente no topo
@@ -9915,7 +9903,7 @@ img { max-width: 100%; height: auto; }
     background-size: 130% auto;
     background-position: center 0%;
     background-repeat: no-repeat;
-    opacity: 0.22;
+    opacity: 0.15; /* Reduzido de 0.22 para 0.15 — menos intensidade roxo */
     z-index: 0;
     pointer-events: none;
     will-change: transform;
