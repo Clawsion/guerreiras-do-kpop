@@ -5686,18 +5686,21 @@ html.light-mode .hero-bg-img-dark {
    Performance: usa gradientes CSS (leves) + poucas partículas. */
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ═══ HONMOON LED WALL — grid + pulse + focos de luz (desktop) ═══ */
+/* ═══ NEBULOSA CÓSMICA HONMOON (desktop) ═══ */
 /* ═══════════════════════════════════════════════════════════════ */
-/* 3 layers:
-   1. Grid de pontos LED (azul neon noite / roxo disperso dia)
-   2. Pulse concêntrico (energia do orb)
-   3. Focos de luz que rodam (prolongados até às pontas)
+/* Inspirada nas imagens de fundo do site (espetaculo-bg-dark/light).
    
-   Modo noite: pontos AZUL NEON + focos roxo neon + pink vermelho
-   Modo dia: fundo lavanda/azul + pontos roxo disperso + focos
-   vermelhos/pink + roxo disperso (interliga com site) */
+   Modo noite: nebulosa roxo-escura + estrelas brancas/azuis +
+     focos de luz violeta + azul (SEM vermelho)
+   Modo dia: nebulosa lilás/rosa + estrelas brancas +
+     focos de luz azul + rosa
+   
+   5 layers:
+   1-3. Nebulosa difusa (3 radial gradients com cores da imagem)
+   4. Estrelas (pontos luminosos brancos/azuis)
+   5. Focos de luz que rodam (conic gradient prolongado) */
 
-.hm-led-wall {
+.hm-nebula {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -5705,71 +5708,108 @@ html.light-mode .hero-bg-img-dark {
   overflow: hidden;
 }
 
-/* ═══ MODO DIA — fundo lavanda/azul (mistura lilás + azul do céu) ═══
-   Dá destaque e legibilidade aos focos de luz. */
-.light-mode .honmoon-shield-section {
-  background: linear-gradient(180deg, #B8C8F0 0%, #C8B8E8 50%, #B8C8F0 100%) !important;
+/* ═══ 1-3. Camadas de nebulosa difusa ═══
+   Modo noite: roxo-escuro (RGB ~20,0,40) + nebulosas roxo-azuladas
+   e rosa-pálidas, como na imagem espetaculo-bg-dark */
+.hm-neb-layer {
+  position: absolute;
+  inset: -10%;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+.hm-neb-1 {
+  background: radial-gradient(ellipse 60% 50% at 20% 30%,
+    rgba(30, 10, 60, 0.6) 0%, transparent 60%);
+  filter: blur(40px);
+  animation: hmNebDrift1 30s ease-in-out infinite alternate;
+}
+.hm-neb-2 {
+  background: radial-gradient(ellipse 50% 40% at 75% 65%,
+    rgba(50, 20, 80, 0.5) 0%, transparent 55%);
+  filter: blur(35px);
+  animation: hmNebDrift2 35s ease-in-out infinite alternate-reverse;
+}
+.hm-neb-3 {
+  background: radial-gradient(ellipse 70% 50% at 50% 50%,
+    rgba(180, 50, 230, 0.12) 0%, transparent 65%);
+  filter: blur(45px);
+  animation: hmNebDrift3 40s ease-in-out infinite alternate;
 }
 
-/* ═══ 1. Grid de pontos LED ═══
-   Noite: AZUL NEON (rgba(0,200,255))
-   Dia: ROXO disperso (rgba(147,51,234) = #9333EA do site) */
-.hm-vj-grid {
+/* Modo dia — nebulosa lilás/rosa (como espetaculo-bg-light) */
+.light-mode .hm-neb-1 {
+  background: radial-gradient(ellipse 60% 50% at 20% 30%,
+    rgba(200, 150, 255, 0.35) 0%, transparent 60%);
+  mix-blend-mode: normal;
+}
+.light-mode .hm-neb-2 {
+  background: radial-gradient(ellipse 50% 40% at 75% 65%,
+    rgba(255, 150, 200, 0.3) 0%, transparent 55%);
+  mix-blend-mode: normal;
+}
+.light-mode .hm-neb-3 {
+  background: radial-gradient(ellipse 70% 50% at 50% 50%,
+    rgba(147, 51, 234, 0.12) 0%, transparent 65%);
+  mix-blend-mode: normal;
+}
+
+@keyframes hmNebDrift1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(5%, -3%) scale(1.08); }
+}
+@keyframes hmNebDrift2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-4%, 3%) scale(1.06); }
+}
+@keyframes hmNebDrift3 {
+  0%   { transform: translate(0, 0) scale(0.95); opacity: 0.8; }
+  100% { transform: translate(3%, -2%) scale(1.05); opacity: 1; }
+}
+
+/* ═══ 4. Estrelas / pontos luminosos ═══
+   Pontos brancos e azuis claros espalhados, como na imagem.
+   Noite: brancos + azuis claros (RGB ~150,200,255)
+   Dia: brancos + azuis claros (mesmo) */
+.hm-stars {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(0, 200, 255, 0.25) 1.5px, transparent 2px);
-  background-size: 18px 18px;
-  opacity: 0.7;
+  background-image:
+    radial-gradient(circle 1px at 10% 15%, rgba(255,255,255,0.8), transparent),
+    radial-gradient(circle 1px at 25% 35%, rgba(150,200,255,0.7), transparent),
+    radial-gradient(circle 1px at 45% 10%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(circle 1px at 60% 25%, rgba(150,200,255,0.5), transparent),
+    radial-gradient(circle 1px at 75% 40%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(circle 1px at 85% 15%, rgba(150,200,255,0.6), transparent),
+    radial-gradient(circle 1px at 15% 55%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(circle 1px at 35% 70%, rgba(150,200,255,0.6), transparent),
+    radial-gradient(circle 1px at 55% 60%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(circle 1px at 70% 80%, rgba(150,200,255,0.5), transparent),
+    radial-gradient(circle 1px at 90% 65%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(circle 1px at 5% 85%, rgba(150,200,255,0.4), transparent),
+    radial-gradient(circle 1px at 30% 90%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(circle 1px at 50% 45%, rgba(150,200,255,0.6), transparent),
+    radial-gradient(circle 1px at 80% 50%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(circle 1px at 95% 90%, rgba(150,200,255,0.5), transparent),
+    radial-gradient(circle 1px at 20% 5%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(circle 1px at 65% 95%, rgba(150,200,255,0.4), transparent);
+  opacity: 0.8;
   mix-blend-mode: screen;
-  will-change: background-position;
-  animation: hmVjGridScroll 25s linear infinite;
+  will-change: opacity;
+  animation: hmStarsTwinkle 8s ease-in-out infinite alternate;
 }
-.light-mode .hm-vj-grid {
-  background-image: radial-gradient(circle, rgba(147, 51, 234, 0.25) 1.5px, transparent 2px);
-  mix-blend-mode: normal;
-  opacity: 0.6;
-}
-@keyframes hmVjGridScroll {
-  0%   { background-position: 0 0; }
-  100% { background-position: 18px 18px; }
-}
-
-/* ═══ 2. Pulse concêntrico ═══
-   Noite: AZUL NEON
-   Dia: ROXO disperso */
-.hm-vj-pulse {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200%;
-  height: 200%;
-  transform: translate(-50%, -50%);
-  background: repeating-radial-gradient(circle at 50% 50%,
-    transparent 0px, transparent 60px,
-    rgba(0, 200, 255, 0.15) 60px, rgba(0, 200, 255, 0.15) 62px,
-    transparent 62px, transparent 120px);
-  opacity: 0.6;
-  mix-blend-mode: screen;
-  will-change: transform, opacity;
-  animation: hmVjPulse 10s ease-in-out infinite alternate;
-}
-.light-mode .hm-vj-pulse {
-  background: repeating-radial-gradient(circle at 50% 50%,
-    transparent 0px, transparent 60px,
-    rgba(147, 51, 234, 0.18) 60px, rgba(147, 51, 234, 0.18) 62px,
-    transparent 62px, transparent 120px);
-  mix-blend-mode: normal;
+.light-mode .hm-stars {
   opacity: 0.5;
+  mix-blend-mode: normal;
 }
-@keyframes hmVjPulse {
-  0%   { transform: translate(-50%, -50%) scale(0.92); opacity: 0.4; }
-  100% { transform: translate(-50%, -50%) scale(1.08); opacity: 0.7; }
+@keyframes hmStarsTwinkle {
+  0%   { opacity: 0.5; }
+  100% { opacity: 0.9; }
 }
 
-/* ═══ 3. Focos de luz — prolongados até às pontas ═══
-   Noite: ROXO NEON predominante + PINK vermelho
-   Dia: ROXO disperso + focos VERMELHOS/PINK */
-.hm-vj-curves {
+/* ═══ 5. Focos de luz que rodam (prolongados) ═══
+   Noite: VIOLETA (RGB ~180,50,230) + AZUL (RGB ~50,100,255) — sem vermelho
+   Dia: AZUL (RGB ~0,100,255) + ROSA (RGB ~255,0,150) */
+.hm-neb-focos {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -5779,107 +5819,106 @@ html.light-mode .hero-bg-img-dark {
   background:
     conic-gradient(from 0deg at 50% 50%,
       transparent 0deg,
-      rgba(200, 80, 255, 0.45) 6deg,
-      rgba(200, 80, 255, 0.3) 18deg,
-      rgba(255, 45, 120, 0.2) 30deg,
-      rgba(200, 80, 255, 0.1) 40deg,
+      rgba(180, 50, 230, 0.4) 6deg,
+      rgba(180, 50, 230, 0.25) 18deg,
+      rgba(50, 100, 255, 0.2) 30deg,
+      rgba(180, 50, 230, 0.1) 40deg,
       transparent 50deg,
       transparent 65deg,
-      rgba(200, 80, 255, 0.4) 73deg,
-      rgba(255, 45, 120, 0.25) 85deg,
-      rgba(200, 80, 255, 0.12) 97deg,
+      rgba(50, 100, 255, 0.35) 73deg,
+      rgba(180, 50, 230, 0.22) 85deg,
+      rgba(50, 100, 255, 0.12) 97deg,
       transparent 107deg,
       transparent 122deg,
-      rgba(255, 45, 120, 0.35) 130deg,
-      rgba(200, 80, 255, 0.25) 142deg,
-      rgba(255, 45, 120, 0.1) 154deg,
+      rgba(180, 50, 230, 0.3) 130deg,
+      rgba(50, 100, 255, 0.25) 142deg,
+      rgba(180, 50, 230, 0.1) 154deg,
       transparent 164deg,
       transparent 179deg,
-      rgba(200, 80, 255, 0.45) 185deg,
-      rgba(200, 80, 255, 0.3) 197deg,
-      rgba(255, 45, 120, 0.2) 209deg,
-      rgba(200, 80, 255, 0.1) 219deg,
+      rgba(180, 50, 230, 0.4) 185deg,
+      rgba(180, 50, 230, 0.25) 197deg,
+      rgba(50, 100, 255, 0.2) 209deg,
+      rgba(180, 50, 230, 0.1) 219deg,
       transparent 229deg,
       transparent 244deg,
-      rgba(200, 80, 255, 0.4) 252deg,
-      rgba(255, 45, 120, 0.25) 264deg,
-      rgba(200, 80, 255, 0.12) 276deg,
+      rgba(50, 100, 255, 0.35) 252deg,
+      rgba(180, 50, 230, 0.22) 264deg,
+      rgba(50, 100, 255, 0.12) 276deg,
       transparent 286deg,
       transparent 301deg,
-      rgba(255, 45, 120, 0.35) 309deg,
-      rgba(200, 80, 255, 0.25) 321deg,
-      rgba(255, 45, 120, 0.1) 333deg,
+      rgba(180, 50, 230, 0.3) 309deg,
+      rgba(50, 100, 255, 0.25) 321deg,
+      rgba(180, 50, 230, 0.1) 333deg,
       transparent 343deg,
       transparent 360deg);
-  opacity: 0.9;
+  opacity: 0.85;
   mix-blend-mode: screen;
   filter: blur(6px);
   -webkit-mask: radial-gradient(circle at 50% 50%, black 0%, black 5%, black 50%, transparent 80%);
   mask: radial-gradient(circle at 50% 50%, black 0%, black 5%, black 50%, transparent 80%);
   will-change: transform;
-  animation: hmVjCurves 35s linear infinite;
+  animation: hmNebFocos 35s linear infinite;
 }
-/* Modo dia — ROXO disperso + focos VERMELHOS/PINK mantidos */
-.light-mode .hm-vj-curves {
+/* Modo dia — AZUL + ROSA (como espetaculo-bg-light) */
+.light-mode .hm-neb-focos {
   background:
     conic-gradient(from 0deg at 50% 50%,
       transparent 0deg,
-      rgba(147, 51, 234, 0.4) 6deg,
-      rgba(147, 51, 234, 0.25) 18deg,
-      rgba(255, 45, 120, 0.2) 30deg,
-      rgba(147, 51, 234, 0.1) 40deg,
+      rgba(0, 100, 255, 0.35) 6deg,
+      rgba(0, 100, 255, 0.22) 18deg,
+      rgba(255, 0, 150, 0.18) 30deg,
+      rgba(0, 100, 255, 0.08) 40deg,
       transparent 50deg,
       transparent 65deg,
-      rgba(147, 51, 234, 0.35) 73deg,
-      rgba(255, 45, 120, 0.22) 85deg,
-      rgba(147, 51, 234, 0.12) 97deg,
+      rgba(255, 0, 150, 0.3) 73deg,
+      rgba(0, 100, 255, 0.2) 85deg,
+      rgba(255, 0, 150, 0.1) 97deg,
       transparent 107deg,
       transparent 122deg,
-      rgba(255, 45, 120, 0.3) 130deg,
-      rgba(147, 51, 234, 0.25) 142deg,
-      rgba(255, 45, 120, 0.1) 154deg,
+      rgba(0, 100, 255, 0.28) 130deg,
+      rgba(255, 0, 150, 0.22) 142deg,
+      rgba(0, 100, 255, 0.08) 154deg,
       transparent 164deg,
       transparent 179deg,
-      rgba(147, 51, 234, 0.4) 185deg,
-      rgba(147, 51, 234, 0.25) 197deg,
-      rgba(255, 45, 120, 0.2) 209deg,
-      rgba(147, 51, 234, 0.1) 219deg,
+      rgba(0, 100, 255, 0.35) 185deg,
+      rgba(0, 100, 255, 0.22) 197deg,
+      rgba(255, 0, 150, 0.18) 209deg,
+      rgba(0, 100, 255, 0.08) 219deg,
       transparent 229deg,
       transparent 244deg,
-      rgba(147, 51, 234, 0.35) 252deg,
-      rgba(255, 45, 120, 0.22) 264deg,
-      rgba(147, 51, 234, 0.12) 276deg,
+      rgba(255, 0, 150, 0.3) 252deg,
+      rgba(0, 100, 255, 0.2) 264deg,
+      rgba(255, 0, 150, 0.1) 276deg,
       transparent 286deg,
       transparent 301deg,
-      rgba(255, 45, 120, 0.3) 309deg,
-      rgba(147, 51, 234, 0.25) 321deg,
-      rgba(255, 45, 120, 0.1) 333deg,
+      rgba(0, 100, 255, 0.28) 309deg,
+      rgba(255, 0, 150, 0.22) 321deg,
+      rgba(0, 100, 255, 0.08) 333deg,
       transparent 343deg,
       transparent 360deg);
   mix-blend-mode: normal;
   opacity: 0.7;
   filter: blur(5px);
 }
-@keyframes hmVjCurves {
+@keyframes hmNebFocos {
   from { transform: translate(-50%, -50%) rotate(0deg); }
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 /* ═══ MOBILE: simplificado ═══ */
 @media (max-width: 767px) {
-  .hm-vj-curves {
+  .hm-neb-3,
+  .hm-neb-focos {
     opacity: 0.4 !important;
-    filter: blur(15px) !important;
+    filter: blur(20px) !important;
+  }
+  .hm-neb-1,
+  .hm-neb-2 {
+    filter: blur(25px) !important;
     animation-duration: 50s !important;
   }
-  .hm-vj-grid {
-    background-size: 28px 28px !important;
+  .hm-stars {
     opacity: 0.4 !important;
-    animation-duration: 40s !important;
-  }
-  .hm-vj-pulse {
-    opacity: 0.3 !important;
-    animation-duration: 14s !important;
   }
 }
 

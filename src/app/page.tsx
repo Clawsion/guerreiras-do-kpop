@@ -1174,13 +1174,22 @@ export default function HomePage() {
             Mesma paleta de cores do botão (pink noite / azul dia).
             Padrões: ondas concêntricas que emanam do centro (orb).
             Leve: CSS puro, sem imagens, sem JavaScript. */}
-        <div className={`hm-led-wall ${themeMode}`}>
-          {/* Grid de pontos LED (sempre visível, baixa intensidade) */}
-          <div className="hm-vj-grid"/>
-          {/* Pulse concêntrico do centro (orb) */}
-          <div className="hm-vj-pulse"/>
-          {/* Curvas de luz que circulam (focos de luz a rodar) */}
-          <div className="hm-vj-curves"/>
+        {/* ═══ NEBULOSA CÓSMICA HONMOON ═══
+            Inspirada nas imagens de fundo do site (espetaculo-bg-dark/light).
+            - Modo noite: nebulosa roxo-escura + estrelas brancas/azuis +
+              focos de luz violeta + azul (sem vermelho)
+            - Modo dia: nebulosa lilás/rosa + estrelas brancas +
+              focos de luz azul + rosa
+            100% compatível com as cores do site. */}
+        <div className={`hm-nebula ${themeMode}`}>
+          {/* Camadas de nebulosa difusa */}
+          <div className="hm-neb-layer hm-neb-1"/>
+          <div className="hm-neb-layer hm-neb-2"/>
+          <div className="hm-neb-layer hm-neb-3"/>
+          {/* Estrelas/pontos luminosos */}
+          <div className="hm-stars"/>
+          {/* Focos de luz que rodam (violeta+azul noite / azul+rosa dia) */}
+          <div className="hm-neb-focos"/>
         </div>
 
         {/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
