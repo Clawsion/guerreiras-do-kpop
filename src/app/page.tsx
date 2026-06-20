@@ -489,6 +489,8 @@ export default function HomePage() {
     const [privacyOpen, setPrivacyOpen] = useState(false);
   const orbRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<HTMLElement[] | null>(null);
+  const galeriaRef = useRef<HTMLElement>(null);
+  const galeriaParallaxRef = useRef<HTMLDivElement>(null);
   // ═══ PARALLAX — agora usa background-attachment: fixed (nativo do browser) ═══
   // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
 
@@ -536,7 +538,51 @@ export default function HomePage() {
     return () => document.removeEventListener("visibilitychange", onVis);
   }, []);
 
-  // (Parallax agora é CSS-only com background-attachment: fixed — sem JavaScript)
+  // ═══ PARALLAX GALERIA — deslize real de baixo→cima com scroll ═══
+  // A foto move-se literalmente (transform: translateY) conforme o scroll.
+  // Quando se entra na secção: foto em baixo (vê-se parte inferior).
+  // Quando se sai: foto subiu (vê-se parte superior/meio).
+  // Movimento contínuo e fluido — a foto está sempre a deslizar.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    // Em mobile não aplicar (performance + fixed não funciona em iOS)
+    if (window.innerWidth < 768) return;
+
+    const bg = galeriaParallaxRef.current;
+    const section = galeriaRef.current;
+    if (!bg || !section) return;
+
+    let ticking = false;
+    const update = () => {
+      const rect = section.getBoundingClientRect();
+      const winH = window.innerHeight;
+      // Só atualizar quando a secção está próxima do viewport
+      if (rect.bottom < -200 || rect.top > winH + 200) {
+        ticking = false;
+        return;
+      }
+      // progress: 0 quando a secção entra no viewport, 1 quando sai
+      // - rect.top vai de winH (entrada) a -rect.height (saída)
+      const totalDist = winH + rect.height;
+      const progress = Math.max(0, Math.min(1, (winH - rect.top) / totalDist));
+      // Mover a foto de +15% (em baixo) a -15% (em cima)
+      // = deslize de baixo para cima conforme o scroll desce
+      const offset = 15 - (progress * 30);
+      bg.style.transform = `translateY(${offset}%)`;
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update(); // posição inicial
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Sync light-mode class to <html> on mount (theme already read from localStorage via useState initializer)
   useEffect(() => {
@@ -1379,9 +1425,9 @@ export default function HomePage() {
       */}
 
       {/* ═══ GALERIA - Momentos ao Vivo com Legenda + Lightbox ═══ */}
-      <section id="galeria" className="galeria-section">
-        {/* Parallax com portal Honmoon — marca de água que se move ao fazer scroll */}
-        <div className="galeria-parallax-bg"/>
+      <section id="galeria" className="galeria-section" ref={galeriaRef}>
+        {/* Parallax com portal Honmoon — deslize real de baixo→cima com scroll */}
+        <div className="galeria-parallax-bg" ref={galeriaParallaxRef}/>
         <div className="hero-aligned-container relative z-10">
           <Rv>
             <p className="sec-num mb-4">Mural</p>

@@ -4314,41 +4314,41 @@ html.light-mode .hero-bg-img-dark {
   background: var(--deep);
   overflow: hidden;
 }
-/* ═══ Parallax portal Honmoon — marca de água atrás do mural ═══
-   Efeito: a foto move-se de baixo para cima conforme se faz scroll.
-   - Quando se ENTRA na secção (scroll para baixo): vê-se a parte
-     INFERIOR da foto (background-position: bottom)
-   - Quando se SAI da secção (acaba a secção): vê-se a parte
-     SUPERIOR da foto (background-position: top)
-   - A foto está sempre em movimento (parallax contínuo)
+/* ═══ Parallax portal Honmoon — deslize real via JavaScript ═══
+   A foto move-se (transform: translateY) de baixo para cima conforme
+   o scroll. O JavaScript calcula a posição e aplica o transform.
    
-   background-size: 100% auto — sem zoom, mostra a foto inteira
-   proporcionalmente. Menos zoom = mais da foto visível. */
+   - Quando se ENTRA na secção: foto em baixo (translateY +15%)
+   - Quando se SAI: foto subiu (translateY -15%)
+   - Movimento contínuo e fluido
+   
+   background-size: 80% auto — menos zoom, mais foto visível.
+   inset: -30% — área extra para a foto ter espaço de deslize. */
 .galeria-parallax-bg {
   position: absolute;
-  inset: -20%;
+  inset: -30%;
   background-image: url('/portal-honmoon.webp');
-  background-size: 100% auto;
-  background-position: center bottom;
+  background-size: 80% auto;
+  background-position: center center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
   opacity: 0.15;
   z-index: 0;
   pointer-events: none;
+  will-change: transform;
 }
 /* Modo dia */
 .light-mode .galeria-parallax-bg {
   opacity: 0.1;
   filter: hue-rotate(180deg) brightness(1.2);
 }
-/* Mobile */
+/* Mobile — sem parallax JS, só estática */
 @media (max-width: 767px) {
   .galeria-parallax-bg {
-    background-attachment: scroll;
     inset: 0;
     background-size: 100% auto;
     background-position: center top;
     opacity: 0.12;
+    will-change: auto;
   }
   .light-mode .galeria-parallax-bg {
     opacity: 0.08;
