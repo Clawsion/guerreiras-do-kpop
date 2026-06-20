@@ -57,6 +57,19 @@ export default function RootLayout({
         {/* Preconnect to PostImg (galeria) — acelera carregamento das fotos em mobile */}
         <link rel="preconnect" href="https://i.postimg.cc" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://i.postimg.cc" />
+
+        {/* ═══ DETECÇÃO DE DISPOSITIVO — executa ANTES do CSS carregar ═══
+            Adiciona classe específica ao <html> para CSS dirigido:
+            - device-iphone → só iPhones (sem afetar Android)
+            - device-ipad   → só iPads (retrato + landscape + Stage Manager)
+            - device-android → smartphones Android (intencionalmente vazio — só marcação)
+            - device-desktop → desktop/laptop (intencionalmente vazio)
+
+            Isto permite aplicar fixes SÓ a iPhones sem mexer em Android
+            nem desktop, evitando os problemas anteriores. */}
+        <script dangerouslySetInnerHTML={{
+          __html: `(function(){try{var ua=navigator.userAgent||'';var p=navigator.platform||'';var t=navigator.maxTouchPoints||0;var isIOS=/iPad|iPhone|iPod/.test(ua);var isIPad=/iPad/.test(ua)||(isIOS&&p==='MacIntel'&&t>1);var isIPhone=/iPhone|iPod/.test(ua)||(isIOS&&!isIPad);var isAndroid=/Android/.test(ua);var d=document.documentElement;if(isIPad){d.classList.add('device-ipad','device-ios')}else if(isIPhone){d.classList.add('device-iphone','device-ios')}else if(isAndroid){d.classList.add('device-android')}else{d.classList.add('device-desktop')}}catch(e){}})();`
+        }} />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} antialiased bg-background text-foreground`}

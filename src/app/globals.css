@@ -9562,3 +9562,187 @@ img { max-width: 100%; height: auto; }
   }
 }
 
+/**
+ * ═══════════════════════════════════════════════════════════════════
+ * FIXES ESPECÍFICOS POR DISPOSITIVO — usando classes .device-*
+ * ═══════════════════════════════════════════════════════════════════
+ *
+ * As classes são adicionadas ao <html> por JavaScript no layout.tsx:
+ * - .device-iphone → apenas iPhones (qualquer modelo)
+ * - .device-ipad   → apenas iPads (retrato, landscape, Stage Manager)
+ * - .device-android → smartphones Android (INTOCADO — não tem regras aqui)
+ * - .device-desktop → desktop/laptop (INTOCADO — não tem regras aqui)
+ *
+ * IMPORTANTE: smartphones Android e desktop NÃO são afetados por
+ * estas regras. Apenas iPhones e iPads recebem fixes específicos.
+ */
+
+/* ═══════════════════════════════════════════════════════════════════
+ * IPHONE — fixes específicos (todos os modelos)
+ * ═══════════════════════════════════════════════════════════════════ */
+
+/* 1. Inputs — evitar zoom automático ao focar (iOS Safari)
+   iOS Safari faz zoom se font-size < 16px */
+.device-iphone input[type="text"],
+.device-iphone input[type="email"],
+.device-iphone input[type="tel"],
+.device-iphone input[type="password"],
+.device-iphone input[type="search"],
+.device-iphone input[type="url"],
+.device-iphone input[type="number"],
+.device-iphone textarea,
+.device-iphone select {
+  font-size: 16px !important;
+}
+
+/* 2. Touch targets — mínimo 44px (recomendação Apple) */
+.device-iphone .hamburger,
+.device-iphone .hero-nav-theme,
+.device-iphone .hm-orb,
+.device-iphone .mini-honmoon-toggle,
+.device-iphone .menu-link {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* 3. Backdrop-filter — iOS Safari precisa do prefix -webkit- */
+.device-iphone .galeria-card,
+.device-iphone .cartaz-info,
+.device-iphone .esp-pitch,
+.device-iphone .menu-overlay {
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+}
+
+/* 4. Tap highlight — remover highlight cinzento */
+.device-iphone * {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 5. Smooth scrolling em iOS */
+.device-iphone html {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 6. Text size adjust — evitar auto-zoom ao rodar */
+.device-iphone html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* 7. Scrollbar fix */
+.device-iphone ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.device-iphone ::-webkit-scrollbar-thumb {
+  background: rgba(200,80,255,0.3);
+  border-radius: 3px;
+}
+
+/* ═══ IPHONE por modelo específico ═══ */
+
+/* iPhone SE (1st gen) e iPhone 5/5s — 320px */
+@media (max-width: 360px) {
+  .device-iphone .hero-section h1 {
+    font-size: 1.75rem !important;
+  }
+  .device-iphone .espetaculo-section h2,
+  .device-iphone .galeria-section h2,
+  .device-iphone .cartazes-section h2 {
+    font-size: 1.5rem !important;
+  }
+  .device-iphone .hero-aligned-container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+/* iPhone 12/13/14/15 (390px) — ajustes finos */
+@media (max-width: 393px) and (min-width: 361px) {
+  .device-iphone .esp-cta {
+    font-size: 0.875rem !important;
+    padding: 0.625rem 1.25rem !important;
+  }
+}
+
+/* iPhone 14/15 Pro Max (430px) — fonte ligeiramente maior */
+@media (min-width: 394px) and (max-width: 430px) {
+  .device-iphone .hero-section h1 {
+    font-size: 2.25rem !important;
+  }
+}
+
+/* iPhone em landscape — altura muito pequena */
+@media (max-width: 1024px) and (max-height: 500px) and (orientation: landscape) {
+  .device-iphone .hero-glow-orb,
+  .device-iphone .esp-glow-orb {
+    display: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+ * IPAD — fixes específicos
+ * ═══════════════════════════════════════════════════════════════════ */
+
+/* iPad retrato (768px - 1023px) — grid 2 colunas em cartazes/galeria */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .device-ipad .cartazes-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+  .device-ipad .galeria-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* iPad landscape (1024px - 1366px) — padding adaptativo */
+@media (min-width: 1024px) and (max-width: 1366px) {
+  .device-ipad .hero-aligned-container {
+    padding-left: clamp(40px, 4vw, 80px) !important;
+    padding-right: clamp(40px, 4vw, 80px) !important;
+  }
+}
+
+/* iPad — backdrop-filter prefix */
+.device-ipad .galeria-card,
+.device-ipad .cartaz-info,
+.device-ipad .esp-pitch,
+.device-ipad .menu-overlay {
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+}
+
+/* iPad — tap highlight */
+.device-ipad * {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* iPad — text size adjust */
+.device-ipad html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+ * IOS GERAL (iPhone + iPad) — regras comuns a ambos
+ * ═══════════════════════════════════════════════════════════════════ */
+
+/* Pixel ratio 3x (iPhone Plus/Pro) — image-rendering */
+@media (-webkit-min-device-pixel-ratio: 3) {
+  .device-ios .cartaz-img,
+  .device-ios .galeria-img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: high-quality;
+  }
+}
+
+/* Pixel ratio 2x (iPad, iPhone standard) */
+@media (-webkit-min-device-pixel-ratio: 2) and (-webkit-max-device-pixel-ratio: 2.99) {
+  .device-ios .cartaz-img-wrap::before {
+    border-width: 1.5px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+ * NOTA: smartphones Android e desktop não são afetados por estas
+ * regras. Todas as regras acima usam .device-iphone ou .device-ipad
+ * como prefixo, que só existem em iPhones/iPads (adicionados via JS).
+ * ═══════════════════════════════════════════════════════════════════ */
