@@ -4553,11 +4553,12 @@ html.light-mode .hero-bg-img-dark {
       rgba(0,0,0,0.85) 14%,
       #000 22%);
   }
-  /* ═══ Halo neon muito subtil em mobile (não competir com o céu) ═══
-     Opacidade reduzida ainda mais: 0.55 -> 0.35 -> 0.2.
-     Quase impercetível, só um toque subtil de brilho. */
+  /* ═══ Halo neon DESATIVADO em mobile — sem brilho branco sobre as fotos ═══
+     Antes: opacity 0.2 + mix-blend-mode: screen criava brilho branco
+     em cima da primeira foto do mural.
+     Agora: display: none (sem brilho sobre as fotos) */
   .galeria-section::after {
-    opacity: 0.2;
+    display: none;
   }
   /* ═══ MODO DIA MOBILE — Fundo SIMÉTRICO SOFT (lavanda ↔ azul, sem azul nos extremos) ═══
      Análise das cores do céu (topo 0-30%) da imagem HD Restoration:
