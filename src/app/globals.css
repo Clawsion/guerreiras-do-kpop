@@ -4470,9 +4470,8 @@ html.light-mode .hero-bg-img-dark {
      o espaço acima dela tenha o "céu" do portal em vez do fundo
      --deep genérico.
      
-     ATUALIZAÇÃO: tons rosa/magenta do fundo REDUZIDOS (menos intensidade
-     no tom pink no fundo do mural). O gradient continua a recriar o céu
-     mas o fundo (parte inferior) é mais púrpura neutro do que rosa. */
+     ATUALIZAÇÃO 2: tons rosa/magenta ainda MAIS REDUZIDOS. O gradient
+     inferior agora é púrpura-azulado escuro, sem qualquer tom pink. */
   .galeria-section {
     background:
       linear-gradient(to bottom,
@@ -4480,11 +4479,11 @@ html.light-mode .hero-bg-img-dark {
         #060019 8%,
         #0A0020 18%,
         #120021 30%,
-        #1A0024 45%,
-        #220026 60%,
-        #2A0024 75%,
-        #320020 88%,
-        #38001F 100%) !important;
+        #180022 45%,
+        #1E0024 60%,
+        #220026 75%,
+        #260028 88%,
+        #2A002A 100%) !important;
   }
   /* ═══ DESVANESCIMENTO no topo das fotos da galeria (mobile modo noite) ═══
      Mask linear vertical: a grid das fotos começa semi-transparente no topo
@@ -4502,11 +4501,11 @@ html.light-mode .hero-bg-img-dark {
       rgba(0,0,0,0.85) 14%,
       #000 22%);
   }
-  /* ═══ Halo neon mais subtil em mobile (não competir com o céu) ═══
-     Opacidade reduzida de 0.55 para 0.35 — menos intensidade do tom
-     pink/rosa do halo neon, que combinava mal com o céu do portal. */
+  /* ═══ Halo neon muito subtil em mobile (não competir com o céu) ═══
+     Opacidade reduzida ainda mais: 0.55 -> 0.35 -> 0.2.
+     Quase impercetível, só um toque subtil de brilho. */
   .galeria-section::after {
-    opacity: 0.35;
+    opacity: 0.2;
   }
 }
 /* Portal Honmoon atrás da galeria (transparência) — modo noite */
