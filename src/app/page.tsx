@@ -1563,7 +1563,7 @@ export default function HomePage() {
         </div>
 
         {/* Marca de água */}
-        <div className="hero-aligned-container">
+        <div className="hero-aligned-container relative z-10">
           <Rv>
             <p className="sec-num mb-4">Pr&oacute;ximos Concertos em Tour</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-16" style={{color:"var(--t1)"}}>

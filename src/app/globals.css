@@ -3912,7 +3912,8 @@ html.light-mode .hero-bg-img-dark {
 .cartazes-section {
   position: relative;
   padding: 7rem 0 6rem;
-  /* Imagem de fundo com parallax (multidão do evento) + gradient roxo escuro */
+  /* Imagem de fundo com parallax (multidão do evento) — estilo contactos */
+  background: var(--void);
   background-image: url('/cartazes-bg-night.webp');
   background-size: cover;
   background-position: center center;
@@ -3921,17 +3922,13 @@ html.light-mode .hero-bg-img-dark {
   overflow: hidden;
   isolation: isolate;
 }
-/* Overlay marca de água — imagem da multidão visível a ~20% (estilo contactos) */
-.cartazes-section::after {
+/* Overlay marca de água — imagem visível a ~15% (estilo contactos: papel vegetal) */
+.cartazes-section::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg,
-    rgba(11, 8, 19, 0.82) 0%,
-    rgba(16, 11, 26, 0.80) 50%,
-    rgba(11, 8, 19, 0.82) 100%
-  );
-  z-index: 0;
+  background: rgba(11, 8, 19, 0.85);
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -3963,20 +3960,17 @@ html.light-mode .hero-bg-img-dark {
   transition: fill 0.6s ease;
 }
 
-/* Modo dia: imagem clara com parallax + overlay lavanda (marca de água) */
+/* Modo dia: imagem clara + overlay lavanda OPACO (estilo contactos) */
 .light-mode .cartazes-section {
-  background-image: url('/cartazes-bg-day.webp') !important;
-  background-size: cover !important;
-  background-position: center center !important;
-  background-attachment: fixed !important;
-  background-repeat: no-repeat !important;
+  background: linear-gradient(180deg, rgba(170,140,200,0.85) 0%, rgba(160,128,195,0.88) 30%, rgba(150,118,185,0.88) 60%, rgba(170,140,200,0.85) 100%);
+  background-image: url('/cartazes-bg-day.webp'), linear-gradient(180deg, rgba(170,140,200,0.85) 0%, rgba(160,128,195,0.88) 30%, rgba(150,118,185,0.88) 60%, rgba(170,140,200,0.85) 100%);
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-attachment: fixed, fixed;
 }
-.light-mode .cartazes-section::after {
-  background: linear-gradient(180deg,
-    rgba(237, 224, 245, 0.78) 0%,
-    rgba(245, 234, 248, 0.75) 50%,
-    rgba(237, 224, 245, 0.78) 100%
-  ) !important;
+.light-mode .cartazes-section::before {
+  display: none; /* Overlay já está no gradient acima */
 }
 /* Shape dividers em modo dia — lavanda mais escuro para contrastar com o branco */
 .light-mode .cartazes-shape-fill {
