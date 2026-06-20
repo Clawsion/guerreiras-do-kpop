@@ -9823,22 +9823,27 @@ img { max-width: 100%; height: auto; }
     display: block;
     position: relative;
     width: 100%;
-    height: 50vh; /* Metade da altura do ecrã */
+    height: 35vh; /* Reduzido de 50vh para 35vh — menos foto visível, mais "distance" */
     overflow: hidden;
     z-index: 0;
-    /* Sem padding/margin para ficar colado ao topo da secção */
     margin: 0;
   }
 
-  /* Parallax image — mesmo estilo do parallax de baixo mas com position: top */
+  /* Parallax image — mostra SÓ o céu (parte superior antes das personagens)
+     Análise das imagens:
+     - Modo noite (4092x4664): personagens começam ~60% da altura
+     - Modo dia (4080x6144): personagens começam ~65% da altura
+     
+     Estratégia: zoom maior (130% em vez de 90%) para mostrar só o topo da imagem,
+     onde está o céu (azul escuro no modo noite, azul claro no modo dia). */
   .galeria-parallax-top {
     position: absolute;
     inset: -30%;
     background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon.webp');
-    background-size: 90% auto;
-    background-position: center top; /* Âncora no TOPO → mostra parte de CIMA */
+    background-size: 130% auto; /* MAIS zoom — mostra só topo da imagem */
+    background-position: center 0%; /* Âncora ABSOLUTA no topo (0%) → só céu */
     background-repeat: no-repeat;
-    opacity: 0.18; /* Igual ao parallax de baixo em mobile */
+    opacity: 0.22; /* Ligeiramente maior para céu ser visível */
     z-index: 0;
     pointer-events: none;
     will-change: transform;
@@ -9847,17 +9852,18 @@ img { max-width: 100%; height: auto; }
     -webkit-font-smoothing: antialiased;
     backface-visibility: hidden;
     transform: translateZ(0);
-    /* Mesma mask radial do parallax de baixo */
-    -webkit-mask-image: radial-gradient(ellipse 65% 70% at center 40%, #000 35%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.4) 75%, transparent 100%);
-    mask-image: radial-gradient(ellipse 65% 70% at center 40%, #000 35%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.4) 75%, transparent 100%);
+    /* Mask radial — fade suave no fundo para disfarçar transição */
+    -webkit-mask-image: radial-gradient(ellipse 70% 80% at center 30%, #000 30%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.4) 70%, transparent 100%);
+    mask-image: radial-gradient(ellipse 70% 80% at center 30%, #000 30%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.4) 70%, transparent 100%);
   }
 
-  /* Modo dia — usa imagem light própria (HD Restoration) */
+  /* Modo dia — usa imagem light, ainda MAIS zoom para mostrar só o céu azul
+     Análise: personagens começam ~65% da altura, céu azul claro ocupa 0-45% */
   .light-mode .galeria-parallax-top {
     background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon-light.webp');
-    background-size: 65% auto;
-    background-position: center top;
-    opacity: 0.35;
+    background-size: 110% auto; /* MAIS zoom que o de baixo (65%) para só céu */
+    background-position: center 0%; /* Âncora no topo (0%) → só céu azul claro */
+    opacity: 0.40;
     filter: none;
   }
 }
