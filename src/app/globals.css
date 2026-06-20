@@ -4314,6 +4314,42 @@ html.light-mode .hero-bg-img-dark {
   background: var(--deep);
   overflow: hidden;
 }
+/* ═══ Parallax portal Honmoon — marca de água atrás do mural ═══
+   background-attachment: fixed cria o efeito de "câmera a subir"
+   quando se faz scroll para baixo. A imagem parece estar parada
+   enquanto o conteúdo desede, dando a sensação de profundidade.
+   Opacity baixa (0.15) para ser marca de água — as fotos do mural
+   ficam à frente claramente visíveis. */
+.galeria-parallax-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/portal-honmoon.webp');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  opacity: 0.15;
+  z-index: 0;
+  pointer-events: none;
+}
+/* Modo dia — opacity um pouco diferente para combinar com fundo claro */
+.light-mode .galeria-parallax-bg {
+  opacity: 0.1;
+  filter: hue-rotate(180deg) brightness(1.2);
+}
+/* Mobile — background-attachment: fixed não funciona bem em iOS.
+   Usar background-attachment: scroll com posição fixa. */
+@media (max-width: 767px) {
+  .galeria-parallax-bg {
+    background-attachment: scroll;
+    background-size: 100% auto;
+    background-position: center top;
+    opacity: 0.12;
+  }
+  .light-mode .galeria-parallax-bg {
+    opacity: 0.08;
+  }
+}
 /* Portal Honmoon atrás da galeria (transparência) — modo noite */
 .galeria-section::before {
   display: none;

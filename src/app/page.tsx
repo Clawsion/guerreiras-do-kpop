@@ -1380,7 +1380,9 @@ export default function HomePage() {
 
       {/* ═══ GALERIA - Momentos ao Vivo com Legenda + Lightbox ═══ */}
       <section id="galeria" className="galeria-section">
-        <div className="hero-aligned-container">
+        {/* Parallax com portal Honmoon — marca de água que se move ao fazer scroll */}
+        <div className="galeria-parallax-bg"/>
+        <div className="hero-aligned-container relative z-10">
           <Rv>
             <p className="sec-num mb-4">Mural</p>
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
