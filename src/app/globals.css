@@ -4021,7 +4021,10 @@ html.light-mode .hero-bg-img-dark {
   /* sem cursor:pointer - agora o card não é link, só o botão */
 }
 
-/* ═══ Moldura base - leve e limpa ═══ */
+/* ═══ Moldura base - leve e limpa ═══
+   ATUALIZAÇÃO: removido aspect-ratio 3/4 fixo para que cada cartaz
+   mantenha o seu rácio natural (igual ao Sesimbra — 766:1012 ≈ 1:1.32).
+   Cada cartaz fica com a sua própria altura proporcional, sem cortes. */
 .cartaz-img-wrap {
   position: relative;
   overflow: hidden;
@@ -4029,7 +4032,7 @@ html.light-mode .hero-bg-img-dark {
   background: var(--deep);
   box-shadow: 0 12px 36px rgba(11,8,19,0.45);
   transition: box-shadow 0.5s ease;
-  aspect-ratio: 3 / 4; /* MESMO aspect-ratio para TODOS os cartazes */
+  /* Sem aspect-ratio fixo — a altura é definida pela imagem naturalmente */
 }
 
 /* Linha fina subtil sempre visível (todos iguais) */
@@ -4072,9 +4075,9 @@ html.light-mode .hero-bg-img-dark {
 
 .cartaz-img {
   width: 100%;
-  height: 100%;
+  height: auto;
   display: block;
-  object-fit: cover;
+  object-fit: contain; /* Mostra a imagem completa sem cortes */
   object-position: center top;
   transition: transform 0.8s cubic-bezier(0.16,1,0.3,1),
               filter 0.6s ease;
