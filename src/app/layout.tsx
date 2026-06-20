@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { Geist, Geist_Mono, Sora } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -18,24 +18,6 @@ const sora = Sora({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
-
-/* Viewport configurado para:
- * - width=device-width: respeita largura do dispositivo
- * - initialScale=1: sem zoom inicial
- * - maximumScale=5: permite zoom até 5x (acessibilidade)
- * - viewportFit=cover: CRÍTICO para iPhones com notch/Dynamic Island
- *   — permite que o conteúdo use as safe areas (env(safe-area-inset-*))
- */
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 5,
-  viewportFit: "cover",
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0b0813" },
-    { media: "(prefers-color-scheme: light)", color: "#E8DAF2" },
-  ],
-};
 
 export const metadata: Metadata = {
   title: "Guerreiras do K-Pop | Tributo Musical em Tour - Cascais",
