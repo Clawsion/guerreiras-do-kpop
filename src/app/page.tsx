@@ -567,8 +567,9 @@ export default function HomePage() {
       const progress = Math.max(0, Math.min(1, (winH - rect.top) / totalDist));
       // Mover a foto de +15% (em baixo) a -15% (em cima)
       // = deslize de baixo para cima conforme o scroll desce
+      // translateZ(0) preserva a aceleração GPU (qualidade máxima de renderização)
       const offset = 15 - (progress * 30);
-      bg.style.transform = `translateY(${offset}%)`;
+      bg.style.transform = `translate3d(0, ${offset}%, 0)`;
       ticking = false;
     };
 

@@ -4310,7 +4310,8 @@ html.light-mode .hero-bg-img-dark {
 
 .galeria-section {
   position: relative;
-  padding: 6rem 0 4rem;
+  /* Mais espaço acima e abaixo — proporcional à secção do topo (hero). */
+  padding: 8rem 0 8rem;
   background: var(--deep);
   overflow: hidden;
 }
@@ -4322,36 +4323,47 @@ html.light-mode .hero-bg-img-dark {
    - Quando se SAI: foto subiu (translateY -15%)
    - Movimento contínuo e fluido
    
-   background-size: 80% auto — menos zoom, mais foto visível.
-   inset: -30% — área extra para a foto ter espaço de deslize. */
+   background-size: 50% auto — MENOS zoom (vê-se mais da foto, mais longe).
+   inset: -40% — área extra maior para a foto ter espaço de deslizar sem
+              mostrar as bordas, mesmo com menor zoom.
+   image-rendering: optimize-contrast — renderização nítida, máxima qualidade. */
 .galeria-parallax-bg {
   position: absolute;
-  inset: -30%;
+  inset: -40%;
   background-image: url('/portal-honmoon.webp');
-  background-size: 80% auto;
+  background-size: 50% auto;
   background-position: center center;
   background-repeat: no-repeat;
-  opacity: 0.15;
+  opacity: 0.18;
   z-index: 0;
   pointer-events: none;
   will-change: transform;
+  /* Máxima qualidade de renderização — nítido, sem desfocar */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -webkit-font-smoothing: antialiased;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 /* Modo dia */
 .light-mode .galeria-parallax-bg {
   opacity: 0.1;
   filter: hue-rotate(180deg) brightness(1.2);
 }
-/* Mobile — sem parallax JS, só estática */
+/* Mobile — sem parallax JS, só estática. Menos zoom também. */
 @media (max-width: 767px) {
   .galeria-parallax-bg {
     inset: 0;
-    background-size: 100% auto;
+    background-size: 75% auto;
     background-position: center top;
-    opacity: 0.12;
+    opacity: 0.14;
     will-change: auto;
+    /* Qualidade máxima em mobile */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
   }
   .light-mode .galeria-parallax-bg {
-    opacity: 0.08;
+    opacity: 0.1;
   }
 }
 /* Portal Honmoon atrás da galeria (transparência) — modo noite */
