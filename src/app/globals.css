@@ -9825,7 +9825,7 @@ img { max-width: 100%; height: auto; }
     top: 0;
     left: 0;
     width: 100%;
-    height: 60vh; /* Altura aumentada — prolonga-se até ao início da primeira foto */
+    height: 40vh; /* Altura ajustada — termina ANTES de aparecer a primeira foto */
     overflow: hidden;
     z-index: 0;
     margin: 0;
