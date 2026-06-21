@@ -2552,6 +2552,18 @@ html.light-mode .hero-bg-img-dark {
   border-color: rgba(255,255,255,0.2);
 }
 
+/* ═══ Modo dia desktop (≥1024px) — botão "Garante o Teu Lugar" centrado ═══
+   Em modo dia, o botão fica centrado horizontalmente (50%) em vez de alinhado a 19%.
+   Mantém a posição vertical (bottom 22%) — só muda o alinhamento horizontal. */
+@media (min-width: 1024px) {
+  .light-mode .hero-bottom-panel {
+    left: 50% !important;
+    bottom: 22% !important;
+    transform: translateX(-50%) !important;
+    align-items: center !important;
+  }
+}
+
 /* ═══ "via Ticketline" — em baixo do botão CTA, centrado ═══ */
 .hero-via-ticketline {
   display: flex;
