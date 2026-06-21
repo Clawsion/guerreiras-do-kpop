@@ -2074,16 +2074,29 @@
   display: block;
   pointer-events: none;
 }
-.hero-bg-img-dark,
+/* Hero dark (modo noite) — cover: preenche todo o ecrã SEM abas pretas */
+.hero-bg-img-dark {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  pointer-events: none;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+/* Hero light (modo dia) — contain: mostra imagem completa sem cortes */
 .hero-bg-img-light {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Dark mantém cover (não mexer) */
+  object-fit: contain;
   object-position: center center;
   pointer-events: none;
-  /* Manter o mesmo transform que a dark para que a transição seja suave */
   transform: translateZ(0);
   will-change: transform;
   backface-visibility: hidden;
@@ -2092,8 +2105,8 @@
 /* Modo dia — imagem light: mostrar completa sem cortes (contain + top) + 10% zoom */
 .hero-bg-img-light {
   object-fit: contain !important;
-  object-position: center 14% !important; /* Subir 1% (era 15%) */
-  transform: scale(1.10); /* +10% zoom */
+  object-position: center 14% !important;
+  transform: scale(1.10);
   transform-origin: center top;
 }
 /* Modo noite (default) — mostrar dark, esconder light */
