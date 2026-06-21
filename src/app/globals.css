@@ -2552,13 +2552,16 @@ html.light-mode .hero-bg-img-dark {
   border-color: rgba(255,255,255,0.2);
 }
 
-/* ═══ Modo dia desktop (≥1024px) — botão "Garante o Teu Lugar" centrado ═══
-   Em modo dia, o botão fica centrado horizontalmente (50%) em vez de alinhado a 19%.
-   Mantém a posição vertical (bottom 22%) — só muda o alinhamento horizontal. */
+/* ═══ Modo dia desktop (≥1024px) — botão "Garante o Teu Lugar" centrado em baixo de "Épico" ═══
+   Análise da imagem hero-bg-light.webp (3424x1926):
+   - "ÉPICO" está em: centro x=930px (27.2% largura), borda inferior y=1405px (72.9% altura)
+   - Botão fica centrado em x=27.2% (igual ao ÉPICO), logo abaixo (y=78% altura)
+   - Em modo noite mantém a posição original (left 19%, bottom 22%) */
 @media (min-width: 1024px) {
   .light-mode .hero-bottom-panel {
-    left: 50% !important;
-    bottom: 22% !important;
+    left: 27.2% !important;
+    bottom: auto !important;
+    top: 78% !important;
     transform: translateX(-50%) !important;
     align-items: center !important;
   }
