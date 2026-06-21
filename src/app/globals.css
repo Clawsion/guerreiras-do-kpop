@@ -3940,17 +3940,13 @@ html.light-mode .hero-bg-img-dark {
   z-index: 0;
   pointer-events: none;
 }
-/* Desktop (≥1024px) — overlay com ROXO MEIO TRANSPARENTE (#C0B5CA)
-   Tom roxo meio transparente extraído da imagem das ondas (zonas 3-4, y=22-44):
-   - Cor média: #C0B5CA (roxo meio transparente, abaixo da onda roxo sólido)
-   - Tons principais: #C0B0C0, #B0B0C0, #B0A0C0
-   - Saturação roxa: 5-15 (meio transparente, não sólido nem claro) */
+/* Desktop (≥1024px) — overlay trocado: era roxo meio transparente, agora branco transparente */
 @media (min-width: 1024px) {
   .cartazes-section::after {
     background: linear-gradient(180deg,
-      rgba(192, 181, 202, 0.78) 0%,
+      rgba(193, 180, 201, 0.78) 0%,
       rgba(192, 176, 192, 0.82) 50%,
-      rgba(192, 181, 202, 0.78) 100%
+      rgba(193, 180, 201, 0.78) 100%
     );
   }
 }
@@ -4011,13 +4007,13 @@ html.light-mode .hero-bg-img-dark {
   z-index: 0;
   pointer-events: none;
 }
-/* Desktop (≥1024px) — MESMO overlay do modo noite (branco transparente #C1B4C9) */
+/* Desktop (≥1024px) — overlay trocado: era branco transparente, agora roxo meio transparente */
 @media (min-width: 1024px) {
   .light-mode .cartazes-section::after {
     background: linear-gradient(180deg,
-      rgba(193, 180, 201, 0.78) 0%,
+      rgba(192, 181, 202, 0.78) 0%,
       rgba(192, 176, 192, 0.82) 50%,
-      rgba(193, 180, 201, 0.78) 100%
+      rgba(192, 181, 202, 0.78) 100%
     );
   }
 }
