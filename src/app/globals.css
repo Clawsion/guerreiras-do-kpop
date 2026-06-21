@@ -3999,11 +3999,12 @@ html.light-mode .hero-bg-img-dark {
    por detras dos cartazes 'branco transparente igual'"
    
    Overlay translúcido BRANCO TRANSPARENTE (#C1B4C9 — mesma cor que estava no modo noite),
-   aplicado POR CIMA do parallax das bolas mas POR DETRÁS dos cartazes. */
+   aplicado POR CIMA do parallax das bolas mas POR DETRÁS dos cartazes.
+   Opacidade reduzida (0.55-0.62) para que a imagem das bolas fique visível por trás. */
 .light-mode .cartazes-section {
-  background: linear-gradient(180deg, rgba(193,180,201,0.78) 0%, rgba(192,176,192,0.82) 50%, rgba(193,180,201,0.78) 100%);
+  background: linear-gradient(180deg, rgba(193,180,201,0.55) 0%, rgba(192,176,192,0.62) 50%, rgba(193,180,201,0.55) 100%);
   background-image: url('/cartazes-bg-day.webp'),
-    linear-gradient(180deg, rgba(193,180,201,0.78) 0%, rgba(192,176,192,0.82) 50%, rgba(193,180,201,0.78) 100%);
+    linear-gradient(180deg, rgba(193,180,201,0.55) 0%, rgba(192,176,192,0.62) 50%, rgba(193,180,201,0.55) 100%);
   background-size: 100% auto, cover;
   background-position: center top, center;
   background-repeat: no-repeat, no-repeat;
@@ -4022,13 +4023,14 @@ html.light-mode .hero-bg-img-dark {
   z-index: 0;
   pointer-events: none;
 }
-/* Desktop (≥1024px) — overlay branco transparente sobre o fundo principal */
+/* Desktop (≥1024px) — overlay branco transparente sobre o fundo principal
+   Opacidade reduzida (0.55-0.62) para que a imagem das bolas fique visível por trás */
 @media (min-width: 1024px) {
   .light-mode .cartazes-section::after {
     background: linear-gradient(180deg,
-      rgba(193, 180, 201, 0.78) 0%,
-      rgba(192, 176, 192, 0.82) 50%,
-      rgba(193, 180, 201, 0.78) 100%
+      rgba(193, 180, 201, 0.55) 0%,
+      rgba(192, 176, 192, 0.62) 50%,
+      rgba(193, 180, 201, 0.55) 100%
     );
   }
 }
