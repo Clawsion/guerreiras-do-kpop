@@ -9911,57 +9911,9 @@ img { max-width: 100%; height: auto; }
  * como prefixo, que só existem em iPhones/iPads (adicionados via JS).
  * ═══════════════════════════════════════════════════════════════════ */
 
-/* ═══════════════════════════════════════════════════════════════════
- * CARTAZES — ZOOM ESPECÍFICO POR CARTAZ (apenas desktop ≥1024px)
- * ═══════════════════════════════════════════════════════════════════
- * Mobile e tablet ficam 100% intocados (mantêm o estado Sesimbra-style).
- * Apenas em desktop (≥1024px) aplicamos zoom diferente por cartaz:
- *
- * - Cascais: MAIS zoom (1.10x) — esconde as bordas naturais escuras
- *   do cartaz, conteúdo preenche todo o frame, sem partes pretas visíveis
- *
- * - Caparica: MENOS zoom (0.93x) — conteúdo ligeiramente mais pequeno,
- *   mostra um pouco do fundo escuro (var(--deep)) como padding natural
- *
- * - Sesimbra: sem alteração (mantém estado atual)
- *
- * Identificação via alt attribute (não mexe no JSX):
- * - img[alt*="Cascais"]  → cartaz de Cascais
- * - img[alt*="Caparica"] → cartaz de Costa da Caparica
- */
-@media (min-width: 1024px) {
-  /* ═══ Cascais — MAIS zoom (1.10x) ═══
-     Scale 1.10 com transform-origin: center top
-     - Topo: ancorado no topo (não mostra borda preta de cima)
-     - Fundo: estica 10% para baixo, esconde a borda natural escura
-     - Laterais: 10% mais largo, mas overflow:hidden no wrap corta
-       o excesso → sem bordas laterais */
-  .cartaz-img[alt*="Cascais"] {
-    transform: scale(1.10);
-    transform-origin: center top;
-  }
-
-  /* ═══ Caparica — MENOS zoom (0.93x) ═══
-     Scale 0.93 com transform-origin: center center
-     - Conteúdo 7% mais pequeno (menos zoom)
-     - Mostra ~7% do fundo do wrap (var(--deep)) como padding natural
-     - Ainda sem cortes no conteúdo */
-  .cartaz-img[alt*="Caparica"] {
-    transform: scale(0.93);
-    transform-origin: center center;
-  }
-
-  /* ═══ Hover effect — manter o scale(1.02) original mas combinado ═══
-     O hover normal adiciona scale(1.02). Como já temos transform nos
-     cartazes acima, precisamos combinar. Usando !important para
-     sobrepor o transform do hover. */
-  .cartaz-card:hover .cartaz-img[alt*="Cascais"] {
-    transform: scale(1.12);  /* 1.10 + 0.02 do hover */
-  }
-  .cartaz-card:hover .cartaz-img[alt*="Caparica"] {
-    transform: scale(0.95);  /* 0.93 + 0.02 do hover */
-  }
-}
+/* REMOVIDO: zoom overrides para Cascais e Caparica
+   Agora todos os 3 cartazes usam o mesmo CSS (igual ao Sesimbra)
+   — sem transforms, sem zoom extra, mesmas proporções */
 
 /* ═══════════════════════════════════════════════════════════════════
  * PARALLAX TOPO DA GALERIA (só mobile ≤767px)
