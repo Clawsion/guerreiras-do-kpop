@@ -2089,10 +2089,12 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
-/* Modo dia — imagem light: mostrar completa sem cortes (contain + top) */
+/* Modo dia — imagem light: mostrar completa sem cortes (contain + top) + 5% zoom */
 .hero-bg-img-light {
   object-fit: contain !important;
   object-position: center top !important;
+  transform: scale(1.05); /* +5% zoom desktop */
+  transform-origin: center top;
 }
 /* Modo noite (default) — mostrar dark, esconder light */
 html:not(.light-mode) .hero-bg-img-dark { display: block; }
@@ -3960,16 +3962,6 @@ html.light-mode .hero-bg-img-dark {
     pointer-events: none;
   }
 }
-/* Desktop (≥1024px) — overlay roxo meio transparente sobre o fundo principal */
-@media (min-width: 1024px) {
-  .cartazes-section::after {
-    background: linear-gradient(180deg,
-      rgba(192, 181, 202, 0.78) 0%,
-      rgba(192, 176, 192, 0.82) 50%,
-      rgba(192, 181, 202, 0.78) 100%
-    );
-  }
-}
 
 /* Shape divider — monta­nhas SVG (igual ao site de referência) */
 .cartazes-shape {
@@ -3999,39 +3991,33 @@ html.light-mode .hero-bg-img-dark {
   transition: fill 0.6s ease;
 }
 
-/* ═══ Modo dia — MESMO overlay do modo noite (branco transparente #C1B4C9) ═══
-   User pediu: "em relaçao ao modo dia eu quero o mesmo overlay que esta na imagem
-   por detras dos cartazes 'branco transparente igual'"
-   
-   Overlay translúcido BRANCO TRANSPARENTE (#C1B4C9 — mesma cor que estava no modo noite),
+/* ═══ Modo dia — overlay ROXO INTERMEDIÁRIO TRANSPARENTE (sem branco) ═══
+   Overlay translúcido roxo intermediário #C0B5CA (igual ao modo noite),
    aplicado POR CIMA do parallax das bolas mas POR DETRÁS dos cartazes.
-   Opacidade reduzida (0.55-0.62) para que a imagem das bolas fique visível por trás. */
+   Removido o branco transparente (#C1B4C9) — agora é roxo intermediário. */
 .light-mode .cartazes-section {
-  background: linear-gradient(180deg, rgba(193,180,201,0.55) 0%, rgba(192,176,192,0.62) 50%, rgba(193,180,201,0.55) 100%);
+  background: linear-gradient(180deg, rgba(192,181,202,0.55) 0%, rgba(192,176,192,0.62) 50%, rgba(192,181,202,0.55) 100%);
   background-image: url('/cartazes-bg-day.webp'),
-    linear-gradient(180deg, rgba(193,180,201,0.55) 0%, rgba(192,176,192,0.62) 50%, rgba(193,180,201,0.55) 100%);
+    linear-gradient(180deg, rgba(192,181,202,0.55) 0%, rgba(192,176,192,0.62) 50%, rgba(192,181,202,0.55) 100%);
   background-size: 100% auto, cover;
   background-position: center top, center;
   background-repeat: no-repeat, no-repeat;
   background-attachment: fixed, fixed;
 }
-/* Overlay extra no modo dia — branco transparente (mesma cor do modo noite) */
+/* Overlay extra no modo dia — roxo intermediário transparente */
 .light-mode .cartazes-section::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(193, 180, 201, 0.35) 0%,
+    rgba(192, 181, 202, 0.35) 0%,
     rgba(192, 176, 192, 0.25) 50%,
-    rgba(193, 180, 201, 0.35) 100%
+    rgba(192, 181, 202, 0.35) 100%
   );
   z-index: 0;
   pointer-events: none;
 }
-/* Desktop (≥1024px) — overlay ROXO TRANSPARENTE MAIS CARREGADO
-   Cor igual às curvas (shape dividers) em baixo dos cartazes (#e8d8f2)
-   mas mais carregado/opaco para se notar à frente do fundo das bolas.
-   Roxo transparente: #C0B5CA (roxo meio transparente da onda) com opacidade alta. */
+/* Desktop (≥1024px) — overlay roxo intermediário transparente mais carregado */
 @media (min-width: 1024px) {
   .light-mode .cartazes-section::after {
     background: linear-gradient(180deg,
