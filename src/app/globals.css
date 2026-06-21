@@ -2092,8 +2092,8 @@
 /* Modo dia — imagem light: mostrar completa sem cortes (contain + top) + 10% zoom */
 .hero-bg-img-light {
   object-fit: contain !important;
-  object-position: center 15% !important; /* Descer um pouco (era center top = 0%) */
-  transform: scale(1.10); /* +10% zoom (era 1.05) */
+  object-position: center 14% !important; /* Subir 1% (era 15%) */
+  transform: scale(1.10); /* +10% zoom */
   transform-origin: center top;
 }
 /* Modo noite (default) — mostrar dark, esconder light */
@@ -2568,7 +2568,7 @@ html.light-mode .hero-bg-img-dark {
   .light-mode .hero-bottom-panel {
     left: 27.2% !important;
     bottom: auto !important;
-    top: 78% !important;
+    top: 83% !important; /* Descer mais 5% (era 78%) */
     transform: translateX(-50%) !important;
     align-items: center !important;
   }
