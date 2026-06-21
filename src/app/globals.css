@@ -3939,7 +3939,7 @@ html.light-mode .hero-bg-img-dark {
   overflow: hidden;
   isolation: isolate;
 }
-/* Desktop (≥1024px) — bolas com parallax + overlay roxo intermediário transparente */
+/* Desktop (≥1024px) — bolas com parallax + overlay roxo transparente (cor das curvas) */
 @media (min-width: 1024px) {
   .cartazes-section {
     background-image: url('/cartazes-bg-night.webp');
@@ -3948,7 +3948,19 @@ html.light-mode .hero-bg-img-dark {
     background-attachment: fixed; /* Parallax */
     background-repeat: no-repeat;
   }
-  /* Overlay REMOVIDO — só fundo das bolas, sem overlay */
+  /* Overlay roxo transparente (cor das curvas #1a0d2e) — marca de água sobre as bolas */
+  .cartazes-section::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(26, 13, 46, 0.82) 0%,
+      rgba(26, 13, 46, 0.88) 50%,
+      rgba(26, 13, 46, 0.82) 100%
+    );
+    z-index: 0;
+    pointer-events: none;
+  }
 }
 
 /* Shape divider — monta­nhas SVG (igual ao site de referência) */
