@@ -2054,7 +2054,7 @@
   pointer-events: none;
   /* Ambas as imagens (dia e noite) originais do usuário — dimensões idênticas (1419x752)
      e composição alinhada. Sem crops, sem scales, sem zoom. */
-  object-position: center center;
+  object-position: center top;
   /* Sem animação de zoom */
   animation: none;
 }
