@@ -2080,7 +2080,7 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Preenche todo o ecrã sem barras pretas */
+  object-fit: contain; /* Dark mantém cover (não mexer) */
   object-position: center center;
   pointer-events: none;
   /* Manter o mesmo transform que a dark para que a transição seja suave */
@@ -2089,7 +2089,13 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
-/* Modo dia — imagem light: igual ao dark (cover, center center, sem overrides) */
+/* Modo dia — imagem light: mostrar completa sem cortes (contain + top) + 10% zoom */
+.hero-bg-img-light {
+  object-fit: contain !important;
+  object-position: center 14% !important; /* Subir 1% (era 15%) */
+  transform: scale(1.10); /* +10% zoom */
+  transform-origin: center top;
+}
 /* Modo noite (default) — mostrar dark, esconder light */
 html:not(.light-mode) .hero-bg-img-dark { display: block; }
 html:not(.light-mode) .hero-bg-img-light { display: none; }
