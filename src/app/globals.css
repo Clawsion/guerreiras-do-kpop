@@ -2710,7 +2710,7 @@ html.light-mode .hero-bg-img-dark {
     background: var(--void);
     background-image: url('/espetaculo-bg-dark.png');
     background-size: 120% 120%; /* +20% zoom (era 110%) — foto mais próxima */
-    background-position: center center;
+    background-position: 40% center; /* Puxado para a esquerda */
     background-repeat: no-repeat;
     overflow: hidden;
   }
@@ -5713,7 +5713,7 @@ html.light-mode .hero-bg-img-dark {
   background-color: #D8B8E8;
   background-image: url('/espetaculo-bg-light.png');
   background-size: 120% 120%; /* Igual ao modo noite (120% zoom) */
-  background-position: center center;
+  background-position: 40% center; /* Puxado para a esquerda (igual ao modo noite) */
   background-repeat: no-repeat;
 }
 @media (max-width: 1023px) {
@@ -6123,12 +6123,12 @@ html.light-mode .hero-bg-img-dark {
 
 .honmoon-shield-section {
   position: relative;
-  padding: 2rem 1.5rem;
+  padding: 1.5rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  min-height: 32vh;
+  min-height: 28vh;
   background: var(--deep);
 }
 /* Mobile: secção honmoon mais pequena + botão menor */
@@ -6959,8 +6959,8 @@ html.light-mode .hero-bg-img-dark {
 /* ═══ Central shield orb ═══ */
 .hm-orb {
   position: relative;
-  width: 110px;
-  height: 110px;
+  width: 85px;
+  height: 85px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
