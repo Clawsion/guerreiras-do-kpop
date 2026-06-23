@@ -21,9 +21,10 @@ const TICKETLINE_URL_SESIMBRA = "https://www.ticketline.pt/pt/evento/guerreiras-
 // const EVENT = new Date("2026-08-08T18:30:00"); // REMOVIDO — countdown desativado
 
 /* ── Device detection for adaptive performance ── */
-const IS_MOBILE = typeof window !== "undefined" && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-const SHIELD_PARTICLES = IS_MOBILE ? 6 : 12;
-const CHARGER_PARTICLES = IS_MOBILE ? 4 : 8;
+// Device detection — moved inside useEffect to avoid hydration mismatch (#418)
+const IS_MOBILE = false; // Default para SSR; atualizado no useEffect
+const SHIELD_PARTICLES = 6;
+const CHARGER_PARTICLES = 4;
 
 /* K-Pop gallery photos - hosted externally on PostImg */
 const GALLERY_PHOTOS = [
@@ -493,6 +494,7 @@ export default function HomePage() {
   const galeriaParallaxRef = useRef<HTMLDivElement>(null);
   const galeriaParallaxTopRef = useRef<HTMLDivElement>(null);
   const cartazesBgRef = useRef<HTMLDivElement>(null);
+  const contactoRef = useRef<HTMLElement>(null);
   // ═══ PARALLAX — agora usa background-attachment: fixed (nativo do browser) ═══
   // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
 
@@ -620,6 +622,43 @@ export default function HomePage() {
       const progress = Math.max(0, Math.min(1, (winH - rect.top) / (winH + rect.height)));
       const offset = (progress - 0.5) * rect.height * 0.15;
       bg.style.transform = `translate3d(0, ${offset}px, 0)`;
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // ═══ PARALLAX CONTACTO (mobile) — parallax JavaScript para a secção contacto ═══
+  // Em mobile, background-attachment: fixed não funciona em iOS Safari.
+  // Solução: mover o background-position com JavaScript.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.innerWidth >= 768) return; // Só mobile
+
+    const section = contactoRef.current;
+    if (!section) return;
+
+    let ticking = false;
+    const update = () => {
+      const rect = section.getBoundingClientRect();
+      const winH = window.innerHeight;
+      if (rect.bottom < -200 || rect.top > winH + 200) {
+        ticking = false;
+        return;
+      }
+      // Parallax: mover background-position Y conforme o scroll
+      const progress = Math.max(0, Math.min(1, (winH - rect.top) / (winH + rect.height)));
+      const offset = (progress - 0.5) * 30; // 30% de movimento
+      section.style.backgroundPositionY = `${50 + offset}%`;
       ticking = false;
     };
 
@@ -1714,7 +1753,7 @@ export default function HomePage() {
       <HonmoonDivider/>
 
       {/* ═══ CONTACTE-NOS - Reservas & Eventos ═══ */}
-      <section id="contacto" className="contacto-section">
+      <section id="contacto" className="contacto-section" ref={contactoRef}>
         {/* Marca de água */}
         <div className="hero-aligned-container relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
