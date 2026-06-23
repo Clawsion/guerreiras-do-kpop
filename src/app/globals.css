@@ -2088,7 +2088,7 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
-/* Hero light (modo dia) — contain + center center: full size sem cortes em qualquer resolução */
+/* Hero light (modo dia) — igual ao commit 9614165 (contain + scale 1.10 + center 14%) */
 .hero-bg-img-light {
   position: absolute;
   inset: 0;
@@ -2102,7 +2102,13 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
-/* Modo dia — contain + center center (full size, sem cortes lados/topo/fundo) */
+/* Modo dia — imagem light: mostrar completa sem cortes (contain + top) + 10% zoom */
+.hero-bg-img-light {
+  object-fit: contain !important;
+  object-position: center 14% !important;
+  transform: scale(1.10);
+  transform-origin: center top;
+}
 /* Modo noite (default) — mostrar dark, esconder light */
 html:not(.light-mode) .hero-bg-img-dark { display: block; }
 html:not(.light-mode) .hero-bg-img-light { display: none; }
