@@ -102,9 +102,13 @@ export const metadata: Metadata = {
   category: "entreertainment",
   other: {
     "geo.region": "PT",
-    "geo.placename": "Cascais, Portugal",
+    "geo.placename": "Cascais, Costa da Caparica, Sesimbra, Portugal",
     "geo.position": "38.6979;-9.4215",
     "ICBM": "38.6979, -9.4215",
+    "geo.placename-alt-1": "Costa da Caparica, Setúbal, Portugal",
+    "geo.position-alt-1": "38.6453;-9.2347",
+    "geo.placename-alt-2": "Sesimbra, Setúbal, Portugal",
+    "geo.position-alt-2": "38.4444;-9.1017",
   },
 };
 
