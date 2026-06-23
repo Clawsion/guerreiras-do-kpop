@@ -2088,21 +2088,21 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
-/* Hero light (modo dia) — igual ao dark: cover (funciona em todos os tamanhos) */
+/* Hero light (modo dia) — contain: imagem completa sem cortar cabeças em qualquer resolução */
 .hero-bg-img-light {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center center;
+  object-fit: contain;
+  object-position: center top;
   pointer-events: none;
   transform: translateZ(0);
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
-/* Modo dia — igual ao modo noite (cover, center center, sem overrides) */
+/* Modo dia — contain + center top (cabeças visíveis, sem scale que causava cortes) */
 /* Modo noite (default) — mostrar dark, esconder light */
 html:not(.light-mode) .hero-bg-img-dark { display: block; }
 html:not(.light-mode) .hero-bg-img-light { display: none; }
