@@ -599,7 +599,6 @@ export default function HomePage() {
   // ═══ PARALLAX CARTAZES (mobile) — mesmo efeito do desktop (background-attachment: fixed) ═══
   // Em mobile, background-attachment: fixed não funciona em iOS Safari.
   // Solução: usar JavaScript com transform para criar parallax real.
-  // A imagem move-se a 50% da velocidade do scroll (igual ao desktop).
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.innerWidth >= 768) return; // Só mobile
@@ -613,15 +612,13 @@ export default function HomePage() {
       if (!section) { ticking = false; return; }
       const rect = section.getBoundingClientRect();
       const winH = window.innerHeight;
-      // Só atualizar quando a secção está próxima do viewport
       if (rect.bottom < -200 || rect.top > winH + 200) {
         ticking = false;
         return;
       }
-      // Parallax: imagem move-se a 30% da velocidade do scroll
-      // (background-attachment: fixed equivalente em mobile)
-      const scrollProgress = (winH - rect.top) / (winH + rect.height);
-      const offset = (scrollProgress - 0.5) * rect.height * 0.3;
+      // Parallax subtil: imagem move-se 15% da velocidade do scroll
+      const progress = Math.max(0, Math.min(1, (winH - rect.top) / (winH + rect.height)));
+      const offset = (progress - 0.5) * rect.height * 0.15;
       bg.style.transform = `translate3d(0, ${offset}px, 0)`;
       ticking = false;
     };
@@ -634,12 +631,8 @@ export default function HomePage() {
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("touchmove", onScroll, { passive: true });
     update();
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("touchmove", onScroll);
-    };
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   // ═══ PARALLAX TOPO GALERIA — mostra parte de CIMA, desce com scroll ═══
