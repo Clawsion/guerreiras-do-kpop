@@ -469,19 +469,24 @@ const HonmoonCharger = React.memo(function HonmoonCharger() {
 export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [themeMode, setThemeMode] = useState<'dark' | 'light'>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('honmoon-theme');
-      if (saved === 'light') return 'light';
-    }
-    return 'dark';
-  });
+  const [themeMode, setThemeMode] = useState<'dark' | 'light'>('dark');
   // ═══ REF para rastrear themeMode SEMPRE actualizado ═══
   // Isto evita race conditions no startThemeTransition: o closure do useCallback
   // pode ter themeMode desactualizado quando há cliques rápidos, causando
   // bugs onde o flash "vai para light" mas o tema acaba em dark (ou vice-versa).
   const themeModeRef = useRef<'dark' | 'light'>(themeMode);
   useEffect(() => { themeModeRef.current = themeMode; }, [themeMode]);
+
+  // ═══ Ler tema do localStorage no cliente (evita hydration mismatch #418) ═══
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('honmoon-theme');
+      if (saved === 'light') {
+        setThemeMode('light');
+        document.documentElement.classList.add('light-mode');
+      }
+    } catch (e) {}
+  }, []);
   const [burstKey, setBurstKey] = useState(0);
   const [ripple, setRipple] = useState<{active:boolean; x:number; y:number; toMode:'dark'|'light'}|null>(null);
   const [waveActive, setWaveActive] = useState(false);
