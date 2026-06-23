@@ -6137,6 +6137,32 @@ html.light-mode .hero-bg-img-dark {
   min-height: 40vh;
   background: var(--deep);
 }
+/* Mobile: secção honmoon mais pequena + botão menor */
+@media (max-width: 767px) {
+  .honmoon-shield-section {
+    padding: 1.5rem 1rem !important;
+    min-height: 30vh !important;
+  }
+  .hm-orb {
+    width: 90px !important;
+    height: 90px !important;
+  }
+  .hm-label {
+    font-size: 9px !important;
+    letter-spacing: 0.15em !important;
+  }
+  .hm-strand {
+    width: 2px !important;
+  }
+  .hm-ring {
+    width: 200px !important;
+    height: 200px !important;
+  }
+  .hm-neon-circle {
+    width: 160px !important;
+    height: 160px !important;
+  }
+}
 
 /* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
    Camada de atmosfera que preenche o espaço vazio à volta do orb.
