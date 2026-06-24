@@ -1313,22 +1313,12 @@ export default function HomePage() {
               <Ticket className="w-3.5 h-3.5"/> Garante o Teu Lugar
             </a>
           </div>
-          {/* ═══ FORMATO ORIGINAL DAS REDES SOCIAIS (desativado a pedido — guardar para reativar) ═══
+          {/* ═══ REDES SOCIAIS — só Instagram (ativado) ═══ */}
           <div className="absolute bottom-8 right-8 sm:right-12 flex gap-7" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 350}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+            <a href="https://www.instagram.com/guerreirasdokpop_tributo?igsh=NzBkd2J2dm1iYWR1" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
               <Instagram className="w-7 h-7"/>
             </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
-              <Facebook className="w-7 h-7"/>
-            </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
-              <Youtube className="w-7 h-7"/>
-            </a>
-            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
-              <Music2 className="w-7 h-7"/>
-            </a>
           </div>
-          ═══ FIM DO FORMATO ORIGINAL DAS REDES SOCIAIS ═══ */}
           {/* Decorative circle */}
           <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
         </div>
@@ -1947,6 +1937,9 @@ export default function HomePage() {
             <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>&copy; 2026 Guerreiras do K-Pop</span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-6">
+            <a href="https://www.instagram.com/guerreirasdokpop_tributo?igsh=NzBkd2J2dm1iYWR1" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer flex items-center gap-1.5" style={{color:"var(--neon-purple)"}}>
+              <Instagram className="w-3.5 h-3.5"/> Instagram
+            </a>
             <a href={TICKETLINE_URL} target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer bg-transparent border-0 p-0" style={{color:"var(--neon-purple)"}}>Ticketline</a>
             <button onClick={()=>setPrivacyOpen(true)} className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer bg-transparent border-0 p-0" style={{color:"var(--t3)"}}>Política de Privacidade</button>
             <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--t3)"}}>Livro de Reclamações</a>

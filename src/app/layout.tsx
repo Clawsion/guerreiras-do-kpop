@@ -200,7 +200,7 @@ export default function RootLayout({
             "logo": "https://www.guerreirasdokpop.com/poster.webp",
             "description": "Tributo musical K-Pop ao vivo em Portugal. Concertos em Cascais, Costa da Caparica e Sesimbra 2026.",
             "sameAs": [
-              "https://www.instagram.com/guerreirasdokpop",
+              "https://www.instagram.com/guerreirasdokpop_tributo",
               "https://www.facebook.com/guerreirasdokpop",
               "https://www.youtube.com/@guerreirasdokpop"
             ]
