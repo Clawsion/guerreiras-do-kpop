@@ -1614,22 +1614,41 @@ export default function HomePage() {
         ref={teaserRef as React.RefObject<HTMLElement>}
         className={`teaser-section ${teaserRevealed ? 'revealed' : 'pre-reveal'}`}
       >
-        {/* Background layers */}
-        <div className="teaser-bg-glow" aria-hidden="true"/>
-        <div className="teaser-spotlight teaser-spotlight-1" aria-hidden="true"/>
-        <div className="teaser-spotlight teaser-spotlight-2" aria-hidden="true"/>
+        {/* Stage floor — glossy reflective surface */}
+        <div className="teaser-stage-floor" aria-hidden="true"/>
 
-        {/* Intro overlay: portal + manifesto (cinematic reveal) */}
-        <div className="teaser-intro" aria-hidden="true">
-          <div className="teaser-portal"/>
-          <div className="teaser-manifesto">
-            <span className="teaser-manifesto-line teaser-manifesto-line-1">Em 2026...</span>
-            <span className="teaser-manifesto-line teaser-manifesto-line-2">Sete vozes. Uma noite.</span>
-            <span className="teaser-manifesto-line teaser-manifesto-line-3">O tributo definitivo.</span>
-          </div>
+        {/* Floor edge — thin neon line where floor meets void */}
+        <div className="teaser-floor-edge" aria-hidden="true"/>
+
+        {/* Light spilling upward from groove */}
+        <div className="teaser-groove-glow" aria-hidden="true"/>
+
+        {/* Groove — slot in floor that opens with light */}
+        <div className="teaser-stage-groove" aria-hidden="true"/>
+
+        {/* Marquee bulbs — cinema/stage lights on left side */}
+        <div className="teaser-marquee teaser-marquee-left" aria-hidden="true">
+          {Array.from({length: 14}).map((_, i) => (
+            <span
+              key={`bulb-l-${i}`}
+              className="teaser-bulb"
+              style={{ animationDelay: `${(i * 0.18).toFixed(2)}s` } as React.CSSProperties}
+            />
+          ))}
         </div>
 
-        {/* Main content (always rendered; CSS controls visibility) */}
+        {/* Marquee bulbs — cinema/stage lights on right side */}
+        <div className="teaser-marquee teaser-marquee-right" aria-hidden="true">
+          {Array.from({length: 14}).map((_, i) => (
+            <span
+              key={`bulb-r-${i}`}
+              className="teaser-bulb"
+              style={{ animationDelay: `${(i * 0.18 + 0.5).toFixed(2)}s` } as React.CSSProperties}
+            />
+          ))}
+        </div>
+
+        {/* Main content */}
         <div className="teaser-grid">
           <aside className="teaser-side teaser-side-left" aria-hidden="true">
             <div className="teaser-side-inner"></div>
@@ -1643,81 +1662,67 @@ export default function HomePage() {
             </Rv>
 
             <Rv delay={120}>
-              <div className="teaser-video-wrap">
-                <video
-                  className="teaser-video"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="auto"
-                  poster="/poster.webp"
-                  id="teaser-video-el"
-                  key="teaser-golden-v3"
-                >
-                  <source src="/teaser.mp4?v=golden3" type="video/mp4" />
-                </video>
+              {/* Stage — container that clips the rising panel */}
+              <div className="teaser-stage">
+                {/* Video panel — rises from below like elevator */}
+                <div className="teaser-video-panel">
+                  <div className="teaser-video-wrap">
+                    <video
+                      className="teaser-video"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="auto"
+                      poster="/poster.webp"
+                      id="teaser-video-el"
+                      key="teaser-golden-v4"
+                    >
+                      <source src="/teaser.mp4?v=golden4" type="video/mp4" />
+                    </video>
 
-                {/* Moldura neon fina pulsátil */}
-                <div className="teaser-neon-frame" aria-hidden="true"/>
+                    {/* Static elegant frame */}
+                    <div className="teaser-video-frame" aria-hidden="true"/>
 
-                {/* Golden embers — partículas douradas a subir (referência a "Golden") */}
-                <div className="teaser-embers" aria-hidden="true">
-                  {Array.from({length: 20}).map((_, i) => {
-                    const left = (i * 5 + Math.random() * 3) % 100;
-                    const delay = (Math.random() * 8).toFixed(2);
-                    const duration = (6 + Math.random() * 4).toFixed(2);
-                    const size = (2 + Math.random() * 3).toFixed(1);
-                    return (
-                      <span
-                        key={i}
-                        className="teaser-ember"
-                        style={{
-                          left: `${left}%`,
-                          animationDelay: `${delay}s`,
-                          animationDuration: `${duration}s`,
-                          width: `${size}px`,
-                          height: `${size}px`,
-                        } as React.CSSProperties}
-                      />
-                    );
-                  })}
+                    {/* Botão mute/unmute */}
+                    <button
+                      className="teaser-mute-btn"
+                      onClick={() => {
+                        const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
+                        if (v) {
+                          v.muted = !v.muted;
+                          if (!v.muted) {
+                            v.volume = 1.0;
+                            v.play().catch(() => {});
+                          }
+                          const btn = document.querySelector('.teaser-mute-btn');
+                          if (btn) {
+                            btn.classList.toggle('unmuted', !v.muted);
+                          }
+                        }
+                      }}
+                      aria-label="Ativar som"
+                    >
+                      <span className="teaser-mute-icon-muted">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                          <line x1="23" y1="9" x2="17" y2="15"/>
+                          <line x1="17" y1="9" x2="23" y2="15"/>
+                        </svg>
+                      </span>
+                      <span className="teaser-mute-icon-unmuted">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
                 </div>
 
-                {/* Botão mute/unmute */}
-                <button
-                  className="teaser-mute-btn"
-                  onClick={() => {
-                    const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
-                    if (v) {
-                      v.muted = !v.muted;
-                      if (!v.muted) {
-                        v.volume = 1.0;
-                        v.play().catch(() => {});
-                      }
-                      const btn = document.querySelector('.teaser-mute-btn');
-                      if (btn) {
-                        btn.classList.toggle('unmuted', !v.muted);
-                      }
-                    }
-                  }}
-                  aria-label="Ativar som"
-                >
-                  <span className="teaser-mute-icon-muted">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                      <line x1="23" y1="9" x2="17" y2="15"/>
-                      <line x1="17" y1="9" x2="23" y2="15"/>
-                    </svg>
-                  </span>
-                  <span className="teaser-mute-icon-unmuted">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-                    </svg>
-                  </span>
-                </button>
+                {/* Reflection — glossy floor reflection below video */}
+                <div className="teaser-video-reflection" aria-hidden="true"/>
               </div>
             </Rv>
 
