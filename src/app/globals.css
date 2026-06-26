@@ -10719,22 +10719,7 @@ img { max-width: 100%; height: auto; }
    - .teaser-curtain-inner: faz o SWAY via animation (skewX + rotate + translateX)
    Isto permite que as duas animações coexistam sem conflito.
 */
-.teaser-curtains {
-  position: absolute;
-  /* Centrado ao vídeo (mesma largura do .teaser-center) */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  max-width: 380px;
-  /* Altura suficiente para cobrir vídeo + título + subtítulo */
-  height: 80%;
-  max-height: 700px;
-  z-index: 20;
-  pointer-events: none;
-  overflow: hidden;
-  border-radius: 14px;
-}
+/* (removido duplicado: .teaser-curtains velho) */
 
 /* Vara superior (curtain rod) — dourado envelhecido */
 .teaser-curtain-rod {
@@ -11120,30 +11105,7 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ─── Subtítulo ─── */
-.teaser-subtitle {
-  margin: 0;
-  text-align: center;
-  font-family: var(--font-display, inherit);
-  font-size: clamp(0.95rem, 2vw, 1.3rem);
-  font-weight: 500;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  text-indent: 0.32em;
-  line-height: 1.4;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.2em;
-  color: rgba(255, 245, 255, 0.92);
-  text-shadow:
-    0 0 3px rgba(255, 255, 255, 0.8),
-    0 0 9px rgba(200, 80, 255, 0.75),
-    0 0 22px rgba(200, 80, 255, 0.55),
-    0 0 42px rgba(168, 85, 247, 0.35);
-  /* Fade-in automático */
-  animation: teaser-fade-in 1s ease 0.8s both;
-}
+/* (removido duplicado: .teaser-subtitle velho) */
 
 .teaser-subtitle::before,
 .teaser-subtitle::after {
@@ -11233,31 +11195,7 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ─── Subtítulo "— O Grande Tributo ao Vivo —" (mantido) ─── */
-.teaser-subtitle {
-  margin: 0;
-  text-align: center;
-  font-family: var(--font-display, inherit);
-  font-size: clamp(0.95rem, 2vw, 1.3rem);
-  font-weight: 500;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  text-indent: 0.32em;
-  line-height: 1.4;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.2em;
-  color: rgba(255, 245, 255, 0.92);
-  text-shadow:
-    0 0 3px rgba(255, 255, 255, 0.8),
-    0 0 9px rgba(200, 80, 255, 0.75),
-    0 0 22px rgba(200, 80, 255, 0.55),
-    0 0 42px rgba(168, 85, 247, 0.35);
-  opacity: 0;
-  transform: translateY(20px);
-  animation: teaser-fade-up 1s ease 2.6s forwards;
-}
+/* (removido duplicado: .teaser-subtitle velho) */
 
 .teaser-subtitle::before,
 .teaser-subtitle::after {
@@ -11349,31 +11287,7 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ─── Subtítulo "— O Grande Tributo ao Vivo —" (mantido) ─── */
-.teaser-subtitle {
-  margin: 0;
-  text-align: center;
-  font-family: var(--font-display, inherit);
-  font-size: clamp(0.95rem, 2vw, 1.3rem);
-  font-weight: 500;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  text-indent: 0.32em;
-  line-height: 1.4;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.2em;
-  color: rgba(255, 245, 255, 0.92);
-  text-shadow:
-    0 0 3px rgba(255, 255, 255, 0.8),
-    0 0 9px rgba(200, 80, 255, 0.75),
-    0 0 22px rgba(200, 80, 255, 0.55),
-    0 0 42px rgba(168, 85, 247, 0.35);
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 1s ease 2.6s, transform 1s ease 2.6s;
-}
+/* (removido duplicado: .teaser-subtitle velho) */
 
 .teaser-section.revealed .teaser-subtitle {
   opacity: 1;
@@ -11469,28 +11383,7 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ─── Subtítulo "— O Grande Tributo ao Vivo —" ─── */
-.teaser-subtitle {
-  margin: 0;
-  text-align: center;
-  font-family: var(--font-display, inherit);
-  font-size: clamp(0.95rem, 2vw, 1.3rem);
-  font-weight: 500;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  text-indent: 0.32em;
-  line-height: 1.4;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.2em;
-  color: rgba(255, 245, 255, 0.92);
-  text-shadow:
-    0 0 3px rgba(255, 255, 255, 0.8),
-    0 0 9px rgba(200, 80, 255, 0.75),
-    0 0 22px rgba(200, 80, 255, 0.55),
-    0 0 42px rgba(168, 85, 247, 0.35);
-}
+/* (removido duplicado: .teaser-subtitle velho) */
 
 .teaser-subtitle::before,
 .teaser-subtitle::after {
@@ -11600,29 +11493,7 @@ img { max-width: 100%; height: auto; }
    Soft neon glow (igual ao título mas mais subtil) + traços decorativos dos lados
    Layout: — traço | texto centrado | traço —
 */
-.teaser-subtitle {
-  margin: 0;
-  text-align: center;
-  font-family: var(--font-display, inherit);
-  font-size: clamp(0.95rem, 2vw, 1.3rem);
-  font-weight: 500;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  text-indent: 0.32em;
-  line-height: 1.4;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.2em;
-  /* Soft neon glow — subtil mas presente */
-  color: rgba(255, 245, 255, 0.92);
-  text-shadow:
-    0 0 3px rgba(255, 255, 255, 0.8),
-    0 0 9px rgba(200, 80, 255, 0.75),
-    0 0 22px rgba(200, 80, 255, 0.55),
-    0 0 42px rgba(168, 85, 247, 0.35);
-}
+/* (removido duplicado: .teaser-subtitle velho) */
 
 /* Traços decorativos à esquerda e direita do texto */
 .teaser-subtitle::before,
