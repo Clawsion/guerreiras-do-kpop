@@ -10046,8 +10046,10 @@ img { max-width: 100%; height: auto; }
 /* SEO build Mon Jun 22 02:37:03 UTC 2026 */
 
 /* ══════════════════════════════════════════════════════════════════════
- * ═══ TEASER — Stage Floor + Rising Panel (elevator from underground) ═══
- * Painel de vídeo sobe do chão como um elevador vindo de baixo do solo
+ * ═══ TEASER — Cristal mirror floor + rising panel ═══
+ * Moldura vertical, cinza escuro com glow púrpura subtil
+ * Chão de cristal espelhado (reflexo do painel)
+ * Painel sobe do chão (CSS animation, não depende de JS)
  * ══════════════════════════════════════════════════════════════════════ */
 
 .teaser-section {
@@ -10060,6 +10062,32 @@ img { max-width: 100%; height: auto; }
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ─── Background atmospheric glow (neon púrpura/rosa) ─── */
+.teaser-bg-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 900px; height: 700px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at center,
+      rgba(200, 80, 255, 0.15) 0%,
+      rgba(168, 85, 247, 0.10) 30%,
+      rgba(120, 60, 200, 0.05) 55%,
+      transparent 75%);
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(70px);
+}
+
+.light-mode .teaser-bg-glow {
+  background:
+    radial-gradient(ellipse at center,
+      rgba(147, 51, 234, 0.12) 0%,
+      rgba(168, 85, 247, 0.06) 30%,
+      transparent 70%);
 }
 
 /* ─── Layout: 3 colunas ─── */
@@ -10076,7 +10104,7 @@ img { max-width: 100%; height: auto; }
   width: 100%;
 }
 
-/* Slots laterais (vazios — decoração fica nas marquee bulbs) */
+/* Slots laterais */
 .teaser-side { position: relative; min-height: 200px; }
 .teaser-side-left  { text-align: right; }
 .teaser-side-right { text-align: left; }
@@ -10126,14 +10154,14 @@ img { max-width: 100%; height: auto; }
   text-transform: uppercase;
   line-height: 1.1;
   position: relative;
+  /* Fade in após painel subir */
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 1s ease 2.2s, transform 1s ease 2.2s;
+  animation: teaser-fade-up 1s ease 2.2s forwards;
 }
 
-.teaser-section.revealed .teaser-title {
-  opacity: 1;
-  transform: translateY(0);
+@keyframes teaser-fade-up {
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .teaser-title-shimmer {
@@ -10183,142 +10211,7 @@ img { max-width: 100%; height: auto; }
     drop-shadow(0 0 12px rgba(147, 51, 234, 0.30));
 }
 
-/* ═══ STAGE FLOOR (glossy reflective surface) ═══ */
-.teaser-stage-floor {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 32%;
-  background:
-    /* Glossy sheen */
-    linear-gradient(to bottom,
-      rgba(20, 10, 35, 0) 0%,
-      rgba(15, 8, 25, 0.5) 25%,
-      rgba(10, 5, 18, 0.92) 60%,
-      rgba(5, 3, 10, 1) 100%),
-    /* Subtle horizontal highlight */
-    radial-gradient(ellipse at 50% 0%,
-      rgba(200, 80, 255, 0.06) 0%,
-      transparent 60%);
-  z-index: 1;
-  pointer-events: none;
-}
-
-.light-mode .teaser-stage-floor {
-  background:
-    linear-gradient(to bottom,
-      rgba(240, 230, 250, 0) 0%,
-      rgba(230, 220, 240, 0.5) 25%,
-      rgba(220, 210, 235, 0.92) 60%,
-      rgba(210, 200, 230, 1) 100%),
-    radial-gradient(ellipse at 50% 0%,
-      rgba(147, 51, 234, 0.08) 0%,
-      transparent 60%);
-}
-
-/* ═══ FLOOR EDGE — thin neon line where floor meets void ═══ */
-.teaser-floor-edge {
-  position: absolute;
-  bottom: 32%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(200, 80, 255, 0.4) 15%,
-    rgba(200, 80, 255, 0.85) 50%,
-    rgba(200, 80, 255, 0.4) 85%,
-    transparent 100%);
-  z-index: 6;
-  box-shadow:
-    0 0 8px rgba(200, 80, 255, 0.5),
-    0 0 18px rgba(200, 80, 255, 0.3);
-  opacity: 0;
-  transition: opacity 1.2s ease 0.5s;
-}
-
-.teaser-section.revealed .teaser-floor-edge { opacity: 1; }
-
-.light-mode .teaser-floor-edge {
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(147, 51, 234, 0.5) 15%,
-    rgba(147, 51, 234, 0.9) 50%,
-    rgba(147, 51, 234, 0.5) 85%,
-    transparent 100%);
-  box-shadow:
-    0 0 8px rgba(147, 51, 234, 0.5),
-    0 0 18px rgba(147, 51, 234, 0.3);
-}
-
-/* ═══ GROOVE — slot in floor that opens ═══ */
-.teaser-stage-groove {
-  position: absolute;
-  bottom: 32%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 3px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(255, 220, 100, 0.95) 20%,
-    #FFD700 50%,
-    rgba(255, 220, 100, 0.95) 80%,
-    transparent 100%);
-  box-shadow:
-    0 0 12px rgba(255, 215, 0, 0.85),
-    0 0 28px rgba(255, 215, 0, 0.55),
-    0 0 60px rgba(200, 80, 255, 0.35);
-  z-index: 7;
-  transition: width 1.2s cubic-bezier(0.65, 0, 0.35, 1) 0.3s;
-  border-radius: 2px;
-}
-
-.teaser-section.revealed .teaser-stage-groove { width: 300px; }
-
-.light-mode .teaser-stage-groove {
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(180, 140, 50, 0.95) 20%,
-    #B8860B 50%,
-    rgba(180, 140, 50, 0.95) 80%,
-    transparent 100%);
-  box-shadow:
-    0 0 12px rgba(180, 140, 50, 0.7),
-    0 0 28px rgba(180, 140, 50, 0.4),
-    0 0 60px rgba(147, 51, 234, 0.25);
-}
-
-/* ═══ GROOVE GLOW — light spilling upward from the slot ═══ */
-.teaser-groove-glow {
-  position: absolute;
-  bottom: 28%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 380px;
-  height: 100px;
-  background: radial-gradient(ellipse at center bottom,
-    rgba(255, 215, 0, 0.35) 0%,
-    rgba(200, 80, 255, 0.20) 35%,
-    transparent 70%);
-  z-index: 2;
-  opacity: 0;
-  transition: opacity 1.2s ease 0.5s;
-  filter: blur(18px);
-  pointer-events: none;
-}
-
-.teaser-section.revealed .teaser-groove-glow { opacity: 1; }
-
-.light-mode .teaser-groove-glow {
-  background: radial-gradient(ellipse at center bottom,
-    rgba(180, 140, 50, 0.30) 0%,
-    rgba(147, 51, 234, 0.15) 35%,
-    transparent 70%);
-}
-
-/* ═══ STAGE — container that clips the rising panel ═══ */
+/* ═══ STAGE — container with overflow:hidden that clips the rising panel ═══ */
 .teaser-stage {
   position: relative;
   width: 100%;
@@ -10327,34 +10220,48 @@ img { max-width: 100%; height: auto; }
   overflow: hidden;
   border-radius: 14px;
   background: #000;
-  /* Subtle inner depth */
+  /* MOLDURA: cinza escuro com glow púrpura subtil (estilo imagem referência) */
   box-shadow:
-    0 0 0 1px rgba(200, 80, 255, 0.18),
-    0 25px 70px rgba(11, 8, 19, 0.7),
+    0 0 0 1px rgba(60, 50, 80, 0.6),
+    0 0 0 2px rgba(200, 80, 255, 0.18),
+    0 20px 60px rgba(11, 8, 19, 0.7),
     0 0 30px rgba(200, 80, 255, 0.10);
 }
 
 .light-mode .teaser-stage {
   box-shadow:
-    0 0 0 1px rgba(147, 51, 234, 0.30),
+    0 0 0 1px rgba(80, 60, 120, 0.5),
+    0 0 0 2px rgba(147, 51, 234, 0.25),
     0 20px 50px rgba(80, 50, 120, 0.20),
     0 0 24px rgba(147, 51, 234, 0.18);
 }
 
-/* ═══ VIDEO PANEL — rises from below like an elevator ═══ */
+/* ═══ VIDEO PANEL — rises from below via CSS animation (reliable) ═══
+   SEMPRE visível. Animação 'teaser-panel-rise' corre automaticamente
+   quando o elemento é montado, não depende de classes via JS.
+*/
 .teaser-video-panel {
   position: absolute;
   inset: 0;
-  transform: translateY(120%);
-  opacity: 0;
-  transition:
-    transform 2s cubic-bezier(0.22, 1, 0.36, 1) 1s,
-    opacity 1.2s ease 1.2s;
+  /* Animação de subida — corre automaticamente no mount */
+  animation: teaser-panel-rise 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
 }
 
-.teaser-section.revealed .teaser-video-panel {
-  transform: translateY(0);
-  opacity: 1;
+@keyframes teaser-panel-rise {
+  0% {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .teaser-video-wrap {
@@ -10379,50 +10286,227 @@ img { max-width: 100%; height: auto; }
   border-radius: 14px;
   pointer-events: none;
   z-index: 4;
-  border: 1px solid rgba(200, 80, 255, 0.25);
+  border: 1px solid rgba(200, 80, 255, 0.20);
   box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.4);
 }
 
 .light-mode .teaser-video-frame {
-  border-color: rgba(147, 51, 234, 0.35);
+  border-color: rgba(147, 51, 234, 0.30);
 }
 
-/* ═══ VIDEO REFLECTION — glossy floor reflection below video ═══ */
+/* ═══ CRISTAL MIRROR FLOOR — chão de cristal espelhado ═══ */
+.teaser-stage-floor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  /* Cristal: gradiente vertical com brilho subtil + reflexo */
+  background:
+    /* Sheen: brilho cristalino no topo do chão */
+    linear-gradient(to bottom,
+      rgba(180, 140, 220, 0.18) 0%,
+      rgba(120, 80, 180, 0.10) 8%,
+      rgba(40, 25, 70, 0.30) 25%,
+      rgba(15, 10, 30, 0.85) 60%,
+      rgba(5, 3, 15, 1) 100%),
+    /* Horizontal highlight: efeito de superfície polida */
+    linear-gradient(90deg,
+      transparent 0%,
+      rgba(200, 80, 255, 0.04) 20%,
+      rgba(255, 255, 255, 0.06) 50%,
+      rgba(200, 80, 255, 0.04) 80%,
+      transparent 100%);
+  z-index: 1;
+  pointer-events: none;
+  /* Reflexo do conteúdo acima (mirror) — usado em conjunto com a div de reflexo */
+}
+
+.light-mode .teaser-stage-floor {
+  background:
+    linear-gradient(to bottom,
+      rgba(230, 210, 245, 0.25) 0%,
+      rgba(200, 180, 230, 0.15) 8%,
+      rgba(180, 160, 210, 0.30) 25%,
+      rgba(160, 140, 195, 0.85) 60%,
+      rgba(140, 120, 175, 1) 100%),
+    linear-gradient(90deg,
+      transparent 0%,
+      rgba(147, 51, 234, 0.06) 20%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(147, 51, 234, 0.06) 80%,
+      transparent 100%);
+}
+
+/* ═══ FLOOR EDGE — linha subtil onde o chão encontra o vazio ═══ */
+.teaser-floor-edge {
+  position: absolute;
+  bottom: 35%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200, 80, 255, 0.5) 25%,
+    rgba(255, 200, 100, 0.85) 50%,
+    rgba(200, 80, 255, 0.5) 75%,
+    transparent 100%);
+  z-index: 6;
+  box-shadow:
+    0 0 6px rgba(200, 80, 255, 0.5),
+    0 0 14px rgba(200, 80, 255, 0.3),
+    0 0 30px rgba(255, 200, 100, 0.2);
+  opacity: 0;
+  animation: teaser-edge-appear 1.2s ease 0.3s forwards;
+}
+
+@keyframes teaser-edge-appear {
+  to { opacity: 1; }
+}
+
+.light-mode .teaser-floor-edge {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(147, 51, 234, 0.6) 25%,
+    rgba(180, 140, 50, 0.85) 50%,
+    rgba(147, 51, 234, 0.6) 75%,
+    transparent 100%);
+  box-shadow:
+    0 0 6px rgba(147, 51, 234, 0.5),
+    0 0 14px rgba(147, 51, 234, 0.3),
+    0 0 30px rgba(180, 140, 50, 0.2);
+}
+
+/* ═══ GROOVE — ranhura no chão que abre ═══ */
+.teaser-stage-groove {
+  position: absolute;
+  bottom: 35%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 220, 100, 0.95) 20%,
+    #FFD700 50%,
+    rgba(255, 220, 100, 0.95) 80%,
+    transparent 100%);
+  box-shadow:
+    0 0 12px rgba(255, 215, 0, 0.85),
+    0 0 28px rgba(255, 215, 0, 0.55),
+    0 0 60px rgba(200, 80, 255, 0.35);
+  z-index: 7;
+  border-radius: 2px;
+  animation: teaser-groove-open 1.2s cubic-bezier(0.65, 0, 0.35, 1) 0.3s forwards;
+}
+
+@keyframes teaser-groove-open {
+  to { width: 300px; }
+}
+
+.light-mode .teaser-stage-groove {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(180, 140, 50, 0.95) 20%,
+    #B8860B 50%,
+    rgba(180, 140, 50, 0.95) 80%,
+    transparent 100%);
+  box-shadow:
+    0 0 12px rgba(180, 140, 50, 0.7),
+    0 0 28px rgba(180, 140, 50, 0.4),
+    0 0 60px rgba(147, 51, 234, 0.25);
+}
+
+/* ═══ GROOVE GLOW — luz a derramar para cima da ranhura ═══ */
+.teaser-groove-glow {
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 380px;
+  height: 100px;
+  background: radial-gradient(ellipse at center bottom,
+    rgba(255, 215, 0, 0.30) 0%,
+    rgba(200, 80, 255, 0.20) 35%,
+    transparent 70%);
+  z-index: 2;
+  opacity: 0;
+  filter: blur(18px);
+  pointer-events: none;
+  animation: teaser-glow-appear 1.2s ease 0.5s forwards;
+}
+
+@keyframes teaser-glow-appear {
+  to { opacity: 1; }
+}
+
+.light-mode .teaser-groove-glow {
+  background: radial-gradient(ellipse at center bottom,
+    rgba(180, 140, 50, 0.25) 0%,
+    rgba(147, 51, 234, 0.15) 35%,
+    transparent 70%);
+}
+
+/* ═══ VIDEO REFLECTION — reflexo do painel no chão de cristal ═══
+   Importante: este é o reflexo VISUAL do painel, criado via espelho
+   do próprio conteúdo do stage (pseudo-elemento ::after no stage).
+*/
 .teaser-video-reflection {
   position: absolute;
   top: 100%;
   left: 0;
   right: 0;
-  height: 50%;
-  background: linear-gradient(to bottom,
-    rgba(200, 80, 255, 0.18) 0%,
-    rgba(15, 8, 25, 0.4) 40%,
-    transparent 100%);
+  height: 60%;
+  /* Reflexo do conteúdo do stage: usar background-image com gradiente
+     que sugere o painel refletido */
+  background:
+    linear-gradient(to bottom,
+      rgba(40, 20, 70, 0.50) 0%,
+      rgba(20, 10, 40, 0.30) 25%,
+      rgba(10, 5, 25, 0.10) 60%,
+      transparent 100%),
+    /* Highlight diagonal: efeito de cristal polido */
+    linear-gradient(115deg,
+      transparent 30%,
+      rgba(200, 80, 255, 0.10) 45%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(200, 80, 255, 0.10) 55%,
+      transparent 70%);
   transform: scaleY(-1);
   transform-origin: top;
   opacity: 0;
-  filter: blur(2px);
+  filter: blur(2.5px);
   pointer-events: none;
   z-index: 5;
-  transition: opacity 1.5s ease 2.5s;
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
-  mask-image: linear-gradient(to bottom, black 0%, transparent 80%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 75%);
+  mask-image: linear-gradient(to bottom, black 0%, transparent 75%);
+  animation: teaser-reflection-appear 1.5s ease 2.5s forwards;
 }
 
-.teaser-section.revealed .teaser-video-reflection { opacity: 0.55; }
+@keyframes teaser-reflection-appear {
+  to { opacity: 0.65; }
+}
 
 .light-mode .teaser-video-reflection {
-  background: linear-gradient(to bottom,
-    rgba(147, 51, 234, 0.22) 0%,
-    rgba(230, 220, 240, 0.5) 40%,
-    transparent 100%);
+  background:
+    linear-gradient(to bottom,
+      rgba(180, 160, 210, 0.45) 0%,
+      rgba(200, 180, 230, 0.25) 25%,
+      rgba(220, 200, 240, 0.10) 60%,
+      transparent 100%),
+    linear-gradient(115deg,
+      transparent 30%,
+      rgba(147, 51, 234, 0.10) 45%,
+      rgba(255, 255, 255, 0.10) 50%,
+      rgba(147, 51, 234, 0.10) 55%,
+      transparent 70%);
 }
 
 /* ═══ MARQUEE BULBS — cinema/stage lights on left and right ═══ */
 .teaser-marquee {
   position: absolute;
-  top: 20%;
-  bottom: 35%;
+  top: 15%;
+  bottom: 38%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -10445,11 +10529,7 @@ img { max-width: 100%; height: auto; }
     0 0 0 1px rgba(200, 80, 255, 0.18);
   transition: all 0.3s ease;
   opacity: 0.4;
-}
-
-.teaser-section.revealed .teaser-bulb {
-  opacity: 1;
-  animation: teaser-bulb-chase 2.8s ease-in-out infinite;
+  animation: teaser-bulb-chase 2.8s ease-in-out 2.8s infinite;
 }
 
 @keyframes teaser-bulb-chase {
@@ -10493,8 +10573,8 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-.light-mode .teaser-section.revealed .teaser-bulb {
-  animation: teaser-bulb-chase-day 2.8s ease-in-out infinite;
+.light-mode .teaser-bulb {
+  animation: teaser-bulb-chase-day 2.8s ease-in-out 2.8s infinite;
 }
 
 /* ─── Botão mute/unmute (mantido) ─── */
@@ -10544,6 +10624,122 @@ img { max-width: 100%; height: auto; }
   background: rgba(147, 51, 234, 0.18);
   border-color: rgba(147, 51, 234, 0.7);
   color: #4c1d95;
+}
+
+/* ─── Subtítulo "— O Grande Tributo ao Vivo —" (mantido) ─── */
+.teaser-subtitle {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display, inherit);
+  font-size: clamp(0.95rem, 2vw, 1.3rem);
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  text-indent: 0.32em;
+  line-height: 1.4;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2em;
+  color: rgba(255, 245, 255, 0.92);
+  text-shadow:
+    0 0 3px rgba(255, 255, 255, 0.8),
+    0 0 9px rgba(200, 80, 255, 0.75),
+    0 0 22px rgba(200, 80, 255, 0.55),
+    0 0 42px rgba(168, 85, 247, 0.35);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: teaser-fade-up 1s ease 2.6s forwards;
+}
+
+.teaser-subtitle::before,
+.teaser-subtitle::after {
+  content: "";
+  display: block;
+  width: clamp(24px, 4vw, 48px);
+  height: 1px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 3px rgba(200, 80, 255, 0.5));
+}
+
+.teaser-subtitle::before {
+  background: linear-gradient(90deg, transparent 0%, rgba(200, 80, 255, 0.7) 100%);
+}
+.teaser-subtitle::after {
+  background: linear-gradient(90deg, rgba(200, 80, 255, 0.7) 0%, transparent 100%);
+}
+
+.light-mode .teaser-subtitle {
+  color: rgba(60, 20, 100, 0.92);
+  text-shadow:
+    0 0 3px rgba(147, 51, 234, 0.45),
+    0 0 8px rgba(147, 51, 234, 0.5),
+    0 0 20px rgba(147, 51, 234, 0.30);
+}
+
+.light-mode .teaser-subtitle::before {
+  background: linear-gradient(90deg, transparent 0%, rgba(147, 51, 234, 0.8) 100%);
+  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
+}
+.light-mode .teaser-subtitle::after {
+  background: linear-gradient(90deg, rgba(147, 51, 234, 0.8) 0%, transparent 100%);
+  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
+}
+
+/* ─── Hint ─── */
+.teaser-hint {
+  margin: 0;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--t3, #888);
+  opacity: 0;
+  font-weight: 400;
+  animation: teaser-hint-appear 1s ease 3s forwards;
+}
+
+@keyframes teaser-hint-appear {
+  to { opacity: 0.65; }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 900px) {
+  .teaser-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .teaser-side { display: none; }
+  .teaser-center { gap: 1.2rem; }
+  .teaser-marquee { padding: 0 4px; }
+  .teaser-marquee-left  { left: 2%; }
+  .teaser-marquee-right { right: 2%; }
+  .teaser-bulb { width: 6px; height: 6px; }
+  .teaser-bulb:nth-child(odd) { display: none; }
+}
+
+@media (max-width: 480px) {
+  .teaser-section { padding: 3.5rem 0 4.5rem; min-height: 80vh; }
+  .teaser-stage { max-width: 280px; }
+  .teaser-title { letter-spacing: 0.10em; }
+  .teaser-subtitle { letter-spacing: 0.28em; }
+}
+
+/* Acessibilidade: respeitar prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .teaser-video-panel,
+  .teaser-title,
+  .teaser-subtitle,
+  .teaser-hint,
+  .teaser-video-reflection,
+  .teaser-floor-edge,
+  .teaser-stage-groove,
+  .teaser-groove-glow {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .teaser-stage-groove { width: 300px !important; }
+  .teaser-bulb { animation: none !important; }
+  .teaser-title-shimmer { animation: none; }
 }
 
 /* ─── Subtítulo "— O Grande Tributo ao Vivo —" (mantido) ─── */
