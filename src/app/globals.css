@@ -10497,46 +10497,21 @@ img { max-width: 100%; height: auto; }
   color: #4c1d95;
 }
 
-/* ═══ REFLEXO NEON por baixo do vídeo ═══
-   Linha horizontal simples com glow que se move devagar.
-   Posicionada relativamente ao .teaser-center (logo abaixo do vídeo).
-   Loop 8s: move da esquerda para a direita e volta.
-*/
+
 
 /* Reflexo do streak (pseudo-elemento ::after) */
 
 
-/* ═══ CORTINAS REAIS PREMIUM (secção inteira, com sway + gather) ═══
-   Estrutura: .teaser-curtain (wrapper) > .teaser-curtain-inner
-   - .teaser-curtain: faz a ABERTURA via transition (translateX + scaleX)
-   - .teaser-curtain-inner: faz o SWAY via animation (skewX + rotate + translateX)
-   Isto permite que as duas animações coexistam sem conflito.
-*/
-/* (removido duplicado: .teaser-curtains velho) */
+
+
 
 /* Vara superior (curtain rod) — dourado envelhecido */
 
 /* Ponteiros dourados nas pontas da vara */
 
 /* WRAPPER da cortina — faz a abertura (translateX + scaleX) */
-.teaser-curtain {
-  position: absolute;
-  top: 10px;
-  bottom: 0;
-  width: 60%;
-  transform-origin: 50% 0%;
-  transition: transform 2.8s cubic-bezier(0.5, 0, 0.2, 1) 0.3s;
-  will-change: transform;
-}
 
 /* INNER da cortina — faz o sway (skewX + rotate + translateX) */
-.teaser-curtain-inner {
-  position: absolute;
-  inset: 0;
-  transform-origin: 50% 0%;
-  animation: teaser-curtain-sway 6s ease-in-out infinite;
-  will-change: transform;
-}
 
 @keyframes teaser-curtain-sway {
   0%, 100% { transform: skewX(0deg) rotate(0deg) translateX(0); }
@@ -10549,99 +10524,10 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Cortina esquerda — tecido vermelho vinho (modo noite) */
-.teaser-curtain-left .teaser-curtain-inner {
-  background:
-    /* Dobreas profundas (ciclo 48px, 5 layers) */
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.7) 0px,
-      rgba(255, 100, 100, 0.08) 8px,
-      rgba(0, 0, 0, 0.10) 16px,
-      rgba(255, 100, 100, 0.12) 24px,
-      rgba(0, 0, 0, 0.35) 32px,
-      rgba(0, 0, 0, 0.7) 48px),
-    linear-gradient(115deg,
-      transparent 35%,
-      rgba(255, 200, 200, 0.10) 50%,
-      transparent 65%),
-    linear-gradient(180deg,
-      rgba(0, 0, 0, 0.55) 0%,
-      transparent 10%,
-      transparent 90%,
-      rgba(0, 0, 0, 0.55) 100%),
-    linear-gradient(90deg,
-      transparent 60%,
-      rgba(0, 0, 0, 0.5) 100%),
-    linear-gradient(180deg,
-      #1f0404 0%,
-      #3a0808 18%,
-      #5a1010 38%,
-      #7a1818 50%,
-      #5a1010 62%,
-      #3a0808 82%,
-      #1f0404 100%);
-  box-shadow:
-    inset -25px 0 50px rgba(0, 0, 0, 0.75),
-    inset 0 0 60px rgba(0, 0, 0, 0.4),
-    12px 0 35px rgba(0, 0, 0, 0.7);
-  clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
-}
 
 /* Cortina direita — espelho */
-.teaser-curtain-right .teaser-curtain-inner {
-  background:
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.7) 0px,
-      rgba(255, 100, 100, 0.08) 8px,
-      rgba(0, 0, 0, 0.10) 16px,
-      rgba(255, 100, 100, 0.12) 24px,
-      rgba(0, 0, 0, 0.35) 32px,
-      rgba(0, 0, 0, 0.7) 48px),
-    linear-gradient(245deg,
-      transparent 35%,
-      rgba(255, 200, 200, 0.10) 50%,
-      transparent 65%),
-    linear-gradient(180deg,
-      rgba(0, 0, 0, 0.55) 0%,
-      transparent 10%,
-      transparent 90%,
-      rgba(0, 0, 0, 0.55) 100%),
-    linear-gradient(270deg,
-      transparent 60%,
-      rgba(0, 0, 0, 0.5) 100%),
-    linear-gradient(180deg,
-      #1f0404 0%,
-      #3a0808 18%,
-      #5a1010 38%,
-      #7a1818 50%,
-      #5a1010 62%,
-      #3a0808 82%,
-      #1f0404 100%);
-  box-shadow:
-    inset 25px 0 50px rgba(0, 0, 0, 0.75),
-    inset 0 0 60px rgba(0, 0, 0, 0.4),
-    -12px 0 35px rgba(0, 0, 0, 0.7);
-  clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
-}
 
 /* Penachos dourados no topo das cortinas (borlas ornamentais) */
-.teaser-curtain-inner::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: 0;
-  right: 0;
-  height: 18px;
-  background:
-    repeating-linear-gradient(90deg,
-      transparent 0px,
-      transparent 38px,
-      radial-gradient(ellipse 10px 14px at 50% 30%,
-        #f5d878 0%,
-        #c89a55 50%,
-        #5a3a15 100%) 38px,
-      transparent 48px);
-  pointer-events: none;
-}
 
 /* ESTADO ACTIVO: cortinas abrem (translateX + scaleX = gather) */
 /* Abertura MENOS (60% em vez de 78%) para ficarem mais visíveis no ecrã */
@@ -10654,90 +10540,12 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Modo dia: cortinas roxas elegantes */
-.light-mode .teaser-curtain-left .teaser-curtain-inner {
-  background:
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.6) 0px,
-      rgba(200, 150, 255, 0.10) 8px,
-      rgba(0, 0, 0, 0.10) 16px,
-      rgba(200, 150, 255, 0.14) 24px,
-      rgba(0, 0, 0, 0.30) 32px,
-      rgba(0, 0, 0, 0.6) 48px),
-    linear-gradient(115deg,
-      transparent 35%,
-      rgba(220, 180, 255, 0.12) 50%,
-      transparent 65%),
-    linear-gradient(180deg,
-      rgba(0, 0, 0, 0.45) 0%,
-      transparent 10%,
-      transparent 90%,
-      rgba(0, 0, 0, 0.45) 100%),
-    linear-gradient(90deg,
-      transparent 60%,
-      rgba(0, 0, 0, 0.45) 100%),
-    linear-gradient(180deg,
-      #1a0533 0%,
-      #2a0a4a 18%,
-      #4c1d95 38%,
-      #6d28d9 50%,
-      #4c1d95 62%,
-      #2a0a4a 82%,
-      #1a0533 100%);
-}
-
-.light-mode .teaser-curtain-right .teaser-curtain-inner {
-  background:
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.6) 0px,
-      rgba(200, 150, 255, 0.10) 8px,
-      rgba(0, 0, 0, 0.10) 16px,
-      rgba(200, 150, 255, 0.14) 24px,
-      rgba(0, 0, 0, 0.30) 32px,
-      rgba(0, 0, 0, 0.6) 48px),
-    linear-gradient(245deg,
-      transparent 35%,
-      rgba(220, 180, 255, 0.12) 50%,
-      transparent 65%),
-    linear-gradient(180deg,
-      rgba(0, 0, 0, 0.45) 0%,
-      transparent 10%,
-      transparent 90%,
-      rgba(0, 0, 0, 0.45) 100%),
-    linear-gradient(270deg,
-      transparent 60%,
-      rgba(0, 0, 0, 0.45) 100%),
-    linear-gradient(180deg,
-      #1a0533 0%,
-      #2a0a4a 18%,
-      #4c1d95 38%,
-      #6d28d9 50%,
-      #4c1d95 62%,
-      #2a0a4a 82%,
-      #1a0533 100%);
-}
 
 /* Mobile: abertura menos ainda */
-@media (max-width: 480px) {
-  .teaser-section.active .teaser-curtain-left {
-    transform: translateX(-70%) scaleX(0.30);
-  }
-  .teaser-section.active .teaser-curtain-right {
-    transform: translateX(70%) scaleX(0.30);
-  }
-}
 
 /* ═══ FLASH DO VÍDEO — 1 flash quando cortinas abrem ═══
    Overlay preto sobre o vídeo. Faz 1 flash branco e depois desaparece.
 */
-.teaser-video-flash {
-  position: absolute;
-  inset: 0;
-  background: #000;
-  z-index: 18;
-  pointer-events: none;
-  border-radius: 14px;
-  opacity: 1;
-}
 
 .teaser-section.active .teaser-video-flash {
   animation: teaser-video-single-flash 1.2s ease-out 3s forwards;
@@ -10752,159 +10560,23 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ─── Subtítulo ─── */
-.teaser-subtitle {
-  margin: 0;
-  text-align: center;
-  font-family: var(--font-display, inherit);
-  font-weight: 500;
-  text-transform: uppercase;
-  line-height: 1.15;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.2em;
-  color: rgba(255, 245, 255, 0.92);
-  text-shadow:
-    0 0 3px rgba(255, 255, 255, 0.8),
-    0 0 9px rgba(200, 80, 255, 0.75),
-    0 0 22px rgba(200, 80, 255, 0.55);
-}
 
 /* Linha 1: "O Grande Tributo" — maior */
-.teaser-subtitle-line-1 {
-  font-size: clamp(1.05rem, 2.4vw, 1.55rem);
-  letter-spacing: 0.28em;
-  text-indent: 0.28em;
-  font-weight: 600;
-}
 
 /* Linha 2: "Ao Vivo" — menor, com mais espaçamento */
-.teaser-subtitle-line-2 {
-  font-size: clamp(0.85rem, 1.7vw, 1.1rem);
-  letter-spacing: 0.45em;
-  text-indent: 0.45em;
-  font-weight: 500;
-  opacity: 0.92;
-}
 
 /* Traços decorativos apenas na linha 2 (estilo "— Ao Vivo —") */
-.teaser-subtitle-line-2-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.9em;
-}
-
-.teaser-subtitle-line-2-wrap::before,
-.teaser-subtitle-line-2-wrap::after {
-  content: "";
-  display: block;
-  width: clamp(20px, 3.5vw, 38px);
-  height: 1px;
-  flex-shrink: 0;
-  filter: drop-shadow(0 0 3px rgba(200, 80, 255, 0.5));
-}
-
-.teaser-subtitle-line-2-wrap::before {
-  background: linear-gradient(90deg, transparent 0%, rgba(200, 80, 255, 0.7) 100%);
-}
-.teaser-subtitle-line-2-wrap::after {
-  background: linear-gradient(90deg, rgba(200, 80, 255, 0.7) 0%, transparent 100%);
-}
-
-.light-mode .teaser-subtitle {
-  color: rgba(60, 20, 100, 0.92);
-  text-shadow:
-    0 0 3px rgba(147, 51, 234, 0.45),
-    0 0 8px rgba(147, 51, 234, 0.5),
-    0 0 20px rgba(147, 51, 234, 0.30);
-}
-
-.light-mode .teaser-subtitle-line-2-wrap::before {
-  background: linear-gradient(90deg, transparent 0%, rgba(147, 51, 234, 0.8) 100%);
-  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
-}
-.light-mode .teaser-subtitle-line-2-wrap::after {
-  background: linear-gradient(90deg, rgba(147, 51, 234, 0.8) 0%, transparent 100%);
-  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
-}
 
 /* ─── Hint ─── */
-.teaser-hint {
-  margin: 0;
-  text-align: center;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--t3, #888);
-  opacity: 0.65;
-  font-weight: 400;
-}
 
 /* ─── Mobile ─── */
-@media (max-width: 480px) {
-  .teaser-section { padding: 3.5rem 0 3.5rem; }
-  .teaser-video-wrap { max-width: 280px; }
-  .teaser-title { letter-spacing: 0.10em; }
-  .teaser-subtitle { letter-spacing: 0.28em; }
-  .teaser-neon-streak { width: 80%; }
-}
 
 /* Acessibilidade */
-@media (prefers-reduced-motion: reduce) {
-  .teaser-title-shimmer { animation: none; }
-  .teaser-neon-streak { animation: none; }
-}
 
 /* ─── Subtítulo ─── */
-/* (removido duplicado: .teaser-subtitle velho) */
 
-.teaser-subtitle::before,
-.teaser-subtitle::after {
-  content: "";
-  display: block;
-  width: clamp(24px, 4vw, 48px);
-  height: 1px;
-  flex-shrink: 0;
-  filter: drop-shadow(0 0 3px rgba(200, 80, 255, 0.5));
-}
-
-.teaser-subtitle::before {
-  background: linear-gradient(90deg, transparent 0%, rgba(200, 80, 255, 0.7) 100%);
-}
-.teaser-subtitle::after {
-  background: linear-gradient(90deg, rgba(200, 80, 255, 0.7) 0%, transparent 100%);
-}
-
-.light-mode .teaser-subtitle {
-  color: rgba(60, 20, 100, 0.92);
-  text-shadow:
-    0 0 3px rgba(147, 51, 234, 0.45),
-    0 0 8px rgba(147, 51, 234, 0.5),
-    0 0 20px rgba(147, 51, 234, 0.30);
-}
-
-.light-mode .teaser-subtitle::before {
-  background: linear-gradient(90deg, transparent 0%, rgba(147, 51, 234, 0.8) 100%);
-  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
-}
-.light-mode .teaser-subtitle::after {
-  background: linear-gradient(90deg, rgba(147, 51, 234, 0.8) 0%, transparent 100%);
-  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
-}
 
 /* ─── Hint ─── */
-.teaser-hint {
-  margin: 0;
-  text-align: center;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--t3, #888);
-  font-weight: 400;
-  /* Fade-in automático */
-  animation: teaser-hint-fade-in 1s ease 1.2s both;
-}
 
 @keyframes teaser-hint-fade-in {
   0%   { opacity: 0; }
@@ -10912,505 +10584,67 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ─── Mobile ─── */
-@media (max-width: 900px) {
-  .teaser-grid { grid-template-columns: 1fr; gap: 1rem; }
-  .teaser-side { display: none; }
-  .teaser-center { gap: 1.2rem; }
-  .teaser-marquee { padding: 0 4px; }
-  .teaser-marquee-left  { left: 2%; }
-  .teaser-marquee-right { right: 2%; }
-  .teaser-bulb { width: 6px; height: 6px; }
-  .teaser-bulb:nth-child(odd) { display: none; }
-  .teaser-neon-streak { width: 70%; }
-}
-
-@media (max-width: 480px) {
-  .teaser-section { padding: 3.5rem 0 4.5rem; min-height: 80vh; }
-  .teaser-stage { max-width: 280px; }
-  .teaser-title { letter-spacing: 0.10em; }
-  .teaser-subtitle { letter-spacing: 0.28em; }
-}
 
 /* Acessibilidade: respeitar prefers-reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  .teaser-video-panel,
-  .teaser-title,
-  .teaser-subtitle,
-  .teaser-hint {
-    transition: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .teaser-neon-streak,
-  .teaser-bulb { animation: none !important; opacity: 0.7 !important; }
-  .teaser-title-shimmer { animation: none; }
-}
 
 /* ─── Subtítulo "— O Grande Tributo ao Vivo —" (mantido) ─── */
-/* (removido duplicado: .teaser-subtitle velho) */
 
-.teaser-subtitle::before,
-.teaser-subtitle::after {
-  content: "";
-  display: block;
-  width: clamp(24px, 4vw, 48px);
-  height: 1px;
-  flex-shrink: 0;
-  filter: drop-shadow(0 0 3px rgba(200, 80, 255, 0.5));
-}
-
-.teaser-subtitle::before {
-  background: linear-gradient(90deg, transparent 0%, rgba(200, 80, 255, 0.7) 100%);
-}
-.teaser-subtitle::after {
-  background: linear-gradient(90deg, rgba(200, 80, 255, 0.7) 0%, transparent 100%);
-}
-
-.light-mode .teaser-subtitle {
-  color: rgba(60, 20, 100, 0.92);
-  text-shadow:
-    0 0 3px rgba(147, 51, 234, 0.45),
-    0 0 8px rgba(147, 51, 234, 0.5),
-    0 0 20px rgba(147, 51, 234, 0.30);
-}
-
-.light-mode .teaser-subtitle::before {
-  background: linear-gradient(90deg, transparent 0%, rgba(147, 51, 234, 0.8) 100%);
-  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
-}
-.light-mode .teaser-subtitle::after {
-  background: linear-gradient(90deg, rgba(147, 51, 234, 0.8) 0%, transparent 100%);
-  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
-}
 
 /* ─── Hint ─── */
-.teaser-hint {
-  margin: 0;
-  text-align: center;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--t3, #888);
-  opacity: 0;
-  font-weight: 400;
-  animation: teaser-hint-appear 1s ease 3s forwards;
-}
 
 @keyframes teaser-hint-appear {
   to { opacity: 0.65; }
 }
 
 /* ─── Mobile ─── */
-@media (max-width: 900px) {
-  .teaser-grid { grid-template-columns: 1fr; gap: 1rem; }
-  .teaser-side { display: none; }
-  .teaser-center { gap: 1.2rem; }
-  .teaser-marquee { padding: 0 4px; }
-  .teaser-marquee-left  { left: 2%; }
-  .teaser-marquee-right { right: 2%; }
-  .teaser-bulb { width: 6px; height: 6px; }
-  .teaser-bulb:nth-child(odd) { display: none; }
-}
-
-@media (max-width: 480px) {
-  .teaser-section { padding: 3.5rem 0 4.5rem; min-height: 80vh; }
-  .teaser-stage { max-width: 280px; }
-  .teaser-title { letter-spacing: 0.10em; }
-  .teaser-subtitle { letter-spacing: 0.28em; }
-}
 
 /* Acessibilidade: respeitar prefers-reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  .teaser-video-panel,
-  .teaser-title,
-  .teaser-subtitle,
-  .teaser-hint,
-  .teaser-video-reflection,
-  .teaser-floor-edge,
-  .teaser-stage-groove,
-  .teaser-groove-glow {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .teaser-stage-groove { width: 300px !important; }
-  .teaser-bulb { animation: none !important; }
-  .teaser-title-shimmer { animation: none; }
-}
 
 /* ─── Subtítulo "— O Grande Tributo ao Vivo —" (mantido) ─── */
-/* (removido duplicado: .teaser-subtitle velho) */
+
 
 .teaser-section.revealed .teaser-subtitle {
   opacity: 1;
   transform: translateY(0);
 }
 
-.teaser-subtitle::before,
-.teaser-subtitle::after {
-  content: "";
-  display: block;
-  width: clamp(24px, 4vw, 48px);
-  height: 1px;
-  flex-shrink: 0;
-  filter: drop-shadow(0 0 3px rgba(200, 80, 255, 0.5));
-}
-
-.teaser-subtitle::before {
-  background: linear-gradient(90deg, transparent 0%, rgba(200, 80, 255, 0.7) 100%);
-}
-.teaser-subtitle::after {
-  background: linear-gradient(90deg, rgba(200, 80, 255, 0.7) 0%, transparent 100%);
-}
-
-.light-mode .teaser-subtitle {
-  color: rgba(60, 20, 100, 0.92);
-  text-shadow:
-    0 0 3px rgba(147, 51, 234, 0.45),
-    0 0 8px rgba(147, 51, 234, 0.5),
-    0 0 20px rgba(147, 51, 234, 0.30);
-}
-
-.light-mode .teaser-subtitle::before {
-  background: linear-gradient(90deg, transparent 0%, rgba(147, 51, 234, 0.8) 100%);
-  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
-}
-.light-mode .teaser-subtitle::after {
-  background: linear-gradient(90deg, rgba(147, 51, 234, 0.8) 0%, transparent 100%);
-  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
-}
-
 /* ─── Hint ─── */
-.teaser-hint {
-  margin: 0;
-  text-align: center;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--t3, #888);
-  opacity: 0;
-  font-weight: 400;
-  transition: opacity 1s ease 3s;
-}
 
 .teaser-section.revealed .teaser-hint { opacity: 0.65; }
 
 /* ─── Mobile ─── */
-@media (max-width: 900px) {
-  .teaser-grid { grid-template-columns: 1fr; gap: 1rem; }
-  .teaser-side { display: none; }
-  .teaser-center { gap: 1.2rem; }
-  .teaser-marquee { padding: 0 4px; }
-  .teaser-marquee-left  { left: 2%; }
-  .teaser-marquee-right { right: 2%; }
-  .teaser-bulb { width: 6px; height: 6px; }
-  .teaser-bulb:nth-child(odd) { display: none; }  /* fewer bulbs on mobile */
-}
-
-@media (max-width: 480px) {
-  .teaser-section { padding: 3.5rem 0 4.5rem; min-height: 80vh; }
-  .teaser-stage { max-width: 280px; }
-  .teaser-title { letter-spacing: 0.10em; }
-  .teaser-subtitle { letter-spacing: 0.28em; }
-  .teaser-section.revealed .teaser-stage-groove { width: 240px; }
-}
 
 /* Acessibilidade: respeitar prefers-reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  .teaser-video-panel,
-  .teaser-title,
-  .teaser-subtitle,
-  .teaser-hint,
-  .teaser-video-reflection,
-  .teaser-floor-edge,
-  .teaser-stage-groove,
-  .teaser-groove-glow {
-    transition: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-  .teaser-stage-groove { width: 300px !important; }
-  .teaser-bulb { animation: none !important; }
-  .teaser-title-shimmer { animation: none; }
-}
 
 /* ─── Subtítulo "— O Grande Tributo ao Vivo —" ─── */
-/* (removido duplicado: .teaser-subtitle velho) */
 
-.teaser-subtitle::before,
-.teaser-subtitle::after {
-  content: "";
-  display: block;
-  width: clamp(24px, 4vw, 48px);
-  height: 1px;
-  flex-shrink: 0;
-  filter: drop-shadow(0 0 3px rgba(200, 80, 255, 0.5));
-}
-
-.teaser-subtitle::before {
-  background: linear-gradient(90deg, transparent 0%, rgba(200, 80, 255, 0.7) 100%);
-}
-.teaser-subtitle::after {
-  background: linear-gradient(90deg, rgba(200, 80, 255, 0.7) 0%, transparent 100%);
-}
-
-.light-mode .teaser-subtitle {
-  color: rgba(60, 20, 100, 0.92);
-  text-shadow:
-    0 0 3px rgba(147, 51, 234, 0.45),
-    0 0 8px rgba(147, 51, 234, 0.5),
-    0 0 20px rgba(147, 51, 234, 0.30);
-}
-
-.light-mode .teaser-subtitle::before {
-  background: linear-gradient(90deg, transparent 0%, rgba(147, 51, 234, 0.8) 100%);
-  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
-}
-.light-mode .teaser-subtitle::after {
-  background: linear-gradient(90deg, rgba(147, 51, 234, 0.8) 0%, transparent 100%);
-  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
-}
 
 /* ─── Hint ─── */
-.teaser-hint {
-  margin: 0;
-  text-align: center;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--t3, #888);
-  opacity: 0.65;
-  font-weight: 400;
-}
 
 /* ─── Mobile ─── */
-@media (max-width: 900px) {
-  .teaser-grid { grid-template-columns: 1fr; gap: 1rem; }
-  .teaser-side { display: none; }
-  .teaser-center { gap: 1.2rem; }
-  .teaser-ember:nth-child(n+11) { display: none; }  /* fewer embers on mobile */
-  .teaser-spotlight { width: 80%; }
-}
-
-@media (max-width: 480px) {
-  .teaser-section { padding: 3.5rem 0 3.5rem; min-height: 70vh; }
-  .teaser-video-wrap { max-width: 280px; }
-  .teaser-title { letter-spacing: 0.10em; }
-  .teaser-subtitle { letter-spacing: 0.28em; }
-  .teaser-portal { width: 240px; height: 240px; }
-  .teaser-manifesto-line { letter-spacing: 0.12em; }
-}
 
 /* Acessibilidade: respeitar prefers-reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  /* Grid sempre visível */
-  .teaser-grid {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  /* Esconder intro (manifesto + portal) — não faz sentido sem animação */
-  .teaser-intro {
-    display: none !important;
-  }
-  /* Spotlights: esconder (são animação pura) */
-  .teaser-spotlight {
-    display: none !important;
-  }
-  /* Embers: MANTER visíveis mas estáticos (partículas douradas decorativas) */
-  .teaser-ember {
-    animation: none !important;
-    opacity: 0.5 !important;
-    bottom: auto !important;
-    top: 50% !important;
-  }
-  /* Portal: esconder */
-  .teaser-portal,
-  .teaser-portal::before,
-  .teaser-portal::after {
-    display: none !important;
-  }
-  /* Desativar outras animações */
-  .teaser-title-shimmer,
-  .teaser-neon-frame {
-    animation: none;
-  }
-  .teaser-title-shimmer {
-    background: rgba(220, 130, 255, 0.95);
-    -webkit-text-fill-color: initial;
-    color: rgba(220, 130, 255, 0.95);
-  }
-}
 
 /* ─── Subtítulo "O Grande Tributo ao Vivo" ───
    Soft neon glow (igual ao título mas mais subtil) + traços decorativos dos lados
    Layout: — traço | texto centrado | traço —
 */
-/* (removido duplicado: .teaser-subtitle velho) */
+
 
 /* Traços decorativos à esquerda e direita do texto */
-.teaser-subtitle::before,
-.teaser-subtitle::after {
-  content: "";
-  display: block;
-  width: clamp(24px, 4vw, 48px);
-  height: 1px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(200, 80, 255, 0.7) 50%,
-    transparent 100%);
-  flex-shrink: 0;
-  /* Glow subtil no traço */
-  filter: drop-shadow(0 0 3px rgba(200, 80, 255, 0.5));
-}
-
-.teaser-subtitle::before {
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(200, 80, 255, 0.7) 100%);
-}
-
-.teaser-subtitle::after {
-  background: linear-gradient(90deg,
-    rgba(200, 80, 255, 0.7) 0%,
-    transparent 100%);
-}
 
 /* Modo dia: tons mais escuros para legibilidade em fundo claro */
-.light-mode .teaser-subtitle {
-  color: rgba(60, 20, 100, 0.92);
-  text-shadow:
-    0 0 3px rgba(147, 51, 234, 0.45),
-    0 0 8px rgba(147, 51, 234, 0.5),
-    0 0 20px rgba(147, 51, 234, 0.30);
-}
-
-.light-mode .teaser-subtitle::before,
-.light-mode .teaser-subtitle::after {
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(147, 51, 234, 0.8) 50%,
-    transparent 100%);
-  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
-}
-
-.light-mode .teaser-subtitle::before {
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(147, 51, 234, 0.8) 100%);
-}
-
-.light-mode .teaser-subtitle::after {
-  background: linear-gradient(90deg,
-    rgba(147, 51, 234, 0.8) 0%,
-    transparent 100%);
-}
 
 /* ─── Hint ─── */
-.teaser-hint {
-  margin: 0;
-  text-align: center;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--t3, #888);
-  opacity: 0.65;
-  font-weight: 400;
-}
 
 /* ─── Mobile ─── */
-@media (max-width: 900px) {
-  .teaser-grid { grid-template-columns: 1fr; gap: 1rem; }
-  .teaser-side { display: none; }
-  .teaser-center { gap: 1.2rem; }
-}
-
-@media (max-width: 480px) {
-  .teaser-section { padding: 3.5rem 0 3.5rem; }
-  .teaser-video-wrap { max-width: 280px; }
-  .teaser-title { letter-spacing: 0.10em; }
-  .teaser-subtitle { letter-spacing: 0.28em; }
-}
 
 /* Acessibilidade: respeitar prefers-reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  .teaser-neon-frame,
-  .teaser-subtitle {
-    animation: none;
-  }
-}
 
 /* ─── Subtítulo "O Grande Tributo ao Vivo" ─── */
-.teaser-subtitle {
-  margin: 0;
-  text-align: center;
-  font-family: var(--font-display, inherit);
-  font-size: clamp(0.9rem, 1.8vw, 1.15rem);
-  font-weight: 400;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  text-indent: 0.4em;
-  color: var(--t2, #d8d2cc);
-  position: relative;
-}
-
-.teaser-subtitle::before,
-.teaser-subtitle::after {
-  content: "";
-  display: inline-block;
-  width: 28px;
-  height: 1px;
-  vertical-align: middle;
-  margin: 0 0.9em;
-  background: linear-gradient(90deg, transparent, rgba(200, 80, 255, 0.6), transparent);
-}
-
-.light-mode .teaser-subtitle { color: rgba(60, 20, 100, 0.85); }
-.light-mode .teaser-subtitle::before,
-.light-mode .teaser-subtitle::after {
-  background: linear-gradient(90deg, transparent, rgba(147, 51, 234, 0.6), transparent);
-}
 
 /* ─── Hint "Clica para ouvir" ─── */
-.teaser-hint {
-  margin: 0;
-  text-align: center;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--t3, #888);
-  opacity: 0.65;
-  font-weight: 400;
-}
 
 /* ─── Mobile: layout colapsa para 1 coluna ─── */
-@media (max-width: 900px) {
-  .teaser-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  .teaser-side { display: none; }   /* esconder slots laterais em mobile */
-  .teaser-center { gap: 1.2rem; }
-}
-
-@media (max-width: 480px) {
-  .teaser-section { padding: 3.5rem 0 3.5rem; }
-  .teaser-video-wrap { max-width: 280px; }
-  .teaser-title { letter-spacing: 0.10em; }
-  .teaser-subtitle { letter-spacing: 0.30em; }
-  .teaser-subtitle::before,
-  .teaser-subtitle::after { width: 18px; margin: 0 0.5em; }
-}
 
 /* Respeitar prefers-reduced-motion (acessibilidade) */
-@media (prefers-reduced-motion: reduce) {
-  .teaser-neon-travel,
-  .teaser-neon-path {
-    animation: none;
-  }
-  .teaser-neon-path {
-    stroke-dashoffset: 0;   /* mostrar traço completo estático */
-  }
-  .teaser-neon-travel {
-    display: none;
-  }
-}
