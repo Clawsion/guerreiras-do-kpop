@@ -1612,12 +1612,15 @@ export default function HomePage() {
       <section
         id="teaser"
         ref={teaserRef as React.RefObject<HTMLElement>}
-        className={`teaser-section ${teaserRevealed ? 'revealed' : 'pre-reveal'}`}
+        className="teaser-section"
       >
-        {/* Stage floor — glossy reflective surface */}
+        {/* Background atmospheric glow */}
+        <div className="teaser-bg-glow" aria-hidden="true"/>
+
+        {/* Stage floor — cristal mirror surface */}
         <div className="teaser-stage-floor" aria-hidden="true"/>
 
-        {/* Floor edge — thin neon line where floor meets void */}
+        {/* Floor edge — thin neon line */}
         <div className="teaser-floor-edge" aria-hidden="true"/>
 
         {/* Light spilling upward from groove */}
@@ -1632,7 +1635,7 @@ export default function HomePage() {
             <span
               key={`bulb-l-${i}`}
               className="teaser-bulb"
-              style={{ animationDelay: `${(i * 0.18).toFixed(2)}s` } as React.CSSProperties}
+              style={{ animationDelay: `${(i * 0.18 + 2.8).toFixed(2)}s` } as React.CSSProperties}
             />
           ))}
         </div>
@@ -1643,7 +1646,7 @@ export default function HomePage() {
             <span
               key={`bulb-r-${i}`}
               className="teaser-bulb"
-              style={{ animationDelay: `${(i * 0.18 + 0.5).toFixed(2)}s` } as React.CSSProperties}
+              style={{ animationDelay: `${(i * 0.18 + 3.3).toFixed(2)}s` } as React.CSSProperties}
             />
           ))}
         </div>
@@ -1664,7 +1667,7 @@ export default function HomePage() {
             <Rv delay={120}>
               {/* Stage — container that clips the rising panel */}
               <div className="teaser-stage">
-                {/* Video panel — rises from below like elevator */}
+                {/* Video panel — rises from below via CSS animation */}
                 <div className="teaser-video-panel">
                   <div className="teaser-video-wrap">
                     <video
@@ -1676,9 +1679,9 @@ export default function HomePage() {
                       preload="auto"
                       poster="/poster.webp"
                       id="teaser-video-el"
-                      key="teaser-golden-v4"
+                      key="teaser-golden-v5"
                     >
-                      <source src="/teaser.mp4?v=golden4" type="video/mp4" />
+                      <source src="/teaser.mp4?v=golden5" type="video/mp4" />
                     </video>
 
                     {/* Static elegant frame */}
