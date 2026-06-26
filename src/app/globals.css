@@ -10149,14 +10149,13 @@ img { max-width: 100%; height: auto; }
   text-transform: uppercase;
   line-height: 1.1;
   position: relative;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 1s ease 0.3s, transform 1s ease 0.3s;
+  /* Fade-in automático via CSS animation */
+  animation: teaser-fade-in 1s ease 0.3s both;
 }
 
-.teaser-section.revealed .teaser-title {
-  opacity: 1;
-  transform: translateY(0);
+@keyframes teaser-fade-in {
+  0%   { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 .teaser-title-shimmer {
@@ -10237,16 +10236,16 @@ img { max-width: 100%; height: auto; }
 .teaser-video-panel {
   position: absolute;
   inset: 0;
-  opacity: 0;
-  transform: translateY(30px);
-  transition:
-    opacity 1.2s ease 0.5s,
-    transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.5s;
-}
-
-.teaser-section.revealed .teaser-video-panel {
+  /* DEFAULT: sempre visível (não depende de JS) */
   opacity: 1;
   transform: translateY(0);
+  /* Fade-in opcional via CSS animation (corre automaticamente no mount) */
+  animation: teaser-panel-fade-in 1.5s ease-out both;
+}
+
+@keyframes teaser-panel-fade-in {
+  0%   { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 .teaser-video-wrap {
@@ -10292,12 +10291,11 @@ img { max-width: 100%; height: auto; }
    - 15-16s: move para esquerda
 */
 .teaser-neon-streak {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
+  /* Posicionado como relative (no .teaser-center, não no .teaser-stage) */
+  position: relative;
   width: 60%;
   height: 2px;
-  transform: translateX(-50%);
+  margin: 12px auto 0;
   background: linear-gradient(90deg,
     transparent 0%,
     rgba(200, 80, 255, 0.7) 15%,
@@ -10309,50 +10307,29 @@ img { max-width: 100%; height: auto; }
     0 0 6px rgba(200, 80, 255, 0.85),
     0 0 14px rgba(255, 215, 0, 0.55),
     0 0 28px rgba(200, 80, 255, 0.35);
-  z-index: 8;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 1s ease 1.5s;
-}
-
-.teaser-section.revealed .teaser-neon-streak {
+  /* SEMPRE visível e animado (não depende de .revealed) */
   opacity: 1;
-  animation: teaser-streak-loop 16s cubic-bezier(0.4, 0, 0.2, 1) 1.5s infinite;
+  animation: teaser-streak-loop 16s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 @keyframes teaser-streak-loop {
-  /* esquerda (parada) */
-  0%, 18.75% {
-    transform: translateX(-100%);
-  }
-  /* move para meio */
-  25% {
-    transform: translateX(-50%);
-  }
-  /* meio (parada) */
-  25%, 43.75% {
-    transform: translateX(-50%);
-  }
-  /* move para direita */
-  50% {
-    transform: translateX(0%);
-  }
-  /* direita (parada) */
-  50%, 68.75% {
-    transform: translateX(0%);
-  }
-  /* move para meio */
-  75% {
-    transform: translateX(-50%);
-  }
-  /* meio (parada) */
-  75%, 93.75% {
-    transform: translateX(-50%);
-  }
-  /* move para esquerda (volta ao início) */
-  100% {
-    transform: translateX(-100%);
-  }
+  /* 0-3s: esquerda (parada) */
+  0%, 18.75% { transform: translateX(-100%); }
+  /* 3-4s: move para meio */
+  25% { transform: translateX(-50%); }
+  /* 4-7s: meio (parada) */
+  43.75% { transform: translateX(-50%); }
+  /* 7-8s: move para direita */
+  50% { transform: translateX(0%); }
+  /* 8-11s: direita (parada) */
+  68.75% { transform: translateX(0%); }
+  /* 11-12s: move para meio */
+  75% { transform: translateX(-50%); }
+  /* 12-15s: meio (parada) */
+  93.75% { transform: translateX(-50%); }
+  /* 15-16s: volta para esquerda */
+  100% { transform: translateX(-100%); }
 }
 
 .light-mode .teaser-neon-streak {
@@ -10582,14 +10559,8 @@ img { max-width: 100%; height: auto; }
     0 0 9px rgba(200, 80, 255, 0.75),
     0 0 22px rgba(200, 80, 255, 0.55),
     0 0 42px rgba(168, 85, 247, 0.35);
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 1s ease 0.8s, transform 1s ease 0.8s;
-}
-
-.teaser-section.revealed .teaser-subtitle {
-  opacity: 1;
-  transform: translateY(0);
+  /* Fade-in automático */
+  animation: teaser-fade-in 1s ease 0.8s both;
 }
 
 .teaser-subtitle::before,
@@ -10634,12 +10605,15 @@ img { max-width: 100%; height: auto; }
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--t3, #888);
-  opacity: 0;
   font-weight: 400;
-  transition: opacity 1s ease 1.2s;
+  /* Fade-in automático */
+  animation: teaser-hint-fade-in 1s ease 1.2s both;
 }
 
-.teaser-section.revealed .teaser-hint { opacity: 0.65; }
+@keyframes teaser-hint-fade-in {
+  0%   { opacity: 0; }
+  100% { opacity: 0.65; }
+}
 
 /* ─── Mobile ─── */
 @media (max-width: 900px) {
