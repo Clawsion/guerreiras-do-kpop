@@ -1623,6 +1623,9 @@ export default function HomePage() {
           <div className="teaser-curtain teaser-curtain-right"/>
         </div>
 
+        {/* Overlay da secção — pisca 2x quando cortinas abrem */}
+        <div className="teaser-section-overlay" aria-hidden="true"/>
+
         <div className="teaser-center">
           <h2 className="teaser-title">
             <span className="teaser-title-shimmer">Guerreiras do K-Pop</span>
@@ -1638,9 +1641,9 @@ export default function HomePage() {
               preload="auto"
               poster="/poster.webp"
               id="teaser-video-el"
-              key="teaser-golden-curtains-v3"
+              key="teaser-golden-curtains-v4"
             >
-              <source src="/teaser.mp4?v=goldenCurtains2" type="video/mp4" />
+              <source src="/teaser.mp4?v=goldenCurtains3" type="video/mp4" />
             </video>
 
             <button
