@@ -792,25 +792,49 @@ export default function HomePage() {
     setThemeMode(target);
   }, []);
 
-  // ═══ TEASER: Stage rise animation ═══
-  // Adiciona classe 'rise-active' à secção no mount para triggers
-  // a animação de subida do painel. Se JS falhar, o vídeo é visível
-  // por defeito (CSS default = opacity:1).
+  // ═══ TEASER: Vídeo surge quando secção entra no viewport ═══
+  // IntersectionObserver adiciona classe 'revealed' que faz:
+  // - Vídeo: fade-in + slide-up
+  // - Título, subtítulo, hint: fade-in escalonados
+  // - Traço neon por baixo: começa loop (esquerda→meio→direita→meio→esquerda)
   const teaserRef = useRef<HTMLElement>(null);
+  const [teaserRevealed, setTeaserRevealed] = useState(false);
   useEffect(() => {
-    // Skip animation for reduced-motion users
+    // Reduced-motion: mostrar imediatamente sem animação
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setTeaserRevealed(true);
       return;
     }
-    // Usar requestAnimationFrame para garantir que o DOM está pronto
-    // antes de adicionar a classe (evita flash do vídeo visível)
-    const rafId = requestAnimationFrame(() => {
-      const section = teaserRef.current;
-      if (section) {
-        section.classList.add('rise-active');
-      }
-    });
-    return () => cancelAnimationFrame(rafId);
+    const section = teaserRef.current;
+    if (!section) {
+      // Fallback: se ref não estiver pronto, revelar após 1s
+      const fallback = setTimeout(() => setTeaserRevealed(true), 1000);
+      return () => clearTimeout(fallback);
+    }
+    // Verificar imediatamente se a secção já está visível (load direto)
+    const rect = section.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+    const visibleRatio = rect.height > 0 ? visibleHeight / rect.height : 0;
+    if (visibleRatio > 0.15) {
+      setTeaserRevealed(true);
+      return;
+    }
+    // Caso contrário: observar até a secção entrar no viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.15) {
+            setTeaserRevealed(true);
+            observer.disconnect();
+            break;
+          }
+        }
+      },
+      { threshold: [0, 0.15, 0.25], rootMargin: '0px 0px -10% 0px' }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
   }, []);
 
   // ═══ SISTEMA DE TROCA DE TEMA — REFEITO 2026-06 ═══
@@ -1588,7 +1612,7 @@ export default function HomePage() {
       <section
         id="teaser"
         ref={teaserRef as React.RefObject<HTMLElement>}
-        className="teaser-section"
+        className={`teaser-section ${teaserRevealed ? 'revealed' : ''}`}
       >
         {/* Background atmospheric glow */}
         <div className="teaser-bg-glow" aria-hidden="true"/>
@@ -1599,19 +1623,13 @@ export default function HomePage() {
         {/* Floor edge — thin neon line */}
         <div className="teaser-floor-edge" aria-hidden="true"/>
 
-        {/* Light spilling upward from groove */}
-        <div className="teaser-groove-glow" aria-hidden="true"/>
-
-        {/* Groove — slot in floor that opens with light */}
-        <div className="teaser-stage-groove" aria-hidden="true"/>
-
         {/* Marquee bulbs — cinema/stage lights on left side */}
         <div className="teaser-marquee teaser-marquee-left" aria-hidden="true">
           {Array.from({length: 14}).map((_, i) => (
             <span
               key={`bulb-l-${i}`}
               className="teaser-bulb"
-              style={{ animationDelay: `${(i * 0.18 + 2.8).toFixed(2)}s` } as React.CSSProperties}
+              style={{ animationDelay: `${(i * 0.18).toFixed(2)}s` } as React.CSSProperties}
             />
           ))}
         </div>
@@ -1622,7 +1640,7 @@ export default function HomePage() {
             <span
               key={`bulb-r-${i}`}
               className="teaser-bulb"
-              style={{ animationDelay: `${(i * 0.18 + 3.3).toFixed(2)}s` } as React.CSSProperties}
+              style={{ animationDelay: `${(i * 0.18 + 0.5).toFixed(2)}s` } as React.CSSProperties}
             />
           ))}
         </div>
@@ -1641,9 +1659,9 @@ export default function HomePage() {
             </Rv>
 
             <Rv delay={120}>
-              {/* Stage — container that clips the rising panel */}
+              {/* Stage — container */}
               <div className="teaser-stage">
-                {/* Video panel — rises from below via CSS animation */}
+                {/* Video panel — surge com scroll */}
                 <div className="teaser-video-panel">
                   <div className="teaser-video-wrap">
                     <video
@@ -1655,9 +1673,9 @@ export default function HomePage() {
                       preload="auto"
                       poster="/poster.webp"
                       id="teaser-video-el"
-                      key="teaser-golden-v5"
+                      key="teaser-golden-v6"
                     >
-                      <source src="/teaser.mp4?v=golden5" type="video/mp4" />
+                      <source src="/teaser.mp4?v=golden6" type="video/mp4" />
                     </video>
 
                     {/* Static elegant frame */}
@@ -1700,8 +1718,8 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Reflection — glossy floor reflection below video */}
-                <div className="teaser-video-reflection" aria-hidden="true"/>
+                {/* TRAÇO NEON por baixo do vídeo — loop esquerda→meio→direita→meio→esquerda */}
+                <div className="teaser-neon-streak" aria-hidden="true"/>
               </div>
             </Rv>
 
