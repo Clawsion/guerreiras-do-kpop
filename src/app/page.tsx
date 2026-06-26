@@ -1567,14 +1567,10 @@ export default function HomePage() {
       <section id="teaser" className="teaser-section">
         <div className="teaser-bg-glow" aria-hidden="true"/>
         <div className="teaser-grid">
-          {/* Slot lateral esquerdo (placeholder para futuro conteúdo) */}
           <aside className="teaser-side teaser-side-left" aria-hidden="true">
-            <div className="teaser-side-inner">
-              {/* vazio por design — preenchido em próxima iteração */}
-            </div>
+            <div className="teaser-side-inner"></div>
           </aside>
 
-          {/* Coluna central */}
           <div className="teaser-center">
             <Rv>
               <h2 className="teaser-title">Guerreiras do K-Pop</h2>
@@ -1588,26 +1584,18 @@ export default function HomePage() {
                   muted
                   loop
                   playsInline
-                  preload="metadata"
+                  preload="auto"
                   poster="/poster.webp"
                   id="teaser-video-el"
+                  key="teaser-golden-v2"
                 >
-                  <source src="/teaser.mp4" type="video/mp4" />
+                  {/* Cache-busting: ?v=golden2 força o browser a descarregar
+                      o novo MP4 com áudio em vez de usar a versão antiga cached */}
+                  <source src="/teaser.mp4?v=golden2" type="video/mp4" />
                 </video>
 
-                {/* Borda neon estática fina */}
+                {/* Moldura neon fina pulsátil (subtil) */}
                 <div className="teaser-neon-frame" aria-hidden="true"/>
-
-                {/* Traço animado (SVG path no sentido anti-horário) */}
-                <svg className="teaser-neon-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
-                  <path
-                    className="teaser-neon-path"
-                    d="M 8 8 L 8 992 L 992 992 L 992 8 Z"
-                  />
-                </svg>
-
-                {/* Ponto luminoso que percorre o contorno (esquerda/anti-horário) */}
-                <div className="teaser-neon-travel" aria-hidden="true"/>
 
                 {/* Botão mute/unmute */}
                 <button
@@ -1616,6 +1604,11 @@ export default function HomePage() {
                     const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
                     if (v) {
                       v.muted = !v.muted;
+                      // Se estava muted e agora unmuted, garantir que o volume é audível
+                      if (!v.muted) {
+                        v.volume = 1.0;
+                        v.play().catch(() => {});
+                      }
                       const btn = document.querySelector('.teaser-mute-btn');
                       if (btn) {
                         btn.classList.toggle('unmuted', !v.muted);
@@ -1643,7 +1636,9 @@ export default function HomePage() {
             </Rv>
 
             <Rv delay={220}>
-              <p className="teaser-subtitle">O Grande Tributo ao Vivo</p>
+              <p className="teaser-subtitle">
+                <span className="neon-shimmer">O Grande Tributo ao Vivo</span>
+              </p>
             </Rv>
 
             <Rv delay={320}>
@@ -1651,11 +1646,8 @@ export default function HomePage() {
             </Rv>
           </div>
 
-          {/* Slot lateral direito (placeholder para futuro conteúdo) */}
           <aside className="teaser-side teaser-side-right" aria-hidden="true">
-            <div className="teaser-side-inner">
-              {/* vazio por design — preenchido em próxima iteração */}
-            </div>
+            <div className="teaser-side-inner"></div>
           </aside>
         </div>
       </section>
