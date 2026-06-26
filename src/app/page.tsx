@@ -1559,6 +1559,67 @@ export default function HomePage() {
       </div>
       */}
 
+      {/* ═══ TEASER — Nova secção com vídeo Vimeo (entre Tributo e Mural) ═══
+          - Vídeo Vimeo incorporado (iframe) — zero peso no site
+          - Autoplay + mute + loop (sem controlos visíveis)
+          - Texto "Vive a Experiência" com neon-shimmer
+          - Botão "Comprar Bilhetes" → Ticketline
+          - Design integrado: fundo var(--void), padding generoso
+          - 16:9 responsivo (mantém proporção em todos os dispositivos) */}
+      <section id="teaser" className="teaser-section">
+        <div className="teaser-bg-glow" aria-hidden="true"/>
+        <div className="hero-aligned-container relative z-10">
+          <Rv>
+            <p className="sec-num mb-4">Teaser do Espet&aacute;culo</p>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-2 text-center" style={{color:"var(--t1)"}}>
+              Vive a <span className="neon-shimmer">Experi&ecirc;ncia</span>
+            </h2>
+          </Rv>
+          <Rv delay={150}>
+            <p className="text-[14px] sm:text-[16px] leading-[1.6] mb-10 text-center max-w-lg mx-auto" style={{color:"var(--t2)"}}>
+              Um espet&aacute;culo &uacute;nico de m&uacute;sica, dan&ccedil;a e energia K-Pop ao vivo.
+            </p>
+          </Rv>
+          <Rv delay={250}>
+            <div className="teaser-video-wrap">
+              <div className="teaser-video-frame">
+                <iframe
+                  src="https://player.vimeo.com/video/1204886817?autoplay=1&muted=1&loop=1&autopause=0&background=1&title=0&byline=0&portrait=0&dnt=1"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                  loading="lazy"
+                  title="Teaser Guerreiras do K-Pop"
+                  className="teaser-iframe"
+                />
+              </div>
+              {/* Borda neon subtil à volta do vídeo */}
+              <div className="teaser-video-border" aria-hidden="true"/>
+            </div>
+          </Rv>
+          <Rv delay={350}>
+            <div className="flex justify-center mt-10">
+              <a
+                href="#cartazes"
+                onClick={e => {
+                  e.preventDefault();
+                  const el = document.getElementById('cartazes');
+                  if (el) {
+                    const isMobile = window.innerWidth < 768;
+                    const offset = isMobile ? 400 : 300;
+                    const top = el.getBoundingClientRect().top + window.scrollY + offset;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                  }
+                }}
+                className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold cursor-pointer transition-all duration-500 hover:scale-105"
+                style={{background:"var(--neon-purple)",color:"#fff",border:"1px solid rgba(255,255,255,0.15)",borderRadius:"2px",boxShadow:"0 4px 12px rgba(11,8,19,0.4)"}}
+              >
+                <Ticket className="w-3.5 h-3.5"/> Comprar Bilhetes
+              </a>
+            </div>
+          </Rv>
+        </div>
+      </section>
+
       {/* ═══ GALERIA - Momentos ao Vivo com Legenda + Lightbox ═══ */}
       <section id="galeria" className="galeria-section" ref={galeriaRef}>
         {/* NOVO: Parallax no TOPO da secção (só mobile).

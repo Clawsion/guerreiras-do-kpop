@@ -10044,3 +10044,106 @@ img { max-width: 100%; height: auto; }
 }
 /* force redeploy Sun Jun 21 00:05:29 UTC 2026 */
 /* SEO build Mon Jun 22 02:37:03 UTC 2026 */
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* ═══ TEASER — Secção com vídeo Vimeo (entre Tributo e Mural) ═══ */
+/* ═══════════════════════════════════════════════════════════════════ */
+
+.teaser-section {
+  position: relative;
+  padding: 5rem 0 5rem;
+  background: var(--void);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Glow de fundo — halo púrpura subtil atrás do vídeo */
+.teaser-bg-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200, 80, 255, 0.08) 0%, rgba(180, 74, 255, 0.04) 40%, transparent 70%);
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+/* Wrapper do vídeo — centrado com max-width */
+.teaser-video-wrap {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Frame do vídeo — mantém rácio 16:9 */
+.teaser-video-frame {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 20px 60px rgba(11, 8, 19, 0.5), 0 0 80px rgba(200, 80, 255, 0.06);
+}
+
+/* Iframe — preenche o frame 16:9 */
+.teaser-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 8px;
+}
+
+/* Borda neon subtil à volta do vídeo */
+.teaser-video-border {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  border: 1px solid rgba(200, 80, 255, 0.15);
+  pointer-events: none;
+  z-index: 2;
+  transition: border-color 0.6s ease, box-shadow 0.6s ease;
+}
+
+/* Hover: borda fica mais visível */
+.teaser-video-wrap:hover .teaser-video-border {
+  border-color: rgba(200, 80, 255, 0.35);
+  box-shadow: 0 0 40px rgba(200, 80, 255, 0.12);
+}
+
+/* Modo dia — fundo lavanda + sombras mais suaves */
+.light-mode .teaser-section {
+  background: var(--void);
+}
+.light-mode .teaser-bg-glow {
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.10) 0%, rgba(180, 74, 255, 0.04) 40%, transparent 70%);
+}
+.light-mode .teaser-video-frame {
+  box-shadow: 0 20px 60px rgba(80, 50, 120, 0.25), 0 0 80px rgba(147, 51, 234, 0.08);
+}
+.light-mode .teaser-video-border {
+  border-color: rgba(147, 51, 234, 0.20);
+}
+
+/* Mobile — padding reduzido */
+@media (max-width: 767px) {
+  .teaser-section {
+    padding: 3rem 0 3rem;
+  }
+  .teaser-bg-glow {
+    width: 500px;
+    height: 500px;
+  }
+  .teaser-video-frame {
+    box-shadow: 0 12px 36px rgba(11, 8, 19, 0.4);
+  }
+}
