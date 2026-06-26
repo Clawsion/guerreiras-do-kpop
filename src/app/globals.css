@@ -10075,12 +10075,8 @@ img { max-width: 100%; height: auto; }
 
 /* Modo dia — mesmas variáveis, tons diferentes */
 .light-mode .teaser-section {
-  --curtain-color-1: #1a0533;
-  --curtain-color-2: #2a0a4a;
-  --curtain-color-3: #4c1d95;
-  --curtain-color-4: #6d28d9;
-  --curtain-highlight: rgba(200, 150, 255, 0.12);
-  --curtain-sheen: rgba(220, 180, 255, 0.12);
+  /* Modo dia: fundo lavanda (não branco) */
+  background: #D9C9F0;
 }
 
 /* Glow atmosférico subtil */
