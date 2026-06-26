@@ -10137,3 +10137,51 @@ img { max-width: 100%; height: auto; }
     box-shadow: 0 12px 36px rgba(11, 8, 19, 0.4);
   }
 }
+
+/* ═══ Botão mute/unmute do teaser ═══ */
+.teaser-mute-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(11, 8, 19, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(200, 80, 255, 0.25);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.teaser-mute-btn:hover {
+  background: rgba(200, 80, 255, 0.2);
+  border-color: rgba(200, 80, 255, 0.5);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* Por defeito: mostrar ícone muted (sem som) */
+.teaser-mute-icon-muted { display: block; }
+.teaser-mute-icon-unmuted { display: none; }
+
+/* Quando unmuted: mostrar ícone com som */
+.teaser-mute-btn.unmuted .teaser-mute-icon-muted { display: none; }
+.teaser-mute-btn.unmuted .teaser-mute-icon-unmuted { display: block; }
+
+/* Modo dia */
+.light-mode .teaser-mute-btn {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(147, 51, 234, 0.3);
+  color: rgba(30, 16, 64, 0.8);
+}
+.light-mode .teaser-mute-btn:hover {
+  background: rgba(147, 51, 234, 0.2);
+  border-color: rgba(147, 51, 234, 0.5);
+  color: #1E1040;
+}

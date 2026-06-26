@@ -1560,9 +1560,9 @@ export default function HomePage() {
       */}
 
       {/* ═══ TEASER — Nova secção com vídeo HTML5 (entre Tributo e Mural) ═══
-          - Vídeo MP4 comprimido (6.8MB, 720x1280 retrato)
+          - Vídeo MP4 com áudio (7.6MB, 720x1280 retrato)
           - HTML5 <video> autoplay muted loop (sem logos, sem controlos)
-          - Intersection Observer: só reproduz quando visível
+          - Botão mute/unmute para o utilizador ativar o som
           - Design: moldura neon, "Teaser", compacta */}
       <section id="teaser" className="teaser-section">
         <div className="teaser-bg-glow" aria-hidden="true"/>
@@ -1577,11 +1577,42 @@ export default function HomePage() {
                 playsInline
                 preload="metadata"
                 poster="/poster.webp"
+                id="teaser-video-el"
               >
                 <source src="/teaser.mp4" type="video/mp4" />
               </video>
               {/* Borda neon à volta do vídeo */}
               <div className="teaser-video-border" aria-hidden="true"/>
+              {/* Botão mute/unmute */}
+              <button
+                className="teaser-mute-btn"
+                onClick={() => {
+                  const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
+                  if (v) {
+                    v.muted = !v.muted;
+                    const btn = document.querySelector('.teaser-mute-btn');
+                    if (btn) {
+                      btn.classList.toggle('unmuted', !v.muted);
+                    }
+                  }
+                }}
+                aria-label="Ativar som"
+              >
+                <span className="teaser-mute-icon-muted">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                    <line x1="23" y1="9" x2="17" y2="15"/>
+                    <line x1="17" y1="9" x2="23" y2="15"/>
+                  </svg>
+                </span>
+                <span className="teaser-mute-icon-unmuted">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                  </svg>
+                </span>
+              </button>
             </div>
           </Rv>
           <Rv delay={200}>
