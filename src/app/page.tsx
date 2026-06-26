@@ -1583,9 +1583,9 @@ export default function HomePage() {
               preload="auto"
               poster="/poster.webp"
               id="teaser-video-el"
-              key="teaser-golden-curtains-final"
+              key="teaser-no-curtains3"
             >
-              <source src="/teaser.mp4?v=noCurtains2" type="video/mp4" />
+              <source src="/teaser.mp4?v=noCurtains3" type="video/mp4" />
             </video>
 
             {/* Flash overlay — liga o ecrã quando cortinas abrem */}
