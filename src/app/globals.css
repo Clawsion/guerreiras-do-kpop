@@ -10046,10 +10046,7 @@ img { max-width: 100%; height: auto; }
 /* SEO build Mon Jun 22 02:37:03 UTC 2026 */
 
 /* ══════════════════════════════════════════════════════════════════════
- * ═══ TEASER — Cristal mirror floor + rising panel ═══
- * Moldura vertical, cinza escuro com glow púrpura subtil
- * Chão de cristal espelhado (reflexo do painel)
- * Painel sobe do chão (CSS animation, não depende de JS)
+ * ═══ TEASER — Vídeo surge com scroll + traço neon por baixo (loop) ═══
  * ══════════════════════════════════════════════════════════════════════ */
 
 .teaser-section {
@@ -10064,7 +10061,7 @@ img { max-width: 100%; height: auto; }
   justify-content: center;
 }
 
-/* ─── Background atmospheric glow (neon púrpura/rosa) ─── */
+/* ─── Background atmospheric glow ─── */
 .teaser-bg-glow {
   position: absolute;
   top: 50%; left: 50%;
@@ -10104,7 +10101,6 @@ img { max-width: 100%; height: auto; }
   width: 100%;
 }
 
-/* Slots laterais */
 .teaser-side { position: relative; min-height: 200px; }
 .teaser-side-left  { text-align: right; }
 .teaser-side-right { text-align: left; }
@@ -10133,7 +10129,6 @@ img { max-width: 100%; height: auto; }
   line-height: 1.8;
 }
 
-/* Coluna central */
 .teaser-center {
   display: flex;
   flex-direction: column;
@@ -10143,7 +10138,7 @@ img { max-width: 100%; height: auto; }
   z-index: 10;
 }
 
-/* ─── Título "Guerreiras do K-Pop" (mantido com shimmer) ─── */
+/* ─── Título (fade-in quando secção surge) ─── */
 .teaser-title {
   margin: 0;
   text-align: center;
@@ -10154,14 +10149,14 @@ img { max-width: 100%; height: auto; }
   text-transform: uppercase;
   line-height: 1.1;
   position: relative;
-  /* Fade in após painel subir */
   opacity: 0;
   transform: translateY(20px);
-  animation: teaser-fade-up 1s ease 2.2s forwards;
+  transition: opacity 1s ease 0.3s, transform 1s ease 0.3s;
 }
 
-@keyframes teaser-fade-up {
-  to { opacity: 1; transform: translateY(0); }
+.teaser-section.revealed .teaser-title {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .teaser-title-shimmer {
@@ -10211,7 +10206,7 @@ img { max-width: 100%; height: auto; }
     drop-shadow(0 0 12px rgba(147, 51, 234, 0.30));
 }
 
-/* ═══ STAGE — container with overflow:hidden that clips the rising panel ═══ */
+/* ═══ STAGE — container with overflow:hidden ═══ */
 .teaser-stage {
   position: relative;
   width: 100%;
@@ -10220,7 +10215,7 @@ img { max-width: 100%; height: auto; }
   overflow: hidden;
   border-radius: 14px;
   background: #000;
-  /* MOLDURA: cinza escuro com glow púrpura subtil (estilo imagem referência) */
+  /* Moldura cinza escuro com glow púrpura subtil */
   box-shadow:
     0 0 0 1px rgba(60, 50, 80, 0.6),
     0 0 0 2px rgba(200, 80, 255, 0.18),
@@ -10236,39 +10231,22 @@ img { max-width: 100%; height: auto; }
     0 0 24px rgba(147, 51, 234, 0.18);
 }
 
-/* ═══ VIDEO PANEL — À PROVA DE FALHAS ═══
-   DEFAULT: sempre visível (opacity:1, sem transform).
-   Animação de subida SÓ corre se a secção tiver classe .rise-active
-   (adicionada por JS no mount). Se JS falhar, vídeo é visível sem animação.
+/* ═══ VIDEO PANEL — surge com scroll (fade + slide-up) ═══
+   DEFAULT: invisível. Com .revealed: fade-in + translateY 20px -> 0.
 */
 .teaser-video-panel {
   position: absolute;
   inset: 0;
-  /* DEFAULT: visível */
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 1.2s ease 0.5s,
+    transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.5s;
+}
+
+.teaser-section.revealed .teaser-video-panel {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* Animação só activa com classe .rise-active (adicionada via JS) */
-.teaser-section.rise-active .teaser-video-panel {
-  animation: teaser-panel-rise 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
-}
-
-@keyframes teaser-panel-rise {
-  0% {
-    transform: translateY(120%);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.6;
-  }
-  60% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
 }
 
 .teaser-video-wrap {
@@ -10286,7 +10264,7 @@ img { max-width: 100%; height: auto; }
   background: #000;
 }
 
-/* Static elegant frame (no pulse) */
+/* Static elegant frame */
 .teaser-video-frame {
   position: absolute;
   inset: 0;
@@ -10301,6 +10279,95 @@ img { max-width: 100%; height: auto; }
   border-color: rgba(147, 51, 234, 0.30);
 }
 
+/* ═══ TRAÇO NEON POR BAIXO DO VÍDEO — loop esquerda→meio→direita→meio→esquerda ═══
+   Linha horizontal fina com glow neon, posicionada mesmo por baixo do vídeo.
+   Animação 16s em loop:
+   - 0-3s:   esquerda (parada)
+   - 3-4s:   move para meio
+   - 4-7s:   meio (parada)
+   - 7-8s:   move para direita
+   - 8-11s:  direita (parada)
+   - 11-12s: move para meio
+   - 12-15s: meio (parada)
+   - 15-16s: move para esquerda
+*/
+.teaser-neon-streak {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  width: 60%;
+  height: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200, 80, 255, 0.7) 15%,
+    #FFD700 50%,
+    rgba(200, 80, 255, 0.7) 85%,
+    transparent 100%);
+  border-radius: 2px;
+  box-shadow:
+    0 0 6px rgba(200, 80, 255, 0.85),
+    0 0 14px rgba(255, 215, 0, 0.55),
+    0 0 28px rgba(200, 80, 255, 0.35);
+  z-index: 8;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s ease 1.5s;
+}
+
+.teaser-section.revealed .teaser-neon-streak {
+  opacity: 1;
+  animation: teaser-streak-loop 16s cubic-bezier(0.4, 0, 0.2, 1) 1.5s infinite;
+}
+
+@keyframes teaser-streak-loop {
+  /* esquerda (parada) */
+  0%, 18.75% {
+    transform: translateX(-100%);
+  }
+  /* move para meio */
+  25% {
+    transform: translateX(-50%);
+  }
+  /* meio (parada) */
+  25%, 43.75% {
+    transform: translateX(-50%);
+  }
+  /* move para direita */
+  50% {
+    transform: translateX(0%);
+  }
+  /* direita (parada) */
+  50%, 68.75% {
+    transform: translateX(0%);
+  }
+  /* move para meio */
+  75% {
+    transform: translateX(-50%);
+  }
+  /* meio (parada) */
+  75%, 93.75% {
+    transform: translateX(-50%);
+  }
+  /* move para esquerda (volta ao início) */
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.light-mode .teaser-neon-streak {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(147, 51, 234, 0.7) 15%,
+    #B8860B 50%,
+    rgba(147, 51, 234, 0.7) 85%,
+    transparent 100%);
+  box-shadow:
+    0 0 6px rgba(147, 51, 234, 0.85),
+    0 0 14px rgba(180, 140, 50, 0.55),
+    0 0 28px rgba(147, 51, 234, 0.35);
+}
+
 /* ═══ CRISTAL MIRROR FLOOR — chão de cristal espelhado ═══ */
 .teaser-stage-floor {
   position: absolute;
@@ -10308,16 +10375,13 @@ img { max-width: 100%; height: auto; }
   left: 0;
   right: 0;
   height: 35%;
-  /* Cristal: gradiente vertical com brilho subtil + reflexo */
   background:
-    /* Sheen: brilho cristalino no topo do chão */
     linear-gradient(to bottom,
       rgba(180, 140, 220, 0.18) 0%,
       rgba(120, 80, 180, 0.10) 8%,
       rgba(40, 25, 70, 0.30) 25%,
       rgba(15, 10, 30, 0.85) 60%,
       rgba(5, 3, 15, 1) 100%),
-    /* Horizontal highlight: efeito de superfície polida */
     linear-gradient(90deg,
       transparent 0%,
       rgba(200, 80, 255, 0.04) 20%,
@@ -10326,7 +10390,6 @@ img { max-width: 100%; height: auto; }
       transparent 100%);
   z-index: 1;
   pointer-events: none;
-  /* Reflexo do conteúdo acima (mirror) — usado em conjunto com a div de reflexo */
 }
 
 .light-mode .teaser-stage-floor {
@@ -10345,7 +10408,7 @@ img { max-width: 100%; height: auto; }
       transparent 100%);
 }
 
-/* ═══ FLOOR EDGE — linha subtil onde o chão encontra o vazio ═══ */
+/* ═══ FLOOR EDGE — linha subtil ═══ */
 .teaser-floor-edge {
   position: absolute;
   bottom: 35%;
@@ -10354,162 +10417,29 @@ img { max-width: 100%; height: auto; }
   height: 1px;
   background: linear-gradient(90deg,
     transparent 0%,
-    rgba(200, 80, 255, 0.5) 25%,
-    rgba(255, 200, 100, 0.85) 50%,
-    rgba(200, 80, 255, 0.5) 75%,
+    rgba(200, 80, 255, 0.4) 25%,
+    rgba(255, 200, 100, 0.7) 50%,
+    rgba(200, 80, 255, 0.4) 75%,
     transparent 100%);
   z-index: 6;
   box-shadow:
-    0 0 6px rgba(200, 80, 255, 0.5),
-    0 0 14px rgba(200, 80, 255, 0.3),
-    0 0 30px rgba(255, 200, 100, 0.2);
-  opacity: 0;
-  animation: teaser-edge-appear 1.2s ease 0.3s forwards;
-}
-
-@keyframes teaser-edge-appear {
-  to { opacity: 1; }
+    0 0 6px rgba(200, 80, 255, 0.4),
+    0 0 14px rgba(200, 80, 255, 0.25);
 }
 
 .light-mode .teaser-floor-edge {
   background: linear-gradient(90deg,
     transparent 0%,
-    rgba(147, 51, 234, 0.6) 25%,
-    rgba(180, 140, 50, 0.85) 50%,
-    rgba(147, 51, 234, 0.6) 75%,
+    rgba(147, 51, 234, 0.5) 25%,
+    rgba(180, 140, 50, 0.7) 50%,
+    rgba(147, 51, 234, 0.5) 75%,
     transparent 100%);
   box-shadow:
-    0 0 6px rgba(147, 51, 234, 0.5),
-    0 0 14px rgba(147, 51, 234, 0.3),
-    0 0 30px rgba(180, 140, 50, 0.2);
+    0 0 6px rgba(147, 51, 234, 0.4),
+    0 0 14px rgba(147, 51, 234, 0.25);
 }
 
-/* ═══ GROOVE — ranhura no chão que abre ═══ */
-.teaser-stage-groove {
-  position: absolute;
-  bottom: 35%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 3px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(255, 220, 100, 0.95) 20%,
-    #FFD700 50%,
-    rgba(255, 220, 100, 0.95) 80%,
-    transparent 100%);
-  box-shadow:
-    0 0 12px rgba(255, 215, 0, 0.85),
-    0 0 28px rgba(255, 215, 0, 0.55),
-    0 0 60px rgba(200, 80, 255, 0.35);
-  z-index: 7;
-  border-radius: 2px;
-  animation: teaser-groove-open 1.2s cubic-bezier(0.65, 0, 0.35, 1) 0.3s forwards;
-}
-
-@keyframes teaser-groove-open {
-  to { width: 300px; }
-}
-
-.light-mode .teaser-stage-groove {
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(180, 140, 50, 0.95) 20%,
-    #B8860B 50%,
-    rgba(180, 140, 50, 0.95) 80%,
-    transparent 100%);
-  box-shadow:
-    0 0 12px rgba(180, 140, 50, 0.7),
-    0 0 28px rgba(180, 140, 50, 0.4),
-    0 0 60px rgba(147, 51, 234, 0.25);
-}
-
-/* ═══ GROOVE GLOW — luz a derramar para cima da ranhura ═══ */
-.teaser-groove-glow {
-  position: absolute;
-  bottom: 30%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 380px;
-  height: 100px;
-  background: radial-gradient(ellipse at center bottom,
-    rgba(255, 215, 0, 0.30) 0%,
-    rgba(200, 80, 255, 0.20) 35%,
-    transparent 70%);
-  z-index: 2;
-  opacity: 0;
-  filter: blur(18px);
-  pointer-events: none;
-  animation: teaser-glow-appear 1.2s ease 0.5s forwards;
-}
-
-@keyframes teaser-glow-appear {
-  to { opacity: 1; }
-}
-
-.light-mode .teaser-groove-glow {
-  background: radial-gradient(ellipse at center bottom,
-    rgba(180, 140, 50, 0.25) 0%,
-    rgba(147, 51, 234, 0.15) 35%,
-    transparent 70%);
-}
-
-/* ═══ VIDEO REFLECTION — reflexo do painel no chão de cristal ═══
-   Importante: este é o reflexo VISUAL do painel, criado via espelho
-   do próprio conteúdo do stage (pseudo-elemento ::after no stage).
-*/
-.teaser-video-reflection {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 60%;
-  /* Reflexo do conteúdo do stage: usar background-image com gradiente
-     que sugere o painel refletido */
-  background:
-    linear-gradient(to bottom,
-      rgba(40, 20, 70, 0.50) 0%,
-      rgba(20, 10, 40, 0.30) 25%,
-      rgba(10, 5, 25, 0.10) 60%,
-      transparent 100%),
-    /* Highlight diagonal: efeito de cristal polido */
-    linear-gradient(115deg,
-      transparent 30%,
-      rgba(200, 80, 255, 0.10) 45%,
-      rgba(255, 255, 255, 0.08) 50%,
-      rgba(200, 80, 255, 0.10) 55%,
-      transparent 70%);
-  transform: scaleY(-1);
-  transform-origin: top;
-  opacity: 0;
-  filter: blur(2.5px);
-  pointer-events: none;
-  z-index: 5;
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 75%);
-  mask-image: linear-gradient(to bottom, black 0%, transparent 75%);
-  animation: teaser-reflection-appear 1.5s ease 2.5s forwards;
-}
-
-@keyframes teaser-reflection-appear {
-  to { opacity: 0.65; }
-}
-
-.light-mode .teaser-video-reflection {
-  background:
-    linear-gradient(to bottom,
-      rgba(180, 160, 210, 0.45) 0%,
-      rgba(200, 180, 230, 0.25) 25%,
-      rgba(220, 200, 240, 0.10) 60%,
-      transparent 100%),
-    linear-gradient(115deg,
-      transparent 30%,
-      rgba(147, 51, 234, 0.10) 45%,
-      rgba(255, 255, 255, 0.10) 50%,
-      rgba(147, 51, 234, 0.10) 55%,
-      transparent 70%);
-}
-
-/* ═══ MARQUEE BULBS — cinema/stage lights on left and right ═══ */
+/* ═══ MARQUEE BULBS ═══ */
 .teaser-marquee {
   position: absolute;
   top: 15%;
@@ -10536,7 +10466,7 @@ img { max-width: 100%; height: auto; }
     0 0 0 1px rgba(200, 80, 255, 0.18);
   transition: all 0.3s ease;
   opacity: 0.4;
-  animation: teaser-bulb-chase 2.8s ease-in-out 2.8s infinite;
+  animation: teaser-bulb-chase 2.8s ease-in-out infinite;
 }
 
 @keyframes teaser-bulb-chase {
@@ -10561,6 +10491,7 @@ img { max-width: 100%; height: auto; }
   box-shadow:
     inset 0 0 2px rgba(60, 30, 90, 0.4),
     0 0 0 1px rgba(147, 51, 234, 0.25);
+  animation: teaser-bulb-chase-day 2.8s ease-in-out infinite;
 }
 
 @keyframes teaser-bulb-chase-day {
@@ -10580,11 +10511,7 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-.light-mode .teaser-bulb {
-  animation: teaser-bulb-chase-day 2.8s ease-in-out 2.8s infinite;
-}
-
-/* ─── Botão mute/unmute (mantido) ─── */
+/* ─── Botão mute/unmute ─── */
 .teaser-mute-btn {
   position: absolute;
   top: 14px; right: 14px;
@@ -10631,6 +10558,122 @@ img { max-width: 100%; height: auto; }
   background: rgba(147, 51, 234, 0.18);
   border-color: rgba(147, 51, 234, 0.7);
   color: #4c1d95;
+}
+
+/* ─── Subtítulo ─── */
+.teaser-subtitle {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display, inherit);
+  font-size: clamp(0.95rem, 2vw, 1.3rem);
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  text-indent: 0.32em;
+  line-height: 1.4;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2em;
+  color: rgba(255, 245, 255, 0.92);
+  text-shadow:
+    0 0 3px rgba(255, 255, 255, 0.8),
+    0 0 9px rgba(200, 80, 255, 0.75),
+    0 0 22px rgba(200, 80, 255, 0.55),
+    0 0 42px rgba(168, 85, 247, 0.35);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease 0.8s, transform 1s ease 0.8s;
+}
+
+.teaser-section.revealed .teaser-subtitle {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.teaser-subtitle::before,
+.teaser-subtitle::after {
+  content: "";
+  display: block;
+  width: clamp(24px, 4vw, 48px);
+  height: 1px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 3px rgba(200, 80, 255, 0.5));
+}
+
+.teaser-subtitle::before {
+  background: linear-gradient(90deg, transparent 0%, rgba(200, 80, 255, 0.7) 100%);
+}
+.teaser-subtitle::after {
+  background: linear-gradient(90deg, rgba(200, 80, 255, 0.7) 0%, transparent 100%);
+}
+
+.light-mode .teaser-subtitle {
+  color: rgba(60, 20, 100, 0.92);
+  text-shadow:
+    0 0 3px rgba(147, 51, 234, 0.45),
+    0 0 8px rgba(147, 51, 234, 0.5),
+    0 0 20px rgba(147, 51, 234, 0.30);
+}
+
+.light-mode .teaser-subtitle::before {
+  background: linear-gradient(90deg, transparent 0%, rgba(147, 51, 234, 0.8) 100%);
+  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
+}
+.light-mode .teaser-subtitle::after {
+  background: linear-gradient(90deg, rgba(147, 51, 234, 0.8) 0%, transparent 100%);
+  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.4));
+}
+
+/* ─── Hint ─── */
+.teaser-hint {
+  margin: 0;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--t3, #888);
+  opacity: 0;
+  font-weight: 400;
+  transition: opacity 1s ease 1.2s;
+}
+
+.teaser-section.revealed .teaser-hint { opacity: 0.65; }
+
+/* ─── Mobile ─── */
+@media (max-width: 900px) {
+  .teaser-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .teaser-side { display: none; }
+  .teaser-center { gap: 1.2rem; }
+  .teaser-marquee { padding: 0 4px; }
+  .teaser-marquee-left  { left: 2%; }
+  .teaser-marquee-right { right: 2%; }
+  .teaser-bulb { width: 6px; height: 6px; }
+  .teaser-bulb:nth-child(odd) { display: none; }
+  .teaser-neon-streak { width: 70%; }
+}
+
+@media (max-width: 480px) {
+  .teaser-section { padding: 3.5rem 0 4.5rem; min-height: 80vh; }
+  .teaser-stage { max-width: 280px; }
+  .teaser-title { letter-spacing: 0.10em; }
+  .teaser-subtitle { letter-spacing: 0.28em; }
+}
+
+/* Acessibilidade: respeitar prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .teaser-video-panel,
+  .teaser-title,
+  .teaser-subtitle,
+  .teaser-hint {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .teaser-neon-streak,
+  .teaser-bulb { animation: none !important; opacity: 0.7 !important; }
+  .teaser-title-shimmer { animation: none; }
 }
 
 /* ─── Subtítulo "— O Grande Tributo ao Vivo —" (mantido) ─── */
