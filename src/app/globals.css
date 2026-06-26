@@ -10289,10 +10289,11 @@ img { max-width: 100%; height: auto; }
     0 0 28px rgba(147, 51, 234, 0.25);
 }
 
-/* ═══ CORTINAS REAIS PREMIUM (secção inteira, com sway) ═══
-   Cortinas que tapam TODA a secção. Tecido realista com dobreas,
-   sombras, penachos dourados. Abanam subtilmente (sway) como tecido real.
-   Quando a secção surge, abrem para os cantos.
+/* ═══ CORTINAS REAIS PREMIUM (secção inteira, com sway + gather) ═══
+   Estrutura: .teaser-curtain (wrapper) > .teaser-curtain-inner
+   - .teaser-curtain: faz a ABERTURA via transition (translateX + scaleX)
+   - .teaser-curtain-inner: faz o SWAY via animation (skewX + rotate + translateX)
+   Isto permite que as duas animações coexistam sem conflito.
 */
 .teaser-curtains {
   position: absolute;
@@ -10326,7 +10327,7 @@ img { max-width: 100%; height: auto; }
   z-index: 22;
 }
 
-/* Ponteiros dourados nas pontas da vara (finais ornamentais) */
+/* Ponteiros dourados nas pontas da vara */
 .teaser-curtain-rod::before,
 .teaser-curtain-rod::after {
   content: "";
@@ -10347,69 +10348,36 @@ img { max-width: 100%; height: auto; }
 .teaser-curtain-rod::before { left: -10px; }
 .teaser-curtain-rod::after  { right: -10px; }
 
-/* Painel de cortina — tecido real */
+/* WRAPPER da cortina — faz a abertura (translateX + scaleX) */
 .teaser-curtain {
   position: absolute;
   top: 10px;
   bottom: 0;
   width: 60%;
-  /* Penduradas na vara (transform-origin no topo) */
   transform-origin: 50% 0%;
-  /* CSS variables para combinar sway + abertura */
-  --curtain-open-x: 0px;
-  --curtain-open-scale: 1;
-  /* Transição das variáveis (abertura cinematográfica 3s) */
-  transition:
-    --curtain-open-x 3s cubic-bezier(0.5, 0, 0.2, 1) 0.3s,
-    --curtain-open-scale 3s cubic-bezier(0.5, 0, 0.2, 1) 0.3s;
+  transition: transform 2.8s cubic-bezier(0.5, 0, 0.2, 1) 0.3s;
   will-change: transform;
-  /* Sway SEMPRE ativo (tecido real abana mesmo abertas) */
+}
+
+/* INNER da cortina — faz o sway (skewX + rotate + translateX) */
+.teaser-curtain-inner {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 0%;
   animation: teaser-curtain-sway 5s ease-in-out infinite;
+  will-change: transform;
 }
 
 @keyframes teaser-curtain-sway {
-  /* Sway usa translateX pequeno (±2px) + skew + rotate, mas aplica
-     também --curtain-open-x e --curtain-open-scale para a abertura */
-  0%, 100% {
-    transform:
-      translateX(calc(var(--curtain-open-x) + 0px))
-      scaleX(var(--curtain-open-scale))
-      skewX(0deg)
-      rotate(0deg);
-  }
-  20% {
-    transform:
-      translateX(calc(var(--curtain-open-x) - 1.5px))
-      scaleX(var(--curtain-open-scale))
-      skewX(-0.2deg)
-      rotate(-0.15deg);
-  }
-  40% {
-    transform:
-      translateX(calc(var(--curtain-open-x) + 0.5px))
-      scaleX(var(--curtain-open-scale))
-      skewX(0.1deg)
-      rotate(0.1deg);
-  }
-  60% {
-    transform:
-      translateX(calc(var(--curtain-open-x) + 1.5px))
-      scaleX(var(--curtain-open-scale))
-      skewX(0.2deg)
-      rotate(0.15deg);
-  }
-  80% {
-    transform:
-      translateX(calc(var(--curtain-open-x) - 0.5px))
-      scaleX(var(--curtain-open-scale))
-      skewX(-0.1deg)
-      rotate(-0.1deg);
-  }
+  0%, 100% { transform: skewX(0deg) rotate(0deg) translateX(0); }
+  20%      { transform: skewX(-0.25deg) rotate(-0.15deg) translateX(-1.5px); }
+  40%      { transform: skewX(0.12deg) rotate(0.08deg) translateX(0.5px); }
+  60%      { transform: skewX(0.25deg) rotate(0.15deg) translateX(1.5px); }
+  80%      { transform: skewX(-0.12deg) rotate(-0.08deg) translateX(-0.5px); }
 }
 
 /* Cortina esquerda — tecido vermelho vinho (modo noite) */
-.teaser-curtain-left {
-  left: 0;
+.teaser-curtain-left .teaser-curtain-inner {
   background:
     /* Dobreas profundas (ciclo 48px, 5 layers) */
     repeating-linear-gradient(90deg,
@@ -10419,22 +10387,18 @@ img { max-width: 100%; height: auto; }
       rgba(255, 100, 100, 0.12) 24px,
       rgba(0, 0, 0, 0.35) 32px,
       rgba(0, 0, 0, 0.7) 48px),
-    /* Brilho diagonal (luz a bater no tecido) */
     linear-gradient(115deg,
       transparent 35%,
       rgba(255, 200, 200, 0.10) 50%,
       transparent 65%),
-    /* Sombra vertical (topo e fundo) */
     linear-gradient(180deg,
       rgba(0, 0, 0, 0.55) 0%,
       transparent 10%,
       transparent 90%,
       rgba(0, 0, 0, 0.55) 100%),
-    /* Sombra interna direita (para o centro) */
     linear-gradient(90deg,
       transparent 60%,
       rgba(0, 0, 0, 0.5) 100%),
-    /* Cor base: vermelho vinho profundo */
     linear-gradient(180deg,
       #1f0404 0%,
       #3a0808 18%,
@@ -10447,14 +10411,11 @@ img { max-width: 100%; height: auto; }
     inset -25px 0 50px rgba(0, 0, 0, 0.75),
     inset 0 0 60px rgba(0, 0, 0, 0.4),
     12px 0 35px rgba(0, 0, 0, 0.7);
-  transform: translateX(0);
-  /* Bordas recortadas (efeito de tecido) */
   clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
 }
 
 /* Cortina direita — espelho */
-.teaser-curtain-right {
-  right: 0;
+.teaser-curtain-right .teaser-curtain-inner {
   background:
     repeating-linear-gradient(90deg,
       rgba(0, 0, 0, 0.7) 0px,
@@ -10487,12 +10448,11 @@ img { max-width: 100%; height: auto; }
     inset 25px 0 50px rgba(0, 0, 0, 0.75),
     inset 0 0 60px rgba(0, 0, 0, 0.4),
     -12px 0 35px rgba(0, 0, 0, 0.7);
-  transform: translateX(0);
   clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
 }
 
 /* Penachos dourados no topo das cortinas (borlas ornamentais) */
-.teaser-curtain::before {
+.teaser-curtain-inner::before {
   content: "";
   position: absolute;
   top: -10px;
@@ -10511,24 +10471,18 @@ img { max-width: 100%; height: auto; }
   pointer-events: none;
 }
 
-/* ESTADO ACTIVO: cortinas abrem para os cantos */
-.teaser-section.active .teaser-curtain {
-  /* Sway continua ativo (tecido real abana mesmo abertas) */
-  /* Mas a transição de transform (translateX + scaleX) ainda corre */
-}
-
+/* ESTADO ACTIVO: cortinas abrem (translateX + scaleX = gather) */
+/* Abertura MENOS (60% em vez de 78%) para ficarem mais visíveis no ecrã */
 .teaser-section.active .teaser-curtain-left {
-  --curtain-open-x: -78%;
-  --curtain-open-scale: 0.32;
+  transform: translateX(-60%) scaleX(0.45);
 }
 
 .teaser-section.active .teaser-curtain-right {
-  --curtain-open-x: 78%;
-  --curtain-open-scale: 0.32;
+  transform: translateX(60%) scaleX(0.45);
 }
 
 /* Modo dia: cortinas roxas elegantes */
-.light-mode .teaser-curtain-left {
+.light-mode .teaser-curtain-left .teaser-curtain-inner {
   background:
     repeating-linear-gradient(90deg,
       rgba(0, 0, 0, 0.6) 0px,
@@ -10559,7 +10513,7 @@ img { max-width: 100%; height: auto; }
       #1a0533 100%);
 }
 
-.light-mode .teaser-curtain-right {
+.light-mode .teaser-curtain-right .teaser-curtain-inner {
   background:
     repeating-linear-gradient(90deg,
       rgba(0, 0, 0, 0.6) 0px,
@@ -10590,15 +10544,13 @@ img { max-width: 100%; height: auto; }
       #1a0533 100%);
 }
 
-/* Mobile: cortinas mais finas quando abertas */
+/* Mobile: abertura menos ainda */
 @media (max-width: 480px) {
   .teaser-section.active .teaser-curtain-left {
-    --curtain-open-x: -72%;
-    --curtain-open-scale: 0.40;
+    transform: translateX(-55%) scaleX(0.50);
   }
   .teaser-section.active .teaser-curtain-right {
-    --curtain-open-x: 72%;
-    --curtain-open-scale: 0.40;
+    transform: translateX(55%) scaleX(0.50);
   }
 }
 

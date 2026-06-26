@@ -1619,8 +1619,12 @@ export default function HomePage() {
         {/* Cortinas realistas premium que abrem para os cantos (secção inteira) */}
         <div className="teaser-curtains" aria-hidden="true">
           <div className="teaser-curtain-rod"/>
-          <div className="teaser-curtain teaser-curtain-left"/>
-          <div className="teaser-curtain teaser-curtain-right"/>
+          <div className="teaser-curtain teaser-curtain-left">
+            <div className="teaser-curtain-inner"/>
+          </div>
+          <div className="teaser-curtain teaser-curtain-right">
+            <div className="teaser-curtain-inner"/>
+          </div>
         </div>
 
         {/* Overlay da secção — pisca 2x quando cortinas abrem */}
@@ -1641,9 +1645,9 @@ export default function HomePage() {
               preload="auto"
               poster="/poster.webp"
               id="teaser-video-el"
-              key="teaser-golden-curtains-v5"
+              key="teaser-golden-curtains-v6"
             >
-              <source src="/teaser.mp4?v=goldenCurtains4" type="video/mp4" />
+              <source src="/teaser.mp4?v=goldenCurtains5" type="video/mp4" />
             </video>
 
             <button
