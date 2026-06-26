@@ -1566,68 +1566,97 @@ export default function HomePage() {
           - Design: moldura neon, "Teaser", compacta */}
       <section id="teaser" className="teaser-section">
         <div className="teaser-bg-glow" aria-hidden="true"/>
-        <div className="hero-aligned-container relative z-10">
-          <Rv>
-            <div className="teaser-stage">
-              <div className="teaser-stage-inner">
-                <div className="teaser-video-wrap">
-                  <video
-                    className="teaser-video"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    poster="/poster.webp"
-                    id="teaser-video-el"
-                  >
-                    <source src="/teaser.mp4" type="video/mp4" />
-                  </video>
-                  {/* Borda neon subtil à volta do vídeo */}
-                  <div className="teaser-video-border" aria-hidden="true"/>
-                  {/* Cortinas de veludo vermelho (partidas) */}
-                  <div className="teaser-curtain-left" aria-hidden="true"/>
-                  <div className="teaser-curtain-right" aria-hidden="true"/>
-                  {/* Botão mute/unmute */}
-                  <button
-                    className="teaser-mute-btn"
-                    onClick={() => {
-                      const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
-                      if (v) {
-                        v.muted = !v.muted;
-                        const btn = document.querySelector('.teaser-mute-btn');
-                        if (btn) {
-                          btn.classList.toggle('unmuted', !v.muted);
-                        }
+        <div className="teaser-grid">
+          {/* Slot lateral esquerdo (placeholder para futuro conteúdo) */}
+          <aside className="teaser-side teaser-side-left" aria-hidden="true">
+            <div className="teaser-side-inner">
+              {/* vazio por design — preenchido em próxima iteração */}
+            </div>
+          </aside>
+
+          {/* Coluna central */}
+          <div className="teaser-center">
+            <Rv>
+              <h2 className="teaser-title">Guerreiras do K-Pop</h2>
+            </Rv>
+
+            <Rv delay={120}>
+              <div className="teaser-video-wrap">
+                <video
+                  className="teaser-video"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  poster="/poster.webp"
+                  id="teaser-video-el"
+                >
+                  <source src="/teaser.mp4" type="video/mp4" />
+                </video>
+
+                {/* Borda neon estática fina */}
+                <div className="teaser-neon-frame" aria-hidden="true"/>
+
+                {/* Traço animado (SVG path no sentido anti-horário) */}
+                <svg className="teaser-neon-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
+                  <path
+                    className="teaser-neon-path"
+                    d="M 8 8 L 8 992 L 992 992 L 992 8 Z"
+                  />
+                </svg>
+
+                {/* Ponto luminoso que percorre o contorno (esquerda/anti-horário) */}
+                <div className="teaser-neon-travel" aria-hidden="true"/>
+
+                {/* Botão mute/unmute */}
+                <button
+                  className="teaser-mute-btn"
+                  onClick={() => {
+                    const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
+                    if (v) {
+                      v.muted = !v.muted;
+                      const btn = document.querySelector('.teaser-mute-btn');
+                      if (btn) {
+                        btn.classList.toggle('unmuted', !v.muted);
                       }
-                    }}
-                    aria-label="Ativar som"
-                  >
-                    <span className="teaser-mute-icon-muted">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                        <line x1="23" y1="9" x2="17" y2="15"/>
-                        <line x1="17" y1="9" x2="23" y2="15"/>
-                      </svg>
-                    </span>
-                    <span className="teaser-mute-icon-unmuted">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-                      </svg>
-                    </span>
-                  </button>
-                </div>
+                    }
+                  }}
+                  aria-label="Ativar som"
+                >
+                  <span className="teaser-mute-icon-muted">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                      <line x1="23" y1="9" x2="17" y2="15"/>
+                      <line x1="17" y1="9" x2="23" y2="15"/>
+                    </svg>
+                  </span>
+                  <span className="teaser-mute-icon-unmuted">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                    </svg>
+                  </span>
+                </button>
               </div>
+            </Rv>
+
+            <Rv delay={220}>
+              <p className="teaser-subtitle">O Grande Tributo ao Vivo</p>
+            </Rv>
+
+            <Rv delay={320}>
+              <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
+            </Rv>
+          </div>
+
+          {/* Slot lateral direito (placeholder para futuro conteúdo) */}
+          <aside className="teaser-side teaser-side-right" aria-hidden="true">
+            <div className="teaser-side-inner">
+              {/* vazio por design — preenchido em próxima iteração */}
             </div>
-          </Rv>
-          <Rv delay={200}>
-            <div className="teaser-label">
-              <span className="neon-shimmer">Teaser</span>
-            </div>
-            <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
-          </Rv>
+          </aside>
         </div>
       </section>
 
