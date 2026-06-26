@@ -792,50 +792,10 @@ export default function HomePage() {
     setThemeMode(target);
   }, []);
 
-  // ═══ TEASER: Vídeo surge quando secção entra no viewport ═══
-  // IntersectionObserver adiciona classe 'revealed' que faz:
-  // - Vídeo: fade-in + slide-up
-  // - Título, subtítulo, hint: fade-in escalonados
-  // - Traço neon por baixo: começa loop (esquerda→meio→direita→meio→esquerda)
+  // ═══ TEASER ═══
+  // Vídeo e streak funcionam 100% via CSS (sem JS triggers).
+  // teaserRef mantido para futuras iterações.
   const teaserRef = useRef<HTMLElement>(null);
-  const [teaserRevealed, setTeaserRevealed] = useState(false);
-  useEffect(() => {
-    // Reduced-motion: mostrar imediatamente sem animação
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setTeaserRevealed(true);
-      return;
-    }
-    const section = teaserRef.current;
-    if (!section) {
-      // Fallback: se ref não estiver pronto, revelar após 1s
-      const fallback = setTimeout(() => setTeaserRevealed(true), 1000);
-      return () => clearTimeout(fallback);
-    }
-    // Verificar imediatamente se a secção já está visível (load direto)
-    const rect = section.getBoundingClientRect();
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-    const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
-    const visibleRatio = rect.height > 0 ? visibleHeight / rect.height : 0;
-    if (visibleRatio > 0.15) {
-      setTeaserRevealed(true);
-      return;
-    }
-    // Caso contrário: observar até a secção entrar no viewport
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.15) {
-            setTeaserRevealed(true);
-            observer.disconnect();
-            break;
-          }
-        }
-      },
-      { threshold: [0, 0.15, 0.25], rootMargin: '0px 0px -10% 0px' }
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
 
   // ═══ SISTEMA DE TROCA DE TEMA — REFEITO 2026-06 ═══
   // Bug antigo: timeouts dispersos + stale closures causavam trocas falhadas
@@ -1612,7 +1572,7 @@ export default function HomePage() {
       <section
         id="teaser"
         ref={teaserRef as React.RefObject<HTMLElement>}
-        className={`teaser-section ${teaserRevealed ? 'revealed' : ''}`}
+        className="teaser-section"
       >
         {/* Background atmospheric glow */}
         <div className="teaser-bg-glow" aria-hidden="true"/>
@@ -1661,7 +1621,7 @@ export default function HomePage() {
             <Rv delay={120}>
               {/* Stage — container */}
               <div className="teaser-stage">
-                {/* Video panel — surge com scroll */}
+                {/* Video panel — sempre visível com fade-in automático */}
                 <div className="teaser-video-panel">
                   <div className="teaser-video-wrap">
                     <video
@@ -1673,9 +1633,9 @@ export default function HomePage() {
                       preload="auto"
                       poster="/poster.webp"
                       id="teaser-video-el"
-                      key="teaser-golden-v6"
+                      key="teaser-golden-v7"
                     >
-                      <source src="/teaser.mp4?v=golden6" type="video/mp4" />
+                      <source src="/teaser.mp4?v=golden7" type="video/mp4" />
                     </video>
 
                     {/* Static elegant frame */}
@@ -1717,10 +1677,12 @@ export default function HomePage() {
                     </button>
                   </div>
                 </div>
-
-                {/* TRAÇO NEON por baixo do vídeo — loop esquerda→meio→direita→meio→esquerda */}
-                <div className="teaser-neon-streak" aria-hidden="true"/>
               </div>
+
+              {/* TRAÇO NEON por baixo do vídeo — FORA do .teaser-stage
+                  (que tem overflow:hidden) para ser visível.
+                  Loop 16s: esquerda → meio → direita → meio → esquerda */}
+              <div className="teaser-neon-streak" aria-hidden="true"/>
             </Rv>
 
             <Rv delay={220}>
