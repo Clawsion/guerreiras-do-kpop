@@ -10046,10 +10046,18 @@ img { max-width: 100%; height: auto; }
 /* SEO build Mon Jun 22 02:37:03 UTC 2026 */
 
 /* ══════════════════════════════════════════════════════════════════════
- * ═══ TEASER — Cortinas full-size + flash + vídeo loop + subtítulo ═══
+ * ═══ TEASER — Cortinas com CSS variables (modo dia/noite igual) ═══
  * ══════════════════════════════════════════════════════════════════════ */
 
 .teaser-section {
+  /* CSS Variables — modo noite (default) */
+  --curtain-color-1: #1f0404;
+  --curtain-color-2: #3a0808;
+  --curtain-color-3: #5a1010;
+  --curtain-color-4: #7a1818;
+  --curtain-highlight: rgba(255, 100, 100, 0.10);
+  --curtain-sheen: rgba(255, 200, 200, 0.10);
+
   position: relative;
   padding: 5rem 0 5rem;
   background: var(--void);
@@ -10059,6 +10067,16 @@ img { max-width: 100%; height: auto; }
   align-items: center;
   justify-content: center;
   min-height: 80vh;
+}
+
+/* Modo dia — mesmas variáveis, tons diferentes */
+.light-mode .teaser-section {
+  --curtain-color-1: #1a0533;
+  --curtain-color-2: #2a0a4a;
+  --curtain-color-3: #4c1d95;
+  --curtain-color-4: #6d28d9;
+  --curtain-highlight: rgba(200, 150, 255, 0.12);
+  --curtain-sheen: rgba(220, 180, 255, 0.12);
 }
 
 /* Glow atmosférico subtil */
@@ -10181,11 +10199,7 @@ img { max-width: 100%; height: auto; }
   background: #000;
 }
 
-/* ═══ FLASH OVERLAY no vídeo — liga o ecrã ═══
-   Inicialmente: preto (ecrã desligado)
-   Quando active: flash branco 1x → transparente (ecrã ligado)
-   Delay 2s (depois das cortinas começarem a abrir)
-*/
+/* ═══ FLASH OVERLAY no vídeo — liga o ecrã ═══ */
 .teaser-video-flash {
   position: absolute;
   inset: 0;
@@ -10200,11 +10214,11 @@ img { max-width: 100%; height: auto; }
 }
 
 @keyframes teaser-flash-power-on {
-  0%   { background: #000; opacity: 1; }    /* desligado */
-  30%  { background: #000; opacity: 1; }    /* ainda desligado */
-  45%  { background: #fff; opacity: 1; }    /* FLASH branco */
-  60%  { background: #000; opacity: 1; }    /* desligado */
-  100% { background: #000; opacity: 0; }    /* ligado (transparente) */
+  0%   { background: #000; opacity: 1; }
+  30%  { background: #000; opacity: 1; }
+  45%  { background: #fff; opacity: 1; }
+  60%  { background: #000; opacity: 1; }
+  100% { background: #000; opacity: 0; }
 }
 
 /* ─── Botão mute/unmute ─── */
@@ -10254,6 +10268,359 @@ img { max-width: 100%; height: auto; }
   background: rgba(147, 51, 234, 0.18);
   border-color: rgba(147, 51, 234, 0.7);
   color: #4c1d95;
+}
+
+/* ═══ CORTINAS FULL-SIZE — tapam a SECÇÃO INTEIRA ═══
+   Usa CSS variables para cores — funciona IGUAL em modo dia/noite.
+   Apenas os tons mudam (definidos nas variables acima).
+*/
+.teaser-curtains {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Vara superior (curtain rod) — dourado envelhecido */
+.teaser-curtain-rod {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: linear-gradient(180deg,
+    #1a0f05 0%,
+    #5a3a15 15%,
+    #8a6a25 35%,
+    #c89a55 50%,
+    #8a6a25 65%,
+    #5a3a15 85%,
+    #1a0f05 100%);
+  border-radius: 5px 5px 0 0;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 220, 150, 0.5),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.6);
+  z-index: 42;
+}
+
+.teaser-curtain-rod::before,
+.teaser-curtain-rod::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%,
+    #f5d878 0%, #c89a55 40%, #5a3a15 80%, #2a1a05 100%);
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.7),
+    inset 0 1px 2px rgba(255, 220, 150, 0.5);
+}
+.teaser-curtain-rod::before { left: -10px; }
+.teaser-curtain-rod::after  { right: -10px; }
+
+/* WRAPPER da cortina — faz a abertura */
+.teaser-curtain {
+  position: absolute;
+  top: 10px;
+  bottom: 0;
+  width: 50%;
+  transform-origin: 50% 0%;
+  transition: transform 2.5s cubic-bezier(0.5, 0, 0.2, 1) 0.3s;
+  will-change: transform;
+}
+
+.teaser-curtain-left  { left: 0; }
+.teaser-curtain-right { right: 0; }
+
+/* INNER da cortina — faz o sway + tem o background */
+.teaser-curtain-inner {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 0%;
+  animation: teaser-curtain-sway 6s ease-in-out infinite;
+  will-change: transform;
+  /* Background usa CSS variables — funciona em ambos os modos */
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, 0.7) 0px,
+      var(--curtain-highlight) 8px,
+      rgba(0, 0, 0, 0.10) 16px,
+      var(--curtain-highlight) 24px,
+      rgba(0, 0, 0, 0.35) 32px,
+      rgba(0, 0, 0, 0.7) 48px),
+    linear-gradient(115deg,
+      transparent 35%,
+      var(--curtain-sheen) 50%,
+      transparent 65%),
+    linear-gradient(180deg,
+      rgba(0, 0, 0, 0.55) 0%,
+      transparent 10%,
+      transparent 90%,
+      rgba(0, 0, 0, 0.55) 100%),
+    linear-gradient(180deg,
+      var(--curtain-color-1) 0%,
+      var(--curtain-color-2) 18%,
+      var(--curtain-color-3) 38%,
+      var(--curtain-color-4) 50%,
+      var(--curtain-color-3) 62%,
+      var(--curtain-color-2) 82%,
+      var(--curtain-color-1) 100%);
+  box-shadow:
+    inset -15px 0 30px rgba(0, 0, 0, 0.75),
+    inset 0 0 40px rgba(0, 0, 0, 0.4),
+    6px 0 18px rgba(0, 0, 0, 0.6);
+}
+
+/* Cortina esquerda — clip-path diagonal */
+.teaser-curtain-left .teaser-curtain-inner {
+  clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+  box-shadow:
+    inset -15px 0 30px rgba(0, 0, 0, 0.75),
+    inset 0 0 40px rgba(0, 0, 0, 0.4),
+    6px 0 18px rgba(0, 0, 0, 0.6);
+}
+
+/* Cortina direita — clip-path espelhado */
+.teaser-curtain-right .teaser-curtain-inner {
+  clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+  box-shadow:
+    inset 15px 0 30px rgba(0, 0, 0, 0.75),
+    inset 0 0 40px rgba(0, 0, 0, 0.4),
+    -6px 0 18px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes teaser-curtain-sway {
+  0%, 100% { transform: skewX(0deg) rotate(0deg) translateX(0); }
+  10%      { transform: skewX(-2deg) rotate(-1.5deg) translateX(-8px); }
+  20%      { transform: skewX(1deg) rotate(0.8deg) translateX(4px); }
+  30%      { transform: skewX(2deg) rotate(1.5deg) translateX(8px); }
+  40%      { transform: skewX(-1deg) rotate(-0.8deg) translateX(-4px); }
+  50%      { transform: skewX(-1.5deg) rotate(-1deg) translateX(-6px); }
+  60%      { transform: skewX(1deg) rotate(0.8deg) translateX(4px); }
+  70%      { transform: skewX(1.5deg) rotate(1deg) translateX(6px); }
+  80%      { transform: skewX(-0.8deg) rotate(-0.5deg) translateX(-3px); }
+  90%      { transform: skewX(0.5deg) rotate(0.3deg) translateX(2px); }
+}
+
+/* ESTADO ACTIVO: cortinas abrem só até se ver o ecrã (vídeo) */
+/* translateX(±28%) numa cortina de 50% = abre 14% da secção de cada lado */
+/* Centro visível: 28% da secção ≈ 358px (vídeo 340px cabe) */
+/* Cortinas tapam 36% de cada lado — ainda bem visíveis */
+.teaser-section.active .teaser-curtain-left {
+  transform: translateX(-28%);
+}
+
+.teaser-section.active .teaser-curtain-right {
+  transform: translateX(28%);
+}
+
+/* Mobile: abertura um pouco menor */
+@media (max-width: 480px) {
+  .teaser-section.active .teaser-curtain-left {
+    transform: translateX(-25%);
+  }
+  .teaser-section.active .teaser-curtain-right {
+    transform: translateX(25%);
+  }
+}
+
+/* ─── Reflexo neon por baixo do vídeo ─── */
+.teaser-neon-streak {
+  position: relative;
+  width: 70%;
+  height: 2px;
+  margin: 4px auto 0;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200, 80, 255, 0.7) 30%,
+    #FFD700 50%,
+    rgba(200, 80, 255, 0.7) 70%,
+    transparent 100%);
+  border-radius: 2px;
+  box-shadow:
+    0 0 6px rgba(200, 80, 255, 0.85),
+    0 0 14px rgba(255, 215, 0, 0.45),
+    0 0 28px rgba(200, 80, 255, 0.25);
+  pointer-events: none;
+}
+
+.teaser-neon-streak::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: inherit;
+  filter: blur(8px);
+  opacity: 0.35;
+  transform: scaleY(-1);
+  transform-origin: top;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.light-mode .teaser-neon-streak {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(147, 51, 234, 0.7) 30%,
+    #B8860B 50%,
+    rgba(147, 51, 234, 0.7) 70%,
+    transparent 100%);
+  box-shadow:
+    0 0 6px rgba(147, 51, 234, 0.85),
+    0 0 14px rgba(180, 140, 50, 0.45),
+    0 0 28px rgba(147, 51, 234, 0.25);
+}
+
+/* ═══ SUBTÍTULO — 2 linhas centradas e de destaque ═══ */
+.teaser-subtitle {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display, inherit);
+  text-transform: uppercase;
+  line-height: 1.2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.teaser-subtitle-line-1 {
+  font-size: clamp(1.15rem, 2.8vw, 1.7rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+  background: linear-gradient(90deg,
+    rgba(220, 130, 255, 0.95) 0%,
+    #f5e6a8 25%,
+    #FFD700 50%,
+    #f5e6a8 75%,
+    rgba(220, 130, 255, 0.95) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: teaser-subtitle-shimmer 5s linear infinite;
+  filter:
+    drop-shadow(0 0 6px rgba(200, 80, 255, 0.55))
+    drop-shadow(0 0 14px rgba(255, 215, 0, 0.35));
+}
+
+@keyframes teaser-subtitle-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.teaser-subtitle-line-2-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9em;
+}
+
+.teaser-subtitle-line-2 {
+  font-size: clamp(0.9rem, 1.9vw, 1.2rem);
+  font-weight: 500;
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+  color: rgba(255, 245, 255, 0.95);
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 0.85),
+    0 0 10px rgba(200, 80, 255, 0.85),
+    0 0 22px rgba(200, 80, 255, 0.55),
+    0 0 40px rgba(168, 85, 247, 0.35);
+}
+
+.teaser-subtitle-line-2-wrap::before,
+.teaser-subtitle-line-2-wrap::after {
+  content: "";
+  display: block;
+  width: clamp(24px, 4vw, 42px);
+  height: 1px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 3px rgba(200, 80, 255, 0.6));
+}
+
+.teaser-subtitle-line-2-wrap::before {
+  background: linear-gradient(90deg, transparent 0%, rgba(200, 80, 255, 0.8) 100%);
+}
+.teaser-subtitle-line-2-wrap::after {
+  background: linear-gradient(90deg, rgba(200, 80, 255, 0.8) 0%, transparent 100%);
+}
+
+.light-mode .teaser-subtitle-line-1 {
+  background: linear-gradient(90deg,
+    rgba(147, 51, 234, 0.95) 0%,
+    #6B4F0E 25%,
+    #B8860B 50%,
+    #6B4F0E 75%,
+    rgba(147, 51, 234, 0.95) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: teaser-subtitle-shimmer 5s linear infinite;
+  filter:
+    drop-shadow(0 0 4px rgba(147, 51, 234, 0.55))
+    drop-shadow(0 0 10px rgba(180, 140, 50, 0.35));
+}
+
+.light-mode .teaser-subtitle-line-2 {
+  color: rgba(60, 20, 100, 0.95);
+  text-shadow:
+    0 0 3px rgba(147, 51, 234, 0.5),
+    0 0 9px rgba(147, 51, 234, 0.55),
+    0 0 20px rgba(147, 51, 234, 0.35);
+}
+
+.light-mode .teaser-subtitle-line-2-wrap::before {
+  background: linear-gradient(90deg, transparent 0%, rgba(147, 51, 234, 0.85) 100%);
+  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.5));
+}
+.light-mode .teaser-subtitle-line-2-wrap::after {
+  background: linear-gradient(90deg, rgba(147, 51, 234, 0.85) 0%, transparent 100%);
+  filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.5));
+}
+
+/* ─── Hint ─── */
+.teaser-hint {
+  margin: 0;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--t3, #888);
+  opacity: 0.65;
+  font-weight: 400;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 480px) {
+  .teaser-section { padding: 3.5rem 0 3.5rem; min-height: 70vh; }
+  .teaser-video-wrap { max-width: 280px; }
+  .teaser-title { letter-spacing: 0.10em; }
+  .teaser-neon-streak { width: 80%; }
+}
+
+/* Acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  .teaser-title-shimmer,
+  .teaser-subtitle-line-1,
+  .teaser-curtain-inner { animation: none; }
+  .teaser-section.active .teaser-curtain-left,
+  .teaser-section.active .teaser-curtain-right {
+    transform: translateX(-28%) !important;
+  }
+  .teaser-section.active .teaser-video-flash {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 /* ═══ CORTINAS FULL-SIZE — tapam a SECÇÃO INTEIRA ═══
