@@ -1568,7 +1568,445 @@ export default function HomePage() {
       <section id="teaser" className="teaser-section">
         <div className="teaser-bg-glow" aria-hidden="true"/>
 
-</section>
+        <div className="teaser-center">
+          <h2 className="teaser-title">
+            <span className="teaser-title-shimmer">Guerreiras do K-Pop</span>
+          </h2>
+
+          <div className="teaser-video-wrap">
+            <video
+              className="teaser-video"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              poster="/poster.webp"
+              id="teaser-video-el"
+              key="teaser-golden-curtains-final"
+            >
+              <source src="/teaser.mp4?v=noCurtains2" type="video/mp4" />
+            </video>
+
+            {/* Flash overlay — liga o ecrã quando cortinas abrem */}
+            <div className="teaser-video-flash" aria-hidden="true"/>
+
+            <button
+              className="teaser-mute-btn"
+              onClick={() => {
+                const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
+                if (v) {
+                  v.muted = !v.muted;
+                  if (!v.muted) {
+                    v.volume = 1.0;
+                    v.play().catch(() => {});
+                  }
+                  const btn = document.querySelector('.teaser-mute-btn');
+                  if (btn) {
+                    btn.classList.toggle('unmuted', !v.muted);
+                  }
+                }
+              }}
+              aria-label="Ativar som"
+            >
+              <span className="teaser-mute-icon-muted">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <line x1="23" y1="9" x2="17" y2="15"/>
+                  <line x1="17" y1="9" x2="23" y2="15"/>
+                </svg>
+              </span>
+              <span className="teaser-mute-icon-unmuted">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                </svg>
+              </span>
+            </button>
+          </div>
+
+          {/* Reflexo neon por baixo do vídeo */}
+          <div className="teaser-neon-streak" aria-hidden="true"/>
+
+          <p className="teaser-subtitle">
+            <span className="teaser-subtitle-line-1">O Grande Tributo</span>
+            <span className="teaser-subtitle-line-2-wrap">
+              <span className="teaser-subtitle-line-2">Ao Vivo</span>
+            </span>
+          </p>
+
+          <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
+        </div>
+      </section>
+
+      {/* ═══ GALERIA - Momentos ao Vivo com Legenda + Lightbox ═══ */}
+      <section id="galeria" className="galeria-section" ref={galeriaRef}>
+        {/* NOVO: Parallax no TOPO da secção (só mobile).
+            Mostra a parte de CIMA da foto, desce com o scroll.
+            Direção oposta ao parallax de baixo.
+            Modo dia e modo noite usam imagens diferentes (via CSS). */}
+        <div className="galeria-parallax-top-wrap">
+          <div className="galeria-parallax-top" ref={galeriaParallaxTopRef}/>
+        </div>
+        {/* Parallax com portal Honmoon — deslize real de baixo→cima com scroll */}
+        <div className="galeria-parallax-bg" ref={galeriaParallaxRef}/>
+        <div className="hero-aligned-container relative z-10">
+          <Rv>
+            <p className="sec-num mb-4">Mural</p>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-4" style={{color:"var(--t1)"}}>
+              Momentos que <span className="neon-shimmer">Brilham</span>
+            </h2>
+          </Rv>
+          <Rv delay={120}>
+            <p className="text-[16px] leading-[1.8] mb-12 max-w-lg" style={{color:"var(--t2)"}}>
+              Cada performance &eacute; um ritual de luz e som. Clica numa foto para reviver o momento.
+            </p>
+          </Rv>
+          <div className="galeria-grid">
+            {GALLERY_PHOTOS.map((photo, i) => (
+              <Rv key={i} delay={i * 100}>
+                <div
+                  className="galeria-card"
+                  onClick={() => setLightbox(i)}
+                >
+                  <div className="galeria-img-wrap">
+                    <img
+                      src={photo.src}
+                      alt={photo.caption}
+                      className="galeria-img"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div className="galeria-overlay"/>
+                    <div className="galeria-zoom-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="galeria-caption">
+                    <span>{photo.caption}</span>
+                  </div>
+                </div>
+              </Rv>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ PARALLAX 2 — REMOVIDO TEMPORARIAMENTE ═══
+      <div className="parallax-wrapper parallax-after-mural">
+        <div className="parallax-bg" aria-hidden="true"/>
+        <div className="parallax-overlay" aria-hidden="true"/>
+        <section id="showcase" className="showcase-section">
+          <div className="showcase-overlay" aria-hidden="true"></div>
+        </section>
+      </div>
+      */}
+
+      {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
+      <section id="cartazes" className="cartazes-section">
+        {/* NOVO: Fundo das bolas com parallax JavaScript (só mobile) */}
+        <div className="cartazes-parallax-bg-mobile" ref={cartazesBgRef} aria-hidden="true"/>
+        {/* Shape divider TOPO - montanhas (igual ao site de referência) */}
+        <div className="cartazes-shape cartazes-shape-top" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+            <path className="cartazes-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
+            <path className="cartazes-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
+            <path className="cartazes-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
+          </svg>
+        </div>
+
+        {/* Marca de água */}
+        <div className="hero-aligned-container relative z-10">
+          <Rv>
+            <p className="sec-num mb-4">Pr&oacute;ximos Concertos em Tour</p>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-16" style={{color:"var(--t1)"}}>
+              O Espet&aacute;culo <span className="neon-shimmer">Ao Vivo</span>
+            </h2>
+          </Rv>
+
+          <div className="cartazes-grid">
+          {/* ═══ CASCAIS - mesmo tamanho que os outros ═══ */}
+            <Rv delay={200}>
+              <article className="cartaz-card cartaz-secondary">
+                <div className="cartaz-img-wrap">
+                  <img src="/poster.webp" alt="Cartaz Cascais - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
+                  <div className="cartaz-overlay"/>
+                  <div className="cartaz-tag">Cascais</div>
+                </div>
+                <div className="cartaz-info">
+                  {/* ═══ SELO "via Ticketline" no canto superior direito ═══ */}
+                  <a href={TICKETLINE_URL_CASCAIS} target="_blank" rel="noopener noreferrer" className="cartaz-via-ticketline" aria-label="Bilhetes via Ticketline">
+                    <span className="cartaz-via-text">via</span>
+                    <img src="/ticketline-logo.png" alt="Ticketline" className="cartaz-via-logo" loading="lazy" decoding="async"/>
+                  </a>
+                  <p className="cartaz-city" style={{color:"var(--pink-kpop)"}}>Cascais &middot; Estoril</p>
+                  <p className="cartaz-date">08 AGO 2026 &middot; 18:30h</p>
+                  <p className="cartaz-status cartaz-status-live">
+                    <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
+                  </p>
+                  <p className="cartaz-venue">Academia das Artes do Estoril</p>
+                  <a href={TICKETLINE_URL_CASCAIS} target="_blank" rel="noopener noreferrer" className="cartaz-buy-btn cursor-pointer">
+                    <Ticket className="w-4 h-4"/> Comprar Bilhete
+                  </a>
+                </div>
+              </article>
+            </Rv>
+
+              {/* ═══ CAPARICA - Costa da Caparica ═══ */}
+              <Rv delay={275}>
+                <article className="cartaz-card cartaz-secondary">
+                  <div className="cartaz-img-wrap">
+                    <img src="/poster-caparica.webp" alt="Cartaz Costa da Caparica - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
+                    <div className="cartaz-overlay"/>
+                    <div className="cartaz-tag">Costa da Caparica</div>
+                  </div>
+                  <div className="cartaz-info">
+                    {/* ═══ SELO "via Ticketline" no canto superior direito ═══ */}
+                    <a href={TICKETLINE_URL_CAPARICA} target="_blank" rel="noopener noreferrer" className="cartaz-via-ticketline" aria-label="Bilhetes via Ticketline">
+                      <span className="cartaz-via-text">via</span>
+                      <img src="/ticketline-logo.png" alt="Ticketline" className="cartaz-via-logo" loading="lazy" decoding="async"/>
+                    </a>
+                    <p className="cartaz-city" style={{color:"var(--gold)"}}>Costa da Caparica</p>
+                    <p className="cartaz-date">09 AGO 2026 &middot; 18:00h</p>
+                    <p className="cartaz-status cartaz-status-live">
+                      <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
+                    </p>
+                    <p className="cartaz-venue">Pavilhão Municipal da Costa da Caparica</p>
+                    <a href={TICKETLINE_URL_CAPARICA} target="_blank" rel="noopener noreferrer" className="cartaz-buy-btn cursor-pointer">
+                      <Ticket className="w-4 h-4"/> Comprar Bilhete
+                    </a>
+                  </div>
+                </article>
+              </Rv>
+
+            {/* ═══ SESIMBRA - mesmo tamanho que os outros ═══ */}
+            <Rv delay={350}>
+              <article className="cartaz-card cartaz-secondary">
+                <div className="cartaz-img-wrap">
+                  <img src="/poster-sesimbra.webp" alt="Cartaz Sesimbra - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
+                  <div className="cartaz-overlay"/>
+                  <div className="cartaz-tag">Sesimbra</div>
+                </div>
+                <div className="cartaz-info">
+                  {/* ═══ SELO "via Ticketline" no canto superior direito ═══ */}
+                  <a href={TICKETLINE_URL_SESIMBRA} target="_blank" rel="noopener noreferrer" className="cartaz-via-ticketline" aria-label="Bilhetes via Ticketline">
+                    <span className="cartaz-via-text">via</span>
+                    <img src="/ticketline-logo.png" alt="Ticketline" className="cartaz-via-logo" loading="lazy" decoding="async"/>
+                  </a>
+                  <p className="cartaz-city" style={{color:"var(--blue-accent)"}}>Sesimbra</p>
+                  <p className="cartaz-date">15 AGO 2026 &middot; 18:30h</p>
+                  <p className="cartaz-status cartaz-status-live">
+                    <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
+                  </p>
+                  <p className="cartaz-venue">Pavilh&atilde;o Desportivo de Sesimbra</p>
+                  <a href={TICKETLINE_URL_SESIMBRA} target="_blank" rel="noopener noreferrer" className="cartaz-buy-btn cursor-pointer">
+                    <Ticket className="w-4 h-4"/> Comprar Bilhete
+                  </a>
+                </div>
+              </article>
+            </Rv>
+          </div>
+        </div>
+
+        {/* Shape divider FUNDO - montanhas (igual ao site de referência) */}
+        <div className="cartazes-shape cartazes-shape-bottom" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+            <path className="cartazes-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
+            <path className="cartazes-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
+            <path className="cartazes-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
+          </svg>
+        </div>
+      </section>
+
+      <HonmoonDivider/>
+
+      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 08 AGO CASCAIS · 09 AGO COSTA DA CAPARICA · 15 AGO SESIMBRA · ZOEY · RUMI · MIRA · HUNTRIX · SAJA BOYS"/>
+
+      <HonmoonDivider/>
+
+      {/* ═══ CONTACTE-NOS - Reservas & Eventos ═══ */}
+      <section id="contacto" className="contacto-section" ref={contactoRef}>
+        {/* Marca de água */}
+        <div className="hero-aligned-container relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+            {/* ── Coluna esquerda: pitch + info ── */}
+            <div className="lg:col-span-5">
+              <Rv>
+                <p className="sec-num mb-4">Contacte-nos</p>
+                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extralight tracking-[-0.03em] leading-[1.05] mb-8" style={{color:"var(--t1)"}}>
+                  Um Espet&aacute;culo Inesquec&iacute;vel <span className="neon-shimmer">Onde Quiser</span>
+                </h2>
+              </Rv>
+              <Rv delay={120}>
+                <p className="text-[16px] leading-[1.8] mb-8 max-w-lg" style={{color:"var(--t2)"}}>
+                  Vers&aacute;til e pensado para diferentes contextos, este espet&aacute;culo pode ser apresentado em espa&ccedil;os culturais, escolas, associa&ccedil;&otilde;es, autarquias, centros comerciais e Festas de Natal de empresas, garantindo sempre um momento &uacute;nico de entretenimento.
+                </p>
+              </Rv>
+              <Rv delay={200}>
+                <p className="text-[16px] leading-[1.7] mb-10 max-w-lg" style={{color:"var(--neon-purple)", fontWeight: 500}}>
+                  Contacte-nos e n&atilde;o perca a oportunidade de oferecer um espet&aacute;culo &uacute;nico. Reserve j&aacute; a sua data.
+                </p>
+              </Rv>
+              {/* ═══ Telefone e Email — coluna esquerda (SÓ DESKTOP ≥1024px) ═══
+                  Em desktop ficam aqui (encostados à esquerda, como antes).
+                  Em smartphone são escondidos (hidden lg:block) e aparecem
+                  abaixo do formulário. */}
+              <Rv delay={280}>
+                <div className="hidden lg:block space-y-4 mb-10">
+                  <a href="tel:+351960191005" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
+                    <Phone className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
+                    <div>
+                      <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Telefone direto</p>
+                      <p className="text-[15px]" style={{color:"var(--t1)"}}>+351 960 191 005</p>
+                    </div>
+                  </a>
+                  <a href="mailto:geral@guerreirasdokpop.com" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
+                    <Mail className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
+                    <div>
+                      <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>E-mail de produ&ccedil;&atilde;o</p>
+                      <p className="text-[15px]" style={{color:"var(--t1)"}}>geral@guerreirasdokpop.com</p>
+                    </div>
+                  </a>
+                </div>
+              </Rv>
+            </div>
+
+            {/* ── Coluna direita: formulário ── */}
+            <div className="lg:col-span-7">
+              <Rv delay={150}>
+                <form className="contacto-form" onSubmit={async (e)=>{
+                  e.preventDefault();
+                  const f = e.currentTarget as HTMLFormElement;
+                  const fd = new FormData(f);
+                  const submitBtn = f.querySelector('button[type="submit"]') as HTMLButtonElement;
+                  const okMsg = document.getElementById("contacto-ok");
+                  const errMsg = document.getElementById("contacto-err");
+                  // Esconde mensagens anteriores
+                  if (okMsg) okMsg.style.display = "none";
+                  if (errMsg) errMsg.style.display = "none";
+                  // Estado loading no botão
+                  const originalText = submitBtn.innerHTML;
+                  submitBtn.innerHTML = '<span class="contacto-spinner"></span> A enviar...';
+                  submitBtn.disabled = true;
+                  try {
+                    // Adiciona campos especiais do Formspree
+                    fd.append("_subject", `Reserva - Guerreiras do K-Pop · ${fd.get("tipo") || "Tributo musical"}`);
+                    fd.append("_captcha", "false");
+                    fd.append("_template", "table");
+                    const res = await fetch("https://formspree.io/f/xeewdbar", {
+                      method: "POST",
+                      body: fd,
+                      headers: { Accept: "application/json" }
+                    });
+                    if (res.ok) {
+                      f.reset();
+                      if (okMsg) {
+                        okMsg.style.display = "block";
+                        okMsg.scrollIntoView({ behavior: "smooth", block: "center" });
+                      }
+                    } else {
+                      throw new Error("Formspree error");
+                    }
+                  } catch (err) {
+                    if (errMsg) errMsg.style.display = "block";
+                  } finally {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                  }
+                }}>
+                  {/* Campos do formulário — sem hidden inputs do Formspree
+                      (_captcha, _template, _subject são adicionados via JavaScript
+                      para não aparecerem no email) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <label className="contacto-field">
+                      <span>Nome *</span>
+                      <input type="text" name="nome" required placeholder="O seu nome ou entidade"/>
+                    </label>
+                    <label className="contacto-field">
+                      <span>Tipo de evento</span>
+                      <select name="tipo" defaultValue="">
+                        <option value="" disabled>Selecione…</option>
+                        <option value="Teatro / Auditório">Teatro / Auditório</option>
+                        <option value="Pavilhão multiusos">Pavilhão multiusos</option>
+                        <option value="Tenda de Natal (empresa)">Tenda de Natal (empresa)</option>
+                        <option value="Tenda de Natal (escola/associação)">Tenda de Natal (escola/associação)</option>
+                        <option value="Tenda de Natal (autarquia)">Tenda de Natal (autarquia)</option>
+                        <option value="Festival / Evento cultural">Festival / Evento cultural</option>
+                        <option value="Evento privado">Evento privado</option>
+                        <option value="Outro">Outro</option>
+                      </select>
+                    </label>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <label className="contacto-field">
+                      <span>E-mail *</span>
+                      <input type="email" name="email" required placeholder="email@exemplo.pt"/>
+                    </label>
+                    <label className="contacto-field">
+                      <span>Telefone</span>
+                      <input type="tel" name="tel" placeholder="+351 …"/>
+                    </label>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <label className="contacto-field">
+                      <span>Data prevista</span>
+                      <input type="text" name="data" placeholder="Ex.: 12 Dez 2026"/>
+                    </label>
+                  </div>
+
+                  <label className="contacto-field mb-6">
+                    <span>Mensagem</span>
+                    <textarea name="msg" rows={5} placeholder="Diga-nos o que precisa - formato, duração, orçamento aproximado, perguntas…"/>
+                  </label>
+
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <button type="submit" className="contacto-submit">
+                      <Mail className="w-4 h-4"/> Enviar pedido de reserva
+                    </button>
+                    <p id="contacto-ok" className="text-[13px] font-medium contacto-msg-success" style={{color:"var(--neon-purple)", display:"none", padding: "0.5rem 0.75rem", borderRadius: "4px", background: "rgba(255,255,255,0.15)"}}>
+                      ✓ Pedido enviado com sucesso! Recebemos a sua mensagem e respondemos em breve.
+                    </p>
+                    <p id="contacto-err" className="text-[13px] font-medium" style={{color:"#ef4444", display:"none", padding: "0.5rem 0.75rem", borderRadius: "4px", background: "rgba(255,255,255,0.15)"}}>
+                      ✗ Erro ao enviar. Tente novamente ou contacte-nos diretamente por email.
+                    </p>
+                  </div>
+                  <p className="text-[11px] mt-5" style={{color:"var(--t3)"}}>
+                    Resposta t&iacute;pica em 24-48h em dias &uacute;teis. Para reservas urgentes, ligue diretamente.
+                  </p>
+                </form>
+              </Rv>
+
+              {/* ═══ Telefone e Email — em baixo do formulário (SÓ SMARTPHONE <1024px) ═══
+                  Em mobile aparecem em baixo do formulário.
+                  Em desktop são escondidos (lg:hidden) — aparecem na coluna esquerda. */}
+              <Rv delay={300}>
+                <div className="lg:hidden space-y-4 mt-8 pt-6" style={{borderTop: "1px solid rgba(200,80,255,0.08)"}}>
+                  <a href="tel:+351960191005" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
+                    <Phone className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
+                    <div>
+                      <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Telefone direto</p>
+                      <p className="text-[15px]" style={{color:"var(--t1)"}}>+351 960 191 005</p>
+                    </div>
+                  </a>
+                  <a href="mailto:geral@guerreirasdokpop.com" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
+                    <Mail className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
+                    <div>
+                      <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>E-mail de produ&ccedil;&atilde;o</p>
+                      <p className="text-[15px]" style={{color:"var(--t1)"}}>geral@guerreirasdokpop.com</p>
+                    </div>
+                  </a>
+                </div>
+              </Rv>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <div className="neon-div hero-aligned-container"/>
 
