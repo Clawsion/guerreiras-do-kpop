@@ -10289,13 +10289,7 @@ img { max-width: 100%; height: auto; }
 /* translateX(±28%) numa cortina de 50% = abre 14% da secção de cada lado */
 /* Centro visível: 28% da secção ≈ 358px (vídeo 340px cabe) */
 /* Cortinas tapam 36% de cada lado — ainda bem visíveis */
-.teaser-section.active .teaser-curtain-left {
-  transform: translateX(-28%);
-}
-
-.teaser-section.active .teaser-curtain-right {
-  transform: translateX(28%);
-}
+/* (removido: regra cortina órfã) */
 
 /* Mobile: abertura um pouco menor */
 
@@ -10501,76 +10495,12 @@ img { max-width: 100%; height: auto; }
 /* Cortina direita — espelho */
 
 /* ESTADO ACTIVO: cortinas abrem a metade para os lados */
-.teaser-section.active .teaser-curtain-left {
-  transform: translateX(-35%);
-}
-
-.teaser-section.active .teaser-curtain-right {
-  transform: translateX(35%);
-}
+/* (removido: regra cortina órfã) */
 
 /* Modo dia: cortinas roxas elegantes */
-.light-mode .teaser-curtain-left .teaser-curtain-inner {
-  background:
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.6) 0px,
-      rgba(200, 150, 255, 0.10) 8px,
-      rgba(0, 0, 0, 0.10) 16px,
-      rgba(200, 150, 255, 0.14) 24px,
-      rgba(0, 0, 0, 0.30) 32px,
-      rgba(0, 0, 0, 0.6) 48px),
-    linear-gradient(115deg,
-      transparent 35%,
-      rgba(220, 180, 255, 0.12) 50%,
-      transparent 65%),
-    linear-gradient(180deg,
-      rgba(0, 0, 0, 0.45) 0%,
-      transparent 10%,
-      transparent 90%,
-      rgba(0, 0, 0, 0.45) 100%),
-    linear-gradient(90deg,
-      transparent 60%,
-      rgba(0, 0, 0, 0.45) 100%),
-    linear-gradient(180deg,
-      #1a0533 0%,
-      #2a0a4a 18%,
-      #4c1d95 38%,
-      #6d28d9 50%,
-      #4c1d95 62%,
-      #2a0a4a 82%,
-      #1a0533 100%);
-}
+/* (removido: regra cortina órfã) */
 
-.light-mode .teaser-curtain-right .teaser-curtain-inner {
-  background:
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.6) 0px,
-      rgba(200, 150, 255, 0.10) 8px,
-      rgba(0, 0, 0, 0.10) 16px,
-      rgba(200, 150, 255, 0.14) 24px,
-      rgba(0, 0, 0, 0.30) 32px,
-      rgba(0, 0, 0, 0.6) 48px),
-    linear-gradient(245deg,
-      transparent 35%,
-      rgba(220, 180, 255, 0.12) 50%,
-      transparent 65%),
-    linear-gradient(180deg,
-      rgba(0, 0, 0, 0.45) 0%,
-      transparent 10%,
-      transparent 90%,
-      rgba(0, 0, 0, 0.45) 100%),
-    linear-gradient(270deg,
-      transparent 60%,
-      rgba(0, 0, 0, 0.45) 100%),
-    linear-gradient(180deg,
-      #1a0533 0%,
-      #2a0a4a 18%,
-      #4c1d95 38%,
-      #6d28d9 50%,
-      #4c1d95 62%,
-      #2a0a4a 82%,
-      #1a0533 100%);
-}
+/* (removido: regra cortina órfã) */
 
 /* Mobile: abertura um pouco menor */
 
@@ -10789,13 +10719,6 @@ img { max-width: 100%; height: auto; }
 
 /* ESTADO ACTIVO: cortinas abrem (translateX + scaleX = gather) */
 /* Abertura MENOS (60% em vez de 78%) para ficarem mais visíveis no ecrã */
-.teaser-section.active .teaser-curtain-left {
-  transform: translateX(-75%) scaleX(0.25);
-}
-
-.teaser-section.active .teaser-curtain-right {
-  transform: translateX(75%) scaleX(0.25);
-}
 
 /* Modo dia: cortinas roxas elegantes */
 
