@@ -10132,13 +10132,16 @@ img { max-width: 100%; height: auto; }
 .teaser-intro {
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: 15;  /* ACIMA do grid (z-index 10) para overlay */
   pointer-events: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 1;
+  transition: opacity 1s ease;
 }
 
+/* Quando revelado: o intro faz fade out após 5s (manifesto + portal completam) */
 .teaser-section.revealed .teaser-intro {
   animation: teaser-intro-fade 1s ease 5s forwards;
 }
@@ -10173,6 +10176,12 @@ img { max-width: 100%; height: auto; }
 
 .teaser-section.revealed .teaser-portal {
   animation: teaser-portal-spin 6s linear infinite, teaser-portal-burst 1.5s ease 5s forwards;
+}
+
+/* Portal visível mas subtil antes do trigger */
+.teaser-section.pre-reveal .teaser-portal {
+  animation: teaser-portal-spin 6s linear infinite;
+  opacity: 0.4;
 }
 
 @keyframes teaser-portal-spin {
@@ -10250,6 +10259,11 @@ img { max-width: 100%; height: auto; }
   animation: manifesto-fade 1.5s ease 3.5s forwards;
 }
 
+/* Antes do trigger: manifesto invisível (espera pelo 'revealed') */
+.teaser-section.pre-reveal .teaser-manifesto-line {
+  opacity: 0;
+}
+
 @keyframes manifesto-fade {
   0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.92); letter-spacing: 0.30em; }
   25%  { opacity: 1; transform: translate(-50%, -50%) scale(1); letter-spacing: 0.18em; }
@@ -10269,12 +10283,7 @@ img { max-width: 100%; height: auto; }
   margin: 0 auto;
   padding: 0 1.5rem;
   width: 100%;
-  opacity: 0;
-  transform: scale(0.96);
-  transition: opacity 1.2s ease 5.5s, transform 1.2s ease 5.5s;
-}
-
-.teaser-section.revealed .teaser-grid {
+  /* SEMPRE visível — não depende do estado 'revealed' */
   opacity: 1;
   transform: scale(1);
 }
@@ -10639,21 +10648,33 @@ img { max-width: 100%; height: auto; }
 
 /* Acessibilidade: respeitar prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-  .teaser-section.pre-reveal .teaser-grid {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  /* Grid sempre visível */
+  .teaser-grid {
+    opacity: 1 !important;
+    transform: none !important;
   }
-  .teaser-section.pre-reveal .teaser-intro,
-  .teaser-section.revealed .teaser-intro,
-  .teaser-spotlight,
-  .teaser-ember,
+  /* Esconder intro (manifesto + portal) — não faz sentido sem animação */
+  .teaser-intro {
+    display: none !important;
+  }
+  /* Spotlights: esconder (são animação pura) */
+  .teaser-spotlight {
+    display: none !important;
+  }
+  /* Embers: MANTER visíveis mas estáticos (partículas douradas decorativas) */
+  .teaser-ember {
+    animation: none !important;
+    opacity: 0.5 !important;
+    bottom: auto !important;
+    top: 50% !important;
+  }
+  /* Portal: esconder */
   .teaser-portal,
   .teaser-portal::before,
   .teaser-portal::after {
     display: none !important;
-    animation: none !important;
   }
+  /* Desativar outras animações */
   .teaser-title-shimmer,
   .teaser-neon-frame {
     animation: none;
