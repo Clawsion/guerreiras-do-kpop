@@ -10046,289 +10046,391 @@ img { max-width: 100%; height: auto; }
 /* SEO build Mon Jun 22 02:37:03 UTC 2026 */
 
 /* ══════════════════════════════════════════════════════════════════════
- * ═══ TEASER — Secção com vídeo HTML5 (Proposta 1: Ecrã Cinema) ═══
- * Cortinas de veludo vermelho + moldura dourada ornamentada
+ * ═══ TEASER — Secção com vídeo HTML5 + traço neon elegante ═══
+ * Traço de luz que percorre o contorno no sentido anti-horário (esquerda)
+ * Modo noite: violeta/púrpura neon | Modo dia: magenta profundo
  * ══════════════════════════════════════════════════════════════════════ */
 
 .teaser-section {
   position: relative;
-  padding: 5rem 0 4rem;
+  padding: 5rem 0 5rem;
   background: var(--void);
   overflow: hidden;
   isolation: isolate;
 }
 
-/* Glow de fundo — halo púrpura subtil atrás do vídeo */
+/* Halo de fundo — subtil, atmosférico */
 .teaser-bg-glow {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 700px;
-  height: 700px;
+  width: 720px;
+  height: 720px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(200, 80, 255, 0.12) 0%, rgba(180, 74, 255, 0.05) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.10) 0%, rgba(200, 80, 255, 0.04) 40%, transparent 70%);
   transform: translate(-50%, -50%);
   z-index: 0;
   pointer-events: none;
-  filter: blur(50px);
+  filter: blur(60px);
 }
 
-/* ─── Stage: palco onde o vídeo + cortinas vivem ─── */
-.teaser-stage {
+/* ─── Layout: 3 colunas (left | center video | right) ─── */
+.teaser-grid {
   position: relative;
-  max-width: 480px;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr minmax(280px, 400px) 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 14px;
-  border-radius: 18px;
-  /* Moldura dourada ornamentada */
-  background:
-    linear-gradient(135deg,
-      #6B4F0E 0%,
-      #B8860B 15%,
-      #FFD700 35%,
-      #FFF4C2 50%,
-      #FFD700 65%,
-      #B8860B 85%,
-      #6B4F0E 100%);
-  box-shadow:
-    0 0 0 2px rgba(180, 140, 50, 0.6),
-    0 25px 70px rgba(11, 8, 19, 0.7),
-    0 0 120px rgba(200, 80, 255, 0.12),
-    inset 0 0 20px rgba(0, 0, 0, 0.3);
+  padding: 0 1.5rem;
 }
 
-/* Inner dark frame (between gold and video) */
-.teaser-stage-inner {
+/* Slots laterais — para futuro conteúdo (citas, imagens, info) */
+.teaser-side {
   position: relative;
-  border-radius: 10px;
-  overflow: hidden;
-  background: #000;
-  box-shadow: inset 0 0 0 3px #0a0510, inset 0 0 30px rgba(0,0,0,0.8);
+  min-height: 200px;
 }
 
-/* Wrapper do vídeo */
-.teaser-video-wrap {
-  position: relative;
-  display: block;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 6px;
-}
+.teaser-side-left { text-align: right; }
+.teaser-side-right { text-align: left; }
 
-/* Vídeo HTML5 */
-.teaser-video {
-  display: block;
-  width: 100%;
-  height: auto;
-  background: #000;
-}
-
-/* ─── Cortinas de veludo vermelho ─── */
-.teaser-curtain-left,
-.teaser-curtain-right {
+/* Linha vertical decorativa nos slots */
+.teaser-side::before {
+  content: "";
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 30%;
-  z-index: 4;
-  pointer-events: none;
-  /* Textura de veludo: dobras verticais + gradiente */
-  background:
-    /* dobras profundas */
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.35) 0px,
-      rgba(0, 0, 0, 0) 6px,
-      rgba(0, 0, 0, 0.25) 12px,
-      rgba(0, 0, 0, 0) 18px,
-      rgba(0, 0, 0, 0.4) 24px,
-      rgba(0, 0, 0, 0) 30px),
-    /* brilho de veludo */
-    linear-gradient(90deg,
-      #2a0505 0%,
-      #5a0a0a 25%,
-      #8b1a1a 50%,
-      #5a0a0a 75%,
-      #2a0505 100%);
-  box-shadow:
-    inset 0 0 80px rgba(0, 0, 0, 0.8),
-    inset 0 0 20px rgba(0, 0, 0, 0.6);
+  width: 1px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(200, 80, 255, 0.20) 30%,
+    rgba(200, 80, 255, 0.20) 70%,
+    transparent 100%);
+}
+.teaser-side-left::before { right: 0; }
+.teaser-side-right::before { left: 0; }
+
+.light-mode .teaser-side::before {
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(147, 51, 234, 0.25) 30%,
+    rgba(147, 51, 234, 0.25) 70%,
+    transparent 100%);
 }
 
-/* Cortina esquerda — parte para a esquerda (com ponta diagonal) */
-.teaser-curtain-left {
-  left: 0;
-  border-right: 2px solid rgba(255, 215, 0, 0.5);
-  clip-path: polygon(0 0, 100% 0, 78% 50%, 100% 100%, 0 100%);
-  box-shadow:
-    inset -10px 0 30px rgba(0, 0, 0, 0.8),
-    inset 0 0 80px rgba(0, 0, 0, 0.6),
-    5px 0 20px rgba(0, 0, 0, 0.5);
-}
-
-/* Cortina direita — parte para a direita (com ponta diagonal) */
-.teaser-curtain-right {
-  right: 0;
-  border-left: 2px solid rgba(255, 215, 0, 0.5);
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 22% 50%);
-  box-shadow:
-    inset 10px 0 30px rgba(0, 0, 0, 0.8),
-    inset 0 0 80px rgba(0, 0, 0, 0.6),
-    -5px 0 20px rgba(0, 0, 0, 0.5);
-}
-
-/* Borda neon subtil (mantida para hover) */
-.teaser-video-border {
-  position: absolute;
-  inset: 0;
-  border-radius: 6px;
-  border: 1px solid rgba(200, 80, 255, 0.15);
-  pointer-events: none;
-  z-index: 3;
-  transition: border-color 0.6s ease, box-shadow 0.6s ease;
-}
-
-.teaser-video-wrap:hover .teaser-video-border {
-  border-color: rgba(200, 80, 255, 0.35);
-  box-shadow: 0 0 40px rgba(200, 80, 255, 0.15);
-}
-
-/* ─── Label "TEASER" — maior, cinematográfico ─── */
-.teaser-label {
-  text-align: center;
-  margin-top: 1.8rem;
-  font-family: var(--font-display, inherit);
-  font-size: clamp(1.4rem, 3vw, 2rem);
-  font-weight: 700;
-  letter-spacing: 0.45em;
+/* Conteúdo interior dos slots (placeholder para futuro) */
+.teaser-side-inner {
+  padding: 1.5rem 1rem;
+  opacity: 0.6;
+  font-size: 11px;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  text-indent: 0.45em;
-  color: var(--t2, #d8d2cc);
-  position: relative;
-  display: inline-block;
-  left: 50%;
-  transform: translateX(-50%);
+  color: var(--t3);
+  line-height: 1.8;
 }
 
-.teaser-label .neon-shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(200, 80, 255, 0.5) 0%,
-    #f5e6a8 30%,
-    #FFD700 50%,
-    #f5e6a8 70%,
-    rgba(200, 80, 255, 0.5) 100%);
-  background-size: 200% 100%;
+/* ─── Coluna central: título + vídeo + subtítulo + hint ─── */
+.teaser-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+/* ─── Título "Guerreiras do K-Pop" ─── */
+.teaser-title {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display, inherit);
+  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  background: linear-gradient(180deg,
+    rgba(245, 230, 255, 0.95) 0%,
+    rgba(200, 130, 255, 0.85) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: teaser-shimmer 4s linear infinite;
+  text-shadow: 0 0 30px rgba(200, 80, 255, 0.3);
+  position: relative;
 }
 
-@keyframes teaser-shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+.light-mode .teaser-title {
+  background: linear-gradient(180deg,
+    rgba(60, 20, 100, 0.95) 0%,
+    rgba(147, 51, 234, 0.85) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(147, 51, 234, 0.15);
 }
 
-/* Hint subtil: "Clica para ouvir" */
-.teaser-hint {
-  text-align: center;
-  margin-top: 0.5rem;
-  font-size: 10px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--t3, #888);
-  opacity: 0.7;
-}
-
-/* ─── Modo dia ─── */
-.light-mode .teaser-bg-glow {
-  background: radial-gradient(circle, rgba(147, 51, 234, 0.10) 0%, rgba(180, 74, 255, 0.04) 40%, transparent 70%);
-}
-.light-mode .teaser-stage {
+/* ─── Wrapper do vídeo com moldura neon ─── */
+.teaser-video-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 9 / 16;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+  /* Glow base constante (modo noite) */
   box-shadow:
-    0 0 0 2px rgba(180, 140, 50, 0.5),
-    0 25px 70px rgba(80, 50, 120, 0.25),
-    0 0 120px rgba(147, 51, 234, 0.08),
-    inset 0 0 20px rgba(0, 0, 0, 0.2);
+    0 0 0 1px rgba(200, 80, 255, 0.18),
+    0 0 30px rgba(200, 80, 255, 0.12),
+    0 25px 70px rgba(11, 8, 19, 0.7);
 }
 
-/* ─── Mobile — padding reduzido, cortinas mais finhas ─── */
-@media (max-width: 767px) {
-  .teaser-section {
-    padding: 3rem 0 2.5rem;
-  }
-  .teaser-bg-glow {
-    width: 450px;
-    height: 450px;
-  }
-  .teaser-stage {
-    max-width: 340px;
-    padding: 10px;
-  }
-  .teaser-curtain-left,
-  .teaser-curtain-right {
-    width: 22%;
-  }
-  .teaser-label {
-    margin-top: 1.4rem;
-    letter-spacing: 0.35em;
-  }
+.light-mode .teaser-video-wrap {
+  box-shadow:
+    0 0 0 1px rgba(147, 51, 234, 0.30),
+    0 0 24px rgba(147, 51, 234, 0.18),
+    0 20px 50px rgba(80, 50, 120, 0.20);
 }
 
-/* ─── Mobile pequeno: esconder cortinas (seriam demasiado finas) ─── */
-@media (max-width: 380px) {
-  .teaser-curtain-left,
-  .teaser-curtain-right {
-    width: 15%;
-  }
+/* Vídeo */
+.teaser-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
 }
 
-/* ═══ Botão mute/unmute do teaser ═══ */
+/* ─── TRAÇO NEON QUE PERCORRE O CONTORNO (sentido esquerda/anti-horário) ───
+   Estratégia:
+   - .teaser-neon-frame: borda SVG com gradient roxo, com filter blur + drop-shadow
+   - .teaser-neon-travel: dot/ponto luminoso que percorre o path no sentido anti-horário
+   - Animação: offset-path traça o retângulo; offset-distance vai 0% → 100%
+   - Direção "esquerda" = anti-horário = path desenhado no sentido inverso
+*/
+.teaser-neon-frame {
+  position: absolute;
+  inset: -2px;
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 4;
+  /* Camada 1: borda estática fina (sempre visível) */
+  border: 1px solid rgba(200, 80, 255, 0.25);
+  box-shadow:
+    inset 0 0 12px rgba(200, 80, 255, 0.10),
+    0 0 18px rgba(200, 80, 255, 0.08);
+}
+
+.light-mode .teaser-neon-frame {
+  border-color: rgba(147, 51, 234, 0.45);
+  box-shadow:
+    inset 0 0 14px rgba(147, 51, 234, 0.15),
+    0 0 22px rgba(147, 51, 234, 0.20);
+}
+
+/* Camada 2: traço animado (SVG path) */
+.teaser-neon-svg {
+  position: absolute;
+  inset: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  pointer-events: none;
+  z-index: 5;
+  overflow: visible;
+}
+
+.teaser-neon-path {
+  fill: none;
+  stroke: rgba(200, 80, 255, 0.85);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* Comprimento do traço — definido via JS ou pathLength=100 */
+  pathLength: 100;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  filter: drop-shadow(0 0 4px rgba(200, 80, 255, 0.7)) drop-shadow(0 0 12px rgba(200, 80, 255, 0.4));
+  animation: teaser-neon-trace 5s linear infinite;
+}
+
+.light-mode .teaser-neon-path {
+  stroke: rgba(147, 51, 234, 0.95);
+  filter: drop-shadow(0 0 5px rgba(147, 51, 234, 0.6)) drop-shadow(0 0 14px rgba(147, 51, 234, 0.35));
+}
+
+/* Animação: o traço "desenha-se" no sentido anti-horário (esquerda) */
+@keyframes teaser-neon-trace {
+  0%   { stroke-dashoffset: 100; }   /* invisível */
+  20%  { stroke-dashoffset: 60; }    /* começa a desenhar a partir do topo-esquerda */
+  50%  { stroke-dashoffset: 0; }     /* totalmente desenhado */
+  60%  { stroke-dashoffset: 0; }     /* pausa breve */
+  100% { stroke-dashoffset: -100; }  /* sai pelo lado oposto (loop suave) */
+}
+
+/* ─── PONTO LUMINOSO que percorre o contorno no sentido anti-horário ───
+   offset-path = rect() desenhado no sentido anti-horário
+   O ponto é uma esfera luminosa pequena, estilo "luz real" */
+.teaser-neon-travel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow:
+    0 0 6px 2px rgba(255, 255, 255, 0.9),
+    0 0 16px 4px rgba(200, 80, 255, 0.8),
+    0 0 32px 8px rgba(200, 80, 255, 0.4);
+  z-index: 6;
+  pointer-events: none;
+  /* Path: retângulo arredondado, sentido anti-horário (esquerda) */
+  /* Começa no topo-esquerda, vai para baixo, direita, cima, esquerda, baixo */
+  offset-path: path("M 8 8 L 8 992 L 992 992 L 992 8 Z");
+  offset-rotate: 0deg;
+  animation: teaser-travel-left 6s linear infinite;
+}
+
+.light-mode .teaser-neon-travel {
+  background: #ffffff;
+  box-shadow:
+    0 0 6px 2px rgba(255, 255, 255, 1),
+    0 0 14px 4px rgba(147, 51, 234, 0.85),
+    0 0 28px 8px rgba(147, 51, 234, 0.45);
+}
+
+/* Animação do ponto — 0% a 100% percorre o path no sentido anti-horário */
+@keyframes teaser-travel-left {
+  0%   { offset-distance: 0%;   }   /* topo-esquerda */
+  25%  { offset-distance: 25%;  }   /* baixo-esquerda */
+  50%  { offset-distance: 50%;  }   /* baixo-direita */
+  75%  { offset-distance: 75%;  }   /* topo-direita */
+  100% { offset-distance: 100%; }   /* volta ao topo-esquerda */
+}
+
+/* ─── Botão mute/unmute (mantido, refined) ─── */
 .teaser-mute-btn {
   position: absolute;
   top: 14px;
   right: 14px;
-  z-index: 5;
+  z-index: 7;
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: rgba(11, 8, 19, 0.75);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 215, 0, 0.4);
-  color: rgba(255, 215, 0, 0.9);
+  background: rgba(11, 8, 19, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(200, 80, 255, 0.35);
+  color: rgba(245, 230, 255, 0.9);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
 }
 
 .teaser-mute-btn:hover {
   background: rgba(200, 80, 255, 0.25);
-  border-color: rgba(255, 215, 0, 0.8);
-  color: #FFD700;
-  transform: scale(1.1);
+  border-color: rgba(200, 80, 255, 0.7);
+  color: #fff;
+  transform: scale(1.08);
   box-shadow: 0 6px 20px rgba(200, 80, 255, 0.4);
 }
 
-/* Por defeito: mostrar ícone muted (sem som) */
+.teaser-mute-btn:focus-visible {
+  outline: 2px solid rgba(200, 80, 255, 0.8);
+  outline-offset: 3px;
+}
+
 .teaser-mute-icon-muted { display: block; }
 .teaser-mute-icon-unmuted { display: none; }
-
-/* Quando unmuted: mostrar ícone com som */
 .teaser-mute-btn.unmuted .teaser-mute-icon-muted { display: none; }
 .teaser-mute-btn.unmuted .teaser-mute-icon-unmuted { display: block; }
 
-/* Modo dia */
 .light-mode .teaser-mute-btn {
   background: rgba(255, 255, 255, 0.75);
-  border-color: rgba(180, 140, 50, 0.5);
-  color: rgba(107, 79, 14, 0.9);
+  border-color: rgba(147, 51, 234, 0.4);
+  color: rgba(60, 20, 100, 0.85);
 }
 .light-mode .teaser-mute-btn:hover {
-  background: rgba(147, 51, 234, 0.2);
-  border-color: rgba(180, 140, 50, 0.8);
-  color: #6B4F0E;
+  background: rgba(147, 51, 234, 0.18);
+  border-color: rgba(147, 51, 234, 0.7);
+  color: #4c1d95;
+}
+
+/* ─── Subtítulo "O Grande Tributo ao Vivo" ─── */
+.teaser-subtitle {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display, inherit);
+  font-size: clamp(0.9rem, 1.8vw, 1.15rem);
+  font-weight: 400;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  text-indent: 0.4em;
+  color: var(--t2, #d8d2cc);
+  position: relative;
+}
+
+.teaser-subtitle::before,
+.teaser-subtitle::after {
+  content: "";
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  vertical-align: middle;
+  margin: 0 0.9em;
+  background: linear-gradient(90deg, transparent, rgba(200, 80, 255, 0.6), transparent);
+}
+
+.light-mode .teaser-subtitle { color: rgba(60, 20, 100, 0.85); }
+.light-mode .teaser-subtitle::before,
+.light-mode .teaser-subtitle::after {
+  background: linear-gradient(90deg, transparent, rgba(147, 51, 234, 0.6), transparent);
+}
+
+/* ─── Hint "Clica para ouvir" ─── */
+.teaser-hint {
+  margin: 0;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--t3, #888);
+  opacity: 0.65;
+  font-weight: 400;
+}
+
+/* ─── Mobile: layout colapsa para 1 coluna ─── */
+@media (max-width: 900px) {
+  .teaser-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .teaser-side { display: none; }   /* esconder slots laterais em mobile */
+  .teaser-center { gap: 1.2rem; }
+}
+
+@media (max-width: 480px) {
+  .teaser-section { padding: 3.5rem 0 3.5rem; }
+  .teaser-video-wrap { max-width: 280px; }
+  .teaser-title { letter-spacing: 0.10em; }
+  .teaser-subtitle { letter-spacing: 0.30em; }
+  .teaser-subtitle::before,
+  .teaser-subtitle::after { width: 18px; margin: 0 0.5em; }
+}
+
+/* Respeitar prefers-reduced-motion (acessibilidade) */
+@media (prefers-reduced-motion: reduce) {
+  .teaser-neon-travel,
+  .teaser-neon-path {
+    animation: none;
+  }
+  .teaser-neon-path {
+    stroke-dashoffset: 0;   /* mostrar traço completo estático */
+  }
+  .teaser-neon-travel {
+    display: none;
+  }
 }
