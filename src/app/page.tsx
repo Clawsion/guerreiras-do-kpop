@@ -53,47 +53,6 @@ function useReveal() {
 
 const Rv = React.memo(function Rv({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const { ref, visible } = useReveal();
-  // ═══ TEASER: projetores futuristas — ligam quando a secção surge ═══
-  const teaserRef = useRef<HTMLElement>(null);
-  const [teaserActive, setTeaserActive] = useState(false);
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    // Reduced-motion: ativar imediatamente sem observar
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setTeaserActive(true);
-      return;
-    }
-    const section = teaserRef.current;
-    if (!section) {
-      const fallback = setTimeout(() => setTeaserActive(true), 800);
-      return () => clearTimeout(fallback);
-    }
-    // Verificar imediatamente se a secção já está visível (load direto)
-    const rect = section.getBoundingClientRect();
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-    const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
-    const visibleRatio = rect.height > 0 ? visibleHeight / rect.height : 0;
-    if (visibleRatio > 0.2) {
-      setTeaserActive(true);
-      return;
-    }
-    // Caso contrário: observar até a secção entrar no viewport
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.2) {
-            setTeaserActive(true);
-            observer.disconnect();
-            break;
-          }
-        }
-      },
-      { threshold: [0, 0.2, 0.3], rootMargin: '0px 0px -10% 0px' }
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div ref={ref} className={`rv ${visible ? "in" : ""} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
       {children}
@@ -1035,6 +994,47 @@ export default function HomePage() {
     { l: "Próximos Concertos", h: "#cartazes" },
     { l: "Contacto", h: "#contacto" },
   ], []);
+  // ═══ TEASER: projetores futuristas — ligam quando a secção surge ═══
+  const teaserRef = useRef<HTMLElement>(null);
+  const [teaserActive, setTeaserActive] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    // Reduced-motion: ativar imediatamente sem observar
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setTeaserActive(true);
+      return;
+    }
+    const section = teaserRef.current;
+    if (!section) {
+      const fallback = setTimeout(() => setTeaserActive(true), 800);
+      return () => clearTimeout(fallback);
+    }
+    // Verificar imediatamente se a secção já está visível (load direto)
+    const rect = section.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+    const visibleRatio = rect.height > 0 ? visibleHeight / rect.height : 0;
+    if (visibleRatio > 0.2) {
+      setTeaserActive(true);
+      return;
+    }
+    // Caso contrário: observar até a secção entrar no viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.2) {
+            setTeaserActive(true);
+            observer.disconnect();
+            break;
+          }
+        }
+      },
+      { threshold: [0, 0.2, 0.3], rootMargin: '0px 0px -10% 0px' }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
 
   return (
     <>
