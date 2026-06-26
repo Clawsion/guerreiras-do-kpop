@@ -994,18 +994,14 @@ export default function HomePage() {
     { l: "Próximos Concertos", h: "#cartazes" },
     { l: "Contacto", h: "#contacto" },
   ], []);
-  // ═══ TEASER: cortinas + sequência de flash do vídeo ═══
-  // Quando a secção entra no viewport:
-  // 1. Cortinas abrem (2.5s CSS transition)
-  // 2. Overlay faz 2 flashes (1.5s CSS animation, delay 2.5s)
-  // 3. Vídeo começa a dar (JS video.play() após 4s)
+  // ═══ TEASER: cortinas premium que abrem quando secção surge ═══
+  // Vídeo tem autoPlay (começa logo que as cortinas abrem)
   const teaserRef = useRef<HTMLElement>(null);
-  const teaserVideoRef = useRef<HTMLVideoElement>(null);
   const [teaserActive, setTeaserActive] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    // Reduced-motion: ativar imediatamente, vídeo começa logo
+    // Reduced-motion: ativar imediatamente
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setTeaserActive(true);
       return;
@@ -1040,23 +1036,6 @@ export default function HomePage() {
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
-
-  // Quando teaserActive fica true, iniciar vídeo após sequência (4s = 2.5s cortinas + 1.5s flashes)
-  useEffect(() => {
-    if (!teaserActive) return;
-    const v = teaserVideoRef.current;
-    if (!v) return;
-    // Reduced-motion: começar vídeo imediatamente
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      v.play().catch(() => {});
-      return;
-    }
-    // Sequência normal: esperar 4s (cortinas + flashes) antes de dar play
-    const timer = setTimeout(() => {
-      v.play().catch(() => {});
-    }, 4000);
-    return () => clearTimeout(timer);
-  }, [teaserActive]);
 
 
   return (
@@ -1637,6 +1616,13 @@ export default function HomePage() {
       >
         <div className="teaser-bg-glow" aria-hidden="true"/>
 
+        {/* Cortinas realistas premium que abrem para os cantos (secção inteira) */}
+        <div className="teaser-curtains" aria-hidden="true">
+          <div className="teaser-curtain-rod"/>
+          <div className="teaser-curtain teaser-curtain-left"/>
+          <div className="teaser-curtain teaser-curtain-right"/>
+        </div>
+
         <div className="teaser-center">
           <h2 className="teaser-title">
             <span className="teaser-title-shimmer">Guerreiras do K-Pop</span>
@@ -1645,6 +1631,7 @@ export default function HomePage() {
           <div className="teaser-video-wrap">
             <video
               className="teaser-video"
+              autoPlay
               muted
               loop
               playsInline
@@ -1652,20 +1639,10 @@ export default function HomePage() {
               poster="/poster.webp"
               id="teaser-video-el"
               ref={teaserVideoRef as React.RefObject<HTMLVideoElement>}
-              key="teaser-golden-curtains"
+              key="teaser-golden-curtains-v2"
             >
-              <source src="/teaser.mp4?v=goldenCurtains" type="video/mp4" />
+              <source src="/teaser.mp4?v=goldenCurtains2" type="video/mp4" />
             </video>
-
-            {/* Overlay preto com 2 flashes (vídeo "desligado" a "ligar") */}
-            <div className="teaser-video-overlay" aria-hidden="true"/>
-
-            {/* Cortinas realistas que abrem para os cantos */}
-            <div className="teaser-curtains" aria-hidden="true">
-              <div className="teaser-curtain-rod"/>
-              <div className="teaser-curtain teaser-curtain-left"/>
-              <div className="teaser-curtain teaser-curtain-right"/>
-            </div>
 
             <button
               className="teaser-mute-btn"

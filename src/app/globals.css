@@ -10086,7 +10086,7 @@ img { max-width: 100%; height: auto; }
 /* ─── Centro: vídeo + título + subtítulo + hint ─── */
 .teaser-center {
   position: relative;
-  z-index: 10;
+  z-index: 15;  /* acima das cortinas (z-index 8) para texto ser sempre visível */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10289,194 +10289,244 @@ img { max-width: 100%; height: auto; }
     0 0 28px rgba(147, 51, 234, 0.25);
 }
 
-/* ═══ CORTINAS REALISTAS ═══
+/* ═══ CORTINAS REALISTAS PREMIUM (secção inteira) ═══
    2 cortinas (esquerda + direita) que:
-   - Começam fechadas (cobrindo o centro do vídeo)
+   - Começam fechadas (cobrindo toda a secção)
    - Quando a secção entra no viewport, abrem para os cantos
-   - Ficam visíveis nos cantos (~20% de cada lado)
-   - Modo noite: vermelho vinho | Modo dia: roxo
-   - Dobreas realistas via repeating-linear-gradient
+   - Ficam visíveis nos cantos (~22% de cada lado)
+   - Modo noite: vermelho vinho profundo | Modo dia: roxo elegante
+   - Tecido realista: dobreas + textura + sombras + penachos dourados
 */
 .teaser-curtains {
   position: absolute;
   inset: 0;
-  z-index: 6;
+  z-index: 8;
   pointer-events: none;
   overflow: hidden;
-  border-radius: 14px;
 }
 
-/* Cortina superior (vara) */
+/* Vara superior (curtain rod) — dourado envelhecido */
 .teaser-curtain-rod {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  height: 5px;
-  background: linear-gradient(180deg,
-    #1a0f05 0%,
-    #4a3015 30%,
-    #6a4520 50%,
-    #4a3015 70%,
-    #1a0f05 100%);
-  border-radius: 3px 3px 0 0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-  z-index: 8;
+  left: -5%;
+  right: -5%;
+  height: 8px;
+  background:
+    linear-gradient(180deg,
+      #1a0f05 0%,
+      #5a3a15 20%,
+      #8a6a25 40%,
+      #b8924a 50%,
+      #8a6a25 60%,
+      #5a3a15 80%,
+      #1a0f05 100%);
+  border-radius: 4px;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 220, 150, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+  z-index: 10;
 }
 
-/* Painel de cortina (esquerdo e direito) */
+/* Ponteiros dourados nas pontas da vara */
+.teaser-curtain-rod::before,
+.teaser-curtain-rod::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%,
+    #f5d878 0%,
+    #b8924a 40%,
+    #5a3a15 80%,
+    #2a1a05 100%);
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.6),
+    inset 0 1px 2px rgba(255, 220, 150, 0.5);
+}
+.teaser-curtain-rod::before { left: -8px; }
+.teaser-curtain-rod::after  { right: -8px; }
+
+/* Painel de cortina */
 .teaser-curtain {
   position: absolute;
-  top: 5px;
+  top: 8px;
   bottom: 0;
-  width: 56%;
-  transition: transform 2.2s cubic-bezier(0.65, 0, 0.35, 1) 0.3s;
+  width: 58%;
+  transition: transform 2.4s cubic-bezier(0.65, 0, 0.35, 1) 0.3s;
   will-change: transform;
 }
 
-/* Cortina esquerda */
+/* Cortina esquerda — tecido vermelho vinho (modo noite) */
 .teaser-curtain-left {
   left: 0;
   background:
-    /* Dobreas verticais realistas */
+    /* Dobreas profundas verticais (ciclo 40px) */
     repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.55) 0px,
-      rgba(0, 0, 0, 0.05) 8px,
-      rgba(0, 0, 0, 0.35) 16px,
-      rgba(0, 0, 0, 0.05) 24px,
-      rgba(0, 0, 0, 0.55) 32px),
-    /* Gradiente vertical (sombra no topo e fundo) */
+      rgba(0, 0, 0, 0.65) 0px,
+      rgba(255, 100, 100, 0.06) 6px,
+      rgba(0, 0, 0, 0.10) 12px,
+      rgba(255, 100, 100, 0.10) 20px,
+      rgba(0, 0, 0, 0.35) 28px,
+      rgba(0, 0, 0, 0.65) 40px),
+    /* Sombra vertical (topo e fundo) */
     linear-gradient(180deg,
-      rgba(0, 0, 0, 0.4) 0%,
-      transparent 15%,
-      transparent 85%,
+      rgba(0, 0, 0, 0.5) 0%,
+      transparent 12%,
+      transparent 88%,
+      rgba(0, 0, 0, 0.5) 100%),
+    /* Sombra interna da borda direita (para o centro) */
+    linear-gradient(90deg,
+      transparent 70%,
       rgba(0, 0, 0, 0.4) 100%),
-    /* Cor base: vermelho vinho (modo noite) */
+    /* Cor base: vermelho vinho profundo */
     linear-gradient(180deg,
-      #3a0808 0%,
-      #5a1010 25%,
-      #7a1818 50%,
-      #5a1010 75%,
-      #3a0808 100%);
+      #2a0606 0%,
+      #4a0d0d 20%,
+      #6a1414 45%,
+      #8a1c1c 55%,
+      #6a1414 75%,
+      #2a0606 100%);
   box-shadow:
-    inset -15px 0 25px rgba(0, 0, 0, 0.6),
-    inset 0 0 30px rgba(0, 0, 0, 0.3),
-    8px 0 20px rgba(0, 0, 0, 0.5);
+    inset -20px 0 40px rgba(0, 0, 0, 0.7),
+    inset 0 0 50px rgba(0, 0, 0, 0.35),
+    10px 0 30px rgba(0, 0, 0, 0.6);
   transform: translateX(0);
   /* Bordas recortadas (efeito de tecido) */
-  clip-path: polygon(0 0, 100% 0, 96% 100%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 94% 100%, 0 100%);
 }
 
-/* Cortina direita (espelho da esquerda) */
+/* Cortina direita — espelho da esquerda */
 .teaser-curtain-right {
   right: 0;
   background:
     repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.55) 0px,
-      rgba(0, 0, 0, 0.05) 8px,
-      rgba(0, 0, 0, 0.35) 16px,
-      rgba(0, 0, 0, 0.05) 24px,
-      rgba(0, 0, 0, 0.55) 32px),
+      rgba(0, 0, 0, 0.65) 0px,
+      rgba(255, 100, 100, 0.06) 6px,
+      rgba(0, 0, 0, 0.10) 12px,
+      rgba(255, 100, 100, 0.10) 20px,
+      rgba(0, 0, 0, 0.35) 28px,
+      rgba(0, 0, 0, 0.65) 40px),
     linear-gradient(180deg,
-      rgba(0, 0, 0, 0.4) 0%,
-      transparent 15%,
-      transparent 85%,
+      rgba(0, 0, 0, 0.5) 0%,
+      transparent 12%,
+      transparent 88%,
+      rgba(0, 0, 0, 0.5) 100%),
+    linear-gradient(270deg,
+      transparent 70%,
       rgba(0, 0, 0, 0.4) 100%),
     linear-gradient(180deg,
-      #3a0808 0%,
-      #5a1010 25%,
-      #7a1818 50%,
-      #5a1010 75%,
-      #3a0808 100%);
+      #2a0606 0%,
+      #4a0d0d 20%,
+      #6a1414 45%,
+      #8a1c1c 55%,
+      #6a1414 75%,
+      #2a0606 100%);
   box-shadow:
-    inset 15px 0 25px rgba(0, 0, 0, 0.6),
-    inset 0 0 30px rgba(0, 0, 0, 0.3),
-    -8px 0 20px rgba(0, 0, 0, 0.5);
+    inset 20px 0 40px rgba(0, 0, 0, 0.7),
+    inset 0 0 50px rgba(0, 0, 0, 0.35),
+    -10px 0 30px rgba(0, 0, 0, 0.6);
   transform: translateX(0);
-  clip-path: polygon(4% 0, 100% 0, 100% 100%, 0 100%);
+  clip-path: polygon(6% 0, 100% 0, 100% 100%, 0 100%);
 }
+
+/* Penachos dourados no topo das cortinas (borlas) */
+.teaser-curtain::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  width: 12px;
+  height: 14px;
+  background: radial-gradient(ellipse at 50% 30%,
+    #f5d878 0%,
+    #b8924a 50%,
+    #5a3a15 100%);
+  border-radius: 50% 50% 30% 30%;
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 220, 150, 0.4);
+  /* Múltiplos penachos via repeating */
+  background-image: repeating-linear-gradient(0deg, transparent);
+}
+.teaser-curtain-left::before  { left: 8%; }
+.teaser-curtain-right::before { right: 8%; }
 
 /* ESTADO ACTIVO: cortinas abrem para os cantos */
 .teaser-section.active .teaser-curtain-left {
-  transform: translateX(-78%);
+  transform: translateX(-76%);
 }
 
 .teaser-section.active .teaser-curtain-right {
-  transform: translateX(78%);
+  transform: translateX(76%);
 }
 
-/* Modo dia: cortinas roxas */
-.light-mode .teaser-curtain-left,
+/* Modo dia: cortinas roxas elegantes */
+.light-mode .teaser-curtain-left {
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, 0.55) 0px,
+      rgba(200, 150, 255, 0.08) 6px,
+      rgba(0, 0, 0, 0.10) 12px,
+      rgba(200, 150, 255, 0.12) 20px,
+      rgba(0, 0, 0, 0.30) 28px,
+      rgba(0, 0, 0, 0.55) 40px),
+    linear-gradient(180deg,
+      rgba(0, 0, 0, 0.4) 0%,
+      transparent 12%,
+      transparent 88%,
+      rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(90deg,
+      transparent 70%,
+      rgba(0, 0, 0, 0.35) 100%),
+    linear-gradient(180deg,
+      #2a0a4a 0%,
+      #4c1d95 20%,
+      #6d28d9 45%,
+      #7c3aed 55%,
+      #6d28d9 75%,
+      #2a0a4a 100%);
+}
+
 .light-mode .teaser-curtain-right {
   background:
     repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.50) 0px,
-      rgba(0, 0, 0, 0.05) 8px,
-      rgba(0, 0, 0, 0.30) 16px,
-      rgba(0, 0, 0, 0.05) 24px,
-      rgba(0, 0, 0, 0.50) 32px),
+      rgba(0, 0, 0, 0.55) 0px,
+      rgba(200, 150, 255, 0.08) 6px,
+      rgba(0, 0, 0, 0.10) 12px,
+      rgba(200, 150, 255, 0.12) 20px,
+      rgba(0, 0, 0, 0.30) 28px,
+      rgba(0, 0, 0, 0.55) 40px),
     linear-gradient(180deg,
-      rgba(0, 0, 0, 0.3) 0%,
-      transparent 15%,
-      transparent 85%,
-      rgba(0, 0, 0, 0.3) 100%),
+      rgba(0, 0, 0, 0.4) 0%,
+      transparent 12%,
+      transparent 88%,
+      rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(270deg,
+      transparent 70%,
+      rgba(0, 0, 0, 0.35) 100%),
     linear-gradient(180deg,
-      #3b0764 0%,
-      #5b21b6 25%,
-      #6d28d9 50%,
-      #5b21b6 75%,
-      #3b0764 100%);
-}
-
-.light-mode .teaser-curtain-rod {
-  background: linear-gradient(180deg,
-    #2a1a0a 0%,
-    #5a3a1a 30%,
-    #7a5530 50%,
-    #5a3a1a 70%,
-    #2a1a0a 100%);
+      #2a0a4a 0%,
+      #4c1d95 20%,
+      #6d28d9 45%,
+      #7c3aed 55%,
+      #6d28d9 75%,
+      #2a0a4a 100%);
 }
 
 /* Mobile: cortinas mais finas quando abertas */
 @media (max-width: 480px) {
   .teaser-section.active .teaser-curtain-left {
-    transform: translateX(-72%);
+    transform: translateX(-70%);
   }
   .teaser-section.active .teaser-curtain-right {
-    transform: translateX(72%);
+    transform: translateX(70%);
   }
 }
 
-/* ═══ OVERLAY DO VÍDEO — efeito "desligado" + 2 flashes ═══
-   Overlay preto que cobre o vídeo.
-   Depois das cortinas abrirem (2.5s), faz 2 flashes brancos
-   e depois desaparece (revelando o vídeo a dar).
-*/
-.teaser-video-overlay {
-  position: absolute;
-  inset: 0;
-  background: #000;
-  z-index: 5;
-  pointer-events: none;
-  opacity: 1;
-  border-radius: 14px;
-}
-
-/* Animação: 2 flashes depois das cortinas abrirem */
-.teaser-section.active .teaser-video-overlay {
-  animation: teaser-video-flash 1.5s ease-out 2.5s forwards;
-}
-
-@keyframes teaser-video-flash {
-  0%   { background: #000; opacity: 1; }
-  10%  { background: #000; opacity: 1; }       /* ainda preto */
-  20%  { background: #fff; opacity: 1; }       /* flash 1 */
-  30%  { background: #000; opacity: 1; }       /* preto */
-  55%  { background: #000; opacity: 1; }       /* preto */
-  65%  { background: #fff; opacity: 1; }       /* flash 2 */
-  75%  { background: #000; opacity: 1; }       /* preto */
-  100% { background: #000; opacity: 0; }       /* transparente (vídeo visível) */
-}
+/* Overlay do vídeo removido — vídeo é visível assim que cortinas abrem */
 
 /* ─── Subtítulo ─── */
 .teaser-subtitle {
