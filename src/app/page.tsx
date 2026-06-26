@@ -792,49 +792,25 @@ export default function HomePage() {
     setThemeMode(target);
   }, []);
 
-  // ═══ TEASER: Demon Hunter Stage Reveal ═══
-  // Trigger cinematic intro when section enters viewport
+  // ═══ TEASER: Stage rise animation ═══
+  // Adiciona classe 'rise-active' à secção no mount para triggers
+  // a animação de subida do painel. Se JS falhar, o vídeo é visível
+  // por defeito (CSS default = opacity:1).
   const teaserRef = useRef<HTMLElement>(null);
-  const [teaserRevealed, setTeaserRevealed] = useState(false);
   useEffect(() => {
-    // Skip intro for reduced-motion users
+    // Skip animation for reduced-motion users
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setTeaserRevealed(true);
       return;
     }
-    const section = teaserRef.current;
-    if (!section) {
-      // Fallback: se o ref não estiver pronto, revelar após 1.5s
-      const fallback = setTimeout(() => setTeaserRevealed(true), 1500);
-      return () => clearTimeout(fallback);
-    }
-    
-    // Verificar imediatamente se a secção já está visível (load direto)
-    const rect = section.getBoundingClientRect();
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-    const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
-    const visibleRatio = rect.height > 0 ? visibleHeight / rect.height : 0;
-    
-    if (visibleRatio > 0.15) {
-      // Já está visível — disparar imediatamente
-      setTeaserRevealed(true);
-      return;
-    }
-    
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.15) {
-            setTeaserRevealed(true);
-            observer.disconnect();
-            break;
-          }
-        }
-      },
-      { threshold: [0, 0.15, 0.25, 0.5], rootMargin: '0px 0px -10% 0px' }
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
+    // Usar requestAnimationFrame para garantir que o DOM está pronto
+    // antes de adicionar a classe (evita flash do vídeo visível)
+    const rafId = requestAnimationFrame(() => {
+      const section = teaserRef.current;
+      if (section) {
+        section.classList.add('rise-active');
+      }
+    });
+    return () => cancelAnimationFrame(rafId);
   }, []);
 
   // ═══ SISTEMA DE TROCA DE TEMA — REFEITO 2026-06 ═══
