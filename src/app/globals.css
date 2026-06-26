@@ -10423,11 +10423,11 @@ img { max-width: 100%; height: auto; }
 
 /* ESTADO ACTIVO: cortinas abrem a metade para os lados */
 .teaser-section.active .teaser-curtain-left {
-  transform: translateX(-15%);
+  transform: translateX(-35%);
 }
 
 .teaser-section.active .teaser-curtain-right {
-  transform: translateX(15%);
+  transform: translateX(35%);
 }
 
 /* Modo dia: cortinas roxas elegantes */
@@ -10496,10 +10496,10 @@ img { max-width: 100%; height: auto; }
 /* Mobile: abertura um pouco menor */
 @media (max-width: 480px) {
   .teaser-section.active .teaser-curtain-left {
-    transform: translateX(-12%);
+    transform: translateX(-30%);
   }
   .teaser-section.active .teaser-curtain-right {
-    transform: translateX(12%);
+    transform: translateX(30%);
   }
 }
 
@@ -10699,7 +10699,7 @@ img { max-width: 100%; height: auto; }
   .teaser-curtain-inner { animation: none; }
   .teaser-section.active .teaser-curtain-left,
   .teaser-section.active .teaser-curtain-right {
-    transform: translateX(-15%) !important;
+    transform: translateX(-35%) !important;
   }
   .teaser-section.active .teaser-video-flash {
     animation: none;
