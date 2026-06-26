@@ -10045,14 +10045,14 @@ img { max-width: 100%; height: auto; }
 /* force redeploy Sun Jun 21 00:05:29 UTC 2026 */
 /* SEO build Mon Jun 22 02:37:03 UTC 2026 */
 
-/* ═══════════════════════════════════════════════════════════════════ */
-/* ═══ /* ═══════════════════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════════════
  * ═══ TEASER — Secção com vídeo HTML5 (Proposta 1: Ecrã Cinema) ═══
- * ═══════════════════════════════════════════════════════════════════ */
+ * Cortinas de veludo vermelho + moldura dourada ornamentada
+ * ══════════════════════════════════════════════════════════════════════ */
 
 .teaser-section {
   position: relative;
-  padding: 4rem 0 3rem;
+  padding: 5rem 0 4rem;
   background: var(--void);
   overflow: hidden;
   isolation: isolate;
@@ -10063,106 +10063,254 @@ img { max-width: 100%; height: auto; }
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 600px;
-  height: 600px;
+  width: 700px;
+  height: 700px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(200, 80, 255, 0.10) 0%, rgba(180, 74, 255, 0.04) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(200, 80, 255, 0.12) 0%, rgba(180, 74, 255, 0.05) 40%, transparent 70%);
   transform: translate(-50%, -50%);
   z-index: 0;
   pointer-events: none;
-  filter: blur(40px);
+  filter: blur(50px);
 }
 
-/* Wrapper do vídeo — centrado, max-width para retrato */
+/* ─── Stage: palco onde o vídeo + cortinas vivem ─── */
+.teaser-stage {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 14px;
+  border-radius: 18px;
+  /* Moldura dourada ornamentada */
+  background:
+    linear-gradient(135deg,
+      #6B4F0E 0%,
+      #B8860B 15%,
+      #FFD700 35%,
+      #FFF4C2 50%,
+      #FFD700 65%,
+      #B8860B 85%,
+      #6B4F0E 100%);
+  box-shadow:
+    0 0 0 2px rgba(180, 140, 50, 0.6),
+    0 25px 70px rgba(11, 8, 19, 0.7),
+    0 0 120px rgba(200, 80, 255, 0.12),
+    inset 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Inner dark frame (between gold and video) */
+.teaser-stage-inner {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: inset 0 0 0 3px #0a0510, inset 0 0 30px rgba(0,0,0,0.8);
+}
+
+/* Wrapper do vídeo */
 .teaser-video-wrap {
   position: relative;
-  max-width: 400px;
-  margin: 0 auto;
-  border-radius: 12px;
+  display: block;
+  width: 100%;
   overflow: hidden;
+  border-radius: 6px;
 }
 
-/* Vídeo HTML5 — preenche o wrapper */
+/* Vídeo HTML5 */
 .teaser-video {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 12px;
   background: #000;
-  box-shadow: 0 20px 60px rgba(11, 8, 19, 0.5), 0 0 80px rgba(200, 80, 255, 0.08);
 }
 
-/* Borda neon à volta do vídeo */
+/* ─── Cortinas de veludo vermelho ─── */
+.teaser-curtain-left,
+.teaser-curtain-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  z-index: 4;
+  pointer-events: none;
+  /* Textura de veludo: dobras verticais + gradiente */
+  background:
+    /* dobras profundas */
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, 0.35) 0px,
+      rgba(0, 0, 0, 0) 6px,
+      rgba(0, 0, 0, 0.25) 12px,
+      rgba(0, 0, 0, 0) 18px,
+      rgba(0, 0, 0, 0.4) 24px,
+      rgba(0, 0, 0, 0) 30px),
+    /* brilho de veludo */
+    linear-gradient(90deg,
+      #2a0505 0%,
+      #5a0a0a 25%,
+      #8b1a1a 50%,
+      #5a0a0a 75%,
+      #2a0505 100%);
+  box-shadow:
+    inset 0 0 80px rgba(0, 0, 0, 0.8),
+    inset 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Cortina esquerda — parte para a esquerda (com ponta diagonal) */
+.teaser-curtain-left {
+  left: 0;
+  border-right: 2px solid rgba(255, 215, 0, 0.5);
+  clip-path: polygon(0 0, 100% 0, 78% 50%, 100% 100%, 0 100%);
+  box-shadow:
+    inset -10px 0 30px rgba(0, 0, 0, 0.8),
+    inset 0 0 80px rgba(0, 0, 0, 0.6),
+    5px 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Cortina direita — parte para a direita (com ponta diagonal) */
+.teaser-curtain-right {
+  right: 0;
+  border-left: 2px solid rgba(255, 215, 0, 0.5);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 22% 50%);
+  box-shadow:
+    inset 10px 0 30px rgba(0, 0, 0, 0.8),
+    inset 0 0 80px rgba(0, 0, 0, 0.6),
+    -5px 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Borda neon subtil (mantida para hover) */
 .teaser-video-border {
   position: absolute;
   inset: 0;
-  border-radius: 12px;
-  border: 1px solid rgba(200, 80, 255, 0.20);
+  border-radius: 6px;
+  border: 1px solid rgba(200, 80, 255, 0.15);
   pointer-events: none;
-  z-index: 2;
+  z-index: 3;
   transition: border-color 0.6s ease, box-shadow 0.6s ease;
 }
 
-/* Hover: borda fica mais visível */
 .teaser-video-wrap:hover .teaser-video-border {
-  border-color: rgba(200, 80, 255, 0.40);
+  border-color: rgba(200, 80, 255, 0.35);
   box-shadow: 0 0 40px rgba(200, 80, 255, 0.15);
 }
 
-/* Modo dia */
+/* ─── Label "TEASER" — maior, cinematográfico ─── */
+.teaser-label {
+  text-align: center;
+  margin-top: 1.8rem;
+  font-family: var(--font-display, inherit);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  text-indent: 0.45em;
+  color: var(--t2, #d8d2cc);
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.teaser-label .neon-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(200, 80, 255, 0.5) 0%,
+    #f5e6a8 30%,
+    #FFD700 50%,
+    #f5e6a8 70%,
+    rgba(200, 80, 255, 0.5) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: teaser-shimmer 4s linear infinite;
+}
+
+@keyframes teaser-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Hint subtil: "Clica para ouvir" */
+.teaser-hint {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--t3, #888);
+  opacity: 0.7;
+}
+
+/* ─── Modo dia ─── */
 .light-mode .teaser-bg-glow {
   background: radial-gradient(circle, rgba(147, 51, 234, 0.10) 0%, rgba(180, 74, 255, 0.04) 40%, transparent 70%);
 }
-.light-mode .teaser-video {
-  box-shadow: 0 20px 60px rgba(80, 50, 120, 0.25), 0 0 80px rgba(147, 51, 234, 0.08);
-}
-.light-mode .teaser-video-border {
-  border-color: rgba(147, 51, 234, 0.25);
+.light-mode .teaser-stage {
+  box-shadow:
+    0 0 0 2px rgba(180, 140, 50, 0.5),
+    0 25px 70px rgba(80, 50, 120, 0.25),
+    0 0 120px rgba(147, 51, 234, 0.08),
+    inset 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Mobile — padding reduzido */
+/* ─── Mobile — padding reduzido, cortinas mais finhas ─── */
 @media (max-width: 767px) {
   .teaser-section {
-    padding: 2.5rem 0 2.5rem;
+    padding: 3rem 0 2.5rem;
   }
   .teaser-bg-glow {
-    width: 400px;
-    height: 400px;
+    width: 450px;
+    height: 450px;
   }
-  .teaser-video-wrap {
-    max-width: 320px;
+  .teaser-stage {
+    max-width: 340px;
+    padding: 10px;
   }
-  .teaser-video-frame {
-    box-shadow: 0 12px 36px rgba(11, 8, 19, 0.4);
+  .teaser-curtain-left,
+  .teaser-curtain-right {
+    width: 22%;
+  }
+  .teaser-label {
+    margin-top: 1.4rem;
+    letter-spacing: 0.35em;
+  }
+}
+
+/* ─── Mobile pequeno: esconder cortinas (seriam demasiado finas) ─── */
+@media (max-width: 380px) {
+  .teaser-curtain-left,
+  .teaser-curtain-right {
+    width: 15%;
   }
 }
 
 /* ═══ Botão mute/unmute do teaser ═══ */
 .teaser-mute-btn {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 3;
-  width: 36px;
-  height: 36px;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: rgba(11, 8, 19, 0.7);
+  background: rgba(11, 8, 19, 0.75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(200, 80, 255, 0.25);
-  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  color: rgba(255, 215, 0, 0.9);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
 }
 
 .teaser-mute-btn:hover {
-  background: rgba(200, 80, 255, 0.2);
-  border-color: rgba(200, 80, 255, 0.5);
-  color: #fff;
+  background: rgba(200, 80, 255, 0.25);
+  border-color: rgba(255, 215, 0, 0.8);
+  color: #FFD700;
   transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(200, 80, 255, 0.4);
 }
 
 /* Por defeito: mostrar ícone muted (sem som) */
@@ -10175,12 +10323,12 @@ img { max-width: 100%; height: auto; }
 
 /* Modo dia */
 .light-mode .teaser-mute-btn {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(147, 51, 234, 0.3);
-  color: rgba(30, 16, 64, 0.8);
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(180, 140, 50, 0.5);
+  color: rgba(107, 79, 14, 0.9);
 }
 .light-mode .teaser-mute-btn:hover {
   background: rgba(147, 51, 234, 0.2);
-  border-color: rgba(147, 51, 234, 0.5);
-  color: #1E1040;
+  border-color: rgba(180, 140, 50, 0.8);
+  color: #6B4F0E;
 }
