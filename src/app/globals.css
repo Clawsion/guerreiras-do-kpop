@@ -10274,124 +10274,16 @@ img { max-width: 100%; height: auto; }
    Usa CSS variables para cores — funciona IGUAL em modo dia/noite.
    Apenas os tons mudam (definidos nas variables acima).
 */
-.teaser-curtains {
-  position: absolute;
-  inset: 0;
-  z-index: 40;
-  pointer-events: none;
-  overflow: hidden;
-}
 
 /* Vara superior (curtain rod) — dourado envelhecido */
-.teaser-curtain-rod {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 10px;
-  background: linear-gradient(180deg,
-    #1a0f05 0%,
-    #5a3a15 15%,
-    #8a6a25 35%,
-    #c89a55 50%,
-    #8a6a25 65%,
-    #5a3a15 85%,
-    #1a0f05 100%);
-  border-radius: 5px 5px 0 0;
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.8),
-    inset 0 1px 0 rgba(255, 220, 150, 0.5),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.6);
-  z-index: 42;
-}
-
-.teaser-curtain-rod::before,
-.teaser-curtain-rod::after {
-  content: "";
-  position: absolute;
-  top: -5px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%,
-    #f5d878 0%, #c89a55 40%, #5a3a15 80%, #2a1a05 100%);
-  box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.7),
-    inset 0 1px 2px rgba(255, 220, 150, 0.5);
-}
-.teaser-curtain-rod::before { left: -10px; }
-.teaser-curtain-rod::after  { right: -10px; }
 
 /* WRAPPER da cortina — faz a abertura */
-.teaser-curtain {
-  position: absolute;
-  top: 10px;
-  bottom: 0;
-  width: 50%;
-  transform-origin: 50% 0%;
-  transition: transform 2.5s cubic-bezier(0.5, 0, 0.2, 1) 0.3s;
-  will-change: transform;
-}
-
-.teaser-curtain-left  { left: 0; }
-.teaser-curtain-right { right: 0; }
 
 /* INNER da cortina — faz o sway + tem o background */
-.teaser-curtain-inner {
-  position: absolute;
-  inset: 0;
-  transform-origin: 50% 0%;
-  animation: teaser-curtain-sway 6s ease-in-out infinite;
-  will-change: transform;
-  /* Background usa CSS variables — funciona em ambos os modos */
-  background:
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.7) 0px,
-      var(--curtain-highlight) 8px,
-      rgba(0, 0, 0, 0.10) 16px,
-      var(--curtain-highlight) 24px,
-      rgba(0, 0, 0, 0.35) 32px,
-      rgba(0, 0, 0, 0.7) 48px),
-    linear-gradient(115deg,
-      transparent 35%,
-      var(--curtain-sheen) 50%,
-      transparent 65%),
-    linear-gradient(180deg,
-      rgba(0, 0, 0, 0.55) 0%,
-      transparent 10%,
-      transparent 90%,
-      rgba(0, 0, 0, 0.55) 100%),
-    linear-gradient(180deg,
-      var(--curtain-color-1) 0%,
-      var(--curtain-color-2) 18%,
-      var(--curtain-color-3) 38%,
-      var(--curtain-color-4) 50%,
-      var(--curtain-color-3) 62%,
-      var(--curtain-color-2) 82%,
-      var(--curtain-color-1) 100%);
-  box-shadow:
-    inset -15px 0 30px rgba(0, 0, 0, 0.75),
-    inset 0 0 40px rgba(0, 0, 0, 0.4),
-    6px 0 18px rgba(0, 0, 0, 0.6);
-}
 
 /* Cortina esquerda — clip-path diagonal */
-.teaser-curtain-left .teaser-curtain-inner {
-  clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
-  box-shadow:
-    inset -15px 0 30px rgba(0, 0, 0, 0.75),
-    inset 0 0 40px rgba(0, 0, 0, 0.4),
-    6px 0 18px rgba(0, 0, 0, 0.6);
-}
 
 /* Cortina direita — clip-path espelhado */
-.teaser-curtain-right .teaser-curtain-inner {
-  clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
-  box-shadow:
-    inset 15px 0 30px rgba(0, 0, 0, 0.75),
-    inset 0 0 40px rgba(0, 0, 0, 0.4),
-    -6px 0 18px rgba(0, 0, 0, 0.6);
-}
 
 @keyframes teaser-curtain-sway {
   0%, 100% { transform: skewX(0deg) rotate(0deg) translateX(0); }
@@ -10419,51 +10311,8 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Mobile: abertura um pouco menor */
-@media (max-width: 480px) {
-  .teaser-section.active .teaser-curtain-left {
-    transform: translateX(-25%);
-  }
-  .teaser-section.active .teaser-curtain-right {
-    transform: translateX(25%);
-  }
-}
 
 /* ─── Reflexo neon por baixo do vídeo ─── */
-.teaser-neon-streak {
-  position: relative;
-  width: 70%;
-  height: 2px;
-  margin: 4px auto 0;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(200, 80, 255, 0.7) 30%,
-    #FFD700 50%,
-    rgba(200, 80, 255, 0.7) 70%,
-    transparent 100%);
-  border-radius: 2px;
-  box-shadow:
-    0 0 6px rgba(200, 80, 255, 0.85),
-    0 0 14px rgba(255, 215, 0, 0.45),
-    0 0 28px rgba(200, 80, 255, 0.25);
-  pointer-events: none;
-}
-
-.teaser-neon-streak::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 30px;
-  background: inherit;
-  filter: blur(8px);
-  opacity: 0.35;
-  transform: scaleY(-1);
-  transform-origin: top;
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-  pointer-events: none;
-}
 
 .light-mode .teaser-neon-streak {
   background: linear-gradient(90deg,
@@ -10479,79 +10328,10 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ═══ SUBTÍTULO — 2 linhas centradas e de destaque ═══ */
-.teaser-subtitle {
-  margin: 0;
-  text-align: center;
-  font-family: var(--font-display, inherit);
-  text-transform: uppercase;
-  line-height: 1.2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3em;
-}
-
-.teaser-subtitle-line-1 {
-  font-size: clamp(1.15rem, 2.8vw, 1.7rem);
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-indent: 0.22em;
-  background: linear-gradient(90deg,
-    rgba(220, 130, 255, 0.95) 0%,
-    #f5e6a8 25%,
-    #FFD700 50%,
-    #f5e6a8 75%,
-    rgba(220, 130, 255, 0.95) 100%);
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: teaser-subtitle-shimmer 5s linear infinite;
-  filter:
-    drop-shadow(0 0 6px rgba(200, 80, 255, 0.55))
-    drop-shadow(0 0 14px rgba(255, 215, 0, 0.35));
-}
 
 @keyframes teaser-subtitle-shimmer {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
-}
-
-.teaser-subtitle-line-2-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.9em;
-}
-
-.teaser-subtitle-line-2 {
-  font-size: clamp(0.9rem, 1.9vw, 1.2rem);
-  font-weight: 500;
-  letter-spacing: 0.5em;
-  text-indent: 0.5em;
-  color: rgba(255, 245, 255, 0.95);
-  text-shadow:
-    0 0 4px rgba(255, 255, 255, 0.85),
-    0 0 10px rgba(200, 80, 255, 0.85),
-    0 0 22px rgba(200, 80, 255, 0.55),
-    0 0 40px rgba(168, 85, 247, 0.35);
-}
-
-.teaser-subtitle-line-2-wrap::before,
-.teaser-subtitle-line-2-wrap::after {
-  content: "";
-  display: block;
-  width: clamp(24px, 4vw, 42px);
-  height: 1px;
-  flex-shrink: 0;
-  filter: drop-shadow(0 0 3px rgba(200, 80, 255, 0.6));
-}
-
-.teaser-subtitle-line-2-wrap::before {
-  background: linear-gradient(90deg, transparent 0%, rgba(200, 80, 255, 0.8) 100%);
-}
-.teaser-subtitle-line-2-wrap::after {
-  background: linear-gradient(90deg, rgba(200, 80, 255, 0.8) 0%, transparent 100%);
 }
 
 .light-mode .teaser-subtitle-line-1 {
@@ -10589,39 +10369,10 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ─── Hint ─── */
-.teaser-hint {
-  margin: 0;
-  text-align: center;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--t3, #888);
-  opacity: 0.65;
-  font-weight: 400;
-}
 
 /* ─── Mobile ─── */
-@media (max-width: 480px) {
-  .teaser-section { padding: 3.5rem 0 3.5rem; min-height: 70vh; }
-  .teaser-video-wrap { max-width: 280px; }
-  .teaser-title { letter-spacing: 0.10em; }
-  .teaser-neon-streak { width: 80%; }
-}
 
 /* Acessibilidade */
-@media (prefers-reduced-motion: reduce) {
-  .teaser-title-shimmer,
-  .teaser-subtitle-line-1,
-  .teaser-curtain-inner { animation: none; }
-  .teaser-section.active .teaser-curtain-left,
-  .teaser-section.active .teaser-curtain-right {
-    transform: translateX(-28%) !important;
-  }
-  .teaser-section.active .teaser-video-flash {
-    animation: none;
-    opacity: 0;
-  }
-}
 
 /* ═══ CORTINAS FULL-SIZE — tapam a SECÇÃO INTEIRA ═══
    2 cortinas, cada uma 50% da largura da secção.
@@ -10629,77 +10380,14 @@ img { max-width: 100%; height: auto; }
    Quando ativas: abrem para os lados a metade (translateX ±50%).
    Tecido realista vermelho vinho (noite) / roxo (dia).
 */
-.teaser-curtains {
-  position: absolute;
-  inset: 0;
-  z-index: 40;  /* à frente de tudo (vídeo, letras, etc.) */
-  pointer-events: none;
-  overflow: hidden;
-}
 
 /* Vara superior (curtain rod) — dourado envelhecido */
-.teaser-curtain-rod {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 10px;
-  background: linear-gradient(180deg,
-    #1a0f05 0%,
-    #5a3a15 15%,
-    #8a6a25 35%,
-    #c89a55 50%,
-    #8a6a25 65%,
-    #5a3a15 85%,
-    #1a0f05 100%);
-  border-radius: 5px 5px 0 0;
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.8),
-    inset 0 1px 0 rgba(255, 220, 150, 0.5),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.6);
-  z-index: 42;  /* acima das cortinas (40) */
-}
 
 /* Ponteiros dourados nas pontas da vara */
-.teaser-curtain-rod::before,
-.teaser-curtain-rod::after {
-  content: "";
-  position: absolute;
-  top: -5px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%,
-    #f5d878 0%, #c89a55 40%, #5a3a15 80%, #2a1a05 100%);
-  box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.7),
-    inset 0 1px 2px rgba(255, 220, 150, 0.5);
-}
-.teaser-curtain-rod::before { left: -10px; }
-.teaser-curtain-rod::after  { right: -10px; }
 
 /* WRAPPER da cortina — faz a abertura (translateX ±50%) */
-.teaser-curtain {
-  position: absolute;
-  top: 10px;
-  bottom: 0;
-  width: 50%;
-  transform-origin: 50% 0%;
-  transition: transform 2.5s cubic-bezier(0.5, 0, 0.2, 1) 0.3s;
-  will-change: transform;
-}
-
-.teaser-curtain-left  { left: 0; }
-.teaser-curtain-right { right: 0; }
 
 /* INNER da cortina — faz o sway (independente da abertura) */
-.teaser-curtain-inner {
-  position: absolute;
-  inset: 0;
-  transform-origin: 50% 0%;
-  animation: teaser-curtain-sway 6s ease-in-out infinite;
-  will-change: transform;
-}
 
 @keyframes teaser-curtain-sway {
   0%, 100% { transform: skewX(0deg) rotate(0deg) translateX(0); }
@@ -10715,78 +10403,8 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Cortina esquerda — tecido vermelho vinho (modo noite) */
-.teaser-curtain-left .teaser-curtain-inner {
-  background:
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.7) 0px,
-      rgba(255, 100, 100, 0.08) 8px,
-      rgba(0, 0, 0, 0.10) 16px,
-      rgba(255, 100, 100, 0.12) 24px,
-      rgba(0, 0, 0, 0.35) 32px,
-      rgba(0, 0, 0, 0.7) 48px),
-    linear-gradient(115deg,
-      transparent 35%,
-      rgba(255, 200, 200, 0.10) 50%,
-      transparent 65%),
-    linear-gradient(180deg,
-      rgba(0, 0, 0, 0.55) 0%,
-      transparent 10%,
-      transparent 90%,
-      rgba(0, 0, 0, 0.55) 100%),
-    linear-gradient(90deg,
-      transparent 60%,
-      rgba(0, 0, 0, 0.5) 100%),
-    linear-gradient(180deg,
-      #1f0404 0%,
-      #3a0808 18%,
-      #5a1010 38%,
-      #7a1818 50%,
-      #5a1010 62%,
-      #3a0808 82%,
-      #1f0404 100%);
-  box-shadow:
-    inset -15px 0 30px rgba(0, 0, 0, 0.75),
-    inset 0 0 40px rgba(0, 0, 0, 0.4),
-    6px 0 18px rgba(0, 0, 0, 0.6);
-  clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
-}
 
 /* Cortina direita — espelho */
-.teaser-curtain-right .teaser-curtain-inner {
-  background:
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.7) 0px,
-      rgba(255, 100, 100, 0.08) 8px,
-      rgba(0, 0, 0, 0.10) 16px,
-      rgba(255, 100, 100, 0.12) 24px,
-      rgba(0, 0, 0, 0.35) 32px,
-      rgba(0, 0, 0, 0.7) 48px),
-    linear-gradient(245deg,
-      transparent 35%,
-      rgba(255, 200, 200, 0.10) 50%,
-      transparent 65%),
-    linear-gradient(180deg,
-      rgba(0, 0, 0, 0.55) 0%,
-      transparent 10%,
-      transparent 90%,
-      rgba(0, 0, 0, 0.55) 100%),
-    linear-gradient(270deg,
-      transparent 60%,
-      rgba(0, 0, 0, 0.5) 100%),
-    linear-gradient(180deg,
-      #1f0404 0%,
-      #3a0808 18%,
-      #5a1010 38%,
-      #7a1818 50%,
-      #5a1010 62%,
-      #3a0808 82%,
-      #1f0404 100%);
-  box-shadow:
-    inset 15px 0 30px rgba(0, 0, 0, 0.75),
-    inset 0 0 40px rgba(0, 0, 0, 0.4),
-    -6px 0 18px rgba(0, 0, 0, 0.6);
-  clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
-}
 
 /* ESTADO ACTIVO: cortinas abrem a metade para os lados */
 .teaser-section.active .teaser-curtain-left {
@@ -10861,51 +10479,8 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Mobile: abertura um pouco menor */
-@media (max-width: 480px) {
-  .teaser-section.active .teaser-curtain-left {
-    transform: translateX(-30%);
-  }
-  .teaser-section.active .teaser-curtain-right {
-    transform: translateX(30%);
-  }
-}
 
 /* ─── Reflexo neon por baixo do vídeo ─── */
-.teaser-neon-streak {
-  position: relative;
-  width: 70%;
-  height: 2px;
-  margin: 4px auto 0;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(200, 80, 255, 0.7) 30%,
-    #FFD700 50%,
-    rgba(200, 80, 255, 0.7) 70%,
-    transparent 100%);
-  border-radius: 2px;
-  box-shadow:
-    0 0 6px rgba(200, 80, 255, 0.85),
-    0 0 14px rgba(255, 215, 0, 0.45),
-    0 0 28px rgba(200, 80, 255, 0.25);
-  pointer-events: none;
-}
-
-.teaser-neon-streak::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 30px;
-  background: inherit;
-  filter: blur(8px);
-  opacity: 0.35;
-  transform: scaleY(-1);
-  transform-origin: top;
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-  pointer-events: none;
-}
 
 .light-mode .teaser-neon-streak {
   background: linear-gradient(90deg,
@@ -10926,39 +10501,8 @@ img { max-width: 100%; height: auto; }
    Cores a corresponder com a secção (púrpura/dourado no modo noite,
    roxo/dourado escuro no modo dia).
 */
-.teaser-subtitle {
-  margin: 0;
-  text-align: center;
-  font-family: var(--font-display, inherit);
-  text-transform: uppercase;
-  line-height: 1.2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3em;
-}
 
 /* Linha 1: "O Grande Tributo" — maior, com shimmer púrpura↔dourado */
-.teaser-subtitle-line-1 {
-  font-size: clamp(1.15rem, 2.8vw, 1.7rem);
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-indent: 0.22em;
-  background: linear-gradient(90deg,
-    rgba(220, 130, 255, 0.95) 0%,
-    #f5e6a8 25%,
-    #FFD700 50%,
-    #f5e6a8 75%,
-    rgba(220, 130, 255, 0.95) 100%);
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: teaser-subtitle-shimmer 5s linear infinite;
-  filter:
-    drop-shadow(0 0 6px rgba(200, 80, 255, 0.55))
-    drop-shadow(0 0 14px rgba(255, 215, 0, 0.35));
-}
 
 @keyframes teaser-subtitle-shimmer {
   0%   { background-position: 200% 0; }
@@ -10966,43 +10510,8 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Linha 2: "Ao Vivo" — menor, com mais espaçamento, neon glow */
-.teaser-subtitle-line-2-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.9em;
-}
-
-.teaser-subtitle-line-2 {
-  font-size: clamp(0.9rem, 1.9vw, 1.2rem);
-  font-weight: 500;
-  letter-spacing: 0.5em;
-  text-indent: 0.5em;
-  color: rgba(255, 245, 255, 0.95);
-  text-shadow:
-    0 0 4px rgba(255, 255, 255, 0.85),
-    0 0 10px rgba(200, 80, 255, 0.85),
-    0 0 22px rgba(200, 80, 255, 0.55),
-    0 0 40px rgba(168, 85, 247, 0.35);
-}
 
 /* Traços decorativos dos lados de "Ao Vivo" */
-.teaser-subtitle-line-2-wrap::before,
-.teaser-subtitle-line-2-wrap::after {
-  content: "";
-  display: block;
-  width: clamp(24px, 4vw, 42px);
-  height: 1px;
-  flex-shrink: 0;
-  filter: drop-shadow(0 0 3px rgba(200, 80, 255, 0.6));
-}
-
-.teaser-subtitle-line-2-wrap::before {
-  background: linear-gradient(90deg, transparent 0%, rgba(200, 80, 255, 0.8) 100%);
-}
-.teaser-subtitle-line-2-wrap::after {
-  background: linear-gradient(90deg, rgba(200, 80, 255, 0.8) 0%, transparent 100%);
-}
 
 /* Modo dia: cores adaptadas para contraste em fundo claro */
 .light-mode .teaser-subtitle-line-1 {
@@ -11040,39 +10549,10 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ─── Hint ─── */
-.teaser-hint {
-  margin: 0;
-  text-align: center;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--t3, #888);
-  opacity: 0.65;
-  font-weight: 400;
-}
 
 /* ─── Mobile ─── */
-@media (max-width: 480px) {
-  .teaser-section { padding: 3.5rem 0 3.5rem; min-height: 70vh; }
-  .teaser-video-wrap { max-width: 280px; }
-  .teaser-title { letter-spacing: 0.10em; }
-  .teaser-neon-streak { width: 80%; }
-}
 
 /* Acessibilidade */
-@media (prefers-reduced-motion: reduce) {
-  .teaser-title-shimmer,
-  .teaser-subtitle-line-1,
-  .teaser-curtain-inner { animation: none; }
-  .teaser-section.active .teaser-curtain-left,
-  .teaser-section.active .teaser-curtain-right {
-    transform: translateX(-35%) !important;
-  }
-  .teaser-section.active .teaser-video-flash {
-    animation: none;
-    opacity: 0;
-  }
-}
 
 
 
