@@ -1565,11 +1565,7 @@ export default function HomePage() {
           - HTML5 <video> autoplay muted loop (sem logos, sem controlos)
           - Botão mute/unmute para o utilizador ativar o som
           - Design: moldura neon, "Teaser", compacta */}
-      <section
-        id="teaser"
-        ref={teaserRef as React.RefObject<HTMLElement>}
-        className={`teaser-section ${teaserActive ? 'active' : ''}`}
-      >
+      <section id="teaser" className="teaser-section">
         <div className="teaser-bg-glow" aria-hidden="true"/>
 
 </section>
