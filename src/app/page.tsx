@@ -1032,33 +1032,50 @@ export default function HomePage() {
   // Garantir que o vídeo começa a dar (alguns browsers bloqueiam autoplay)
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const v = document.getElementById('teaser-video-el') as HTMLVideoElement | null;
-    if (!v) return;
-    // Tentar dar play várias vezes (alguns browsers precisam de interação)
+    
     const tryPlay = () => {
+      const v = document.getElementById('teaser-video-el') as HTMLVideoElement | null;
+      if (!v) return;
+      // Garantir que está muted (autoplay só funciona se muted)
+      v.muted = true;
       v.play().catch(() => {
-        // Se falhar, tentar novamente quando houver interação do utilizador
+        // Se falhar, tentar reload e play
+        v.load();
+        setTimeout(() => {
+          v.muted = true;
+          v.play().catch(() => {});
+        }, 200);
       });
     };
-    tryPlay();
-    // Tentar novamente após 1s e 3s
-    const t1 = setTimeout(tryPlay, 1000);
-    const t2 = setTimeout(tryPlay, 3000);
-    // Tentar no primeiro clique do utilizador (fallback para browsers restritos)
+    
+    // Tentar imediatamente
+    setTimeout(tryPlay, 100);
+    // Retry mais agressivo
+    const t1 = setTimeout(tryPlay, 500);
+    const t2 = setTimeout(tryPlay, 1500);
+    const t3 = setTimeout(tryPlay, 3000);
+    const t4 = setTimeout(tryPlay, 5000);
+    
+    // Fallback: tentar no primeiro clique/touch/scroll do utilizador
     const onFirstInteraction = () => {
       tryPlay();
-      document.removeEventListener('click', onFirstInteraction);
-      document.removeEventListener('touchstart', onFirstInteraction);
     };
-    document.addEventListener('click', onFirstInteraction, { once: true });
-    document.addEventListener('touchstart', onFirstInteraction, { once: true });
+    document.addEventListener('click', onFirstInteraction);
+    document.addEventListener('touchstart', onFirstInteraction);
+    document.addEventListener('scroll', onFirstInteraction, { passive: true });
+    document.addEventListener('keydown', onFirstInteraction);
+    
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(t4);
       document.removeEventListener('click', onFirstInteraction);
       document.removeEventListener('touchstart', onFirstInteraction);
+      document.removeEventListener('scroll', onFirstInteraction);
+      document.removeEventListener('keydown', onFirstInteraction);
     };
-  }, []);
+  }, [teaserRevealed]);  // Re-tentar quando a secção é revelada
 
 
   return (
@@ -1652,11 +1669,22 @@ export default function HomePage() {
               loop
               playsInline
               preload="auto"
+              crossOrigin="anonymous"
               poster="/poster.webp"
               id="teaser-video-el"
-              key="teaser-video-fix1"
+              key="teaser-audio-fix-2026"
+              onLoadedData={(e) => {
+                // Garantir play quando o vídeo carrega
+                const v = e.currentTarget;
+                v.play().catch(() => {});
+              }}
+              onCanPlay={(e) => {
+                // Garantir play quando pode tocar
+                const v = e.currentTarget;
+                v.play().catch(() => {});
+              }}
             >
-              <source src="/teaser.mp4?v=videoFix1" type="video/mp4" />
+              <source src="/teaser.mp4?v=audioFix2026" type="video/mp4" />
             </video>
 
             {/* Flash overlay — liga o ecrã quando cortinas abrem */}
@@ -1664,18 +1692,28 @@ export default function HomePage() {
 
             <button
               className="teaser-mute-btn"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
-                if (v) {
-                  v.muted = !v.muted;
-                  if (!v.muted) {
-                    v.volume = 1.0;
+                if (!v) return;
+                // Toggle mute
+                v.muted = !v.muted;
+                if (!v.muted) {
+                  // Quando se unmute: garantir volume máximo + play + reload se necessário
+                  v.volume = 1.0;
+                  v.play().catch(() => {
+                    // Se play falhar, tentar reload do vídeo
+                    v.load();
                     v.play().catch(() => {});
-                  }
-                  const btn = document.querySelector('.teaser-mute-btn');
-                  if (btn) {
-                    btn.classList.toggle('unmuted', !v.muted);
-                  }
+                  });
+                }
+                // Atualizar ícone do botão
+                const btn = e.currentTarget;
+                if (v.muted) {
+                  btn.classList.remove('unmuted');
+                } else {
+                  btn.classList.add('unmuted');
                 }
               }}
               aria-label="Ativar som"
