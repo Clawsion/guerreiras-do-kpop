@@ -10265,7 +10265,7 @@ img { max-width: 100%; height: auto; }
 .teaser-curtains {
   position: absolute;
   inset: 0;
-  z-index: 25;
+  z-index: 40;  /* à frente de tudo (vídeo, letras, etc.) */
   pointer-events: none;
   overflow: hidden;
 }
@@ -10290,7 +10290,7 @@ img { max-width: 100%; height: auto; }
     0 4px 12px rgba(0, 0, 0, 0.8),
     inset 0 1px 0 rgba(255, 220, 150, 0.5),
     inset 0 -1px 0 rgba(0, 0, 0, 0.6);
-  z-index: 27;
+  z-index: 42;  /* acima das cortinas (40) */
 }
 
 /* Ponteiros dourados nas pontas da vara */
@@ -10336,12 +10336,15 @@ img { max-width: 100%; height: auto; }
 
 @keyframes teaser-curtain-sway {
   0%, 100% { transform: skewX(0deg) rotate(0deg) translateX(0); }
-  15%      { transform: skewX(-1.5deg) rotate(-1deg) translateX(-5px); }
-  30%      { transform: skewX(0.6deg) rotate(0.4deg) translateX(2px); }
-  45%      { transform: skewX(1.5deg) rotate(1deg) translateX(5px); }
-  60%      { transform: skewX(-0.6deg) rotate(-0.4deg) translateX(-2px); }
-  75%      { transform: skewX(1deg) rotate(0.6deg) translateX(3px); }
-  90%      { transform: skewX(-0.4deg) rotate(-0.2deg) translateX(-1px); }
+  10%      { transform: skewX(-2deg) rotate(-1.5deg) translateX(-8px); }
+  20%      { transform: skewX(1deg) rotate(0.8deg) translateX(4px); }
+  30%      { transform: skewX(2deg) rotate(1.5deg) translateX(8px); }
+  40%      { transform: skewX(-1deg) rotate(-0.8deg) translateX(-4px); }
+  50%      { transform: skewX(-1.5deg) rotate(-1deg) translateX(-6px); }
+  60%      { transform: skewX(1deg) rotate(0.8deg) translateX(4px); }
+  70%      { transform: skewX(1.5deg) rotate(1deg) translateX(6px); }
+  80%      { transform: skewX(-0.8deg) rotate(-0.5deg) translateX(-3px); }
+  90%      { transform: skewX(0.5deg) rotate(0.3deg) translateX(2px); }
 }
 
 /* Cortina esquerda — tecido vermelho vinho (modo noite) */
@@ -10420,11 +10423,11 @@ img { max-width: 100%; height: auto; }
 
 /* ESTADO ACTIVO: cortinas abrem a metade para os lados */
 .teaser-section.active .teaser-curtain-left {
-  transform: translateX(-50%);
+  transform: translateX(-25%);
 }
 
 .teaser-section.active .teaser-curtain-right {
-  transform: translateX(50%);
+  transform: translateX(25%);
 }
 
 /* Modo dia: cortinas roxas elegantes */
@@ -10493,10 +10496,10 @@ img { max-width: 100%; height: auto; }
 /* Mobile: abertura um pouco menor */
 @media (max-width: 480px) {
   .teaser-section.active .teaser-curtain-left {
-    transform: translateX(-45%);
+    transform: translateX(-22%);
   }
   .teaser-section.active .teaser-curtain-right {
-    transform: translateX(45%);
+    transform: translateX(22%);
   }
 }
 
