@@ -1642,9 +1642,9 @@ export default function HomePage() {
               preload="auto"
               poster="/poster.webp"
               id="teaser-video-el"
-              key="teaser-golden-curtains-v7"
+              key="teaser-golden-curtains-v8"
             >
-              <source src="/teaser.mp4?v=goldenCurtains6" type="video/mp4" />
+              <source src="/teaser.mp4?v=goldenCurtains7" type="video/mp4" />
             </video>
 
             {/* Flash do vídeo — 1 flash quando cortinas abrem */}

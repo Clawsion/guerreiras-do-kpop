@@ -10297,10 +10297,19 @@ img { max-width: 100%; height: auto; }
 */
 .teaser-curtains {
   position: absolute;
-  inset: 0;
+  /* Centrado ao vídeo (mesma largura do .teaser-center) */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 380px;
+  /* Altura suficiente para cobrir vídeo + título + subtítulo */
+  height: 80%;
+  max-height: 700px;
   z-index: 20;
   pointer-events: none;
   overflow: hidden;
+  border-radius: 14px;
 }
 
 /* Vara superior (curtain rod) — dourado envelhecido */
@@ -10364,16 +10373,18 @@ img { max-width: 100%; height: auto; }
   position: absolute;
   inset: 0;
   transform-origin: 50% 0%;
-  animation: teaser-curtain-sway 5s ease-in-out infinite;
+  animation: teaser-curtain-sway 6s ease-in-out infinite;
   will-change: transform;
 }
 
 @keyframes teaser-curtain-sway {
   0%, 100% { transform: skewX(0deg) rotate(0deg) translateX(0); }
-  20%      { transform: skewX(-0.25deg) rotate(-0.15deg) translateX(-1.5px); }
-  40%      { transform: skewX(0.12deg) rotate(0.08deg) translateX(0.5px); }
-  60%      { transform: skewX(0.25deg) rotate(0.15deg) translateX(1.5px); }
-  80%      { transform: skewX(-0.12deg) rotate(-0.08deg) translateX(-0.5px); }
+  15%      { transform: skewX(-1.2deg) rotate(-0.8deg) translateX(-6px); }
+  30%      { transform: skewX(0.5deg) rotate(0.3deg) translateX(2px); }
+  45%      { transform: skewX(1.2deg) rotate(0.8deg) translateX(6px); }
+  60%      { transform: skewX(-0.5deg) rotate(-0.3deg) translateX(-2px); }
+  75%      { transform: skewX(0.8deg) rotate(0.5deg) translateX(4px); }
+  90%      { transform: skewX(-0.3deg) rotate(-0.2deg) translateX(-1px); }
 }
 
 /* Cortina esquerda — tecido vermelho vinho (modo noite) */
@@ -10474,11 +10485,11 @@ img { max-width: 100%; height: auto; }
 /* ESTADO ACTIVO: cortinas abrem (translateX + scaleX = gather) */
 /* Abertura MENOS (60% em vez de 78%) para ficarem mais visíveis no ecrã */
 .teaser-section.active .teaser-curtain-left {
-  transform: translateX(-85%) scaleX(0.20);
+  transform: translateX(-75%) scaleX(0.25);
 }
 
 .teaser-section.active .teaser-curtain-right {
-  transform: translateX(85%) scaleX(0.20);
+  transform: translateX(75%) scaleX(0.25);
 }
 
 /* Modo dia: cortinas roxas elegantes */
@@ -10547,10 +10558,10 @@ img { max-width: 100%; height: auto; }
 /* Mobile: abertura menos ainda */
 @media (max-width: 480px) {
   .teaser-section.active .teaser-curtain-left {
-    transform: translateX(-80%) scaleX(0.25);
+    transform: translateX(-70%) scaleX(0.30);
   }
   .teaser-section.active .teaser-curtain-right {
-    transform: translateX(80%) scaleX(0.25);
+    transform: translateX(70%) scaleX(0.30);
   }
 }
 
