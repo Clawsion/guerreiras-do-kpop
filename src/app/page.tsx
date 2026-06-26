@@ -1584,7 +1584,7 @@ export default function HomePage() {
             <div className="teaser-video-wrap">
               <div className="teaser-video-frame">
                 <iframe
-                  src="https://player.vimeo.com/video/1204886817?autoplay=1&muted=1&loop=1&autopause=0&background=1&title=0&byline=0&portrait=0&dnt=1"
+                  src="https://player.vimeo.com/video/1204886817?autoplay=1&muted=1&loop=1&autopause=0&title=0&byline=0&portrait=0&dnt=1"
                   allow="autoplay; fullscreen; picture-in-picture"
                   allowFullScreen
                   loading="lazy"

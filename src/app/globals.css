@@ -10072,10 +10072,10 @@ img { max-width: 100%; height: auto; }
   filter: blur(40px);
 }
 
-/* Wrapper do vídeo — centrado com max-width */
+/* Wrapper do vídeo — full width (sem abas laterais) */
 .teaser-video-wrap {
   position: relative;
-  max-width: 1100px;
+  width: 100%;
   margin: 0 auto;
   border-radius: 8px;
   overflow: hidden;
