@@ -1627,7 +1627,12 @@ export default function HomePage() {
           {/* Reflexo neon por baixo do vídeo */}
           <div className="teaser-neon-streak" aria-hidden="true"/>
 
-          <p className="teaser-subtitle">O Grande Tributo ao Vivo</p>
+          <p className="teaser-subtitle">
+            <span className="teaser-subtitle-line-1">O Grande Tributo</span>
+            <span className="teaser-subtitle-line-2-wrap">
+              <span className="teaser-subtitle-line-2">Ao Vivo</span>
+            </span>
+          </p>
 
           <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
         </div>
