@@ -1641,9 +1641,9 @@ export default function HomePage() {
               preload="auto"
               poster="/poster.webp"
               id="teaser-video-el"
-              key="teaser-golden-curtains-v4"
+              key="teaser-golden-curtains-v5"
             >
-              <source src="/teaser.mp4?v=goldenCurtains3" type="video/mp4" />
+              <source src="/teaser.mp4?v=goldenCurtains4" type="video/mp4" />
             </video>
 
             <button

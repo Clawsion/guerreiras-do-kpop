@@ -10353,19 +10353,58 @@ img { max-width: 100%; height: auto; }
   top: 10px;
   bottom: 0;
   width: 60%;
-  /* Transform-origin no topo (penduradas na vara) */
+  /* Penduradas na vara (transform-origin no topo) */
   transform-origin: 50% 0%;
-  transition: transform 2.6s cubic-bezier(0.55, 0.05, 0.35, 1) 0.4s;
+  /* CSS variables para combinar sway + abertura */
+  --curtain-open-x: 0px;
+  --curtain-open-scale: 1;
+  /* Transição das variáveis (abertura cinematográfica 3s) */
+  transition:
+    --curtain-open-x 3s cubic-bezier(0.5, 0, 0.2, 1) 0.3s,
+    --curtain-open-scale 3s cubic-bezier(0.5, 0, 0.2, 1) 0.3s;
   will-change: transform;
-  /* Animação de balanço subtil (sway) — só antes de abrir */
-  animation: teaser-curtain-sway 4s ease-in-out infinite;
+  /* Sway SEMPRE ativo (tecido real abana mesmo abertas) */
+  animation: teaser-curtain-sway 5s ease-in-out infinite;
 }
 
 @keyframes teaser-curtain-sway {
-  0%, 100% { transform: translateX(0) skewX(0deg) rotate(0deg); }
-  25%      { transform: translateX(-2px) skewX(-0.3deg) rotate(-0.2deg); }
-  50%      { transform: translateX(0) skewX(0deg) rotate(0deg); }
-  75%      { transform: translateX(2px) skewX(0.3deg) rotate(0.2deg); }
+  /* Sway usa translateX pequeno (±2px) + skew + rotate, mas aplica
+     também --curtain-open-x e --curtain-open-scale para a abertura */
+  0%, 100% {
+    transform:
+      translateX(calc(var(--curtain-open-x) + 0px))
+      scaleX(var(--curtain-open-scale))
+      skewX(0deg)
+      rotate(0deg);
+  }
+  20% {
+    transform:
+      translateX(calc(var(--curtain-open-x) - 1.5px))
+      scaleX(var(--curtain-open-scale))
+      skewX(-0.2deg)
+      rotate(-0.15deg);
+  }
+  40% {
+    transform:
+      translateX(calc(var(--curtain-open-x) + 0.5px))
+      scaleX(var(--curtain-open-scale))
+      skewX(0.1deg)
+      rotate(0.1deg);
+  }
+  60% {
+    transform:
+      translateX(calc(var(--curtain-open-x) + 1.5px))
+      scaleX(var(--curtain-open-scale))
+      skewX(0.2deg)
+      rotate(0.15deg);
+  }
+  80% {
+    transform:
+      translateX(calc(var(--curtain-open-x) - 0.5px))
+      scaleX(var(--curtain-open-scale))
+      skewX(-0.1deg)
+      rotate(-0.1deg);
+  }
 }
 
 /* Cortina esquerda — tecido vermelho vinho (modo noite) */
@@ -10474,16 +10513,18 @@ img { max-width: 100%; height: auto; }
 
 /* ESTADO ACTIVO: cortinas abrem para os cantos */
 .teaser-section.active .teaser-curtain {
-  /* Parar sway quando abre */
-  animation: none;
+  /* Sway continua ativo (tecido real abana mesmo abertas) */
+  /* Mas a transição de transform (translateX + scaleX) ainda corre */
 }
 
 .teaser-section.active .teaser-curtain-left {
-  transform: translateX(-78%) skewX(0deg) rotate(0deg);
+  --curtain-open-x: -78%;
+  --curtain-open-scale: 0.32;
 }
 
 .teaser-section.active .teaser-curtain-right {
-  transform: translateX(78%) skewX(0deg) rotate(0deg);
+  --curtain-open-x: 78%;
+  --curtain-open-scale: 0.32;
 }
 
 /* Modo dia: cortinas roxas elegantes */
@@ -10552,10 +10593,12 @@ img { max-width: 100%; height: auto; }
 /* Mobile: cortinas mais finas quando abertas */
 @media (max-width: 480px) {
   .teaser-section.active .teaser-curtain-left {
-    transform: translateX(-72%);
+    --curtain-open-x: -72%;
+    --curtain-open-scale: 0.40;
   }
   .teaser-section.active .teaser-curtain-right {
-    transform: translateX(72%);
+    --curtain-open-x: 72%;
+    --curtain-open-scale: 0.40;
   }
 }
 
