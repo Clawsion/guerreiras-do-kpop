@@ -792,10 +792,7 @@ export default function HomePage() {
     setThemeMode(target);
   }, []);
 
-  // ═══ TEASER ═══
-  // Vídeo e streak funcionam 100% via CSS (sem JS triggers).
-  // teaserRef mantido para futuras iterações.
-  const teaserRef = useRef<HTMLElement>(null);
+
 
   // ═══ SISTEMA DE TROCA DE TEMA — REFEITO 2026-06 ═══
   // Bug antigo: timeouts dispersos + stale closures causavam trocas falhadas
@@ -1569,134 +1566,70 @@ export default function HomePage() {
           - HTML5 <video> autoplay muted loop (sem logos, sem controlos)
           - Botão mute/unmute para o utilizador ativar o som
           - Design: moldura neon, "Teaser", compacta */}
-      <section
-        id="teaser"
-        ref={teaserRef as React.RefObject<HTMLElement>}
-        className="teaser-section"
-      >
-        {/* Background atmospheric glow */}
+      <section id="teaser" className="teaser-section">
         <div className="teaser-bg-glow" aria-hidden="true"/>
 
-        {/* Stage floor — cristal mirror surface */}
-        <div className="teaser-stage-floor" aria-hidden="true"/>
+        <div className="teaser-center">
+          <h2 className="teaser-title">
+            <span className="teaser-title-shimmer">Guerreiras do K-Pop</span>
+          </h2>
 
-        {/* Floor edge — thin neon line */}
-        <div className="teaser-floor-edge" aria-hidden="true"/>
+          <div className="teaser-video-wrap">
+            <video
+              className="teaser-video"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              poster="/poster.webp"
+              id="teaser-video-el"
+              key="teaser-golden-final"
+            >
+              <source src="/teaser.mp4?v=goldenFinal" type="video/mp4" />
+            </video>
 
-        {/* Marquee bulbs — cinema/stage lights on left side */}
-        <div className="teaser-marquee teaser-marquee-left" aria-hidden="true">
-          {Array.from({length: 14}).map((_, i) => (
-            <span
-              key={`bulb-l-${i}`}
-              className="teaser-bulb"
-              style={{ animationDelay: `${(i * 0.18).toFixed(2)}s` } as React.CSSProperties}
-            />
-          ))}
-        </div>
-
-        {/* Marquee bulbs — cinema/stage lights on right side */}
-        <div className="teaser-marquee teaser-marquee-right" aria-hidden="true">
-          {Array.from({length: 14}).map((_, i) => (
-            <span
-              key={`bulb-r-${i}`}
-              className="teaser-bulb"
-              style={{ animationDelay: `${(i * 0.18 + 0.5).toFixed(2)}s` } as React.CSSProperties}
-            />
-          ))}
-        </div>
-
-        {/* Main content */}
-        <div className="teaser-grid">
-          <aside className="teaser-side teaser-side-left" aria-hidden="true">
-            <div className="teaser-side-inner"></div>
-          </aside>
-
-          <div className="teaser-center">
-            <Rv>
-              <h2 className="teaser-title">
-                <span className="teaser-title-shimmer">Guerreiras do K-Pop</span>
-              </h2>
-            </Rv>
-
-            <Rv delay={120}>
-              {/* Stage — container */}
-              <div className="teaser-stage">
-                {/* Video panel — sempre visível com fade-in automático */}
-                <div className="teaser-video-panel">
-                  <div className="teaser-video-wrap">
-                    <video
-                      className="teaser-video"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="auto"
-                      poster="/poster.webp"
-                      id="teaser-video-el"
-                      key="teaser-golden-v7"
-                    >
-                      <source src="/teaser.mp4?v=golden7" type="video/mp4" />
-                    </video>
-
-                    {/* Static elegant frame */}
-                    <div className="teaser-video-frame" aria-hidden="true"/>
-
-                    {/* Botão mute/unmute */}
-                    <button
-                      className="teaser-mute-btn"
-                      onClick={() => {
-                        const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
-                        if (v) {
-                          v.muted = !v.muted;
-                          if (!v.muted) {
-                            v.volume = 1.0;
-                            v.play().catch(() => {});
-                          }
-                          const btn = document.querySelector('.teaser-mute-btn');
-                          if (btn) {
-                            btn.classList.toggle('unmuted', !v.muted);
-                          }
-                        }
-                      }}
-                      aria-label="Ativar som"
-                    >
-                      <span className="teaser-mute-icon-muted">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                          <line x1="23" y1="9" x2="17" y2="15"/>
-                          <line x1="17" y1="9" x2="23" y2="15"/>
-                        </svg>
-                      </span>
-                      <span className="teaser-mute-icon-unmuted">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-                        </svg>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* TRAÇO NEON por baixo do vídeo — FORA do .teaser-stage
-                  (que tem overflow:hidden) para ser visível.
-                  Loop 16s: esquerda → meio → direita → meio → esquerda */}
-              <div className="teaser-neon-streak" aria-hidden="true"/>
-            </Rv>
-
-            <Rv delay={220}>
-              <p className="teaser-subtitle">O Grande Tributo ao Vivo</p>
-            </Rv>
-
-            <Rv delay={320}>
-              <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
-            </Rv>
+            <button
+              className="teaser-mute-btn"
+              onClick={() => {
+                const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
+                if (v) {
+                  v.muted = !v.muted;
+                  if (!v.muted) {
+                    v.volume = 1.0;
+                    v.play().catch(() => {});
+                  }
+                  const btn = document.querySelector('.teaser-mute-btn');
+                  if (btn) {
+                    btn.classList.toggle('unmuted', !v.muted);
+                  }
+                }
+              }}
+              aria-label="Ativar som"
+            >
+              <span className="teaser-mute-icon-muted">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <line x1="23" y1="9" x2="17" y2="15"/>
+                  <line x1="17" y1="9" x2="23" y2="15"/>
+                </svg>
+              </span>
+              <span className="teaser-mute-icon-unmuted">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                </svg>
+              </span>
+            </button>
           </div>
 
-          <aside className="teaser-side teaser-side-right" aria-hidden="true">
-            <div className="teaser-side-inner"></div>
-          </aside>
+          {/* Reflexo neon por baixo do vídeo */}
+          <div className="teaser-neon-streak" aria-hidden="true"/>
+
+          <p className="teaser-subtitle">O Grande Tributo ao Vivo</p>
+
+          <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
         </div>
       </section>
 
