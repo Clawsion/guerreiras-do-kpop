@@ -1636,9 +1636,7 @@ export default function HomePage() {
             </Rv>
 
             <Rv delay={220}>
-              <p className="teaser-subtitle">
-                <span className="neon-shimmer">O Grande Tributo ao Vivo</span>
-              </p>
+              <p className="teaser-subtitle">O Grande Tributo ao Vivo</p>
             </Rv>
 
             <Rv delay={320}>
