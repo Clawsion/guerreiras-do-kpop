@@ -10289,173 +10289,193 @@ img { max-width: 100%; height: auto; }
     0 0 28px rgba(147, 51, 234, 0.25);
 }
 
-/* ═══ PROJETORES FUTURISTAS ═══
-   2 projetores (esquerda + direita) que:
-   - Estão inicialmente "desligados" (opacity baixo, beams invisíveis)
-   - Quando a secção entra no viewport (JS adiciona classe 'active'),
-     os projetores ligam-se e projetam 2 feixes de luz para o centro
-   - Os feixes cruzam-se por cima do vídeo criando efeito cinematográfico
+/* ═══ CORTINAS REALISTAS ═══
+   2 cortinas (esquerda + direita) que:
+   - Começam fechadas (cobrindo o centro do vídeo)
+   - Quando a secção entra no viewport, abrem para os cantos
+   - Ficam visíveis nos cantos (~20% de cada lado)
+   - Modo noite: vermelho vinho | Modo dia: roxo
+   - Dobreas realistas via repeating-linear-gradient
 */
-.teaser-projectors {
+.teaser-curtains {
   position: absolute;
   inset: 0;
+  z-index: 6;
   pointer-events: none;
-  z-index: 2;
+  overflow: hidden;
+  border-radius: 14px;
 }
 
-/* Cada projetor = cilindro vertical + cone de luz que aponta para o centro */
-.teaser-projector {
+/* Cortina superior (vara) */
+.teaser-curtain-rod {
   position: absolute;
-  top: 50%;
-  width: 18px;
-  height: 80px;
-  transform: translateY(-50%);
-  /* Cilindro do projetor (corpo) */
-  background: linear-gradient(to bottom,
-    rgba(40, 30, 60, 0.95) 0%,
-    rgba(70, 55, 100, 0.95) 20%,
-    rgba(40, 30, 60, 0.95) 40%,
-    rgba(20, 15, 35, 0.95) 100%);
-  border-radius: 4px 4px 6px 6px;
-  border: 1px solid rgba(200, 80, 255, 0.3);
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(180deg,
+    #1a0f05 0%,
+    #4a3015 30%,
+    #6a4520 50%,
+    #4a3015 70%,
+    #1a0f05 100%);
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  z-index: 8;
+}
+
+/* Painel de cortina (esquerdo e direito) */
+.teaser-curtain {
+  position: absolute;
+  top: 5px;
+  bottom: 0;
+  width: 56%;
+  transition: transform 2.2s cubic-bezier(0.65, 0, 0.35, 1) 0.3s;
+  will-change: transform;
+}
+
+/* Cortina esquerda */
+.teaser-curtain-left {
+  left: 0;
+  background:
+    /* Dobreas verticais realistas */
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, 0.55) 0px,
+      rgba(0, 0, 0, 0.05) 8px,
+      rgba(0, 0, 0, 0.35) 16px,
+      rgba(0, 0, 0, 0.05) 24px,
+      rgba(0, 0, 0, 0.55) 32px),
+    /* Gradiente vertical (sombra no topo e fundo) */
+    linear-gradient(180deg,
+      rgba(0, 0, 0, 0.4) 0%,
+      transparent 15%,
+      transparent 85%,
+      rgba(0, 0, 0, 0.4) 100%),
+    /* Cor base: vermelho vinho (modo noite) */
+    linear-gradient(180deg,
+      #3a0808 0%,
+      #5a1010 25%,
+      #7a1818 50%,
+      #5a1010 75%,
+      #3a0808 100%);
   box-shadow:
-    inset 0 0 8px rgba(0, 0, 0, 0.6),
-    0 4px 12px rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  transition: opacity 0.8s ease;
+    inset -15px 0 25px rgba(0, 0, 0, 0.6),
+    inset 0 0 30px rgba(0, 0, 0, 0.3),
+    8px 0 20px rgba(0, 0, 0, 0.5);
+  transform: translateX(0);
+  /* Bordas recortadas (efeito de tecido) */
+  clip-path: polygon(0 0, 100% 0, 96% 100%, 0 100%);
 }
 
-.teaser-projector::before {
-  /* "Lente" do projetor (ponto luminoso) */
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(40, 30, 60, 0.95);
-  border: 1px solid rgba(200, 80, 255, 0.3);
-  transition: all 0.8s ease;
-}
-
-.teaser-projector::after {
-  /* Cone de luz (beam) que aponta para o centro */
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 50vw;
-  height: 200px;
-  transform-origin: 0 50%;
-  background: linear-gradient(90deg,
-    rgba(200, 80, 255, 0.40) 0%,
-    rgba(220, 100, 255, 0.20) 30%,
-    rgba(200, 80, 255, 0.08) 60%,
-    transparent 100%);
-  clip-path: polygon(0 45%, 0 55%, 100% 0%, 100% 100%);
-  filter: blur(12px);
-  opacity: 0;
-  transition: opacity 1s ease 0.3s;
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-
-/* Projetor esquerdo — beam aponta para a direita (centro) */
-.teaser-projector-left {
-  left: 8%;
-}
-.teaser-projector-left::after {
-  left: 100%;
-  transform: translateY(-50%) rotate(0deg);
-}
-
-/* Projetor direito — beam aponta para a esquerda (centro) */
-.teaser-projector-right {
-  right: 8%;
-}
-.teaser-projector-right::after {
-  right: 100%;
-  left: auto;
-  transform: translateY(-50%) rotate(180deg);
-  background: linear-gradient(270deg,
-    rgba(168, 85, 247, 0.40) 0%,
-    rgba(190, 110, 255, 0.20) 30%,
-    rgba(168, 85, 247, 0.08) 60%,
-    transparent 100%);
-}
-
-/* ESTADO ACTIVO: projetores ligados */
-.teaser-section.active .teaser-projector {
-  opacity: 1;
-}
-
-.teaser-section.active .teaser-projector::before {
-  /* Lente acende: ponto luminoso brilhante */
-  background: #ffffff;
-  border-color: rgba(255, 255, 255, 0.9);
+/* Cortina direita (espelho da esquerda) */
+.teaser-curtain-right {
+  right: 0;
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, 0.55) 0px,
+      rgba(0, 0, 0, 0.05) 8px,
+      rgba(0, 0, 0, 0.35) 16px,
+      rgba(0, 0, 0, 0.05) 24px,
+      rgba(0, 0, 0, 0.55) 32px),
+    linear-gradient(180deg,
+      rgba(0, 0, 0, 0.4) 0%,
+      transparent 15%,
+      transparent 85%,
+      rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(180deg,
+      #3a0808 0%,
+      #5a1010 25%,
+      #7a1818 50%,
+      #5a1010 75%,
+      #3a0808 100%);
   box-shadow:
-    0 0 6px rgba(255, 255, 255, 0.95),
-    0 0 14px rgba(200, 80, 255, 0.85),
-    0 0 28px rgba(200, 80, 255, 0.55);
+    inset 15px 0 25px rgba(0, 0, 0, 0.6),
+    inset 0 0 30px rgba(0, 0, 0, 0.3),
+    -8px 0 20px rgba(0, 0, 0, 0.5);
+  transform: translateX(0);
+  clip-path: polygon(4% 0, 100% 0, 100% 100%, 0 100%);
 }
 
-.teaser-section.active .teaser-projector::after {
-  /* Beam torna-se visível */
-  opacity: 1;
+/* ESTADO ACTIVO: cortinas abrem para os cantos */
+.teaser-section.active .teaser-curtain-left {
+  transform: translateX(-78%);
 }
 
-/* Modo dia: beams mais subtis (precisam de destacar em fundo claro) */
-.light-mode .teaser-projector {
-  background: linear-gradient(to bottom,
-    rgba(100, 80, 140, 0.95) 0%,
-    rgba(140, 110, 180, 0.95) 20%,
-    rgba(100, 80, 140, 0.95) 40%,
-    rgba(70, 50, 100, 0.95) 100%);
-  border-color: rgba(147, 51, 234, 0.5);
+.teaser-section.active .teaser-curtain-right {
+  transform: translateX(78%);
 }
 
-.light-mode .teaser-projector-left::after {
-  background: linear-gradient(90deg,
-    rgba(147, 51, 234, 0.35) 0%,
-    rgba(168, 85, 247, 0.18) 30%,
-    rgba(147, 51, 234, 0.06) 60%,
-    transparent 100%);
+/* Modo dia: cortinas roxas */
+.light-mode .teaser-curtain-left,
+.light-mode .teaser-curtain-right {
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, 0.50) 0px,
+      rgba(0, 0, 0, 0.05) 8px,
+      rgba(0, 0, 0, 0.30) 16px,
+      rgba(0, 0, 0, 0.05) 24px,
+      rgba(0, 0, 0, 0.50) 32px),
+    linear-gradient(180deg,
+      rgba(0, 0, 0, 0.3) 0%,
+      transparent 15%,
+      transparent 85%,
+      rgba(0, 0, 0, 0.3) 100%),
+    linear-gradient(180deg,
+      #3b0764 0%,
+      #5b21b6 25%,
+      #6d28d9 50%,
+      #5b21b6 75%,
+      #3b0764 100%);
 }
 
-.light-mode .teaser-projector-right::after {
-  background: linear-gradient(270deg,
-    rgba(147, 51, 234, 0.35) 0%,
-    rgba(168, 85, 247, 0.18) 30%,
-    rgba(147, 51, 234, 0.06) 60%,
-    transparent 100%);
+.light-mode .teaser-curtain-rod {
+  background: linear-gradient(180deg,
+    #2a1a0a 0%,
+    #5a3a1a 30%,
+    #7a5530 50%,
+    #5a3a1a 70%,
+    #2a1a0a 100%);
 }
 
-/* Mobile: projetores mais pequenos, mais perto do centro */
-@media (max-width: 900px) {
-  .teaser-projector {
-    width: 14px;
-    height: 60px;
-  }
-  .teaser-projector-left { left: 4%; }
-  .teaser-projector-right { right: 4%; }
-  .teaser-projector::after {
-    width: 60vw;
-    height: 150px;
-  }
-}
-
+/* Mobile: cortinas mais finas quando abertas */
 @media (max-width: 480px) {
-  .teaser-projector {
-    width: 12px;
-    height: 50px;
+  .teaser-section.active .teaser-curtain-left {
+    transform: translateX(-72%);
   }
-  .teaser-projector-left { left: 2%; }
-  .teaser-projector-right { right: 2%; }
-  .teaser-projector::after {
-    width: 70vw;
-    height: 120px;
+  .teaser-section.active .teaser-curtain-right {
+    transform: translateX(72%);
   }
+}
+
+/* ═══ OVERLAY DO VÍDEO — efeito "desligado" + 2 flashes ═══
+   Overlay preto que cobre o vídeo.
+   Depois das cortinas abrirem (2.5s), faz 2 flashes brancos
+   e depois desaparece (revelando o vídeo a dar).
+*/
+.teaser-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 1;
+  border-radius: 14px;
+}
+
+/* Animação: 2 flashes depois das cortinas abrirem */
+.teaser-section.active .teaser-video-overlay {
+  animation: teaser-video-flash 1.5s ease-out 2.5s forwards;
+}
+
+@keyframes teaser-video-flash {
+  0%   { background: #000; opacity: 1; }
+  10%  { background: #000; opacity: 1; }       /* ainda preto */
+  20%  { background: #fff; opacity: 1; }       /* flash 1 */
+  30%  { background: #000; opacity: 1; }       /* preto */
+  55%  { background: #000; opacity: 1; }       /* preto */
+  65%  { background: #fff; opacity: 1; }       /* flash 2 */
+  75%  { background: #000; opacity: 1; }       /* preto */
+  100% { background: #000; opacity: 0; }       /* transparente (vídeo visível) */
 }
 
 /* ─── Subtítulo ─── */
