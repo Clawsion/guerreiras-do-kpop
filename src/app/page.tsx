@@ -1616,17 +1616,6 @@ export default function HomePage() {
       >
         <div className="teaser-bg-glow" aria-hidden="true"/>
 
-        {/* Cortinas realistas premium que abrem para os cantos (secção inteira) */}
-        <div className="teaser-curtains" aria-hidden="true">
-          <div className="teaser-curtain-rod"/>
-          <div className="teaser-curtain teaser-curtain-left">
-            <div className="teaser-curtain-inner"/>
-          </div>
-          <div className="teaser-curtain teaser-curtain-right">
-            <div className="teaser-curtain-inner"/>
-          </div>
-        </div>
-
         <div className="teaser-center">
           <h2 className="teaser-title">
             <span className="teaser-title-shimmer">Guerreiras do K-Pop</span>
@@ -1642,13 +1631,24 @@ export default function HomePage() {
               preload="auto"
               poster="/poster.webp"
               id="teaser-video-el"
-              key="teaser-golden-curtains-v8"
+              key="teaser-golden-final-v2"
             >
-              <source src="/teaser.mp4?v=goldenCurtains7" type="video/mp4" />
+              <source src="/teaser.mp4?v=goldenFinal2" type="video/mp4" />
             </video>
 
-            {/* Flash do vídeo — 1 flash quando cortinas abrem */}
+            {/* Flash overlay — ecrã apagado, pisca 1x, acende */}
             <div className="teaser-video-flash" aria-hidden="true"/>
+
+            {/* Cortinas DENTRO do vídeo — tapam o visor quando fechadas */}
+            <div className="teaser-curtains" aria-hidden="true">
+              <div className="teaser-curtain-rod"/>
+              <div className="teaser-curtain teaser-curtain-left">
+                <div className="teaser-curtain-inner"/>
+              </div>
+              <div className="teaser-curtain teaser-curtain-right">
+                <div className="teaser-curtain-inner"/>
+              </div>
+            </div>
 
             <button
               className="teaser-mute-btn"
