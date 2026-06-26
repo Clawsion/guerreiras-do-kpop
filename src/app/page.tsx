@@ -993,7 +993,74 @@ export default function HomePage() {
     { l: "Galeria", h: "#galeria" },
     { l: "Próximos Concertos", h: "#cartazes" },
     { l: "Contacto", h: "#contacto" },
-  ], []);
+  ], []);  // ═══ TEASER: transição suave + garantir vídeo play ═══
+  const teaserRef = useRef<HTMLElement>(null);
+  const [teaserRevealed, setTeaserRevealed] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const section = teaserRef.current;
+    if (!section) {
+      const fb = setTimeout(() => setTeaserRevealed(true), 1000);
+      return () => clearTimeout(fb);
+    }
+    // Verificar imediatamente se já está visível
+    const rect = section.getBoundingClientRect();
+    const wh = window.innerHeight || document.documentElement.clientHeight;
+    const vh = Math.min(rect.bottom, wh) - Math.max(rect.top, 0);
+    const ratio = rect.height > 0 ? vh / rect.height : 0;
+    if (ratio > 0.15) {
+      setTeaserRevealed(true);
+      return;
+    }
+    // Caso contrário, observar até entrar
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.15) {
+            setTeaserRevealed(true);
+            observer.disconnect();
+            break;
+          }
+        }
+      },
+      { threshold: [0, 0.15, 0.3], rootMargin: '0px 0px -10% 0px' }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  // Garantir que o vídeo começa a dar (alguns browsers bloqueiam autoplay)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const v = document.getElementById('teaser-video-el') as HTMLVideoElement | null;
+    if (!v) return;
+    // Tentar dar play várias vezes (alguns browsers precisam de interação)
+    const tryPlay = () => {
+      v.play().catch(() => {
+        // Se falhar, tentar novamente quando houver interação do utilizador
+      });
+    };
+    tryPlay();
+    // Tentar novamente após 1s e 3s
+    const t1 = setTimeout(tryPlay, 1000);
+    const t2 = setTimeout(tryPlay, 3000);
+    // Tentar no primeiro clique do utilizador (fallback para browsers restritos)
+    const onFirstInteraction = () => {
+      tryPlay();
+      document.removeEventListener('click', onFirstInteraction);
+      document.removeEventListener('touchstart', onFirstInteraction);
+    };
+    document.addEventListener('click', onFirstInteraction, { once: true });
+    document.addEventListener('touchstart', onFirstInteraction, { once: true });
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      document.removeEventListener('click', onFirstInteraction);
+      document.removeEventListener('touchstart', onFirstInteraction);
+    };
+  }, []);
+
+
   return (
     <>
       {/* ═══ MOBILE: ZERO EFEITOS no hero — exceto soul-particles LEVE ═══
@@ -1565,7 +1632,11 @@ export default function HomePage() {
           - HTML5 <video> autoplay muted loop (sem logos, sem controlos)
           - Botão mute/unmute para o utilizador ativar o som
           - Design: moldura neon, "Teaser", compacta */}
-      <section id="teaser" className="teaser-section">
+      <section
+        id="teaser"
+        ref={teaserRef as React.RefObject<HTMLElement>}
+        className={`teaser-section ${teaserRevealed ? 'revealed' : ''}`}
+      >
         <div className="teaser-bg-glow" aria-hidden="true"/>
 
         <div className="teaser-center">
@@ -1583,9 +1654,9 @@ export default function HomePage() {
               preload="auto"
               poster="/poster.webp"
               id="teaser-video-el"
-              key="teaser-no-curtains3"
+              key="teaser-video-fix1"
             >
-              <source src="/teaser.mp4?v=noCurtains3" type="video/mp4" />
+              <source src="/teaser.mp4?v=videoFix1" type="video/mp4" />
             </video>
 
             {/* Flash overlay — liga o ecrã quando cortinas abrem */}
