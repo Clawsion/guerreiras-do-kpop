@@ -1638,8 +1638,7 @@ export default function HomePage() {
               preload="auto"
               poster="/poster.webp"
               id="teaser-video-el"
-              ref={teaserVideoRef as React.RefObject<HTMLVideoElement>}
-              key="teaser-golden-curtains-v2"
+              key="teaser-golden-curtains-v3"
             >
               <source src="/teaser.mp4?v=goldenCurtains2" type="video/mp4" />
             </video>
