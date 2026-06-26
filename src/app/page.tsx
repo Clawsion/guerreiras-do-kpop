@@ -792,6 +792,34 @@ export default function HomePage() {
     setThemeMode(target);
   }, []);
 
+  // ═══ TEASER: Demon Hunter Stage Reveal ═══
+  // Trigger cinematic intro when section enters viewport
+  const teaserRef = useRef<HTMLElement>(null);
+  const [teaserRevealed, setTeaserRevealed] = useState(false);
+  useEffect(() => {
+    // Skip intro for reduced-motion users
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setTeaserRevealed(true);
+      return;
+    }
+    const section = teaserRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.25) {
+            setTeaserRevealed(true);
+            observer.disconnect();
+            break;
+          }
+        }
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   // ═══ SISTEMA DE TROCA DE TEMA — REFEITO 2026-06 ═══
   // Bug antigo: timeouts dispersos + stale closures causavam trocas falhadas
   // em mobile. Solução: ref centralizado que rastreia todos os timeouts,
@@ -1564,8 +1592,27 @@ export default function HomePage() {
           - HTML5 <video> autoplay muted loop (sem logos, sem controlos)
           - Botão mute/unmute para o utilizador ativar o som
           - Design: moldura neon, "Teaser", compacta */}
-      <section id="teaser" className="teaser-section">
+      <section
+        id="teaser"
+        ref={teaserRef as React.RefObject<HTMLElement>}
+        className={`teaser-section ${teaserRevealed ? 'revealed' : 'pre-reveal'}`}
+      >
+        {/* Background layers */}
         <div className="teaser-bg-glow" aria-hidden="true"/>
+        <div className="teaser-spotlight teaser-spotlight-1" aria-hidden="true"/>
+        <div className="teaser-spotlight teaser-spotlight-2" aria-hidden="true"/>
+
+        {/* Intro overlay: portal + manifesto (cinematic reveal) */}
+        <div className="teaser-intro" aria-hidden="true">
+          <div className="teaser-portal"/>
+          <div className="teaser-manifesto">
+            <span className="teaser-manifesto-line teaser-manifesto-line-1">Em 2026...</span>
+            <span className="teaser-manifesto-line teaser-manifesto-line-2">Sete vozes. Uma noite.</span>
+            <span className="teaser-manifesto-line teaser-manifesto-line-3">O tributo definitivo.</span>
+          </div>
+        </div>
+
+        {/* Main content (always rendered; CSS controls visibility) */}
         <div className="teaser-grid">
           <aside className="teaser-side teaser-side-left" aria-hidden="true">
             <div className="teaser-side-inner"></div>
@@ -1573,7 +1620,9 @@ export default function HomePage() {
 
           <div className="teaser-center">
             <Rv>
-              <h2 className="teaser-title">Guerreiras do K-Pop</h2>
+              <h2 className="teaser-title">
+                <span className="teaser-title-shimmer">Guerreiras do K-Pop</span>
+              </h2>
             </Rv>
 
             <Rv delay={120}>
@@ -1587,15 +1636,36 @@ export default function HomePage() {
                   preload="auto"
                   poster="/poster.webp"
                   id="teaser-video-el"
-                  key="teaser-golden-v2"
+                  key="teaser-golden-v3"
                 >
-                  {/* Cache-busting: ?v=golden2 força o browser a descarregar
-                      o novo MP4 com áudio em vez de usar a versão antiga cached */}
-                  <source src="/teaser.mp4?v=golden2" type="video/mp4" />
+                  <source src="/teaser.mp4?v=golden3" type="video/mp4" />
                 </video>
 
-                {/* Moldura neon fina pulsátil (subtil) */}
+                {/* Moldura neon fina pulsátil */}
                 <div className="teaser-neon-frame" aria-hidden="true"/>
+
+                {/* Golden embers — partículas douradas a subir (referência a "Golden") */}
+                <div className="teaser-embers" aria-hidden="true">
+                  {Array.from({length: 20}).map((_, i) => {
+                    const left = (i * 5 + Math.random() * 3) % 100;
+                    const delay = (Math.random() * 8).toFixed(2);
+                    const duration = (6 + Math.random() * 4).toFixed(2);
+                    const size = (2 + Math.random() * 3).toFixed(1);
+                    return (
+                      <span
+                        key={i}
+                        className="teaser-ember"
+                        style={{
+                          left: `${left}%`,
+                          animationDelay: `${delay}s`,
+                          animationDuration: `${duration}s`,
+                          width: `${size}px`,
+                          height: `${size}px`,
+                        } as React.CSSProperties}
+                      />
+                    );
+                  })}
+                </div>
 
                 {/* Botão mute/unmute */}
                 <button
@@ -1604,7 +1674,6 @@ export default function HomePage() {
                     const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
                     if (v) {
                       v.muted = !v.muted;
-                      // Se estava muted e agora unmuted, garantir que o volume é audível
                       if (!v.muted) {
                         v.volume = 1.0;
                         v.play().catch(() => {});
