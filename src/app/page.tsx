@@ -1568,57 +1568,65 @@ export default function HomePage() {
         <div className="teaser-bg-glow" aria-hidden="true"/>
         <div className="hero-aligned-container relative z-10">
           <Rv>
-            <div className="teaser-video-wrap">
-              <video
-                className="teaser-video"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                poster="/poster.webp"
-                id="teaser-video-el"
-              >
-                <source src="/teaser.mp4" type="video/mp4" />
-              </video>
-              {/* Borda neon à volta do vídeo */}
-              <div className="teaser-video-border" aria-hidden="true"/>
-              {/* Botão mute/unmute */}
-              <button
-                className="teaser-mute-btn"
-                onClick={() => {
-                  const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
-                  if (v) {
-                    v.muted = !v.muted;
-                    const btn = document.querySelector('.teaser-mute-btn');
-                    if (btn) {
-                      btn.classList.toggle('unmuted', !v.muted);
-                    }
-                  }
-                }}
-                aria-label="Ativar som"
-              >
-                <span className="teaser-mute-icon-muted">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                    <line x1="23" y1="9" x2="17" y2="15"/>
-                    <line x1="17" y1="9" x2="23" y2="15"/>
-                  </svg>
-                </span>
-                <span className="teaser-mute-icon-unmuted">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-                  </svg>
-                </span>
-              </button>
+            <div className="teaser-stage">
+              <div className="teaser-stage-inner">
+                <div className="teaser-video-wrap">
+                  <video
+                    className="teaser-video"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    poster="/poster.webp"
+                    id="teaser-video-el"
+                  >
+                    <source src="/teaser.mp4" type="video/mp4" />
+                  </video>
+                  {/* Borda neon subtil à volta do vídeo */}
+                  <div className="teaser-video-border" aria-hidden="true"/>
+                  {/* Cortinas de veludo vermelho (partidas) */}
+                  <div className="teaser-curtain-left" aria-hidden="true"/>
+                  <div className="teaser-curtain-right" aria-hidden="true"/>
+                  {/* Botão mute/unmute */}
+                  <button
+                    className="teaser-mute-btn"
+                    onClick={() => {
+                      const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
+                      if (v) {
+                        v.muted = !v.muted;
+                        const btn = document.querySelector('.teaser-mute-btn');
+                        if (btn) {
+                          btn.classList.toggle('unmuted', !v.muted);
+                        }
+                      }
+                    }}
+                    aria-label="Ativar som"
+                  >
+                    <span className="teaser-mute-icon-muted">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                        <line x1="23" y1="9" x2="17" y2="15"/>
+                        <line x1="17" y1="9" x2="23" y2="15"/>
+                      </svg>
+                    </span>
+                    <span className="teaser-mute-icon-unmuted">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                      </svg>
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
           </Rv>
           <Rv delay={200}>
-            <p className="text-center text-[11px] tracking-[0.3em] uppercase mt-6" style={{color:"var(--t3)"}}>
+            <div className="teaser-label">
               <span className="neon-shimmer">Teaser</span>
-            </p>
+            </div>
+            <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
           </Rv>
         </div>
       </section>
