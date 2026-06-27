@@ -10134,6 +10134,11 @@ img { max-width: 100%; height: auto; }
     transparent 100%);
 }
 
+/* Mobile: esconder pilares (só fundo, sem colunas laterais) */
+@media (max-width: 768px) {
+  .teaser-stage-frame { display: none !important; }
+}
+
 /* Mobile: pilares mais finos */
 @media (max-width: 480px) {
   .teaser-pillar {
@@ -10180,7 +10185,7 @@ img { max-width: 100%; height: auto; }
   flex-direction: column;
   align-items: center;
   gap: 1.6rem;
-  max-width: 780px;
+  max-width: 620px;
   width: 100%;
   padding: 0 1rem;
 }
@@ -10241,8 +10246,8 @@ img { max-width: 100%; height: auto; }
 .teaser-video-wrap {
   position: relative;
   width: 100%;
-  max-width: 720px;
-  aspect-ratio: 16 / 11;
+  max-width: 560px;
+  aspect-ratio: 4 / 5;
   border-radius: 16px;
   background: #000;
   overflow: hidden;
@@ -10665,7 +10670,7 @@ img { max-width: 100%; height: auto; }
 /* ─── Mobile ─── */
 @media (max-width: 480px) {
   .teaser-section { padding: 3.5rem 0 3.5rem; min-height: 70vh; }
-  .teaser-video-wrap { max-width: 440px; }
+  .teaser-video-wrap { max-width: 380px; }
   .teaser-title { letter-spacing: 0.10em; }
   .teaser-neon-streak { width: 80%; }
 }
