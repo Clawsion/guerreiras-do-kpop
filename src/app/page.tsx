@@ -1029,6 +1029,51 @@ export default function HomePage() {
     return () => observer.disconnect();
   }, []);
 
+  // ═══ Vídeo auto-play robusto (quando secção está visível) ═══
+  useEffect(() => {
+    if (!teaserRevealed) return;
+    if (typeof window === 'undefined') return;
+    
+    let playTimer: ReturnType<typeof setTimeout> | null = null;
+    let retryCount = 0;
+    const maxRetries = 5;
+    
+    const tryPlay = () => {
+      const v = document.getElementById('teaser-video-el') as HTMLVideoElement | null;
+      if (!v) return;
+      v.muted = true;
+      v.play().catch(() => {
+        // Se falhar, retry com delay crescente
+        retryCount++;
+        if (retryCount < maxRetries) {
+          playTimer = setTimeout(tryPlay, 500 * retryCount);
+        }
+      });
+    };
+    
+    // Tentar imediatamente
+    tryPlay();
+    
+    // Fallback: qualquer interação do utilizador tenta dar play
+    const onInteraction = () => {
+      const v = document.getElementById('teaser-video-el') as HTMLVideoElement | null;
+      if (v && v.paused) {
+        v.muted = true;
+        v.play().catch(() => {});
+      }
+    };
+    document.addEventListener('click', onInteraction);
+    document.addEventListener('touchstart', onInteraction, { passive: true });
+    document.addEventListener('scroll', onInteraction, { passive: true });
+    
+    return () => {
+      if (playTimer) clearTimeout(playTimer);
+      document.removeEventListener('click', onInteraction);
+      document.removeEventListener('touchstart', onInteraction);
+      document.removeEventListener('scroll', onInteraction);
+    };
+  }, [teaserRevealed]);
+
 
   return (
     <>
@@ -1616,7 +1661,7 @@ export default function HomePage() {
 
         <div className="teaser-center">
           <h2 className="teaser-title">
-            <span className="teaser-title-shimmer">Guerreiras do K-Pop</span>
+            <span className="teaser-title-shimmer">Teaser</span>
           </h2>
 
           <div className="teaser-video-wrap">
@@ -1692,6 +1737,16 @@ export default function HomePage() {
           </p>
 
           <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
+
+          {/* Call-to-action: Comprar Bilhete */}
+          <a
+            href="#cartazes"
+            className="teaser-cta"
+            aria-label="Comprar Bilhete"
+          >
+            <span>Comprar Bilhete</span>
+            <span className="teaser-cta-arrow">→</span>
+          </a>
         </div>
       </section>
 
