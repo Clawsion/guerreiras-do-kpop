@@ -538,31 +538,29 @@ export default function HomePage() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // ═══ PARALLAX CONTACTO (mobile) — parallax JavaScript para a secção contacto ═══
-  // Em mobile, background-attachment: fixed não funciona em iOS Safari.
-  // Solução: mover o background-position com JavaScript.
+  // ═══ PARALLAX CONTACTO (mobile) — igual ao dos cartazes ═══
+  // Move a div .contacto-bg-parallax com transform: translate3d (em px)
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.innerWidth >= 768) return; // Só mobile
 
-    const section = contactoRef.current;
-    if (!section) return;
+    const bg = contactoBgRef.current;
+    if (!bg) return;
 
     let ticking = false;
     const update = () => {
+      const section = bg.parentElement;
+      if (!section) { ticking = false; return; }
       const rect = section.getBoundingClientRect();
       const winH = window.innerHeight;
       if (rect.bottom < -200 || rect.top > winH + 200) {
         ticking = false;
         return;
       }
-      // Parallax: mover div .contacto-bg-parallax com transform
+      // Parallax subtil: imagem move-se 15% da velocidade do scroll
       const progress = Math.max(0, Math.min(1, (winH - rect.top) / (winH + rect.height)));
-      const offset = (progress - 0.5) * 20; // 20% de movimento
-      const bgParallax = section.querySelector('.contacto-bg-parallax') as HTMLElement | null;
-      if (bgParallax) {
-        bgParallax.style.transform = `translateY(${offset}%)`;
-      }
+      const offset = (progress - 0.5) * rect.height * 0.15;
+      bg.style.transform = `translate3d(0, ${offset}px, 0)`;
       ticking = false;
     };
 
