@@ -1548,19 +1548,6 @@ export default function HomePage() {
 
       </section>
 
-      {/* ═══ MEMÓRIAS - Slideshow cénico (sem molduras ondas) + transição cinematográfica ═══ */}
-      <section id="memorias" className="memories-section">
-        {/* Moldura cénica - pilares + vinheta + spotlight */}
-        <div className="memories-stage-frame" aria-hidden="true">
-          <div className="memories-pillar memories-pillar-left"/>
-          <div className="memories-pillar memories-pillar-right"/>
-          <div className="memories-spotlight"/>
-          <div className="memories-curtain-top"/>
-          <div className="memories-curtain-bottom"/>
-        </div>
-        <MemoriesSlideshow/>
-      </section>
-
       {/* ═══ ESPETÁCULO - Descrição + Galeria ═══ */}
       <section id="espetaculo" className="espetaculo-section">
         {/* Atmospheric overlays - spotlights, glow orbs, vignette */}
@@ -1663,9 +1650,12 @@ export default function HomePage() {
         </div>
 
         <div className="teaser-center">
-          <h2 className="teaser-title">
-            <span className="teaser-title-shimmer">Teaser</span>
-          </h2>
+          <p className="teaser-subtitle">
+            <span className="teaser-subtitle-line-1">O Grande Tributo</span>
+            <span className="teaser-subtitle-line-2-wrap">
+              <span className="teaser-subtitle-line-2">Ao Vivo</span>
+            </span>
+          </p>
 
           <div className="teaser-video-wrap">
             <video
@@ -1734,13 +1724,6 @@ export default function HomePage() {
 
           {/* Reflexo neon por baixo do vídeo */}
           <div className="teaser-neon-streak" aria-hidden="true"/>
-
-          <p className="teaser-subtitle">
-            <span className="teaser-subtitle-line-1">O Grande Tributo</span>
-            <span className="teaser-subtitle-line-2-wrap">
-              <span className="teaser-subtitle-line-2">Ao Vivo</span>
-            </span>
-          </p>
 
           <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
 
