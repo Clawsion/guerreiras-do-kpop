@@ -11033,3 +11033,47 @@ img { max-width: 100%; height: auto; }
 /* Respeitar prefers-reduced-motion (acessibilidade) */
 
 /* re-trigger build */
+
+
+/* ═══ HONMOON — Mobile (smartphones/iPhone ≤768px) mais pequeno ═══
+   Mantém todos os efeitos (animações, cores, glow).
+   Só reduz o tamanho do orb e dos anéis.
+*/
+@media (max-width: 768px) {
+  .hm-orb {
+    width: 60px;
+    height: 60px;
+  }
+  .hm-ring-1 {
+    width: 100px;
+    height: 100px;
+  }
+  .hm-ring-2 {
+    width: 125px;
+    height: 125px;
+  }
+  .hm-ring-3 {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+/* iPhone pequeno (≤375px) — ainda mais pequeno */
+@media (max-width: 375px) {
+  .hm-orb {
+    width: 50px;
+    height: 50px;
+  }
+  .hm-ring-1 {
+    width: 85px;
+    height: 85px;
+  }
+  .hm-ring-2 {
+    width: 105px;
+    height: 105px;
+  }
+  .hm-ring-3 {
+    width: 125px;
+    height: 125px;
+  }
+}
