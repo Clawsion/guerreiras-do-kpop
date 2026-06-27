@@ -11069,3 +11069,43 @@ img { max-width: 100%; height: auto; }
     ) !important;
   }
 }
+
+
+/* ═══ CONTACTO MOBILE — parallax via div separada com transform ═══
+   Desktop NÃO mexido (mantém background-attachment: fixed).
+   Mobile usa .contacto-bg-parallax movida com transform (compatível iOS).
+*/
+.contacto-bg-parallax {
+  display: none;  /* Escondido por defeito (desktop usa background da secção) */
+}
+
+@media (max-width: 767px) {
+  /* Secção: remover background-image (vai para a div parallax) */
+  .contacto-section {
+    background-image: none !important;
+    background-attachment: scroll !important;
+  }
+  
+  /* Div parallax: imagem de fundo que se move com scroll */
+  .contacto-bg-parallax {
+    display: block;
+    position: absolute;
+    top: -20%;
+    left: 0;
+    right: 0;
+    height: 140%;
+    background-image: url('/contacto-bg-night.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+    pointer-events: none;
+    will-change: transform;
+    transform: translateY(0);
+  }
+  
+  /* Modo dia */
+  .light-mode .contacto-bg-parallax {
+    background-image: url('/contacto-bg-day.webp');
+  }
+}
