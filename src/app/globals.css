@@ -10014,10 +10014,7 @@ img { max-width: 100%; height: auto; }
 .teaser-section {
   position: relative;
   padding: 5rem 0 5rem;
-  background: linear-gradient(180deg,
-    var(--void) 0%,
-    rgba(20, 10, 40, 0.95) 50%,
-    var(--void) 100%);
+  background: var(--deep);
   overflow: hidden;
   isolation: isolate;
   display: flex;
@@ -10115,8 +10112,8 @@ img { max-width: 100%; height: auto; }
 
 /* Modo dia — mesmas variáveis, tons diferentes */
 .light-mode .teaser-section {
-  /* Modo dia: fundo lavanda (não branco) */
-  background: #D9C9F0;
+  /* Modo dia: mesmo gradient do Honmoon */
+  background: linear-gradient(180deg, #E8DAF2 0%, #DFCFEC 30%, #D5C0E5 60%, #EBE0F5 100%);
 }
 
 /* Glow atmosférico subtil */
