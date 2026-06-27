@@ -1667,7 +1667,7 @@ export default function HomePage() {
               preload="auto"
               poster="/poster.webp"
               id="teaser-video-el"
-              key="teaser-click-mute-fix"
+              key="teaser-hq-video"
               style={{ cursor: 'pointer' }}
               onClick={() => {
                 const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
@@ -1697,7 +1697,7 @@ export default function HomePage() {
                 }
               }}
             >
-              <source src="/teaser.mp4?v=clickMuteFix" type="video/mp4" />
+              <source src="/teaser.mp4?v=hqVideo" type="video/mp4" />
             </video>
 
             {/* Overlay preto — ecrã desligado até utilizador fazer scroll */}
