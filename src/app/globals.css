@@ -3979,15 +3979,16 @@ html.light-mode .hero-bg-img-dark {
   .light-mode .cartazes-parallax-bg-mobile {
     background-image: url('/cartazes-bg-day-mobile.webp');
   }
-  /* Overlay roxo transparente — modo noite (parallax visível) */
+  /* Overlay roxo transparente — modo noite (parallax visível em baixo) */
   .cartazes-section::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg,
-      rgba(26, 13, 46, 0.55) 0%,
-      rgba(26, 13, 46, 0.65) 50%,
-      rgba(26, 13, 46, 0.55) 100%
+      rgba(26, 13, 46, 0.75) 0%,
+      rgba(26, 13, 46, 0.70) 40%,
+      rgba(26, 13, 46, 0.45) 70%,
+      rgba(26, 13, 46, 0.25) 100%
     );
     z-index: 1;
     pointer-events: none;
