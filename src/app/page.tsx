@@ -990,6 +990,7 @@ export default function HomePage() {
 
   const navLinks = useMemo(() => [
     { l: "Espetáculo", h: "#espetaculo" },
+    { l: "Teaser", h: "#teaser" },
     { l: "Galeria", h: "#galeria" },
     { l: "Próximos Concertos", h: "#cartazes" },
     { l: "Contacto", h: "#contacto" },
@@ -1709,6 +1710,9 @@ export default function HomePage() {
             >
               <source src="/teaser.mp4?v=clickMuteFix" type="video/mp4" />
             </video>
+
+            {/* Overlay preto — ecrã desligado até utilizador fazer scroll */}
+            <div className="teaser-video-overlay" aria-hidden="true"/>
 
             {/* Indicador momentâneo de som (aparece ao clicar no vídeo) */}
             <div className="teaser-mute-indicator muted-state" aria-hidden="true">
