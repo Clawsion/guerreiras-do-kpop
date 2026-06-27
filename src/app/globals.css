@@ -10246,8 +10246,8 @@ img { max-width: 100%; height: auto; }
 .teaser-video-wrap {
   position: relative;
   width: 100%;
-  max-width: 580px;
-  aspect-ratio: 16 / 10;
+  max-width: 440px;
+  aspect-ratio: 3 / 4;
   border-radius: 16px;
   background: #000;
   overflow: hidden;
