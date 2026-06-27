@@ -3,11 +3,9 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import NeonLightbox from "@/components/NeonLightbox";
 import {
-  Ticket, MapPin, Clock, Instagram, Youtube, Music2,
-  Send, ChevronRight, Phone, Mail, Facebook,
-  Flame, Sparkles, Mic2, MonitorPlay, PartyPopper, Cherry, Bell,
+  Ticket, Instagram, Youtube,
+  ChevronRight, Phone, Mail,
 } from "lucide-react";
-import { Input } from "@/components/ui/input";
 
 /* ════════════════════════════════════════ */
 /* ═══ DATA ══════════════════════════════ */
@@ -21,8 +19,7 @@ const TICKETLINE_URL_SESIMBRA = "https://www.ticketline.pt/pt/evento/guerreiras-
 // const EVENT = new Date("2026-08-08T18:30:00"); // REMOVIDO — countdown desativado
 
 /* ── Device detection for adaptive performance ── */
-// Device detection — moved inside useEffect to avoid hydration mismatch (#418)
-const IS_MOBILE = false; // Default para SSR; atualizado no useEffect
+
 const SHIELD_PARTICLES = 6;
 const CHARGER_PARTICLES = 4;
 
@@ -268,108 +265,7 @@ const QUIZ_CHARACTERS = [
   { name: "Mira", color: "var(--pink-kpop)", img: "/real-mirae.webp", theme: "Dança" },
 ];
 
-function QuizCard({ character, onScore }: { character: typeof QUIZ_CHARACTERS[number]; onScore: (correct: boolean) => void }) {
-  const [flipped, setFlipped] = useState(false);
-  const [question, setQuestion] = useState<QuizQuestion | null>(null);
-  const [selected, setSelected] = useState<number | null>(null);
-  const [showResult, setShowResult] = useState(false);
-  const [usedQ, setUsedQ] = useState<Set<number>>(new Set());
-  const [currentTheme, setCurrentTheme] = useState(character.name);
 
-  const allThemes: Array<"ZOEY" | "RUMI" | "MIRAE"> = ["ZOEY", "RUMI", "MIRAE"];
-
-  const pickQuestion = useCallback(() => {
-    const themePool = QUIZ_QUESTIONS.filter((q, i) => q.theme === currentTheme && !usedQ.has(i));
-    const anyPool = QUIZ_QUESTIONS.filter((_, i) => !usedQ.has(i));
-    const available = themePool.length > 0 ? themePool : anyPool.length > 0 ? anyPool : QUIZ_QUESTIONS;
-    const idx = Math.floor(Math.random() * available.length);
-    const chosen = available[idx];
-    const globalIdx = QUIZ_QUESTIONS.indexOf(chosen);
-    setUsedQ(prev => new Set([...prev, globalIdx]));
-    const nextThemeIdx = (allThemes.indexOf(currentTheme) + 1) % allThemes.length;
-    setCurrentTheme(allThemes[nextThemeIdx]);
-    return chosen;
-  }, [currentTheme, usedQ]);
-
-  const handleFlip = useCallback(() => {
-    if (!flipped) {
-      const q = pickQuestion();
-      setQuestion(q);
-      setSelected(null);
-      setShowResult(false);
-    }
-    setFlipped(f => !f);
-  }, [flipped, pickQuestion]);
-
-  const handleAnswer = useCallback((idx: number) => {
-    if (showResult) return;
-    setSelected(idx);
-    setShowResult(true);
-    if (question) onScore(idx === question.answer);
-  }, [showResult, question, onScore]);
-
-  const handleBack = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    setFlipped(false);
-    setTimeout(() => {
-      setQuestion(null);
-      setSelected(null);
-      setShowResult(false);
-    }, 500);
-  }, []);
-
-  return (
-    <div className="quiz-card" onClick={!flipped ? handleFlip : undefined} role="button" tabIndex={0}
-      onKeyDown={(e) => { if (e.key === 'Enter' && !flipped) handleFlip(); }}>
-      <div className={`quiz-card-inner${flipped ? " quiz-flipped" : ""}`}>
-        {/* ═══ FRONT - Character Image + Theme Badge ═══ */}
-        <div className="quiz-card-front">
-          <div className="quiz-glow" style={{ background: `radial-gradient(circle, ${character.color}33 0%, transparent 70%)` }} />
-          <img src={character.img} alt={character.name} className="quiz-char-img" loading="lazy" decoding="async" />
-          <div className="quiz-theme-label" style={{ color: character.color }}>{character.theme}</div>
-          <p className="quiz-char-name" style={{ color: character.color }}>{character.name}</p>
-          <p className="quiz-hint">Clica para jogar</p>
-        </div>
-        {/* ═══ BACK - White background, question + 4 options, no mirror ═══ */}
-        <div className="quiz-card-back">
-          {question ? (
-            <>
-              <p className="quiz-back-theme" style={{ color: character.color }}>{character.name}</p>
-              <p className="quiz-question">{question.q}</p>
-              <div className="quiz-options">
-                {question.options.map((opt, i) => {
-                  let optClass = "quiz-option";
-                  if (showResult) {
-                    if (i === question.answer) optClass += " quiz-correct";
-                    else if (i === selected) optClass += " quiz-wrong";
-                  }
-                  return (
-                    <button key={i} className={optClass} onClick={(e) => { e.stopPropagation(); handleAnswer(i); }}
-                      onTouchEnd={(e) => { e.stopPropagation(); }}>
-                      {opt}
-                    </button>
-                  );
-                })}
-              </div>
-              {showResult && (
-                <div className={`quiz-result ${selected === question.answer ? "quiz-result-correct" : "quiz-result-wrong"}`}>
-                  {selected === question.answer ? "Correto!" : "Errado!"}
-                </div>
-              )}
-              {showResult && (
-                <button className="quiz-back-btn" onClick={handleBack}>
-                  Voltar
-                </button>
-              )}
-            </>
-          ) : (
-            <p className="quiz-question" style={{ opacity: 0.5 }}>A carregar...</p>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ═══ CARREGA O HONMOON - Interactive Charging ═══ */
 

@@ -128,10 +128,6 @@
 .font-body    { font-family: var(--font-body), 'Sora', sans-serif; }
 .font-label   { font-family: var(--font-geist-mono), monospace; }
 
-/* ═══ SCROLL BEHAVIOR ═══
-   smooth SÓ em desktop (≥1024px). Em mobile/touch, smooth no <html>
-   interfere com o momentum scrolling nativo do iOS/Android e causa
-   lag severo no swipe. Esta era a causa #1 do "hero demora muito a descer". */
 @media (min-width: 1024px) {
   html { scroll-behavior: smooth; }
 }
@@ -281,12 +277,6 @@
   padding-right: clamp(20px, 5vw, 80px);
 }
 
-/* ═══ HERO-ALIGNED CONTAINER ═══
-   Full-width proporcional ao hero (sem max-width), mantendo o mesmo padding do hero.
-   - Sem max-width (ocupa toda a largura do ecrã)
-   - Padding lateral igual ao hero: px-5 sm:px-8 (20px / 32px)
-   - Usa para conteúdo que deve acompanhar o hero em largura
-   - NÃO altera tamanhos de imagens/elementos — só o container exterior */
 .hero-aligned-container {
   width: 100%;
   padding-left: clamp(20px, 5vw, 80px);
@@ -740,11 +730,6 @@
 .tk:hover { transform:translateY(-6px); box-shadow: 0 24px 60px rgba(11,8,19,0.5), 0 0 50px rgba(200,80,255,0.08); }
 
 /* ═══ PRELOADER - Curtain Reveal ═══ */
-/* CRÍTICO: pointer-events: none SEMPRE no preloader.
-   Antes, só tinha pointer-events: none quando .preloader-done era aplicado.
-   Isto significava que durante os primeiros 400ms-1.2s (antes de loaded=true),
-   o preloader capturava todos os toques em mobile, bloqueando o scroll.
-   Agora, o preloader NUNCA captura toques — é puramente visual. */
 .preloader-honmoon {
   position: fixed;
   inset: 0;
@@ -809,11 +794,7 @@
     transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
     will-change: auto !important;
   }
-  /* DEPOIS de done: display:none remove completamente do render tree.
-     Os will-change: transform dos curtains continuavam a consumir GPU
-     mesmo invisíveis (opacity:0). Isto era uma das causas do lag residual
-     no scroll inicial do hero em mobile. */
-  .preloader-honmoon.preloader-done {
+    .preloader-honmoon.preloader-done {
     display: none !important;
   }
   /* ═══ MOBILE THEME TOGGLE — Esconde o orb-burst (é só para desktop via orb) ═══
@@ -1834,12 +1815,6 @@
   opacity: 0;
   animation: soulRiseSite 10s ease-in-out infinite;
 }
-/* ═══ MOBILE: versão LEVE das soul-particles ═══
-   Em mobile, as soul-particles têm:
-   - SEM box-shadow (era o que mais pesava no GPU mobile — 6 sombras × 6 partículas = 36 sombras)
-   - background sólido via gradient (substitui o brilho do box-shadow)
-   - opacity mais baixa (0.5 vs 0.8) para ser mais subtil
-   - Animação mantida mas sem will-change (liberta camada GPU) */
 @media (max-width: 767px) {
   .soul-particles-mobile {
     /* contain: strict já está no .soul-particles-site — mantém */
@@ -1935,11 +1910,6 @@
   touch-action: pan-y;
 }
 
-/* ═══ MOBILE HERO — contain: layout style paint para isolar renderização ═══
-   Antes era `contain: none` porque `strict` bloqueava scroll em alguns browsers.
-   Mas `layout style paint` (sem `size`) NÃO bloqueia scroll e ISOLA a renderização
-   do hero do resto da página. Isto significa que mudanças fora do hero não
-   forçam repaint do hero, e vice-versa. */
 @media (max-width: 767px) {
   .hero-section {
     contain: layout style paint !important;
@@ -2388,12 +2358,6 @@ html.light-mode .hero-bg-img-dark {
   margin-bottom: 2.5rem;
   line-height: 1.6;
 }
-/* ═══ COUNTDOWN — REMOVIDO ═══
-   As regras .hero-countdown-*, .hero-seal-* foram removidas porque o
-   componente HeroCountdown foi apagado do page.tsx. Isto também remove
-   4 animações infinitas (seal-spin-1, seal-spin-2, seal-pulse) que
-   contribuíam para o lag em mobile. */
-
 /* Date line below CTA */
 .hero-date-line {
   font-family: var(--font-geist-mono);
@@ -2982,10 +2946,7 @@ html.light-mode .hero-bg-img-dark {
 /* Light-mode counterpart - hidden by default, only visible in .light-mode */
 .esp-readability-light { display: none; }
 @media (max-width: 1023px) {
-  /* On mobile, the layout stacks — darkening comes from top so the
-     stacked text stays readable while the pavilion bleeds through below.
-     Aumentado para 0.96 no topo (era 0.92) para melhor legibilidade. */
-  .esp-readability-overlay {
+    .esp-readability-overlay {
     background:
       linear-gradient(180deg,
         rgba(11,8,19,0.96) 0%,
@@ -3954,10 +3915,6 @@ html.light-mode .hero-bg-img-dark {
   transition: fill 0.6s ease;
 }
 
-/* ═══ Modo dia — overlay ROXO INTERMEDIÁRIO TRANSPARENTE (sem branco) ═══
-   Overlay translúcido roxo intermediário #C0B5CA (igual ao modo noite),
-   aplicado POR CIMA do parallax das bolas mas POR DETRÁS dos cartazes.
-   Removido o branco transparente (#C1B4C9) — agora é roxo intermediário. */
 .light-mode .cartazes-section {
   background: var(--void);
   background-image: url('/cartazes-bg-day.webp');
@@ -4491,13 +4448,6 @@ html.light-mode .hero-bg-img-dark {
   mix-blend-mode: screen;
   opacity: 0.9;
 }
-/* Modo dia — usa imagem LIGHT própria (HD Restoration, lossless 4080x6144).
-   Antes era usada a imagem dark com hue-rotate(180deg) brightness(1.2) que
-   causava perda de qualidade e cores não naturais. Agora usamos uma imagem
-   light dedicada servida via jsDelivr CDN.
-   background-size: 65% auto — pouco mais zoom (50% era pequeno demais).
-   opacity 0.20 -> 0.35 — imagem mais visível/nítida (teste de "perda").
-   background-position: center 95% — imagem descida 25% (era 70%, agora 95%). */
 .light-mode .galeria-parallax-bg {
   background-image: url('https://cdn.jsdelivr.net/gh/Clawsion/guerreiras-do-kpop@main/public/portal-honmoon-light.webp');
   background-size: 55% auto; /* -25% zoom (era 80%) — user pediu menos zoom no parallax mural dia */
@@ -5530,16 +5480,6 @@ html.light-mode .hero-bg-img-dark {
   }
 }
 
-/* ═══ Smooth transition on themed elements (DESKTOP ONLY) ═══
-   Em mobile, esta regra era a principal causa de lag na troca de tema:
-   o seletor .light-mode * força o browser a avaliar 4 propriedades de
-   transition em TODOS os 467 elementos DOM. Mesmo com o override
-   `transition: none !important` em mobile, o browser ainda tem de
-   AVALIAR a regra — o que demora 100-300ms em smartphone real.
-
-   Solução: envolver a regra numa media query desktop-only (>=768px).
-   Em mobile, esta regra NÃO EXISTE no CSS — o browser não tem nada
-   para avaliar. A troca fica instantânea. */
 @media (min-width: 768px) {
   .light-mode,
   .light-mode *:not(.quiz-card-inner):not(.quiz-char-img):not(.quiz-option):not(.hm-shimmer-ring):not(.hm-ripple-bg):not(.preloader-curtain-left):not(.preloader-curtain-right),
@@ -6119,12 +6059,6 @@ html.light-mode .hero-bg-img-dark {
     height: 160px !important;
   }
 }
-
-/* ═══ ENERGIA HONMOON — nebulosa (noite) / nuvens (dia) ═══
-   Camada de atmosfera que preenche o espaço vazio à volta do orb.
-   - Modo noite: nebulosa roxa escura com estrelas (gás cósmico)
-   - Modo dia: nuvens suaves com partículas douradas (céu mágico)
-   Performance: usa gradientes CSS (leves) + poucas partículas. */
 
 /* ═══════════════════════════════════════════════════════════════ */
 /* ═══ NEBULOSA CÓSMICA HONMOON — rios de gás roxo (desktop) ═══ */
@@ -9340,10 +9274,6 @@ img { max-width: 100%; height: auto; }
 }
 
 
-/* ═══ MODO NOITE — Tributo + Parallax 1 + Parallax 2 = secção contínua ═══
-   As 3 secções partilham o mesmo fundo (portal-honmoon.webp) sem separadores.
-   O HonmoonDivider entre Tributo e Parallax 1 foi removido do JSX.
-   A galeria (mural) continua com o seu próprio fundo entre os 2 parallax. */
 @media (max-width: 767px) {
   /* Secção do Tributo sem padding inferior extra (continua direto no parallax) */
   .espetaculo-section {
@@ -9490,20 +9420,6 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* ═══ SMARTPHONE — fade escuro suave em baixo do hero (SÓ modo noite) ═══
-   A imagem do hero termina com um corte visível em baixo. Este fade
-   cria um gradiente que prolonga a imagem suavemente para a secção
-   seguinte, sem se perceber o corte.
-
-   ⚠️ IMPORTANTE: O seletor usa `html:not(.light-mode)` para garantir que
-   o fade SÓ aplica em modo NOITE. Antes era `:not(.light-mode)` que
-   correspondia a QUALQUER ancestor sem .light-mode (incluindo body),
-   fazendo o fade aplicar também em modo DIA — como em modo dia
-   var(--void) = #EDE0F5 (lilás claro), o fade clareava o fundo natural
-   escuro da imagem, criando um "brilho" artificial indesejado.
-
-   Em modo DIA: NENHUM fade, NENHUM filtro, NENHUM overlay no hero.
-   A imagem aparece limpa, exatamente como foi entregue pelo utilizador. */
 @media (max-width: 767px) {
   /* SÓ modo noite — fade escuro no fundo do hero */
   html:not(.light-mode) .hero-section::after {
