@@ -5010,48 +5010,40 @@ html.light-mode .hero-bg-img-dark {
   position: relative;
   padding: 6rem 0;
   background: var(--void);
+  background-image: url('/contacto-bg-night.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   overflow: hidden;
 }
 /* Overlay 85% — imagem visível a ~15% (marca de água subtíl) */
 .contacto-section::before {
   content: "";
   position: absolute;
-  inset: -20% 0;
-  background-image: url('/contacto-bg-night.webp');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  z-index: 0;
-  pointer-events: none;
-  will-change: transform;
-}
-
-/* Overlay escuro POR CIMA da imagem (para legibilidade) */
-.contacto-section::after {
-  content: "";
-  position: absolute;
   inset: 0;
-  background: rgba(11, 8, 19, 0.65);
+  background: rgba(11, 8, 19, 0.85);
   z-index: 1;
   pointer-events: none;
 }
 /* Modo dia: imagem clara + overlay lavanda MAIS OPACO (sem brilho branco) */
-.light-mode .contacto-section::before {
+.light-mode .contacto-section {
   background-image: url('/contacto-bg-day.webp');
 }
-.light-mode .contacto-section::after {
+.light-mode .contacto-section::before {
   background: linear-gradient(180deg,
-    rgba(195,170,220,0.60) 0%,
-    rgba(185,158,213,0.65) 50%,
-    rgba(195,170,220,0.60) 100%
+    rgba(195,170,220,0.78) 0%,
+    rgba(185,158,213,0.82) 50%,
+    rgba(195,170,220,0.78) 100%
   );
 }
-/* Mobile: parallax via transform no ::before (compatível iOS) */
+/* Mobile: parallax via background-attachment scroll (compatível iOS) */
 @media (max-width: 767px) {
-  .contacto-section::before {
+  .contacto-section {
     background-attachment: scroll;
-    inset: -30% 0;
+    /* Manter parallax visual — a imagem fica fixa enquanto se faz scroll */
+    background-size: cover;
+    background-position: center center;
   }
 }
 .contacto-form {
