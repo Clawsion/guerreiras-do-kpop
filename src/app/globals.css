@@ -10247,7 +10247,7 @@ img { max-width: 100%; height: auto; }
   position: relative;
   width: 100%;
   max-width: 460px;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 5 / 8;
   border-radius: 16px;
   background: #000;
   overflow: hidden;
