@@ -11069,3 +11069,56 @@ img { max-width: 100%; height: auto; }
     ) !important;
   }
 }
+
+
+/* ═══ CONTACTO MOBILE — parallax via ::before + transform (igual animação) ═══
+   Desktop NÃO é afectado (mantém background-attachment: fixed).
+   Mobile usa ::before com imagem + JS move com transform.
+*/
+@media (max-width: 767px) {
+  /* Secção: remover background-image (vai para ::before) */
+  .contacto-section {
+    background-image: none !important;
+    background-attachment: scroll !important;
+  }
+  
+  /* ::before: imagem de fundo com inset negativo (espaço para parallax) */
+  .contacto-section::before {
+    content: "";
+    position: absolute;
+    inset: -25% 0;
+    background-image: url('/contacto-bg-night.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+    pointer-events: none;
+    will-change: transform;
+    transform: translateY(var(--parallax-y, 0%));
+    /* Overlay integrado na imagem (escurecer para legibilidade) */
+    filter: brightness(0.5);
+  }
+  
+  /* ::after: overlay extra para legibilidade */
+  .contacto-section::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(11, 8, 19, 0.55);
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  /* Modo dia mobile */
+  .light-mode .contacto-section::before {
+    background-image: url('/contacto-bg-day.webp');
+    filter: brightness(0.85);
+  }
+  .light-mode .contacto-section::after {
+    background: linear-gradient(180deg,
+      rgba(195, 170, 220, 0.50) 0%,
+      rgba(185, 158, 213, 0.55) 50%,
+      rgba(195, 170, 220, 0.50) 100%
+    );
+  }
+}
