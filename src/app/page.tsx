@@ -1697,7 +1697,7 @@ export default function HomePage() {
                 }
               }}
             >
-              <source src="/teaser.mp4?v=hqVideo" type="video/mp4" />
+              <source src="/teaser.mp4?v=audioFix2026" type="video/mp4" />
             </video>
 
             {/* Overlay preto — ecrã desligado até utilizador fazer scroll */}
