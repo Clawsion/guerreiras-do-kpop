@@ -945,66 +945,25 @@ export default function HomePage() {
     };
   }, []);
 
-  // ═══ Vídeo auto-play robusto (quando secção está visível) ═══
+  // ═══ Vídeo auto-play (quando secção está visível) ═══
+  // Simples: tenta play quando secção é revelada. Sem listeners globais.
+  // onClick no <video> faz toggle mute (igual em desktop e mobile).
   useEffect(() => {
     if (!teaserRevealed) return;
     if (typeof window === 'undefined') return;
     
-    let playTimer: ReturnType<typeof setTimeout> | null = null;
-    let retryCount = 0;
-    const maxRetries = 5;
+    const v = document.getElementById('teaser-video-el') as HTMLVideoElement | null;
+    if (!v) return;
     
-    const tryPlay = () => {
-      const v = document.getElementById('teaser-video-el') as HTMLVideoElement | null;
-      if (!v) return;
-      v.muted = true;
-      v.play().catch(() => {
-        // Se falhar, retry com delay crescente
-        retryCount++;
-        if (retryCount < maxRetries) {
-          playTimer = setTimeout(tryPlay, 500 * retryCount);
-        }
-      });
-    };
-    
-    // Tentar imediatamente
-    tryPlay();
-    
-    // Fallback: tentar dar play se o vídeo estiver pausado
-    // Mas NÃO interferir com cliques no próprio vídeo (mute toggle)
-    let lastManualInteraction = 0;
-    const onInteraction = (e: Event) => {
-      // Se o clique foi no próprio vídeo, não fazer nada (onClick do vídeo trata)
-      const target = e.target as HTMLElement;
-      if (target && (target.id === 'teaser-video-el' || target.closest('.teaser-video-wrap'))) {
-        lastManualInteraction = Date.now();
-        return;
-      }
-      // Se houve interação manual nos últimos 2s, não interferir
-      if (Date.now() - lastManualInteraction < 2000) return;
-      
-      const v = document.getElementById('teaser-video-el') as HTMLVideoElement | null;
-      if (v && v.paused) {
+    // Tentar play (muted para respeitar política de autoplay)
+    v.muted = true;
+    v.play().catch(() => {
+      // Se falhar, tentar novamente após 1s
+      setTimeout(() => {
         v.muted = true;
-        v.play().catch(() => {
-          v.load();
-          setTimeout(() => {
-            v.muted = true;
-            v.play().catch(() => {});
-          }, 200);
-        });
-      }
-    };
-    document.addEventListener('click', onInteraction);
-    document.addEventListener('touchstart', onInteraction, { passive: true });
-    document.addEventListener('scroll', onInteraction, { passive: true });
-    
-    return () => {
-      if (playTimer) clearTimeout(playTimer);
-      document.removeEventListener('click', onInteraction);
-      document.removeEventListener('touchstart', onInteraction);
-      document.removeEventListener('scroll', onInteraction);
-    };
+        v.play().catch(() => {});
+      }, 1000);
+    });
   }, [teaserRevealed]);
 
 
