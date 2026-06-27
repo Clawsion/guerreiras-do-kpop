@@ -660,14 +660,9 @@ export default function HomePage() {
         ticking = false;
         return;
       }
-      // Parallax: mover ::before com transform (compatível iOS)
+      // Parallax: mover background-position Y conforme o scroll
       const progress = Math.max(0, Math.min(1, (winH - rect.top) / (winH + rect.height)));
-      const offset = (progress - 0.5) * 20; // 20% de movimento
-      const before = section.querySelector("::before");
-      if (before) {
-        (before as HTMLElement).style.transform = `translateY(${offset}%)`;
-      }
-      // Fallback: também mover background-position
+      const offset = (progress - 0.5) * 30; // 30% de movimento
       section.style.backgroundPositionY = `${50 + offset}%`;
       ticking = false;
     };
