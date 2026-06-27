@@ -915,17 +915,34 @@ export default function HomePage() {
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.15) {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.05) {
             setTeaserRevealed(true);
             observer.disconnect();
             break;
           }
         }
       },
-      { threshold: [0, 0.15, 0.3], rootMargin: '0px 0px -10% 0px' }
+      { threshold: [0, 0.05, 0.1, 0.15, 0.3], rootMargin: '0px 0px -5% 0px' }
     );
     observer.observe(section);
-    return () => observer.disconnect();
+    // Fallback: se após 3s não foi revelada, forçar (mobile)
+    const fallbackTimer = setTimeout(() => {
+      setTeaserRevealed(true);
+    }, 3000);
+    // Também revelar no primeiro scroll
+    const onScrollReveal = () => {
+      const r = section.getBoundingClientRect();
+      const w = window.innerHeight || document.documentElement.clientHeight;
+      if (r.top < w && r.bottom > 0) {
+        setTeaserRevealed(true);
+      }
+    };
+    window.addEventListener('scroll', onScrollReveal, { passive: true });
+    return () => {
+      observer.disconnect();
+      clearTimeout(fallbackTimer);
+      window.removeEventListener('scroll', onScrollReveal);
+    };
   }, []);
 
   // ═══ Vídeo auto-play robusto (quando secção está visível) ═══
@@ -958,7 +975,14 @@ export default function HomePage() {
       const v = document.getElementById('teaser-video-el') as HTMLVideoElement | null;
       if (v && v.paused) {
         v.muted = true;
-        v.play().catch(() => {});
+        v.play().catch(() => {
+          // Se play falhar, tentar load + play
+          v.load();
+          setTimeout(() => {
+            v.muted = true;
+            v.play().catch(() => {});
+          }, 200);
+        });
       }
     };
     document.addEventListener('click', onInteraction);
