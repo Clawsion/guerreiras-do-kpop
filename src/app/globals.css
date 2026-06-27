@@ -10073,6 +10073,74 @@ img { max-width: 100%; height: auto; }
   transform: scale(1) translateY(0);
 }
 
+/* ═══ Pilares de veludo laterais (estilo Memorias) ═══
+   2 divs com gradient escuro nos lados, dando profundidade à secção.
+   Não afetam o vídeo nem as letras (só escurecem os lados).
+   100% CSS, sem animações, sem blend-mode → leve.
+*/
+.teaser-stage-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.teaser-pillar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 14vw;
+  max-width: 200px;
+  pointer-events: none;
+}
+
+/* Pilar esquerdo — gradiente da esquerda (escuro) para a direita (transparente) */
+.teaser-pillar-left {
+  left: 0;
+  background: linear-gradient(90deg,
+    rgba(11, 8, 19, 0.88) 0%,
+    rgba(11, 8, 19, 0.55) 40%,
+    rgba(11, 8, 19, 0.20) 75%,
+    transparent 100%);
+}
+
+/* Pilar direito — espelho (escuro à direita, transparente à esquerda) */
+.teaser-pillar-right {
+  right: 0;
+  background: linear-gradient(270deg,
+    rgba(11, 8, 19, 0.88) 0%,
+    rgba(11, 8, 19, 0.55) 40%,
+    rgba(11, 8, 19, 0.20) 75%,
+    transparent 100%);
+}
+
+/* Modo dia: pilares em roxo escuro (igual ao Memorias) */
+.light-mode .teaser-pillar-left {
+  background: linear-gradient(90deg,
+    rgba(74, 45, 122, 0.92) 0%,
+    rgba(74, 45, 122, 0.60) 40%,
+    rgba(74, 45, 122, 0.25) 75%,
+    transparent 100%);
+}
+
+.light-mode .teaser-pillar-right {
+  background: linear-gradient(270deg,
+    rgba(74, 45, 122, 0.92) 0%,
+    rgba(74, 45, 122, 0.60) 40%,
+    rgba(74, 45, 122, 0.25) 75%,
+    transparent 100%);
+}
+
+/* Mobile: pilares mais finos */
+@media (max-width: 480px) {
+  .teaser-pillar {
+    width: 10vw;
+    max-width: 80px;
+  }
+}
+
+
 /* Modo dia — mesmas variáveis, tons diferentes */
 .light-mode .teaser-section {
   /* Modo dia: fundo lavanda (não branco) */

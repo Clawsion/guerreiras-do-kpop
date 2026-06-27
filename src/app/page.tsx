@@ -1608,6 +1608,12 @@ export default function HomePage() {
       >
         <div className="teaser-bg-glow" aria-hidden="true"/>
 
+        {/* Pilares de veludo laterais (estilo Memorias) — não afetam vídeo/letras */}
+        <div className="teaser-stage-frame" aria-hidden="true">
+          <div className="teaser-pillar teaser-pillar-left"/>
+          <div className="teaser-pillar teaser-pillar-right"/>
+        </div>
+
         <div className="teaser-center">
           <h2 className="teaser-title">
             <span className="teaser-title-shimmer">Guerreiras do K-Pop</span>
