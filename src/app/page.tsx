@@ -1623,47 +1623,56 @@ export default function HomePage() {
               preload="auto"
               poster="/poster.webp"
               id="teaser-video-el"
-              key="teaser-working-video"
-            >
-              <source src="/teaser.mp4?v=workingVideo" type="video/mp4" />
-            </video>
-
-            {/* Flash overlay — liga o ecrã quando cortinas abrem */}
-            <div className="teaser-video-flash" aria-hidden="true"/>
-
-            <button
-              className="teaser-mute-btn"
+              key="teaser-click-mute-fix"
+              style={{ cursor: 'pointer' }}
               onClick={() => {
                 const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
-                if (v) {
-                  v.muted = !v.muted;
-                  if (!v.muted) {
-                    v.volume = 1.0;
-                    v.play().catch(() => {});
-                  }
-                  const btn = document.querySelector('.teaser-mute-btn');
-                  if (btn) {
-                    btn.classList.toggle('unmuted', !v.muted);
-                  }
+                if (!v) return;
+                // Toggle mute
+                v.muted = !v.muted;
+                if (!v.muted) {
+                  v.volume = 1.0;
+                  v.play().catch(() => {});
+                }
+                // Mostrar indicador momentâneo
+                const indicator = document.querySelector('.teaser-mute-indicator');
+                if (indicator) {
+                  // Remover classes de estado
+                  indicator.classList.remove('muted-state', 'unmuted-state', 'show');
+                  // Adicionar classe correcta
+                  indicator.classList.add(v.muted ? 'muted-state' : 'unmuted-state');
+                  // Forçar reflow para reiniciar animação
+                  void indicator.offsetWidth;
+                  // Mostrar
+                  indicator.classList.add('show');
+                  // Esconder após 1.5s
+                  clearTimeout((indicator as any)._hideTimer);
+                  (indicator as any)._hideTimer = setTimeout(() => {
+                    indicator.classList.remove('show');
+                  }, 1500);
                 }
               }}
-              aria-label="Ativar som"
             >
+              <source src="/teaser.mp4?v=clickMuteFix" type="video/mp4" />
+            </video>
+
+            {/* Indicador momentâneo de som (aparece ao clicar no vídeo) */}
+            <div className="teaser-mute-indicator muted-state" aria-hidden="true">
               <span className="teaser-mute-icon-muted">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
                   <line x1="23" y1="9" x2="17" y2="15"/>
                   <line x1="17" y1="9" x2="23" y2="15"/>
                 </svg>
               </span>
               <span className="teaser-mute-icon-unmuted">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
                   <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
                   <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
                 </svg>
               </span>
-            </button>
+            </div>
           </div>
 
           {/* Reflexo neon por baixo do vídeo */}
