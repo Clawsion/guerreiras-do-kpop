@@ -660,10 +660,13 @@ export default function HomePage() {
         ticking = false;
         return;
       }
-      // Parallax: mover background-position Y conforme o scroll
+      // Parallax: mover div .contacto-bg-parallax com transform
       const progress = Math.max(0, Math.min(1, (winH - rect.top) / (winH + rect.height)));
-      const offset = (progress - 0.5) * 30; // 30% de movimento
-      section.style.backgroundPositionY = `${50 + offset}%`;
+      const offset = (progress - 0.5) * 20; // 20% de movimento
+      const bgParallax = section.querySelector('.contacto-bg-parallax') as HTMLElement | null;
+      if (bgParallax) {
+        bgParallax.style.transform = `translateY(${offset}%)`;
+      }
       ticking = false;
     };
 
@@ -1929,6 +1932,8 @@ export default function HomePage() {
 
       {/* ═══ CONTACTE-NOS - Reservas & Eventos ═══ */}
       <section id="contacto" className="contacto-section" ref={contactoRef}>
+        {/* Div parallax mobile (movida com transform via JS) */}
+        <div className="contacto-bg-parallax" aria-hidden="true"/>
         {/* Marca de água */}
         <div className="hero-aligned-container relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
