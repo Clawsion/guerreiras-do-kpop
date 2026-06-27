@@ -970,13 +970,23 @@ export default function HomePage() {
     // Tentar imediatamente
     tryPlay();
     
-    // Fallback: qualquer interação do utilizador tenta dar play
-    const onInteraction = () => {
+    // Fallback: tentar dar play se o vídeo estiver pausado
+    // Mas NÃO interferir com cliques no próprio vídeo (mute toggle)
+    let lastManualInteraction = 0;
+    const onInteraction = (e: Event) => {
+      // Se o clique foi no próprio vídeo, não fazer nada (onClick do vídeo trata)
+      const target = e.target as HTMLElement;
+      if (target && (target.id === 'teaser-video-el' || target.closest('.teaser-video-wrap'))) {
+        lastManualInteraction = Date.now();
+        return;
+      }
+      // Se houve interação manual nos últimos 2s, não interferir
+      if (Date.now() - lastManualInteraction < 2000) return;
+      
       const v = document.getElementById('teaser-video-el') as HTMLVideoElement | null;
       if (v && v.paused) {
         v.muted = true;
         v.play().catch(() => {
-          // Se play falhar, tentar load + play
           v.load();
           setTimeout(() => {
             v.muted = true;
