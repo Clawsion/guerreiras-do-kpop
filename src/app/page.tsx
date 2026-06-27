@@ -1029,42 +1029,6 @@ export default function HomePage() {
     return () => observer.disconnect();
   }, []);
 
-  // ═══ Dar play no vídeo quando a secção é revelada (visível) ═══
-  useEffect(() => {
-    if (!teaserRevealed) return;  // Só tentar quando a secção está visível
-    if (typeof window === 'undefined') return;
-    
-    const tryPlay = () => {
-      const v = document.getElementById('teaser-video-el') as HTMLVideoElement | null;
-      if (!v) return;
-      // Garantir muted (necessário para autoplay)
-      v.muted = true;
-      // Tentar dar play
-      const promise = v.play();
-      if (promise) {
-        promise.catch(() => {
-          // Se falhar, tentar novamente após 500ms
-          setTimeout(() => {
-            v.muted = true;
-            v.play().catch(() => {});
-          }, 500);
-        });
-      }
-    };
-    
-    // Tentar play imediatamente + retries
-    tryPlay();
-    const t1 = setTimeout(tryPlay, 500);
-    const t2 = setTimeout(tryPlay, 1500);
-    const t3 = setTimeout(tryPlay, 3000);
-    
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-    };
-  }, [teaserRevealed]);
-
 
   return (
     <>
@@ -1652,15 +1616,16 @@ export default function HomePage() {
           <div className="teaser-video-wrap">
             <video
               className="teaser-video"
+              autoPlay
               muted
               loop
               playsInline
               preload="auto"
               poster="/poster.webp"
               id="teaser-video-el"
-              key="teaser-video-play-fix"
+              key="teaser-working-video"
             >
-              <source src="/teaser.mp4?v=videoPlayFix" type="video/mp4" />
+              <source src="/teaser.mp4?v=workingVideo" type="video/mp4" />
             </video>
 
             {/* Flash overlay — liga o ecrã quando cortinas abrem */}
@@ -1668,28 +1633,18 @@ export default function HomePage() {
 
             <button
               className="teaser-mute-btn"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
+              onClick={() => {
                 const v = document.getElementById('teaser-video-el') as HTMLVideoElement;
-                if (!v) return;
-                // Toggle mute
-                v.muted = !v.muted;
-                if (!v.muted) {
-                  // Quando se unmute: garantir volume máximo + play + reload se necessário
-                  v.volume = 1.0;
-                  v.play().catch(() => {
-                    // Se play falhar, tentar reload do vídeo
-                    v.load();
+                if (v) {
+                  v.muted = !v.muted;
+                  if (!v.muted) {
+                    v.volume = 1.0;
                     v.play().catch(() => {});
-                  });
-                }
-                // Atualizar ícone do botão
-                const btn = e.currentTarget;
-                if (v.muted) {
-                  btn.classList.remove('unmuted');
-                } else {
-                  btn.classList.add('unmuted');
+                  }
+                  const btn = document.querySelector('.teaser-mute-btn');
+                  if (btn) {
+                    btn.classList.toggle('unmuted', !v.muted);
+                  }
                 }
               }}
               aria-label="Ativar som"
