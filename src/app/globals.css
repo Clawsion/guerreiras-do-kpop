@@ -10999,14 +10999,14 @@ img { max-width: 100%; height: auto; }
     background-attachment: scroll !important;
   }
   
-  /* Div parallax: imagem de fundo que se move com scroll */
+  /* Div parallax: imagem de fundo que se move com scroll (igual cartazes) */
   .contacto-bg-parallax {
     display: block;
     position: absolute;
-    top: -20%;
+    top: 0;
     left: 0;
-    right: 0;
-    height: 140%;
+    width: 100%;
+    height: 100%;
     background-image: url('/contacto-bg-night.webp');
     background-size: cover;
     background-position: center;
@@ -11014,7 +11014,6 @@ img { max-width: 100%; height: auto; }
     z-index: 0;
     pointer-events: none;
     will-change: transform;
-    transform: translateY(0);
   }
   
   /* Modo dia */
