@@ -1029,53 +1029,41 @@ export default function HomePage() {
     return () => observer.disconnect();
   }, []);
 
-  // Garantir que o vídeo começa a dar (alguns browsers bloqueiam autoplay)
+  // ═══ Dar play no vídeo quando a secção é revelada (visível) ═══
   useEffect(() => {
+    if (!teaserRevealed) return;  // Só tentar quando a secção está visível
     if (typeof window === 'undefined') return;
     
     const tryPlay = () => {
       const v = document.getElementById('teaser-video-el') as HTMLVideoElement | null;
       if (!v) return;
-      // Garantir que está muted (autoplay só funciona se muted)
+      // Garantir muted (necessário para autoplay)
       v.muted = true;
-      v.play().catch(() => {
-        // Se falhar, tentar reload e play
-        v.load();
-        setTimeout(() => {
-          v.muted = true;
-          v.play().catch(() => {});
-        }, 200);
-      });
+      // Tentar dar play
+      const promise = v.play();
+      if (promise) {
+        promise.catch(() => {
+          // Se falhar, tentar novamente após 500ms
+          setTimeout(() => {
+            v.muted = true;
+            v.play().catch(() => {});
+          }, 500);
+        });
+      }
     };
     
-    // Tentar imediatamente
-    setTimeout(tryPlay, 100);
-    // Retry mais agressivo
+    // Tentar play imediatamente + retries
+    tryPlay();
     const t1 = setTimeout(tryPlay, 500);
     const t2 = setTimeout(tryPlay, 1500);
     const t3 = setTimeout(tryPlay, 3000);
-    const t4 = setTimeout(tryPlay, 5000);
-    
-    // Fallback: tentar no primeiro clique/touch/scroll do utilizador
-    const onFirstInteraction = () => {
-      tryPlay();
-    };
-    document.addEventListener('click', onFirstInteraction);
-    document.addEventListener('touchstart', onFirstInteraction);
-    document.addEventListener('scroll', onFirstInteraction, { passive: true });
-    document.addEventListener('keydown', onFirstInteraction);
     
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
-      clearTimeout(t4);
-      document.removeEventListener('click', onFirstInteraction);
-      document.removeEventListener('touchstart', onFirstInteraction);
-      document.removeEventListener('scroll', onFirstInteraction);
-      document.removeEventListener('keydown', onFirstInteraction);
     };
-  }, [teaserRevealed]);  // Re-tentar quando a secção é revelada
+  }, [teaserRevealed]);
 
 
   return (
@@ -1664,27 +1652,15 @@ export default function HomePage() {
           <div className="teaser-video-wrap">
             <video
               className="teaser-video"
-              autoPlay
               muted
               loop
               playsInline
               preload="auto"
-              crossOrigin="anonymous"
               poster="/poster.webp"
               id="teaser-video-el"
-              key="teaser-audio-fix-2026"
-              onLoadedData={(e) => {
-                // Garantir play quando o vídeo carrega
-                const v = e.currentTarget;
-                v.play().catch(() => {});
-              }}
-              onCanPlay={(e) => {
-                // Garantir play quando pode tocar
-                const v = e.currentTarget;
-                v.play().catch(() => {});
-              }}
+              key="teaser-video-play-fix"
             >
-              <source src="/teaser.mp4?v=audioFix2026" type="video/mp4" />
+              <source src="/teaser.mp4?v=videoPlayFix" type="video/mp4" />
             </video>
 
             {/* Flash overlay — liga o ecrã quando cortinas abrem */}
