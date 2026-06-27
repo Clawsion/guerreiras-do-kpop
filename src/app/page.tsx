@@ -396,6 +396,7 @@ export default function HomePage() {
   const galeriaParallaxTopRef = useRef<HTMLDivElement>(null);
   const cartazesBgRef = useRef<HTMLDivElement>(null);
   const contactoRef = useRef<HTMLElement>(null);
+  const contactoBgRef = useRef<HTMLDivElement>(null);
   // ═══ PARALLAX — agora usa background-attachment: fixed (nativo do browser) ═══
   // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
 
@@ -1820,7 +1821,7 @@ export default function HomePage() {
       {/* ═══ CONTACTE-NOS - Reservas & Eventos ═══ */}
       <section id="contacto" className="contacto-section" ref={contactoRef}>
         {/* Div parallax mobile (movida com transform via JS) */}
-        <div className="contacto-bg-parallax" aria-hidden="true"/>
+        <div className="contacto-bg-parallax" ref={contactoBgRef} aria-hidden="true"/>
         {/* Marca de água */}
         <div className="hero-aligned-container relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
