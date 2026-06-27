@@ -10098,66 +10098,40 @@ img { max-width: 100%; height: auto; }
 /* Pilar esquerdo — gradiente da esquerda (escuro) para a direita (transparente) */
 .teaser-pillar-left {
   left: 0;
-  background:
-    /* Textura subtil de dobras (estilo Memorias) */
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.15) 0px,
-      transparent 6px,
-      rgba(0, 0, 0, 0.08) 12px,
-      transparent 18px),
-    /* Gradiente principal */
-    linear-gradient(90deg,
-      rgba(45, 20, 80, 0.95) 0%,
-      rgba(45, 20, 80, 0.80) 25%,
-      rgba(45, 20, 80, 0.50) 50%,
-      rgba(45, 20, 80, 0.20) 80%,
-      transparent 100%);
+  background: linear-gradient(90deg,
+    rgba(45, 20, 80, 0.95) 0%,
+    rgba(45, 20, 80, 0.80) 25%,
+    rgba(45, 20, 80, 0.50) 50%,
+    rgba(45, 20, 80, 0.20) 80%,
+    transparent 100%);
 }
 
 /* Pilar direito — espelho (escuro à direita, transparente à esquerda) */
 .teaser-pillar-right {
   right: 0;
-  background:
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.15) 0px,
-      transparent 6px,
-      rgba(0, 0, 0, 0.08) 12px,
-      transparent 18px),
-    linear-gradient(270deg,
-      rgba(45, 20, 80, 0.95) 0%,
-      rgba(45, 20, 80, 0.80) 25%,
-      rgba(45, 20, 80, 0.50) 50%,
-      rgba(45, 20, 80, 0.20) 80%,
-      transparent 100%);
+  background: linear-gradient(270deg,
+    rgba(45, 20, 80, 0.95) 0%,
+    rgba(45, 20, 80, 0.80) 25%,
+    rgba(45, 20, 80, 0.50) 50%,
+    rgba(45, 20, 80, 0.20) 80%,
+    transparent 100%);
 }
 
 /* Modo dia: pilares em roxo escuro (igual ao Memorias) */
 .light-mode .teaser-pillar-left {
-  background:
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.10) 0px,
-      transparent 6px,
-      rgba(0, 0, 0, 0.05) 12px,
-      transparent 18px),
-    linear-gradient(90deg,
-      rgba(74, 45, 122, 0.92) 0%,
-      rgba(74, 45, 122, 0.60) 40%,
-      rgba(74, 45, 122, 0.25) 75%,
-      transparent 100%);
+  background: linear-gradient(90deg,
+    rgba(74, 45, 122, 0.92) 0%,
+    rgba(74, 45, 122, 0.60) 40%,
+    rgba(74, 45, 122, 0.25) 75%,
+    transparent 100%);
 }
 
 .light-mode .teaser-pillar-right {
-  background:
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, 0.10) 0px,
-      transparent 6px,
-      rgba(0, 0, 0, 0.05) 12px,
-      transparent 18px),
-    linear-gradient(270deg,
-      rgba(74, 45, 122, 0.92) 0%,
-      rgba(74, 45, 122, 0.60) 40%,
-      rgba(74, 45, 122, 0.25) 75%,
-      transparent 100%);
+  background: linear-gradient(270deg,
+    rgba(74, 45, 122, 0.92) 0%,
+    rgba(74, 45, 122, 0.60) 40%,
+    rgba(74, 45, 122, 0.25) 75%,
+    transparent 100%);
 }
 
 /* Mobile: pilares mais finos */

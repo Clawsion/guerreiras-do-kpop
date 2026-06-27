@@ -1400,6 +1400,9 @@ export default function HomePage() {
             <a href="https://www.instagram.com/guerreirasdokpop_tributo?igsh=NzBkd2J2dm1iYWR1" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
               <Instagram className="w-9 h-9"/>
             </a>
+            <a href="https://www.youtube.com/@GuerreirasdoKpoptributo" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+              <Youtube className="w-9 h-9"/>
+            </a>
           </div>
           {/* Decorative circle */}
           <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
@@ -2130,6 +2133,9 @@ export default function HomePage() {
           <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-6">
             <a href="https://www.instagram.com/guerreirasdokpop_tributo?igsh=NzBkd2J2dm1iYWR1" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer flex items-center gap-1.5" style={{color:"var(--neon-purple)"}}>
               <Instagram className="w-3.5 h-3.5"/> Instagram
+            </a>
+            <a href="https://www.youtube.com/@GuerreirasdoKpoptributo" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer flex items-center gap-1.5" style={{color:"var(--neon-purple)"}}>
+              <Youtube className="w-3.5 h-3.5"/> YouTube
             </a>
             <a href={TICKETLINE_URL} target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer bg-transparent border-0 p-0" style={{color:"var(--neon-purple)"}}>Ticketline</a>
             <button onClick={()=>setPrivacyOpen(true)} className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer bg-transparent border-0 p-0" style={{color:"var(--t3)"}}>Política de Privacidade</button>
