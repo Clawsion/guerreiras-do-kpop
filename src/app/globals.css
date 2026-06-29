@@ -3945,23 +3945,52 @@ html.light-mode .hero-bg-img-dark {
    background-image com gradient lavanda translúcido (modo dia)
    e o gradient roxo escuro sólido (modo noite) */
 
-/* Mobile: parallax das bolas via JavaScript (background-attachment: fixed não funciona em iOS) */
-/* Mobile: imagem fixa por trás da secção (background-attachment: fixed) */
+/* Mobile: parallax das bolas via position: sticky (funciona em iOS Safari) */
+/* background-attachment: fixed NÃO funciona em iOS Safari.
+   Solução: criar um div wrapper com position: sticky que simula o efeito
+   de imagem fixa. A imagem fica colada ao topo do viewport enquanto a
+   secção scrolla, dando o efeito de parallax real. */
+
+/* Por defeito (desktop), o div sticky está escondido — não afeta o desktop. */
+.cartazes-parallax-sticky {
+  display: none;
+}
+
 @media (max-width: 767px) {
   .cartazes-section {
     padding: 5.5rem 0 5rem;
     background: var(--void);
-    background-image: url('/cartazes-bg-night-mobile.webp');
-    background-size: 100% 120%;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    /* Remover background-image da secção — a imagem vai para o div sticky */
+    background-image: none !important;
+    /* overflow: visible para que o position: sticky funcione */
+    overflow: visible;
+    /* isolation: isolate para criar stacking context */
+    isolation: isolate;
   }
   .cartazes-shape {
     height: 60px;
   }
+  /* Div wrapper com position: sticky — simula background-attachment: fixed */
+  .cartazes-parallax-sticky {
+    display: block;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100svh; /* dynamic viewport height (resolve barra de URL iOS) */
+    background-image: url('/cartazes-bg-night-mobile.webp');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    z-index: 0;
+    pointer-events: none;
+    will-change: auto;
+  }
   /* Modo dia: imagem clara */
-  .light-mode .cartazes-section {
+  .light-mode .cartazes-parallax-sticky {
     background-image: url('/cartazes-bg-day-mobile.webp');
   }
   /* Overlay — modo noite (violeta discreto) */
@@ -6846,6 +6875,8 @@ html.light-mode .hero-bg-img-dark {
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 5;
   overflow: hidden;
+  /* will-change: transform para a animação de respiração (scale) ser fluida */
+  will-change: transform;
 }
 
 /* Dark - neon rose pulse like the anime Honmoon */
@@ -11110,13 +11141,13 @@ img { max-width: 100%; height: auto; }
    Em mobile, usar keyframes novas que só animam opacity.
 */
 @keyframes hmOrbDormantMobile {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
 }
 
 @keyframes hmOrbActiveMobile {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 1; }
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
 }
 
 @media (max-width: 767px) {
