@@ -1315,8 +1315,8 @@ export default function HomePage() {
                 window.scrollTo({ top, behavior: 'smooth' });
               }
             }}
-            className="flex items-center justify-center gap-2 px-8 py-2.5 text-[10px] tracking-[0.25em] font-medium uppercase cursor-pointer"
-            style={{background:"transparent",color:"rgba(255,245,255,0.9)",border:"1px solid rgba(200,80,255,0.6)",borderRadius:"0",borderBottom:"1px solid rgba(200,80,255,0.8)",borderTop:"none",borderLeft:"none",borderRight:"none",backdropFilter:"blur(4px)"}}
+            className="hero-cta-mobile flex items-center justify-center gap-2 px-7 py-2.5 text-[10px] tracking-[0.25em] font-semibold uppercase cursor-pointer rounded-full"
+            style={{background:"rgba(11,8,19,0.4)",color:"rgba(255,245,255,0.95)",border:"1.5px solid rgba(200,80,255,0.7)",boxShadow:"0 0 12px rgba(200,80,255,0.4), inset 0 0 8px rgba(200,80,255,0.1)",backdropFilter:"blur(6px)",WebkitBackdropFilter:"blur(6px)"}}
           >
             <Ticket className="w-3.5 h-3.5"/> Garante o Teu Lugar
           </a>
@@ -1833,10 +1833,6 @@ export default function HomePage() {
             <path className="cartazes-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
           </svg>
         </div>
-
-        {/* Parallax no fim da secção (só mobile) — mesma imagem do topo */}
-        <div className="cartazes-parallax-bottom-mobile" aria-hidden="true"/>
-
       </section>
 
       <HonmoonDivider/>
