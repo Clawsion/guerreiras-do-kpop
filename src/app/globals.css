@@ -4041,35 +4041,34 @@ html.light-mode .hero-bg-img-dark {
     scroll-margin-top: 20px;
   }
 
-  /* ═══ MARQUEE + HONMOON DIVIDER — background sólido para cobrir o parallax ═══
-     O parallax bg (position:fixed, top-level) vê-se por detrás de elementos
-     sem background. O Marquee e o HonmoonDivider que vêm logo após a secção
-     cartazes precisam de um background sólido para "fechar" o parallax. */
-  .marquee-wrapper {
-    background: var(--void);
-    position: relative;
-    z-index: 1;
-  }
-  .light-mode .marquee-wrapper {
-    background: #f5f0fa;
-  }
-  /* HonmoonDivider que vem logo após a secção cartazes — background sólido */
-  #cartazes + .honmoon-divider {
-    background: var(--void);
-    position: relative;
-    z-index: 1;
-  }
-  .light-mode #cartazes + .honmoon-divider {
-    background: #f5f0fa;
-  }
-  /* HonmoonDivider que vem após o Marquee (antes do contacto) */
+  /* ═══ A PARTIR DO 1º NEON — backgrounds sólidos (branco dia / escuro noite) ═══
+     O parallax bg (position:fixed, top-level) só deve ser visível até à secção
+     cartazes (inclusive). A partir do 1º HonmoonDivider após cartazes, TODOS os
+     elementos têm background sólido para cobrir o parallax.
+     Modo noite: var(--void) (escuro) | Modo dia: #f5f0fa (branco/lavanda) */
+  .marquee-wrapper,
+  #cartazes + .honmoon-divider,
   .marquee-wrapper + .honmoon-divider {
     background: var(--void);
     position: relative;
     z-index: 1;
   }
+  .light-mode .marquee-wrapper,
+  .light-mode #cartazes + .honmoon-divider,
   .light-mode .marquee-wrapper + .honmoon-divider {
     background: #f5f0fa;
+  }
+
+  /* Contacto — reforçar position/z-index para cobrir o parallax */
+  .contacto-section {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Footer — reforçar position/z-index para cobrir o parallax */
+  footer {
+    position: relative;
+    z-index: 1;
   }
 }
 
