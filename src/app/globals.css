@@ -3965,55 +3965,28 @@ html.light-mode .hero-bg-img-dark {
    - Só aparece dentro da secção (sticky respeita o parent)
 */
 
-/* Por defeito (desktop), o div sticky está escondido — não afeta o desktop. */
-.cartazes-parallax-sticky {
-  display: none;
-}
-
+/* Mobile: imagem de fundo directamente na secção (sem div separada) */
 @media (max-width: 767px) {
   .cartazes-section {
     padding: 5.5rem 0 5rem;
-    /* background: transparent para que a imagem sticky seja visível */
-    background: transparent !important;
-    /* Remover background-image da secção — a imagem vai para o div sticky */
-    background-image: none !important;
-    /* overflow: visible é OBRIGATÓRIO para que position: sticky funcione */
-    overflow: visible;
-    /* isolation: isolate cria stacking context próprio */
+    /* Imagem de fundo: bolas e público */
+    background-image: url('/cartazes-bg-night-mobile.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* imagem parada enquanto se faz scroll */
+    overflow: hidden;
     isolation: isolate;
     position: relative;
   }
   .cartazes-shape {
     height: 60px;
   }
-  /* Div com position: sticky — imagem fixa no ecrã (solução recomendada).
-     - top: 0 = cola ao topo do viewport
-     - height: 100vh/100svh = tamanho do ecrã do smartphone
-     - background-size: cover = cobre o ecrã todo, sem cortes laterais
-     - z-index: 0 = atrás do overlay (z-index 1) e cartazes (z-index 2)
-       mas VISÍVEL (não negativo, para não ser escondido pelo background) */
-  .cartazes-parallax-sticky {
-    display: block;
-    position: sticky;
-    position: -webkit-sticky; /* compatibilidade iOS Safari antigo */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    height: 100svh; /* dynamic viewport height (resolve barra de URL iOS) */
-    background-image: url('/cartazes-bg-night-mobile.webp');
-    background-size: cover; /* cobre o ecrã todo, sem cortes */
-    background-position: center center; /* imagem centrada */
-    background-repeat: no-repeat;
-    z-index: 0; /* atrás do overlay e cartazes, mas visível */
-    pointer-events: none;
-    will-change: auto;
-  }
   /* Modo dia: imagem clara */
-  .light-mode .cartazes-parallax-sticky {
+  .light-mode .cartazes-section {
     background-image: url('/cartazes-bg-day-mobile.webp');
   }
-  /* Overlay — modo noite (violeta, igual ao desktop) */
+  /* Overlay — modo noite (violeta discreto) */
   .cartazes-section::after {
     content: "";
     position: absolute;
