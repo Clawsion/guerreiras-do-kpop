@@ -440,11 +440,11 @@ export default function HomePage() {
     if (typeof window === "undefined") return;
     if (window.innerWidth >= 768) return; // Só mobile
     const section = document.getElementById('cartazes');
-    const hint = document.querySelector('.cartazes-scroll-hint') as HTMLElement | null;
+    const hint = document.querySelector('.cartazes-scroll-arrow') as HTMLElement | null;
     const sesimbra = document.getElementById('cartaz-sesimbra');
     if (!section || !hint || !sesimbra) return;
 
-    let dismissed = false; //永久 hide após passar Sesimbra
+    let dismissed = false; // dismiss permanente após passar Sesimbra
     let scrollTimer: number | undefined;
     let isScrolling = false;
 
@@ -2034,9 +2034,9 @@ export default function HomePage() {
             utilizador ainda não passou o último cartaz (Sesimbra). Some quando
             está ativamente a fazer scroll, reaparece quando para. Desaparece
             definitivamente após passar o Sesimbra. */}
-        <div className="cartazes-scroll-hint" aria-hidden="true">
-          <span className="cartazes-scroll-hint-text">Arrasta para ver mais</span>
-          <svg className="cartazes-scroll-hint-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <div className="cartazes-scroll-arrow" aria-hidden="true">
+          <span className="cartazes-scroll-arrow-text">Arrasta para ver mais</span>
+          <svg className="cartazes-scroll-arrow-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9"/>
           </svg>
         </div>
