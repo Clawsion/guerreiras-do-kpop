@@ -396,7 +396,6 @@ export default function HomePage() {
   const galeriaParallaxTopRef = useRef<HTMLDivElement>(null);
   const cartazesBgRef = useRef<HTMLDivElement>(null);
   const contactoRef = useRef<HTMLElement>(null);
-  const cartazesBottomBgRef = useRef<HTMLDivElement>(null);
   const contactoBgRef = useRef<HTMLDivElement>(null);
   // ═══ PARALLAX — agora usa background-attachment: fixed (nativo do browser) ═══
   // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
@@ -540,41 +539,7 @@ export default function HomePage() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // ═══ PARALLAX CARTAZES BOTTOM (mobile) — igual ao topo ═══
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.innerWidth >= 768) return;
 
-    const bg = cartazesBottomBgRef.current;
-    if (!bg) return;
-
-    let ticking = false;
-    const update = () => {
-      const section = bg.parentElement;
-      if (!section) { ticking = false; return; }
-      const rect = section.getBoundingClientRect();
-      const winH = window.innerHeight;
-      if (rect.bottom < -200 || rect.top > winH + 200) {
-        ticking = false;
-        return;
-      }
-      const progress = Math.max(0, Math.min(1, (winH - rect.top) / (winH + rect.height)));
-      const offset = (progress - 0.5) * rect.height * 0.15;
-      bg.style.transform = `translate3d(0, ${offset}px, 0)`;
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    update();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   // ═══ PARALLAX CONTACTO (mobile) — igual ao dos cartazes ═══
   // Move a div .contacto-bg-parallax com transform: translate3d (em px)
@@ -1878,10 +1843,6 @@ export default function HomePage() {
             <path className="cartazes-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
           </svg>
         </div>
-
-        {/* Parallax no FIM da secção (só mobile) — mesma imagem do topo */}
-        <div className="cartazes-parallax-bottom-mobile" ref={cartazesBottomBgRef} aria-hidden="true"/>
-
       </section>
 
       <HonmoonDivider/>
