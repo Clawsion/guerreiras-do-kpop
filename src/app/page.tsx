@@ -545,11 +545,12 @@ export default function HomePage() {
       const progress = Math.max(0, Math.min(1,
         (winH - rect.top) / (winH + rect.height)
       ));
-      // Travel: 50vh (metade da altura extra da imagem). A imagem (200vh) está
-      // centrada no frame (top:-50%) → translada de 0 → -50vh → o centro da
-      // imagem está sempre visível enquanto ela "acompanha" o scroll.
-      const travel = winH * 0.50; // 50vh
-      const offset = progress * travel; // 0 → 50vh
+      // Travel SUBTIL: 12vh no total (efeito "cola" — a imagem parece parada,
+      // só se nota mudança pelos cartazes que vão passando por cima dela).
+      // A imagem (200vh) está centrada no frame (top:-50%) → translada de 0 →
+      // -12vh → o centro da imagem está sempre visível, sem tarjas pretas.
+      const travel = winH * 0.12; // 12vh (muito subtil)
+      const offset = progress * travel; // 0 → 12vh
       bg.style.transform = `translate3d(0, ${-offset}px, 0)`;
       ticking = false;
     };
@@ -1328,17 +1329,35 @@ export default function HomePage() {
           {/* Menu CTA — escondido em smartphone (sm:hidden), visível em desktop */}
           <div className="hidden sm:block" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
             <a
-              href="#mais-concertos"
+              href="#cartaz-cascais"
               onClick={e => {
                 e.preventDefault();
                 setMenuOpen(false);
-                const el = document.getElementById('mais-concertos');
-                if (el) {
-                  const section = el.closest('section');
-                  if (section) section.classList.add('section-visible');
-                  const top = el.getBoundingClientRect().top + window.scrollY + 350;
-                  window.scrollTo({ top, behavior: 'smooth' });
+                const el = document.getElementById('cartaz-cascais');
+                if (!el) return;
+                const section = el.closest('section');
+                if (section) {
+                  section.classList.add('section-visible');
+                  section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                    (r as HTMLElement).style.opacity = '1';
+                    (r as HTMLElement).style.transform = 'none';
+                  });
                 }
+                // Aterrar no cartaz Cascais: alinhar o topo do cartaz com o
+                // topo do ecrã (sincroniza para baixo, como pedido).
+                const rect = el.getBoundingClientRect();
+                const top = rect.top + window.scrollY - 20;
+                try {
+                  window.scrollTo({ top, behavior: 'smooth' });
+                } catch {
+                  window.scrollTo(0, top);
+                }
+                setTimeout(() => {
+                  const r2 = el.getBoundingClientRect();
+                  if (Math.abs(r2.top - 20) > 60) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }, 120);
               }}
               className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold cursor-pointer"
               style={{background:"var(--neon-purple)",color:"#fff"}}
@@ -1366,16 +1385,32 @@ export default function HomePage() {
             Só em smartphone (<640px). Centrado, por cima do texto "AO VIVO ÉPICO PARA OS FÃS". */}
         <div className="sm:hidden absolute z-10 inset-x-0 flex justify-center" style={{bottom: "18%"}}>
           <a
-            href="#mais-concertos"
+            href="#cartaz-cascais"
             onClick={e => {
               e.preventDefault();
-              const el = document.getElementById('mais-concertos');
-              if (el) {
-                const section = el.closest('section');
-                if (section) section.classList.add('section-visible');
-                const top = el.getBoundingClientRect().top + window.scrollY + 350;
-                window.scrollTo({ top, behavior: 'smooth' });
+              const el = document.getElementById('cartaz-cascais');
+              if (!el) return;
+              const section = el.closest('section');
+              if (section) {
+                section.classList.add('section-visible');
+                section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                  (r as HTMLElement).style.opacity = '1';
+                  (r as HTMLElement).style.transform = 'none';
+                });
               }
+              const rect = el.getBoundingClientRect();
+              const top = rect.top + window.scrollY - 20;
+              try {
+                window.scrollTo({ top, behavior: 'smooth' });
+              } catch {
+                window.scrollTo(0, top);
+              }
+              setTimeout(() => {
+                const r2 = el.getBoundingClientRect();
+                if (Math.abs(r2.top - 20) > 60) {
+                  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }, 120);
             }}
             className="flex items-center justify-center gap-2 px-6 py-3 text-[10px] tracking-[0.2em] font-semibold uppercase cursor-pointer rounded-full"
             style={{background:"var(--neon-purple)",color:"#fff",boxShadow:"0 4px 14px rgba(200,80,255,0.5)"}}
@@ -1388,20 +1423,33 @@ export default function HomePage() {
             Só em desktop/tablet (≥640px). Em smartphone é escondido. */}
         <div className="hero-bottom-panel absolute z-10 hidden sm:flex flex-col items-start" style={{left: "19%", bottom: "22%", transform: "translateX(-25%)"}}>
           <a
-            href="#mais-concertos"
+            href="#cartaz-cascais"
             className="hero-cta"
             onClick={e => {
               e.preventDefault();
-              const el = document.getElementById('mais-concertos');
-              if (el) {
-                // Scroll com offset para centrar nos cartazes (mostrar o botão Comprar Bilhete)
-                // Em mobile, descer 400px para que os cartazes fiquem centrados
-                // e o botão rosa "Comprar Bilhete" seja visível.
-                const isMobile = window.innerWidth < 768;
-                const offset = isMobile ? 400 : 300;
-                const top = el.getBoundingClientRect().top + window.scrollY + 350;
-                window.scrollTo({ top, behavior: 'smooth' });
+              const el = document.getElementById('cartaz-cascais');
+              if (!el) return;
+              const section = el.closest('section');
+              if (section) {
+                section.classList.add('section-visible');
+                section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                  (r as HTMLElement).style.opacity = '1';
+                  (r as HTMLElement).style.transform = 'none';
+                });
               }
+              const rect = el.getBoundingClientRect();
+              const top = rect.top + window.scrollY - 20;
+              try {
+                window.scrollTo({ top, behavior: 'smooth' });
+              } catch {
+                window.scrollTo(0, top);
+              }
+              setTimeout(() => {
+                const r2 = el.getBoundingClientRect();
+                if (Math.abs(r2.top - 20) > 60) {
+                  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }, 120);
             }}
           >
             Garante o Teu Lugar <ChevronRight className="w-3 h-3"/>
@@ -1574,16 +1622,32 @@ export default function HomePage() {
               {/* ═══ Botão Garante o Teu Lugar — entre o pitch e o neon divider ═══ */}
               <Rv delay={500}>
                 <a
-                  href="#mais-concertos"
+                  href="#cartaz-cascais"
                   onClick={e => {
                     e.preventDefault();
-                    const el = document.getElementById('mais-concertos');
-                    if (el) {
-                      const isMobile = window.innerWidth < 768;
-                      const offset = isMobile ? 400 : 300;
-                      const top = el.getBoundingClientRect().top + window.scrollY + 350;
-                      window.scrollTo({ top, behavior: 'smooth' });
+                    const el = document.getElementById('cartaz-cascais');
+                    if (!el) return;
+                    const section = el.closest('section');
+                    if (section) {
+                      section.classList.add('section-visible');
+                      section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                        (r as HTMLElement).style.opacity = '1';
+                        (r as HTMLElement).style.transform = 'none';
+                      });
                     }
+                    const rect = el.getBoundingClientRect();
+                    const top = rect.top + window.scrollY - 20;
+                    try {
+                      window.scrollTo({ top, behavior: 'smooth' });
+                    } catch {
+                      window.scrollTo(0, top);
+                    }
+                    setTimeout(() => {
+                      const r2 = el.getBoundingClientRect();
+                      if (Math.abs(r2.top - 20) > 60) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }, 120);
                   }}
                   className="esp-cta cursor-pointer"
                   style={{ marginBottom: '1rem' }}
@@ -1703,16 +1767,15 @@ export default function HomePage() {
 
           <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
 
-          {/* Call-to-action: Comprar Bilhete → redireciona para o cartaz Cascais
+          {/* Call-to-action: Garante o Teu Bilhete → redireciona para o cartaz Cascais
               (mobile, funcional em qualquer iPhone/smartphone).
-              - Faz scroll suave para #cartaz-cascais
-              - Centra o cartaz no ecrã (offset dinâmico)
+              - Faz scroll suave para #cartaz-cascais (topo do cartaz alinhado com topo do ecrã)
               - Fallback para scrollIntoView caso o cálculo falhe
               - Garante que a secção está visível (remove opacity:0 do reveal) */}
           <a
             href="#cartaz-cascais"
             className="teaser-cta"
-            aria-label="Comprar Bilhete - Cascais"
+            aria-label="Garante o Teu Bilhete - Cascais"
             onClick={e => {
               e.preventDefault();
               const el = document.getElementById('cartaz-cascais');
@@ -1721,36 +1784,31 @@ export default function HomePage() {
               const section = el.closest('section');
               if (section) {
                 section.classList.add('section-visible');
-                // Forçar visibilidade em todos os filhos com reveal
                 section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
                   (r as HTMLElement).style.opacity = '1';
                   (r as HTMLElement).style.transform = 'none';
                 });
               }
-              // Calcular offset para centrar o cartaz no ecrã
+              // Aterrar no cartaz Cascais: alinhar o topo do cartaz com o topo do ecrã
+              // (sincroniza para baixo, como pedido pelo user).
               const rect = el.getBoundingClientRect();
-              const winH = window.innerHeight;
-              const elH = rect.height;
-              // Centralizar: (winH - elH) / 2 → offset do topo do cartaz ao topo do viewport
-              const targetOffset = Math.max(0, (winH - elH) / 2);
-              const top = rect.top + window.scrollY - targetOffset;
+              const top = rect.top + window.scrollY - 20;
               // Smooth scroll robusto (funciona em iOS Safari e Android Chrome)
               try {
                 window.scrollTo({ top, behavior: 'smooth' });
               } catch {
-                // Fallback para browsers antigos
                 window.scrollTo(0, top);
               }
-              // Fallback extra: se o smooth scroll falhar, scrollIntoView após 100ms
+              // Fallback extra: se o smooth scroll falhar, scrollIntoView após 120ms
               setTimeout(() => {
-                const newRect = el.getBoundingClientRect();
-                if (Math.abs(newRect.top - targetOffset) > 50) {
-                  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                const r2 = el.getBoundingClientRect();
+                if (Math.abs(r2.top - 20) > 60) {
+                  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
-              }, 100);
+              }, 120);
             }}
           >
-            <span>Comprar Bilhete</span>
+            <span>Garante o Teu Bilhete</span>
             <span className="teaser-cta-arrow">→</span>
           </a>
         </div>
@@ -1824,13 +1882,13 @@ export default function HomePage() {
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
-        {/* ═══ PARALLAX MOBILE — sticky frame + imagem 200% centrada ═══
+        {/* ═══ PARALLAX MOBILE — sticky frame + imagem 200% centrada (travel subtil) ═══
             - .cartazes-sticky-frame (position:sticky; height:100vh; overflow:hidden)
               cola ao topo do viewport → imagem SEMPRE visível do início ao fim.
             - .cartazes-bg (height:200%; top:-50%) é 2x mais alta que o frame e
               está CENTRADA verticalmente → 50vh escondidos em cima, 50vh em baixo.
-            - JS translada a imagem 0 → -50vh ao longo do scroll → ACOMPANHA o
-              scroll mantendo-se sempre CENTRADA no ecrã (sem tarjas pretas).
+            - JS translada a imagem 0 → -12vh ao longo do scroll → efeito "cola"
+              MUITO SUBTIL (a imagem parece parada, só se nota pelos cartazes).
             - .cartazes-overlay (absolute inset:0) — overlay fixo por cima, dia/noite. */}
         <div className="cartazes-sticky-frame" aria-hidden="true">
           <div className="cartazes-bg" ref={cartazesParallaxRef}/>
