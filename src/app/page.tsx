@@ -394,7 +394,6 @@ export default function HomePage() {
   const galeriaRef = useRef<HTMLElement>(null);
   const galeriaParallaxRef = useRef<HTMLDivElement>(null);
   const galeriaParallaxTopRef = useRef<HTMLDivElement>(null);
-  const cartazesBgRef = useRef<HTMLDivElement>(null);
   const contactoRef = useRef<HTMLElement>(null);
   const contactoBgRef = useRef<HTMLDivElement>(null);
   // ═══ PARALLAX — agora usa background-attachment: fixed (nativo do browser) ═══
@@ -502,42 +501,7 @@ export default function HomePage() {
 
   // ═══ PARALLAX CARTAZES (mobile) — mesmo efeito do desktop (background-attachment: fixed) ═══
   // Em mobile, background-attachment: fixed não funciona em iOS Safari.
-  // Solução: usar JavaScript com transform para criar parallax real.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.innerWidth >= 768) return; // Só mobile
 
-    const bg = cartazesBgRef.current;
-    if (!bg) return;
-
-    let ticking = false;
-    const update = () => {
-      const section = bg.parentElement;
-      if (!section) { ticking = false; return; }
-      const rect = section.getBoundingClientRect();
-      const winH = window.innerHeight;
-      if (rect.bottom < -200 || rect.top > winH + 200) {
-        ticking = false;
-        return;
-      }
-      // Parallax subtil: imagem move-se 15% da velocidade do scroll
-      const progress = Math.max(0, Math.min(1, (winH - rect.top) / (winH + rect.height)));
-      const offset = (progress - 0.5) * rect.height * 0.15;
-      bg.style.transform = `translate3d(0, ${offset}px, 0)`;
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    update();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
 
 
@@ -1724,7 +1688,6 @@ export default function HomePage() {
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
         {/* NOVO: Fundo das bolas com parallax JavaScript (só mobile) */}
-        <div className="cartazes-parallax-bg-mobile" ref={cartazesBgRef} aria-hidden="true"/>
         {/* Shape divider TOPO - montanhas (igual ao site de referência) */}
         <div className="cartazes-shape cartazes-shape-top" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
