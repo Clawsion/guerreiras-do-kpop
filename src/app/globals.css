@@ -3869,27 +3869,13 @@ html.light-mode .hero-bg-img-dark {
   overflow: hidden;
   isolation: isolate;
 }
-/* Desktop (≥1024px) — bolas com parallax + overlay roxo transparente (cor das curvas) */
+/* Desktop (≥1024px) — fundo sólido (parallax e imagem de fundo REMOVIDOS) */
 @media (min-width: 1024px) {
   .cartazes-section {
-    background-image: url('/cartazes-bg-night.webp');
-    background-size: 100% auto; /* Encostada nos lados, sem cortes */
-    background-position: center top;
-    background-attachment: fixed; /* Parallax */
-    background-repeat: no-repeat;
+    /* Fundo sólido — sem imagem de fundo, sem parallax */
   }
-  /* Overlay roxo transparente (cor das curvas #1a0d2e) — marca de água sobre as bolas */
   .cartazes-section::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg,
-      rgba(26, 13, 46, 0.82) 0%,
-      rgba(26, 13, 46, 0.88) 50%,
-      rgba(26, 13, 46, 0.82) 100%
-    );
-    z-index: 0;
-    pointer-events: none;
+    content: none;
   }
 }
 
@@ -3915,26 +3901,9 @@ html.light-mode .hero-bg-img-dark {
   transition: fill 0.6s ease;
 }
 
+/* Modo dia — fundo sólido (imagem de fundo e overlay REMOVIDOS) */
 .light-mode .cartazes-section {
   background: var(--void);
-  background-image: url('/cartazes-bg-day.webp');
-  background-size: 100% auto;
-  background-position: center top;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-/* Overlay BRANCO TRANSPARENTE sobre o fundo das bolas (modo dia) */
-.light-mode .cartazes-section::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(245, 240, 250, 0.65) 50%,
-    rgba(255, 255, 255, 0.55) 100%
-  );
-  z-index: 0;
-  pointer-events: none;
 }
 /* Shape dividers em modo dia — lavanda mais escuro para contrastar com o branco */
 .light-mode .cartazes-shape-fill {
@@ -3945,114 +3914,24 @@ html.light-mode .hero-bg-img-dark {
    background-image com gradient lavanda translúcido (modo dia)
    e o gradient roxo escuro sólido (modo noite) */
 
-/* ═══ Mobile: Parallax Centrado — Sticky + Imagem 200% + Translate 50vh ═══ */
-/* Técnica: a imagem ACOMPANHA o scroll de início ao fim da secção, mantendo-se
-   sempre CENTRADA no ecrã. É o parallax clássico onde a imagem se move a um ritmo
-   diferente do conteúdo (mais devagar), dando sensação de profundidade.
-   - .cartazes-sticky-frame: position:sticky; top:0; height:100vh; overflow:hidden
-     → cola ao topo do viewport enquanto a secção está visível (composição nativa
-       do browser, sem tremor, sem lag do address bar).
-   - .cartazes-bg: height:200% (200vh) e top:-50% dentro do frame → imagem é 2x
-     mais alta que o frame e está CENTRADA verticalmente (50vh escondidos em cima,
-     50vh em baixo). JS translada 0 → -50vh ao longo do scroll → o CENTRO da
-     imagem está sempre visível enquanto ela "acompanha" o scroll.
-   - .cartazes-overlay: absolute inset:0 dentro do mesmo frame → NÃO se move.
-   - .cartazes-section NÃO tem overflow:clip/hidden (senão sticky não funciona).
-   - O conteúdo (cards) é puxado para cima com margin-bottom:-100vh no frame →
-     sobrepõe-se ao frame sticky e scrolla naturalmente por cima.
-   - Sticky respeita os limites da secção parent → SEM IntersectionObserver,
-     SEM classe .bg-on, SEM fugas para secções vizinhas. */
-
-.cartazes-bg,
-.cartazes-overlay {
-  display: none; /* Escondido em desktop — só mobile */
-}
-.cartazes-sticky-frame {
-  display: none; /* Escondido em desktop */
-}
+/* ═══ Mobile: Secção Cartazes — fundo sólido (sem parallax, sem imagem de fundo) ═══ */
+/* Parallax e imagem de fundo REMOVIDOS a pedido do user. A secção usa agora um
+   fundo sólido (var(--void) em modo noite, mais claro em modo dia) com os cartazes
+   a serem os protagonistas visuais. */
 
 @media (max-width: 767px) {
-  /* Secção: SEM overflow (senão sticky não funciona) */
   .cartazes-section {
-    padding: 0; /* Padding passa para o .hero-aligned-container */
-    background: transparent !important;
-    background-image: none !important;
-    overflow: visible; /* CRÍTICO para sticky funcionar */
+    padding: 4rem 0 5rem;
+    background: var(--void);
+    overflow: hidden;
     position: relative;
     isolation: isolate;
   }
-  /* Remover ::after antigo (overlay agora é div separada dentro do frame) */
   .cartazes-section::after {
     content: none;
   }
-
-  /* ═══ STICKY FRAME — cola ao topo enquanto a secção scrolla ═══ */
-  .cartazes-sticky-frame {
-    display: block;
-    position: sticky;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    height: 100lvh; /* Large viewport height — não encolhe com address bar */
-    overflow: hidden;
-    z-index: 0;
-    /* Puxar o conteúdo (cards) para cima para se sobrepor ao frame */
-    margin-bottom: calc(-100vh);
-    margin-bottom: calc(-100lvh);
-    pointer-events: none; /* Frame não bloqueia cliques nos cards */
-  }
-
-  /* ═══ IMAGEM DE FUNDO — 200% alta, top:-50% (CENTRADA no frame) ═══ */
-  .cartazes-bg {
-    display: block;
-    position: absolute;
-    top: -50%; /* 50vh acima do topo do frame → CENTRADA verticalmente */
-    left: 0;
-    width: 100%;
-    height: 200%; /* 200vh — 2x a altura do frame, 50vh de margem em cada extremo */
-    background-image: url('/cartazes-bg-night-mobile.webp');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-color: #160a26;
-    will-change: transform;
-    backface-visibility: hidden;
-    transform: translate3d(0, 0, 0); /* JS atualiza este transform com translate 0 → -50vh */
-  }
-  .light-mode .cartazes-bg {
-    background-image: url('/cartazes-bg-day-mobile.webp');
-  }
-
-  /* ═══ OVERLAY — absolute inset:0 dentro do frame (NÃO se move) ═══ */
-  .cartazes-overlay {
-    display: block;
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    /* Modo noite: overlay roxo transparente por cima do fundo */
-    background: linear-gradient(180deg,
-      rgba(72, 34, 118, 0.50) 0%,
-      rgba(99, 47, 158, 0.60) 50%,
-      rgba(72, 34, 118, 0.50) 100%
-    );
-  }
-  .light-mode .cartazes-overlay {
-    /* Modo dia: overlay mais leve — vê-se mais a imagem de fundo */
-    background: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.34) 0%,
-      rgba(248, 242, 252, 0.40) 50%,
-      rgba(255, 255, 255, 0.34) 100%
-    );
-  }
-
-  /* ═══ CONTEÚDO (cards) — sobrepõe-se ao frame sticky ═══ */
-  .cartazes-section .hero-aligned-container {
-    position: relative;
-    z-index: 2;
-    padding: 4rem 1.25rem 6rem;
-  }
+  /* Conteúdo acima de qualquer camada */
+  .cartazes-section .hero-aligned-container,
   .cartazes-section .cartazes-grid,
   .cartazes-section .cartaz-card {
     position: relative;
