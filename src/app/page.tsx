@@ -1769,6 +1769,14 @@ export default function HomePage() {
               </article>
             </Rv>
 
+            {/* Seta "Mais concertos" — só mobile, por baixo do Cascais */}
+            <div className="cartazes-scroll-hint sm:hidden" aria-hidden="true">
+              <span>Mais concertos</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </div>
+
               {/* ═══ CAPARICA - Costa da Caparica ═══ */}
               <Rv delay={275}>
                 <article className="cartaz-card cartaz-secondary">
