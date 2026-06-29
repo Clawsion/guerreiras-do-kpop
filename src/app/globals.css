@@ -3974,8 +3974,8 @@ html.light-mode .hero-bg-img-dark {
 @media (max-width: 767px) {
   .cartazes-section {
     padding: 2rem 0 5rem;
-    /* Transparente para a imagem de fundo FIXA (position:fixed) aparecer através
-       desta secção; as secções vizinhas (z-index:1) tapam-na fora destes limites. */
+    /* A imagem de fundo (.cartazes-bg) é absolute dentro desta secção e ROLA com o
+       scroll; overflow:clip recorta-a aos limites da secção. */
     background: transparent !important;
     background-image: none !important;
     overflow: clip;
@@ -3984,34 +3984,31 @@ html.light-mode .hero-bg-img-dark {
   .cartazes-shape {
     height: 60px;
   }
-  /* Camada 1: Imagem de fundo FIXA (mobile) — NÃO se move. Sem JavaScript a mexer
-     na imagem (logo, sem tremores/"abana nervoso" no iPhone).
-       position: fixed → o browser compõe a imagem fixa à viewport (suave, nativo).
-     - Fica sempre visível atrás dos cartazes, do início ao fim da secção.
-     - É "recortada" à secção pelas secções vizinhas (galeria/contacto têm z-index:1,
-       tapam a imagem fora dos limites desta secção).
-     - Liga/desliga via IntersectionObserver (classe .bg-on), nunca via scroll → zero jitter. */
+  /* Camada 1: Imagem de fundo (mobile) — ABSOLUTE dentro da secção, por isso ROLA
+     COM o scroll do início ao fim (o fundo "acompanha" o scroll, como pedido). Um
+     drift subtil via translate3d (JS) acrescenta o efeito parallax — MESMA técnica
+     iOS-safe da galeria/contacto, SEM compensar -rect.top (essa compensação era a
+     causa do "tremor/abana nervoso" do código antigo). top:-20% + height:140% dão
+     margem para o drift sem revelar falhas; overflow:clip recorta à secção. */
   .cartazes-bg {
     display: block;
-    position: fixed;
-    top: 0;
+    position: absolute;
+    top: -20%;
     left: 0;
     width: 100%;
-    /* 100lvh → menos zoom que antes (era 130lvh); ocupa exatamente um ecrã. */
-    height: 100vh;
-    height: 100lvh;
+    height: 140%;
     background-image: url('/cartazes-bg-night-mobile.webp');
-    /* 100% auto = largura cheia, SEM cortes laterais (igual ao desktop). A imagem é
-       9:16; mostra-se inteira (menos zoom). A cor de fundo escura preenche o espaço
-       vertical que sobra, fundindo com o overlay roxo. */
+    /* 100% auto = largura cheia, SEM cortes laterais. A imagem 9:16 vê-se inteira
+       (menos zoom); a cor escura preenche o resto e funde com o overlay roxo. */
     background-size: 100% auto;
     background-position: center center;
     background-repeat: no-repeat;
     background-color: #160a26;
     z-index: 0;
-    opacity: 0;
-    transition: opacity 0.35s ease;
     pointer-events: none;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
   }
   .light-mode .cartazes-bg {
     background-image: url('/cartazes-bg-day-mobile.webp');
@@ -4020,15 +4017,9 @@ html.light-mode .hero-bg-img-dark {
      parallax, garantindo o roxo transparente consistente atrás de cada cartaz. */
   .cartazes-overlay {
     display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    height: 100lvh;
-    z-index: 0;
-    opacity: 0;
-    transition: opacity 0.35s ease;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
     pointer-events: none;
     /* Modo noite: overlay roxo transparente (um pouco mais roxo) por cima do fundo */
     background: linear-gradient(180deg,
@@ -4036,12 +4027,6 @@ html.light-mode .hero-bg-img-dark {
       rgba(99, 47, 158, 0.60) 50%,
       rgba(72, 34, 118, 0.50) 100%
     );
-  }
-  /* A imagem e o overlay fixos só aparecem quando a secção está no ecrã (.bg-on,
-     ativada por IntersectionObserver em page.tsx) → nunca tapam outras secções. */
-  .cartazes-section.bg-on .cartazes-bg,
-  .cartazes-section.bg-on .cartazes-overlay {
-    opacity: 1;
   }
   .light-mode .cartazes-overlay {
     /* Modo dia: overlay mais leve — vê-se mais a imagem de fundo */
