@@ -1328,7 +1328,7 @@ export default function HomePage() {
                 if (el) {
                   const section = el.closest('section');
                   if (section) section.classList.add('section-visible');
-                  const top = el.getBoundingClientRect().top + window.scrollY - 60;
+                  const top = el.getBoundingClientRect().top + window.scrollY - 20;
                   window.scrollTo({ top, behavior: 'smooth' });
                 }
               }}
@@ -1365,7 +1365,7 @@ export default function HomePage() {
               if (el) {
                 const section = el.closest('section');
                 if (section) section.classList.add('section-visible');
-                const top = el.getBoundingClientRect().top + window.scrollY - 60;
+                const top = el.getBoundingClientRect().top + window.scrollY - 20;
                 window.scrollTo({ top, behavior: 'smooth' });
               }
             }}
@@ -1706,7 +1706,7 @@ export default function HomePage() {
               if (el) {
                 const section = el.closest('section');
                 if (section) section.classList.add('section-visible');
-                const top = el.getBoundingClientRect().top + window.scrollY - 60;
+                const top = el.getBoundingClientRect().top + window.scrollY - 20;
                 window.scrollTo({ top, behavior: 'smooth' });
               }
             }}
