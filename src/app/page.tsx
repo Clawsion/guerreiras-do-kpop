@@ -505,45 +505,46 @@ export default function HomePage() {
     };
   }, []);
 
-  // ═══ PARALLAX CARTAZES (mobile) — efeito "reveal", o fundo DESLIZA com o scroll ═══
-  // A div .cartazes-bg é position:fixed (ancorada à viewport → composição nativa do
-  // browser, suave, SEM tremor). Aqui só lhe damos um translate3d que DESLIZA a imagem
-  // 0 → -30vh ao longo da secção: como se move a um ritmo diferente do conteúdo, vê-se
-  // claramente a imagem "acompanhar o scroll" (a bola sobe), em vez de ficar colada aos
-  // cartazes. Um IntersectionObserver liga a classe .bg-on só quando a secção está no
-  // ecrã (a imagem fixa nunca tapa as outras secções).
+  // ═══ PARALLAX CARTAZES (mobile) — STICKY FRAME + IMAGEM 200vh + translate3d ═══
+  // Abordagem profissional e robusta para mobile (incluindo iOS Safari):
+  //  - O .cartazes-sticky-frame (parent do .cartazes-bg) tem position:sticky e
+  //    height:100vh → cola ao topo do viewport enquanto a secção está visível,
+  //    usando composição nativa do browser (sem tremor, sem lag).
+  //  - O .cartazes-bg tem height:200% (200vh) e é transladado de 0 → -100vh ao
+  //    longo do progresso da secção → revela a imagem de cima a baixo, ficando
+  //    sempre centrada no ecrã.
+  //  - O .cartazes-overlay fica absolute inset:0 dentro do mesmo frame → NÃO se
+  //    move (só a imagem de fundo é que se mexe).
+  //  - Não precisa de IntersectionObserver nem de classe .bg-on — o sticky
+  //    respeita naturalmente os limites da secção parent.
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.innerWidth >= 768) return; // Só mobile
 
     const bg = cartazesParallaxRef.current;
     if (!bg) return;
-    const section = bg.parentElement;
+    const frame = bg.parentElement;        // .cartazes-sticky-frame
+    if (!frame) return;
+    const section = frame.parentElement;   // .cartazes-section
     if (!section) return;
 
-    // Liga/desliga a visibilidade (.bg-on) quando a secção entra/sai do ecrã.
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) section.classList.toggle("bg-on", e.isIntersecting);
-      },
-      { threshold: 0, rootMargin: "0px" }
-    );
-    io.observe(section);
-
-    // Deslize suave: a imagem (130vh de altura) percorre 30vh ao longo da secção.
     let ticking = false;
     const update = () => {
       const rect = section.getBoundingClientRect();
       const winH = window.innerHeight;
-      if (rect.bottom < -200 || rect.top > winH + 200) {
+      // Skip se a secção estiver completamente fora do viewport
+      if (rect.bottom < 0 || rect.top > winH) {
         ticking = false;
         return;
       }
       // progress: 0 quando a secção entra no viewport, 1 quando sai
-      const progress = Math.max(0, Math.min(1, (winH - rect.top) / (winH + rect.height)));
-      // Imagem fica fixa no centro do ecrã (sem translate3d)
-      // Só aparece/desaparece via .bg-on (IntersectionObserver)
-      bg.style.transform = `translate3d(0, 0, 0)`;
+      const progress = Math.max(0, Math.min(1,
+        (winH - rect.top) / (winH + rect.height)
+      ));
+      // A imagem tem 200% de altura (200vh). Translada de 0 → -100vh para revelar
+      // de topo a fundo, ficando sempre centrada no ecrã.
+      const travel = winH; // 100vh
+      bg.style.transform = `translate3d(0, ${-progress * travel}px, 0)`;
       ticking = false;
     };
     const onScroll = () => {
@@ -554,11 +555,12 @@ export default function HomePage() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("touchmove", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
     update(); // posição inicial
     return () => {
-      io.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("touchmove", onScroll);
+      window.removeEventListener("resize", onScroll);
     };
   }, []);
 
@@ -1785,10 +1787,22 @@ export default function HomePage() {
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
-        {/* Camada 1: Imagem de fundo parallax (absolute + JS translate) — segue o scroll, sempre visível — só mobile */}
-        <div className="cartazes-bg" ref={cartazesParallaxRef} aria-hidden="true"/>
-        {/* Camada 2: Overlay para legibilidade — só mobile */}
-        <div className="cartazes-overlay" aria-hidden="true"/>
+        {/* ═══ PARALLAX MOBILE (avançado): sticky frame + imagem 200vh + translate3d ═══
+            - .cartazes-sticky-frame (position:sticky; height:100vh; overflow:hidden)
+              cola ao topo do viewport enquanto a secção scrolla — composição nativa
+              do iOS Safari, ZERO tremor.
+            - .cartazes-bg (height:200% dentro do frame) é transladada 0 → -100vh
+              via JS ao longo do progresso da secção → revela a imagem de topo a fundo.
+            - .cartazes-overlay fica absolute inset:0 dentro do mesmo frame → NÃO se
+              move, só a imagem mexe (resolve o bug do overlay descer com o fundo).
+            - O conteúdo (cards) é puxado para cima com margin-top:-100vh → sobrepõe-
+              se ao frame sticky e scrolla naturalmente por cima dele.
+            - Sticky respeita os limites da secção → a imagem NUNCA invade as
+              secções vizinhas. SEM IntersectionObserver, SEM .bg-on. */}
+        <div className="cartazes-sticky-frame" aria-hidden="true">
+          <div className="cartazes-bg" ref={cartazesParallaxRef}/>
+          <div className="cartazes-overlay"/>
+        </div>
         {/* Shape divider TOPO - montanhas (igual ao site de referência) */}
         <div className="cartazes-shape cartazes-shape-top" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
