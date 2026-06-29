@@ -11073,3 +11073,33 @@ img { max-width: 100%; height: auto; }
     display: none !important;
   }
 }
+
+
+/* ═══ Honmoon mobile: sem glow (box-shadow), manter respirar (opacity) ═══ */
+@media (max-width: 767px) {
+  /* Orb: sem box-shadow, manter animação de opacidade */
+  .hm-orb.dark {
+    box-shadow: none !important;
+    animation: hmOrbDormant 5s ease-in-out infinite !important;
+  }
+  .hm-orb.light {
+    box-shadow: none !important;
+    animation: hmOrbActive 5s ease-in-out infinite !important;
+  }
+  /* Ring-1: sem box-shadow, manter pulse subtil (só border-color) */
+  .hm-ring-1.dark {
+    box-shadow: none !important;
+  }
+  .hm-ring-1.light {
+    box-shadow: none !important;
+  }
+  /* Ring-2 e Ring-3: escondidos (já estavam, garantir) */
+  .hm-ring-2,
+  .hm-ring-3 {
+    display: none !important;
+  }
+  /* Neon-circle: escondido */
+  .hm-neon-circle-1 {
+    display: none !important;
+  }
+}
