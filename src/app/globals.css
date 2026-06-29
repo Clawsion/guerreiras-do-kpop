@@ -11069,3 +11069,13 @@ img { max-width: 100%; height: auto; }
 }
 
 
+/* ═══ Honmoon mobile: optimização (esconder elementos pesados) ═══
+   Reduz de 6 animações infinitas para 3 (orb + ring-1 + label).
+*/
+@media (max-width: 767px) {
+  .hm-ring-2,
+  .hm-ring-3,
+  .hm-neon-circle-1 {
+    display: none !important;
+  }
+}
