@@ -400,8 +400,45 @@ export default function HomePage() {
   const galeriaParallaxTopRef = useRef<HTMLDivElement>(null);
   const contactoRef = useRef<HTMLElement>(null);
   const contactoBgRef = useRef<HTMLDivElement>(null);
+  const cartazesSectionRef = useRef<HTMLElement>(null);
+  const cartazesParallaxFixedRef = useRef<HTMLDivElement>(null);
   // ═══ PARALLAX — agora usa background-attachment: fixed (nativo do browser) ═══
   // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
+
+  // ═══ PARALLAX CARTAZES MOBILE — position: fixed controlado por IntersectionObserver ═══
+  // Em mobile, background-attachment: fixed NÃO funciona em iOS Safari.
+  // Solução definitiva: div com position: fixed que só é visível quando a
+  // secção cartazes está no viewport. JavaScript mostra/esconde o div.
+  // Isto garante:
+  //   1. Imagem fica FIXA no ecrã (não se move com scroll)
+  //   2. Só aparece DENTRO da secção cartazes (não antes nem depois)
+  //   3. Funciona em TODOS os browsers incluindo iOS Safari
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.innerWidth >= 768) return; // Só mobile
+
+    const section = cartazesSectionRef.current;
+    const fixedBg = cartazesParallaxFixedRef.current;
+    if (!section || !fixedBg) return;
+
+    // Usar IntersectionObserver para detetar quando a secção está visível
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        // Secção visível → mostrar o div fixed
+        fixedBg.style.display = 'block';
+      } else {
+        // Secção não visível → esconder o div fixed
+        fixedBg.style.display = 'none';
+      }
+    }, {
+      // Dispara quando pelo menos 1px da secção está visível
+      threshold: 0,
+      rootMargin: '0px'
+    });
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     // MOBILE: loaded=true IMEDIATAMENTE (sem preloader, sem delay nenhum).
@@ -1711,12 +1748,12 @@ export default function HomePage() {
       */}
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
-      <section id="cartazes" className="cartazes-section">
-        {/* Div wrapper com position: fixed para parallax mobile (iOS Safari)
+      <section id="cartazes" className="cartazes-section" ref={cartazesSectionRef}>
+        {/* Div com position: fixed para parallax mobile (iOS Safari)
             Em desktop (≥768px) é display:none via CSS — não afeta o desktop.
-            Replica o efeito de background-attachment: fixed do desktop.
-            position: fixed funciona SEMPRE em iOS Safari (ao contrário de sticky). */}
-        <div className="cartazes-parallax-fixed" aria-hidden="true"/>
+            JavaScript mostra/esconde este div conforme a secção está visível.
+            Isto garante imagem FIXA no ecrã que só aparece nesta secção. */}
+        <div className="cartazes-parallax-fixed" ref={cartazesParallaxFixedRef} aria-hidden="true" style={{display: 'none'}}/>
         {/* Shape divider TOPO - montanhas (igual ao site de referência) */}
         <div className="cartazes-shape cartazes-shape-top" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">

@@ -3945,13 +3945,14 @@ html.light-mode .hero-bg-img-dark {
    background-image com gradient lavanda translúcido (modo dia)
    e o gradient roxo escuro sólido (modo noite) */
 
-/* Mobile: parallax das bolas via position: fixed (funciona SEMPRE em iOS Safari) */
+/* Mobile: parallax das bolas via position: fixed + IntersectionObserver */
 /* background-attachment: fixed NÃO funciona em iOS Safari.
-   position: sticky tem problemas com z-index e overflow.
-   Solução definitiva: position: fixed num div wrapper.
-   - O div fica fixo no viewport (como background-attachment: fixed)
-   - Só é visível DENTRO da secção cartazes (via clip-path ou overflow no parent)
-   - z-index: 0 + overlay z-index: 1 + cartazes z-index: 2
+   position: sticky tem problemas com z-index.
+   Solução DEFINITIVA: div com position: fixed + JavaScript que mostra/esconde
+   o div conforme a secção cartazes está visível no viewport.
+   - O div fica fixo no ecrã (como background-attachment: fixed)
+   - JavaScript esconde-o quando a secção sai do viewport
+   - Não precisa de overflow: hidden (que cortaria o conteúdo)
 */
 
 /* Por defeito (desktop), o div fixed está escondido — não afeta o desktop. */
@@ -3965,20 +3966,18 @@ html.light-mode .hero-bg-img-dark {
     background: var(--void);
     /* Remover background-image da secção — a imagem vai para o div fixed */
     background-image: none !important;
-    /* overflow: hidden corta o div fixed quando sai da secção */
-    overflow: hidden;
-    /* isolation: isolate cria stacking context próprio */
+    /* NÃO usar overflow: hidden — cortaria o conteúdo.
+       O JavaScript trata de mostrar/esconde o div fixed. */
     isolation: isolate;
     position: relative;
   }
   .cartazes-shape {
     height: 60px;
   }
-  /* Div wrapper com position: fixed — simula background-attachment: fixed.
-     Fica fixo no viewport enquanto a secção scrolla.
-     Como a secção tem overflow: hidden, o div só é visível dentro dela. */
+  /* Div com position: fixed — imagem fixa no viewport.
+     JavaScript controla display: block/none conforme a secção está visível.
+     z-index: 0 = atrás do overlay (z-index 1) e cartazes (z-index 2). */
   .cartazes-parallax-fixed {
-    display: block;
     position: fixed;
     top: 0;
     left: 0;
@@ -3989,7 +3988,7 @@ html.light-mode .hero-bg-img-dark {
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    z-index: 0; /* atrás do overlay e cartazes */
+    z-index: 0;
     pointer-events: none;
     will-change: auto;
   }
