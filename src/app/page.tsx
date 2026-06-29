@@ -401,7 +401,6 @@ export default function HomePage() {
   const galeriaParallaxTopRef = useRef<HTMLDivElement>(null);
   const contactoRef = useRef<HTMLElement>(null);
   const contactoBgRef = useRef<HTMLDivElement>(null);
-  const cartazesParallaxRef = useRef<HTMLDivElement>(null);
   // ═══ PARALLAX (mobile) — divs .cartazes-bg / .contacto-bg / galeria movidas via JS ═══
   // (translate3d), técnica iOS-safe. Desktop usa background-attachment:fixed nativo.
 
@@ -502,72 +501,6 @@ export default function HomePage() {
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("touchmove", onScroll);
-    };
-  }, []);
-
-  // ═══ PARALLAX CARTAZES (mobile) — IMAGEM CENTRADA QUE ACOMPANHA O SCROLL ═══
-  // Parallax clássico profissional: a imagem está "colada" ao ecrã (sticky frame)
-  // e ACOMPANHA o scroll de início ao fim da secção, mantendo-se sempre CENTRADA.
-  //
-  // Como funciona:
-  //  - .cartazes-sticky-frame (parent do .cartazes-bg) tem position:sticky e
-  //    height:100vh → cola ao topo do viewport, imagem SEMPRE visível.
-  //  - .cartazes-bg tem height:200% (200vh) e top:-50% → imagem é 2x mais alta
-  //    que o frame e está CENTRADA verticalmente (50vh escondidos em cima,
-  //    50vh escondidos em baixo).
-  //  - JS translada a imagem de 0 → -50vh ao longo do progresso da secção →
-  //    a imagem DESLIZA de cima para baixo ACOMPANHANDO o scroll, mas como tem
-  //    100vh de margem total, o CENTRO da imagem está sempre visível no ecrã.
-  //    Resultado: efeito parallax clássico (a imagem move-se a um ritmo diferente
-  //    do conteúdo), sempre centrada, sem tarjas pretas.
-  //  - .cartazes-overlay fica absolute inset:0 dentro do frame → NÃO se move.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.innerWidth >= 768) return; // Só mobile
-
-    const bg = cartazesParallaxRef.current;
-    if (!bg) return;
-    const frame = bg.parentElement;        // .cartazes-sticky-frame
-    if (!frame) return;
-    const section = frame.parentElement;   // .cartazes-section
-    if (!section) return;
-
-    let ticking = false;
-    const update = () => {
-      const rect = section.getBoundingClientRect();
-      const winH = window.innerHeight;
-      // Skip se a secção estiver completamente fora do viewport
-      if (rect.bottom < 0 || rect.top > winH) {
-        ticking = false;
-        return;
-      }
-      // progress: 0 quando a secção entra no viewport, 1 quando sai completamente
-      const progress = Math.max(0, Math.min(1,
-        (winH - rect.top) / (winH + rect.height)
-      ));
-      // Travel SUBTIL: 12vh no total (efeito "cola" — a imagem parece parada,
-      // só se nota mudança pelos cartazes que vão passando por cima dela).
-      // A imagem (200vh) está centrada no frame (top:-50%) → translada de 0 →
-      // -12vh → o centro da imagem está sempre visível, sem tarjas pretas.
-      const travel = winH * 0.12; // 12vh (muito subtil)
-      const offset = progress * travel; // 0 → 12vh
-      bg.style.transform = `translate3d(0, ${-offset}px, 0)`;
-      ticking = false;
-    };
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("touchmove", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    update(); // posição inicial
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("touchmove", onScroll);
-      window.removeEventListener("resize", onScroll);
     };
   }, []);
 
@@ -1329,36 +1262,10 @@ export default function HomePage() {
           {/* Menu CTA — escondido em smartphone (sm:hidden), visível em desktop */}
           <div className="hidden sm:block" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
             <a
-              href="#cartaz-cascais"
-              onClick={e => {
-                e.preventDefault();
-                setMenuOpen(false);
-                const el = document.getElementById('cartaz-cascais');
-                if (!el) return;
-                const section = el.closest('section');
-                if (section) {
-                  section.classList.add('section-visible');
-                  section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
-                    (r as HTMLElement).style.opacity = '1';
-                    (r as HTMLElement).style.transform = 'none';
-                  });
-                }
-                // Aterrar no cartaz Cascais: alinhar o topo do cartaz com o
-                // topo do ecrã (sincroniza para baixo, como pedido).
-                const rect = el.getBoundingClientRect();
-                const top = rect.top + window.scrollY - 20;
-                try {
-                  window.scrollTo({ top, behavior: 'smooth' });
-                } catch {
-                  window.scrollTo(0, top);
-                }
-                setTimeout(() => {
-                  const r2 = el.getBoundingClientRect();
-                  if (Math.abs(r2.top - 20) > 60) {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }
-                }, 120);
-              }}
+              href={TICKETLINE_URL_CASCAIS}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
               className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold cursor-pointer"
               style={{background:"var(--neon-purple)",color:"#fff"}}
             >
@@ -1385,33 +1292,9 @@ export default function HomePage() {
             Só em smartphone (<640px). Centrado, por cima do texto "AO VIVO ÉPICO PARA OS FÃS". */}
         <div className="sm:hidden absolute z-10 inset-x-0 flex justify-center" style={{bottom: "18%"}}>
           <a
-            href="#cartaz-cascais"
-            onClick={e => {
-              e.preventDefault();
-              const el = document.getElementById('cartaz-cascais');
-              if (!el) return;
-              const section = el.closest('section');
-              if (section) {
-                section.classList.add('section-visible');
-                section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
-                  (r as HTMLElement).style.opacity = '1';
-                  (r as HTMLElement).style.transform = 'none';
-                });
-              }
-              const rect = el.getBoundingClientRect();
-              const top = rect.top + window.scrollY - 20;
-              try {
-                window.scrollTo({ top, behavior: 'smooth' });
-              } catch {
-                window.scrollTo(0, top);
-              }
-              setTimeout(() => {
-                const r2 = el.getBoundingClientRect();
-                if (Math.abs(r2.top - 20) > 60) {
-                  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-              }, 120);
-            }}
+            href={TICKETLINE_URL_CASCAIS}
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 px-6 py-3 text-[10px] tracking-[0.2em] font-semibold uppercase cursor-pointer rounded-full"
             style={{background:"var(--neon-purple)",color:"#fff",boxShadow:"0 4px 14px rgba(200,80,255,0.5)"}}
           >
@@ -1423,34 +1306,10 @@ export default function HomePage() {
             Só em desktop/tablet (≥640px). Em smartphone é escondido. */}
         <div className="hero-bottom-panel absolute z-10 hidden sm:flex flex-col items-start" style={{left: "19%", bottom: "22%", transform: "translateX(-25%)"}}>
           <a
-            href="#cartaz-cascais"
+            href={TICKETLINE_URL_CASCAIS}
+            target="_blank"
+            rel="noopener noreferrer"
             className="hero-cta"
-            onClick={e => {
-              e.preventDefault();
-              const el = document.getElementById('cartaz-cascais');
-              if (!el) return;
-              const section = el.closest('section');
-              if (section) {
-                section.classList.add('section-visible');
-                section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
-                  (r as HTMLElement).style.opacity = '1';
-                  (r as HTMLElement).style.transform = 'none';
-                });
-              }
-              const rect = el.getBoundingClientRect();
-              const top = rect.top + window.scrollY - 20;
-              try {
-                window.scrollTo({ top, behavior: 'smooth' });
-              } catch {
-                window.scrollTo(0, top);
-              }
-              setTimeout(() => {
-                const r2 = el.getBoundingClientRect();
-                if (Math.abs(r2.top - 20) > 60) {
-                  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-              }, 120);
-            }}
           >
             Garante o Teu Lugar <ChevronRight className="w-3 h-3"/>
           </a>
@@ -1622,33 +1481,9 @@ export default function HomePage() {
               {/* ═══ Botão Garante o Teu Lugar — entre o pitch e o neon divider ═══ */}
               <Rv delay={500}>
                 <a
-                  href="#cartaz-cascais"
-                  onClick={e => {
-                    e.preventDefault();
-                    const el = document.getElementById('cartaz-cascais');
-                    if (!el) return;
-                    const section = el.closest('section');
-                    if (section) {
-                      section.classList.add('section-visible');
-                      section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
-                        (r as HTMLElement).style.opacity = '1';
-                        (r as HTMLElement).style.transform = 'none';
-                      });
-                    }
-                    const rect = el.getBoundingClientRect();
-                    const top = rect.top + window.scrollY - 20;
-                    try {
-                      window.scrollTo({ top, behavior: 'smooth' });
-                    } catch {
-                      window.scrollTo(0, top);
-                    }
-                    setTimeout(() => {
-                      const r2 = el.getBoundingClientRect();
-                      if (Math.abs(r2.top - 20) > 60) {
-                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                      }
-                    }, 120);
-                  }}
+                  href={TICKETLINE_URL_CASCAIS}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="esp-cta cursor-pointer"
                   style={{ marginBottom: '1rem' }}
                 >
@@ -1767,46 +1602,13 @@ export default function HomePage() {
 
           <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
 
-          {/* Call-to-action: Garante o Teu Bilhete → redireciona para o cartaz Cascais
-              (mobile, funcional em qualquer iPhone/smartphone).
-              - Faz scroll suave para #cartaz-cascais (topo do cartaz alinhado com topo do ecrã)
-              - Fallback para scrollIntoView caso o cálculo falhe
-              - Garante que a secção está visível (remove opacity:0 do reveal) */}
+          {/* Call-to-action: Garante o Teu Bilhete → link direto para Ticketline Cascais (nova aba) */}
           <a
-            href="#cartaz-cascais"
+            href={TICKETLINE_URL_CASCAIS}
+            target="_blank"
+            rel="noopener noreferrer"
             className="teaser-cta"
             aria-label="Garante o Teu Bilhete - Cascais"
-            onClick={e => {
-              e.preventDefault();
-              const el = document.getElementById('cartaz-cascais');
-              if (!el) return;
-              // Garantir que a secção está visível (remover opacity:0 do reveal)
-              const section = el.closest('section');
-              if (section) {
-                section.classList.add('section-visible');
-                section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
-                  (r as HTMLElement).style.opacity = '1';
-                  (r as HTMLElement).style.transform = 'none';
-                });
-              }
-              // Aterrar no cartaz Cascais: alinhar o topo do cartaz com o topo do ecrã
-              // (sincroniza para baixo, como pedido pelo user).
-              const rect = el.getBoundingClientRect();
-              const top = rect.top + window.scrollY - 20;
-              // Smooth scroll robusto (funciona em iOS Safari e Android Chrome)
-              try {
-                window.scrollTo({ top, behavior: 'smooth' });
-              } catch {
-                window.scrollTo(0, top);
-              }
-              // Fallback extra: se o smooth scroll falhar, scrollIntoView após 120ms
-              setTimeout(() => {
-                const r2 = el.getBoundingClientRect();
-                if (Math.abs(r2.top - 20) > 60) {
-                  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-              }, 120);
-            }}
           >
             <span>Garante o Teu Bilhete</span>
             <span className="teaser-cta-arrow">→</span>
@@ -1882,18 +1684,6 @@ export default function HomePage() {
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
-        {/* ═══ PARALLAX MOBILE — sticky frame + imagem 200% centrada (travel subtil) ═══
-            - .cartazes-sticky-frame (position:sticky; height:100vh; overflow:hidden)
-              cola ao topo do viewport → imagem SEMPRE visível do início ao fim.
-            - .cartazes-bg (height:200%; top:-50%) é 2x mais alta que o frame e
-              está CENTRADA verticalmente → 50vh escondidos em cima, 50vh em baixo.
-            - JS translada a imagem 0 → -12vh ao longo do scroll → efeito "cola"
-              MUITO SUBTIL (a imagem parece parada, só se nota pelos cartazes).
-            - .cartazes-overlay (absolute inset:0) — overlay fixo por cima, dia/noite. */}
-        <div className="cartazes-sticky-frame" aria-hidden="true">
-          <div className="cartazes-bg" ref={cartazesParallaxRef}/>
-          <div className="cartazes-overlay"/>
-        </div>
         {/* Shape divider TOPO - montanhas (igual ao site de referência) */}
         <div className="cartazes-shape cartazes-shape-top" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
