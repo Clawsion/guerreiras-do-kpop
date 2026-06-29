@@ -1720,9 +1720,6 @@ export default function HomePage() {
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
-        {/* Parallax mobile: position: sticky (solução recomendada, 100% CSS).
-            Em desktop (≥768px) é display:none via CSS — não afeta o desktop. */}
-        <div className="cartazes-parallax-sticky" aria-hidden="true"/>
         {/* Shape divider TOPO - montanhas (igual ao site de referência) */}
         <div className="cartazes-shape cartazes-shape-top" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
