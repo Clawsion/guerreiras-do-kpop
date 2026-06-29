@@ -2257,7 +2257,7 @@ export default function HomePage() {
           </div>
           <div className="w-full text-center mt-2">
             <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)",opacity:0.7}}>Desenvolvido por </span>
-            <a href="https://inaugura.com" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer font-semibold" style={{color:"var(--neon-purple)"}}>Inaugura</a>
+            <span className="text-[10px] tracking-[0.1em] font-semibold" style={{color:"var(--neon-purple)"}}>Inaugura</span>
           </div>
         </div>
       </footer>
