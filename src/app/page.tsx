@@ -404,6 +404,28 @@ export default function HomePage() {
   // ═══ PARALLAX (mobile) — divs .cartazes-bg / .contacto-bg / galeria movidas via JS ═══
   // (translate3d), técnica iOS-safe. Desktop usa background-attachment:fixed nativo.
 
+  // ═══ PARALLAX CARTAZES (mobile) — position:fixed + IntersectionObserver ═══
+  // A div .cartazes-sticky-bg é position:fixed (sempre no viewport) mas só
+  // aparece (opacity:1) quando a secção cartazes está visível, via IO.
+  // Isto replica o efeito do background-attachment:fixed do desktop, sem os
+  // bugs de iOS Safari. O conteúdo scrolla naturalmente por cima (z-index:2).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.innerWidth >= 768) return; // Só mobile
+    const section = document.getElementById('cartazes');
+    if (!section) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          section.classList.toggle('bg-visible', e.isIntersecting);
+        }
+      },
+      { threshold: 0, rootMargin: "0px" }
+    );
+    io.observe(section);
+    return () => io.disconnect();
+  }, []);
+
   useEffect(() => {
     // MOBILE: loaded=true IMEDIATAMENTE (sem preloader, sem delay nenhum).
     // DESKTOP: 1200ms (curtain reveal cinematico).
@@ -1267,43 +1289,42 @@ export default function HomePage() {
                 e.preventDefault();
                 setMenuOpen(false);
                 const isMobile = window.innerWidth < 768;
-                if (isMobile) {
-                  const el = document.getElementById('cartaz-cascais');
-                  if (!el) return;
-                  const section = el.closest('section');
-                  if (section) {
-                    section.classList.add('section-visible');
-                    section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
-                      (r as HTMLElement).style.opacity = '1';
-                      (r as HTMLElement).style.transform = 'none';
-                    });
-                  }
-                  const rect = el.getBoundingClientRect();
-                  const top = rect.top + window.scrollY - 20;
-                  try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
-                  setTimeout(() => {
-                    const r2 = el.getBoundingClientRect();
-                    if (Math.abs(r2.top - 20) > 60) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }, 120);
-                } else {
-                  const el = document.getElementById('cartazes');
-                  if (!el) return;
-                  el.classList.add('section-visible');
-                  el.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                const cartazesSection = document.getElementById('cartazes');
+                if (cartazesSection) {
+                  cartazesSection.classList.add('section-visible');
+                  cartazesSection.style.opacity = '1';
+                  cartazesSection.style.transform = 'none';
+                  cartazesSection.querySelectorAll('[class*="rv"], .reveal, .cartaz-card').forEach(r => {
                     (r as HTMLElement).style.opacity = '1';
                     (r as HTMLElement).style.transform = 'none';
                   });
-                  const rect = el.getBoundingClientRect();
-                  const winH = window.innerHeight;
-                  const elH = rect.height;
-                  const targetOffset = Math.max(0, (winH - elH) / 2);
-                  const top = rect.top + window.scrollY - targetOffset - 40;
-                  try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
-                  setTimeout(() => {
-                    const r2 = el.getBoundingClientRect();
-                    if (Math.abs(r2.top - targetOffset - 40) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  }, 120);
                 }
+                requestAnimationFrame(() => {
+                  if (isMobile) {
+                    const el = document.getElementById('cartaz-cascais');
+                    if (!el) return;
+                    const rect = el.getBoundingClientRect();
+                    const top = rect.top + window.scrollY - 20;
+                    try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                    setTimeout(() => {
+                      const r2 = el.getBoundingClientRect();
+                      if (Math.abs(r2.top - 20) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 200);
+                  } else {
+                    const el = document.getElementById('cartazes');
+                    if (!el) return;
+                    const rect = el.getBoundingClientRect();
+                    const winH = window.innerHeight;
+                    const elH = rect.height;
+                    const targetOffset = Math.max(0, (winH - elH) / 2);
+                    const top = rect.top + window.scrollY - targetOffset - 40;
+                    try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                    setTimeout(() => {
+                      const r2 = el.getBoundingClientRect();
+                      if (Math.abs(r2.top - targetOffset - 40) > 100) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 200);
+                  }
+                });
               }}
               className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold cursor-pointer"
               style={{background:"var(--neon-purple)",color:"#fff"}}
@@ -1335,43 +1356,42 @@ export default function HomePage() {
             onClick={e => {
               e.preventDefault();
               const isMobile = window.innerWidth < 768;
-              if (isMobile) {
-                const el = document.getElementById('cartaz-cascais');
-                if (!el) return;
-                const section = el.closest('section');
-                if (section) {
-                  section.classList.add('section-visible');
-                  section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
-                    (r as HTMLElement).style.opacity = '1';
-                    (r as HTMLElement).style.transform = 'none';
-                  });
-                }
-                const rect = el.getBoundingClientRect();
-                const top = rect.top + window.scrollY - 20;
-                try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
-                setTimeout(() => {
-                  const r2 = el.getBoundingClientRect();
-                  if (Math.abs(r2.top - 20) > 60) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 120);
-              } else {
-                const el = document.getElementById('cartazes');
-                if (!el) return;
-                el.classList.add('section-visible');
-                el.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+              const cartazesSection = document.getElementById('cartazes');
+              if (cartazesSection) {
+                cartazesSection.classList.add('section-visible');
+                cartazesSection.style.opacity = '1';
+                cartazesSection.style.transform = 'none';
+                cartazesSection.querySelectorAll('[class*="rv"], .reveal, .cartaz-card').forEach(r => {
                   (r as HTMLElement).style.opacity = '1';
                   (r as HTMLElement).style.transform = 'none';
                 });
-                const rect = el.getBoundingClientRect();
-                const winH = window.innerHeight;
-                const elH = rect.height;
-                const targetOffset = Math.max(0, (winH - elH) / 2);
-                const top = rect.top + window.scrollY - targetOffset - 40;
-                try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
-                setTimeout(() => {
-                  const r2 = el.getBoundingClientRect();
-                  if (Math.abs(r2.top - targetOffset - 40) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 120);
               }
+              requestAnimationFrame(() => {
+                if (isMobile) {
+                  const el = document.getElementById('cartaz-cascais');
+                  if (!el) return;
+                  const rect = el.getBoundingClientRect();
+                  const top = rect.top + window.scrollY - 20;
+                  try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                  setTimeout(() => {
+                    const r2 = el.getBoundingClientRect();
+                    if (Math.abs(r2.top - 20) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 200);
+                } else {
+                  const el = document.getElementById('cartazes');
+                  if (!el) return;
+                  const rect = el.getBoundingClientRect();
+                  const winH = window.innerHeight;
+                  const elH = rect.height;
+                  const targetOffset = Math.max(0, (winH - elH) / 2);
+                  const top = rect.top + window.scrollY - targetOffset - 40;
+                  try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                  setTimeout(() => {
+                    const r2 = el.getBoundingClientRect();
+                    if (Math.abs(r2.top - targetOffset - 40) > 100) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 200);
+                }
+              });
             }}
             className="flex items-center justify-center gap-2 px-6 py-3 text-[10px] tracking-[0.2em] font-semibold uppercase cursor-pointer rounded-full"
             style={{background:"var(--neon-purple)",color:"#fff",boxShadow:"0 4px 14px rgba(200,80,255,0.5)"}}
@@ -1388,43 +1408,42 @@ export default function HomePage() {
             onClick={e => {
               e.preventDefault();
               const isMobile = window.innerWidth < 768;
-              if (isMobile) {
-                const el = document.getElementById('cartaz-cascais');
-                if (!el) return;
-                const section = el.closest('section');
-                if (section) {
-                  section.classList.add('section-visible');
-                  section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
-                    (r as HTMLElement).style.opacity = '1';
-                    (r as HTMLElement).style.transform = 'none';
-                  });
-                }
-                const rect = el.getBoundingClientRect();
-                const top = rect.top + window.scrollY - 20;
-                try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
-                setTimeout(() => {
-                  const r2 = el.getBoundingClientRect();
-                  if (Math.abs(r2.top - 20) > 60) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 120);
-              } else {
-                const el = document.getElementById('cartazes');
-                if (!el) return;
-                el.classList.add('section-visible');
-                el.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+              const cartazesSection = document.getElementById('cartazes');
+              if (cartazesSection) {
+                cartazesSection.classList.add('section-visible');
+                cartazesSection.style.opacity = '1';
+                cartazesSection.style.transform = 'none';
+                cartazesSection.querySelectorAll('[class*="rv"], .reveal, .cartaz-card').forEach(r => {
                   (r as HTMLElement).style.opacity = '1';
                   (r as HTMLElement).style.transform = 'none';
                 });
-                const rect = el.getBoundingClientRect();
-                const winH = window.innerHeight;
-                const elH = rect.height;
-                const targetOffset = Math.max(0, (winH - elH) / 2);
-                const top = rect.top + window.scrollY - targetOffset - 40;
-                try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
-                setTimeout(() => {
-                  const r2 = el.getBoundingClientRect();
-                  if (Math.abs(r2.top - targetOffset - 40) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 120);
               }
+              requestAnimationFrame(() => {
+                if (isMobile) {
+                  const el = document.getElementById('cartaz-cascais');
+                  if (!el) return;
+                  const rect = el.getBoundingClientRect();
+                  const top = rect.top + window.scrollY - 20;
+                  try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                  setTimeout(() => {
+                    const r2 = el.getBoundingClientRect();
+                    if (Math.abs(r2.top - 20) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 200);
+                } else {
+                  const el = document.getElementById('cartazes');
+                  if (!el) return;
+                  const rect = el.getBoundingClientRect();
+                  const winH = window.innerHeight;
+                  const elH = rect.height;
+                  const targetOffset = Math.max(0, (winH - elH) / 2);
+                  const top = rect.top + window.scrollY - targetOffset - 40;
+                  try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                  setTimeout(() => {
+                    const r2 = el.getBoundingClientRect();
+                    if (Math.abs(r2.top - targetOffset - 40) > 100) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 200);
+                }
+              });
             }}
             className="hero-cta"
           >
@@ -1602,43 +1621,42 @@ export default function HomePage() {
                   onClick={e => {
                     e.preventDefault();
                     const isMobile = window.innerWidth < 768;
-                    if (isMobile) {
-                      const el = document.getElementById('cartaz-cascais');
-                      if (!el) return;
-                      const section = el.closest('section');
-                      if (section) {
-                        section.classList.add('section-visible');
-                        section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
-                          (r as HTMLElement).style.opacity = '1';
-                          (r as HTMLElement).style.transform = 'none';
-                        });
-                      }
-                      const rect = el.getBoundingClientRect();
-                      const top = rect.top + window.scrollY - 20;
-                      try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
-                      setTimeout(() => {
-                        const r2 = el.getBoundingClientRect();
-                        if (Math.abs(r2.top - 20) > 60) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                      }, 120);
-                    } else {
-                      const el = document.getElementById('cartazes');
-                      if (!el) return;
-                      el.classList.add('section-visible');
-                      el.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                    const cartazesSection = document.getElementById('cartazes');
+                    if (cartazesSection) {
+                      cartazesSection.classList.add('section-visible');
+                      cartazesSection.style.opacity = '1';
+                      cartazesSection.style.transform = 'none';
+                      cartazesSection.querySelectorAll('[class*="rv"], .reveal, .cartaz-card').forEach(r => {
                         (r as HTMLElement).style.opacity = '1';
                         (r as HTMLElement).style.transform = 'none';
                       });
-                      const rect = el.getBoundingClientRect();
-                      const winH = window.innerHeight;
-                      const elH = rect.height;
-                      const targetOffset = Math.max(0, (winH - elH) / 2);
-                      const top = rect.top + window.scrollY - targetOffset - 40;
-                      try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
-                      setTimeout(() => {
-                        const r2 = el.getBoundingClientRect();
-                        if (Math.abs(r2.top - targetOffset - 40) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                      }, 120);
                     }
+                    requestAnimationFrame(() => {
+                      if (isMobile) {
+                        const el = document.getElementById('cartaz-cascais');
+                        if (!el) return;
+                        const rect = el.getBoundingClientRect();
+                        const top = rect.top + window.scrollY - 20;
+                        try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                        setTimeout(() => {
+                          const r2 = el.getBoundingClientRect();
+                          if (Math.abs(r2.top - 20) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 200);
+                      } else {
+                        const el = document.getElementById('cartazes');
+                        if (!el) return;
+                        const rect = el.getBoundingClientRect();
+                        const winH = window.innerHeight;
+                        const elH = rect.height;
+                        const targetOffset = Math.max(0, (winH - elH) / 2);
+                        const top = rect.top + window.scrollY - targetOffset - 40;
+                        try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                        setTimeout(() => {
+                          const r2 = el.getBoundingClientRect();
+                          if (Math.abs(r2.top - targetOffset - 40) > 100) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 200);
+                      }
+                    });
                   }}
                   className="esp-cta cursor-pointer"
                   style={{ marginBottom: '1rem' }}
@@ -1767,43 +1785,42 @@ export default function HomePage() {
             onClick={e => {
               e.preventDefault();
               const isMobile = window.innerWidth < 768;
-              if (isMobile) {
-                const el = document.getElementById('cartaz-cascais');
-                if (!el) return;
-                const section = el.closest('section');
-                if (section) {
-                  section.classList.add('section-visible');
-                  section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
-                    (r as HTMLElement).style.opacity = '1';
-                    (r as HTMLElement).style.transform = 'none';
-                  });
-                }
-                const rect = el.getBoundingClientRect();
-                const top = rect.top + window.scrollY - 20;
-                try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
-                setTimeout(() => {
-                  const r2 = el.getBoundingClientRect();
-                  if (Math.abs(r2.top - 20) > 60) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 120);
-              } else {
-                const el = document.getElementById('cartazes');
-                if (!el) return;
-                el.classList.add('section-visible');
-                el.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+              const cartazesSection = document.getElementById('cartazes');
+              if (cartazesSection) {
+                cartazesSection.classList.add('section-visible');
+                cartazesSection.style.opacity = '1';
+                cartazesSection.style.transform = 'none';
+                cartazesSection.querySelectorAll('[class*="rv"], .reveal, .cartaz-card').forEach(r => {
                   (r as HTMLElement).style.opacity = '1';
                   (r as HTMLElement).style.transform = 'none';
                 });
-                const rect = el.getBoundingClientRect();
-                const winH = window.innerHeight;
-                const elH = rect.height;
-                const targetOffset = Math.max(0, (winH - elH) / 2);
-                const top = rect.top + window.scrollY - targetOffset - 40;
-                try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
-                setTimeout(() => {
-                  const r2 = el.getBoundingClientRect();
-                  if (Math.abs(r2.top - targetOffset - 40) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 120);
               }
+              requestAnimationFrame(() => {
+                if (isMobile) {
+                  const el = document.getElementById('cartaz-cascais');
+                  if (!el) return;
+                  const rect = el.getBoundingClientRect();
+                  const top = rect.top + window.scrollY - 20;
+                  try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                  setTimeout(() => {
+                    const r2 = el.getBoundingClientRect();
+                    if (Math.abs(r2.top - 20) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 200);
+                } else {
+                  const el = document.getElementById('cartazes');
+                  if (!el) return;
+                  const rect = el.getBoundingClientRect();
+                  const winH = window.innerHeight;
+                  const elH = rect.height;
+                  const targetOffset = Math.max(0, (winH - elH) / 2);
+                  const top = rect.top + window.scrollY - targetOffset - 40;
+                  try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                  setTimeout(() => {
+                    const r2 = el.getBoundingClientRect();
+                    if (Math.abs(r2.top - targetOffset - 40) > 100) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 200);
+                }
+              });
             }}
           >
             <span>Garante o Teu Bilhete</span>
