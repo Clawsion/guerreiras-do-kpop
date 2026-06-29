@@ -2255,6 +2255,10 @@ export default function HomePage() {
             <button onClick={()=>setPrivacyOpen(true)} className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer bg-transparent border-0 p-0" style={{color:"var(--t3)"}}>Política de Privacidade</button>
             <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--t3)"}}>Livro de Reclamações</a>
           </div>
+          <div className="w-full text-center mt-2">
+            <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)",opacity:0.7}}>Desenvolvido por </span>
+            <a href="https://inaugura.com" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer font-semibold" style={{color:"var(--neon-purple)"}}>Inaugura</a>
+          </div>
         </div>
       </footer>
 
