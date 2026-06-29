@@ -1286,6 +1286,28 @@ export default function HomePage() {
               <Ticket className="w-3.5 h-3.5"/> Garante o Teu Lugar
             </a>
           </div>
+          {/* ═══ MOBILE: AO VIVO ÉPICO + Garante o Teu Lugar (acima dos ícones) ═══ */}
+          <div className="sm:hidden absolute bottom-28 inset-x-0 flex flex-col items-center gap-3 px-4" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateY(0)" : "translateY(20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
+            <p className="text-center text-[10px] tracking-[0.3em] uppercase font-semibold" style={{color:"var(--t2)"}}>
+              Ao Vivo · Épico · Para os Fãs
+            </p>
+            <a
+              href="#cartazes"
+              onClick={e => {
+                e.preventDefault();
+                const el = document.getElementById('cartazes');
+                if (el) {
+                  const top = el.getBoundingClientRect().top + window.scrollY;
+                  window.scrollTo({ top, behavior: 'smooth' });
+                }
+              }}
+              className="flex items-center justify-center gap-2 px-6 py-2.5 text-[10px] tracking-[0.2em] font-semibold uppercase cursor-pointer rounded-full"
+              style={{background:"var(--neon-purple)",color:"#fff",boxShadow:"0 4px 14px rgba(200,80,255,0.4)"}}
+            >
+              <Ticket className="w-3.5 h-3.5"/> Garante o Teu Lugar
+            </a>
+          </div>
+
           {/* ═══ REDES SOCIAIS — só Instagram (ativado) ═══ */}
           <div className="absolute bottom-16 right-8 sm:bottom-8 sm:right-12 flex gap-7" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 350}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(20px)", opacity: menuOpen ? 1 : 0, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
             <a href="https://www.instagram.com/guerreirasdokpop_tributo?igsh=NzBkd2J2dm1iYWR1" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
@@ -2022,29 +2044,6 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
-
-      {/* ═══ MOBILE STICKY CTA ═══
-          SEM backdrop-blur (pesadíssimo em mobile) e SEM transition-opacity
-          (causa re-render). Background opaco via CSS mobile override. */}
-      <div className={`fixed bottom-0 inset-x-0 z-40 sm:hidden p-1.5 border-t ${loaded?"":"opacity-0 pointer-events-none"}`} style={{background:"rgba(11,8,19,0.95)",borderColor:"rgba(200,80,255,0.08)"}}>
-        <a
-          href="#cartazes"
-          onClick={e => {
-            e.preventDefault();
-            const el = document.getElementById('cartazes');
-            if (el) {
-              const isMobile = window.innerWidth < 768;
-              const offset = isMobile ? 400 : 300;
-              const top = el.getBoundingClientRect().top + window.scrollY + offset;
-              window.scrollTo({ top, behavior: 'smooth' });
-            }
-          }}
-          className="flex items-center justify-center gap-2 w-full py-2 text-[9px] tracking-[0.2em] font-semibold uppercase cursor-pointer"
-          style={{background:"var(--neon-purple)",color:"#fff"}}
-        >
-          <Ticket className="w-3.5 h-3.5"/> Garante o Teu Lugar
-        </a>
-      </div>
 
       {/* ═══ NEON LIGHTBOX ═══ */}
       {lightbox !== null && (
