@@ -3869,13 +3869,27 @@ html.light-mode .hero-bg-img-dark {
   overflow: hidden;
   isolation: isolate;
 }
-/* Desktop (≥1024px) — fundo sólido (parallax e imagem de fundo REMOVIDOS) */
+/* Desktop (≥1024px) — bolas com parallax + overlay roxo transparente (RESTAURADO) */
 @media (min-width: 1024px) {
   .cartazes-section {
-    /* Fundo sólido — sem imagem de fundo, sem parallax */
+    background-image: url('/cartazes-bg-night.webp');
+    background-size: 100% auto; /* Encostada nos lados, sem cortes */
+    background-position: center top;
+    background-attachment: fixed; /* Parallax nativo do browser (desktop) */
+    background-repeat: no-repeat;
   }
+  /* Overlay roxo transparente (cor das curvas #1a0d2e) — marca de água sobre as bolas */
   .cartazes-section::after {
-    content: none;
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(26, 13, 46, 0.82) 0%,
+      rgba(26, 13, 46, 0.88) 50%,
+      rgba(26, 13, 46, 0.82) 100%
+    );
+    z-index: 0;
+    pointer-events: none;
   }
 }
 
@@ -3901,9 +3915,26 @@ html.light-mode .hero-bg-img-dark {
   transition: fill 0.6s ease;
 }
 
-/* Modo dia — fundo sólido (imagem de fundo e overlay REMOVIDOS) */
 .light-mode .cartazes-section {
   background: var(--void);
+  background-image: url('/cartazes-bg-day.webp');
+  background-size: 100% auto;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+/* Overlay BRANCO TRANSPARENTE sobre o fundo das bolas (modo dia) */
+.light-mode .cartazes-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(245, 240, 250, 0.65) 50%,
+    rgba(255, 255, 255, 0.55) 100%
+  );
+  z-index: 0;
+  pointer-events: none;
 }
 /* Shape dividers em modo dia — lavanda mais escuro para contrastar com o branco */
 .light-mode .cartazes-shape-fill {
