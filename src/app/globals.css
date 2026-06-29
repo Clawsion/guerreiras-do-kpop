@@ -3945,46 +3945,85 @@ html.light-mode .hero-bg-img-dark {
    background-image com gradient lavanda translúcido (modo dia)
    e o gradient roxo escuro sólido (modo noite) */
 
-/* Mobile: parallax das bolas via background-attachment: fixed (estado fd29c5e) */
-/* Estado restaurado a pedido do utilizador — era como funcionava anteriormente.
-   background-image diretamente na .cartazes-section com background-attachment: fixed. */
+/* Mobile: parallax das bolas via position: sticky (funciona em iOS Safari) */
+/* background-attachment: fixed NÃO funciona em iOS Safari — a imagem faz scroll.
+   Solução: div wrapper com position: sticky que replica o efeito de imagem fixa.
+   O div fica colado ao topo do viewport enquanto a secção scrolla.
+   z-index: -1 + isolation: isolate garante que fica ATRÁS dos cartazes. */
+
+/* Por defeito (desktop), o div sticky está escondido — não afeta o desktop. */
+.cartazes-parallax-sticky {
+  display: none;
+}
+
 @media (max-width: 767px) {
   .cartazes-section {
     padding: 5.5rem 0 5rem;
     background: var(--void);
-    background-image: url('/cartazes-bg-night-mobile.webp');
-    background-size: 100% auto;
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    /* Remover background-image da secção — a imagem vai para o div sticky */
+    background-image: none !important;
+    /* overflow: visible para que o position: sticky funcione */
+    overflow: visible;
+    /* isolation: isolate cria stacking context próprio — o z-index: -1 do
+       sticky fica confinado a esta secção (não vai para trás do body). */
+    isolation: isolate;
+    position: relative;
   }
   .cartazes-shape {
     height: 60px;
   }
+  /* Div wrapper com position: sticky — simula background-attachment: fixed.
+     Igual ao desktop: imagem cobre o ecrã todo, fica fixa enquanto scrolla. */
+  .cartazes-parallax-sticky {
+    display: block;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100svh; /* dynamic viewport height (resolve barra de URL iOS) */
+    background-image: url('/cartazes-bg-night-mobile.webp');
+    background-size: cover; /* cover = preenche o ecrã todo (igual ao desktop) */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: scroll; /* sticky trata do efeito de fixo */
+    z-index: -1; /* ATRÁS de tudo (overlay e cartazes) */
+    pointer-events: none;
+    will-change: auto;
+  }
   /* Modo dia: imagem clara */
-  .light-mode .cartazes-section {
+  .light-mode .cartazes-parallax-sticky {
     background-image: url('/cartazes-bg-day-mobile.webp');
   }
-  /* Overlay — modo noite (violeta discreto) */
+  /* Overlay — modo noite (violeta discreto).
+     z-index: 0 (acima do sticky -1, abaixo dos cartazes que são z-index 2) */
   .cartazes-section::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg,
-      rgba(26, 13, 46, 0.55) 0%,
-      rgba(26, 13, 46, 0.65) 50%,
-      rgba(26, 13, 46, 0.55) 100%
+      rgba(26, 13, 46, 0.82) 0%,
+      rgba(26, 13, 46, 0.88) 50%,
+      rgba(26, 13, 46, 0.82) 100%
     );
-    z-index: 1;
+    z-index: 0;
     pointer-events: none;
   }
-  /* Overlay — modo dia */
+  /* Overlay — modo dia (igual ao desktop) */
   .light-mode .cartazes-section::after {
     background: linear-gradient(180deg,
       rgba(255, 255, 255, 0.55) 0%,
       rgba(245, 240, 250, 0.65) 50%,
       rgba(255, 255, 255, 0.55) 100%
     );
+  }
+  /* Garantir que o conteúdo (cartazes-grid + hero-aligned-container) fica acima */
+  .cartazes-section .hero-aligned-container,
+  .cartazes-section .cartazes-grid,
+  .cartazes-section .cartaz-card {
+    position: relative;
+    z-index: 2;
   }
 }
 
