@@ -6036,12 +6036,12 @@ html.light-mode .hero-bg-img-dark {
     width: 2px !important;
   }
   .hm-ring {
-    width: 90px !important;
-    height: 90px !important;
-  }
-  .hm-neon-circle {
     width: 75px !important;
     height: 75px !important;
+  }
+  .hm-neon-circle {
+    width: 60px !important;
+    height: 60px !important;
   }
 }
 
@@ -8855,15 +8855,23 @@ img { max-width: 100%; height: auto; }
 /* ─── Footer — padding inferior extra em mobile para não cobrir com sticky CTA ─── */
 @media (max-width: 767px) {
   footer {
-    padding-bottom: 90px !important;
+    padding-bottom: 1.5rem !important;
+    padding-top: 1.5rem !important;
   }
-  /* Garantir que "© 2026 Guerreiras do K-Pop" fica numa só linha em iPhone */
+  /* Footer proporcional: deixar wrap, sem forçar nowrap */
   footer .hero-aligned-container > div:first-child {
-    flex-wrap: nowrap !important;
-    white-space: nowrap !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    text-align: center !important;
   }
   footer span {
-    white-space: nowrap !important;
+    white-space: normal !important;
+  }
+  /* Links: centrados e com wrap */
+  footer .hero-aligned-container > div:last-child {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.75rem 1rem !important;
   }
 }
 
@@ -10908,20 +10916,20 @@ img { max-width: 100%; height: auto; }
 */
 @media (max-width: 768px) {
   .hm-orb {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
   }
   .hm-ring-1 {
+    width: 50px;
+    height: 50px;
+  }
+  .hm-ring-2 {
     width: 60px;
     height: 60px;
   }
-  .hm-ring-2 {
-    width: 72px;
-    height: 72px;
-  }
   .hm-ring-3 {
-    width: 85px;
-    height: 85px;
+    width: 70px;
+    height: 70px;
   }
 }
 
