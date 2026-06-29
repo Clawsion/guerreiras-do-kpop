@@ -10924,20 +10924,20 @@ img { max-width: 100%; height: auto; }
 */
 @media (max-width: 768px) {
   .hm-orb {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
   }
   .hm-ring-1 {
-    width: 100px;
-    height: 100px;
+    width: 85px;
+    height: 85px;
   }
   .hm-ring-2 {
-    width: 125px;
-    height: 125px;
+    width: 105px;
+    height: 105px;
   }
   .hm-ring-3 {
-    width: 150px;
-    height: 150px;
+    width: 125px;
+    height: 125px;
   }
 }
 
@@ -11073,5 +11073,33 @@ img { max-width: 100%; height: auto; }
   @keyframes cartazes-hint-bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(4px); }
+  }
+}
+
+
+/* ═══ Cartazes: parallax no FIM da secção (só mobile) ═══ */
+.cartazes-parallax-bottom-mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .cartazes-parallax-bottom-mobile {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background-image: url('/cartazes-bg-night-mobile.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+    pointer-events: none;
+    will-change: transform;
+  }
+  
+  .light-mode .cartazes-parallax-bottom-mobile {
+    background-image: url('/cartazes-bg-day-mobile.webp');
   }
 }
