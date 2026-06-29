@@ -541,8 +541,8 @@ export default function HomePage() {
       }
       // progress: 0 quando a secção entra no viewport, 1 quando sai
       const progress = Math.max(0, Math.min(1, (winH - rect.top) / (winH + rect.height)));
-      // 0 → -30vh: a imagem sobe lentamente (parallax), revelando-se ao longo da secção
-      const travel = winH * 0.3;
+      // 0 → -15vh: parallax subtil (imagem acompanha o scroll)
+      const travel = winH * 0.15;
       bg.style.transform = `translate3d(0, ${-progress * travel}px, 0)`;
       ticking = false;
     };
