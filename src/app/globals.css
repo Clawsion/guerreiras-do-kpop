@@ -4001,9 +4001,13 @@ html.light-mode .hero-bg-img-dark {
     height: 100vh;
     height: 100lvh;
     background-image: url('/cartazes-bg-night-mobile.webp');
-    background-size: cover;
+    /* 100% auto = largura cheia, SEM cortes laterais (igual ao desktop). A imagem é
+       9:16; mostra-se inteira (menos zoom). A cor de fundo escura preenche o espaço
+       vertical que sobra, fundindo com o overlay roxo. */
+    background-size: 100% auto;
     background-position: center center;
     background-repeat: no-repeat;
+    background-color: #160a26;
     z-index: 0;
     opacity: 0;
     transition: opacity 0.35s ease;
