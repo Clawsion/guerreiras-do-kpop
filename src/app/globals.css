@@ -6022,11 +6022,11 @@ html.light-mode .hero-bg-img-dark {
 @media (max-width: 767px) {
   .honmoon-shield-section {
     padding: 1.5rem 1rem !important;
-    min-height: 18vh !important;
+    min-height: 22vh !important;
   }
   .hm-orb {
-    width: 30px !important;
-    height: 30px !important;
+    width: 55px !important;
+    height: 55px !important;
   }
   .hm-label {
     font-size: 9px !important;
@@ -6036,12 +6036,12 @@ html.light-mode .hero-bg-img-dark {
     width: 2px !important;
   }
   .hm-ring {
-    width: 60px !important;
-    height: 60px !important;
+    width: 100px !important;
+    height: 100px !important;
   }
   .hm-neon-circle {
-    width: 60px !important;
-    height: 60px !important;
+    width: 85px !important;
+    height: 85px !important;
   }
 }
 
@@ -6397,8 +6397,8 @@ html.light-mode .hero-bg-img-dark {
   }
   /* Orb — só o círculo que respira, sem ponto luminoso central */
   .hm-orb {
-    width: 30px !important;
-    height: 30px !important;
+    width: 55px !important;
+    height: 55px !important;
   }
   .hm-orb.dark {
     background: radial-gradient(circle at 50% 50%,
@@ -7886,8 +7886,8 @@ section#concertos {
     min-height: 44px;
   }
   .hm-orb {
-    min-width: 30px;
-    min-height: 30px;
+    min-width: 44px;
+    min-height: 44px;
   }
   .concert-buy-btn {
     min-height: 44px;
@@ -10916,40 +10916,40 @@ img { max-width: 100%; height: auto; }
 */
 @media (max-width: 768px) {
   .hm-orb {
-    width: 30px;
-    height: 30px;
+    width: 55px;
+    height: 55px;
   }
   .hm-ring-1 {
-    width: 50px;
-    height: 50px;
+    width: 90px;
+    height: 90px;
   }
   .hm-ring-2 {
-    width: 60px;
-    height: 60px;
+    width: 110px;
+    height: 110px;
   }
   .hm-ring-3 {
-    width: 70px;
-    height: 70px;
+    width: 130px;
+    height: 130px;
   }
 }
 
 /* iPhone pequeno (≤375px) — ainda mais pequeno */
 @media (max-width: 375px) {
   .hm-orb {
-    width: 30px;
-    height: 30px;
+    width: 48px;
+    height: 48px;
   }
   .hm-ring-1 {
-    width: 52px;
-    height: 52px;
+    width: 80px;
+    height: 80px;
   }
   .hm-ring-2 {
-    width: 62px;
-    height: 62px;
+    width: 95px;
+    height: 95px;
   }
   .hm-ring-3 {
-    width: 75px;
-    height: 75px;
+    width: 115px;
+    height: 115px;
   }
 }
 
