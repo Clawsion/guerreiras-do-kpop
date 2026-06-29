@@ -11183,7 +11183,7 @@ img { max-width: 100%; height: auto; }
 }
 
 @media (max-width: 767px) {
-  .cartazes-scroll-arrow {
+  .cartazes-scroll-hint {
     display: flex;
     flex-direction: column;
     align-items: center;
