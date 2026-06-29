@@ -3945,71 +3945,75 @@ html.light-mode .hero-bg-img-dark {
    background-image com gradient lavanda translúcido (modo dia)
    e o gradient roxo escuro sólido (modo noite) */
 
-/* Mobile: parallax das bolas — position: sticky (SOLUÇÃO RECOMENDADA) */
-/* Técnica 100% CSS que funciona em TODOS os browsers incluindo iOS Safari.
-   É a abordagem mais robusta e recomendada para parallax mobile.
+/* ═══ Mobile: Parallax Avançado — Sticky Frame + Imagem 200vh + translate3d ═══ */
+/* Técnica profissional para mobile (incluindo iOS Safari):
+   - .cartazes-sticky-frame: position:sticky; top:0; height:100vh; overflow:hidden
+     → cola ao topo do viewport enquanto a secção está visível (composição nativa
+       do browser, sem tremor, sem lag do address bar).
+   - .cartazes-bg: height:200% dentro do frame → imagem 200vh (9:16 retrato dá
+     exatamente ~178vh de altura útil). Translada de 0 → -100vh via JS para revelar
+     a imagem de topo a fundo, ficando sempre centrada no ecrã.
+   - .cartazes-overlay: absolute inset:0 dentro do mesmo frame → NÃO se move
+     (só a imagem de fundo é que se mexe — resolve o bug do overlay descer).
+   - .cartazes-section NÃO tem overflow:clip/hidden (senão sticky não funciona).
+   - O conteúdo (cards) é puxado para cima com margin-top:-100vh no .hero-aligned-
+     container → sobrepõe-se ao frame sticky e scrolla naturalmente por cima.
+   - Sticky respeita os limites da secção parent → SEM IntersectionObserver,
+     SEM classe .bg-on, SEM fugas para secções vizinhas. */
 
-   Como funciona:
-   - div .cartazes-parallax-sticky com position: sticky; top: 0
-   - height: 100vh/100svh (tamanho do ecrã do smartphone)
-   - background-size: cover (cobre o ecrã todo)
-   - O sticky faz o div "colar" ao topo do viewport enquanto a secção scrolla
-   - Quando a secção sai do viewport, o div sai também (sticky respeita o parent)
-   - SEM JavaScript, SEM scroll listeners, SEM IntersectionObserver
-
-   Vantagens:
-   - Mais eficiente (sem JS, sem rAF, sem listeners)
-   - Mais fluido (browser nativo, não há lag)
-   - Mais robusto (funciona em todos os browsers)
-   - Imagem fica fixa no ecrã (não se move)
-   - Só aparece dentro da secção (sticky respeita o parent)
-*/
-
-/* ═══ Parallax Mobile — Secção dos 3 Cartazes (position: sticky) ═══ */
 .cartazes-bg,
 .cartazes-overlay {
+  display: none; /* Escondido em desktop — só mobile */
+}
+.cartazes-sticky-frame {
   display: none; /* Escondido em desktop */
 }
 
 @media (max-width: 767px) {
+  /* Secção: SEM overflow (senão sticky não funciona) */
   .cartazes-section {
-    padding: 2rem 0 5rem;
-    /* A imagem de fundo (.cartazes-bg) é absolute dentro desta secção e ROLA com o
-       scroll; overflow:clip recorta-a aos limites da secção. */
+    padding: 0; /* Padding passa para o .hero-aligned-container */
     background: transparent !important;
     background-image: none !important;
-    overflow: clip;
+    overflow: visible; /* CRÍTICO para sticky funcionar */
     position: relative;
+    isolation: isolate;
   }
-  .cartazes-shape {
-    height: 60px;
+  /* Remover ::after antigo (overlay agora é div separada dentro do frame) */
+  .cartazes-section::after {
+    content: none;
   }
-  /* Camada 1: Imagem de fundo (mobile) — PARALLAX DE VERDADE (efeito "reveal").
-     A imagem está ancorada à viewport (position:fixed → composição nativa do browser,
-     suave, SEM tremor) e DESLIZA via transform translate3d à medida que se faz scroll
-     pela secção. Como se move a um ritmo DIFERENTE do conteúdo (mais lento), a imagem
-     "acompanha o scroll" visivelmente (a bola sobe com o scroll) em vez de parecer
-     colada aos cartazes. É 130lvh (mais alta que o ecrã) para ter margem de deslize.
-     - background-size:100% auto → imagem 9:16 INTEIRA, SEM cortes laterais.
-     - Liga/desliga a opacidade via IntersectionObserver (.bg-on) → só aparece nesta
-       secção; as vizinhas (z-index:1) recortam-na fora dos limites. */
-  .cartazes-bg {
+
+  /* ═══ STICKY FRAME — cola ao topo enquanto a secção scrolla ═══ */
+  .cartazes-sticky-frame {
     display: block;
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    height: 100lvh;
+    height: 100lvh; /* Large viewport height — não encolhe com address bar */
+    overflow: hidden;
+    z-index: 0;
+    /* Puxar o conteúdo (cards) para cima para se sobrepor ao frame */
+    margin-bottom: calc(-100vh);
+    margin-bottom: calc(-100lvh);
+    pointer-events: none; /* Frame não bloqueia cliques nos cards */
+  }
+
+  /* ═══ IMAGEM DE FUNDO — 200% alta, transladada via JS ═══ */
+  .cartazes-bg {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200%; /* 200vh — revela de topo a fundo ao transladar -100vh */
     background-image: url('/cartazes-bg-night-mobile.webp');
     background-size: cover;
-    background-position: center center;
+    background-position: center top;
     background-repeat: no-repeat;
     background-color: #160a26;
-    z-index: 0;
-    opacity: 0;
-    transition: opacity 0.35s ease;
-    pointer-events: none;
     will-change: transform;
     backface-visibility: hidden;
     transform: translate3d(0, 0, 0);
@@ -4017,32 +4021,20 @@ html.light-mode .hero-bg-img-dark {
   .light-mode .cartazes-bg {
     background-image: url('/cartazes-bg-day-mobile.webp');
   }
-  /* Camada 2: Overlay — absolute inset:0 (cobre toda a secção) por cima do fundo
-     parallax, garantindo o roxo transparente consistente atrás de cada cartaz. */
+
+  /* ═══ OVERLAY — absolute inset:0 dentro do frame (NÃO se move) ═══ */
   .cartazes-overlay {
     display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    height: 100lvh;
-    z-index: 0;
-    opacity: 0;
-    transition: opacity 0.35s ease;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
     pointer-events: none;
-    /* Modo noite: overlay roxo transparente (um pouco mais roxo) por cima do fundo */
+    /* Modo noite: overlay roxo transparente por cima do fundo */
     background: linear-gradient(180deg,
       rgba(72, 34, 118, 0.50) 0%,
       rgba(99, 47, 158, 0.60) 50%,
       rgba(72, 34, 118, 0.50) 100%
     );
-  }
-  /* A imagem e o overlay só aparecem quando a secção está no ecrã (.bg-on, via
-     IntersectionObserver em page.tsx) → nunca tapam outras secções. */
-  .cartazes-section.bg-on .cartazes-bg,
-  .cartazes-section.bg-on .cartazes-overlay {
-    opacity: 1;
   }
   .light-mode .cartazes-overlay {
     /* Modo dia: overlay mais leve — vê-se mais a imagem de fundo */
@@ -4052,27 +4044,13 @@ html.light-mode .hero-bg-img-dark {
       rgba(255, 255, 255, 0.34) 100%
     );
   }
-  /* Remover ::after antigo (overlay agora é div separada) */
-  .cartazes-section::after {
-    content: none;
-    background: linear-gradient(180deg,
-      rgba(26, 13, 46, 0.82) 0%,
-      rgba(26, 13, 46, 0.88) 50%,
-      rgba(26, 13, 46, 0.82) 100%
-    );
-    z-index: 1;
-    pointer-events: none;
+
+  /* ═══ CONTEÚDO (cards) — sobrepõe-se ao frame sticky ═══ */
+  .cartazes-section .hero-aligned-container {
+    position: relative;
+    z-index: 2;
+    padding: 4rem 1.25rem 6rem;
   }
-  /* Overlay — modo dia (igual ao desktop) */
-  .light-mode .cartazes-section::after {
-    background: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.55) 0%,
-      rgba(245, 240, 250, 0.65) 50%,
-      rgba(255, 255, 255, 0.55) 100%
-    );
-  }
-  /* Garantir que o conteúdo (cartazes-grid + hero-aligned-container) fica acima */
-  .cartazes-section .hero-aligned-container,
   .cartazes-section .cartazes-grid,
   .cartazes-section .cartaz-card {
     position: relative;
