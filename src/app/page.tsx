@@ -1315,8 +1315,8 @@ export default function HomePage() {
                 window.scrollTo({ top, behavior: 'smooth' });
               }
             }}
-            className="flex items-center justify-center gap-2 px-6 py-3 text-[10px] tracking-[0.2em] font-semibold uppercase cursor-pointer rounded-full"
-            style={{background:"var(--neon-purple)",color:"#fff",boxShadow:"0 4px 14px rgba(200,80,255,0.5)"}}
+            className="flex items-center justify-center gap-2 px-8 py-2.5 text-[10px] tracking-[0.25em] font-medium uppercase cursor-pointer"
+            style={{background:"transparent",color:"rgba(255,245,255,0.9)",border:"1px solid rgba(200,80,255,0.6)",borderRadius:"0",borderBottom:"1px solid rgba(200,80,255,0.8)",borderTop:"none",borderLeft:"none",borderRight:"none",backdropFilter:"blur(4px)"}}
           >
             <Ticket className="w-3.5 h-3.5"/> Garante o Teu Lugar
           </a>
