@@ -505,12 +505,68 @@ export default function HomePage() {
     };
   }, []);
 
-  // ═══ CARTAZES (mobile) — FUNDO FIXO, SEM PARALLAX ═══
-  // A imagem de fundo fica PARADA no ecrã (sem translate3d, sem scroll listeners).
-  // O .cartazes-sticky-frame (position:sticky; height:100vh) cola ao topo do
-  // viewport enquanto a secção está visível → a imagem está SEMPRE visível do
-  // início ao fim da secção, sem efeito de parallax.
-  // Não é necessário qualquer JS — o CSS sticky trata de tudo.
+  // ═══ PARALLAX CARTAZES (mobile) — STICKY + IMAGEM 130% + TRANSLATE SUBTIL ═══
+  // Parallax profissional clássico: a imagem está "colada" ao ecrã (sticky frame)
+  // e move-se SUBTILMENTE (30vh no total) num ritmo diferente do conteúdo → dá a
+  // sensação de parallax sem revelar partes diferentes da imagem (é a mesma do
+  // início ao fim, só parece que "desliza" devagar).
+  //
+  // Como funciona:
+  //  - .cartazes-sticky-frame (parent do .cartazes-bg) tem position:sticky e
+  //    height:100vh → cola ao topo do viewport, imagem SEMPRE visível.
+  //  - .cartazes-bg tem height:130% e top:-15% → 15vh de margem em cada extremo
+  //    para transladar sem aparecer tarja preta.
+  //  - JS translada a imagem de +15vh → -15vh ao longo do progresso da secção
+  //    (total 30vh, subtil) → parece que se mexe mas está "parada".
+  //  - .cartazes-overlay fica absolute inset:0 dentro do frame → NÃO se move.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.innerWidth >= 768) return; // Só mobile
+
+    const bg = cartazesParallaxRef.current;
+    if (!bg) return;
+    const frame = bg.parentElement;        // .cartazes-sticky-frame
+    if (!frame) return;
+    const section = frame.parentElement;   // .cartazes-section
+    if (!section) return;
+
+    let ticking = false;
+    const update = () => {
+      const rect = section.getBoundingClientRect();
+      const winH = window.innerHeight;
+      // Skip se a secção estiver completamente fora do viewport
+      if (rect.bottom < 0 || rect.top > winH) {
+        ticking = false;
+        return;
+      }
+      // progress: 0 quando a secção entra no viewport, 1 quando sai
+      const progress = Math.max(0, Math.min(1,
+        (winH - rect.top) / (winH + rect.height)
+      ));
+      // Travel subtil: 30vh no total. Imagem começa em +15vh (top:-15% dá margem)
+      // e vai até -15vh. Como a imagem é 130% alta (15vh de margem em cada lado),
+      // nunca aparece tarja preta — a imagem mantém-se IGUAL de início ao fim.
+      const travel = winH * 0.30; // 30vh
+      const offset = (progress - 0.5) * travel; // -15vh → +15vh
+      bg.style.transform = `translate3d(0, ${-offset}px, 0)`;
+      ticking = false;
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("touchmove", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    update(); // posição inicial
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("touchmove", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
   // ═══ PARALLAX CONTACTO (mobile) — igual ao dos cartazes ═══
   // Move a div .contacto-bg-parallax com transform: translate3d (em px)
@@ -1735,13 +1791,14 @@ export default function HomePage() {
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
-        {/* ═══ FUNDO FIXO MOBILE — sticky frame, imagem PARADA (sem parallax) ═══
+        {/* ═══ PARALLAX MOBILE — sticky frame + imagem 130% + translate subtil ═══
             - .cartazes-sticky-frame (position:sticky; height:100vh; overflow:hidden)
-              cola ao topo do viewport enquanto a secção está visível → a imagem de
-              fundo está SEMPRE visível do início ao fim da secção, PARADA (sem
-              qualquer efeito de parallax).
-            - .cartazes-bg (height:100% dentro do frame) — imagem centrada, fixa.
-            - .cartazes-overlay (absolute inset:0) — overlay fixo por cima. */}
+              cola ao topo do viewport → imagem SEMPRE visível do início ao fim.
+            - .cartazes-bg (height:130%; top:-15%) tem 15vh de margem em cada lado
+              para transladar sem aparecer tarja preta.
+            - JS translada a imagem 0 → ±15vh ao longo do scroll → parallax SUBTIL,
+              a imagem parece "parada" mas dá sensação de movimento.
+            - .cartazes-overlay (absolute inset:0) — overlay fixo por cima, dia/noite. */}
         <div className="cartazes-sticky-frame" aria-hidden="true">
           <div className="cartazes-bg" ref={cartazesParallaxRef}/>
           <div className="cartazes-overlay"/>
