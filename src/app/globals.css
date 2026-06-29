@@ -4072,7 +4072,7 @@ html.light-mode .hero-bg-img-dark {
   }
 
   /* ═══ SETA FLUTUANTE "Arrasta para ver mais" (só mobile) ═══ */
-  .cartazes-scroll-hint {
+  .cartazes-scroll-arrow {
     position: fixed;
     bottom: 5rem;
     right: 1.25rem;
@@ -4095,18 +4095,18 @@ html.light-mode .hero-bg-img-dark {
     pointer-events: none;
     /* Animação pulse no arrow */
   }
-  .light-mode .cartazes-scroll-hint {
+  .light-mode .cartazes-scroll-arrow {
     background: rgba(255, 255, 255, 0.92);
     border: 1px solid rgba(200, 80, 255, 0.4);
     box-shadow: 0 4px 20px rgba(200, 80, 255, 0.2);
     color: #2d1b4e;
   }
   /* Visível: classe adicionada via JS */
-  .cartazes-scroll-hint.hint-visible {
+  .cartazes-scroll-arrow.hint-visible {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
-  .cartazes-scroll-hint-text {
+  .cartazes-scroll-arrow-text {
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.1em;
@@ -4114,7 +4114,7 @@ html.light-mode .hero-bg-img-dark {
     white-space: nowrap;
     line-height: 1;
   }
-  .cartazes-scroll-hint-arrow {
+  .cartazes-scroll-arrow-arrow {
     animation: cartazesHintBounce 1.6s ease-in-out infinite;
   }
   @keyframes cartazesHintBounce {
@@ -11178,12 +11178,12 @@ img { max-width: 100%; height: auto; }
 
 
 /* ═══ Seta "Mais concertos" — só mobile, por baixo do Cascais ═══ */
-.cartazes-scroll-hint {
+.cartazes-scroll-arrow {
   display: none;
 }
 
 @media (max-width: 767px) {
-  .cartazes-scroll-hint {
+  .cartazes-scroll-arrow {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11197,7 +11197,7 @@ img { max-width: 100%; height: auto; }
     animation: cartazes-hint-pulse 2s ease-in-out infinite;
   }
 
-  .cartazes-scroll-hint svg {
+  .cartazes-scroll-arrow svg {
     animation: cartazes-hint-bounce 2s ease-in-out infinite;
   }
 
