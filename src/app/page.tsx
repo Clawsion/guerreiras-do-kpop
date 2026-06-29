@@ -1320,16 +1320,17 @@ export default function HomePage() {
           {/* Menu CTA — escondido em smartphone (sm:hidden), visível em desktop */}
           <div className="hidden sm:block" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
             <a
-              href="#cartazes"
+              href="#cartaz-cascais"
               onClick={e => {
                 e.preventDefault();
                 setMenuOpen(false);
-                const el = document.getElementById('cartazes');
+                const el = document.getElementById('cartaz-cascais');
                 if (el) {
-                  el.classList.add('section-visible');
-                  const isMobile = window.innerWidth < 768;
-                  const offset = isMobile ? 400 : 300;
-                  const top = el.getBoundingClientRect().top + window.scrollY - 20;
+                  // Tornar a SECÇÃO visível imediatamente (sectionFadeIn)
+                  const section = el.closest('section');
+                  if (section) section.classList.add('section-visible');
+                  // Scroll directo ao cartaz Cascais
+                  const top = el.getBoundingClientRect().top + window.scrollY - 80;
                   window.scrollTo({ top, behavior: 'smooth' });
                 }
               }}
@@ -1359,13 +1360,16 @@ export default function HomePage() {
             Só em smartphone (<640px). Centrado, por cima do texto "AO VIVO ÉPICO PARA OS FÃS". */}
         <div className="sm:hidden absolute z-10 inset-x-0 flex justify-center" style={{bottom: "18%"}}>
           <a
-            href="#cartazes"
+            href="#cartaz-cascais"
             onClick={e => {
               e.preventDefault();
-              const el = document.getElementById('cartazes');
+              const el = document.getElementById('cartaz-cascais');
               if (el) {
-                el.classList.add('section-visible');
-                const top = el.getBoundingClientRect().top + window.scrollY - 20;
+                // Tornar a SECÇÃO visível imediatamente
+                const section = el.closest('section');
+                if (section) section.classList.add('section-visible');
+                // Scroll directo ao cartaz Cascais
+                const top = el.getBoundingClientRect().top + window.scrollY - 80;
                 window.scrollTo({ top, behavior: 'smooth' });
               }
             }}
@@ -1380,11 +1384,11 @@ export default function HomePage() {
             Só em desktop/tablet (≥640px). Em smartphone é escondido. */}
         <div className="hero-bottom-panel absolute z-10 hidden sm:flex flex-col items-start" style={{left: "19%", bottom: "22%", transform: "translateX(-25%)"}}>
           <a
-            href="#cartazes"
+            href="#cartaz-cascais"
             className="hero-cta"
             onClick={e => {
               e.preventDefault();
-              const el = document.getElementById('cartazes');
+              const el = document.getElementById('cartaz-cascais');
               if (el) {
                 // Scroll com offset para centrar nos cartazes (mostrar o botão Comprar Bilhete)
                 // Em mobile, descer 400px para que os cartazes fiquem centrados
@@ -1566,10 +1570,10 @@ export default function HomePage() {
               {/* ═══ Botão Garante o Teu Lugar — entre o pitch e o neon divider ═══ */}
               <Rv delay={500}>
                 <a
-                  href="#cartazes"
+                  href="#cartaz-cascais"
                   onClick={e => {
                     e.preventDefault();
-                    const el = document.getElementById('cartazes');
+                    const el = document.getElementById('cartaz-cascais');
                     if (el) {
                       const isMobile = window.innerWidth < 768;
                       const offset = isMobile ? 400 : 300;
@@ -1697,15 +1701,18 @@ export default function HomePage() {
 
           {/* Call-to-action: Comprar Bilhete */}
           <a
-            href="#cartazes"
+            href="#cartaz-cascais"
             className="teaser-cta"
             aria-label="Comprar Bilhete"
             onClick={e => {
               e.preventDefault();
-              const el = document.getElementById('cartazes');
+              const el = document.getElementById('cartaz-cascais');
               if (el) {
-                el.classList.add('section-visible');
-                const top = el.getBoundingClientRect().top + window.scrollY - 20;
+                // Tornar a SECÇÃO visível imediatamente
+                const section = el.closest('section');
+                if (section) section.classList.add('section-visible');
+                // Scroll directo ao cartaz Cascais
+                const top = el.getBoundingClientRect().top + window.scrollY - 80;
                 window.scrollTo({ top, behavior: 'smooth' });
               }
             }}
