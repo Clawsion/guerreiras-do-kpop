@@ -3959,7 +3959,7 @@ html.light-mode .hero-bg-img-dark {
   .cartazes-shape {
     height: 60px;
   }
-  /* Div de fundo com parallax JavaScript — cover + center (sem zoom excessivo) */
+  /* Div de fundo com parallax — 100% auto (menos zoom, sem cortes laterais) */
   .cartazes-parallax-bg-mobile {
     display: block;
     position: absolute;
@@ -3968,8 +3968,8 @@ html.light-mode .hero-bg-img-dark {
     width: 100%;
     height: 100%;
     background-image: url('/cartazes-bg-night-mobile.webp');
-    background-size: cover;
-    background-position: center;
+    background-size: 100% auto;
+    background-position: center top;
     background-repeat: no-repeat;
     z-index: 0;
     pointer-events: none;
@@ -6038,7 +6038,7 @@ html.light-mode .hero-bg-img-dark {
 @media (max-width: 767px) {
   .honmoon-shield-section {
     padding: 1.5rem 1rem !important;
-    min-height: 30vh !important;
+    min-height: 24vh !important;
   }
   .hm-orb {
     width: 90px !important;
@@ -10924,40 +10924,40 @@ img { max-width: 100%; height: auto; }
 */
 @media (max-width: 768px) {
   .hm-orb {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
   }
   .hm-ring-1 {
+    width: 70px;
+    height: 70px;
+  }
+  .hm-ring-2 {
     width: 85px;
     height: 85px;
   }
-  .hm-ring-2 {
-    width: 105px;
-    height: 105px;
-  }
   .hm-ring-3 {
-    width: 125px;
-    height: 125px;
+    width: 100px;
+    height: 100px;
   }
 }
 
 /* iPhone pequeno (≤375px) — ainda mais pequeno */
 @media (max-width: 375px) {
   .hm-orb {
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
   }
   .hm-ring-1 {
-    width: 85px;
-    height: 85px;
+    width: 60px;
+    height: 60px;
   }
   .hm-ring-2 {
-    width: 105px;
-    height: 105px;
+    width: 75px;
+    height: 75px;
   }
   .hm-ring-3 {
-    width: 125px;
-    height: 125px;
+    width: 90px;
+    height: 90px;
   }
 }
 
