@@ -3974,39 +3974,40 @@ html.light-mode .hero-bg-img-dark {
 @media (max-width: 767px) {
   .cartazes-section {
     padding: 2rem 0 5rem;
-    background: var(--void) !important;
+    /* Transparente para a imagem de fundo FIXA (position:fixed) aparecer através
+       desta secção; as secções vizinhas (z-index:1) tapam-na fora destes limites. */
+    background: transparent !important;
     background-image: none !important;
-    overflow: clip; /* clip não quebra position:absolute nem sticky em iOS */
-    isolation: isolate;
+    overflow: clip;
     position: relative;
   }
   .cartazes-shape {
     height: 60px;
   }
-  /* Camada 1: Imagem de fundo PARALLAX (mobile) — segue o scroll e está sempre visível.
-     Técnica iOS-safe (background-attachment:fixed não funciona em iOS Safari):
-       position: absolute + transform via JS (ver useEffect cartazesParallaxRef em page.tsx).
-     - O JS fixa a imagem à viewport (-rect.top) → sempre atrás dos cartazes
-     - + drift até ~30lvh ao longo da secção → movimento parallax que acompanha o scroll
-     - a secção tem overflow:clip → recorta a imagem ao tamanho da secção */
+  /* Camada 1: Imagem de fundo FIXA (mobile) — NÃO se move. Sem JavaScript a mexer
+     na imagem (logo, sem tremores/"abana nervoso" no iPhone).
+       position: fixed → o browser compõe a imagem fixa à viewport (suave, nativo).
+     - Fica sempre visível atrás dos cartazes, do início ao fim da secção.
+     - É "recortada" à secção pelas secções vizinhas (galeria/contacto têm z-index:1,
+       tapam a imagem fora dos limites desta secção).
+     - Liga/desliga via IntersectionObserver (classe .bg-on), nunca via scroll → zero jitter. */
   .cartazes-bg {
     display: block;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    /* 130lvh → imagem nítida (~1.3 ecrãs) com folga para o drift do parallax.
-       É movida por JS (translate) para seguir o scroll e estar sempre visível;
-       a secção tem overflow:clip, por isso a imagem é recortada ao tamanho da secção. */
-    height: 130vh;
-    height: 130lvh;
+    /* 100lvh → menos zoom que antes (era 130lvh); ocupa exatamente um ecrã. */
+    height: 100vh;
+    height: 100lvh;
     background-image: url('/cartazes-bg-night-mobile.webp');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     z-index: 0;
+    opacity: 0;
+    transition: opacity 0.35s ease;
     pointer-events: none;
-    will-change: transform;
   }
   .light-mode .cartazes-bg {
     background-image: url('/cartazes-bg-day-mobile.webp');
@@ -4015,16 +4016,28 @@ html.light-mode .hero-bg-img-dark {
      parallax, garantindo o roxo transparente consistente atrás de cada cartaz. */
   .cartazes-overlay {
     display: block;
-    position: absolute;
-    inset: 0;
-    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100lvh;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.35s ease;
     pointer-events: none;
-    /* Modo noite: overlay roxo transparente por cima do fundo (cobre toda a secção) */
+    /* Modo noite: overlay roxo transparente (um pouco mais roxo) por cima do fundo */
     background: linear-gradient(180deg,
-      rgba(72, 34, 118, 0.38) 0%,
-      rgba(94, 44, 150, 0.46) 50%,
-      rgba(72, 34, 118, 0.38) 100%
+      rgba(72, 34, 118, 0.50) 0%,
+      rgba(99, 47, 158, 0.60) 50%,
+      rgba(72, 34, 118, 0.50) 100%
     );
+  }
+  /* A imagem e o overlay fixos só aparecem quando a secção está no ecrã (.bg-on,
+     ativada por IntersectionObserver em page.tsx) → nunca tapam outras secções. */
+  .cartazes-section.bg-on .cartazes-bg,
+  .cartazes-section.bg-on .cartazes-overlay {
+    opacity: 1;
   }
   .light-mode .cartazes-overlay {
     /* Modo dia: overlay mais leve — vê-se mais a imagem de fundo */
@@ -4599,6 +4612,9 @@ html.light-mode .hero-bg-img-dark {
   .galeria-section {
     /* Mobile: menos espaço no fim do Mural para encostar à secção Próximos Concertos */
     padding-bottom: 2rem;
+    /* z-index:1 → tapa a imagem FIXA dos cartazes fora dos limites desta secção */
+    position: relative;
+    z-index: 1;
     background:
       linear-gradient(to bottom,
         /* TOPO — igual ao parallax 1 (cor 1 → meio) — SOFT */
@@ -5056,6 +5072,9 @@ html.light-mode .hero-bg-img-dark {
     /* Manter parallax visual — a imagem fica fixa enquanto se faz scroll */
     background-size: cover;
     background-position: center center;
+    /* z-index:1 → tapa a imagem FIXA dos cartazes fora dos limites desta secção */
+    position: relative;
+    z-index: 1;
   }
 }
 .contacto-form {
