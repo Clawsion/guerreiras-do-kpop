@@ -3964,13 +3964,19 @@ html.light-mode .hero-bg-img-dark {
     background-image: none !important;
     /* overflow: visible para que o position: sticky funcione */
     overflow: visible;
-    /* isolation: isolate para criar stacking context */
+    /* isolation: isolate para criar stacking context próprio.
+       Isto garante que o z-index do sticky fica confinado a esta secção. */
     isolation: isolate;
+    /* position: relative para que os filhos absolute/sticky sejam relativos a esta secção */
+    position: relative;
   }
   .cartazes-shape {
     height: 60px;
   }
-  /* Div wrapper com position: sticky — simula background-attachment: fixed */
+  /* Div wrapper com position: sticky — simula background-attachment: fixed.
+     IMPORTANTE: z-index: -1 garante que fica ATRÁS de tudo (overlay + cartazes).
+     Como a secção tem isolation: isolate, z-index: -1 fica atrás do conteúdo
+     mas dentro da secção (não vai para trás do body). */
   .cartazes-parallax-sticky {
     display: block;
     position: sticky;
@@ -3985,7 +3991,7 @@ html.light-mode .hero-bg-img-dark {
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: scroll;
-    z-index: 0;
+    z-index: -1; /* ATRÁS de tudo (overlay e cartazes) */
     pointer-events: none;
     will-change: auto;
   }
@@ -3993,7 +3999,8 @@ html.light-mode .hero-bg-img-dark {
   .light-mode .cartazes-parallax-sticky {
     background-image: url('/cartazes-bg-day-mobile.webp');
   }
-  /* Overlay — modo noite (violeta discreto) */
+  /* Overlay — modo noite (violeta discreto).
+     z-index: 0 (acima do sticky -1, abaixo dos cartazes que são z-index 2) */
   .cartazes-section::after {
     content: "";
     position: absolute;
@@ -4003,7 +4010,7 @@ html.light-mode .hero-bg-img-dark {
       rgba(26, 13, 46, 0.78) 50%,
       rgba(26, 13, 46, 0.70) 100%
     );
-    z-index: 1;
+    z-index: 0;
     pointer-events: none;
   }
   /* Overlay — modo dia */
@@ -4013,6 +4020,13 @@ html.light-mode .hero-bg-img-dark {
       rgba(245, 240, 250, 0.65) 50%,
       rgba(255, 255, 255, 0.55) 100%
     );
+  }
+  /* Garantir que o conteúdo (cartazes-grid + hero-aligned-container) fica acima */
+  .cartazes-section .hero-aligned-container,
+  .cartazes-section .cartazes-grid,
+  .cartazes-section .cartaz-card {
+    position: relative;
+    z-index: 2;
   }
 }
 
@@ -6872,7 +6886,11 @@ html.light-mode .hero-bg-img-dark {
   justify-content: center;
   user-select: none;
   -webkit-user-select: none;
-  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  /* NÃO usar transition: all — interfere com o transform da animação de
+     respiração. Usar propriedades específicas. */
+  transition: background 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 5;
   overflow: hidden;
   /* will-change: transform para a animação de respiração (scale) ser fluida */
@@ -11289,14 +11307,19 @@ img { max-width: 100%; height: auto; }
     transform: translateY(0);
   }
   
-  /* Orb honmoon: respira com opacity (consolidado) */
-  .hm-orb.dark {
+  /* ═══ ORB HONMOON: RESPIRAÇÃO com scale + opacity (versão final) ═══
+     Regra consolidada com a maior especificidade para garantir que:
+     1. Sobrepõe todas as outras regras de animation (há 3+ regras espalhadas)
+     2. Usa keyframe com transform: scale (não só opacity)
+     3. Funciona em modo dia E modo noite
+     Box-shadow fica none em mobile (poupa GPU). */
+  .hm-orb.dark,
+  .hm-orb.light,
+  .honmoon-shield-section .hm-orb.dark,
+  .honmoon-shield-section .hm-orb.light {
     box-shadow: none !important;
-    animation: hmOrbBreathe 5s ease-in-out infinite !important;
-  }
-  .hm-orb.light {
-    box-shadow: none !important;
-    animation: hmOrbBreathe 5s ease-in-out infinite !important;
+    animation: hmOrbBreatheScale 4s ease-in-out infinite !important;
+    will-change: transform, opacity !important;
   }
   .hm-ring-1.dark,
   .hm-ring-1.light {
@@ -11309,4 +11332,19 @@ img { max-width: 100%; height: auto; }
 @keyframes hmOrbBreathe {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
+}
+
+/* ═══ Keyframe DEFINITIVO para respiração do orb mobile (com scale) ═══
+   Combina opacity + transform: scale para respiração visível.
+   Duração 4s (mais ritmado que 5s).
+   Scale 1.06 = 6% de respiração (visível mas não exagerado). */
+@keyframes hmOrbBreatheScale {
+  0%, 100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
 }
