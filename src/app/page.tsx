@@ -2029,18 +2029,20 @@ export default function HomePage() {
           </svg>
         </div>
 
-        {/* ═══ SETA FLUTUANTE "Arrasta para ver mais" (só mobile) ═══
-            Aparece no canto inferior direito quando a secção está visível E o
-            utilizador ainda não passou o último cartaz (Sesimbra). Some quando
-            está ativamente a fazer scroll, reaparece quando para. Desaparece
-            definitivamente após passar o Sesimbra. */}
-        <div className="cartazes-scroll-arrow" aria-hidden="true">
-          <span className="cartazes-scroll-arrow-text">Arrasta para ver mais</span>
-          <svg className="cartazes-scroll-arrow-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="6 9 12 15 18 9"/>
-          </svg>
-        </div>
       </section>
+
+      {/* ═══ SETA FLUTUANTE "Arrasta para ver mais" (só mobile) ═══
+          FORA da secção cartazes (sibling top-level) para que position:fixed
+          funcione corretamente. Se estivesse dentro da secção, o transform
+          do reveal animation (translateY) criaria um containing block que
+          transformaria position:fixed em position:absolute → a seta ficaria
+          presa e clipped pelo overflow:hidden da secção. */}
+      <div className="cartazes-scroll-arrow" aria-hidden="true">
+        <span className="cartazes-scroll-arrow-text">Arrasta para ver mais</span>
+        <svg className="cartazes-scroll-arrow-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
 
       <HonmoonDivider/>
 
