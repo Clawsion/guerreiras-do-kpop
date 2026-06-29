@@ -4070,6 +4070,57 @@ html.light-mode .hero-bg-img-dark {
     position: relative;
     z-index: 1;
   }
+
+  /* ═══ SETA FLUTUANTE "Arrasta para ver mais" (só mobile) ═══ */
+  .cartazes-scroll-hint {
+    position: fixed;
+    bottom: 5rem;
+    right: 1.25rem;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 9999px;
+    background: rgba(26, 13, 46, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(200, 80, 255, 0.35);
+    box-shadow: 0 4px 20px rgba(200, 80, 255, 0.3);
+    color: #fff;
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    /* Animação pulse no arrow */
+  }
+  .light-mode .cartazes-scroll-hint {
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(200, 80, 255, 0.4);
+    box-shadow: 0 4px 20px rgba(200, 80, 255, 0.2);
+    color: #2d1b4e;
+  }
+  /* Visível: classe adicionada via JS */
+  .cartazes-scroll-hint.hint-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  .cartazes-scroll-hint-text {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .cartazes-scroll-hint-arrow {
+    animation: cartazesHintBounce 1.6s ease-in-out infinite;
+  }
+  @keyframes cartazesHintBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.85; }
+    50% { transform: translateY(4px); opacity: 1; }
+  }
 }
 
 .cartazes-grid {
