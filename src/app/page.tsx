@@ -505,19 +505,21 @@ export default function HomePage() {
     };
   }, []);
 
-  // ═══ PARALLAX CARTAZES (mobile) — STICKY + IMAGEM 130% + TRANSLATE SUBTIL ═══
-  // Parallax profissional clássico: a imagem está "colada" ao ecrã (sticky frame)
-  // e move-se SUBTILMENTE (30vh no total) num ritmo diferente do conteúdo → dá a
-  // sensação de parallax sem revelar partes diferentes da imagem (é a mesma do
-  // início ao fim, só parece que "desliza" devagar).
+  // ═══ PARALLAX CARTAZES (mobile) — IMAGEM CENTRADA QUE ACOMPANHA O SCROLL ═══
+  // Parallax clássico profissional: a imagem está "colada" ao ecrã (sticky frame)
+  // e ACOMPANHA o scroll de início ao fim da secção, mantendo-se sempre CENTRADA.
   //
   // Como funciona:
   //  - .cartazes-sticky-frame (parent do .cartazes-bg) tem position:sticky e
   //    height:100vh → cola ao topo do viewport, imagem SEMPRE visível.
-  //  - .cartazes-bg tem height:130% e top:-15% → 15vh de margem em cada extremo
-  //    para transladar sem aparecer tarja preta.
-  //  - JS translada a imagem de +15vh → -15vh ao longo do progresso da secção
-  //    (total 30vh, subtil) → parece que se mexe mas está "parada".
+  //  - .cartazes-bg tem height:200% (200vh) e top:-50% → imagem é 2x mais alta
+  //    que o frame e está CENTRADA verticalmente (50vh escondidos em cima,
+  //    50vh escondidos em baixo).
+  //  - JS translada a imagem de 0 → -50vh ao longo do progresso da secção →
+  //    a imagem DESLIZA de cima para baixo ACOMPANHANDO o scroll, mas como tem
+  //    100vh de margem total, o CENTRO da imagem está sempre visível no ecrã.
+  //    Resultado: efeito parallax clássico (a imagem move-se a um ritmo diferente
+  //    do conteúdo), sempre centrada, sem tarjas pretas.
   //  - .cartazes-overlay fica absolute inset:0 dentro do frame → NÃO se move.
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -539,15 +541,15 @@ export default function HomePage() {
         ticking = false;
         return;
       }
-      // progress: 0 quando a secção entra no viewport, 1 quando sai
+      // progress: 0 quando a secção entra no viewport, 1 quando sai completamente
       const progress = Math.max(0, Math.min(1,
         (winH - rect.top) / (winH + rect.height)
       ));
-      // Travel subtil: 30vh no total. Imagem começa em +15vh (top:-15% dá margem)
-      // e vai até -15vh. Como a imagem é 130% alta (15vh de margem em cada lado),
-      // nunca aparece tarja preta — a imagem mantém-se IGUAL de início ao fim.
-      const travel = winH * 0.30; // 30vh
-      const offset = (progress - 0.5) * travel; // -15vh → +15vh
+      // Travel: 50vh (metade da altura extra da imagem). A imagem (200vh) está
+      // centrada no frame (top:-50%) → translada de 0 → -50vh → o centro da
+      // imagem está sempre visível enquanto ela "acompanha" o scroll.
+      const travel = winH * 0.50; // 50vh
+      const offset = progress * travel; // 0 → 50vh
       bg.style.transform = `translate3d(0, ${-offset}px, 0)`;
       ticking = false;
     };
@@ -1701,20 +1703,51 @@ export default function HomePage() {
 
           <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
 
-          {/* Call-to-action: Comprar Bilhete */}
+          {/* Call-to-action: Comprar Bilhete → redireciona para o cartaz Cascais
+              (mobile, funcional em qualquer iPhone/smartphone).
+              - Faz scroll suave para #cartaz-cascais
+              - Centra o cartaz no ecrã (offset dinâmico)
+              - Fallback para scrollIntoView caso o cálculo falhe
+              - Garante que a secção está visível (remove opacity:0 do reveal) */}
           <a
-            href="#mais-concertos"
+            href="#cartaz-cascais"
             className="teaser-cta"
-            aria-label="Comprar Bilhete"
+            aria-label="Comprar Bilhete - Cascais"
             onClick={e => {
               e.preventDefault();
-              const el = document.getElementById('mais-concertos');
-              if (el) {
-                const section = el.closest('section');
-                if (section) section.classList.add('section-visible');
-                const top = el.getBoundingClientRect().top + window.scrollY + 350;
-                window.scrollTo({ top, behavior: 'smooth' });
+              const el = document.getElementById('cartaz-cascais');
+              if (!el) return;
+              // Garantir que a secção está visível (remover opacity:0 do reveal)
+              const section = el.closest('section');
+              if (section) {
+                section.classList.add('section-visible');
+                // Forçar visibilidade em todos os filhos com reveal
+                section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                  (r as HTMLElement).style.opacity = '1';
+                  (r as HTMLElement).style.transform = 'none';
+                });
               }
+              // Calcular offset para centrar o cartaz no ecrã
+              const rect = el.getBoundingClientRect();
+              const winH = window.innerHeight;
+              const elH = rect.height;
+              // Centralizar: (winH - elH) / 2 → offset do topo do cartaz ao topo do viewport
+              const targetOffset = Math.max(0, (winH - elH) / 2);
+              const top = rect.top + window.scrollY - targetOffset;
+              // Smooth scroll robusto (funciona em iOS Safari e Android Chrome)
+              try {
+                window.scrollTo({ top, behavior: 'smooth' });
+              } catch {
+                // Fallback para browsers antigos
+                window.scrollTo(0, top);
+              }
+              // Fallback extra: se o smooth scroll falhar, scrollIntoView após 100ms
+              setTimeout(() => {
+                const newRect = el.getBoundingClientRect();
+                if (Math.abs(newRect.top - targetOffset) > 50) {
+                  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+              }, 100);
             }}
           >
             <span>Comprar Bilhete</span>
@@ -1791,13 +1824,13 @@ export default function HomePage() {
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
-        {/* ═══ PARALLAX MOBILE — sticky frame + imagem 130% + translate subtil ═══
+        {/* ═══ PARALLAX MOBILE — sticky frame + imagem 200% centrada ═══
             - .cartazes-sticky-frame (position:sticky; height:100vh; overflow:hidden)
               cola ao topo do viewport → imagem SEMPRE visível do início ao fim.
-            - .cartazes-bg (height:130%; top:-15%) tem 15vh de margem em cada lado
-              para transladar sem aparecer tarja preta.
-            - JS translada a imagem 0 → ±15vh ao longo do scroll → parallax SUBTIL,
-              a imagem parece "parada" mas dá sensação de movimento.
+            - .cartazes-bg (height:200%; top:-50%) é 2x mais alta que o frame e
+              está CENTRADA verticalmente → 50vh escondidos em cima, 50vh em baixo.
+            - JS translada a imagem 0 → -50vh ao longo do scroll → ACOMPANHA o
+              scroll mantendo-se sempre CENTRADA no ecrã (sem tarjas pretas).
             - .cartazes-overlay (absolute inset:0) — overlay fixo por cima, dia/noite. */}
         <div className="cartazes-sticky-frame" aria-hidden="true">
           <div className="cartazes-bg" ref={cartazesParallaxRef}/>
