@@ -405,12 +405,10 @@ export default function HomePage() {
   // ═══ PARALLAX — agora usa background-attachment: fixed (nativo do browser) ═══
   // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
 
-  // ═══ PARALLAX CARTAZES MOBILE — parallax clássico (imagem move-se devagar) ═══
-  // A imagem é PROPORCIONAL AO ECRÃ do smartphone e move-se a ~15% da
-  // velocidade do scroll. Isto cria o efeito de profundidade 3D clássico:
-  // - A secção move-se a 100% da velocidade do scroll
-  // - A imagem move-se a 15% da velocidade do scroll (mais lenta)
-  // - Resultado: a imagem parece estar mais atrás, sempre visível
+  // ═══ PARALLAX CARTAZES MOBILE — imagem TOTALMENTE FIXA no ecrã ═══
+  // A imagem NÃO se move (sem parallax de movimento).
+  // Fica SEMPRE FIXA no ecrã (position: fixed) enquanto os cartazes
+  // deslizam por cima. Só desaparece quando se sai da secção.
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.innerWidth >= 768) return; // Só mobile
@@ -419,43 +417,17 @@ export default function HomePage() {
     const bg = cartazesParallaxFixedRef.current;
     if (!section || !bg) return;
 
-    let ticking = false;
-    const update = () => {
-      const rect = section.getBoundingClientRect();
-      const winH = window.innerHeight;
-      // Só atualizar quando a secção está próxima do viewport
-      if (rect.bottom < -200 || rect.top > winH + 200) {
-        ticking = false;
-        return;
+    // IntersectionObserver: mostra o div fixed quando a secção está visível
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        bg.style.display = 'block';
+      } else {
+        bg.style.display = 'none';
       }
-      // progress: 0 quando a secção entra no viewport, 1 quando sai
-      const totalDist = winH + rect.height;
-      const progress = Math.max(0, Math.min(1, (winH - rect.top) / totalDist));
-      // Mover a imagem de -15% a +15% (movimento oposto ao scroll)
-      // - progress 0 (topo): offset = -15% (imagem em cima)
-      // - progress 0.5 (meio): offset = 0 (imagem centrada)
-      // - progress 1 (fundo): offset = +15% (imagem em baixo)
-      // Isto cria o efeito de parallax: a imagem move-se devagar
-      const offset = (progress - 0.5) * 30; // ±15% = 30% de movimento total
-      bg.style.transform = `translate3d(0, ${offset}%, 0)`;
-      ticking = false;
-    };
+    }, { threshold: 0, rootMargin: '0px' });
 
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    };
-
-    // Usar scroll + touchmove para garantir resposta imediata em mobile
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("touchmove", onScroll, { passive: true });
-    update(); // posição inicial
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("touchmove", onScroll);
-    };
+    observer.observe(section);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
