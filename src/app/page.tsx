@@ -1712,10 +1712,11 @@ export default function HomePage() {
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
-        {/* Div wrapper com position: sticky para parallax mobile (iOS Safari)
+        {/* Div wrapper com position: fixed para parallax mobile (iOS Safari)
             Em desktop (≥768px) é display:none via CSS — não afeta o desktop.
-            Replica o efeito de background-attachment: fixed do desktop. */}
-        <div className="cartazes-parallax-sticky" aria-hidden="true"/>
+            Replica o efeito de background-attachment: fixed do desktop.
+            position: fixed funciona SEMPRE em iOS Safari (ao contrário de sticky). */}
+        <div className="cartazes-parallax-fixed" aria-hidden="true"/>
         {/* Shape divider TOPO - montanhas (igual ao site de referência) */}
         <div className="cartazes-shape cartazes-shape-top" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
