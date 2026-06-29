@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import NeonLightbox from "@/components/NeonLightbox";
 import {
-  Ticket, Instagram, Youtube,
+  Ticket, Instagram, Youtube, Facebook,
   ChevronRight, Phone, Mail,
 } from "lucide-react";
 
@@ -1294,6 +1294,9 @@ export default function HomePage() {
             <a href="https://www.youtube.com/@GuerreirasdoKpoptributo" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
               <Youtube className="w-9 h-9"/>
             </a>
+            <a href="https://www.facebook.com/guerreirasdokpop" target="_blank" rel="noopener noreferrer" style={{color:"var(--t3)"}} onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color="var(--neon-purple)"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color="var(--t3)"}}>
+              <Facebook className="w-9 h-9"/>
+            </a>
           </div>
           {/* Decorative circle */}
           <div className="hero-circle hidden sm:block" style={{width:"500px",height:"500px",right:"-150px",top:"50%",transform:"translateY(-50%)",borderColor:"rgba(200,80,255,0.06)"}}/>
@@ -1830,6 +1833,10 @@ export default function HomePage() {
             <path className="cartazes-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
           </svg>
         </div>
+
+        {/* Parallax no fim da secção (só mobile) — mesma imagem do topo */}
+        <div className="cartazes-parallax-bottom-mobile" aria-hidden="true"/>
+
       </section>
 
       <HonmoonDivider/>
@@ -2035,6 +2042,9 @@ export default function HomePage() {
             </a>
             <a href="https://www.youtube.com/@GuerreirasdoKpoptributo" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer flex items-center gap-1.5" style={{color:"var(--neon-purple)"}}>
               <Youtube className="w-3.5 h-3.5"/> YouTube
+            </a>
+            <a href="https://www.facebook.com/guerreirasdokpop" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer flex items-center gap-1.5" style={{color:"var(--neon-purple)"}}>
+              <Facebook className="w-3.5 h-3.5"/> Facebook
             </a>
             <a href={TICKETLINE_URL} target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer bg-transparent border-0 p-0" style={{color:"var(--neon-purple)"}}>Ticketline</a>
             <button onClick={()=>setPrivacyOpen(true)} className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer bg-transparent border-0 p-0" style={{color:"var(--t3)"}}>Política de Privacidade</button>
