@@ -505,10 +505,13 @@ export default function HomePage() {
     };
   }, []);
 
-  // ═══ PARALLAX CARTAZES (mobile) — o fundo acompanha o scroll do início ao fim ═══
-  // A div .cartazes-bg é position:absolute (rola COM a secção). Aqui só somamos um
-  // drift subtil via translate3d — MESMA técnica iOS-safe da galeria/contacto, SEM
-  // compensar -rect.top (essa compensação era a causa do "tremor/abana nervoso").
+  // ═══ PARALLAX CARTAZES (mobile) — efeito "reveal", o fundo DESLIZA com o scroll ═══
+  // A div .cartazes-bg é position:fixed (ancorada à viewport → composição nativa do
+  // browser, suave, SEM tremor). Aqui só lhe damos um translate3d que DESLIZA a imagem
+  // 0 → -30vh ao longo da secção: como se move a um ritmo diferente do conteúdo, vê-se
+  // claramente a imagem "acompanhar o scroll" (a bola sobe), em vez de ficar colada aos
+  // cartazes. Um IntersectionObserver liga a classe .bg-on só quando a secção está no
+  // ecrã (a imagem fixa nunca tapa as outras secções).
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.innerWidth >= 768) return; // Só mobile
@@ -518,7 +521,16 @@ export default function HomePage() {
     const section = bg.parentElement;
     if (!section) return;
 
-    const maxOffset = 12; // ±12% de drift (parallax visível mas suave)
+    // Liga/desliga a visibilidade (.bg-on) quando a secção entra/sai do ecrã.
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) section.classList.toggle("bg-on", e.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "0px" }
+    );
+    io.observe(section);
+
+    // Deslize suave: a imagem (130vh de altura) percorre 30vh ao longo da secção.
     let ticking = false;
     const update = () => {
       const rect = section.getBoundingClientRect();
@@ -529,9 +541,9 @@ export default function HomePage() {
       }
       // progress: 0 quando a secção entra no viewport, 1 quando sai
       const progress = Math.max(0, Math.min(1, (winH - rect.top) / (winH + rect.height)));
-      // +maxOffset (imagem mais em baixo) → -maxOffset (mais em cima): sobe com o scroll
-      const offset = maxOffset - progress * maxOffset * 2;
-      bg.style.transform = `translate3d(0, ${offset}%, 0)`;
+      // 0 → -30vh: a imagem sobe lentamente (parallax), revelando-se ao longo da secção
+      const travel = winH * 0.3;
+      bg.style.transform = `translate3d(0, ${-progress * travel}px, 0)`;
       ticking = false;
     };
     const onScroll = () => {
@@ -544,6 +556,7 @@ export default function HomePage() {
     window.addEventListener("touchmove", onScroll, { passive: true });
     update(); // posição inicial
     return () => {
+      io.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("touchmove", onScroll);
     };
