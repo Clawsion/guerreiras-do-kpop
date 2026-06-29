@@ -400,35 +400,8 @@ export default function HomePage() {
   const galeriaParallaxTopRef = useRef<HTMLDivElement>(null);
   const contactoRef = useRef<HTMLElement>(null);
   const contactoBgRef = useRef<HTMLDivElement>(null);
-  const cartazesSectionRef = useRef<HTMLElement>(null);
-  const cartazesParallaxFixedRef = useRef<HTMLDivElement>(null);
   // ═══ PARALLAX — agora usa background-attachment: fixed (nativo do browser) ═══
   // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
-
-  // ═══ PARALLAX CARTAZES MOBILE — imagem TOTALMENTE FIXA no ecrã ═══
-  // A imagem NÃO se move (sem parallax de movimento).
-  // Fica SEMPRE FIXA no ecrã (position: fixed) enquanto os cartazes
-  // deslizam por cima. Só desaparece quando se sai da secção.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.innerWidth >= 768) return; // Só mobile
-
-    const section = cartazesSectionRef.current;
-    const bg = cartazesParallaxFixedRef.current;
-    if (!section || !bg) return;
-
-    // IntersectionObserver: mostra o div fixed quando a secção está visível
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        bg.style.display = 'block';
-      } else {
-        bg.style.display = 'none';
-      }
-    }, { threshold: 0, rootMargin: '0px' });
-
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     // MOBILE: loaded=true IMEDIATAMENTE (sem preloader, sem delay nenhum).
@@ -1738,11 +1711,10 @@ export default function HomePage() {
       */}
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
-      <section id="cartazes" className="cartazes-section" ref={cartazesSectionRef}>
-        {/* Parallax mobile: imagem que move-se devagar com o scroll (15% velocidade).
-            PROPORCIONAL AO ECRÃ do smartphone, sempre visível, sem cortes.
+      <section id="cartazes" className="cartazes-section">
+        {/* Parallax mobile: position: sticky (solução recomendada, 100% CSS).
             Em desktop (≥768px) é display:none via CSS — não afeta o desktop. */}
-        <div className="cartazes-parallax-fixed" ref={cartazesParallaxFixedRef} aria-hidden="true"/>
+        <div className="cartazes-parallax-sticky" aria-hidden="true"/>
         {/* Shape divider TOPO - montanhas (igual ao site de referência) */}
         <div className="cartazes-shape cartazes-shape-top" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
