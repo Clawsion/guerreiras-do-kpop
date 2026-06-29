@@ -400,8 +400,35 @@ export default function HomePage() {
   const galeriaParallaxTopRef = useRef<HTMLDivElement>(null);
   const contactoRef = useRef<HTMLElement>(null);
   const contactoBgRef = useRef<HTMLDivElement>(null);
+  const cartazesSectionRef = useRef<HTMLElement>(null);
+  const cartazesParallaxFixedRef = useRef<HTMLDivElement>(null);
   // ═══ PARALLAX — agora usa background-attachment: fixed (nativo do browser) ═══
   // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
+
+  // ═══ PARALLAX CARTAZES MOBILE — imagem fixa no ecrã que acompanha o scroll ═══
+  // A imagem é PROPORCIONAL AO ECRÃ do smartphone (não da secção inteira).
+  // Fica SEMPRE FIXA no ecrã enquanto os cartazes deslizam por cima.
+  // Só aparece DENTRO da secção cartazes (escondida nas outras secções).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.innerWidth >= 768) return; // Só mobile
+
+    const section = cartazesSectionRef.current;
+    const fixedBg = cartazesParallaxFixedRef.current;
+    if (!section || !fixedBg) return;
+
+    // IntersectionObserver: mostra o div fixed quando a secção está visível
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        fixedBg.style.display = 'block';
+      } else {
+        fixedBg.style.display = 'none';
+      }
+    }, { threshold: 0, rootMargin: '0px' });
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     // MOBILE: loaded=true IMEDIATAMENTE (sem preloader, sem delay nenhum).
@@ -1711,10 +1738,12 @@ export default function HomePage() {
       */}
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
-      <section id="cartazes" className="cartazes-section">
-        {/* Parallax mobile: background-attachment: fixed direto na secção
-            via CSS @media (max-width: 767px). Sem div extra, sem JS.
-            Imagem fixa no ecrã que acompanha o scroll touch. */}
+      <section id="cartazes" className="cartazes-section" ref={cartazesSectionRef}>
+        {/* Parallax mobile: imagem PROPORCIONAL AO ECRÃ do smartphone (não da secção).
+            Fica SEMPRE FIXA no ecrã enquanto os cartazes deslizam por cima.
+            JavaScript mostra/esconde este div conforme a secção está visível.
+            Em desktop (≥768px) é display:none via CSS — não afeta o desktop. */}
+        <div className="cartazes-parallax-fixed" ref={cartazesParallaxFixedRef} aria-hidden="true" style={{display: 'none'}}/>
         {/* Shape divider TOPO - montanhas (igual ao site de referência) */}
         <div className="cartazes-shape cartazes-shape-top" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
