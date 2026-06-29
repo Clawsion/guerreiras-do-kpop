@@ -1272,11 +1272,11 @@ export default function HomePage() {
               onClick={e => {
                 e.preventDefault();
                 setMenuOpen(false);
-                const el = document.getElementById('cartazes');
+                const el = document.getElementById('cartaz-cascais');
                 if (el) {
                   const isMobile = window.innerWidth < 768;
                   const offset = isMobile ? 400 : 300;
-                  const top = el.getBoundingClientRect().top + window.scrollY + offset;
+                  const top = el.getBoundingClientRect().top + window.scrollY - 60;
                   window.scrollTo({ top, behavior: 'smooth' });
                 }
               }}
@@ -1309,9 +1309,9 @@ export default function HomePage() {
             href="#cartazes"
             onClick={e => {
               e.preventDefault();
-              const el = document.getElementById('cartazes');
+              const el = document.getElementById('cartaz-cascais');
               if (el) {
-                const top = el.getBoundingClientRect().top + window.scrollY;
+                const top = el.getBoundingClientRect().top + window.scrollY - 60;
                 window.scrollTo({ top, behavior: 'smooth' });
               }
             }}
@@ -1330,14 +1330,14 @@ export default function HomePage() {
             className="hero-cta"
             onClick={e => {
               e.preventDefault();
-              const el = document.getElementById('cartazes');
+              const el = document.getElementById('cartaz-cascais');
               if (el) {
                 // Scroll com offset para centrar nos cartazes (mostrar o botão Comprar Bilhete)
                 // Em mobile, descer 400px para que os cartazes fiquem centrados
                 // e o botão rosa "Comprar Bilhete" seja visível.
                 const isMobile = window.innerWidth < 768;
                 const offset = isMobile ? 400 : 300;
-                const top = el.getBoundingClientRect().top + window.scrollY + offset;
+                const top = el.getBoundingClientRect().top + window.scrollY - 60;
                 window.scrollTo({ top, behavior: 'smooth' });
               }
             }}
@@ -1515,11 +1515,11 @@ export default function HomePage() {
                   href="#cartazes"
                   onClick={e => {
                     e.preventDefault();
-                    const el = document.getElementById('cartazes');
+                    const el = document.getElementById('cartaz-cascais');
                     if (el) {
                       const isMobile = window.innerWidth < 768;
                       const offset = isMobile ? 400 : 300;
-                      const top = el.getBoundingClientRect().top + window.scrollY + offset;
+                      const top = el.getBoundingClientRect().top + window.scrollY - 60;
                       window.scrollTo({ top, behavior: 'smooth' });
                     }
                   }}
@@ -1744,7 +1744,7 @@ export default function HomePage() {
           <div className="cartazes-grid">
           {/* ═══ CASCAIS - mesmo tamanho que os outros ═══ */}
             <Rv delay={200}>
-              <article className="cartaz-card cartaz-secondary">
+              <article id="cartaz-cascais" className="cartaz-card cartaz-secondary">
                 <div className="cartaz-img-wrap">
                   <img src="/poster.webp" alt="Cartaz Cascais - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
                   <div className="cartaz-overlay"/>
