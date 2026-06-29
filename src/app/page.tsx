@@ -505,64 +505,12 @@ export default function HomePage() {
     };
   }, []);
 
-  // ═══ PARALLAX CARTAZES (mobile) — STICKY FRAME + IMAGEM 200vh + translate3d ═══
-  // Abordagem profissional e robusta para mobile (incluindo iOS Safari):
-  //  - O .cartazes-sticky-frame (parent do .cartazes-bg) tem position:sticky e
-  //    height:100vh → cola ao topo do viewport enquanto a secção está visível,
-  //    usando composição nativa do browser (sem tremor, sem lag).
-  //  - O .cartazes-bg tem height:200% (200vh) e é transladado de 0 → -100vh ao
-  //    longo do progresso da secção → revela a imagem de cima a baixo, ficando
-  //    sempre centrada no ecrã.
-  //  - O .cartazes-overlay fica absolute inset:0 dentro do mesmo frame → NÃO se
-  //    move (só a imagem de fundo é que se mexe).
-  //  - Não precisa de IntersectionObserver nem de classe .bg-on — o sticky
-  //    respeita naturalmente os limites da secção parent.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.innerWidth >= 768) return; // Só mobile
-
-    const bg = cartazesParallaxRef.current;
-    if (!bg) return;
-    const frame = bg.parentElement;        // .cartazes-sticky-frame
-    if (!frame) return;
-    const section = frame.parentElement;   // .cartazes-section
-    if (!section) return;
-
-    let ticking = false;
-    const update = () => {
-      const rect = section.getBoundingClientRect();
-      const winH = window.innerHeight;
-      // Skip se a secção estiver completamente fora do viewport
-      if (rect.bottom < 0 || rect.top > winH) {
-        ticking = false;
-        return;
-      }
-      // progress: 0 quando a secção entra no viewport, 1 quando sai
-      const progress = Math.max(0, Math.min(1,
-        (winH - rect.top) / (winH + rect.height)
-      ));
-      // A imagem tem 200% de altura (200vh). Translada de 0 → -100vh para revelar
-      // de topo a fundo, ficando sempre centrada no ecrã.
-      const travel = winH; // 100vh
-      bg.style.transform = `translate3d(0, ${-progress * travel}px, 0)`;
-      ticking = false;
-    };
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("touchmove", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    update(); // posição inicial
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("touchmove", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
+  // ═══ CARTAZES (mobile) — FUNDO FIXO, SEM PARALLAX ═══
+  // A imagem de fundo fica PARADA no ecrã (sem translate3d, sem scroll listeners).
+  // O .cartazes-sticky-frame (position:sticky; height:100vh) cola ao topo do
+  // viewport enquanto a secção está visível → a imagem está SEMPRE visível do
+  // início ao fim da secção, sem efeito de parallax.
+  // Não é necessário qualquer JS — o CSS sticky trata de tudo.
 
   // ═══ PARALLAX CONTACTO (mobile) — igual ao dos cartazes ═══
   // Move a div .contacto-bg-parallax com transform: translate3d (em px)
@@ -1787,18 +1735,13 @@ export default function HomePage() {
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
-        {/* ═══ PARALLAX MOBILE (avançado): sticky frame + imagem 200vh + translate3d ═══
+        {/* ═══ FUNDO FIXO MOBILE — sticky frame, imagem PARADA (sem parallax) ═══
             - .cartazes-sticky-frame (position:sticky; height:100vh; overflow:hidden)
-              cola ao topo do viewport enquanto a secção scrolla — composição nativa
-              do iOS Safari, ZERO tremor.
-            - .cartazes-bg (height:200% dentro do frame) é transladada 0 → -100vh
-              via JS ao longo do progresso da secção → revela a imagem de topo a fundo.
-            - .cartazes-overlay fica absolute inset:0 dentro do mesmo frame → NÃO se
-              move, só a imagem mexe (resolve o bug do overlay descer com o fundo).
-            - O conteúdo (cards) é puxado para cima com margin-top:-100vh → sobrepõe-
-              se ao frame sticky e scrolla naturalmente por cima dele.
-            - Sticky respeita os limites da secção → a imagem NUNCA invade as
-              secções vizinhas. SEM IntersectionObserver, SEM .bg-on. */}
+              cola ao topo do viewport enquanto a secção está visível → a imagem de
+              fundo está SEMPRE visível do início ao fim da secção, PARADA (sem
+              qualquer efeito de parallax).
+            - .cartazes-bg (height:100% dentro do frame) — imagem centrada, fixa.
+            - .cartazes-overlay (absolute inset:0) — overlay fixo por cima. */}
         <div className="cartazes-sticky-frame" aria-hidden="true">
           <div className="cartazes-bg" ref={cartazesParallaxRef}/>
           <div className="cartazes-overlay"/>
