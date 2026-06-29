@@ -1720,6 +1720,10 @@ export default function HomePage() {
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
+        {/* Camada 1: Imagem de fundo parallax (position: sticky) — só mobile */}
+        <div className="cartazes-bg" aria-hidden="true"/>
+        {/* Camada 2: Overlay para legibilidade — só mobile */}
+        <div className="cartazes-overlay" aria-hidden="true"/>
         {/* Shape divider TOPO - montanhas (igual ao site de referência) */}
         <div className="cartazes-shape cartazes-shape-top" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
