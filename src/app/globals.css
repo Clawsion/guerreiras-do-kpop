@@ -11228,3 +11228,54 @@ img { max-width: 100%; height: auto; }
     transform: translateY(0);
   }
 }
+
+
+/* ═══ Mobile: surgimento das secções (fade + translateY suave) ═══ */
+@media (max-width: 767px) {
+  /* Todas as secções: começam invisíveis e surgem ao fazer scroll */
+  section:not(.hero-section) {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+                transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  }
+  
+  /* Quando visível (classe adicionada via IntersectionObserver) */
+  section.section-visible:not(.hero-section) {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Rv: mais subtil em mobile */
+  .rv {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1),
+                transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .rv.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Orb honmoon: respira com opacity (consolidado) */
+  .hm-orb.dark {
+    box-shadow: none !important;
+    animation: hmOrbBreathe 5s ease-in-out infinite !important;
+  }
+  .hm-orb.light {
+    box-shadow: none !important;
+    animation: hmOrbBreathe 5s ease-in-out infinite !important;
+  }
+  .hm-ring-1.dark,
+  .hm-ring-1.light {
+    box-shadow: none !important;
+    animation: none !important;
+  }
+}
+
+/* Keyframe única para respirar (só opacity) */
+@keyframes hmOrbBreathe {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
