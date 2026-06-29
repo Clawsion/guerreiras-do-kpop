@@ -936,6 +936,27 @@ export default function HomePage() {
   }, [teaserRevealed]);
 
 
+  // ═══ Mobile: surgimento das secções (fade + translateY) ═══
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (window.innerWidth >= 768) return; // Só mobile
+    
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('section-visible');
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -8% 0px' }
+    );
+    
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       {/* ═══ MOBILE: ZERO EFEITOS no hero — exceto soul-particles LEVE ═══
