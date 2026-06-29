@@ -431,6 +431,80 @@ export default function HomePage() {
     return () => io.disconnect();
   }, []);
 
+  // ═══ SETA FLUTUANTE "Arrasta para ver mais" (mobile) ═══
+  // Aparece no canto inferior direito quando a secção cartazes está visível E
+  // o utilizador ainda não passou o último cartaz (Sesimbra). Some durante
+  // scroll ativo, reaparece quando para (debounce 600ms). Desaparece
+  // definitivamente após passar o Sesimbra.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.innerWidth >= 768) return; // Só mobile
+    const section = document.getElementById('cartazes');
+    const hint = document.querySelector('.cartazes-scroll-hint') as HTMLElement | null;
+    const sesimbra = document.getElementById('cartaz-sesimbra');
+    if (!section || !hint || !sesimbra) return;
+
+    let dismissed = false; //永久 hide após passar Sesimbra
+    let scrollTimer: number | undefined;
+    let isScrolling = false;
+
+    const update = () => {
+      if (dismissed) {
+        hint.classList.remove('hint-visible');
+        return;
+      }
+      const sRect = section.getBoundingClientRect();
+      const winH = window.innerHeight;
+      // Secção visível: topo da secção dentro do viewport (com margem)
+      const sectionVisible = sRect.top < winH * 0.7 && sRect.bottom > winH * 0.3;
+      // Sesimbra passou: o topo do Sesimbra está acima de 60% do viewport
+      const sSes = sesimbra.getBoundingClientRect();
+      const sesimbraPassed = sSes.top < winH * 0.5;
+
+      if (sesimbraPassed) {
+        // Passou o último cartaz → dismiss permanente
+        dismissed = true;
+        hint.classList.remove('hint-visible');
+        return;
+      }
+
+      if (!sectionVisible) {
+        // Secção fora de vista → esconde
+        hint.classList.remove('hint-visible');
+        return;
+      }
+
+      // Secção visível e Sesimbra ainda não passou
+      if (isScrolling) {
+        // A fazer scroll → esconde temporariamente
+        hint.classList.remove('hint-visible');
+      } else {
+        // Parado → mostra
+        hint.classList.add('hint-visible');
+      }
+    };
+
+    const onScroll = () => {
+      isScrolling = true;
+      hint.classList.remove('hint-visible');
+      if (scrollTimer) window.clearTimeout(scrollTimer);
+      scrollTimer = window.setTimeout(() => {
+        isScrolling = false;
+        update();
+      }, 600);
+      update();
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("touchmove", onScroll, { passive: true });
+    update(); // estado inicial
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("touchmove", onScroll);
+      if (scrollTimer) window.clearTimeout(scrollTimer);
+    };
+  }, []);
+
   useEffect(() => {
     // MOBILE: loaded=true IMEDIATAMENTE (sem preloader, sem delay nenhum).
     // DESKTOP: 1200ms (curtain reveal cinematico).
@@ -1917,9 +1991,9 @@ export default function HomePage() {
                 </article>
               </Rv>
 
-            {/* ═══ SESIMBRA - mesmo tamanho que os outros ═══ */}
+            {/* ═══ SESIMBRA - mesmo tamanho que os outros (último cartaz) ═══ */}
             <Rv delay={350}>
-              <article className="cartaz-card cartaz-secondary">
+              <article id="cartaz-sesimbra" className="cartaz-card cartaz-secondary">
                 <div className="cartaz-img-wrap">
                   <img src="/poster-sesimbra.webp" alt="Cartaz Sesimbra - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
                   <div className="cartaz-overlay"/>
@@ -1952,6 +2026,18 @@ export default function HomePage() {
             <path className="cartazes-shape-fill" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z"/>
             <path className="cartazes-shape-fill" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"/>
             <path className="cartazes-shape-fill" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"/>
+          </svg>
+        </div>
+
+        {/* ═══ SETA FLUTUANTE "Arrasta para ver mais" (só mobile) ═══
+            Aparece no canto inferior direito quando a secção está visível E o
+            utilizador ainda não passou o último cartaz (Sesimbra). Some quando
+            está ativamente a fazer scroll, reaparece quando para. Desaparece
+            definitivamente após passar o Sesimbra. */}
+        <div className="cartazes-scroll-hint" aria-hidden="true">
+          <span className="cartazes-scroll-hint-text">Arrasta para ver mais</span>
+          <svg className="cartazes-scroll-hint-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
           </svg>
         </div>
       </section>
