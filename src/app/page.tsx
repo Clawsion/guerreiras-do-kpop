@@ -402,8 +402,8 @@ export default function HomePage() {
   const contactoRef = useRef<HTMLElement>(null);
   const contactoBgRef = useRef<HTMLDivElement>(null);
   const cartazesParallaxRef = useRef<HTMLDivElement>(null);
-  // ═══ PARALLAX — agora usa background-attachment: fixed (nativo do browser) ═══
-  // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
+  // ═══ PARALLAX (mobile) — divs .cartazes-bg / .contacto-bg / galeria movidas via JS ═══
+  // (translate3d), técnica iOS-safe. Desktop usa background-attachment:fixed nativo.
 
   useEffect(() => {
     // MOBILE: loaded=true IMEDIATAMENTE (sem preloader, sem delay nenhum).
@@ -536,10 +536,14 @@ export default function HomePage() {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("touchmove", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    window.addEventListener("orientationchange", onScroll, { passive: true });
     update();
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("touchmove", onScroll);
+      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("orientationchange", onScroll);
     };
   }, []);
 
