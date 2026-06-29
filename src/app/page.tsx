@@ -1326,6 +1326,7 @@ export default function HomePage() {
                 setMenuOpen(false);
                 const el = document.getElementById('cartazes');
                 if (el) {
+                  el.classList.add('section-visible');
                   const isMobile = window.innerWidth < 768;
                   const offset = isMobile ? 400 : 300;
                   const top = el.getBoundingClientRect().top + window.scrollY - 20;
@@ -1363,6 +1364,7 @@ export default function HomePage() {
               e.preventDefault();
               const el = document.getElementById('cartazes');
               if (el) {
+                el.classList.add('section-visible');
                 const top = el.getBoundingClientRect().top + window.scrollY - 20;
                 window.scrollTo({ top, behavior: 'smooth' });
               }
@@ -1702,6 +1704,7 @@ export default function HomePage() {
               e.preventDefault();
               const el = document.getElementById('cartazes');
               if (el) {
+                el.classList.add('section-visible');
                 const top = el.getBoundingClientRect().top + window.scrollY - 20;
                 window.scrollTo({ top, behavior: 'smooth' });
               }
