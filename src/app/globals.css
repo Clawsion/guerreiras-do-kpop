@@ -3973,7 +3973,8 @@ html.light-mode .hero-bg-img-dark {
 @media (max-width: 767px) {
   .cartazes-section {
     padding: 5.5rem 0 5rem;
-    background: var(--void);
+    /* background: transparent para que a imagem sticky seja visível */
+    background: transparent !important;
     /* Remover background-image da secção — a imagem vai para o div sticky */
     background-image: none !important;
     /* overflow: visible é OBRIGATÓRIO para que position: sticky funcione */
@@ -3989,8 +3990,8 @@ html.light-mode .hero-bg-img-dark {
      - top: 0 = cola ao topo do viewport
      - height: 100vh/100svh = tamanho do ecrã do smartphone
      - background-size: cover = cobre o ecrã todo, sem cortes laterais
-     - z-index: -1 = atrás de tudo (overlay e cartazes)
-     Como a secção tem isolation: isolate, z-index: -1 fica confinado à secção. */
+     - z-index: 0 = atrás do overlay (z-index 1) e cartazes (z-index 2)
+       mas VISÍVEL (não negativo, para não ser escondido pelo background) */
   .cartazes-parallax-sticky {
     display: block;
     position: sticky;
@@ -4004,7 +4005,7 @@ html.light-mode .hero-bg-img-dark {
     background-size: cover; /* cobre o ecrã todo, sem cortes */
     background-position: center center; /* imagem centrada */
     background-repeat: no-repeat;
-    z-index: -1; /* ATRÁS de tudo (overlay e cartazes) */
+    z-index: 0; /* atrás do overlay e cartazes, mas visível */
     pointer-events: none;
     will-change: auto;
   }
@@ -4022,7 +4023,7 @@ html.light-mode .hero-bg-img-dark {
       rgba(26, 13, 46, 0.88) 50%,
       rgba(26, 13, 46, 0.82) 100%
     );
-    z-index: 0;
+    z-index: 1;
     pointer-events: none;
   }
   /* Overlay — modo dia (igual ao desktop) */
