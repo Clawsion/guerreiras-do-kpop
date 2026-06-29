@@ -541,9 +541,9 @@ export default function HomePage() {
       }
       // progress: 0 quando a secção entra no viewport, 1 quando sai
       const progress = Math.max(0, Math.min(1, (winH - rect.top) / (winH + rect.height)));
-      // 0 → -30vh: parallax (imagem acompanha o scroll em toda a secção)
+      // 0 → +30vh: parallax (imagem desce acompanhando o scroll)
       const travel = winH * 0.30;
-      bg.style.transform = `translate3d(0, ${-progress * travel}px, 0)`;
+      bg.style.transform = `translate3d(0, ${progress * travel}px, 0)`;
       ticking = false;
     };
     const onScroll = () => {
@@ -1328,7 +1328,7 @@ export default function HomePage() {
                 if (el) {
                   const section = el.closest('section');
                   if (section) section.classList.add('section-visible');
-                  const top = el.getBoundingClientRect().top + window.scrollY + 100;
+                  const top = el.getBoundingClientRect().top + window.scrollY + 200;
                   window.scrollTo({ top, behavior: 'smooth' });
                 }
               }}
@@ -1365,7 +1365,7 @@ export default function HomePage() {
               if (el) {
                 const section = el.closest('section');
                 if (section) section.classList.add('section-visible');
-                const top = el.getBoundingClientRect().top + window.scrollY + 100;
+                const top = el.getBoundingClientRect().top + window.scrollY + 200;
                 window.scrollTo({ top, behavior: 'smooth' });
               }
             }}
@@ -1391,7 +1391,7 @@ export default function HomePage() {
                 // e o botão rosa "Comprar Bilhete" seja visível.
                 const isMobile = window.innerWidth < 768;
                 const offset = isMobile ? 400 : 300;
-                const top = el.getBoundingClientRect().top + window.scrollY + 100;
+                const top = el.getBoundingClientRect().top + window.scrollY + 200;
                 window.scrollTo({ top, behavior: 'smooth' });
               }
             }}
@@ -1573,7 +1573,7 @@ export default function HomePage() {
                     if (el) {
                       const isMobile = window.innerWidth < 768;
                       const offset = isMobile ? 400 : 300;
-                      const top = el.getBoundingClientRect().top + window.scrollY + 100;
+                      const top = el.getBoundingClientRect().top + window.scrollY + 200;
                       window.scrollTo({ top, behavior: 'smooth' });
                     }
                   }}
@@ -1706,7 +1706,7 @@ export default function HomePage() {
               if (el) {
                 const section = el.closest('section');
                 if (section) section.classList.add('section-visible');
-                const top = el.getBoundingClientRect().top + window.scrollY + 100;
+                const top = el.getBoundingClientRect().top + window.scrollY + 200;
                 window.scrollTo({ top, behavior: 'smooth' });
               }
             }}
