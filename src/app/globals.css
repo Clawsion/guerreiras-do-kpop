@@ -4040,6 +4040,37 @@ html.light-mode .hero-bg-img-dark {
   #cartazes {
     scroll-margin-top: 20px;
   }
+
+  /* ═══ MARQUEE + HONMOON DIVIDER — background sólido para cobrir o parallax ═══
+     O parallax bg (position:fixed, top-level) vê-se por detrás de elementos
+     sem background. O Marquee e o HonmoonDivider que vêm logo após a secção
+     cartazes precisam de um background sólido para "fechar" o parallax. */
+  .marquee-wrapper {
+    background: var(--void);
+    position: relative;
+    z-index: 1;
+  }
+  .light-mode .marquee-wrapper {
+    background: #f5f0fa;
+  }
+  /* HonmoonDivider que vem logo após a secção cartazes — background sólido */
+  #cartazes + .honmoon-divider {
+    background: var(--void);
+    position: relative;
+    z-index: 1;
+  }
+  .light-mode #cartazes + .honmoon-divider {
+    background: #f5f0fa;
+  }
+  /* HonmoonDivider que vem após o Marquee (antes do contacto) */
+  .marquee-wrapper + .honmoon-divider {
+    background: var(--void);
+    position: relative;
+    z-index: 1;
+  }
+  .light-mode .marquee-wrapper + .honmoon-divider {
+    background: #f5f0fa;
+  }
 }
 
 .cartazes-grid {
