@@ -421,7 +421,11 @@ export default function HomePage() {
           document.body.classList.toggle('bg-visible-cartazes', e.isIntersecting);
         }
       },
-      { threshold: 0, rootMargin: "0px" }
+      // rootMargin negativo em baixo (-60%) → o bg só está visível quando a
+      // secção cartazes está nos 40% SUPERIORES do viewport. Assim que se faz
+      // scroll e a secção passa para os 60% inferiores (a caminho de sair),
+      // o bg esconde IMEDIATAMENTE → não se vê por detrás do marquee/contacto.
+      { threshold: 0, rootMargin: "0px 0px -60% 0px" }
     );
     io.observe(section);
     return () => io.disconnect();
