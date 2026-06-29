@@ -11158,3 +11158,20 @@ img { max-width: 100%; height: auto; }
     display: none !important;
   }
 }
+
+
+/* ═══ Honmoon mobile: ESCONDER TODOS os focos de luz/nebulosa/estrelas ═══ */
+@media (max-width: 767px) {
+  .hm-neb-focos,
+  .hm-neb-1,
+  .hm-neb-2,
+  .hm-neb-3,
+  .hm-neb-layer,
+  .hm-stars,
+  .hm-atmosphere,
+  .hm-nebula {
+    display: none !important;
+    opacity: 0 !important;
+    animation: none !important;
+  }
+}
