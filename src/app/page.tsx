@@ -505,10 +505,11 @@ export default function HomePage() {
     };
   }, []);
 
-  // ═══ PARALLAX CARTAZES (mobile) — fundo segue o scroll e está SEMPRE visível ═══
-  // A imagem (position:absolute em globals.css) é fixada à viewport via JS (-rect.top)
-  // → está sempre atrás dos cartazes, do início ao fim da secção; e desliza até ~30lvh
-  // (drift) ao longo da secção → acompanha o scroll com efeito parallax. Só mobile.
+  // ═══ FUNDO CARTAZES (mobile) — imagem FIXA (position:fixed), NÃO se move ═══
+  // Sem scroll listener (era a causa do "tremor"/"abana nervoso" no iPhone): a imagem
+  // é fixa à viewport pelo browser (composição nativa, suave). Um IntersectionObserver
+  // só liga/desliga a classe .bg-on quando a secção entra/sai do ecrã → a imagem fixa
+  // fica sempre visível atrás dos cartazes, sem qualquer jitter. Só mobile (<768px).
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.innerWidth >= 768) return;
@@ -518,33 +519,14 @@ export default function HomePage() {
     const section = bg.parentElement;
     if (!section) return;
 
-    let ticking = false;
-    const update = () => {
-      const rect = section.getBoundingClientRect();
-      const winH = window.innerHeight;
-      if (rect.bottom < -200 || rect.top > winH + 200) { ticking = false; return; }
-      // progress 0→1 enquanto a secção atravessa o ecrã
-      const progress = Math.max(0, Math.min(1, (winH - rect.top) / (winH + rect.height)));
-      // -rect.top fixa a imagem à viewport (sempre visível); o termo do drift fá-la
-      // deslizar até 30lvh ao longo da secção (movimento parallax que segue o scroll)
-      const drift = winH * 0.30;
-      const ty = -rect.top - progress * drift;
-      bg.style.transform = `translate3d(0, ${ty}px, 0)`;
-      ticking = false;
-    };
-    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("touchmove", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    window.addEventListener("orientationchange", onScroll, { passive: true });
-    update();
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("touchmove", onScroll);
-      window.removeEventListener("resize", onScroll);
-      window.removeEventListener("orientationchange", onScroll);
-    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) section.classList.toggle("bg-on", e.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "0px" }
+    );
+    io.observe(section);
+    return () => io.disconnect();
   }, []);
 
   // ═══ PARALLAX CONTACTO (mobile) — igual ao dos cartazes ═══
