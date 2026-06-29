@@ -8436,8 +8436,8 @@ section#concertos {
   .hm-ring-3 { animation-duration: 18s !important; }
 
   /* Orb pulse (3-4s) — abrandar para 6-8s em mobile (sereno) */
-  .hm-orb.dark { animation-duration: 8s, 10s !important; }
-  .hm-orb.light { animation-duration: 6s, 10s !important; }
+  .hm-orb.dark { animation-duration: 5s !important; }
+  .hm-orb.light { animation-duration: 5s !important; }
 
   /* Strands (4-12s no desktop) — abrandar para 16-24s em mobile */
   .hm-strand-1 { animation-duration: 16s !important; }
@@ -9541,7 +9541,7 @@ img { max-width: 100%; height: auto; }
   /* ═══ ORB central — manter animação leve ═══ */
   .hm-orb.light,
   .hm-orb.dark {
-    animation: hmOrbActive 4s ease-in-out infinite !important;
+    animation: hmOrbDormantMobile 5s ease-in-out infinite !important;
   }
   /* Remover drop-shadow filters pesados — usar box-shadow inline em vez disso */
   .honmoon-shield-section .hm-neon-circle,
@@ -11080,11 +11080,11 @@ img { max-width: 100%; height: auto; }
   /* Orb: sem box-shadow, manter animação de opacidade */
   .hm-orb.dark {
     box-shadow: none !important;
-    animation: hmOrbDormant 5s ease-in-out infinite !important;
+    animation: hmOrbDormantMobile 5s ease-in-out infinite !important;
   }
   .hm-orb.light {
     box-shadow: none !important;
-    animation: hmOrbActive 5s ease-in-out infinite !important;
+    animation: hmOrbActiveMobile 5s ease-in-out infinite !important;
   }
   /* Ring-1: sem box-shadow, manter pulse subtil (só border-color) */
   .hm-ring-1.dark {
