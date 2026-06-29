@@ -11022,3 +11022,34 @@ img { max-width: 100%; height: auto; }
     background-image: url('/contacto-bg-day.webp');
   }
 }
+
+
+/* ═══ Cartazes: parallax no fim da secção (só mobile) ═══
+   Mesma imagem do parallax do topo, mas no fim da secção.
+   Só visível em mobile (≤767px).
+*/
+.cartazes-parallax-bottom-mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .cartazes-parallax-bottom-mobile {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 200px;
+    margin-top: 2rem;
+    background-image: url('/cartazes-bg-night-mobile.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  /* Modo dia */
+  .light-mode .cartazes-parallax-bottom-mobile {
+    background-image: url('/cartazes-bg-day-mobile.webp');
+  }
+}
