@@ -3945,30 +3945,25 @@ html.light-mode .hero-bg-img-dark {
    background-image com gradient lavanda translúcido (modo dia)
    e o gradient roxo escuro sólido (modo noite) */
 
-/* ═══ Mobile: Parallax Estático CSS-only — Sticky bg 9:16 (sem JS, sem bg-attachment:fixed) ═══ */
-/* Técnica: position:sticky + 100dvh (dynamic viewport height).
-   - A div .cartazes-sticky-bg cola ao topo do viewport enquanto a secção scrolla
-     → composição nativa do browser (sem tremor, sem lag do address bar).
-   - height:100dvh → contorna o bug da barra de navegação mobile (ajusta-se
-     dinamicamente quando a barra mostra/esconde em iOS Safari e Android Chrome).
-   - background-size:cover + center → imagem 9:16 (1080x1920) cobre 100% da
-     largura e altura visíveis do ecrã, sem distorção.
-   - O conteúdo (.hero-aligned-container) scrolla POR CIMA do sticky bg
-     (z-index:2) → efeito parallax clássico: imagem parada, conteúdo move.
-   - SEM background-attachment:fixed (causa bugs em iOS Safari).
-   - SEM JavaScript (pure HTML5 + CSS3). */
+/* ═══ Mobile: Parallax = Desktop — position:fixed + IntersectionObserver ═══ */
+/* Réplica do efeito background-attachment:fixed do desktop, sem os bugs de iOS.
+   - .cartazes-sticky-bg: position:fixed; top:0; height:100dvh → SEMPRE no viewport
+   - opacity:0 por defeito; .bg-visible (toggled via IntersectionObserver em page.tsx)
+     liga opacity:1 quando a secção cartazes está visível
+   - O conteúdo (.hero-aligned-container) scrolla naturalmente POR CIMA (z-index:2)
+   - Sem margin-top negativo (não é necessário com position:fixed)
+   - Imagem 9:16 (1080x1920) alta qualidade, cover + center */
 
-/* Sticky bg escondido em desktop — só mobile */
+/* Bg fixo escondido em desktop — só mobile */
 .cartazes-sticky-bg {
   display: none;
 }
 
 @media (max-width: 767px) {
-  /* Secção: SEM overflow:hidden (CRÍTICO para sticky funcionar) */
   .cartazes-section {
-    padding: 0; /* Padding passa para o .hero-aligned-container */
+    padding: 0;
     background: var(--void);
-    overflow: visible; /* CRÍTICO: sticky não funciona com overflow:hidden */
+    overflow: hidden;
     position: relative;
     isolation: isolate;
   }
@@ -3976,36 +3971,40 @@ html.light-mode .hero-bg-img-dark {
     content: none;
   }
 
-  /* ═══ STICKY BG — cola ao topo enquanto a secção scrolla ═══ */
+  /* ═══ BG FIXO — position:fixed, sempre no viewport, visível via .bg-visible ═══ */
   .cartazes-sticky-bg {
     display: block;
-    position: sticky;
+    position: fixed; /* SEMPRE no viewport (como background-attachment:fixed) */
     top: 0;
     left: 0;
     width: 100%;
-    height: 100dvh; /* dynamic viewport height — contorna o bug da barra de navegação */
-    height: 100svh; /* small viewport height — fallback para browsers sem dvh */
+    height: 100dvh;
+    height: 100svh;
     background-image: url('/cartazes-bg-night-mobile-hq.webp');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     background-color: #160a26;
     z-index: 0;
-    pointer-events: none; /* não bloqueia cliques nos cartazes */
-    /* SEM will-change, SEM transform — composição nativa do browser */
+    pointer-events: none;
+    opacity: 0; /* escondido por defeito */
+    transition: opacity 0.3s ease;
   }
   .light-mode .cartazes-sticky-bg {
     background-image: url('/cartazes-bg-day-mobile-hq.webp');
     background-color: #f5f0fa;
   }
+  /* .bg-visible é toggled pelo IntersectionObserver em page.tsx */
+  .cartazes-section.bg-visible .cartazes-sticky-bg {
+    opacity: 1;
+  }
 
-  /* ═══ OVERLAY — absolute inset:0 dentro do sticky bg (não se move) ═══ */
+  /* ═══ OVERLAY — absolute inset:0 dentro do bg fixo (não se move) ═══ */
   .cartazes-sticky-overlay {
     position: absolute;
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    /* Modo noite: overlay roxo transparente por cima do fundo */
     background: linear-gradient(180deg,
       rgba(72, 34, 118, 0.50) 0%,
       rgba(99, 47, 158, 0.60) 50%,
@@ -4013,7 +4012,6 @@ html.light-mode .hero-bg-img-dark {
     );
   }
   .light-mode .cartazes-sticky-overlay {
-    /* Modo dia: overlay mais leve — vê-se mais a imagem de fundo */
     background: linear-gradient(180deg,
       rgba(255, 255, 255, 0.34) 0%,
       rgba(248, 242, 252, 0.40) 50%,
@@ -4021,14 +4019,10 @@ html.light-mode .hero-bg-img-dark {
     );
   }
 
-  /* ═══ CONTEÚDO (cartazes) — scrolla POR CIMA do sticky bg ═══ */
-  /* margin-top negativo = altura do sticky bg → conteúdo sobrepõe-se ao
-     sticky bg desde o início, exactamente como background-attachment:fixed */
+  /* ═══ CONTEÚDO (cartazes) — scrolla naturalmente POR CIMA do bg fixo ═══ */
   .cartazes-section .hero-aligned-container {
     position: relative;
     z-index: 2;
-    margin-top: calc(-100dvh);
-    margin-top: calc(-100svh);
     padding: 4rem 1.25rem 6rem;
   }
   .cartazes-section .cartazes-grid,
