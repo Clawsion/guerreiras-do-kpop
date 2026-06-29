@@ -11053,3 +11053,32 @@ img { max-width: 100%; height: auto; }
     background-image: url('/cartazes-bg-day-mobile.webp');
   }
 }
+
+
+/* ═══ Mobile: esconder posters, só parallax ═══ */
+@media (max-width: 767px) {
+  /* Esconder os 3 cartazes (posters) em mobile */
+  .cartazes-grid {
+    display: none !important;
+  }
+  
+  /* Parallax fundo: igual ao topo, maior altura */
+  .cartazes-parallax-bottom-mobile {
+    height: 280px !important;
+    margin-top: 1.5rem !important;
+    border-radius: 0 !important;
+  }
+  
+  /* Garantir que o parallax do topo também é visível em modo noite */
+  .cartazes-parallax-bg-mobile {
+    background-size: cover !important;
+    background-position: center !important;
+  }
+}
+
+/* Modo dia: botão minimalista com cor escura para contraste */
+.light-mode .sm:hidden.absolute.z-10.inset-x-0 a {
+  color: rgba(60, 20, 100, 0.9) !important;
+  border-color: rgba(147, 51, 234, 0.6) !important;
+  border-bottom-color: rgba(147, 51, 234, 0.8) !important;
+}
