@@ -4003,7 +4003,7 @@ html.light-mode .hero-bg-img-dark {
     height: 130lvh;
     background-image: url('/cartazes-bg-night-mobile.webp');
     background-size: cover;
-    background-position: center top;
+    background-position: center bottom;
     background-repeat: no-repeat;
     background-color: #160a26;
     z-index: 0;
