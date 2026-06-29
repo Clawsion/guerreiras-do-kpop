@@ -3945,16 +3945,17 @@ html.light-mode .hero-bg-img-dark {
    background-image com gradient lavanda translúcido (modo dia)
    e o gradient roxo escuro sólido (modo noite) */
 
-/* ═══ Mobile: Parallax Profissional — Sticky + Imagem 130% + Translate Subtil ═══ */
-/* Técnica: a imagem está "colada" ao ecrã (sempre visível) e move-se SUBTILMENTE
-   num ritmo diferente do conteúdo → parallax clássico, a imagem parece "parada"
-   mas dá sensação de movimento. É a MESMA imagem de início ao fim (sem revelação).
+/* ═══ Mobile: Parallax Centrado — Sticky + Imagem 200% + Translate 50vh ═══ */
+/* Técnica: a imagem ACOMPANHA o scroll de início ao fim da secção, mantendo-se
+   sempre CENTRADA no ecrã. É o parallax clássico onde a imagem se move a um ritmo
+   diferente do conteúdo (mais devagar), dando sensação de profundidade.
    - .cartazes-sticky-frame: position:sticky; top:0; height:100vh; overflow:hidden
      → cola ao topo do viewport enquanto a secção está visível (composição nativa
        do browser, sem tremor, sem lag do address bar).
-   - .cartazes-bg: height:130% e top:-15% dentro do frame → 15vh de margem em cada
-     lado para transladar (via JS) sem aparecer tarja preta. Imagem é sempre a
-     mesma (não há cropping diferente entre início e fim).
+   - .cartazes-bg: height:200% (200vh) e top:-50% dentro do frame → imagem é 2x
+     mais alta que o frame e está CENTRADA verticalmente (50vh escondidos em cima,
+     50vh em baixo). JS translada 0 → -50vh ao longo do scroll → o CENTRO da
+     imagem está sempre visível enquanto ela "acompanha" o scroll.
    - .cartazes-overlay: absolute inset:0 dentro do mesmo frame → NÃO se move.
    - .cartazes-section NÃO tem overflow:clip/hidden (senão sticky não funciona).
    - O conteúdo (cards) é puxado para cima com margin-bottom:-100vh no frame →
@@ -4002,14 +4003,14 @@ html.light-mode .hero-bg-img-dark {
     pointer-events: none; /* Frame não bloqueia cliques nos cards */
   }
 
-  /* ═══ IMAGEM DE FUNDO — 130% alta, top:-15% (margem para parallax subtil) ═══ */
+  /* ═══ IMAGEM DE FUNDO — 200% alta, top:-50% (CENTRADA no frame) ═══ */
   .cartazes-bg {
     display: block;
     position: absolute;
-    top: -15%; /* 15vh acima do topo do frame → margem para transladar para baixo */
+    top: -50%; /* 50vh acima do topo do frame → CENTRADA verticalmente */
     left: 0;
     width: 100%;
-    height: 130%; /* 130vh — 15vh de margem em cada extremo para transladar */
+    height: 200%; /* 200vh — 2x a altura do frame, 50vh de margem em cada extremo */
     background-image: url('/cartazes-bg-night-mobile.webp');
     background-size: cover;
     background-position: center center;
@@ -4017,7 +4018,7 @@ html.light-mode .hero-bg-img-dark {
     background-color: #160a26;
     will-change: transform;
     backface-visibility: hidden;
-    transform: translate3d(0, 0, 0); /* JS atualiza este transform com parallax subtil */
+    transform: translate3d(0, 0, 0); /* JS atualiza este transform com translate 0 → -50vh */
   }
   .light-mode .cartazes-bg {
     background-image: url('/cartazes-bg-day-mobile.webp');
