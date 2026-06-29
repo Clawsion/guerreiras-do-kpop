@@ -401,6 +401,7 @@ export default function HomePage() {
   const galeriaParallaxTopRef = useRef<HTMLDivElement>(null);
   const contactoRef = useRef<HTMLElement>(null);
   const contactoBgRef = useRef<HTMLDivElement>(null);
+  const cartazesParallaxRef = useRef<HTMLDivElement>(null);
   // ═══ PARALLAX — agora usa background-attachment: fixed (nativo do browser) ═══
   // Não precisa de JavaScript nem scroll listener. Mais robusto em todos os sistemas.
 
@@ -504,11 +505,43 @@ export default function HomePage() {
     };
   }, []);
 
-  // ═══ PARALLAX CARTAZES (mobile) — imagem FIXA (não se move) ═══
-  // Como um "print" colado atrás dos cartazes: a imagem fica fixa no ecrã
-  // (position:sticky + margin negativo em globals.css, 100svh → nítida) e mantém-se
-  // imóvel enquanto os cartazes passam por cima, do início ao fim da secção.
-  // 100% CSS — sem JavaScript, sem movimento. Só mobile (<768px via media query).
+  // ═══ PARALLAX CARTAZES (mobile) — fundo segue o scroll e está SEMPRE visível ═══
+  // A imagem (position:absolute em globals.css) é fixada à viewport via JS (-rect.top)
+  // → está sempre atrás dos cartazes, do início ao fim da secção; e desliza até ~30lvh
+  // (drift) ao longo da secção → acompanha o scroll com efeito parallax. Só mobile.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.innerWidth >= 768) return;
+
+    const bg = cartazesParallaxRef.current;
+    if (!bg) return;
+    const section = bg.parentElement;
+    if (!section) return;
+
+    let ticking = false;
+    const update = () => {
+      const rect = section.getBoundingClientRect();
+      const winH = window.innerHeight;
+      if (rect.bottom < -200 || rect.top > winH + 200) { ticking = false; return; }
+      // progress 0→1 enquanto a secção atravessa o ecrã
+      const progress = Math.max(0, Math.min(1, (winH - rect.top) / (winH + rect.height)));
+      // -rect.top fixa a imagem à viewport (sempre visível); o termo do drift fá-la
+      // deslizar até 30lvh ao longo da secção (movimento parallax que segue o scroll)
+      const drift = winH * 0.30;
+      const ty = -rect.top - progress * drift;
+      bg.style.transform = `translate3d(0, ${ty}px, 0)`;
+      ticking = false;
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("touchmove", onScroll, { passive: true });
+    update();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("touchmove", onScroll);
+    };
+  }, []);
 
   // ═══ PARALLAX CONTACTO (mobile) — igual ao dos cartazes ═══
   // Move a div .contacto-bg-parallax com transform: translate3d (em px)
@@ -1729,8 +1762,8 @@ export default function HomePage() {
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
-        {/* Camada 1: Imagem de fundo FIXA (position: sticky, CSS puro, não se move) — só mobile */}
-        <div className="cartazes-bg" aria-hidden="true"/>
+        {/* Camada 1: Imagem de fundo parallax (absolute + JS translate) — segue o scroll, sempre visível — só mobile */}
+        <div className="cartazes-bg" ref={cartazesParallaxRef} aria-hidden="true"/>
         {/* Camada 2: Overlay para legibilidade — só mobile */}
         <div className="cartazes-overlay" aria-hidden="true"/>
         {/* Shape divider TOPO - montanhas (igual ao site de referência) */}
