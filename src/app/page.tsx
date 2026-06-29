@@ -2235,29 +2235,52 @@ export default function HomePage() {
       <div className="neon-div hero-aligned-container"/>
 
       {/* ═══ FOOTER ═══ */}
-      <footer className="py-10 mt-auto border-t" style={{background:"var(--void)",borderColor:"rgba(200,80,255,0.04)"}}>
-        <div className="hero-aligned-container flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>Francisco Cardinali: Viva Artes & Produções</span>
-            <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>&copy; 2026 Guerreiras do K-Pop</span>
+      <footer className="footer-pro py-12 mt-auto border-t" style={{background:"var(--void)",borderColor:"rgba(200,80,255,0.06)"}}>
+        <div className="hero-aligned-container">
+          {/* ═══ Linha principal: 3 colunas em desktop, stack em mobile ═══ */}
+          <div className="footer-main-grid">
+            {/* ── Coluna 1: Produtor + Copyright ── */}
+            <div className="footer-col footer-col-left">
+              <p className="footer-label">Produção</p>
+              <p className="footer-producer">Francisco Cardinali</p>
+              <p className="footer-producer-sub">Viva Artes &amp; Produções</p>
+              <p className="footer-copy">&copy; 2026 Guerreiras do K-Pop</p>
+            </div>
+
+            {/* ── Coluna 2: Redes Sociais (centradas) ── */}
+            <div className="footer-col footer-col-center">
+              <p className="footer-label">Segue-nos</p>
+              <div className="footer-socials">
+                <a href="https://www.instagram.com/guerreirasdokpop_tributo?igsh=NzBkd2J2dm1iYWR1" target="_blank" rel="noopener noreferrer" className="footer-social-link" style={{color:"var(--neon-purple)"}}>
+                  <Instagram className="w-4 h-4"/> <span>Instagram</span>
+                </a>
+                <a href="https://www.youtube.com/@GuerreirasdoKpoptributo" target="_blank" rel="noopener noreferrer" className="footer-social-link" style={{color:"var(--neon-purple)"}}>
+                  <Youtube className="w-4 h-4"/> <span>YouTube</span>
+                </a>
+                <a href="https://www.facebook.com/guerreirasdokpop" target="_blank" rel="noopener noreferrer" className="footer-social-link" style={{color:"var(--neon-purple)"}}>
+                  <Facebook className="w-4 h-4"/> <span>Facebook</span>
+                </a>
+              </div>
+            </div>
+
+            {/* ── Coluna 3: Links legais + Bilhetes ── */}
+            <div className="footer-col footer-col-right">
+              <p className="footer-label">Info &amp; Legal</p>
+              <div className="footer-legal-links">
+                <span className="footer-partner" style={{color:"var(--t3)",opacity:0.6}}>Bilhetes via Ticketline</span>
+                <button onClick={()=>setPrivacyOpen(true)} className="footer-legal-link" style={{color:"var(--t3)"}}>Política de Privacidade</button>
+                <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener noreferrer" className="footer-legal-link" style={{color:"var(--t3)"}}>Livro de Reclamações</a>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-6">
-            <a href="https://www.instagram.com/guerreirasdokpop_tributo?igsh=NzBkd2J2dm1iYWR1" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer flex items-center gap-1.5" style={{color:"var(--neon-purple)"}}>
-              <Instagram className="w-3.5 h-3.5"/> Instagram
-            </a>
-            <a href="https://www.youtube.com/@GuerreirasdoKpoptributo" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer flex items-center gap-1.5" style={{color:"var(--neon-purple)"}}>
-              <Youtube className="w-3.5 h-3.5"/> YouTube
-            </a>
-            <a href="https://www.facebook.com/guerreirasdokpop" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer flex items-center gap-1.5" style={{color:"var(--neon-purple)"}}>
-              <Facebook className="w-3.5 h-3.5"/> Facebook
-            </a>
-            <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)",opacity:0.5}}>Ticketline</span>
-            <button onClick={()=>setPrivacyOpen(true)} className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer bg-transparent border-0 p-0" style={{color:"var(--t3)"}}>Política de Privacidade</button>
-            <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--t3)"}}>Livro de Reclamações</a>
-          </div>
-          <div className="w-full text-center mt-2">
-            <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)",opacity:0.7}}>Desenvolvido por </span>
-            <span className="text-[10px] tracking-[0.1em] font-semibold" style={{color:"var(--neon-purple)"}}>Inaugura</span>
+
+          {/* ═══ Divisor neon subtil ═══ */}
+          <div className="footer-divider" aria-hidden="true"/>
+
+          {/* ═══ Linha inferior: Desenvolvido por Inaugura (centrado) ═══ */}
+          <div className="footer-bottom">
+            <span className="footer-dev-text">Desenvolvido por </span>
+            <span className="footer-dev-name">Inaugura</span>
           </div>
         </div>
       </footer>
