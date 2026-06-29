@@ -6022,7 +6022,7 @@ html.light-mode .hero-bg-img-dark {
 @media (max-width: 767px) {
   .honmoon-shield-section {
     padding: 1.5rem 1rem !important;
-    min-height: 20vh !important;
+    min-height: 18vh !important;
   }
   .hm-orb {
     width: 90px !important;
@@ -6036,12 +6036,12 @@ html.light-mode .hero-bg-img-dark {
     width: 2px !important;
   }
   .hm-ring {
-    width: 200px !important;
-    height: 200px !important;
+    width: 90px !important;
+    height: 90px !important;
   }
   .hm-neon-circle {
-    width: 160px !important;
-    height: 160px !important;
+    width: 75px !important;
+    height: 75px !important;
   }
 }
 
