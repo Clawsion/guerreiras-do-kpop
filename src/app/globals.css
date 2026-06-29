@@ -3973,7 +3973,7 @@ html.light-mode .hero-bg-img-dark {
 
 @media (max-width: 767px) {
   .cartazes-section {
-    padding: 5.5rem 0 5rem;
+    padding: 2rem 0 5rem;
     background: var(--void) !important;
     background-image: none !important;
     overflow: clip; /* clip não quebra position:absolute nem sticky em iOS */
@@ -4597,6 +4597,8 @@ html.light-mode .hero-bg-img-dark {
      
      Estrutura: cor1 → meio → cor1 (simétrico soft) */
   .galeria-section {
+    /* Mobile: menos espaço no fim do Mural para encostar à secção Próximos Concertos */
+    padding-bottom: 2rem;
     background:
       linear-gradient(to bottom,
         /* TOPO — igual ao parallax 1 (cor 1 → meio) — SOFT */
