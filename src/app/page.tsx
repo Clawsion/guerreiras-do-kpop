@@ -1262,10 +1262,49 @@ export default function HomePage() {
           {/* Menu CTA — escondido em smartphone (sm:hidden), visível em desktop */}
           <div className="hidden sm:block" style={{ transitionDelay: menuOpen ? `${navLinks.length * 80 + 200}ms` : "0ms", transform: menuOpen ? "translateX(0)" : "translateX(40px)", opacity: menuOpen ? 1 : 0, transition: "all 0.6s cubic-bezier(0.16,1,0.3,1)" }}>
             <a
-              href={TICKETLINE_URL_CASCAIS}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMenuOpen(false)}
+              href="#cartazes"
+              onClick={e => {
+                e.preventDefault();
+                setMenuOpen(false);
+                const isMobile = window.innerWidth < 768;
+                if (isMobile) {
+                  const el = document.getElementById('cartaz-cascais');
+                  if (!el) return;
+                  const section = el.closest('section');
+                  if (section) {
+                    section.classList.add('section-visible');
+                    section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                      (r as HTMLElement).style.opacity = '1';
+                      (r as HTMLElement).style.transform = 'none';
+                    });
+                  }
+                  const rect = el.getBoundingClientRect();
+                  const top = rect.top + window.scrollY - 20;
+                  try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                  setTimeout(() => {
+                    const r2 = el.getBoundingClientRect();
+                    if (Math.abs(r2.top - 20) > 60) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 120);
+                } else {
+                  const el = document.getElementById('cartazes');
+                  if (!el) return;
+                  el.classList.add('section-visible');
+                  el.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                    (r as HTMLElement).style.opacity = '1';
+                    (r as HTMLElement).style.transform = 'none';
+                  });
+                  const rect = el.getBoundingClientRect();
+                  const winH = window.innerHeight;
+                  const elH = rect.height;
+                  const targetOffset = Math.max(0, (winH - elH) / 2);
+                  const top = rect.top + window.scrollY - targetOffset - 40;
+                  try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                  setTimeout(() => {
+                    const r2 = el.getBoundingClientRect();
+                    if (Math.abs(r2.top - targetOffset - 40) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 120);
+                }
+              }}
               className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold cursor-pointer"
               style={{background:"var(--neon-purple)",color:"#fff"}}
             >
@@ -1292,9 +1331,48 @@ export default function HomePage() {
             Só em smartphone (<640px). Centrado, por cima do texto "AO VIVO ÉPICO PARA OS FÃS". */}
         <div className="sm:hidden absolute z-10 inset-x-0 flex justify-center" style={{bottom: "18%"}}>
           <a
-            href={TICKETLINE_URL_CASCAIS}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#cartazes"
+            onClick={e => {
+              e.preventDefault();
+              const isMobile = window.innerWidth < 768;
+              if (isMobile) {
+                const el = document.getElementById('cartaz-cascais');
+                if (!el) return;
+                const section = el.closest('section');
+                if (section) {
+                  section.classList.add('section-visible');
+                  section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                    (r as HTMLElement).style.opacity = '1';
+                    (r as HTMLElement).style.transform = 'none';
+                  });
+                }
+                const rect = el.getBoundingClientRect();
+                const top = rect.top + window.scrollY - 20;
+                try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                setTimeout(() => {
+                  const r2 = el.getBoundingClientRect();
+                  if (Math.abs(r2.top - 20) > 60) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 120);
+              } else {
+                const el = document.getElementById('cartazes');
+                if (!el) return;
+                el.classList.add('section-visible');
+                el.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                  (r as HTMLElement).style.opacity = '1';
+                  (r as HTMLElement).style.transform = 'none';
+                });
+                const rect = el.getBoundingClientRect();
+                const winH = window.innerHeight;
+                const elH = rect.height;
+                const targetOffset = Math.max(0, (winH - elH) / 2);
+                const top = rect.top + window.scrollY - targetOffset - 40;
+                try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                setTimeout(() => {
+                  const r2 = el.getBoundingClientRect();
+                  if (Math.abs(r2.top - targetOffset - 40) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 120);
+              }
+            }}
             className="flex items-center justify-center gap-2 px-6 py-3 text-[10px] tracking-[0.2em] font-semibold uppercase cursor-pointer rounded-full"
             style={{background:"var(--neon-purple)",color:"#fff",boxShadow:"0 4px 14px rgba(200,80,255,0.5)"}}
           >
@@ -1306,9 +1384,48 @@ export default function HomePage() {
             Só em desktop/tablet (≥640px). Em smartphone é escondido. */}
         <div className="hero-bottom-panel absolute z-10 hidden sm:flex flex-col items-start" style={{left: "19%", bottom: "22%", transform: "translateX(-25%)"}}>
           <a
-            href={TICKETLINE_URL_CASCAIS}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#cartazes"
+            onClick={e => {
+              e.preventDefault();
+              const isMobile = window.innerWidth < 768;
+              if (isMobile) {
+                const el = document.getElementById('cartaz-cascais');
+                if (!el) return;
+                const section = el.closest('section');
+                if (section) {
+                  section.classList.add('section-visible');
+                  section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                    (r as HTMLElement).style.opacity = '1';
+                    (r as HTMLElement).style.transform = 'none';
+                  });
+                }
+                const rect = el.getBoundingClientRect();
+                const top = rect.top + window.scrollY - 20;
+                try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                setTimeout(() => {
+                  const r2 = el.getBoundingClientRect();
+                  if (Math.abs(r2.top - 20) > 60) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 120);
+              } else {
+                const el = document.getElementById('cartazes');
+                if (!el) return;
+                el.classList.add('section-visible');
+                el.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                  (r as HTMLElement).style.opacity = '1';
+                  (r as HTMLElement).style.transform = 'none';
+                });
+                const rect = el.getBoundingClientRect();
+                const winH = window.innerHeight;
+                const elH = rect.height;
+                const targetOffset = Math.max(0, (winH - elH) / 2);
+                const top = rect.top + window.scrollY - targetOffset - 40;
+                try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                setTimeout(() => {
+                  const r2 = el.getBoundingClientRect();
+                  if (Math.abs(r2.top - targetOffset - 40) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 120);
+              }
+            }}
             className="hero-cta"
           >
             Garante o Teu Lugar <ChevronRight className="w-3 h-3"/>
@@ -1481,9 +1598,48 @@ export default function HomePage() {
               {/* ═══ Botão Garante o Teu Lugar — entre o pitch e o neon divider ═══ */}
               <Rv delay={500}>
                 <a
-                  href={TICKETLINE_URL_CASCAIS}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#cartazes"
+                  onClick={e => {
+                    e.preventDefault();
+                    const isMobile = window.innerWidth < 768;
+                    if (isMobile) {
+                      const el = document.getElementById('cartaz-cascais');
+                      if (!el) return;
+                      const section = el.closest('section');
+                      if (section) {
+                        section.classList.add('section-visible');
+                        section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                          (r as HTMLElement).style.opacity = '1';
+                          (r as HTMLElement).style.transform = 'none';
+                        });
+                      }
+                      const rect = el.getBoundingClientRect();
+                      const top = rect.top + window.scrollY - 20;
+                      try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                      setTimeout(() => {
+                        const r2 = el.getBoundingClientRect();
+                        if (Math.abs(r2.top - 20) > 60) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }, 120);
+                    } else {
+                      const el = document.getElementById('cartazes');
+                      if (!el) return;
+                      el.classList.add('section-visible');
+                      el.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                        (r as HTMLElement).style.opacity = '1';
+                        (r as HTMLElement).style.transform = 'none';
+                      });
+                      const rect = el.getBoundingClientRect();
+                      const winH = window.innerHeight;
+                      const elH = rect.height;
+                      const targetOffset = Math.max(0, (winH - elH) / 2);
+                      const top = rect.top + window.scrollY - targetOffset - 40;
+                      try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                      setTimeout(() => {
+                        const r2 = el.getBoundingClientRect();
+                        if (Math.abs(r2.top - targetOffset - 40) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      }, 120);
+                    }
+                  }}
                   className="esp-cta cursor-pointer"
                   style={{ marginBottom: '1rem' }}
                 >
@@ -1602,13 +1758,53 @@ export default function HomePage() {
 
           <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
 
-          {/* Call-to-action: Garante o Teu Bilhete → link direto para Ticketline Cascais (nova aba) */}
+          {/* Call-to-action: Garante o Teu Bilhete → scroll para a secção dos 3 cartazes
+              (mobile: aterra no cartaz Cascais; desktop: aterra na secção centrada) */}
           <a
-            href={TICKETLINE_URL_CASCAIS}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#cartazes"
             className="teaser-cta"
-            aria-label="Garante o Teu Bilhete - Cascais"
+            aria-label="Garante o Teu Bilhete - Ver Cartazes"
+            onClick={e => {
+              e.preventDefault();
+              const isMobile = window.innerWidth < 768;
+              if (isMobile) {
+                const el = document.getElementById('cartaz-cascais');
+                if (!el) return;
+                const section = el.closest('section');
+                if (section) {
+                  section.classList.add('section-visible');
+                  section.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                    (r as HTMLElement).style.opacity = '1';
+                    (r as HTMLElement).style.transform = 'none';
+                  });
+                }
+                const rect = el.getBoundingClientRect();
+                const top = rect.top + window.scrollY - 20;
+                try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                setTimeout(() => {
+                  const r2 = el.getBoundingClientRect();
+                  if (Math.abs(r2.top - 20) > 60) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 120);
+              } else {
+                const el = document.getElementById('cartazes');
+                if (!el) return;
+                el.classList.add('section-visible');
+                el.querySelectorAll('.reveal, [class*="rv"]').forEach(r => {
+                  (r as HTMLElement).style.opacity = '1';
+                  (r as HTMLElement).style.transform = 'none';
+                });
+                const rect = el.getBoundingClientRect();
+                const winH = window.innerHeight;
+                const elH = rect.height;
+                const targetOffset = Math.max(0, (winH - elH) / 2);
+                const top = rect.top + window.scrollY - targetOffset - 40;
+                try { window.scrollTo({ top, behavior: 'smooth' }); } catch { window.scrollTo(0, top); }
+                setTimeout(() => {
+                  const r2 = el.getBoundingClientRect();
+                  if (Math.abs(r2.top - targetOffset - 40) > 80) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 120);
+              }
+            }}
           >
             <span>Garante o Teu Bilhete</span>
             <span className="teaser-cta-arrow">→</span>
@@ -1684,6 +1880,22 @@ export default function HomePage() {
 
       {/* ═══ CARTAZES - Posters + Ticketline CTA ═══ */}
       <section id="cartazes" className="cartazes-section">
+        {/* ═══ PARALLAX ESTÁTICO CSS-ONLY (mobile) — sticky bg 9:16 ═══
+            Pure HTML5 + CSS3 (sem JS, sem background-attachment:fixed).
+            - .cartazes-sticky-bg: position:sticky; top:0; height:100dvh
+              → cola ao topo do viewport enquanto a secção scrolla (composição
+                nativa do browser, sem tremor, sem lag do address bar).
+            - height:100dvh (dynamic viewport height) → contorna o bug da barra
+              de navegação mobile (ajusta-se quando a barra mostra/esconde).
+            - background-size:cover + center → imagem 9:16 (1080x1920) cabe toda
+              no ecrã sem distorção, cobrindo 100% da largura e altura visíveis.
+            - .cartazes-sticky-overlay: absolute inset:0 dentro do sticky →
+              overlay dia/noite fixo por cima da imagem.
+            - O conteúdo (.hero-aligned-container) scrolla POR CIMA do sticky bg
+              (z-index:2) → efeito parallax clássico, imagem parada, conteúdo move. */}
+        <div className="cartazes-sticky-bg" aria-hidden="true">
+          <div className="cartazes-sticky-overlay"/>
+        </div>
         {/* Shape divider TOPO - montanhas (igual ao site de referência) */}
         <div className="cartazes-shape cartazes-shape-top" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
