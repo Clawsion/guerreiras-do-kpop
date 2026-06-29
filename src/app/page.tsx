@@ -1090,13 +1090,13 @@ export default function HomePage() {
               </div>
             )}
 
-            {/* PRELOADER - Curtain Reveal */}
-            {themeMode === 'dark' ? (
+            {/* PRELOADER - Curtain Reveal (só desktop) */}
+            {typeof window !== 'undefined' && window.innerWidth >= 768 && themeMode === 'dark' ? (
               <div className={`preloader-honmoon ${loaded?"preloader-done":""}`}>
                 <div className="preloader-curtain-left"/>
                 <div className="preloader-curtain-right"/>
               </div>
-            ) : (
+            ) : typeof window !== 'undefined' && window.innerWidth >= 768 ? (
               <div
                 style={{
                   position: 'fixed',
@@ -2078,7 +2078,7 @@ export default function HomePage() {
       <footer className="py-10 mt-auto border-t" style={{background:"var(--void)",borderColor:"rgba(200,80,255,0.04)"}}>
         <div className="hero-aligned-container flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>Francisco Cardinali Produções</span>
+            <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>Francisco Cardinali: Viva Artes & Produções</span>
             <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)"}}>&copy; 2026 Guerreiras do K-Pop</span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-6">
@@ -2091,7 +2091,7 @@ export default function HomePage() {
             <a href="https://www.facebook.com/guerreirasdokpop" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer flex items-center gap-1.5" style={{color:"var(--neon-purple)"}}>
               <Facebook className="w-3.5 h-3.5"/> Facebook
             </a>
-            <a href={TICKETLINE_URL} target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer bg-transparent border-0 p-0" style={{color:"var(--neon-purple)"}}>Ticketline</a>
+            <span className="text-[10px] tracking-[0.1em]" style={{color:"var(--t3)",opacity:0.5}}>Ticketline</span>
             <button onClick={()=>setPrivacyOpen(true)} className="text-[10px] tracking-[0.1em] hover:underline cursor-pointer bg-transparent border-0 p-0" style={{color:"var(--t3)"}}>Política de Privacidade</button>
             <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener noreferrer" className="text-[10px] tracking-[0.1em] hover:underline" style={{color:"var(--t3)"}}>Livro de Reclamações</a>
           </div>
