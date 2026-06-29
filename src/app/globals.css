@@ -11178,7 +11178,7 @@ img { max-width: 100%; height: auto; }
 
 
 /* ═══ Seta "Mais concertos" — só mobile, por baixo do Cascais ═══ */
-.cartazes-scroll-arrow {
+.cartazes-scroll-hint {
   display: none;
 }
 
@@ -11197,7 +11197,7 @@ img { max-width: 100%; height: auto; }
     animation: cartazes-hint-pulse 2s ease-in-out infinite;
   }
 
-  .cartazes-scroll-arrow svg {
+  .cartazes-scroll-hint svg {
     animation: cartazes-hint-bounce 2s ease-in-out infinite;
   }
 
