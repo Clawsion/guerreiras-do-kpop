@@ -3945,55 +3945,37 @@ html.light-mode .hero-bg-img-dark {
    background-image com gradient lavanda translúcido (modo dia)
    e o gradient roxo escuro sólido (modo noite) */
 
-/* Mobile: parallax das bolas via position: fixed + IntersectionObserver */
-/* background-attachment: fixed NÃO funciona em iOS Safari.
-   position: sticky tem problemas com z-index.
-   Solução DEFINITIVA: div com position: fixed + JavaScript que mostra/esconde
-   o div conforme a secção cartazes está visível no viewport.
-   - O div fica fixo no ecrã (como background-attachment: fixed)
-   - JavaScript esconde-o quando a secção sai do viewport
-   - Não precisa de overflow: hidden (que cortaria o conteúdo)
+/* Mobile: parallax das bolas — background-attachment: fixed direto na secção */
+/* Solução simples e limpa: mesmo approach do desktop, mas com imagens mobile.
+   - background-image diretamente na .cartazes-section
+   - background-size: cover (cobre o ecrã todo, sem cortes laterais)
+   - background-attachment: fixed (imagem fixa no ecrã, acompanha scroll touch)
+   - background-position: center center (centrada)
+   - Sem div extra, sem JavaScript, sem refs
+   - Modo dia e modo noite com imagens diferentes
 */
-
-/* Por defeito (desktop), o div fixed está escondido — não afeta o desktop. */
-.cartazes-parallax-fixed {
-  display: none;
-}
-
 @media (max-width: 767px) {
   .cartazes-section {
     padding: 5.5rem 0 5rem;
     background: var(--void);
-    /* Remover background-image da secção — a imagem vai para o div fixed */
-    background-image: none !important;
-    /* NÃO usar overflow: hidden — cortaria o conteúdo.
-       O JavaScript trata de mostrar/esconde o div fixed. */
-    isolation: isolate;
-    position: relative;
+    /* Imagem de fundo — modo noite (mobile) */
+    background-image: url('/cartazes-bg-night-mobile.webp');
+    /* cover = cobre o ecrã todo, sem cortes laterais */
+    background-size: cover;
+    /* center center = imagem centrada (mostra o centro da imagem) */
+    background-position: center center;
+    background-repeat: no-repeat;
+    /* fixed = imagem fixa no ecrã, acompanha scroll touch (parallax) */
+    background-attachment: fixed;
+    /* Melhorar renderização em iOS Safari */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
   .cartazes-shape {
     height: 60px;
   }
-  /* Div com position: fixed — imagem fixa no viewport.
-     JavaScript controla display: block/none conforme a secção está visível.
-     z-index: 0 = atrás do overlay (z-index 1) e cartazes (z-index 2). */
-  .cartazes-parallax-fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100svh;
-    background-image: url('/cartazes-bg-night-mobile.webp');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    z-index: 0;
-    pointer-events: none;
-    will-change: auto;
-  }
-  /* Modo dia: imagem clara */
-  .light-mode .cartazes-parallax-fixed {
+  /* Modo dia: imagem clara (mobile) */
+  .light-mode .cartazes-section {
     background-image: url('/cartazes-bg-day-mobile.webp');
   }
   /* Overlay — modo noite (violeta, igual ao desktop) */
@@ -4006,7 +3988,7 @@ html.light-mode .hero-bg-img-dark {
       rgba(26, 13, 46, 0.88) 50%,
       rgba(26, 13, 46, 0.82) 100%
     );
-    z-index: 1;
+    z-index: 0;
     pointer-events: none;
   }
   /* Overlay — modo dia (igual ao desktop) */
