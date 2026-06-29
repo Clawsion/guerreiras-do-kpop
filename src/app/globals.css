@@ -6381,15 +6381,9 @@ html.light-mode .hero-bg-img-dark {
     border: 1px solid rgba(245, 158, 11, 0.3) !important;
     box-shadow: 0 0 8px rgba(245, 158, 11, 0.12) !important;
   }
-  /* Neon-circle-1 — círculo leve maior */
+  /* Neon-circle-1 — desactivado em mobile (rotação pesada) */
   .hm-neon-circle-1 {
-    display: block !important;
-    width: 180px !important;
-    height: 180px !important;
-    opacity: 0.4 !important;
-    animation: hmNeonCircleRotate1 50s linear infinite !important;
-    border: 1px dashed rgba(200, 80, 255, 0.2) !important;
-    box-shadow: 0 0 6px rgba(200, 80, 255, 0.08) !important;
+    display: none !important;
   }
   .light-mode .hm-neon-circle-1 {
     border: 1px dashed rgba(245, 158, 11, 0.2) !important;
