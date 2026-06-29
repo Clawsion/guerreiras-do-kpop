@@ -41,7 +41,11 @@ function useReveal() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setV(true); o.unobserve(el); } }, { threshold: 0.12 });
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const o = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setV(true); o.unobserve(el); } },
+      { threshold: isMobile ? 0.1 : 0.12, rootMargin: isMobile ? '0px 0px -5% 0px' : '0px' }
+    );
     o.observe(el);
     return () => o.disconnect();
   }, []);
