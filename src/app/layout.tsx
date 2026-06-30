@@ -76,8 +76,18 @@ export const metadata: Metadata = {
     canonical: SITE_URL,
   },
   icons: {
-    icon: "/poster.webp",
-    apple: "/poster.webp",
+    icon: [
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      { rel: "android-chrome-icon", url: "/android-chrome-192.png", sizes: "192x192" },
+      { rel: "android-chrome-icon", url: "/android-chrome-512.png", sizes: "512x512" },
+    ],
   },
   openGraph: {
     title: "Guerreiras do K-Pop | Tributo Musical Ao Vivo em Tour 2026",
