@@ -1149,12 +1149,12 @@ export default function HomePage() {
             )}
 
             {/* PRELOADER - Curtain Reveal (só desktop) */}
-            {typeof window !== 'undefined' && window.innerWidth >= 768 && themeMode === 'dark' ? (
+            {themeMode === 'dark' ? (
               <div className={`preloader-honmoon ${loaded?"preloader-done":""}`}>
                 <div className="preloader-curtain-left"/>
                 <div className="preloader-curtain-right"/>
               </div>
-            ) : typeof window !== 'undefined' && window.innerWidth >= 768 ? (
+            ) : (
               <div
                 style={{
                   position: 'fixed',
