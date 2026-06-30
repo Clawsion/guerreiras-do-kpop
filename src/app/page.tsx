@@ -1232,7 +1232,11 @@ export default function HomePage() {
           Só desktop os renderiza (já estão no bloco {(() => { if mobile return null })()} acima). */}
 
       {/* ═══ HERO - FULL SCREEN ═══ */}
-      <section className="hero-section" style={{background:"var(--void)"}}>
+      <section className="hero-section" id="main-content" style={{background:"var(--void)"}}>
+        {/* ═══ H1 SR-only (visually hidden) — crítico para SEO ═══
+            O título principal do site. Visualmente escondido (a imagem do hero
+            já tem o texto), mas visível para screen readers e crawlers do Google. */}
+        <h1 className="sr-only">Guerreiras do K-Pop — Tributo Musical Ao Vivo em Portugal 2026</h1>
         {/* Background image - full bleed (imagem clara em modo dia, escura em modo noite)
             Usa <picture> para servir imagens diferentes conforme o dispositivo:
             - Smartphone (<768px): imagens retrato (hero-bg-mobile*.webp) — novas imagens do user
