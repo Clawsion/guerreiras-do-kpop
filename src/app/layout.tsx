@@ -142,6 +142,8 @@ export default function RootLayout({
         {/* Preconnect to PostImg (galeria) — acelera carregamento das fotos em mobile */}
         <link rel="preconnect" href="https://i.postimg.cc" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://i.postimg.cc" />
+        {/* ═══ PRELOAD: hero image (LCP element) — carrega com prioridade alta ═══ */}
+        <link rel="preload" as="image" href="/hero-bg.webp?v=93" fetchPriority="high" />
 
         {/* ═══ SEO: Structured Data (JSON-LD) para Google Rich Snippets ═══ */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{
