@@ -3945,10 +3945,10 @@ html.light-mode .hero-bg-img-dark {
    background-image com gradient lavanda translúcido (modo dia)
    e o gradient roxo escuro sólido (modo noite) */
 
-/* ═══ Mobile: Parallax = Desktop — bg fixo top-level, SEMPRE visível ═══ */
+/* ═══ Mobile: Parallax = Desktop — bg fixo top-level + IntersectionObserver ═══ */
 /* O .cartazes-sticky-bg é filho DIRECTO do wrapper (não da secção) → nenhum
    ancestor com transform/filter o pode prender. position:fixed funciona sempre.
-   - opacity:1 SEMPRE (parallax sempre ligado)
+   - opacity:0 por defeito; body.bg-visible-cartazes (toggle via IO) liga opacity:1
    - A secção #cartazes tem background:transparent → o bg fixo vê-se por detrás
    - Os néons e marquee têm background transparente → o bg + overlay prolonga-se
    - A secção contacto tem fundo sólido → cobre o bg fixo
@@ -3990,15 +3990,15 @@ html.light-mode .hero-bg-img-dark {
     background-color: #160a26;
     z-index: 0;
     pointer-events: none;
-    opacity: 1; /* SEMPRE visível — parallax sempre ligado */
+    opacity: 0; /* escondido por defeito — IO liga opacity:1 */
     transition: opacity 0.3s ease;
   }
   .light-mode .cartazes-sticky-bg {
     background-image: url('/cartazes-bg-day-mobile-hq.webp');
     background-color: #f5f0fa;
   }
-  /* Sempre visível — parallax sempre ligado */
-  .cartazes-sticky-bg {
+  /* Toggle via IO: body.bg-visible-cartazes liga a opacidade */
+  body.bg-visible-cartazes .cartazes-sticky-bg {
     opacity: 1;
   }
 

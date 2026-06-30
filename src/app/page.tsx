@@ -404,12 +404,29 @@ export default function HomePage() {
   // ═══ PARALLAX (mobile) — divs .cartazes-bg / .contacto-bg / galeria movidas via JS ═══
   // (translate3d), técnica iOS-safe. Desktop usa background-attachment:fixed nativo.
 
-  // ═══ PARALLAX CARTAZES (mobile) — position:fixed, SEMPRE visível ═══
-  // A div .cartazes-sticky-bg é position:fixed (sempre no viewport) e está
-  // SEMPRE visível (opacity:1 no CSS). Não precisa de IntersectionObserver.
-  // O conteúdo scrolla naturalmente por cima (z-index:2).
-  // Os néons e marquee têm background transparente para que o parallax
-  // + overlay se veja por detrás deles (prolonga até ao contacto).
+  // ═══ PARALLAX CARTAZES (mobile) — position:fixed + IntersectionObserver ═══
+  // A div .cartazes-sticky-bg é position:fixed (sempre no viewport) mas só
+  // aparece (opacity:1) quando a secção cartazes está visível, via IO.
+  // Isto garante que o parallax NÃO tampa as outras secções (hero, mural, etc.)
+  // que têm backgrounds sólidos próprios.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.innerWidth >= 768) return; // Só mobile
+    const section = document.getElementById('cartazes');
+    if (!section) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          document.body.classList.toggle('bg-visible-cartazes', e.isIntersecting);
+        }
+      },
+      // rootMargin negativo em baixo (-60%) → o bg só está visível quando a
+      // secção cartazes está nos 40% SUPERIORES do viewport.
+      { threshold: 0, rootMargin: "0px 0px -60% 0px" }
+    );
+    io.observe(section);
+    return () => io.disconnect();
+  }, []);
 
   // ═══ SETA FLUTUANTE "Arrasta para ver mais" (mobile) ═══
   // Aparece no canto inferior direito quando a secção cartazes está visível E
