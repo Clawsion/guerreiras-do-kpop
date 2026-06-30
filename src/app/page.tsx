@@ -59,35 +59,6 @@ function useReveal() {
 
 const Rv = React.memo(function Rv({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const { ref, visible } = useReveal();
-  // ═══ HELPER: Scroll para a secção dos cartazes (mobile→Cascais, desktop→secção) ═══
-  // Função reutilizável chamada pelos 5 CTAs (Garante o Teu Lugar ×4 + Garante o Teu Bilhete ×1).
-  // Antes do scroll, força TODAS as secções visíveis (remove opacity:0 do reveal)
-  // com transition:none (instantâneo) para evitar layout shifts que interrompem o scroll.
-  const scrollToCartazes = () => {
-    document.querySelectorAll('section, [class*="rv"], .reveal, .cartaz-card').forEach(el => {
-      el.classList.add('section-visible');
-      const html = el as HTMLElement;
-      html.style.transition = 'none';
-      html.style.opacity = '1';
-      html.style.transform = 'none';
-    });
-    setTimeout(() => {
-      const isMobile = window.innerWidth < 768;
-      const targetId = isMobile ? 'cartaz-cascais' : 'cartazes';
-      const el = document.getElementById(targetId);
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const top = rect.top + window.scrollY - 20;
-      window.scrollTo(0, top);
-      setTimeout(() => {
-        const r2 = el.getBoundingClientRect();
-        if (Math.abs(r2.top - 20) > 80) {
-          window.scrollTo(0, r2.top + window.scrollY - 20);
-        }
-      }, 400);
-    }, 100);
-  };
-
   return (
     <div ref={ref} className={`rv ${visible ? "in" : ""} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
       {children}
@@ -1089,6 +1060,35 @@ export default function HomePage() {
     });
     return () => observer.disconnect();
   }, []);
+
+  // ═══ HELPER: Scroll para a secção dos cartazes (mobile→Cascais, desktop→secção) ═══
+  // Função reutilizável chamada pelos 5 CTAs (Garante o Teu Lugar ×4 + Garante o Teu Bilhete ×1).
+  // Antes do scroll, força TODAS as secções visíveis (remove opacity:0 do reveal)
+  // com transition:none (instantâneo) para evitar layout shifts que interrompem o scroll.
+  const scrollToCartazes = () => {
+    document.querySelectorAll('section, [class*="rv"], .reveal, .cartaz-card').forEach(el => {
+      el.classList.add('section-visible');
+      const html = el as HTMLElement;
+      html.style.transition = 'none';
+      html.style.opacity = '1';
+      html.style.transform = 'none';
+    });
+    setTimeout(() => {
+      const isMobile = window.innerWidth < 768;
+      const targetId = isMobile ? 'cartaz-cascais' : 'cartazes';
+      const el = document.getElementById(targetId);
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const top = rect.top + window.scrollY - 20;
+      window.scrollTo(0, top);
+      setTimeout(() => {
+        const r2 = el.getBoundingClientRect();
+        if (Math.abs(r2.top - 20) > 80) {
+          window.scrollTo(0, r2.top + window.scrollY - 20);
+        }
+      }, 400);
+    }, 100);
+  };
 
   return (
     <>
