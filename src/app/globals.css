@@ -1264,7 +1264,41 @@
 }
 
 /* ═══ LED Wall Frame ═══ */
-/* ═══ LED frame bezels - enhanced glow ═══ */* ═══ Roof top flickering lights - "about to blow" effect ═══ */
+.led-wall-frame {
+  position: relative;
+  flex: 1;
+  aspect-ratio: 21 / 9;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow:
+    0 0 50px rgba(200,80,255,0.35),
+    0 0 100px rgba(200,80,255,0.15),
+    0 0 160px rgba(129,140,248,0.08),
+    0 10px 40px rgba(11,8,19,0.8);
+  contain: layout style;
+}
+
+/* ═══ LED frame bezels - enhanced glow ═══ */
+.led-frame-top, .led-frame-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(90deg, #0a0515, #1a0e2e, #0a0515);
+  z-index: 7;
+}
+.led-frame-top {
+  top: 0;
+  border-bottom: 1px solid rgba(200,80,255,0.2);
+  box-shadow: 0 2px 20px rgba(200,80,255,0.15), 0 0 40px rgba(200,80,255,0.05);
+}
+.led-frame-bottom {
+  bottom: 0;
+  border-top: 1px solid rgba(200,80,255,0.2);
+  box-shadow: 0 -2px 20px rgba(200,80,255,0.15), 0 0 40px rgba(200,80,255,0.05);
+}
+
+/* ═══ Roof top flickering lights - "about to blow" effect ═══ */
 .manifesto-in .temple-roof-peak {
   animation: lightFlickerPeak 3s ease-out forwards, lightBuzz 8s 3s ease-in-out infinite;
 }
@@ -4395,7 +4429,10 @@ html.light-mode .hero-bg-img-dark {
 .light-mode .cartaz-img {
   filter: none;
 }
-.light-mode .cartaz-card:hover
+.light-mode .cartaz-card:hover .cartaz-img {
+  filter: none;
+}
+
 /* Light: molduras mais definidas contra o fundo branco lavanda */
 .light-mode .cartaz-featured .cartaz-img-wrap::before {
   border-color: rgba(147,51,234,0.25);
@@ -4738,7 +4775,19 @@ html.light-mode .hero-bg-img-dark {
   /* ═══ DESVANESCIMENTO no topo das fotos (mobile modo dia) ═══
      Igual ao modo noite — fade suave para disfarçar o corte onde
      as fotos começam, fundindo-as com o céu azul acima. */
-  .light-mode .galeria-section  /* Halo neon DESATIVADO em modo dia mobile — sem brilho branco sobre as fotos.
+  .light-mode .galeria-section .galeria-grid {
+    -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0,0,0,0.4) 6%,
+      rgba(0,0,0,0.85) 14%,
+      #000 22%);
+    mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0,0,0,0.4) 6%,
+      rgba(0,0,0,0.85) 14%,
+      #000 22%);
+  }
+  /* Halo neon DESATIVADO em modo dia mobile — sem brilho branco sobre as fotos.
      !important para sobrepor a regra desktop (linha 4446) que tem
      rgba(255,255,255,0.25) no topo — causa brilho branco em cima da 1ª foto. */
   .light-mode .galeria-section::after {
@@ -5704,8 +5753,14 @@ html.light-mode .hero-bg-img-dark {
 .light-mode .galeria-img {
   filter: none;
 }
-.light-mode .galeria-card:hover/* Overlay invisível no hover em modo dia (já transparente por defeito) */
-.light-mode .galeria-card:hover
+.light-mode .galeria-card:hover .galeria-img {
+  filter: none;
+}
+/* Overlay invisível no hover em modo dia (já transparente por defeito) */
+.light-mode .galeria-card:hover .galeria-overlay {
+  opacity: 0;
+}
+
 /* ═══ Tributo Ao Vivo - lavanda puro (estado anterior, sem rosado) ═══ */
 .light-mode .espetaculo-section {
   background-color: #D8B8E8;
@@ -6500,7 +6555,12 @@ html.light-mode .hero-bg-img-dark {
     border: 1px dashed rgba(245, 158, 11, 0.2) !important;
     box-shadow: 0 0 6px rgba(245, 158, 11, 0.08) !important;
   }
-  /* Orb — só o círculo que respira, sem ponto luminoso central */  .hm-orb.dark {
+  /* Orb — só o círculo que respira, sem ponto luminoso central */
+  .hm-orb {
+    width: 70px !important;
+    height: 70px !important;
+  }
+  .hm-orb.dark {
     background: radial-gradient(circle at 50% 50%,
       rgba(200, 80, 255, 0.08) 0%,
       rgba(44, 21, 80, 0.2) 50%,
@@ -7262,7 +7322,8 @@ html.light-mode .hero-bg-img-dark {
   pointer-events: none;
   transition: all 0.8s ease;
 }
-.hm-neon-arc
+.hm-neon-arc.light { opacity: 0; }
+
 .hm-neon-arc-1 {
   width: 130px; height: 130px;
   transform: translate(-50%, -50%);
@@ -7273,7 +7334,8 @@ html.light-mode .hero-bg-img-dark {
   filter: drop-shadow(0 0 6px rgba(255, 0, 255, 0.4));
   animation: hmNeonArcRotate1 12s linear infinite;
 }
-.hm-neon-arc-1
+.hm-neon-arc-1.dark { opacity: 0.9; }
+
 .hm-neon-arc-2 {
   width: 160px; height: 160px;
   transform: translate(-50%, -50%);
@@ -7296,7 +7358,8 @@ html.light-mode .hero-bg-img-dark {
   filter: drop-shadow(0 0 4px rgba(255, 0, 255, 0.25));
   animation: hmNeonArcRotate3 22s linear infinite;
 }
-.hm-neon-arc-3
+.hm-neon-arc-3.dark { opacity: 0.6; }
+
 @keyframes hmNeonArcRotate1 { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 @keyframes hmNeonArcRotate2 { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 @keyframes hmNeonArcRotate3 { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
@@ -8340,7 +8403,10 @@ section#concertos {
 /* ═══════════════════════════════════════════════════════════════ */
 
 @media (max-width: 767px) {
-  /* Hide expensive decorative elements on mobile */ .hm-neon-arc-2, .hm-neon-arc-3 { display: none; }
+  /* Hide expensive decorative elements on mobile */
+  .hm-ring-3 { display: none; }
+  .hm-neon-circle-3, .hm-neon-circle-4 { display: none; }
+  .hm-neon-arc-2, .hm-neon-arc-3 { display: none; }
   .demon-markings { display: none; }
 
   /* Reduce paint on temple ornaments */
@@ -8688,7 +8754,10 @@ img { max-width: 100%; height: auto; }
   }
   /* Modo dia (.light-mode) — fundo do hero com a cor das bordas da imagem de dia
      Borda esquerda: #BFD5FC, Borda direita: #C0D7FD — média #BDD3FD */
-  .light-mode
+  .light-mode .hero-section {
+    background: #BDD3FD !important;
+  }
+
   /* A imagem mobile é RETRATO (922×1706, proporção ~9:16.6).
      object-fit: contain mostra a foto COMPLETA sem cortes, proporcional.
      O espaço nas laterais é camuflado pelo gradient do fundo do hero. */
@@ -8775,6 +8844,8 @@ img { max-width: 100%; height: auto; }
   }
 
   /* Glow orb — desativado por performance */
+  .hero-glow-orb { display: none !important; }
+
   /* Vignette mais forte para o CTA se destacar do fundo */
   .hero-bg-overlay {
     background: linear-gradient(180deg,
@@ -8887,6 +8958,8 @@ img { max-width: 100%; height: auto; }
   }
 
   /* Backdrop blur — desativar em tablet para fluidez (manter só em desktop) */
+  .contacto-form { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+
   /* LED wall — desativar animações de partículas pesadas em tablet */
   .led-wall-frame { will-change: auto !important; }
 
@@ -8988,7 +9061,24 @@ img { max-width: 100%; height: auto; }
 /* content-visibility só em mobile/tablet (já existia antes).
    Em desktop foi removido porque causava problemas de scroll em iOS Safari
    quando combinado com contain-intrinsic-size. */
-@media (max-width: 1023px) {}
+@media (max-width: 1023px) {
+  .galeria-section,
+  .cartazes-section,
+  .manifesto-section,
+  .honmoon-shield-section,
+  .esp-section,
+  .temple-section,
+  .lineup-section,
+  .bilhetes-section,
+  .tributo-section,
+  .dual-section,
+  .memories-section,
+  .contacto-section,
+  section#faq {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 600px;
+  }
+}
 
 /* image-rendering: optimizeQuality explícito em fotos (default mas explicit) */
 .hero-bg-img,
@@ -9159,7 +9249,10 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Parallax 2 (DEPOIS do Mural) — imagem 2 (diferente) — MESMO zoom do parallax 1 */
-.parallax-after-mural.light-mode .parallax-after-mural .parallax-bg {
+.parallax-after-mural .parallax-bg {
+  background-image: none;
+}
+.light-mode .parallax-after-mural .parallax-bg {
   background-image: url('/parallax-2-day.webp?v=7');
 }
 
@@ -9247,7 +9340,11 @@ img { max-width: 100%; height: auto; }
   .light-mode .parallax-before-mural .parallax-bg {
     background-image: url('/parallax-1-day-mobile.webp?v=7');
   }
-  .parallax-after-mural  .light-mode .parallax-after-mural .parallax-bg {
+  .parallax-after-mural .parallax-bg {
+    background-image: none;
+    background-position: center top;
+  }
+  .light-mode .parallax-after-mural .parallax-bg {
     background-image: url('/parallax-2-day-mobile.webp?v=7');
   }
 }
@@ -9453,7 +9550,11 @@ img { max-width: 100%; height: auto; }
   }
   .hero-grid {
     display: none !important;
-  }  .hero-circle {
+  }
+  .hero-glow-orb {
+    display: none !important;
+  }
+  .hero-circle {
     display: none !important;
   }
   .hero-side-line {
@@ -9464,7 +9565,11 @@ img { max-width: 100%; height: auto; }
   }
   .hero-img-flash {
     display: none !important;
-  }  /* hero-nav-orb: sem box-shadow (era o orb do theme toggle) */
+  }
+  .hero-orb-burst {
+    display: none !important;
+  }
+  /* hero-nav-orb: sem box-shadow (era o orb do theme toggle) */
   .hero-nav-orb {
     box-shadow: none !important;
   }
@@ -10676,17 +10781,82 @@ img { max-width: 100%; height: auto; }
   pointer-events: none;
 }
 
-.light-mode
+.light-mode .teaser-neon-streak {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(147, 51, 234, 0.7) 30%,
+    #B8860B 50%,
+    rgba(147, 51, 234, 0.7) 70%,
+    transparent 100%);
+  box-shadow:
+    0 0 6px rgba(147, 51, 234, 0.85),
+    0 0 14px rgba(180, 140, 50, 0.45),
+    0 0 28px rgba(147, 51, 234, 0.25);
+}
+
 /* ═══ SUBTÍTULO — 2 linhas centradas e de destaque ═══
    Linha 1: "O Grande Tributo"
    Linha 2: "Ao Vivo"
    Cores a corresponder com a secção (púrpura/dourado no modo noite,
    roxo/dourado escuro no modo dia).
 */
+.teaser-subtitle {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display, inherit);
+  text-transform: uppercase;
+  line-height: 1.2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3em;
+}
+
 /* Linha 1: "O Grande Tributo" — maior, com shimmer púrpura↔dourado */
+.teaser-subtitle-line-1 {
+  font-size: clamp(1.15rem, 2.8vw, 1.7rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+  background: linear-gradient(90deg,
+    rgba(220, 130, 255, 0.95) 0%,
+    #f5e6a8 25%,
+    #FFD700 50%,
+    #f5e6a8 75%,
+    rgba(220, 130, 255, 0.95) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: teaser-subtitle-shimmer 5s linear infinite;
+  filter:
+    drop-shadow(0 0 6px rgba(200, 80, 255, 0.55))
+    drop-shadow(0 0 14px rgba(255, 215, 0, 0.35));
+}
+
 
 
 /* Linha 2: "Ao Vivo" — menor, com mais espaçamento, neon glow */
+.teaser-subtitle-line-2-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9em;
+}
+
+.teaser-subtitle-line-2 {
+  font-size: clamp(0.9rem, 1.9vw, 1.2rem);
+  font-weight: 500;
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+  color: rgba(255, 245, 255, 0.95);
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 0.85),
+    0 0 10px rgba(200, 80, 255, 0.85),
+    0 0 22px rgba(200, 80, 255, 0.55),
+    0 0 40px rgba(168, 85, 247, 0.35);
+}
+
 /* Traços decorativos dos lados de "Ao Vivo" */
 .teaser-subtitle-line-2-wrap::before,
 .teaser-subtitle-line-2-wrap::after {
@@ -10706,8 +10876,31 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Modo dia: cores adaptadas para contraste em fundo claro */
-.light-mode
-.light-mode
+.light-mode .teaser-subtitle-line-1 {
+  background: linear-gradient(90deg,
+    rgba(147, 51, 234, 0.95) 0%,
+    #6B4F0E 25%,
+    #B8860B 50%,
+    #6B4F0E 75%,
+    rgba(147, 51, 234, 0.95) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: teaser-subtitle-shimmer 5s linear infinite;
+  filter:
+    drop-shadow(0 0 4px rgba(147, 51, 234, 0.55))
+    drop-shadow(0 0 10px rgba(180, 140, 50, 0.35));
+}
+
+.light-mode .teaser-subtitle-line-2 {
+  color: rgba(60, 20, 100, 0.95);
+  text-shadow:
+    0 0 3px rgba(147, 51, 234, 0.5),
+    0 0 9px rgba(147, 51, 234, 0.55),
+    0 0 20px rgba(147, 51, 234, 0.35);
+}
+
 .light-mode .teaser-subtitle-line-2-wrap::before {
   background: linear-gradient(90deg, transparent 0%, rgba(147, 51, 234, 0.85) 100%);
   filter: drop-shadow(0 0 3px rgba(147, 51, 234, 0.5));
@@ -10718,8 +10911,24 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ─── Hint ─── */
+.teaser-hint {
+  margin: 0;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--t3, #888);
+  opacity: 0.65;
+  font-weight: 400;
+}
+
 /* ─── Mobile ─── */
-@media (max-width: 480px) {  .teaser-video-wrap { max-width: 280px; }
+@media (max-width: 480px) {
+  .teaser-section { padding: 3.5rem 0 3.5rem; min-height: 70vh; }
+  .teaser-video-wrap { max-width: 280px; }
+  .teaser-title { letter-spacing: 0.10em; }
+  .teaser-neon-streak { width: 80%; }
+}
 
 /* Acessibilidade */
 
@@ -11055,7 +11264,11 @@ img { max-width: 100%; height: auto; }
   .hm-ring-3 {
     display: none !important;
   }
-  /* Neon-circle: escondido */}
+  /* Neon-circle: escondido */
+  .hm-neon-circle-1 {
+    display: none !important;
+  }
+}
 
 
 /* ═══ Honmoon mobile: keyframes SEM box-shadow (só opacity) ═══
@@ -11074,7 +11287,15 @@ img { max-width: 100%; height: auto; }
 
 @media (max-width: 767px) {
   /* Orb: usar keyframes mobile (só opacity, sem box-shadow) */
-  .hm-orb  .hm-orb  
+  .hm-orb.dark {
+    box-shadow: none !important;
+    animation: hmOrbDormantMobile 5s ease-in-out infinite !important;
+  }
+  .hm-orb.light {
+    box-shadow: none !important;
+    animation: hmOrbActiveMobile 5s ease-in-out infinite !important;
+  }
+  
   /* Ring-1: sem box-shadow, sem animação (estático) */
   .hm-ring-1.dark,
   .hm-ring-1.light {
@@ -11198,7 +11419,11 @@ img { max-width: 100%; height: auto; }
     transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1),
                 transform 0.6s cubic-bezier(0.16,1,0.3,1);
   }
-  .rv  
+  .rv.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
   /* ═══ ORB HONMOON: RESPIRAÇÃO com scale + opacity (versão final) ═══
      Regra consolidada com a maior especificidade para garantir que:
      1. Sobrepõe todas as outras regras de animation (há 3+ regras espalhadas)
@@ -11213,10 +11438,12 @@ img { max-width: 100%; height: auto; }
     animation: hmOrbBreatheScale 4s ease-in-out infinite !important;
     will-change: transform, opacity !important;
   }
-  .hm-ring-1 {
-    width: 140px; height: 140px;
-    transform: translate(-50%, -50%);
+  .hm-ring-1.dark,
+  .hm-ring-1.light {
+    box-shadow: none !important;
+    animation: none !important;
   }
+}
 
 /* Keyframe única para respirar (só opacity) */
 @keyframes hmOrbBreathe {
@@ -11391,7 +11618,11 @@ img { max-width: 100%; height: auto; }
   }
   .footer-col-left {
     text-align: left;
-  }  .footer-col-right {
+  }
+  .footer-col-center {
+    text-align: center;
+  }
+  .footer-col-right {
     text-align: right;
   }
   /* Redes sociais em linha horizontal no desktop */
