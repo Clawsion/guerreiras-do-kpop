@@ -4046,13 +4046,15 @@ html.light-mode .hero-bg-img-dark {
      Néons e marquee com cor de fundo própria para serem visíveis:
      - Modo noite: var(--void) (escuro)
      - Modo dia: #f5f0fa (branco/lavanda)
-     O parallax NÃO se vê por detrás deles — só na secção cartazes. */
+     O parallax NÃO se vê por detrás deles — só na secção cartazes.
+     Margens removidas para que não haja gap (onde o parallax se veria). */
   .marquee-wrapper,
   #cartazes + .honmoon-divider,
   .marquee-wrapper + .honmoon-divider {
     background: var(--void);
     position: relative;
     z-index: 1;
+    margin: 0 !important; /* sem gap entre cartazes e néons */
   }
   .light-mode .marquee-wrapper,
   .light-mode #cartazes + .honmoon-divider,
@@ -11475,7 +11477,7 @@ img { max-width: 100%; height: auto; }
   text-transform: uppercase;
   font-weight: 600;
   color: var(--neon-purple);
-  opacity: 0.7;
+  opacity: 0.5;
   margin-bottom: 0.75rem;
 }
 
@@ -11484,17 +11486,19 @@ img { max-width: 100%; height: auto; }
   text-align: center;
 }
 .footer-producer {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 400;
   color: var(--t1);
   letter-spacing: 0.02em;
   margin-bottom: 0.15rem;
+  opacity: 0.55;
 }
 .footer-producer-sub {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--t2);
   letter-spacing: 0.05em;
   margin-bottom: 0.75rem;
+  opacity: 0.45;
 }
 .footer-copy {
   font-size: 10px;
@@ -11644,6 +11648,7 @@ img { max-width: 100%; height: auto; }
 }
 .light-mode .footer-producer {
   color: var(--t1);
+  opacity: 0.55;
 }
 .light-mode .footer-divider {
   background: linear-gradient(90deg,
