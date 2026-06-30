@@ -2277,21 +2277,10 @@ export default function HomePage() {
           {/* ═══ Divisor neon subtil ═══ */}
           <div className="footer-divider" aria-hidden="true"/>
 
-          {/* ═══ SELO DE QUALIDADE INAUGURA — assinatura profissional do estúdio ═══
-              Representa a nota máxima em alternativas: design, performance e UX.
-              Cores da marca Inaugura: preto, branco, dourado (#FCBE11). */}
-          <div className="footer-seal">
-            <div className="footer-seal-badge">
-              <svg className="footer-seal-star" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/>
-              </svg>
-              <span className="footer-seal-grade">A+</span>
-            </div>
-            <div className="footer-seal-text">
-              <span className="footer-seal-label">Desenvolvido por</span>
-              <span className="footer-seal-brand">INAUGURA</span>
-              <span className="footer-seal-tagline">Web Design Studio</span>
-            </div>
+          {/* ═══ Linha inferior: Desenvolvido por Inaugura (centrado) ═══ */}
+          <div className="footer-bottom">
+            <span className="footer-dev-text">Desenvolvido por </span>
+            <span className="footer-dev-name">Inaugura</span>
           </div>
         </div>
       </footer>
