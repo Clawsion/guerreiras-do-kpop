@@ -1625,28 +1625,7 @@ export default function HomePage() {
                   href="#cartazes"
                   onClick={e => {
                     e.preventDefault();
-                    document.querySelectorAll('section, [class*="rv"], .reveal, .cartaz-card').forEach(el => {
-                      el.classList.add('section-visible');
-                      const html = el as HTMLElement;
-                      html.style.transition = 'none';
-                      html.style.opacity = '1';
-                      html.style.transform = 'none';
-                    });
-                    setTimeout(() => {
-                      const isMobile = window.innerWidth < 768;
-                      const targetId = isMobile ? 'cartaz-cascais' : 'cartazes';
-                      const el = document.getElementById(targetId);
-                      if (!el) return;
-                      const rect = el.getBoundingClientRect();
-                      const top = rect.top + window.scrollY - 20;
-                      window.scrollTo(0, top);
-                      setTimeout(() => {
-                        const r2 = el.getBoundingClientRect();
-                        if (Math.abs(r2.top - 20) > 80) {
-                          window.scrollTo(0, r2.top + window.scrollY - 20);
-                        }
-                      }, 400);
-                    }, 100);
+                    scrollToCartazes();
                   }}
                   className="esp-cta cursor-pointer"
                   style={{ marginBottom: '1rem' }}
