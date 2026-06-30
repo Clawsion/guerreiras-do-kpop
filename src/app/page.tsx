@@ -59,6 +59,35 @@ function useReveal() {
 
 const Rv = React.memo(function Rv({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const { ref, visible } = useReveal();
+  // ═══ HELPER: Scroll para a secção dos cartazes (mobile→Cascais, desktop→secção) ═══
+  // Função reutilizável chamada pelos 5 CTAs (Garante o Teu Lugar ×4 + Garante o Teu Bilhete ×1).
+  // Antes do scroll, força TODAS as secções visíveis (remove opacity:0 do reveal)
+  // com transition:none (instantâneo) para evitar layout shifts que interrompem o scroll.
+  const scrollToCartazes = () => {
+    document.querySelectorAll('section, [class*="rv"], .reveal, .cartaz-card').forEach(el => {
+      el.classList.add('section-visible');
+      const html = el as HTMLElement;
+      html.style.transition = 'none';
+      html.style.opacity = '1';
+      html.style.transform = 'none';
+    });
+    setTimeout(() => {
+      const isMobile = window.innerWidth < 768;
+      const targetId = isMobile ? 'cartaz-cascais' : 'cartazes';
+      const el = document.getElementById(targetId);
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const top = rect.top + window.scrollY - 20;
+      window.scrollTo(0, top);
+      setTimeout(() => {
+        const r2 = el.getBoundingClientRect();
+        if (Math.abs(r2.top - 20) > 80) {
+          window.scrollTo(0, r2.top + window.scrollY - 20);
+        }
+      }, 400);
+    }, 100);
+  };
+
   return (
     <div ref={ref} className={`rv ${visible ? "in" : ""} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
       {children}
@@ -1372,28 +1401,7 @@ export default function HomePage() {
               onClick={e => {
                 e.preventDefault();
                 setMenuOpen(false);
-                document.querySelectorAll('section, [class*="rv"], .reveal, .cartaz-card').forEach(el => {
-                  el.classList.add('section-visible');
-                  const html = el as HTMLElement;
-                  html.style.transition = 'none';
-                  html.style.opacity = '1';
-                  html.style.transform = 'none';
-                });
-                setTimeout(() => {
-                  const isMobile = window.innerWidth < 768;
-                  const targetId = isMobile ? 'cartaz-cascais' : 'cartazes';
-                  const el = document.getElementById(targetId);
-                  if (!el) return;
-                  const rect = el.getBoundingClientRect();
-                  const top = rect.top + window.scrollY - 20;
-                  window.scrollTo(0, top);
-                  setTimeout(() => {
-                    const r2 = el.getBoundingClientRect();
-                    if (Math.abs(r2.top - 20) > 80) {
-                      window.scrollTo(0, r2.top + window.scrollY - 20);
-                    }
-                  }, 400);
-                }, 100);
+                scrollToCartazes();
               }}
               className="inline-flex items-center gap-2 px-10 py-4 text-[11px] tracking-[0.22em] uppercase font-semibold cursor-pointer"
               style={{background:"var(--neon-purple)",color:"#fff"}}
@@ -1424,28 +1432,7 @@ export default function HomePage() {
             href="#cartazes"
             onClick={e => {
               e.preventDefault();
-              document.querySelectorAll('section, [class*="rv"], .reveal, .cartaz-card').forEach(el => {
-                el.classList.add('section-visible');
-                const html = el as HTMLElement;
-                html.style.transition = 'none';
-                html.style.opacity = '1';
-                html.style.transform = 'none';
-              });
-              setTimeout(() => {
-                const isMobile = window.innerWidth < 768;
-                const targetId = isMobile ? 'cartaz-cascais' : 'cartazes';
-                const el = document.getElementById(targetId);
-                if (!el) return;
-                const rect = el.getBoundingClientRect();
-                const top = rect.top + window.scrollY - 20;
-                window.scrollTo(0, top);
-                setTimeout(() => {
-                  const r2 = el.getBoundingClientRect();
-                  if (Math.abs(r2.top - 20) > 80) {
-                    window.scrollTo(0, r2.top + window.scrollY - 20);
-                  }
-                }, 400);
-              }, 100);
+              scrollToCartazes();
             }}
             className="flex items-center justify-center gap-2 px-6 py-3 text-[10px] tracking-[0.2em] font-semibold uppercase cursor-pointer rounded-full"
             style={{background:"var(--neon-purple)",color:"#fff",boxShadow:"0 4px 14px rgba(200,80,255,0.5)"}}
@@ -1461,28 +1448,7 @@ export default function HomePage() {
             href="#cartazes"
             onClick={e => {
               e.preventDefault();
-              document.querySelectorAll('section, [class*="rv"], .reveal, .cartaz-card').forEach(el => {
-                el.classList.add('section-visible');
-                const html = el as HTMLElement;
-                html.style.transition = 'none';
-                html.style.opacity = '1';
-                html.style.transform = 'none';
-              });
-              setTimeout(() => {
-                const isMobile = window.innerWidth < 768;
-                const targetId = isMobile ? 'cartaz-cascais' : 'cartazes';
-                const el = document.getElementById(targetId);
-                if (!el) return;
-                const rect = el.getBoundingClientRect();
-                const top = rect.top + window.scrollY - 20;
-                window.scrollTo(0, top);
-                setTimeout(() => {
-                  const r2 = el.getBoundingClientRect();
-                  if (Math.abs(r2.top - 20) > 80) {
-                    window.scrollTo(0, r2.top + window.scrollY - 20);
-                  }
-                }, 400);
-              }, 100);
+              scrollToCartazes();
             }}
             className="hero-cta"
           >
@@ -1808,28 +1774,7 @@ export default function HomePage() {
             aria-label="Garante o Teu Bilhete - Ver Cartazes"
             onClick={e => {
               e.preventDefault();
-              document.querySelectorAll('section, [class*="rv"], .reveal, .cartaz-card').forEach(el => {
-                el.classList.add('section-visible');
-                const html = el as HTMLElement;
-                html.style.transition = 'none';
-                html.style.opacity = '1';
-                html.style.transform = 'none';
-              });
-              setTimeout(() => {
-                const isMobile = window.innerWidth < 768;
-                const targetId = isMobile ? 'cartaz-cascais' : 'cartazes';
-                const el = document.getElementById(targetId);
-                if (!el) return;
-                const rect = el.getBoundingClientRect();
-                const top = rect.top + window.scrollY - 20;
-                window.scrollTo(0, top);
-                setTimeout(() => {
-                  const r2 = el.getBoundingClientRect();
-                  if (Math.abs(r2.top - 20) > 80) {
-                    window.scrollTo(0, r2.top + window.scrollY - 20);
-                  }
-                }, 400);
-              }, 100);
+              scrollToCartazes();
             }}
           >
             <span>Garante o Teu Bilhete</span>
