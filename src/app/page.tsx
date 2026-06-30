@@ -2,7 +2,11 @@
 "use client";
 
 import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
-import NeonLightbox from "@/components/NeonLightbox";
+import dynamic from "next/dynamic";
+// NeonLightbox só é necessário quando o utilizador clica numa foto da galeria.
+// Dynamic import com ssr:false reduz o bundle JS inicial (não carrega o código
+// do lightbox na primeira paint — só quando aberto).
+const NeonLightbox = dynamic(() => import("@/components/NeonLightbox"), { ssr: false });
 import {
   Ticket, Instagram, Youtube, Facebook,
   ChevronRight, Phone, Mail,
