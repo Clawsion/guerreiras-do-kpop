@@ -1156,6 +1156,7 @@ export default function HomePage() {
               </div>
             ) : (
               <div
+                className="preloader-light"
                 style={{
                   position: 'fixed',
                   inset: 0,
