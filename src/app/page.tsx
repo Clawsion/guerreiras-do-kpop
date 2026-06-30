@@ -1253,18 +1253,18 @@ export default function HomePage() {
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user */}
           <source
             media="(max-width: 767px)"
-            srcSet="/hero-bg-mobile.webp?v=92"
+            srcSet="/hero-bg-mobile.webp?v=93"
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem originais (hero-bg*.webp) */}
           <source
             media="(min-width: 768px)"
-            srcSet="/hero-bg.webp?v=92"
+            srcSet="/hero-bg.webp?v=93"
             type="image/webp"
           />
           {/* Modo noite — sempre carregado (default visível) */}
           <img
-            src="/hero-bg.webp?v=92"
+            src="/hero-bg.webp?v=93"
             alt=""
             className={`hero-bg-img hero-bg-img-dark ${heroFlash.type !== 'none' ? 'flashing' : ''}`}
             fetchPriority="high"
@@ -1275,7 +1275,7 @@ export default function HomePage() {
           {/* Smartphone (<768px) — imagens retrato ORIGINAIS do user (modo dia) */}
           <source
             media="(max-width: 767px)"
-            srcSet="/hero-bg-mobile-light.webp?v=92"
+            srcSet="/hero-bg-mobile-light.webp?v=93"
             type="image/webp"
           />
           {/* Tablet+ (≥768px) — imagens paisagem (modo dia) */}
@@ -1871,6 +1871,8 @@ export default function HomePage() {
                       className="galeria-img"
                       loading="lazy"
                       decoding="async"
+                      width="600"
+                      height="800"
                     />
                     <div className="galeria-overlay"/>
                     <div className="galeria-zoom-icon">
@@ -1934,7 +1936,7 @@ export default function HomePage() {
             <Rv delay={200}>
               <article id="cartaz-cascais" className="cartaz-card cartaz-secondary">
                 <div className="cartaz-img-wrap">
-                  <img src="/poster.webp" alt="Cartaz Cascais - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
+                  <img src="/poster.webp" alt="Cartaz Cascais - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" width="450" height="600" />
                   <div className="cartaz-overlay"/>
                   <div className="cartaz-tag">Cascais</div>
                 </div>
@@ -1969,7 +1971,7 @@ export default function HomePage() {
               <Rv delay={275}>
                 <article className="cartaz-card cartaz-secondary">
                   <div className="cartaz-img-wrap">
-                    <img src="/poster-caparica.webp" alt="Cartaz Costa da Caparica - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
+                    <img src="/poster-caparica.webp" alt="Cartaz Costa da Caparica - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" width="450" height="600" />
                     <div className="cartaz-overlay"/>
                     <div className="cartaz-tag">Costa da Caparica</div>
                   </div>
@@ -1996,7 +1998,7 @@ export default function HomePage() {
             <Rv delay={350}>
               <article id="cartaz-sesimbra" className="cartaz-card cartaz-secondary">
                 <div className="cartaz-img-wrap">
-                  <img src="/poster-sesimbra.webp" alt="Cartaz Sesimbra - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" />
+                  <img src="/poster-sesimbra.webp" alt="Cartaz Sesimbra - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" width="450" height="600" />
                   <div className="cartaz-overlay"/>
                   <div className="cartaz-tag">Sesimbra</div>
                 </div>
