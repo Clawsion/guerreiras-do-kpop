@@ -1200,7 +1200,7 @@ export default function HomePage() {
                   }}
                 />
               </div>
-            ) : null}
+            )}
 
             {/* SOUL PARTICLES - fixed overlay */}
             <div className="soul-particles-site">
