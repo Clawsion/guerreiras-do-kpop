@@ -405,10 +405,9 @@ export default function HomePage() {
   // (translate3d), técnica iOS-safe. Desktop usa background-attachment:fixed nativo.
 
   // ═══ PARALLAX CARTAZES (mobile) — position:fixed + IntersectionObserver ═══
-  // A div .cartazes-sticky-bg é position:fixed (sempre no viewport) mas só
-  // aparece (opacity:1) quando a secção cartazes está visível, via IO.
-  // Isto garante que o parallax NÃO tampa as outras secções (hero, mural, etc.)
-  // que têm backgrounds sólidos próprios.
+  // A div .cartazes-sticky-bg é position:fixed (sempre no viewport) e fica
+  // visível (opacity:1) durante TODA a secção cartazes, via IO.
+  // O parallax está SEMPRE ATIVO na secção — não precisa de fazer scroll para ativar.
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.innerWidth >= 768) return; // Só mobile
@@ -420,9 +419,9 @@ export default function HomePage() {
           document.body.classList.toggle('bg-visible-cartazes', e.isIntersecting);
         }
       },
-      // rootMargin negativo em baixo (-60%) → o bg só está visível quando a
-      // secção cartazes está nos 40% SUPERIORES do viewport.
-      { threshold: 0, rootMargin: "0px 0px -60% 0px" }
+      // rootMargin: 0px → o bg está visível sempre que 1px da secção está no
+      // viewport. Parallax SEMPRE ATIVO desde o início da secção até ao fim.
+      { threshold: 0, rootMargin: "0px" }
     );
     io.observe(section);
     return () => io.disconnect();

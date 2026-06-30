@@ -4042,17 +4042,22 @@ html.light-mode .hero-bg-img-dark {
     scroll-margin-top: 20px;
   }
 
-  /* ═══ A PARTIR DO 1º NEON — backgrounds TRANSPARENTES ═══
-     O parallax bg (position:fixed, top-level) está SEMPRE visível
-     (opacity:1 sempre). Os néons e marquee têm background transparente
-     para que o parallax + overlay se veja por detrás deles.
-     Isto prolonga o overlay (modo dia e noite) até ao contacto. */
+  /* ═══ A PARTIR DO 1º NEON — backgrounds SÓLIDOS (visíveis) ═══
+     Néons e marquee com cor de fundo própria para serem visíveis:
+     - Modo noite: var(--void) (escuro)
+     - Modo dia: #f5f0fa (branco/lavanda)
+     O parallax NÃO se vê por detrás deles — só na secção cartazes. */
   .marquee-wrapper,
   #cartazes + .honmoon-divider,
   .marquee-wrapper + .honmoon-divider {
-    background: transparent !important;
+    background: var(--void);
     position: relative;
     z-index: 1;
+  }
+  .light-mode .marquee-wrapper,
+  .light-mode #cartazes + .honmoon-divider,
+  .light-mode .marquee-wrapper + .honmoon-divider {
+    background: #f5f0fa;
   }
 
   /* Contacto — reforçar position/z-index para cobrir o parallax */
