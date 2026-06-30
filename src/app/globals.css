@@ -11213,7 +11213,10 @@ img { max-width: 100%; height: auto; }
     animation: hmOrbBreatheScale 4s ease-in-out infinite !important;
     will-change: transform, opacity !important;
   }
-  .hm-ring-1}
+  .hm-ring-1 {
+    width: 140px; height: 140px;
+    transform: translate(-50%, -50%);
+  }
 
 /* Keyframe única para respirar (só opacity) */
 @keyframes hmOrbBreathe {
