@@ -24,7 +24,6 @@ const SITE_URL = "https://www.guerreirasdokpop.com";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: dark)", color: "#0a0410" },
     { media: "(prefers-color-scheme: light)", color: "#f5f0fa" },
