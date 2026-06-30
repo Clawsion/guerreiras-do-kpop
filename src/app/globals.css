@@ -4138,6 +4138,13 @@ html.light-mode .hero-bg-img-dark {
   }
 }
 
+/* ═══ DESKTOP: esconder seta "Arrasta para ver mais" (só mobile) ═══ */
+@media (min-width: 768px) {
+  .cartazes-scroll-arrow {
+    display: none !important;
+  }
+}
+
 .cartazes-grid {
   position: relative;
   z-index: 2;
