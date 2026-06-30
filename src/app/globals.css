@@ -10620,10 +10620,7 @@ img { max-width: 100%; height: auto; }
     drop-shadow(0 0 14px rgba(255, 215, 0, 0.35));
 }
 
-@keyframes teaser-subtitle-shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
+
 
 .teaser-subtitle-line-2-wrap {
   display: flex;
@@ -10837,10 +10834,7 @@ img { max-width: 100%; height: auto; }
     drop-shadow(0 0 14px rgba(255, 215, 0, 0.35));
 }
 
-@keyframes teaser-subtitle-shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
+
 
 /* Linha 2: "Ao Vivo" — menor, com mais espaçamento, neon glow */
 .teaser-subtitle-line-2-wrap {
@@ -11741,4 +11735,9 @@ button:focus-visible {
   .preloader-light {
     display: none !important;
   }
+}
+
+@keyframes teaser-subtitle-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
