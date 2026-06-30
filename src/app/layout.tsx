@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Sora } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -20,6 +20,16 @@ const sora = Sora({
 });
 
 const SITE_URL = "https://www.guerreirasdokpop.com";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0a0410" },
+    { media: "(prefers-color-scheme: light)", color: "#f5f0fa" },
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -240,6 +250,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} antialiased bg-background text-foreground`}
         suppressHydrationWarning
       >
+        <a href="#main-content" className="skip-link">Saltar para o conteúdo</a>
         {children}
         <Toaster />
       </body>
