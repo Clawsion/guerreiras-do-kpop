@@ -11709,3 +11709,11 @@ button:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+
+/* ═══ Preloader light: esconder em mobile (igual ao dark) ═══ */
+@media (max-width: 767px) {
+  .preloader-light {
+    display: none !important;
+  }
+}
