@@ -3945,12 +3945,13 @@ html.light-mode .hero-bg-img-dark {
    background-image com gradient lavanda translúcido (modo dia)
    e o gradient roxo escuro sólido (modo noite) */
 
-/* ═══ Mobile: Parallax = Desktop — bg fixo top-level + IntersectionObserver ═══ */
+/* ═══ Mobile: Parallax = Desktop — bg fixo top-level, SEMPRE visível ═══ */
 /* O .cartazes-sticky-bg é filho DIRECTO do wrapper (não da secção) → nenhum
    ancestor com transform/filter o pode prender. position:fixed funciona sempre.
-   - opacity:0 por defeito; body.bg-visible-cartazes (toggle via IO) liga opacity:1
+   - opacity:1 SEMPRE (parallax sempre ligado)
    - A secção #cartazes tem background:transparent → o bg fixo vê-se por detrás
-   - As secções vizinhas têm fundo sólido → cobrem o bg fixo quando se sai
+   - Os néons e marquee têm background transparente → o bg + overlay prolonga-se
+   - A secção contacto tem fundo sólido → cobre o bg fixo
    - Imagem 9:16 (1080x1920) alta qualidade, cover + center */
 
 /* Bg fixo escondido em desktop — só mobile */
@@ -3989,15 +3990,15 @@ html.light-mode .hero-bg-img-dark {
     background-color: #160a26;
     z-index: 0;
     pointer-events: none;
-    opacity: 0;
+    opacity: 1; /* SEMPRE visível — parallax sempre ligado */
     transition: opacity 0.3s ease;
   }
   .light-mode .cartazes-sticky-bg {
     background-image: url('/cartazes-bg-day-mobile-hq.webp');
     background-color: #f5f0fa;
   }
-  /* Toggle via IO: body.bg-visible-cartazes liga a opacidade */
-  body.bg-visible-cartazes .cartazes-sticky-bg {
+  /* Sempre visível — parallax sempre ligado */
+  .cartazes-sticky-bg {
     opacity: 1;
   }
 
@@ -4041,22 +4042,17 @@ html.light-mode .hero-bg-img-dark {
     scroll-margin-top: 20px;
   }
 
-  /* ═══ A PARTIR DO 1º NEON — backgrounds sólidos (branco dia / escuro noite) ═══
-     O parallax bg (position:fixed, top-level) só deve ser visível até à secção
-     cartazes (inclusive). A partir do 1º HonmoonDivider após cartazes, TODOS os
-     elementos têm background sólido para cobrir o parallax.
-     Modo noite: var(--void) (escuro) | Modo dia: #f5f0fa (branco/lavanda) */
+  /* ═══ A PARTIR DO 1º NEON — backgrounds TRANSPARENTES ═══
+     O parallax bg (position:fixed, top-level) está SEMPRE visível
+     (opacity:1 sempre). Os néons e marquee têm background transparente
+     para que o parallax + overlay se veja por detrás deles.
+     Isto prolonga o overlay (modo dia e noite) até ao contacto. */
   .marquee-wrapper,
   #cartazes + .honmoon-divider,
   .marquee-wrapper + .honmoon-divider {
-    background: var(--void);
+    background: transparent !important;
     position: relative;
     z-index: 1;
-  }
-  .light-mode .marquee-wrapper,
-  .light-mode #cartazes + .honmoon-divider,
-  .light-mode .marquee-wrapper + .honmoon-divider {
-    background: #f5f0fa;
   }
 
   /* Contacto — reforçar position/z-index para cobrir o parallax */

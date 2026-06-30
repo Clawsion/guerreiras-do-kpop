@@ -404,32 +404,12 @@ export default function HomePage() {
   // ═══ PARALLAX (mobile) — divs .cartazes-bg / .contacto-bg / galeria movidas via JS ═══
   // (translate3d), técnica iOS-safe. Desktop usa background-attachment:fixed nativo.
 
-  // ═══ PARALLAX CARTAZES (mobile) — position:fixed + IntersectionObserver ═══
-  // A div .cartazes-sticky-bg é position:fixed (sempre no viewport) mas só
-  // aparece (opacity:1) quando a secção cartazes está visível, via IO.
-  // Isto replica o efeito do background-attachment:fixed do desktop, sem os
-  // bugs de iOS Safari. O conteúdo scrolla naturalmente por cima (z-index:2).
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.innerWidth >= 768) return; // Só mobile
-    const section = document.getElementById('cartazes');
-    if (!section) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          // Toggle no BODY (não na secção) — o bg é top-level, filho do body
-          document.body.classList.toggle('bg-visible-cartazes', e.isIntersecting);
-        }
-      },
-      // rootMargin negativo em baixo (-60%) → o bg só está visível quando a
-      // secção cartazes está nos 40% SUPERIORES do viewport. Assim que se faz
-      // scroll e a secção passa para os 60% inferiores (a caminho de sair),
-      // o bg esconde IMEDIATAMENTE → não se vê por detrás do marquee/contacto.
-      { threshold: 0, rootMargin: "0px 0px -60% 0px" }
-    );
-    io.observe(section);
-    return () => io.disconnect();
-  }, []);
+  // ═══ PARALLAX CARTAZES (mobile) — position:fixed, SEMPRE visível ═══
+  // A div .cartazes-sticky-bg é position:fixed (sempre no viewport) e está
+  // SEMPRE visível (opacity:1 no CSS). Não precisa de IntersectionObserver.
+  // O conteúdo scrolla naturalmente por cima (z-index:2).
+  // Os néons e marquee têm background transparente para que o parallax
+  // + overlay se veja por detrás deles (prolonga até ao contacto).
 
   // ═══ SETA FLUTUANTE "Arrasta para ver mais" (mobile) ═══
   // Aparece no canto inferior direito quando a secção cartazes está visível E
