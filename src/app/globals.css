@@ -4047,25 +4047,26 @@ html.light-mode .hero-bg-img-dark {
      O parallax NÃO chega a nenhum dos 2 néons.
      - Modo noite: #0B0813 (preto puro)
      - Modo dia: #FFFFFF (branco puro)
-     margin: 0 + padding extra para garantir cobertura total sem gaps. */
+     
+     IMPORTANTE: uso ~ (general sibling) em vez de + (adjacent sibling)
+     porque há um div .cartazes-scroll-arrow entre #cartazes e o 1º néon. */
   .marquee-wrapper,
-  #cartazes + .honmoon-divider,
+  #cartazes ~ .honmoon-divider,
   .marquee-wrapper + .honmoon-divider {
     background: #0B0813 !important; /* preto puro modo noite */
     position: relative;
     z-index: 1;
     margin: 0 !important; /* sem gap entre cartazes e néons */
-    /* Garantir que o background cobre toda a área visível */
     background-clip: border-box;
     -webkit-background-clip: border-box;
   }
   .light-mode .marquee-wrapper,
-  .light-mode #cartazes + .honmoon-divider,
+  .light-mode #cartazes ~ .honmoon-divider,
   .light-mode .marquee-wrapper + .honmoon-divider {
     background: #FFFFFF !important; /* branco puro modo dia */
   }
   /* Garantir que o HonmoonDivider ocupa toda a largura e altura sem gaps */
-  #cartazes + .honmoon-divider,
+  #cartazes ~ .honmoon-divider,
   .marquee-wrapper + .honmoon-divider {
     width: 100% !important;
     height: 40px !important;
