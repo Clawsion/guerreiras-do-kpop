@@ -4834,7 +4834,7 @@ html.light-mode .hero-bg-img-dark {
 .galeria-img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover; /* Preenche TODA a moldura — sem espaços em cima/baixo */
   object-position: center;
   transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
   /* SEM filter — fotos aparecem com as cores originais, sem escurecimento
