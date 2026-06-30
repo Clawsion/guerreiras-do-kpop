@@ -4042,12 +4042,12 @@ html.light-mode .hero-bg-img-dark {
     scroll-margin-top: 20px;
   }
 
-  /* ═══ A PARTIR DO 1º NEON — backgrounds SÓLIDOS (visíveis) ═══
-     Néons e marquee com cor de fundo PRÓPRIA para cobrir totalmente o parallax:
-     - Modo noite: #0B0813 (preto puro, igual ao --void)
-     - Modo dia: #f5f0fa (lavanda, igual ao 2º néon)
-     O parallax NÃO se vê por detrás deles — só na secção cartazes.
-     Margens removidas para que não haja gap (onde o parallax se veria). */
+  /* ═══ A PARTIR DO 1º NEON — backgrounds SÓLIDOS (gêmeos) ═══
+     1º néon e 2º néon são GÊMEOS — mesma cor, sempre sólidos.
+     O parallax NÃO chega a nenhum dos 2 néons.
+     - Modo noite: #0B0813 (preto puro)
+     - Modo dia: #FFFFFF (branco puro)
+     margin: 0 + padding extra para garantir cobertura total sem gaps. */
   .marquee-wrapper,
   #cartazes + .honmoon-divider,
   .marquee-wrapper + .honmoon-divider {
@@ -4055,11 +4055,22 @@ html.light-mode .hero-bg-img-dark {
     position: relative;
     z-index: 1;
     margin: 0 !important; /* sem gap entre cartazes e néons */
+    /* Garantir que o background cobre toda a área visível */
+    background-clip: border-box;
+    -webkit-background-clip: border-box;
   }
   .light-mode .marquee-wrapper,
   .light-mode #cartazes + .honmoon-divider,
   .light-mode .marquee-wrapper + .honmoon-divider {
-    background: #f5f0fa !important; /* lavanda modo dia (igual ao 2º néon) */
+    background: #FFFFFF !important; /* branco puro modo dia */
+  }
+  /* Garantir que o HonmoonDivider ocupa toda a largura e altura sem gaps */
+  #cartazes + .honmoon-divider,
+  .marquee-wrapper + .honmoon-divider {
+    width: 100% !important;
+    height: 40px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
   }
 
   /* Contacto — reforçar position/z-index para cobrir o parallax */
