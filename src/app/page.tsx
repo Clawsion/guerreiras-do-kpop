@@ -1075,16 +1075,18 @@ export default function HomePage() {
     });
     setTimeout(() => {
       const isMobile = window.innerWidth < 768;
-      const targetId = isMobile ? 'cartaz-cascais' : 'cartazes';
-      const el = document.getElementById(targetId);
+      // Mobile: aterra no cartaz Cascais (topo do cartaz)
+      // Desktop: aterra no cartaz Cascais também (para ver o botão Comprar Bilhete)
+      const el = document.getElementById('cartaz-cascais');
       if (!el) return;
       const rect = el.getBoundingClientRect();
-      const top = rect.top + window.scrollY - 20;
+      const offset = isMobile ? 20 : 120; // desktop desce mais 120px para mostrar o botão Comprar Bilhete
+      const top = rect.top + window.scrollY - offset;
       window.scrollTo(0, top);
       setTimeout(() => {
         const r2 = el.getBoundingClientRect();
-        if (Math.abs(r2.top - 20) > 80) {
-          window.scrollTo(0, r2.top + window.scrollY - 20);
+        if (Math.abs(r2.top - offset) > 80) {
+          window.scrollTo(0, r2.top + window.scrollY - offset);
         }
       }, 400);
     }, 100);
