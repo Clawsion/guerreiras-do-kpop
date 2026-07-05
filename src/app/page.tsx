@@ -2200,7 +2200,7 @@ export default function HomePage() {
             <div className="footer-col footer-col-right">
               <p className="footer-label">Info &amp; Legal</p>
               <div className="footer-legal-links">
-                <span className="footer-partner" style={{color:"var(--t3)",opacity:0.6}}>Bilhetes via Ticketline</span>
+                <a href="https://www.ticketline.pt/pt/evento/guerreiras-do-kpop-em-concerto-tributo-mus-106237" target="_blank" rel="noopener noreferrer" className="footer-legal-link" style={{color:"var(--t3)"}}>Bilhetes via Ticketline</a>
                 <button onClick={()=>setPrivacyOpen(true)} className="footer-legal-link" style={{color:"var(--t3)"}}>Política de Privacidade</button>
                 <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener noreferrer" className="footer-legal-link" style={{color:"var(--t3)"}}>Livro de Reclamações</a>
               </div>
