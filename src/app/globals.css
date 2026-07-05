@@ -1953,7 +1953,7 @@
      scale + translateZ(0) juntos: o GPU pré-renderiza a imagem escalada
      uma única vez como textura (cached), depois é só movida no scroll. */
   .hero-bg-img {
-    object-fit: contain !important;
+    object-fit: cover !important;
     object-position: center center !important;
     width: 100% !important;
     height: 100% !important;
