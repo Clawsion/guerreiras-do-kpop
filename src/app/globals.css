@@ -5281,7 +5281,6 @@ html.light-mode .hero-bg-img-dark {
 /* Título principal — mais escuro e com sombra subtil para "saltar" do fundo */
 .light-mode .contacto-section h2 {
   color: #1E1040 !important;
-  font-weight: 600 !important;
   text-shadow: 0 1px 2px rgba(255,255,255,0.45), 0 0 24px rgba(255,255,255,0.30);
 }
 /* "Onde Quiser" (neon-shimmer) — gradient mais saturado e com glow para destacar */
@@ -5297,8 +5296,6 @@ html.light-mode .hero-bg-img-dark {
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
-  font-weight: 700 !important;
-  white-space: nowrap !important;
   filter: drop-shadow(0 1px 2px rgba(255,255,255,0.55)) drop-shadow(0 0 14px rgba(147,51,234,0.35));
   animation: shimmer 6s ease-in-out infinite, neonPulseLight 3s ease-in-out infinite;
 }
