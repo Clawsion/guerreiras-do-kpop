@@ -11745,3 +11745,17 @@ button:focus-visible {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* OPERA GX / COMET - FORCE ANIMATIONS VISIBLE */
+.browser-opera [class*="anim-item"],
+.browser-comet [class*="anim-item"],
+.browser-opera .reveal-stagger,
+.browser-comet .reveal-stagger {
+  opacity: 1 !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+}
+.browser-opera *,
+.browser-comet * {
+  animation-duration: 0.6s !important;
+}
