@@ -11739,3 +11739,11 @@ button:focus-visible {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* OPERA GX / COMET ONLY — does not affect other browsers */
+.browser-opera [class*="anim-item"],
+.browser-opera .reveal-stagger {
+  opacity: 1 !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+}
