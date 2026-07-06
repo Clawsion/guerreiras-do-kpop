@@ -256,10 +256,6 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{
           __html: `(function(){try{var ua=navigator.userAgent||'';var p=navigator.platform||'';var t=navigator.maxTouchPoints||0;var isIOS=/iPad|iPhone|iPod/.test(ua);var isIPad=/iPad/.test(ua)||(isIOS&&p==='MacIntel'&&t>1);var isIPhone=/iPhone|iPod/.test(ua)||(isIOS&&!isIPad);var isAndroid=/Android/.test(ua);var d=document.documentElement;if(isIPad){d.classList.add('device-ipad','device-ios')}else if(isIPhone){d.classList.add('device-iphone','device-ios')}else if(isAndroid){d.classList.add('device-android')}else{d.classList.add('device-desktop')}}catch(e){}})();`
         }} />
-        {/* Browser compatibility polyfill - animations work in ALL browsers (Opera GX, Comet, etc) */}
-        <script dangerouslySetInnerHTML={{
-          __html: `(function(){if(!window.requestAnimationFrame){window.requestAnimationFrame=function(cb){return setTimeout(cb,16)};window.cancelAnimationFrame=function(id){clearTimeout(id)}}if(!Element.prototype.matches){Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector}if(!Element.prototype.closest){Element.prototype.closest=function(s){var el=this;do{if(el.matches(s))return el;el=el.parentElement||el.parentNode}while(el!==null&&el.nodeType===1);return null}}if(navigator.userAgent.indexOf('OPR')!==-1||navigator.userAgent.indexOf('Opera')!==-1){document.documentElement.classList.add('browser-opera')}if(navigator.userAgent.indexOf('Comet')!==-1){document.documentElement.classList.add('browser-comet')}window.addEventListener('load',function(){var a=document.querySelectorAll('[style*="animation"],[style*="transition"],[style*="transform"]');a.forEach(function(e){e.style.webkitTransform='translateZ(0)';e.style.transform='translateZ(0)'})})})();`
-        }} />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} antialiased bg-background text-foreground`}
