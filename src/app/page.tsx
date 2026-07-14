@@ -1897,35 +1897,8 @@ export default function HomePage() {
               </svg>
             </div>
 
-              {/* ═══ CAPARICA - Costa da Caparica ═══ */}
-              <Rv delay={275}>
-                <article className="cartaz-card cartaz-secondary">
-                  <div className="cartaz-img-wrap">
-                    <img src="/poster-caparica.webp" alt="Cartaz Costa da Caparica - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" width="450" height="600" />
-                    <div className="cartaz-overlay"/>
-                    <div className="cartaz-tag">Costa da Caparica</div>
-                  </div>
-                  <div className="cartaz-info">
-                    {/* ═══ SELO "via Ticketline" no canto superior direito ═══ */}
-                    <a href={TICKETLINE_URL_CAPARICA} target="_blank" rel="noopener noreferrer" className="cartaz-via-ticketline" aria-label="Bilhetes via Ticketline">
-                      <span className="cartaz-via-text">via</span>
-                      <img src="/ticketline-logo.png" alt="Ticketline" className="cartaz-via-logo" loading="lazy" decoding="async"/>
-                    </a>
-                    <p className="cartaz-city" style={{color:"var(--gold)"}}>Costa da Caparica</p>
-                    <p className="cartaz-date">07 NOV 2026 &middot; 18:00h</p>
-                    <p className="cartaz-status cartaz-status-live">
-                      <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
-                    </p>
-                    <p className="cartaz-venue">Pavilhão Municipal da Costa da Caparica</p>
-                    <a href={TICKETLINE_URL_CAPARICA} target="_blank" rel="noopener noreferrer" className="cartaz-buy-btn cursor-pointer">
-                      <Ticket className="w-4 h-4"/> Comprar Bilhete
-                    </a>
-                  </div>
-                </article>
-              </Rv>
-
-            {/* ═══ SESIMBRA - mesmo tamanho que os outros (último cartaz) ═══ */}
-            <Rv delay={350}>
+            {/* ═══ SESIMBRA - mesmo tamanho que os outros ═══ */}
+            <Rv delay={275}>
               <article id="cartaz-sesimbra" className="cartaz-card cartaz-secondary">
                 <div className="cartaz-img-wrap">
                   <img src="/poster-sesimbra.webp" alt="Cartaz Sesimbra - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" width="450" height="600" />
@@ -1950,6 +1923,33 @@ export default function HomePage() {
                 </div>
               </article>
             </Rv>
+
+              {/* ═══ CAPARICA - Costa da Caparica (último cartaz) ═══ */}
+              <Rv delay={350}>
+                <article id="cartaz-caparica" className="cartaz-card cartaz-secondary">
+                  <div className="cartaz-img-wrap">
+                    <img src="/poster-caparica.webp" alt="Cartaz Costa da Caparica - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" width="450" height="600" />
+                    <div className="cartaz-overlay"/>
+                    <div className="cartaz-tag">Costa da Caparica</div>
+                  </div>
+                  <div className="cartaz-info">
+                    {/* ═══ SELO "via Ticketline" no canto superior direito ═══ */}
+                    <a href={TICKETLINE_URL_CAPARICA} target="_blank" rel="noopener noreferrer" className="cartaz-via-ticketline" aria-label="Bilhetes via Ticketline">
+                      <span className="cartaz-via-text">via</span>
+                      <img src="/ticketline-logo.png" alt="Ticketline" className="cartaz-via-logo" loading="lazy" decoding="async"/>
+                    </a>
+                    <p className="cartaz-city" style={{color:"var(--gold)"}}>Costa da Caparica</p>
+                    <p className="cartaz-date">07 NOV 2026 &middot; 18:00h</p>
+                    <p className="cartaz-status cartaz-status-live">
+                      <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
+                    </p>
+                    <p className="cartaz-venue">Pavilhão Municipal da Costa da Caparica</p>
+                    <a href={TICKETLINE_URL_CAPARICA} target="_blank" rel="noopener noreferrer" className="cartaz-buy-btn cursor-pointer">
+                      <Ticket className="w-4 h-4"/> Comprar Bilhete
+                    </a>
+                  </div>
+                </article>
+              </Rv>
           </div>
         </div>
 
@@ -1979,7 +1979,7 @@ export default function HomePage() {
 
       <HonmoonDivider/>
 
-      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 08 AGO CASCAIS · 07 NOV COSTA DA CAPARICA · 15 AGO SESIMBRA · ZOEY · RUMI · MIRA · HUNTRIX · SAJA BOYS"/>
+      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 08 AGO CASCAIS · 15 AGO SESIMBRA · 07 NOV COSTA DA CAPARICA · ZOEY · RUMI · MIRA · HUNTRIX · SAJA BOYS"/>
 
       <HonmoonDivider/>
 
