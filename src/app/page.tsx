@@ -1912,7 +1912,7 @@ export default function HomePage() {
                       <img src="/ticketline-logo.png" alt="Ticketline" className="cartaz-via-logo" loading="lazy" decoding="async"/>
                     </a>
                     <p className="cartaz-city" style={{color:"var(--gold)"}}>Costa da Caparica</p>
-                    <p className="cartaz-date">09 AGO 2026 &middot; 18:00h</p>
+                    <p className="cartaz-date">07 NOV 2026 &middot; 18:00h</p>
                     <p className="cartaz-status cartaz-status-live">
                       <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
                     </p>
@@ -1979,7 +1979,7 @@ export default function HomePage() {
 
       <HonmoonDivider/>
 
-      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 08 AGO CASCAIS · 09 AGO COSTA DA CAPARICA · 15 AGO SESIMBRA · ZOEY · RUMI · MIRA · HUNTRIX · SAJA BOYS"/>
+      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 08 AGO CASCAIS · 07 NOV COSTA DA CAPARICA · 15 AGO SESIMBRA · ZOEY · RUMI · MIRA · HUNTRIX · SAJA BOYS"/>
 
       <HonmoonDivider/>
 

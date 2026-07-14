@@ -197,7 +197,7 @@ export default function RootLayout({
               }
             ],
             "startDate": "2026-08-08",
-            "endDate": "2026-08-15",
+            "endDate": "2026-11-07",
             "offers": [
               {
                 "@type": "Offer",
