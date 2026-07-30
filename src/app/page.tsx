@@ -1075,10 +1075,10 @@ export default function HomePage() {
     });
     setTimeout(() => {
       const isMobile = window.innerWidth < 768;
-      const el = document.getElementById('cartaz-cascais');
+      const el = document.getElementById('cartaz-sesimbra');
       if (!el) return;
       if (isMobile) {
-        // Mobile: centrar o cartaz Cascais no ecrã para mostrar o botão Comprar Bilhete
+        // Mobile: centrar o cartaz Sesimbra no ecrã para mostrar o botão Comprar Bilhete
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } else {
         // Desktop: aterra com offset para mostrar o botão Comprar Bilhete
