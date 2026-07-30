@@ -1075,20 +1075,18 @@ export default function HomePage() {
     });
     setTimeout(() => {
       const isMobile = window.innerWidth < 768;
-      // Mobile: aterra no cartaz Cascais (topo do cartaz)
-      // Desktop: aterra no cartaz Cascais também (para ver o botão Comprar Bilhete)
       const el = document.getElementById('cartaz-cascais');
       if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const offset = isMobile ? 20 : 120; // desktop desce mais 120px para mostrar o botão Comprar Bilhete
-      const top = rect.top + window.scrollY - offset;
-      window.scrollTo(0, top);
-      setTimeout(() => {
-        const r2 = el.getBoundingClientRect();
-        if (Math.abs(r2.top - offset) > 80) {
-          window.scrollTo(0, r2.top + window.scrollY - offset);
-        }
-      }, 400);
+      if (isMobile) {
+        // Mobile: centrar o cartaz Cascais no ecrã para mostrar o botão Comprar Bilhete
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        // Desktop: aterra com offset para mostrar o botão Comprar Bilhete
+        const rect = el.getBoundingClientRect();
+        const offset = 120;
+        const top = rect.top + window.scrollY - offset;
+        window.scrollTo(0, top);
+      }
     }, 100);
   };
 
@@ -2014,11 +2012,11 @@ export default function HomePage() {
                   abaixo do formulário. */}
               <Rv delay={280}>
                 <div className="hidden lg:block space-y-4 mb-10">
-                  <a href="tel:+351960191005" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
+                  <a href="tel:+351926486569" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
                     <Phone className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
                     <div>
                       <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Telefone direto</p>
-                      <p className="text-[15px]" style={{color:"var(--t1)"}}>+351 960 191 005</p>
+                      <p className="text-[15px]" style={{color:"var(--t1)"}}>+351 926 486 569</p>
                     </div>
                   </a>
                   <a href="mailto:geral@guerreirasdokpop.com" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
@@ -2144,11 +2142,11 @@ export default function HomePage() {
                   Em desktop são escondidos (lg:hidden) — aparecem na coluna esquerda. */}
               <Rv delay={300}>
                 <div className="lg:hidden space-y-4 mt-8 pt-6" style={{borderTop: "1px solid rgba(200,80,255,0.08)"}}>
-                  <a href="tel:+351960191005" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
+                  <a href="tel:+351926486569" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
                     <Phone className="w-4 h-4 mt-1 flex-shrink-0" style={{color:"var(--neon-purple)"}}/>
                     <div>
                       <p className="text-[9px] tracking-[0.25em] uppercase font-medium mb-1" style={{color:"var(--t3)"}}>Telefone direto</p>
-                      <p className="text-[15px]" style={{color:"var(--t1)"}}>+351 960 191 005</p>
+                      <p className="text-[15px]" style={{color:"var(--t1)"}}>+351 926 486 569</p>
                     </div>
                   </a>
                   <a href="mailto:geral@guerreirasdokpop.com" className="flex items-start gap-4 group" onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.opacity="0.85"}} onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.opacity="1"}}>
