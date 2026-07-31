@@ -1066,7 +1066,9 @@ export default function HomePage() {
   // Antes do scroll, força TODAS as secções visíveis (remove opacity:0 do reveal)
   // com transition:none (instantâneo) para evitar layout shifts que interrompem o scroll.
   const scrollToCartazes = () => {
-    document.querySelectorAll('section, [class*="rv"], .reveal, .cartaz-card').forEach(el => {
+    // Força TODAS as secções e elementos .rv visíveis instantaneamente
+    // para evitar layout shifts durante o scroll
+    document.querySelectorAll('section, .rv, .reveal, .cartaz-card').forEach(el => {
       el.classList.add('section-visible');
       const html = el as HTMLElement;
       html.style.transition = 'none';
@@ -1074,11 +1076,19 @@ export default function HomePage() {
       html.style.transform = 'none';
     });
     setTimeout(() => {
+      // Restaurar transições após o scroll
+      document.querySelectorAll('.rv').forEach(el => {
+        (el as HTMLElement).style.transition = '';
+      });
+      document.querySelectorAll('section').forEach(el => {
+        (el as HTMLElement).style.transition = '';
+      });
+      
       const isMobile = window.innerWidth < 768;
       const el = document.getElementById('cartaz-sesimbra');
       if (!el) return;
       if (isMobile) {
-        // Mobile: centrar o cartaz Sesimbra no ecrã para mostrar o botão Comprar Bilhete
+        // Mobile: centrar o cartaz Sesimbra no ecrã
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } else {
         // Desktop: aterra com offset para mostrar o botão Comprar Bilhete

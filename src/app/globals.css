@@ -7718,8 +7718,7 @@ html.light-mode .hero-bg-img-dark {
 }
 .galeria-section {
   contain: content;
-  content-visibility: auto;
-  contain-intrinsic-size: 0 900px;
+  /* content-visibility: auto removido — causava fotos invisíveis em mobile */
 }
 .honmoon-shield-section {
   contain: content;
@@ -8928,7 +8927,6 @@ img { max-width: 100%; height: auto; }
    Isto diz ao browser para não renderizar/pintar secções que estão fora
    do ecrã — ganho enorme em páginas longas como esta. */
 @media (max-width: 1023px) {
-  .galeria-section,
   .cartazes-section,
   .manifesto-section,
   .honmoon-shield-section,
@@ -9060,7 +9058,6 @@ img { max-width: 100%; height: auto; }
    Em desktop foi removido porque causava problemas de scroll em iOS Safari
    quando combinado com contain-intrinsic-size. */
 @media (max-width: 1023px) {
-  .galeria-section,
   .cartazes-section,
   .manifesto-section,
   .honmoon-shield-section,
@@ -9512,7 +9509,6 @@ img { max-width: 100%; height: auto; }
   .espetaculo-section,
   .identidade-section,
   .tributo-section,
-  .galeria-section,
   .honmoon-section,
   section#bilhetes,
   .contacto-section,
