@@ -17,8 +17,8 @@ import {
 /* ════════════════════════════════════════ */
 
 // Ticketline — links oficiais por cidade (ativo em todos os botões)
-const TICKETLINE_URL = "https://www.ticketline.pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105657"; // Cascais (default)
-const TICKETLINE_URL_CASCAIS  = "https://www.ticketline.pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105657";
+// Nota: cartaz Cascais removido a pedido do cliente — manter apenas Sesimbra e Costa da Caparica
+const TICKETLINE_URL = "https://www.ticketline.pt/pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105856"; // Sesimbra (default)
 const TICKETLINE_URL_CAPARICA = "https://www.ticketline.pt/pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105855";
 const TICKETLINE_URL_SESIMBRA = "https://www.ticketline.pt/pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105856";
 // const EVENT = new Date("2026-08-08T18:30:00"); // REMOVIDO — countdown desativado
@@ -1061,7 +1061,7 @@ export default function HomePage() {
     return () => observer.disconnect();
   }, []);
 
-  // ═══ HELPER: Scroll para a secção dos cartazes (mobile→Cascais, desktop→secção) ═══
+  // ═══ HELPER: Scroll para a secção dos cartazes (mobile→Sesimbra, desktop→secção) ═══
   // Função reutilizável chamada pelos 5 CTAs (Garante o Teu Lugar ×4 + Garante o Teu Bilhete ×1).
   // Antes do scroll, força TODAS as secções visíveis (remove opacity:0 do reveal)
   // com transition:none (instantâneo) para evitar layout shifts que interrompem o scroll.
@@ -1755,8 +1755,8 @@ export default function HomePage() {
 
           <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
 
-          {/* Call-to-action: Garante o Teu Bilhete → scroll para a secção dos 3 cartazes
-              (mobile: aterra no cartaz Cascais; desktop: aterra na secção) */}
+          {/* Call-to-action: Garante o Teu Bilhete → scroll para a secção dos 2 cartazes
+              (mobile: aterra no cartaz Sesimbra; desktop: aterra na secção) */}
           <a
             href="#cartazes"
             className="teaser-cta"
@@ -1870,42 +1870,7 @@ export default function HomePage() {
           </Rv>
 
           <div className="cartazes-grid">
-          {/* ═══ CASCAIS - mesmo tamanho que os outros ═══ */}
-            <Rv delay={200}>
-              <article id="cartaz-cascais" className="cartaz-card cartaz-secondary">
-                <div className="cartaz-img-wrap">
-                  <img src="/poster.webp" alt="Cartaz Cascais - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" width="450" height="600" />
-                  <div className="cartaz-overlay"/>
-                  <div className="cartaz-tag">Cascais</div>
-                </div>
-                <div className="cartaz-info">
-                  {/* ═══ SELO "via Ticketline" no canto superior direito ═══ */}
-                  <a href={TICKETLINE_URL_CASCAIS} target="_blank" rel="noopener noreferrer" className="cartaz-via-ticketline" aria-label="Bilhetes via Ticketline">
-                    <span className="cartaz-via-text">via</span>
-                    <img src="/ticketline-logo.png" alt="Ticketline" className="cartaz-via-logo" loading="lazy" decoding="async"/>
-                  </a>
-                  <p className="cartaz-city" style={{color:"var(--pink-kpop)"}}>Cascais &middot; Estoril</p>
-                  <p className="cartaz-date">08 AGO 2026 &middot; 18:30h</p>
-                  <p className="cartaz-status cartaz-status-live">
-                    <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
-                  </p>
-                  <p className="cartaz-venue">Academia das Artes do Estoril</p>
-                  <a href={TICKETLINE_URL_CASCAIS} target="_blank" rel="noopener noreferrer" className="cartaz-buy-btn cursor-pointer">
-                    <Ticket className="w-4 h-4"/> Comprar Bilhete
-                  </a>
-                </div>
-              </article>
-            </Rv>
-
-            {/* Seta "Mais concertos" — só mobile, por baixo do Cascais */}
-            <div id="mais-concertos" className="cartazes-scroll-hint sm:hidden" aria-hidden="true">
-              <span>Mais concertos</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </div>
-
-            {/* ═══ SESIMBRA - mesmo tamanho que os outros ═══ */}
+          {/* ═══ SESIMBRA - mesmo tamanho que os outros ═══ */}
             <Rv delay={275}>
               <article id="cartaz-sesimbra" className="cartaz-card cartaz-secondary">
                 <div className="cartaz-img-wrap">
@@ -1987,7 +1952,7 @@ export default function HomePage() {
 
       <HonmoonDivider/>
 
-      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 08 AGO CASCAIS · 15 AGO SESIMBRA · 07 NOV COSTA DA CAPARICA · ZOEY · RUMI · MIRA · HUNTRIX · SAJA BOYS"/>
+      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 15 AGO SESIMBRA · 07 NOV COSTA DA CAPARICA · ZOEY · RUMI · MIRA · HUNTRIX · SAJA BOYS"/>
 
       <HonmoonDivider/>
 

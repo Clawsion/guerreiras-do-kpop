@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     template: "%s | Guerreiras do K-Pop",
   },
   description:
-    "Guerreiras do K-Pop — o espetáculo de tributo K-Pop ao vivo em Portugal! Concertos em Cascais, Costa da Caparica e Sesimbra 2026. Bilhetes disponíveis. Vem viver a experiência K-Pop: dança, música e energia do filme de animação mais visto, agora no palco!",
+    "Guerreiras do K-Pop — o espetáculo de tributo K-Pop ao vivo em Portugal! Concertos em Sesimbra e Costa da Caparica 2026. Bilhetes disponíveis. Vem viver a experiência K-Pop: dança, música e energia do filme de animação mais visto, agora no palco!",
   keywords: [
     "K-Pop",
     "K-Pop Portugal",
@@ -45,7 +45,6 @@ export const metadata: Metadata = {
     "tributo K-Pop",
     "concerto K-Pop",
     "festival K-Pop",
-    "Cascais",
     "Costa da Caparica",
     "Sesimbra",
     "HUNTRIX",
@@ -91,7 +90,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Guerreiras do K-Pop | Tributo Musical Ao Vivo em Tour 2026",
     description:
-      "O espetáculo de tributo K-Pop ao vivo em Portugal! Concertos em Cascais, Costa da Caparica e Sesimbra. Bilhetes disponíveis via Ticketline.",
+      "O espetáculo de tributo K-Pop ao vivo em Portugal! Concertos em Sesimbra e Costa da Caparica. Bilhetes disponíveis via Ticketline.",
     type: "website",
     locale: "pt_PT",
     url: SITE_URL,
@@ -115,19 +114,17 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Guerreiras do K-Pop | Tributo Musical Ao Vivo 2026",
     description:
-      "O espetáculo de tributo K-Pop ao vivo em Portugal! Cascais, Costa da Caparica e Sesimbra 2026.",
+      "O espetáculo de tributo K-Pop ao vivo em Portugal! Costa da Caparica e Sesimbra 2026.",
     images: ["/poster.webp"],
   },
   category: "entreertainment",
   other: {
     "geo.region": "PT",
-    "geo.placename": "Cascais, Costa da Caparica, Sesimbra, Portugal",
-    "geo.position": "38.6979;-9.4215",
-    "ICBM": "38.6979, -9.4215",
-    "geo.placename-alt-1": "Costa da Caparica, Setúbal, Portugal",
-    "geo.position-alt-1": "38.6453;-9.2347",
-    "geo.placename-alt-2": "Sesimbra, Setúbal, Portugal",
-    "geo.position-alt-2": "38.4444;-9.1017",
+    "geo.placename": "Costa da Caparica, Sesimbra, Portugal",
+    "geo.position": "38.6453;-9.2347",
+    "ICBM": "38.6453, -9.2347",
+    "geo.placename-alt-1": "Sesimbra, Setúbal, Portugal",
+    "geo.position-alt-1": "38.4444;-9.1017",
   },
 };
 
@@ -151,7 +148,7 @@ export default function RootLayout({
             "@context": "https://schema.org",
             "@type": "MusicEvent",
             "name": "Guerreiras do K-Pop — Tributo Musical Ao Vivo",
-            "description": "O espetáculo de tributo K-Pop ao vivo em Portugal! Concertos em Cascais, Costa da Caparica e Sesimbra 2026.",
+            "description": "O espetáculo de tributo K-Pop ao vivo em Portugal! Concertos em Costa da Caparica e Sesimbra 2026.",
             "image": "https://www.guerreirasdokpop.com/poster.webp",
             "url": "https://www.guerreirasdokpop.com",
             "organizer": {
@@ -165,16 +162,6 @@ export default function RootLayout({
               "url": "https://www.guerreirasdokpop.com"
             },
             "location": [
-              {
-                "@type": "Place",
-                "name": "Academia das Artes do Estoril",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressLocality": "Cascais",
-                  "addressRegion": "Lisboa",
-                  "addressCountry": "PT"
-                }
-              },
               {
                 "@type": "Place",
                 "name": "Pavilhão Municipal da Costa da Caparica",
@@ -196,12 +183,12 @@ export default function RootLayout({
                 }
               }
             ],
-            "startDate": "2026-08-08",
+            "startDate": "2026-08-15",
             "endDate": "2026-11-07",
             "offers": [
               {
                 "@type": "Offer",
-                "url": "https://www.ticketline.pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105657",
+                "url": "https://www.ticketline.pt/pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105856",
                 "price": "15",
                 "priceCurrency": "EUR",
                 "availability": "https://schema.org/InStock",
@@ -219,7 +206,7 @@ export default function RootLayout({
             "name": "Guerreiras do K-Pop",
             "url": "https://www.guerreirasdokpop.com",
             "logo": "https://www.guerreirasdokpop.com/poster.webp",
-            "description": "Tributo musical K-Pop ao vivo em Portugal. Concertos em Cascais, Costa da Caparica e Sesimbra 2026.",
+            "description": "Tributo musical K-Pop ao vivo em Portugal. Concertos em Costa da Caparica e Sesimbra 2026.",
             "sameAs": [
               "https://www.instagram.com/guerreirasdokpop_tributo",
               "https://www.facebook.com/guerreirasdokpop",
