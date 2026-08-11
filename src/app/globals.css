@@ -4152,21 +4152,25 @@ html.light-mode .hero-bg-img-dark {
   grid-template-columns: 1fr;
   gap: 2rem;
   align-items: start;
+  justify-items: center;
   max-width: 1400px;
   margin: 0 auto;
 }
 
 @media (min-width: 768px) {
   .cartazes-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 28rem));
     gap: 2rem;
+    justify-content: center;
   }
 }
 
 @media (min-width: 1024px) {
   .cartazes-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    /* Apenas 2 cartazes agora (Sesimbra + Costa da Caparica) — centrados */
+    grid-template-columns: repeat(2, minmax(0, 30rem));
+    gap: 3rem;
+    justify-content: center;
   }
 }
 
@@ -4178,6 +4182,10 @@ html.light-mode .hero-bg-img-dark {
   text-decoration: none;
   transition: transform 0.6s cubic-bezier(0.16,1,0.3,1),
               box-shadow 0.6s ease;
+  /* Em mobile (1 coluna), limitar largura para dar mais destaque */
+  width: 100%;
+  max-width: 24rem;
+  margin-inline: auto;
 }
 
 .cartaz-featured {
