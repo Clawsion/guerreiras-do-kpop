@@ -16,11 +16,8 @@ import {
 /* ═══ DATA ══════════════════════════════ */
 /* ════════════════════════════════════════ */
 
-// Ticketline — links oficiais por cidade (ativo em todos os botões)
-// Nota: cartaz Cascais removido a pedido do cliente — manter apenas Sesimbra e Costa da Caparica
-const TICKETLINE_URL = "https://www.ticketline.pt/pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105856"; // Sesimbra (default)
+// Ticketline — link oficial (ativo em todos os botões)
 const TICKETLINE_URL_CAPARICA = "https://www.ticketline.pt/pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105855";
-const TICKETLINE_URL_SESIMBRA = "https://www.ticketline.pt/pt/evento/guerreiras-do-k-pop-em-concerto-tributo-105856";
 // const EVENT = new Date("2026-08-08T18:30:00"); // REMOVIDO — countdown desativado
 
 /* ── Device detection for adaptive performance ── */
@@ -433,18 +430,18 @@ export default function HomePage() {
 
   // ═══ SETA FLUTUANTE "Arrasta para ver mais" (mobile) ═══
   // Aparece no canto inferior direito quando a secção cartazes está visível E
-  // o utilizador ainda não passou o último cartaz (Sesimbra). Some durante
+  // o utilizador ainda não passou o cartaz. Some durante
   // scroll ativo, reaparece quando para (debounce 600ms). Desaparece
-  // definitivamente após passar o Sesimbra.
+  // definitivamente após passar o cartaz.
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.innerWidth >= 768) return; // Só mobile
     const section = document.getElementById('cartazes');
     const hint = document.querySelector('.cartazes-scroll-arrow') as HTMLElement | null;
-    const sesimbra = document.getElementById('cartaz-sesimbra');
-    if (!section || !hint || !sesimbra) return;
+    const caparica = document.getElementById('cartaz-caparica');
+    if (!section || !hint || !caparica) return;
 
-    let dismissed = false; // dismiss permanente após passar Sesimbra
+    let dismissed = false; // dismiss permanente após passar o cartaz
     let scrollTimer: number | undefined;
     let isScrolling = false;
 
@@ -457,11 +454,11 @@ export default function HomePage() {
       const winH = window.innerHeight;
       // Secção visível: topo da secção dentro do viewport (com margem)
       const sectionVisible = sRect.top < winH * 0.7 && sRect.bottom > winH * 0.3;
-      // Sesimbra passou: o topo do Sesimbra está acima de 60% do viewport
-      const sSes = sesimbra.getBoundingClientRect();
-      const sesimbraPassed = sSes.top < winH * 0.5;
+      // Cartaz passou: o topo do cartaz está acima de 60% do viewport
+      const sCap = caparica.getBoundingClientRect();
+      const caparicaPassed = sCap.top < winH * 0.5;
 
-      if (sesimbraPassed) {
+      if (caparicaPassed) {
         // Passou o último cartaz → dismiss permanente
         dismissed = true;
         hint.classList.remove('hint-visible');
@@ -474,7 +471,7 @@ export default function HomePage() {
         return;
       }
 
-      // Secção visível e Sesimbra ainda não passou
+      // Secção visível e o cartaz ainda não passou
       if (isScrolling) {
         // A fazer scroll → esconde temporariamente
         hint.classList.remove('hint-visible');
@@ -1061,7 +1058,7 @@ export default function HomePage() {
     return () => observer.disconnect();
   }, []);
 
-  // ═══ HELPER: Scroll para a secção dos cartazes (mobile→Sesimbra, desktop→secção) ═══
+  // ═══ HELPER: Scroll para a secção dos cartazes (mobile→Caparica, desktop→secção) ═══
   // Função reutilizável chamada pelos 5 CTAs (Garante o Teu Lugar ×4 + Garante o Teu Bilhete ×1).
   // Antes do scroll, força TODAS as secções visíveis (remove opacity:0 do reveal)
   // com transition:none (instantâneo) para evitar layout shifts que interrompem o scroll.
@@ -1085,10 +1082,10 @@ export default function HomePage() {
       });
       
       const isMobile = window.innerWidth < 768;
-      const el = document.getElementById('cartaz-sesimbra');
+      const el = document.getElementById('cartaz-caparica');
       if (!el) return;
       if (isMobile) {
-        // Mobile: centrar o cartaz Sesimbra no ecrã
+        // Mobile: centrar o cartaz Costa da Caparica no ecrã
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } else {
         // Desktop: aterra com offset para mostrar o botão Comprar Bilhete
@@ -1755,8 +1752,8 @@ export default function HomePage() {
 
           <p className="teaser-hint">Clica no vídeo para ouvir o som</p>
 
-          {/* Call-to-action: Garante o Teu Bilhete → scroll para a secção dos 2 cartazes
-              (mobile: aterra no cartaz Sesimbra; desktop: aterra na secção) */}
+          {/* Call-to-action: Garante o Teu Bilhete → scroll para a secção dos cartazes
+              (mobile: aterra no cartaz; desktop: aterra na secção) */}
           <a
             href="#cartazes"
             className="teaser-cta"
@@ -1870,34 +1867,7 @@ export default function HomePage() {
           </Rv>
 
           <div className="cartazes-grid">
-          {/* ═══ SESIMBRA - mesmo tamanho que os outros ═══ */}
-            <Rv delay={275}>
-              <article id="cartaz-sesimbra" className="cartaz-card cartaz-secondary">
-                <div className="cartaz-img-wrap">
-                  <img src="/poster-sesimbra.webp" alt="Cartaz Sesimbra - Guerreiras do K-Pop" className="cartaz-img" loading="lazy" decoding="async" width="450" height="600" />
-                  <div className="cartaz-overlay"/>
-                  <div className="cartaz-tag">Sesimbra</div>
-                </div>
-                <div className="cartaz-info">
-                  {/* ═══ SELO "via Ticketline" no canto superior direito ═══ */}
-                  <a href={TICKETLINE_URL_SESIMBRA} target="_blank" rel="noopener noreferrer" className="cartaz-via-ticketline" aria-label="Bilhetes via Ticketline">
-                    <span className="cartaz-via-text">via</span>
-                    <img src="/ticketline-logo.png" alt="Ticketline" className="cartaz-via-logo" loading="lazy" decoding="async"/>
-                  </a>
-                  <p className="cartaz-city" style={{color:"var(--blue-accent)"}}>Sesimbra</p>
-                  <p className="cartaz-date">15 AGO 2026 &middot; 18:30h</p>
-                  <p className="cartaz-status cartaz-status-live">
-                    <span className="cartaz-status-dot"/> J&aacute; Dispon&iacute;vel
-                  </p>
-                  <p className="cartaz-venue">Pavilh&atilde;o Desportivo de Sesimbra</p>
-                  <a href={TICKETLINE_URL_SESIMBRA} target="_blank" rel="noopener noreferrer" className="cartaz-buy-btn cursor-pointer">
-                    <Ticket className="w-4 h-4"/> Comprar Bilhete
-                  </a>
-                </div>
-              </article>
-            </Rv>
-
-              {/* ═══ CAPARICA - Costa da Caparica (último cartaz) ═══ */}
+          {/* ═══ CAPARICA - Costa da Caparica (único cartaz) ═══ */}
               <Rv delay={350}>
                 <article id="cartaz-caparica" className="cartaz-card cartaz-secondary">
                   <div className="cartaz-img-wrap">
@@ -1952,7 +1922,7 @@ export default function HomePage() {
 
       <HonmoonDivider/>
 
-      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 15 AGO SESIMBRA · 07 NOV COSTA DA CAPARICA · ZOEY · RUMI · MIRA · HUNTRIX · SAJA BOYS"/>
+      <Marquee text="GUERREIRAS DO K-POP · TRIBUTO MUSICAL · 07 NOV COSTA DA CAPARICA · ZOEY · RUMI · MIRA · HUNTRIX · SAJA BOYS"/>
 
       <HonmoonDivider/>
 

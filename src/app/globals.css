@@ -4035,7 +4035,7 @@ html.light-mode .hero-bg-img-dark {
   }
 
   /* ═══ SCROLL-MARGIN-TOP para scrollIntoView funcionar bem com navbar ═══ */
-  #cartaz-sesimbra {
+  #cartaz-caparica {
     scroll-margin-top: 20px;
   }
   #cartazes {
@@ -4159,7 +4159,8 @@ html.light-mode .hero-bg-img-dark {
 
 @media (min-width: 768px) {
   .cartazes-grid {
-    grid-template-columns: repeat(2, minmax(0, 28rem));
+    /* Um único cartaz (Costa da Caparica) — centrado */
+    grid-template-columns: minmax(0, 30rem);
     gap: 2rem;
     justify-content: center;
   }
@@ -4167,8 +4168,8 @@ html.light-mode .hero-bg-img-dark {
 
 @media (min-width: 1024px) {
   .cartazes-grid {
-    /* Apenas 2 cartazes agora (Sesimbra + Costa da Caparica) — centrados */
-    grid-template-columns: repeat(2, minmax(0, 30rem));
+    /* Um único cartaz (Costa da Caparica) — centrado */
+    grid-template-columns: minmax(0, 30rem);
     gap: 3rem;
     justify-content: center;
   }
@@ -10000,7 +10001,7 @@ img { max-width: 100%; height: auto; }
  * ═══════════════════════════════════════════════════════════════════ */
 
 /* REMOVIDO: zoom overrides para Cascais e Caparica
-   Agora todos os 3 cartazes usam o mesmo CSS (igual ao Sesimbra)
+   Agora apenas o cartaz da Costa da Caparica usa este CSS
    — sem transforms, sem zoom extra, mesmas proporções */
 
 /* ═══════════════════════════════════════════════════════════════════
